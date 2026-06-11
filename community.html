@@ -57,6 +57,8 @@
       <textarea id="cf-details" maxlength="4000" placeholder="The problem, the idea, who it helps." required></textarea>
       <label for="cf-name">Your name <span style="font-weight:400;opacity:.6">(optional)</span></label>
       <input id="cf-name" maxlength="80" placeholder="So we can credit you">
+      <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"><label>Website</label><input id="cf-hp" tabindex="-1" autocomplete="off"></div>
+      <div id="ts-mount"></div>
       <button class="pill" type="submit" id="cf-send">Send request</button>
       <p class="note" id="cf-msg"></p>
     </form>
@@ -88,11 +90,21 @@
   </div>
 </section>
 <script>
-var WORKER_URL = 'https://guardare-community.broken-cloud-7421.workers.dev';
+var WORKER_URL = ''; // paste your Cloudflare Worker URL here to activate the on-site form
+var TURNSTILE_SITEKEY = ''; // paste your Turnstile site key to activate the spam shield
 (function(){
   var f = document.getElementById('onsite-form');
   if (!WORKER_URL || !f) return;
   f.hidden = false;
+  if (TURNSTILE_SITEKEY) {
+    var s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    s.async = true; s.defer = true;
+    document.head.appendChild(s);
+    var m = document.getElementById('ts-mount');
+    m.className = 'cf-turnstile';
+    m.setAttribute('data-sitekey', TURNSTILE_SITEKEY);
+  }
   f.addEventListener('submit', function(ev){
     ev.preventDefault();
     var btn = document.getElementById('cf-send'), msg = document.getElementById('cf-msg');
@@ -104,7 +116,9 @@ var WORKER_URL = 'https://guardare-community.broken-cloud-7421.workers.dev';
         type: document.getElementById('cf-type').value,
         title: document.getElementById('cf-title').value,
         details: document.getElementById('cf-details').value,
-        name: document.getElementById('cf-name').value
+        name: document.getElementById('cf-name').value,
+        website_url: document.getElementById('cf-hp').value,
+        ts_token: (document.querySelector('[name="cf-turnstile-response"]') || {}).value || ''
       })
     }).then(function(r){ return r.json(); }).then(function(res){
       if (res.ok) {

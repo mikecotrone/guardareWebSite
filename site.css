@@ -168,3 +168,5 @@
   .cform .pill{margin-top:22px;border:0;cursor:pointer;font:inherit}
   .cform .pill:disabled{opacity:.6;cursor:default}
   .cform .note{font-size:.84rem;opacity:.65;margin-top:10px}
+  .cform .cf-turnstile{margin-top:20px}
+  .cform{position:relative}
