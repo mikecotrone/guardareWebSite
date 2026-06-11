@@ -130,7 +130,7 @@ var TURNSTILE_SITEKEY = ''; // paste your Turnstile site key to activate the spa
     });
   });
 })();
-fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=enhancement&state=open&per_page=6')
+fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=approved&state=open&per_page=6')
   .then(function(r){ if(!r.ok) throw 0; return r.json(); })
   .then(function(list){
     if (!list.length) return;
