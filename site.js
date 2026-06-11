@@ -14,3 +14,20 @@ if (rm || !('IntersectionObserver' in window)) {
   }, {threshold:.12});
   els.forEach(function(el){ io.observe(el); });
 }
+
+var plx = [].slice.call(document.querySelectorAll('[data-plx]'));
+if (plx.length && !rm && matchMedia('(pointer:fine)').matches) {
+  var plxTick = false;
+  var plxScroll = function(){
+    if (plxTick) return; plxTick = true;
+    requestAnimationFrame(function(){
+      var y = window.scrollY || window.pageYOffset;
+      plx.forEach(function(el){
+        el.style.transform = 'translate3d(0,' + (y * parseFloat(el.getAttribute('data-plx'))) + 'px,0)';
+      });
+      plxTick = false;
+    });
+  };
+  addEventListener('scroll', plxScroll, {passive:true});
+  plxScroll();
+}
