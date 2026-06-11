@@ -158,3 +158,13 @@
   .req-list li{background:var(--paper);border-radius:var(--radius-sm);box-shadow:var(--shadow);padding:16px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:16px;align-items:center}
   .req-list a{font-weight:600}
   .req-list .meta{font-size:.82rem;opacity:.6;white-space:nowrap}
+
+  /* community on-site form */
+  .cform{max-width:680px;margin:48px auto 0;background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px;text-align:left}
+  .cform label{font-weight:600;font-size:.9rem;display:block;margin:18px 0 6px}
+  .cform input,.cform select,.cform textarea{width:100%;padding:12px 14px;border:1.5px solid rgba(47,68,68,.18);border-radius:10px;font:inherit;color:var(--ink);background:#fff}
+  .cform input:focus,.cform select:focus,.cform textarea:focus{outline:none;border-color:var(--teal)}
+  .cform textarea{min-height:150px;resize:vertical}
+  .cform .pill{margin-top:22px;border:0;cursor:pointer;font:inherit}
+  .cform .pill:disabled{opacity:.6;cursor:default}
+  .cform .note{font-size:.84rem;opacity:.65;margin-top:10px}

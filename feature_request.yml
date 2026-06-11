@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest a feature for the Guardare platform
+title: "[Feature] "
+labels: ["enhancement", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping shape Guardare. The clearer the problem, the faster it ships.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do that Guardare doesn't handle today?
+      placeholder: "When monitoring ___ I can't ___ ..."
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed feature
+      description: What should Guardare do?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - vCollector (collection)
+        - Normalizer (normalization)
+        - Events Director (alerting / ticketing)
+        - HuduSync (documentation)
+        - Admin Web UI
+        - Reporting
+        - Other / not sure
+    validations:
+      required: true
+  - type: input
+    id: who
+    attributes:
+      label: Who benefits
+      placeholder: "MSPs with multi-site clients / single-tenant IT teams / ..."

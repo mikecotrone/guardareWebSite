@@ -45,6 +45,21 @@
       <a class="pill" style="background:var(--ink);border-color:var(--ink)" href="https://github.com/mikecotrone/guardareWebSite/issues" target="_blank" rel="noopener">Browse open requests</a>
     </div>
     <ul class="req-list" id="requests" hidden></ul>
+
+    <form class="cform" id="onsite-form" hidden>
+      <h3 style="margin-bottom:4px">Or send it from right here.</h3>
+      <p class="note" style="margin-top:0">No GitHub account needed. Your request lands in our backlog for review before it appears publicly.</p>
+      <label for="cf-type">Type</label>
+      <select id="cf-type"><option value="feature">Feature request</option><option value="bug">Bug report</option></select>
+      <label for="cf-title">Title</label>
+      <input id="cf-title" maxlength="140" placeholder="One line: what should Guardare do?" required>
+      <label for="cf-details">Details</label>
+      <textarea id="cf-details" maxlength="4000" placeholder="The problem, the idea, who it helps." required></textarea>
+      <label for="cf-name">Your name <span style="font-weight:400;opacity:.6">(optional)</span></label>
+      <input id="cf-name" maxlength="80" placeholder="So we can credit you">
+      <button class="pill" type="submit" id="cf-send">Send request</button>
+      <p class="note" id="cf-msg"></p>
+    </form>
   </div>
 </section>
 <section class="mist">
@@ -73,6 +88,39 @@
   </div>
 </section>
 <script>
+var WORKER_URL = ''; // paste your Cloudflare Worker URL here to activate the on-site form
+(function(){
+  var f = document.getElementById('onsite-form');
+  if (!WORKER_URL || !f) return;
+  f.hidden = false;
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var btn = document.getElementById('cf-send'), msg = document.getElementById('cf-msg');
+    btn.disabled = true; btn.textContent = 'Sending…'; msg.textContent = '';
+    fetch(WORKER_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        type: document.getElementById('cf-type').value,
+        title: document.getElementById('cf-title').value,
+        details: document.getElementById('cf-details').value,
+        name: document.getElementById('cf-name').value
+      })
+    }).then(function(r){ return r.json(); }).then(function(res){
+      if (res.ok) {
+        f.querySelectorAll('input,textarea,select,button').forEach(function(el){ el.disabled = true; });
+        btn.textContent = 'Sent';
+        msg.innerHTML = 'Grazie! Your request is <a href="' + res.url + '" target="_blank" rel="noopener">#' + res.number + '</a>, now in review.';
+      } else {
+        btn.disabled = false; btn.textContent = 'Send request';
+        msg.textContent = res.error || 'Something went wrong — please retry.';
+      }
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = 'Send request';
+      msg.textContent = 'Network hiccup — please retry.';
+    });
+  });
+})();
 fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=enhancement&state=open&per_page=6')
   .then(function(r){ if(!r.ok) throw 0; return r.json(); })
   .then(function(list){

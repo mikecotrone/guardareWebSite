@@ -1,0 +1,27 @@
+name: Bug report
+description: Something broken on the site or in a Guardare deployment
+title: "[Bug] "
+labels: ["bug", "needs-review"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. ...\n2. ...\n3. ..."
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: "Browser / OS, or Guardare component & version"
