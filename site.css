@@ -42,7 +42,7 @@
 
   /* Header */
   header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px}
   .nav .logo img{height:50px;width:auto}
   .nav ul{display:flex;gap:30px;list-style:none;align-items:center}
   .nav ul a{color:var(--ink);font-weight:600;font-size:.95rem}
@@ -117,6 +117,8 @@
   @media (max-width: 760px){
     section{padding:72px 0}
     .nav ul{gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .pagehead{padding:100px 0 48px}
+    .pagehead p.sub{font-size:.98rem}
     .nav ul::-webkit-scrollbar{display:none}
     .nav ul a{font-size:.88rem;white-space:nowrap}
     .nav .pill{display:none}
@@ -170,3 +172,4 @@
   .cform .note{font-size:.84rem;opacity:.65;margin-top:10px}
   .cform .cf-turnstile{margin-top:20px}
   .cform{position:relative}
+  .flow video,.flow svg{border-radius:18px}
