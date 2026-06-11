@@ -94,7 +94,7 @@
   .tl-item p{font-size:.95rem;opacity:.85;max-width:580px}
 
   /* Quote band */
-  .quote{background:var(--mist);text-align:center}
+  .quote{background:#fff;text-align:center}
   .quote blockquote{max-width:820px;margin:0 auto;font-weight:300;font-size:clamp(1.3rem,2.6vw,1.7rem);line-height:1.55}
   .quote .mark{font-size:4rem;color:var(--teal);font-weight:600;line-height:1;display:block;margin-bottom:8px}
   .quote cite{display:block;margin-top:22px;font-style:normal;font-weight:600;font-size:.85rem;letter-spacing:.14em;color:var(--teal)}
