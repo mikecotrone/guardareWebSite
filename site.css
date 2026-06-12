@@ -206,3 +206,9 @@
     .req-list .meta{margin-left:auto}
     .req-head{flex-direction:column;gap:2px}
   }
+
+  /* request list: inset mist panel */
+  .req-panel{max-width:780px;margin:48px auto 0;background:var(--mist);border-radius:var(--radius);padding:26px 26px 14px}
+  .req-panel .req-head{max-width:none;margin:0 2px 16px}
+  .req-panel .req-list{max-width:none;margin:0}
+  @media (max-width:760px){.req-panel{padding:18px 14px 8px}}
