@@ -237,3 +237,5 @@
   .rel-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
   .rel-tag{font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--teal-10);color:var(--teal)}
   @media (max-width:760px){.rel-feature{padding:24px 18px}.rel-card{padding:20px 18px}}
+  /* monitor section: five cards across on desktop */
+  @media (min-width:981px){#monitor .cols-4{grid-template-columns:repeat(5,1fr)}}
