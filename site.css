@@ -216,3 +216,9 @@
   .req-panel + .req-panel{margin-top:22px}
   .req-more{margin:14px 4px 4px;font-size:.88rem}
   .req-more a{font-weight:600}
+  /* roadmap panel: scrollable list */
+  #roadmap-panel .req-list{max-height:460px;overflow-y:auto;padding-right:8px;scrollbar-width:thin;scrollbar-color:rgba(47,68,68,.25) transparent}
+  #roadmap-panel .req-list::-webkit-scrollbar{width:8px}
+  #roadmap-panel .req-list::-webkit-scrollbar-track{background:transparent}
+  #roadmap-panel .req-list::-webkit-scrollbar-thumb{background:rgba(47,68,68,.18);border-radius:8px}
+  #roadmap-panel .req-list::-webkit-scrollbar-thumb:hover{background:rgba(47,68,68,.32)}

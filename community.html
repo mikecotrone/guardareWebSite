@@ -183,7 +183,7 @@ var TURNSTILE_SITEKEY = ''; // paste your Turnstile site key to activate the spa
       li.appendChild(ty); li.appendChild(a); li.appendChild(m); ul.appendChild(li);
     });
   }
-  fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=roadmap&state=open&per_page=8')
+  fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=roadmap&state=open&per_page=100&sort=created&direction=asc')
     .then(function(r){ if(!r.ok) throw 0; return r.json(); })
     .then(function(list){ render('roadmap-list','roadmap-panel', noRejected(list), 'roadmap'); })
     .catch(function(){});
