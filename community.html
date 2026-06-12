@@ -77,8 +77,14 @@
       <a class="pill" href="https://github.com/mikecotrone/guardareWebSite/issues/new?labels=bug&amp;title=%5BBug%5D%20&amp;body=%2A%2AWhat%20happened%2A%2A%0A%0A%2A%2AWhat%20you%20expected%2A%2A%0A%0A%2A%2ASteps%20to%20reproduce%2A%2A%0A" target="_blank" rel="noopener">Report a bug</a>
       <a class="pill" style="background:var(--ink);border-color:var(--ink)" href="https://github.com/mikecotrone/guardareWebSite/issues" target="_blank" rel="noopener">Browse open requests</a>
     </div>
+    <div class="req-panel" id="roadmap-panel" hidden>
+      <div class="req-head"><h3>On the roadmap</h3><span>What we're building toward 2027 · live from <svg class="gh-mark" role="img" aria-label="GitHub" viewBox="0 0 16 16"><title>GitHub</title><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span></div>
+      <ul class="req-list" id="roadmap-list"></ul>
+      <p class="req-more"><a href="https://github.com/mikecotrone/guardareWebSite/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap" target="_blank" rel="noopener">View the full roadmap on GitHub →</a></p>
+    </div>
+
     <div class="req-panel" id="requests-panel" hidden>
-      <div class="req-head"><h3>Open requests</h3><span>Approved by the Guardare team · live from <svg class="gh-mark" role="img" aria-label="GitHub" viewBox="0 0 16 16"><title>GitHub</title><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span></div>
+      <div class="req-head"><h3>Community requests</h3><span>Approved by the Guardare team · live from <svg class="gh-mark" role="img" aria-label="GitHub" viewBox="0 0 16 16"><title>GitHub</title><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span></div>
       <ul class="req-list" id="requests"></ul>
     </div>
 
@@ -146,26 +152,51 @@ var TURNSTILE_SITEKEY = ''; // paste your Turnstile site key to activate the spa
     });
   });
 })();
-fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=approved&state=open&per_page=6')
-  .then(function(r){ if(!r.ok) throw 0; return r.json(); })
-  .then(function(list){
-    list = list.filter(function(i){
-      return !(i.labels || []).some(function(l){ return l.name === 'rejected'; });
-    });
-    if (!list.length) return;
-    var ul = document.getElementById('requests');
-    var panel = document.getElementById('requests-panel'); if (panel) panel.hidden = false;
-    list.forEach(function(i){
+(function(){
+  function noRejected(list){ return list.filter(function(i){ return !(i.labels || []).some(function(l){ return l.name === 'rejected'; }); }); }
+  function chipFor(i, mode){
+    var names = (i.labels || []).map(function(l){ return l.name; });
+    if (mode === 'roadmap'){
+      if (names.indexOf('administrator') > -1) return ['Administrator',''];
+      if (names.indexOf('vcollector') > -1) return ['vCollector',''];
+      if (names.indexOf('platform') > -1) return ['Platform',''];
+      return ['Roadmap',''];
+    }
+    return names.indexOf('bug') > -1 ? ['Bug',' bug'] : ['Feature',''];
+  }
+  function render(listId, panelId, items, mode){
+    if (!items.length) return;
+    var ul = document.getElementById(listId);
+    var panel = document.getElementById(panelId); if (panel) panel.hidden = false;
+    items.forEach(function(i){
       var li = document.createElement('li');
-      var isBug = (i.labels || []).some(function(l){ return l.name === 'bug'; });
-      var ty = document.createElement('span'); ty.className = 'req-type' + (isBug ? ' bug' : ''); ty.textContent = isBug ? 'Bug' : 'Feature';
+      var c = chipFor(i, mode);
+      var ty = document.createElement('span'); ty.className = 'req-type' + c[1]; ty.textContent = c[0];
       var a = document.createElement('a'); a.className = 'title'; a.href = i.html_url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = i.title;
       var ds = new Date(i.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+      var votes = (i.reactions && i.reactions['+1']) ? i.reactions['+1'] : 0;
       var m = document.createElement('span'); m.className = 'meta';
-      m.textContent = '#' + i.number + (i.comments ? ' \u00b7 ' + i.comments + ' comments' : '') + ' \u00b7 ' + ds;
+      m.textContent = '#' + i.number
+        + (votes ? ' \u00b7 \ud83d\udc4d ' + votes : '')
+        + (i.comments ? ' \u00b7 ' + i.comments + ' comments' : '')
+        + ' \u00b7 ' + ds;
       li.appendChild(ty); li.appendChild(a); li.appendChild(m); ul.appendChild(li);
     });
-  }).catch(function(){});
+  }
+  fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=roadmap&state=open&per_page=8')
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(list){ render('roadmap-list','roadmap-panel', noRejected(list), 'roadmap'); })
+    .catch(function(){});
+  fetch('https://api.github.com/repos/mikecotrone/guardareWebSite/issues?labels=approved&state=open&per_page=20')
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(list){
+      list = noRejected(list).filter(function(i){
+        return !(i.labels || []).some(function(l){ return l.name === 'roadmap'; });
+      }).slice(0, 6);
+      render('requests','requests-panel', list, 'requests');
+    })
+    .catch(function(){});
+})();
 </script>
 
 <footer>

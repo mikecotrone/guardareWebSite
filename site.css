@@ -213,3 +213,6 @@
   .req-panel .req-list{max-width:none;margin:0}
   @media (max-width:760px){.req-panel{padding:18px 14px 8px}}
   .req-head .gh-mark{width:20px;height:20px;vertical-align:-5px;fill:currentColor;margin-left:2px}
+  .req-panel + .req-panel{margin-top:22px}
+  .req-more{margin:14px 4px 4px;font-size:.88rem}
+  .req-more a{font-weight:600}
