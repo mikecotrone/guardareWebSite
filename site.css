@@ -212,4 +212,4 @@
   .req-panel .req-head{max-width:none;margin:0 2px 16px}
   .req-panel .req-list{max-width:none;margin:0}
   @media (max-width:760px){.req-panel{padding:18px 14px 8px}}
-  .req-head .gh-mark{width:15px;height:15px;vertical-align:-2.5px;fill:currentColor;margin-left:1px}
+  .req-head .gh-mark{width:20px;height:20px;vertical-align:-5px;fill:currentColor;margin-left:2px}
