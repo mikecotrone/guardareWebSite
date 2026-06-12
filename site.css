@@ -196,7 +196,7 @@
   /* request list: type chips, heading, date meta */
   .req-head{max-width:720px;margin:48px auto 0;text-align:left;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
   .req-head h3{font-size:1.05rem}
-  .req-head span{font-size:.82rem;opacity:.55;white-space:nowrap}
+  .req-head span{font-size:.82rem;opacity:.78;white-space:nowrap}
   .req-list{margin-top:16px}
   .req-list .req-type{flex:0 0 auto;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--teal-10);color:var(--teal)}
   .req-list .req-type.bug{background:#F7E9E7;color:#9A4634}
