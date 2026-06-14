@@ -48,6 +48,8 @@
   .preview-banner .pmut{color:var(--mute)}
   .preview-banner .pclose{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--mute);font-size:15px;line-height:1;padding:4px 8px;border-radius:6px}
   .preview-banner .pclose:hover{color:var(--text);background:#ffffff10}
+  .preview-banner .plink{color:var(--teal);font-weight:600;text-decoration:none;white-space:nowrap}
+  .preview-banner .plink:hover{text-decoration:underline}
   @media (max-width:640px){ .preview-banner .pmut{display:none} }
 
   .app{display:grid;grid-template-columns:var(--sb) 1fr;grid-template-rows:60px 1fr;flex:1 1 auto;min-height:0}
@@ -372,6 +374,7 @@
 <div class="preview-banner" id="previewBanner">
   <span class="pdot"></span>
   <span><b>Design preview</b> — concept UI, not a live product. <span class="pmut">All sites, alerts, and data shown are fabricated.</span></span>
+  <a class="plink" href="https://guardare.io/community" target="_blank" rel="noopener noreferrer">Help shape 2027 &rarr;</a>
   <button class="pclose" title="Hide banner" onclick="document.getElementById('previewBanner').remove()">&times;</button>
 </div>
 <div class="app">
@@ -434,10 +437,6 @@
     <button class="nav-item" data-screen="provision">
       <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
       Provision Collector
-    </button>
-    <button class="nav-item" data-screen="billing">
-      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      Billing &amp; Licensing
     </button>
     <button class="nav-item" data-screen="audit">
       <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
@@ -782,7 +781,6 @@
     <section class="screen" id="screen-reports"></section>
     <section class="screen" id="screen-tenants"></section>
     <section class="screen" id="screen-provision"></section>
-    <section class="screen" id="screen-billing"></section>
     <section class="screen" id="screen-audit"></section>
   </main>
 </div>
@@ -908,7 +906,6 @@ const placeholders = {
   reports:['Reports & SLA','Generate uptime and performance reports for any tenant.','Build a report'],
   tenants:['Tenant Management','Create, suspend, and configure customer organizations.','Add a tenant'],
   provision:['Provision a Collector','Generate a JWT bundle and ship a zero-touch onboarding package.','Generate bundle'],
-  billing:['Billing & Licensing','Track MRR, plan usage, and collector overage per tenant.','Open billing'],
   audit:['Global Audit Log','Every state-changing action across all tenants, with filtering.','View log'],
 };
 function renderPlaceholder(key){
