@@ -388,6 +388,34 @@
   .cmd-txt .t{font-size:13px;font-weight:600} .cmd-txt .d{font-size:11px;color:var(--mute);margin-top:1px}
   .cmd-go{margin-left:auto;color:var(--mute)}
 
+  /* platform services (collector microservices) */
+  .svc-note{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim);padding:12px 18px 0}
+  .svc-note svg{width:13px;height:13px;stroke:var(--teal);fill:none;stroke-width:1.8;flex:0 0 auto}
+  .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:14px 18px 18px}
+  .svc-card{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:11px;min-height:150px}
+  .svc-card.deg{border-color:#5a481f;background:#13201d}
+  .svc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+  .svc-name{font-size:13.5px;font-weight:700;letter-spacing:.01em}
+  .svc-role{font-size:10.5px;color:var(--mute);margin-top:2px}
+  .svc-metrics{display:flex;gap:18px}
+  .svc-m .n{font-family:"Open Sans";font-size:17px;font-weight:700;letter-spacing:-.01em}
+  .svc-m .n small{font-size:10.5px;color:var(--dim);font-weight:500;margin-left:1px}
+  .svc-m .l{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:3px}
+  .svc-impact{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--amber)}
+  .svc-impact svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;flex:0 0 auto}
+  .svc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line-soft);padding-top:11px;margin-top:auto}
+  .svc-ver{font-family:"Open Sans";font-size:11px;color:var(--mute)}
+  .svc-acts{display:flex;gap:6px}
+  .svc-act{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);color:var(--dim);transition:.14s}
+  .svc-act:hover{border-color:var(--teal-deep);color:var(--teal)}
+  .svc-act svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}
+
+  /* top-level identity strip */
+  .id-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px 18px;padding:16px 18px}
+  .id-item{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .id-item .k{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:600}
+  .id-item .vv{font-family:"Open Sans";font-size:13px;overflow-wrap:anywhere}
+
   .info-rows{padding:6px 8px}
   .info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;font-size:12.5px;border-bottom:1px solid var(--line-soft)}
   .info-row:last-child{border-bottom:none}
@@ -458,6 +486,8 @@
     .stat-grid.stat-strip{grid-template-columns:repeat(2,1fr)}
     .stat-grid{grid-template-rows:auto}
     .metric-cards{grid-template-columns:repeat(2,1fr)}
+    .svc-grid{grid-template-columns:repeat(2,1fr)}
+    .id-grid{grid-template-columns:repeat(2,1fr)}
     .screen{padding:18px 16px 56px}
     .page-head{flex-wrap:wrap;gap:14px}
     .panel:has(table){overflow-x:auto}
@@ -477,6 +507,7 @@
     .tenant-switch #tenantName{display:inline-block;max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
     .stat-grid{grid-template-columns:1fr}
     .stat-grid.stat-strip{grid-template-columns:1fr}
+    .svc-grid{grid-template-columns:1fr}
     .page-title{font-size:22px}
     .page-sub{font-size:12px}
     .head-actions{width:100%}
@@ -861,6 +892,7 @@
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
+          <button class="btn" onclick="toast('Diagnostics requested → full collector health bundle')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
           <button class="btn primary" onclick="toast('Restart command queued → commands:acme-corp:site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Restart collector">Restart collector</span></button>
         </div>
       </div>
@@ -885,6 +917,93 @@
           <div class="lab" data-i18n="WS latency">WS latency</div>
           <div class="v">11<small>ms</small></div>
           <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 10 L20 12 L40 9 L60 11 L80 8 L100 10 L120 9" fill="none" stroke="#41D98A" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+
+      <div class="panel mb18">
+        <div class="panel-head">
+          <h3 data-i18n="Platform microservices">Platform microservices</h3>
+          <span class="td-status s-warn" style="font-size:11.5px"><i></i><span data-i18n="1 service degraded">1 service degraded</span></span>
+        </div>
+        <div class="svc-note">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span data-i18n="The Guardare Collector runs as these four microservices — the NMS layer depends on them.">The Guardare Collector runs as these four microservices — the NMS layer depends on them.</span>
+        </div>
+        <div class="svc-grid">
+
+          <div class="svc-card">
+            <div class="svc-top">
+              <div><div class="svc-name">vCollector</div><div class="svc-role" data-i18n="Ingests device data">Ingests device data</div></div>
+              <span class="td-status s-online"><i></i><span data-i18n="Online">Online</span></span>
+            </div>
+            <div class="svc-metrics">
+              <div class="svc-m"><div class="n">612<small>msg/s</small></div><div class="l" data-i18n="Throughput">Throughput</div></div>
+              <div class="svc-m"><div class="n">48</div><div class="l" data-i18n="API targets">API targets</div></div>
+            </div>
+            <div class="svc-foot">
+              <span class="svc-ver">v3.2.1</span>
+              <div class="svc-acts">
+                <button class="svc-act" title="Reload config" onclick="toast('vCollector · reload sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" title="Restart service" onclick="toast('vCollector · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="svc-card">
+            <div class="svc-top">
+              <div><div class="svc-name">Normalizer</div><div class="svc-role" data-i18n="Standardizes telemetry">Standardizes telemetry</div></div>
+              <span class="td-status s-online"><i></i><span data-i18n="Online">Online</span></span>
+            </div>
+            <div class="svc-metrics">
+              <div class="svc-m"><div class="n" title="Meraki, Arista, UniFi, Fortinet, Cisco IOS, Palo Alto…">14</div><div class="l" data-i18n="Profiles">Profiles</div></div>
+              <div class="svc-m"><div class="n">0</div><div class="l" data-i18n="Errors">Errors</div></div>
+            </div>
+            <div class="svc-foot">
+              <span class="svc-ver">v2.8.0</span>
+              <div class="svc-acts">
+                <button class="svc-act" title="Reload config" onclick="toast('Normalizer · reload sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" title="Restart service" onclick="toast('Normalizer · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="svc-card deg">
+            <div class="svc-top">
+              <div><div class="svc-name">Events Director</div><div class="svc-role" data-i18n="Events &amp; alerting">Events &amp; alerting</div></div>
+              <span class="td-status s-warn"><i></i><span data-i18n="Degraded">Degraded</span></span>
+            </div>
+            <div class="svc-metrics">
+              <div class="svc-m"><div class="n">126</div><div class="l" data-i18n="Rules">Rules</div></div>
+              <div class="svc-m"><div class="n">480<small>ms</small></div><div class="l" data-i18n="Dispatch">Dispatch</div></div>
+            </div>
+            <div class="svc-impact"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span data-i18n="Alerting delayed">Alerting delayed</span></div>
+            <div class="svc-foot">
+              <span class="svc-ver">v1.9.4</span>
+              <div class="svc-acts">
+                <button class="svc-act" title="Reload config" onclick="toast('Events Director · reload sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" title="Restart service" onclick="toast('Events Director · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="svc-card">
+            <div class="svc-top">
+              <div><div class="svc-name">HuduSync</div><div class="svc-role" data-i18n="Docs &amp; asset sync">Docs &amp; asset sync</div></div>
+              <span class="td-status s-online"><i></i><span data-i18n="Online">Online</span></span>
+            </div>
+            <div class="svc-metrics">
+              <div class="svc-m"><div class="n">9</div><div class="l" data-i18n="Categories">Categories</div></div>
+              <div class="svc-m"><div class="n">1,204</div><div class="l" data-i18n="Assets">Assets</div></div>
+            </div>
+            <div class="svc-foot">
+              <span class="svc-ver">v0.7.2 · synced 2m ago</span>
+              <div class="svc-acts">
+                <button class="svc-act" title="Resync now" onclick="toast('HuduSync · resync to Hudu started')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" title="Restart service" onclick="toast('HuduSync · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -935,8 +1054,25 @@
         </div>
 
         <div>
-          <div class="panel cmd-panel mb18">
-            <div class="panel-head"><h3><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg><span data-i18n="Command panel">Command panel</span></h3></div>
+          <div class="panel mb18">
+            <div class="panel-head"><h3 data-i18n="Identity">Identity</h3></div>
+            <div class="info-rows">
+              <div class="info-row"><span class="k" data-i18n="Collector ID">Collector ID</span><span class="vv" style="color:var(--teal)">site-04</span></div>
+              <div class="info-row"><span class="k" data-i18n="Tenant">Tenant</span><span class="vv">acme-corp</span></div>
+              <div class="info-row"><span class="k" data-i18n="Channel">Channel</span><span class="vv" style="color:var(--dim)">telemetry:acme-corp:site-04</span></div>
+              <div class="info-row"><span class="k" data-i18n="Architecture">Architecture</span><span class="vv">Linux ARM64</span></div>
+              <div class="info-row"><span class="k" data-i18n="Local buffer">Local buffer</span><span class="vv">MariaDB 11.4</span></div>
+              <div class="info-row"><span class="k" data-i18n="Uptime">Uptime</span><span class="vv">18d 6h</span></div>
+              <div class="info-row"><span class="k" data-i18n="JWT expiry">JWT expiry</span><span class="vv">214d</span></div>
+            </div>
+          </div>
+
+          <div class="panel cmd-panel">
+            <div class="panel-head"><h3><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg><span data-i18n="Collector commands">Collector commands</span></h3></div>
+            <div class="svc-note" style="padding:11px 18px 0">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+              <span data-i18n="Collector-wide actions — per-service start/stop lives on each card above.">Collector-wide actions — per-service start/stop lives on each card above.</span>
+            </div>
             <div class="cmd-list">
               <button class="cmd-btn" onclick="toast('Reload command sent → site-04')">
                 <span class="cmd-ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></span>
@@ -958,19 +1094,6 @@
                 <span class="cmd-txt"><div class="t" data-i18n="Maintenance mode">Maintenance mode</div><div class="d" data-i18n="Suppress alerts during work">Suppress alerts during work</div></span>
                 <span class="cmd-go">→</span>
               </button>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-head"><h3 data-i18n="Identity">Identity</h3></div>
-            <div class="info-rows">
-              <div class="info-row"><span class="k" data-i18n="Collector ID">Collector ID</span><span class="vv" style="color:var(--teal)">site-04</span></div>
-              <div class="info-row"><span class="k" data-i18n="Tenant">Tenant</span><span class="vv">acme-corp</span></div>
-              <div class="info-row"><span class="k" data-i18n="Channel">Channel</span><span class="vv" style="color:var(--dim)">telemetry:acme-corp:site-04</span></div>
-              <div class="info-row"><span class="k" data-i18n="Architecture">Architecture</span><span class="vv">Linux ARM64</span></div>
-              <div class="info-row"><span class="k" data-i18n="Local buffer">Local buffer</span><span class="vv">MariaDB 11.4</span></div>
-              <div class="info-row"><span class="k" data-i18n="Uptime">Uptime</span><span class="vv">18d 6h</span></div>
-              <div class="info-row"><span class="k" data-i18n="JWT expiry">JWT expiry</span><span class="vv">214d</span></div>
             </div>
           </div>
         </div>
