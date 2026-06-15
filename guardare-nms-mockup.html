@@ -87,6 +87,17 @@
   .lang-opt:hover{color:var(--text)}
   .lang-opt.active{background:var(--teal);color:#04201b}
 
+  /* radar blip tooltip */
+  .radar-tip{position:fixed;z-index:200;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:9px 12px;min-width:158px}
+  .radar-tip.show{opacity:1;transform:none}
+  .radar-tip .rt-site{font-weight:700;font-size:13px;color:var(--text);margin-bottom:5px}
+  .radar-tip .rt-meta{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:11.5px;margin-bottom:6px}
+  .radar-tip .rt-meta code{color:var(--teal);font-family:"Open Sans"}
+  .radar-tip .rt-dot{width:7px;height:7px;border-radius:99px;display:inline-block;flex:0 0 7px}
+  .radar-tip .rt-ten{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--dim);padding-top:7px;border-top:1px solid var(--line-soft)}
+  .radar-tip .rt-ten .tn-avatar{width:18px;height:18px;font-size:9px}
+
   /* tenant dropdown */
   .tenant-wrap{position:relative}
   .tenant-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:264px;background:var(--panel);border:1px solid var(--line);
@@ -235,7 +246,8 @@
   .log-line .lv.INFO{color:var(--violet)} .log-line .lv.OK{color:var(--green)} .log-line .lv.WARN{color:var(--amber)} .log-line .lv.ERR{color:var(--red)}
   .log-line .src{color:var(--teal);flex:0 0 84px}
   .log-line .msg{color:var(--dim)}
-  .blip{transition:.3s}
+  .blip{transition:.3s;cursor:pointer}
+  .blip:hover{transform:scale(1.45);transform-box:fill-box;transform-origin:center}
   .blip-core{animation:pulse 2.2s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
   .radar-caption{text-align:center;margin-top:6px}
@@ -489,7 +501,11 @@
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       <div class="tenant-menu" id="tenantMenu">
-        <button class="tenant-opt active" data-tenant="acme-corp">
+        <button class="tenant-opt active" data-tenant="all">
+          <span class="t" data-i18n="All Tenants">All Tenants</span><span class="d" data-i18n="Aggregate · every customer">Aggregate · every customer</span>
+        </button>
+        <div class="ms-sep"></div>
+        <button class="tenant-opt" data-tenant="acme-corp">
           <span class="t">Acme Corp</span><span class="d" data-i18n="14 sites · North America + Europe">14 sites · North America + Europe</span>
         </button>
         <button class="tenant-opt" data-tenant="piedmont">
@@ -525,7 +541,7 @@
     <div class="nav-group" data-i18n="Operations">Operations</div>
     <button class="nav-item active" data-screen="dashboard">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-      <span data-i18n="Ops Dashboard">Ops Dashboard</span>
+      <span data-i18n="MSP Global Dashboard">MSP Global Dashboard</span>
     </button>
     <button class="nav-item" data-screen="fleet">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
@@ -580,8 +596,8 @@
       <div class="page-head">
         <div>
           <div class="page-eyebrow" id="dashEyebrow">Acme Corp · live</div>
-          <h1 class="page-title" data-i18n="Ops Dashboard">Ops Dashboard</h1>
-          <p class="page-sub" data-i18n="Real-time visibility across 14 collector sites · streaming over Centrifugo">Real-time visibility across 14 collector sites · streaming over Centrifugo</p>
+          <h1 class="page-title" data-i18n="MSP Global Dashboard">MSP Global Dashboard</h1>
+          <p class="page-sub" data-i18n="Real-time visibility across your collector fleet · streaming over Centrifugo">Real-time visibility across your collector fleet · streaming over Centrifugo</p>
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Time range — last 24 hours')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="Last 24h">Last 24h</span></button>
@@ -633,9 +649,9 @@
               <circle cx="150" cy="150" r="68" fill="none" stroke="#2EE6C826"/>
               <circle cx="150" cy="150" r="32" fill="none" stroke="#2EE6C826"/>
               <g class="radar-sweep"><path d="M150 150 L292 150 A142 142 0 0 0 256 53 Z" fill="url(#sweepgA)"/></g>
-              <g class="region-layer" id="blips-na-A"><g class="blip"><circle cx="101.2" cy="134.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.2" cy="134.2" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="101.1" cy="127.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.1" cy="127.3" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="143.2" cy="172.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="143.2" cy="172.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="193.5" cy="161.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="193.5" cy="161.9" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="214.6" cy="150.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="214.6" cy="150.2" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="168.4" cy="199.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="168.4" cy="199.0" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="231.8" cy="156.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="231.8" cy="156.3" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="176.4" cy="152.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="176.4" cy="152.1" r="4" fill="#F6B53F"/></g><g class="blip"><circle cx="220.0" cy="178.5" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="220.0" cy="178.5" r="4.5" fill="#FF5D5D"/></g><g class="blip"><circle cx="161.2" cy="246.4" r="6" fill="#54707688"/><circle cx="161.2" cy="246.4" r="3" fill="#547076"/></g></g>
-              <g class="region-layer" id="blips-eu-A" style="opacity:0"><g class="blip"><circle cx="114.1" cy="110.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="114.1" cy="110.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="103.2" cy="88.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="103.2" cy="88.1" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="78.1" cy="85.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="78.1" cy="85.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="128.2" cy="140.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="128.2" cy="140.0" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="147.6" cy="103.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="147.6" cy="103.8" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="202.6" cy="101.4" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="202.6" cy="101.4" r="4" fill="#F6B53F"/></g><g class="blip"><circle cx="176.6" cy="177.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="176.6" cy="177.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="203.3" cy="214.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="203.3" cy="214.3" r="4.5" fill="#FF5D5D"/></g><g class="blip"><circle cx="73.6" cy="223.8" r="6" fill="#54707688"/><circle cx="73.6" cy="223.8" r="3" fill="#547076"/></g></g>
-              <g class="region-layer" id="blips-nc-A" style="opacity:0"><g class="blip"><circle cx="144.0" cy="162.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="144.0" cy="162.6" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="197.4" cy="145.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="197.4" cy="145.8" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="169.4" cy="137.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="169.4" cy="137.4" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="102.6" cy="151.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="102.6" cy="151.1" r="4" fill="#F6B53F"/></g></g>
+              <g class="region-layer" id="blips-na-A"><g class="blip" data-site="New York" data-coll="site-01" data-tenant="acme-corp" data-status="online"><circle cx="101.2" cy="134.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.2" cy="134.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Toronto" data-coll="site-02" data-tenant="acme-corp" data-status="online"><circle cx="101.1" cy="127.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.1" cy="127.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Chicago" data-coll="site-03" data-tenant="acme-corp" data-status="online"><circle cx="143.2" cy="172.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="143.2" cy="172.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Boston" data-coll="site-05" data-tenant="acme-corp" data-status="online"><circle cx="193.5" cy="161.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="193.5" cy="161.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Atlanta" data-coll="site-06" data-tenant="acme-corp" data-status="online"><circle cx="214.6" cy="150.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="214.6" cy="150.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Denver" data-coll="site-08" data-tenant="acme-corp" data-status="online"><circle cx="168.4" cy="199.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="168.4" cy="199.0" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Seattle" data-coll="site-10" data-tenant="acme-corp" data-status="online"><circle cx="231.8" cy="156.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="231.8" cy="156.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dallas" data-coll="site-04" data-tenant="acme-corp" data-status="warn"><circle cx="176.4" cy="152.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="176.4" cy="152.1" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Phoenix" data-coll="site-09" data-tenant="acme-corp" data-status="crit"><circle cx="220.0" cy="178.5" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="220.0" cy="178.5" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Miami" data-coll="site-07" data-tenant="acme-corp" data-status="offline"><circle cx="161.2" cy="246.4" r="6" fill="#54707688"/><circle cx="161.2" cy="246.4" r="3" fill="#547076"/></g></g>
+              <g class="region-layer" id="blips-eu-A" style="opacity:0"><g class="blip" data-site="London" data-coll="eu-01" data-tenant="acme-corp" data-status="online"><circle cx="114.1" cy="110.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="114.1" cy="110.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Manchester" data-coll="eu-02" data-tenant="acme-corp" data-status="online"><circle cx="103.2" cy="88.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="103.2" cy="88.1" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dublin" data-coll="eu-03" data-tenant="acme-corp" data-status="online"><circle cx="78.1" cy="85.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="78.1" cy="85.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Paris" data-coll="eu-04" data-tenant="acme-corp" data-status="online"><circle cx="128.2" cy="140.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="128.2" cy="140.0" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Amsterdam" data-coll="eu-05" data-tenant="acme-corp" data-status="online"><circle cx="147.6" cy="103.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="147.6" cy="103.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Frankfurt" data-coll="eu-06" data-tenant="acme-corp" data-status="warn"><circle cx="202.6" cy="101.4" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="202.6" cy="101.4" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Milan" data-coll="eu-07" data-tenant="acme-corp" data-status="online"><circle cx="176.6" cy="177.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="176.6" cy="177.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Madrid" data-coll="eu-08" data-tenant="acme-corp" data-status="crit"><circle cx="203.3" cy="214.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="203.3" cy="214.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Warsaw" data-coll="eu-09" data-tenant="acme-corp" data-status="offline"><circle cx="73.6" cy="223.8" r="6" fill="#54707688"/><circle cx="73.6" cy="223.8" r="3" fill="#547076"/></g></g>
+              <g class="region-layer" id="blips-nc-A" style="opacity:0"><g class="blip" data-site="Charlotte" data-coll="clt-01" data-tenant="piedmont" data-status="online"><circle cx="144.0" cy="162.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="144.0" cy="162.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Raleigh" data-coll="ral-01" data-tenant="piedmont" data-status="online"><circle cx="197.4" cy="145.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="197.4" cy="145.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Greensboro" data-coll="gso-01" data-tenant="piedmont" data-status="online"><circle cx="169.4" cy="137.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="169.4" cy="137.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Asheville" data-coll="avl-01" data-tenant="piedmont" data-status="warn"><circle cx="102.6" cy="151.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="102.6" cy="151.1" r="4" fill="#F6B53F"/></g></g>
             </svg>
           </div>
           <div class="radar-caption">
@@ -683,9 +699,9 @@
               <circle cx="150" cy="150" r="68" fill="none" stroke="#2EE6C826"/>
               <circle cx="150" cy="150" r="32" fill="none" stroke="#2EE6C826"/>
               <g class="radar-sweep"><path d="M150 150 L292 150 A142 142 0 0 0 256 53 Z" fill="url(#sweepgB)"/></g>
-              <g class="region-layer" id="blips-na-B"><g class="blip"><circle cx="101.2" cy="134.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.2" cy="134.2" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="101.1" cy="127.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.1" cy="127.3" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="143.2" cy="172.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="143.2" cy="172.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="193.5" cy="161.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="193.5" cy="161.9" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="214.6" cy="150.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="214.6" cy="150.2" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="168.4" cy="199.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="168.4" cy="199.0" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="231.8" cy="156.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="231.8" cy="156.3" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="176.4" cy="152.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="176.4" cy="152.1" r="4" fill="#F6B53F"/></g><g class="blip"><circle cx="220.0" cy="178.5" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="220.0" cy="178.5" r="4.5" fill="#FF5D5D"/></g><g class="blip"><circle cx="161.2" cy="246.4" r="6" fill="#54707688"/><circle cx="161.2" cy="246.4" r="3" fill="#547076"/></g></g>
-              <g class="region-layer" id="blips-eu-B" style="opacity:0"><g class="blip"><circle cx="114.1" cy="110.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="114.1" cy="110.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="103.2" cy="88.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="103.2" cy="88.1" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="78.1" cy="85.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="78.1" cy="85.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="128.2" cy="140.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="128.2" cy="140.0" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="147.6" cy="103.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="147.6" cy="103.8" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="202.6" cy="101.4" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="202.6" cy="101.4" r="4" fill="#F6B53F"/></g><g class="blip"><circle cx="176.6" cy="177.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="176.6" cy="177.5" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="203.3" cy="214.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="203.3" cy="214.3" r="4.5" fill="#FF5D5D"/></g><g class="blip"><circle cx="73.6" cy="223.8" r="6" fill="#54707688"/><circle cx="73.6" cy="223.8" r="3" fill="#547076"/></g></g>
-              <g class="region-layer" id="blips-nc-B" style="opacity:0"><g class="blip"><circle cx="144.0" cy="162.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="144.0" cy="162.6" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="197.4" cy="145.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="197.4" cy="145.8" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="169.4" cy="137.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="169.4" cy="137.4" r="3.5" fill="#41D98A"/></g><g class="blip"><circle cx="102.6" cy="151.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="102.6" cy="151.1" r="4" fill="#F6B53F"/></g></g>
+              <g class="region-layer" id="blips-na-B"><g class="blip" data-site="New York" data-coll="site-01" data-tenant="acme-corp" data-status="online"><circle cx="101.2" cy="134.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.2" cy="134.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Toronto" data-coll="site-02" data-tenant="acme-corp" data-status="online"><circle cx="101.1" cy="127.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="101.1" cy="127.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Chicago" data-coll="site-03" data-tenant="acme-corp" data-status="online"><circle cx="143.2" cy="172.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="143.2" cy="172.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Boston" data-coll="site-05" data-tenant="acme-corp" data-status="online"><circle cx="193.5" cy="161.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="193.5" cy="161.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Atlanta" data-coll="site-06" data-tenant="acme-corp" data-status="online"><circle cx="214.6" cy="150.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="214.6" cy="150.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Denver" data-coll="site-08" data-tenant="acme-corp" data-status="online"><circle cx="168.4" cy="199.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="168.4" cy="199.0" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Seattle" data-coll="site-10" data-tenant="acme-corp" data-status="online"><circle cx="231.8" cy="156.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="231.8" cy="156.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dallas" data-coll="site-04" data-tenant="acme-corp" data-status="warn"><circle cx="176.4" cy="152.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="176.4" cy="152.1" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Phoenix" data-coll="site-09" data-tenant="acme-corp" data-status="crit"><circle cx="220.0" cy="178.5" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="220.0" cy="178.5" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Miami" data-coll="site-07" data-tenant="acme-corp" data-status="offline"><circle cx="161.2" cy="246.4" r="6" fill="#54707688"/><circle cx="161.2" cy="246.4" r="3" fill="#547076"/></g></g>
+              <g class="region-layer" id="blips-eu-B" style="opacity:0"><g class="blip" data-site="London" data-coll="eu-01" data-tenant="acme-corp" data-status="online"><circle cx="114.1" cy="110.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="114.1" cy="110.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Manchester" data-coll="eu-02" data-tenant="acme-corp" data-status="online"><circle cx="103.2" cy="88.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="103.2" cy="88.1" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dublin" data-coll="eu-03" data-tenant="acme-corp" data-status="online"><circle cx="78.1" cy="85.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="78.1" cy="85.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Paris" data-coll="eu-04" data-tenant="acme-corp" data-status="online"><circle cx="128.2" cy="140.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="128.2" cy="140.0" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Amsterdam" data-coll="eu-05" data-tenant="acme-corp" data-status="online"><circle cx="147.6" cy="103.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="147.6" cy="103.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Frankfurt" data-coll="eu-06" data-tenant="acme-corp" data-status="warn"><circle cx="202.6" cy="101.4" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="202.6" cy="101.4" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Milan" data-coll="eu-07" data-tenant="acme-corp" data-status="online"><circle cx="176.6" cy="177.5" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="176.6" cy="177.5" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Madrid" data-coll="eu-08" data-tenant="acme-corp" data-status="crit"><circle cx="203.3" cy="214.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="203.3" cy="214.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Warsaw" data-coll="eu-09" data-tenant="acme-corp" data-status="offline"><circle cx="73.6" cy="223.8" r="6" fill="#54707688"/><circle cx="73.6" cy="223.8" r="3" fill="#547076"/></g></g>
+              <g class="region-layer" id="blips-nc-B" style="opacity:0"><g class="blip" data-site="Charlotte" data-coll="clt-01" data-tenant="piedmont" data-status="online"><circle cx="144.0" cy="162.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="144.0" cy="162.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Raleigh" data-coll="ral-01" data-tenant="piedmont" data-status="online"><circle cx="197.4" cy="145.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="197.4" cy="145.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Greensboro" data-coll="gso-01" data-tenant="piedmont" data-status="online"><circle cx="169.4" cy="137.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="169.4" cy="137.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Asheville" data-coll="avl-01" data-tenant="piedmont" data-status="warn"><circle cx="102.6" cy="151.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="102.6" cy="151.1" r="4" fill="#F6B53F"/></g></g>
             </svg>
           </div>
           <div class="radar-caption">
@@ -966,6 +982,7 @@
   </main>
 </div>
 
+<div class="radar-tip" id="radarTip"></div>
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
 
 <script>
@@ -974,14 +991,14 @@ let lang='en';
 const I18N={
  it:{
   "Operations":"Operazioni","MSP Management":"Gestione MSP","Configuration":"Configurazione",
-  "Ops Dashboard":"Dashboard operativa","Global Fleet":"Flotta globale","Alerts":"Avvisi",
+  "MSP Global Dashboard":"Dashboard globale MSP","Global Fleet":"Flotta globale","Alerts":"Avvisi",
   "Reports & SLA":"Report e SLA","Tenants":"Clienti","Provision Collector":"Provisioning collector",
   "Audit Log":"Log di audit","Locations":"Sedi","Tenant Settings":"Impostazioni cliente",
   "Search collectors, alerts, sites…":"Cerca collector, avvisi, sedi…","Guardare Administrator":"Amministratore Guardare",
   "14 sites · North America + Europe":"14 sedi · Nord America + Europa","4 sites · North Carolina, USA":"4 sedi · Carolina del Nord, USA",
   "Design preview":"Anteprima di design","— concept UI, not a live product.":"— UI concettuale, non un prodotto reale.",
   "All sites, alerts, and data shown are fabricated.":"Tutte le sedi, gli avvisi e i dati mostrati sono fittizi.","Help shape 2027 →":"Contribuisci al 2027 →",
-  "Real-time visibility across 14 collector sites · streaming over Centrifugo":"Visibilità in tempo reale su 14 sedi collector · streaming via Centrifugo",
+  "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilità in tempo reale su tutta la flotta collector · streaming via Centrifugo",
   "Last 24h":"Ultime 24h","Pause feed":"Pausa feed","Live alerts":"Avvisi in diretta","Fleet radar":"Radar flotta",
   "Telemetry rate":"Frequenza telemetria","Active alerts":"Avvisi attivi","Fleet uptime":"Uptime flotta","Sync backlog":"Coda di sincronizzazione",
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs 1h fa","▲ 2 new in last hour":"▲ 2 nuovi nell'ultima ora","30-day rolling SLA":"SLA su 30 giorni","▲ site-07 offline · buffering":"▲ site-07 offline · buffering in corso",
@@ -1014,18 +1031,18 @@ const I18N={
   "Mountain link flapping":"Link di montagna instabile","Config drift":"Drift di configurazione","Collector reconnected":"Collector riconnesso","New collector registered":"Nuovo collector registrato",
   "Local buffer 96% full · WAN link degraded":"Buffer locale pieno al 96% · link WAN degradato","No heartbeat for 4 minutes · last sync 14:01":"Nessun heartbeat da 4 minuti · ultimo sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picchi sulla pipeline di enrich","512 → 42 msg/s over 90s":"512 → 42 msg/s in 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittente",
-  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://"
+  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Aggregate · every customer":"Aggregato · ogni cliente"
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
-  "Ops Dashboard":"Tableau de bord Ops","Global Fleet":"Flotte globale","Alerts":"Alertes",
+  "MSP Global Dashboard":"Tableau de bord global MSP","Global Fleet":"Flotte globale","Alerts":"Alertes",
   "Reports & SLA":"Rapports et SLA","Tenants":"Clients","Provision Collector":"Provisionner un collecteur",
   "Audit Log":"Journal d'audit","Locations":"Emplacements","Tenant Settings":"Paramètres client",
   "Search collectors, alerts, sites…":"Rechercher collecteurs, alertes, sites…","Guardare Administrator":"Administrateur Guardare",
   "14 sites · North America + Europe":"14 sites · Amérique du Nord + Europe","4 sites · North Carolina, USA":"4 sites · Caroline du Nord, États-Unis",
   "Design preview":"Aperçu de conception","— concept UI, not a live product.":"— interface conceptuelle, pas un produit réel.",
   "All sites, alerts, and data shown are fabricated.":"Tous les sites, alertes et données affichés sont fictifs.","Help shape 2027 →":"Façonnez 2027 →",
-  "Real-time visibility across 14 collector sites · streaming over Centrifugo":"Visibilité en temps réel sur 14 sites collecteurs · streaming via Centrifugo",
+  "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilité en temps réel sur votre flotte de collecteurs · streaming via Centrifugo",
   "Last 24h":"Dernières 24h","Pause feed":"Suspendre le flux","Live alerts":"Alertes en direct","Fleet radar":"Radar de flotte",
   "Telemetry rate":"Débit télémétrie","Active alerts":"Alertes actives","Fleet uptime":"Disponibilité flotte","Sync backlog":"File de synchro",
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs il y a 1h","▲ 2 new in last hour":"▲ 2 nouveaux la dernière heure","30-day rolling SLA":"SLA glissant sur 30 jours","▲ site-07 offline · buffering":"▲ site-07 hors ligne · mise en mémoire",
@@ -1058,18 +1075,18 @@ const I18N={
   "Mountain link flapping":"Liaison montagne instable","Config drift":"Dérive de configuration","Collector reconnected":"Collecteur reconnecté","New collector registered":"Nouveau collecteur enregistré",
   "Local buffer 96% full · WAN link degraded":"Tampon local plein à 96% · liaison WAN dégradée","No heartbeat for 4 minutes · last sync 14:01":"Aucun battement depuis 4 minutes · dernière synchro 14:01",
   "68% → spiking on enrich pipeline":"68% → pics sur le pipeline d'enrichissement","512 → 42 msg/s over 90s":"512 → 42 msg/s sur 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittent",
-  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://"
+  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Aggregate · every customer":"Agrégé · tous les clients"
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
-  "Ops Dashboard":"Panel de operaciones","Global Fleet":"Flota global","Alerts":"Alertas",
+  "MSP Global Dashboard":"Panel global MSP","Global Fleet":"Flota global","Alerts":"Alertas",
   "Reports & SLA":"Informes y SLA","Tenants":"Clientes","Provision Collector":"Aprovisionar collector",
   "Audit Log":"Registro de auditoría","Locations":"Ubicaciones","Tenant Settings":"Ajustes del cliente",
   "Search collectors, alerts, sites…":"Buscar collectors, alertas, sedes…","Guardare Administrator":"Administrador de Guardare",
   "14 sites · North America + Europe":"14 sedes · Norteamérica + Europa","4 sites · North Carolina, USA":"4 sedes · Carolina del Norte, EE. UU.",
   "Design preview":"Vista previa de diseño","— concept UI, not a live product.":"— interfaz conceptual, no un producto real.",
   "All sites, alerts, and data shown are fabricated.":"Todas las sedes, alertas y datos mostrados son ficticios.","Help shape 2027 →":"Ayuda a dar forma a 2027 →",
-  "Real-time visibility across 14 collector sites · streaming over Centrifugo":"Visibilidad en tiempo real en 14 sedes con collectors · streaming vía Centrifugo",
+  "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilidad en tiempo real en toda tu flota de collectors · streaming vía Centrifugo",
   "Last 24h":"Últimas 24h","Pause feed":"Pausar flujo","Live alerts":"Alertas en vivo","Fleet radar":"Radar de flota",
   "Telemetry rate":"Tasa de telemetría","Active alerts":"Alertas activas","Fleet uptime":"Disponibilidad de flota","Sync backlog":"Cola de sincronización",
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs hace 1h","▲ 2 new in last hour":"▲ 2 nuevas en la última hora","30-day rolling SLA":"SLA móvil de 30 días","▲ site-07 offline · buffering":"▲ site-07 desconectado · almacenando",
@@ -1102,16 +1119,28 @@ const I18N={
   "Mountain link flapping":"Enlace de montaña inestable","Config drift":"Desviación de configuración","Collector reconnected":"Collector reconectado","New collector registered":"Nuevo collector registrado",
   "Local buffer 96% full · WAN link degraded":"Búfer local al 96% · enlace WAN degradado","No heartbeat for 4 minutes · last sync 14:01":"Sin latido durante 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos en la canalización de enriquecimiento","512 → 42 msg/s over 90s":"512 → 42 msg/s en 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
-  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://"
+  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Aggregate · every customer":"Agregado · todos los clientes"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
+const ALL_REGIONS=['na','eu','nc'];
+function activeCtx(){
+  if(currentTenant==='all'){
+    const ts=Object.values(TENANTS);
+    return { all:true, name:'All Tenants',
+      sites:ts.reduce((a,t)=>a+t.sites,0), regions:ALL_REGIONS,
+      nodes:ts.flatMap(t=>t.nodes), consoleSite:'all-tenants:*',
+      locations:ts.flatMap(t=>t.locations) };
+  }
+  return TENANTS[currentTenant];
+}
 function updateChrome(){
-  const tn=TENANTS[currentTenant];
-  _set('tenantName',tn.name); _set('tenantSites','/ '+tn.sites+' '+TX('sites'));
-  _set('dashEyebrow', tn.name+' · '+TX('live'));
-  _set('gridCount', tn.sites+' '+TX('sites')+' · '+TX('tap to inspect'));
-  _set('consoleSite', tn.consoleSite);
+  const c=activeCtx();
+  const nm=currentTenant==='all'?TX('All Tenants'):c.name;
+  _set('tenantName',nm); _set('tenantSites','/ '+c.sites+' '+TX('sites'));
+  _set('dashEyebrow', nm+' · '+TX('live'));
+  _set('gridCount', c.sites+' '+TX('sites')+' · '+TX('tap to inspect'));
+  _set('consoleSite', c.consoleSite);
 }
 function setLang(l){
   lang=l; document.documentElement.lang=l;
@@ -1171,7 +1200,7 @@ const TENANTS = {
       ['Asheville Annex','avl-01','Asheville, NC',35.5951,-82.5515,'degraded'],
     ]},
 };
-let currentTenant='acme-corp';
+let currentTenant='all';
 
 const fleetRows = [
   ['site-04','acme-corp','warn','4s ago',68,612,'a3f9c2e'],
@@ -1210,7 +1239,7 @@ const sevIcon = {
 
 /* ---------- render dashboard ---------- */
 function renderFleetGrid(){
-  const ns=TENANTS[currentTenant].nodes;
+  const ns=activeCtx().nodes;
   document.getElementById('fleetGrid').innerHTML = ns.map(n=>`
     <div class="node ${n[2]}" onclick="openDetail('${n[1]}:${n[0]}')">
       <div class="node-top">
@@ -1331,11 +1360,11 @@ function makeMultiselect(mountId, options, selected, onChange){
 
 /* ---------- tenant switcher ---------- */
 function switchTenant(id){
-  currentTenant=id; const t=TENANTS[id];
+  currentTenant=id;
   updateChrome();
   renderFleetGrid(); renderConfig(); setupRadars();
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active',o.dataset.tenant===id));
-  toast('Switched to '+t.name);
+  toast('Switched to '+(id==='all'?TX('All Tenants'):TENANTS[id].name));
 }
 function wireTenantMenu(){
   const btn=document.getElementById('tenantBtn'), menu=document.getElementById('tenantMenu');
@@ -1346,7 +1375,10 @@ function wireTenantMenu(){
 
 /* ---------- configuration: tenant locations ---------- */
 function renderConfig(){
-  const t=TENANTS[currentTenant];
+  const t=activeCtx();
+  const _nm=currentTenant==='all'?TX('All Tenants'):t.name;
+  const _av=tenantColors[currentTenant]||'#2EE6C8';
+  const _ini=currentTenant==='all'?'★':tnInit(currentTenant);
   const stMap={online:['s-online','Online'],degraded:['s-warn','Degraded'],offline:['s-offline','Offline']};
   const rows=t.locations.map(l=>{
     const [sc,sl]=stMap[l[5]]||stMap.online;
@@ -1373,7 +1405,7 @@ function renderConfig(){
       </div>
     </div>
     <div class="cfg-bar">
-      <div class="cfg-tenant">${TX('Tenant')}: <span class="tn-avatar" style="background:${tenantColors[currentTenant]}">${tnInit(currentTenant)}</span> <b>${t.name}</b> · ${t.locations.length} ${TX('locations')}</div>
+      <div class="cfg-tenant">${TX('Tenant')}: <span class="tn-avatar" style="background:${_av}">${_ini}</span> <b>${_nm}</b> · ${t.locations.length} ${TX('locations')}</div>
     </div>
     <div class="cfg-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
       ${TX('These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.')}</div>
@@ -1491,23 +1523,54 @@ let rotI=0, rotTimer=null;
 const _mq=window.matchMedia('(max-width:1024px)');
 function setupRadars(){
   if(rotTimer){clearInterval(rotTimer);rotTimer=null;}
-  const regs=TENANTS[currentTenant].regions;
+  const regs=activeCtx().regions;
   const panelB=document.getElementById('radarPanel-B');
   const wrap=document.querySelector('.dash-radars');
   const single=regs.length<2;
   if(wrap) wrap.classList.toggle('single', single || _mq.matches);
-  if(_mq.matches){                       // mobile: one radar, rotates if tenant spans multiple regions
+  if(_mq.matches){                       // mobile: one radar, rotates if multiple regions
     if(panelB) panelB.style.display='none';
     if(regs.length>1){
       applyRegion('A',regs[rotI%regs.length]);
       rotTimer=setInterval(()=>{rotI++;applyRegion('A',regs[rotI%regs.length]);},7000);
     } else { applyRegion('A',regs[0]); }
-  } else {                               // desktop: show each region side by side
+  } else {                               // desktop
     if(single){ if(panelB) panelB.style.display='none'; applyRegion('A',regs[0]); }
-    else { if(panelB) panelB.style.display=''; applyRegion('A',regs[0]); applyRegion('B',regs[1]); }
+    else if(regs.length===2){ if(panelB) panelB.style.display=''; applyRegion('A',regs[0]); applyRegion('B',regs[1]); }
+    else {                               // 3+ regions (All Tenants): both panels sweep the set
+      if(panelB) panelB.style.display='';
+      applyRegion('A',regs[rotI%regs.length]); applyRegion('B',regs[(rotI+1)%regs.length]);
+      rotTimer=setInterval(()=>{rotI++;applyRegion('A',regs[rotI%regs.length]);applyRegion('B',regs[(rotI+1)%regs.length]);},5000);
+    }
   }
 }
 _mq.addEventListener('change',setupRadars);
+
+/* ---------- radar blip hover tooltips ---------- */
+(function(){
+  const tip=document.getElementById('radarTip');
+  const stCol={online:'#41D98A',warn:'#F6B53F',crit:'#FF5D5D',offline:'#547076'};
+  function show(b){
+    const st=b.dataset.status;
+    tip.innerHTML=`<div class="rt-site">${b.dataset.site}</div>
+      <div class="rt-meta"><span class="rt-dot" style="background:${stCol[st]}"></span>${TX(statusLabel[st])} · <code>${b.dataset.coll}</code></div>
+      <div class="rt-ten"><span class="tn-avatar" style="background:${tenantColors[b.dataset.tenant]}">${tnInit(b.dataset.tenant)}</span>${tenantName[b.dataset.tenant]}</div>`;
+    tip.classList.add('show');
+  }
+  document.addEventListener('mouseover',e=>{ const b=e.target.closest&&e.target.closest('.blip'); if(b&&b.dataset.site) show(b); });
+  document.addEventListener('mouseout',e=>{
+    const from=e.target.closest&&e.target.closest('.blip'); if(!from) return;
+    const to=e.relatedTarget&&e.relatedTarget.closest?e.relatedTarget.closest('.blip'):null;
+    if(to!==from) tip.classList.remove('show');
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!tip.classList.contains('show')) return;
+    const pad=16, r=tip.getBoundingClientRect(); let x=e.clientX+pad, y=e.clientY+pad;
+    if(x+r.width>innerWidth-8) x=e.clientX-pad-r.width;
+    if(y+r.height>innerHeight-8) y=e.clientY-pad-r.height;
+    tip.style.left=Math.max(8,x)+'px'; tip.style.top=Math.max(8,y)+'px';
+  });
+})();
 
 /* ---------- live feel ---------- */
 function clock(){
