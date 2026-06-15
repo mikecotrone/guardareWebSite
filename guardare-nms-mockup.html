@@ -626,7 +626,7 @@
     <button class="nav-item" data-screen="alerts">
       <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
       <span data-i18n="Alerts">Alerts</span>
-      <span class="badge">7</span>
+      <span class="badge" id="navAlertBadge">7</span>
     </button>
     <button class="nav-item" data-screen="reports">
       <svg viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 14l3-4 3 3 4-6"/></svg>
@@ -805,7 +805,7 @@
           <div class="panel stat warn">
             <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/></svg></span><span data-i18n="Active alerts">Active alerts</span></div>
             <div>
-              <div class="big">7</div>
+              <div class="big" id="statAlerts">7</div>
               <div class="delta down" data-i18n="▲ 2 new in last hour">▲ 2 new in last hour</div>
             </div>
             <svg class="spark" viewBox="0 0 200 42" preserveAspectRatio="none"><path d="M0 34 L40 30 L80 32 L120 22 L160 24 L200 14" fill="none" stroke="#F6B53F" stroke-width="1.5"/></svg>
@@ -1503,6 +1503,14 @@ function renderAlertsFull(){
         ? `<button class="btn" onclick="event.stopPropagation();ackOne(${i})">${TX('Acknowledge')}</button>`
         : `<span class="cell-mut" style="font-size:12px">${(a[7]==='acked'?TX('Acknowledged'):TX('Resolved'))} ✓</span>`}</div>
     </div>`).join('') || `<div class="empty" style="padding:50px"><h3>${TX('No alerts')}</h3><p>${TX('Nothing in this view.')}</p></div>`;
+  updateAlertCounts();
+}
+function updateAlertCounts(){
+  const scoped = currentTenant==='all' ? alerts : alerts.filter(a=>a[3]===currentTenant);
+  const active = scoped.filter(a=>a[7]==='active').length;
+  _set('statAlerts', String(active));
+  const b=document.getElementById('navAlertBadge');
+  if(b){ b.textContent=String(active); b.style.display = active ? '' : 'none'; }
 }
 
 /* ---------- placeholders ---------- */
