@@ -926,9 +926,12 @@
 
       <div class="metric-cards">
         <div class="panel mcard">
-          <div class="lab" data-i18n="CPU load">CPU load</div>
-          <div class="v"><span id="vitCpuV">68</span><small>%</small></div>
-          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path id="vitCpuSpark" d="M0 18 L20 16 L40 19 L60 12 L80 14 L100 8 L120 10" fill="none" stroke="#F6B53F" stroke-width="1.5"/></svg>
+          <div class="lab" data-i18n="CPU · 2 cores">CPU · 2 cores</div>
+          <div class="v" style="display:flex;gap:18px;align-items:baseline;font-size:22px">
+            <span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2EE6C8;margin-right:6px;vertical-align:1px"></i><span id="vitCpuV">1</span><small>%</small></span>
+            <span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#94A2FF;margin-right:6px;vertical-align:1px"></i><span id="vitCpu2V">1</span><small>%</small></span>
+          </div>
+          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path id="vitCpuSpark" d="M0 22 L120 22" fill="none" stroke="#2EE6C8" stroke-width="1.5"/><path id="vitCpu2Spark" d="M0 22 L120 22" fill="none" stroke="#94A2FF" stroke-width="1.5"/></svg>
         </div>
         <div class="panel mcard">
           <div class="lab" data-i18n="Throughput">Throughput</div>
@@ -1898,7 +1901,8 @@ const VIT={};
 function vitSeed(id,status,cpu,thr){
   if(VIT[id]) return;
   VIT[id]={status,cpu,cpuBase:cpu,thr,thrBase:thr,
-           cpuHist:Array(7).fill(cpu),thrHist:Array(7).fill(thr)};
+           cpuHist:Array(7).fill(cpu),thrHist:Array(7).fill(thr),
+           core0:1,core1:1,core0Hist:Array(16).fill(1),core1Hist:Array(16).fill(1)};
 }
 function vitInit(){
   fleetRows.forEach(r=>vitSeed(r[0],r[2],r[4],r[5]));
@@ -1909,37 +1913,58 @@ function vitStep(v,base,rev,sd,lo,hi){
   const noise=(Math.random()+Math.random()-1)*sd;      // ~triangular, mean 0
   return Math.max(lo,Math.min(hi, v+(base-v)*rev+noise));
 }
-function sparkPath(hist){
-  const W=120,H=24,pad=3,n=hist.length;
-  let lo=Math.min.apply(null,hist), hi=Math.max.apply(null,hist);
-  const m=(hi-lo)*0.28||1; lo-=m; hi+=m;          // pad so variation fills the height
-  const span=(hi-lo)||1;
+// per-core CPU: mostly idle near 1%, occasional spike, then decays back down
+function coreStep(v){
+  if(Math.random()<0.13) return Math.min(100, v+12+Math.random()*60);   // spike up
+  return Math.max(1, 1+(v-1)*0.62+(Math.random()-0.5)*2.2);             // decay toward ~1%
+}
+function _spark(hist,lo,hi){
+  const W=120,H=24,pad=3,n=hist.length,span=(hi-lo)||1;
   return hist.map((v,i)=>{
     const x=(i*(W/(n-1))).toFixed(1);
-    const t=(v-lo)/span;
+    const t=Math.max(0,Math.min(1,(v-lo)/span));
     const y=(H-pad-t*(H-2*pad)).toFixed(1);
     return (i?'L':'M')+x+' '+y;
   }).join(' ');
 }
+function sparkPath(hist){
+  let lo=Math.min.apply(null,hist), hi=Math.max.apply(null,hist);
+  const m=(hi-lo)*0.28||1; return _spark(hist,lo-m,hi+m);   // auto-range so variation fills height
+}
 function updateDetailVitals(){
   const coll=(currentDetailId.split(':')[1])||currentDetailId, s=VIT[coll];
   if(!s) return;
-  const cv=document.getElementById('vitCpuV'); if(cv) cv.textContent=s.cpu;
-  const cs=document.getElementById('vitCpuSpark');
-  if(cs){cs.setAttribute('d',sparkPath(s.cpuHist));
-         cs.setAttribute('stroke',s.cpu>85?'#FF5D5D':s.cpu>65?'#F6B53F':'#41D98A');}
-  const tv=document.getElementById('vitThrV'); if(tv) tv.textContent=s.thr;
+  const set=(id,val)=>{const e=document.getElementById(id); if(e) e.textContent=val;};
+  set('vitCpuV', Math.round(s.core0));
+  set('vitCpu2V', Math.round(s.core1));
+  const cs=document.getElementById('vitCpuSpark'), c2=document.getElementById('vitCpu2Spark');
+  if(cs&&c2){                                   // both cores share one scale so they're comparable
+    const all=s.core0Hist.concat(s.core1Hist);
+    let lo=Math.min.apply(null,all), hi=Math.max.apply(null,all);
+    const m=(hi-lo)*0.15||1; lo-=m; hi+=m;
+    cs.setAttribute('d',_spark(s.core0Hist,lo,hi));
+    c2.setAttribute('d',_spark(s.core1Hist,lo,hi));
+  }
+  set('vitThrV', s.thr);
   const ts=document.getElementById('vitThrSpark');
   if(ts) ts.setAttribute('d',sparkPath(s.thrHist));
 }
 function tickVitals(){
   for(const id in VIT){
     const s=VIT[id];
-    if(s.status==='offline'){s.cpu=0;s.thr=0;continue;}
-    s.cpu=Math.round(vitStep(s.cpu,s.cpuBase,0.18,2.4,2,100));   // normal CPU rate of change
+    if(s.status==='offline'){
+      s.cpu=0;s.thr=0;s.core0=0;s.core1=0;
+      s.core0Hist.push(0);s.core0Hist.shift();
+      s.core1Hist.push(0);s.core1Hist.shift();
+      continue;
+    }
+    s.cpu=Math.round(vitStep(s.cpu,s.cpuBase,0.18,2.4,2,100));   // fleet load
     s.thr=Math.round(vitStep(s.thr,s.thrBase,0.20,s.thrBase*0.02,s.thrBase*0.82,s.thrBase*1.18)); // gentle
     s.cpuHist.push(s.cpu); s.cpuHist.shift();
     s.thrHist.push(s.thr); s.thrHist.shift();
+    s.core0=coreStep(s.core0); s.core1=coreStep(s.core1);       // spiky idle cores
+    s.core0Hist.push(s.core0); s.core0Hist.shift();
+    s.core1Hist.push(s.core1); s.core1Hist.shift();
   }
   fleetRows.forEach(r=>{const s=VIT[r[0]]; if(s&&r[2]!=='offline'){r[4]=s.cpu;r[5]=s.thr;}});
   [acmeNodes,piedmontNodes,atlanticoNodes].forEach(a=>a.forEach(n=>{const s=VIT[n[0]]; if(s&&n[2]!=='offline'){n[3]=s.cpu;n[4]=s.thr;}}));
