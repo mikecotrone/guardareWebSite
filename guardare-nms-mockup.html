@@ -487,7 +487,7 @@
           <span class="t">Acme Corp</span><span class="d">14 sites · North America + Europe</span>
         </button>
         <button class="tenant-opt" data-tenant="piedmont">
-          <span class="t">Piedmont Regional Health</span><span class="d">4 sites · North Carolina</span>
+          <span class="t">Piedmont Regional Health</span><span class="d">4 sites · North Carolina, USA</span>
         </button>
       </div>
     </div>
@@ -1308,7 +1308,7 @@ function tickLog(){const p=logPool[Math.floor(Math.random()*logPool.length)];pus
 const REGIONS={
   na:{label:'North America',online:7,total:10,cap:'collectors reporting across North America · 1 critical · 1 degraded'},
   eu:{label:'Europe',online:6,total:9,cap:'collectors reporting across Europe · 1 critical · 1 degraded'},
-  nc:{label:'North Carolina',online:3,total:4,cap:'collectors reporting across North Carolina · 1 degraded'},
+  nc:{label:'North Carolina, USA',online:3,total:4,cap:'collectors reporting across North Carolina, USA · 1 degraded'},
 };
 function _set(id,t){const e=document.getElementById(id);if(e)e.textContent=t;}
 function applyRegion(S, rid){
