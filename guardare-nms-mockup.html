@@ -483,6 +483,30 @@
   .hamburger svg{width:18px;height:18px;stroke:var(--text);fill:none;stroke-width:2}
   .nav-backdrop{display:none;position:fixed;inset:0;background:#02080acc;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);z-index:55}
   .nav-backdrop.show{display:block}
+  /* confirm / reboot modal */
+  .modal-backdrop{position:fixed;inset:0;background:#02080ad0;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+    display:flex;align-items:center;justify-content:center;z-index:80;opacity:0;pointer-events:none;transition:opacity .2s}
+  .modal-backdrop.show{opacity:1;pointer-events:auto}
+  .modal{width:min(440px,92vw);background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 24px 64px #000b;
+    transform:translateY(12px) scale(.96);transition:transform .22s cubic-bezier(.2,.8,.2,1);text-align:center}
+  .modal-backdrop.show .modal{transform:none}
+  .modal-ic{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 15px}
+  .modal-ic svg{width:26px;height:26px;fill:none;stroke-width:2;stroke:currentColor}
+  .modal-ic.warn{background:#3a2a10;color:var(--amber)}
+  .modal-title{font-size:18px;font-weight:700;margin-bottom:9px}
+  .modal-text{font-size:13px;color:var(--dim);line-height:1.55;margin-bottom:21px}
+  .modal-text b{color:var(--text)}
+  .modal-acts{display:flex;gap:10px;justify-content:center}
+  .modal-acts .btn{flex:1;justify-content:center}
+  .btn.danger{background:linear-gradient(135deg,#ff6b6b,#d83a3a);color:#fff;border-color:transparent}
+  .btn.danger:hover{filter:brightness(1.08)}
+  .reboot-ring-wrap{position:relative;width:124px;height:124px;margin:4px auto 18px}
+  .reboot-ring-svg{width:124px;height:124px;transform:rotate(-90deg)}
+  .reboot-ring-svg .ring-bg{fill:none;stroke:var(--line);stroke-width:8}
+  .reboot-ring-svg .ring-fg{fill:none;stroke:var(--teal);stroke-width:8;stroke-linecap:round}
+  .reboot-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;font-family:"Open Sans";color:var(--text)}
+  .reboot-status{font-size:13px;color:var(--dim);min-height:18px;letter-spacing:.01em}
 
   @media (max-width:1024px){
     .app{grid-template-columns:1fr;grid-template-rows:56px 1fr}
@@ -906,7 +930,7 @@
         <div class="head-actions">
           <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
           <button class="btn" onclick="toast('Diagnostics requested → full collector health bundle')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
-          <button class="btn primary" onclick="toast('Reboot command queued → commands:acme-corp:site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Reboot collector">Reboot collector</span></button>
+          <button class="btn primary" onclick="openRebootModal()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Reboot collector">Reboot collector</span></button>
         </div>
       </div>
 
@@ -1124,6 +1148,27 @@
 
 <div class="radar-tip" id="radarTip"></div>
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
+
+<div class="modal-backdrop" id="rebootModal" onclick="rebootBackdrop(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rebootTitle">
+    <div id="rebootConfirm">
+      <div class="modal-ic warn"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></div>
+      <h3 class="modal-title" id="rebootTitle" data-i18n="Reboot collector?">Reboot collector?</h3>
+      <p class="modal-text">You're about to reboot <b class="mono" id="rebootTarget">acme-corp:site-04</b>. It will drop its WebSocket connection for ~10 seconds. Buffered telemetry is preserved locally and synced on reconnect.</p>
+      <div class="modal-acts">
+        <button class="btn" onclick="closeRebootModal()" data-i18n="No, cancel">No, cancel</button>
+        <button class="btn danger" onclick="confirmReboot()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Yes, reboot">Yes, reboot</span></button>
+      </div>
+    </div>
+    <div id="rebootProgress" style="display:none">
+      <div class="reboot-ring-wrap">
+        <svg viewBox="0 0 124 124" class="reboot-ring-svg"><circle cx="62" cy="62" r="52" class="ring-bg"/><circle cx="62" cy="62" r="52" id="rebootRing" class="ring-fg"/></svg>
+        <div class="reboot-num" id="rebootNum">10</div>
+      </div>
+      <div class="reboot-status" id="rebootStatus">Sending reboot command…</div>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ---------- i18n (English-as-key) ---------- */
@@ -1762,6 +1807,55 @@ function toast(msg){
   clearTimeout(toastT);
   toastT=setTimeout(()=>el.classList.remove('show'),2600);
 }
+/* ---------- reboot collector modal ---------- */
+const REBOOT_C=326.73;   // 2·π·52 (ring circumference)
+let rebootTimer=null;
+function openRebootModal(){
+  document.getElementById('rebootConfirm').style.display='block';
+  document.getElementById('rebootProgress').style.display='none';
+  document.getElementById('rebootTarget').textContent=currentDetailId;
+  document.getElementById('rebootModal').classList.add('show');
+}
+function closeRebootModal(){
+  document.getElementById('rebootModal').classList.remove('show');
+  if(rebootTimer){clearInterval(rebootTimer);rebootTimer=null;}
+}
+function rebootBackdrop(e){
+  if(e.target.id!=='rebootModal') return;                       // ignore clicks inside the card
+  if(document.getElementById('rebootConfirm').style.display!=='none') closeRebootModal(); // don't bail mid-reboot
+}
+function confirmReboot(){
+  const target=currentDetailId;
+  document.getElementById('rebootConfirm').style.display='none';
+  document.getElementById('rebootProgress').style.display='block';
+  const ring=document.getElementById('rebootRing'),
+        numEl=document.getElementById('rebootNum'),
+        statusEl=document.getElementById('rebootStatus');
+  ring.style.transition='none';                                 // reset ring
+  ring.style.stroke='var(--teal)';
+  ring.style.strokeDasharray=REBOOT_C;
+  ring.style.strokeDashoffset=0;
+  ring.getBoundingClientRect();                                 // force reflow before animating
+  requestAnimationFrame(()=>{ ring.style.transition='stroke-dashoffset 10s linear'; ring.style.strokeDashoffset=REBOOT_C; });
+  let t=10;
+  numEl.textContent=t;
+  statusEl.textContent='Sending reboot command…';
+  rebootTimer=setInterval(()=>{
+    t--;
+    if(t>0){
+      numEl.textContent=t;
+      if(t===9) statusEl.textContent='Collector going offline…';
+      else if(t===6) statusEl.textContent='Restarting microservices…';
+      else if(t===3) statusEl.textContent='Re-establishing wss:// connection…';
+    } else {
+      clearInterval(rebootTimer); rebootTimer=null;
+      numEl.textContent='✓';
+      ring.style.stroke='var(--green)';
+      statusEl.textContent='Collector back online';
+      setTimeout(()=>{ closeRebootModal(); toast('Reboot complete · '+target+' back online'); }, 1400);
+    }
+  },1000);
+}
 function ackOne(i){
   if(alerts[i]) alerts[i][7]='acked';
   renderAlertsFull();
@@ -2036,6 +2130,7 @@ document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=
 clock();setInterval(clock,1000);setInterval(jitter,2200);
 setInterval(tickLog,2400);
 vitInit();setInterval(tickVitals,2000);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){const c=document.getElementById('rebootConfirm'); if(c&&c.style.display!=='none'&&document.getElementById('rebootModal').classList.contains('show')) closeRebootModal();} });
 setLang('en');
 </script>
 </body>
