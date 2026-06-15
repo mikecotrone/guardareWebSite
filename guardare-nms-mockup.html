@@ -512,6 +512,7 @@
       <button class="lang-opt active" data-lang="en">EN</button>
       <button class="lang-opt" data-lang="it">IT</button>
       <button class="lang-opt" data-lang="fr">FR</button>
+      <button class="lang-opt" data-lang="es">ES</button>
     </div>
     <div class="op-badge">
       <div class="op-avatar">MC</div>
@@ -1058,6 +1059,50 @@ const I18N={
   "Local buffer 96% full · WAN link degraded":"Tampon local plein à 96% · liaison WAN dégradée","No heartbeat for 4 minutes · last sync 14:01":"Aucun battement depuis 4 minutes · dernière synchro 14:01",
   "68% → spiking on enrich pipeline":"68% → pics sur le pipeline d'enrichissement","512 → 42 msg/s over 90s":"512 → 42 msg/s sur 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittent",
   "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://"
+ },
+ es:{
+  "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
+  "Ops Dashboard":"Panel de operaciones","Global Fleet":"Flota global","Alerts":"Alertas",
+  "Reports & SLA":"Informes y SLA","Tenants":"Clientes","Provision Collector":"Aprovisionar collector",
+  "Audit Log":"Registro de auditoría","Locations":"Ubicaciones","Tenant Settings":"Ajustes del cliente",
+  "Search collectors, alerts, sites…":"Buscar collectors, alertas, sedes…","Guardare Administrator":"Administrador de Guardare",
+  "14 sites · North America + Europe":"14 sedes · Norteamérica + Europa","4 sites · North Carolina, USA":"4 sedes · Carolina del Norte, EE. UU.",
+  "Design preview":"Vista previa de diseño","— concept UI, not a live product.":"— interfaz conceptual, no un producto real.",
+  "All sites, alerts, and data shown are fabricated.":"Todas las sedes, alertas y datos mostrados son ficticios.","Help shape 2027 →":"Ayuda a dar forma a 2027 →",
+  "Real-time visibility across 14 collector sites · streaming over Centrifugo":"Visibilidad en tiempo real en 14 sedes con collectors · streaming vía Centrifugo",
+  "Last 24h":"Últimas 24h","Pause feed":"Pausar flujo","Live alerts":"Alertas en vivo","Fleet radar":"Radar de flota",
+  "Telemetry rate":"Tasa de telemetría","Active alerts":"Alertas activas","Fleet uptime":"Disponibilidad de flota","Sync backlog":"Cola de sincronización",
+  "▲ 6.2% vs 1h ago":"▲ 6,2% vs hace 1h","▲ 2 new in last hour":"▲ 2 nuevas en la última hora","30-day rolling SLA":"SLA móvil de 30 días","▲ site-07 offline · buffering":"▲ site-07 desconectado · almacenando",
+  "Collector health grid":"Estado de los collectors","Recent alerts":"Alertas recientes","View all →":"Ver todo →","Console":"Consola","live":"en vivo",
+  "Online":"En línea","Degraded":"Degradado","Critical":"Crítico","Offline":"Desconectado","All":"Todos",
+  "MSP view · all tenants":"Vista MSP · todos los clientes","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
+  "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto por última vez","CPU":"CPU","Throughput":"Rendimiento","Config":"Config",
+  "← Global Fleet":"← Flota global","Live logs":"Registros en vivo","Restart collector":"Reiniciar collector","CPU load":"Carga de CPU","Queue depth":"Profundidad de cola","WS latency":"Latencia WS",
+  "Telemetry · last 60 min":"Telemetría · últimos 60 min","Config snapshot":"Instantánea de config","Command panel":"Panel de comandos",
+  "Reload config":"Recargar config","Pull latest from GitHub now":"Obtener la última de GitHub ahora","Flush local queue":"Vaciar cola local","Force-sync 340 buffered messages":"Forzar sync de 340 mensajes en cola",
+  "Run diagnostics":"Ejecutar diagnóstico","Collect health bundle":"Recopilar paquete de estado","Maintenance mode":"Modo mantenimiento","Suppress alerts during work":"Silenciar alertas durante el trabajo",
+  "Identity":"Identidad","Collector ID":"ID de collector","Channel":"Canal","Architecture":"Arquitectura","Local buffer":"Búfer local","Uptime":"Tiempo activo","JWT expiry":"Caducidad JWT",
+  "Alert Management":"Gestión de alertas","Triage, acknowledge, and resolve across the fleet":"Clasifica, confirma y resuelve en toda la flota","Alert rules":"Reglas de alerta","Acknowledge all":"Confirmar todas",
+  "Active":"Activas","Acknowledged":"Confirmadas","Resolved":"Resueltas","Acknowledge":"Confirmar",
+  "No alerts":"Sin alertas","No alerts match the selected tenants.":"Ninguna alerta coincide con los clientes seleccionados.","No collectors match the selected tenants.":"Ningún collector coincide con los clientes seleccionados.",
+  "All tenants":"Todos los clientes","None":"Ninguno","selected":"seleccionados","sites":"sedes","tap to inspect":"toca para inspeccionar",
+  "North America":"Norteamérica","Europe":"Europa","North Carolina, USA":"Carolina del Norte, EE. UU.",
+  "collectors reporting across North America · 1 critical · 1 degraded":"collectors activos en Norteamérica · 1 crítico · 1 degradado",
+  "collectors reporting across Europe · 1 critical · 1 degraded":"collectors activos en Europa · 1 crítico · 1 degradado",
+  "collectors reporting across North Carolina, USA · 1 degraded":"collectors activos en Carolina del Norte, EE. UU. · 1 degradado",
+  "Top-level site locations for this tenant":"Ubicaciones principales de sedes para este cliente","Add location":"Añadir ubicación","Save changes":"Guardar cambios","locations":"ubicaciones",
+  "These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.":"Estas coordenadas definen dónde se coloca cada collector en el Radar de flota. Editar la latitud / longitud aquí reposicionará los puntos al guardar.",
+  "Location name":"Nombre de la ubicación","City / Region":"Ciudad / Región","Latitude":"Latitud","Longitude":"Longitud",
+  "Generate uptime and performance reports for any tenant.":"Genera informes de disponibilidad y rendimiento para cualquier cliente.","Build a report":"Crear un informe",
+  "Tenant Management":"Gestión de clientes","Create, suspend, and configure customer organizations.":"Crea, suspende y configura las organizaciones de clientes.","Add a tenant":"Añadir un cliente",
+  "Provision a Collector":"Aprovisionar un collector","Generate a JWT bundle and ship a zero-touch onboarding package.":"Genera un paquete JWT y distribuye un paquete de incorporación sin intervención.","Generate bundle":"Generar paquete",
+  "Global Audit Log":"Registro de auditoría global","Every state-changing action across all tenants, with filtering.":"Cada acción que cambia el estado en todos los clientes, con filtros.","View log":"Ver registro",
+  "Branding, RBAC roles, retention windows, and alert defaults per tenant.":"Marca, roles RBAC, ventanas de retención y alertas predeterminadas por cliente.","Open settings":"Abrir ajustes",
+  "Queue overflow imminent":"Desbordamiento de cola inminente","Collector unreachable":"Collector inalcanzable","CPU sustained above 85%":"CPU sostenida por encima del 85%","Throughput drop detected":"Caída de rendimiento detectada",
+  "Mountain link flapping":"Enlace de montaña inestable","Config drift":"Desviación de configuración","Collector reconnected":"Collector reconectado","New collector registered":"Nuevo collector registrado",
+  "Local buffer 96% full · WAN link degraded":"Búfer local al 96% · enlace WAN degradado","No heartbeat for 4 minutes · last sync 14:01":"Sin latido durante 4 minutos · última sync 14:01",
+  "68% → spiking on enrich pipeline":"68% → picos en la canalización de enriquecimiento","512 → 42 msg/s over 90s":"512 → 42 msg/s en 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
+  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
