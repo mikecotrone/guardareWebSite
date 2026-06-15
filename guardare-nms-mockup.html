@@ -621,16 +621,16 @@
     </button>
     <button class="nav-item" data-screen="fleet">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
-      <span data-i18n="Global Fleet">Global Fleet</span>
+      <span data-i18n="Collector Fleet">Collector Fleet</span>
     </button>
     <button class="nav-item" data-screen="alerts">
       <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
       <span data-i18n="Alerts">Alerts</span>
       <span class="badge" id="navAlertBadge">7</span>
     </button>
-    <button class="nav-item" data-screen="reports">
-      <svg viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 14l3-4 3 3 4-6"/></svg>
-      <span data-i18n="Reports &amp; SLA">Reports &amp; SLA</span>
+    <button class="nav-item" data-screen="audit">
+      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      <span data-i18n="Audit Log">Audit Log</span>
     </button>
 
     <div class="nav-group" data-i18n="MSP Management">MSP Management</div>
@@ -641,10 +641,6 @@
     <button class="nav-item" data-screen="provision">
       <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
       <span data-i18n="Provision Collector">Provision Collector</span>
-    </button>
-    <button class="nav-item" data-screen="audit">
-      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-      <span data-i18n="Audit Log">Audit Log</span>
     </button>
 
     <div class="nav-group" data-i18n="Configuration">Configuration</div>
@@ -863,7 +859,7 @@
       <div class="page-head">
         <div>
           <div class="page-eyebrow" data-i18n="MSP view · all tenants">MSP view · all tenants</div>
-          <h1 class="page-title" data-i18n="Global Fleet">Global Fleet</h1>
+          <h1 class="page-title" data-i18n="Collector Fleet">Collector Fleet</h1>
           <p class="page-sub" data-i18n="Every collector across every customer · 1,284 collectors · 92 tenants">Every collector across every customer · 1,284 collectors · 92 tenants</p>
         </div>
         <div class="head-actions">
@@ -897,7 +893,7 @@
     <section class="screen" id="screen-detail">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Global Fleet">← Global Fleet</button> / Acme Corp</div>
+          <div class="page-eyebrow"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Fleet">← Collector Fleet</button> / Acme Corp</div>
           <h1 class="page-title mono" style="font-size:24px" id="detailId">acme-corp:site-04</h1>
           <p class="page-sub"><span class="td-status s-warn" id="detailStatus" style="display:inline-flex"><i></i><span id="detailStatusTxt">Degraded</span></span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
         </div>
@@ -1124,7 +1120,7 @@ let lang='en';
 const I18N={
  it:{
   "Operations":"Operazioni","MSP Management":"Gestione MSP","Configuration":"Configurazione",
-  "MSP Global Dashboard":"Dashboard globale MSP","Global Fleet":"Flotta globale","Alerts":"Avvisi",
+  "MSP Global Dashboard":"Dashboard globale MSP","Collector Fleet":"Flotta collector","Alerts":"Avvisi",
   "Reports & SLA":"Report e SLA","Tenants":"Clienti","Provision Collector":"Provisioning collector",
   "Audit Log":"Log di audit","Locations":"Sedi","Tenant Settings":"Impostazioni cliente",
   "Search collectors, alerts, sites…":"Cerca collector, avvisi, sedi…","Guardare Administrator":"Amministratore Guardare",
@@ -1139,7 +1135,7 @@ const I18N={
   "Online":"Online","Degraded":"Degradato","Critical":"Critico","Offline":"Offline","All":"Tutti",
   "MSP view · all tenants":"Vista MSP · tutti i clienti","Every collector across every customer · 1,284 collectors · 92 tenants":"Ogni collector di ogni cliente · 1.284 collector · 92 clienti",
   "Export":"Esporta","Provision collector":"Provisioning collector","Collector":"Collector","Tenant":"Cliente","Status":"Stato","Last seen":"Ultimo contatto","CPU":"CPU","Throughput":"Throughput","Config":"Config",
-  "← Global Fleet":"← Flotta globale","Live logs":"Log in diretta","Restart collector":"Riavvia collector","CPU load":"Carico CPU","Queue depth":"Profondità coda","WS latency":"Latenza WS",
+  "← Collector Fleet":"← Flotta collector","Live logs":"Log in diretta","Restart collector":"Riavvia collector","CPU load":"Carico CPU","Queue depth":"Profondità coda","WS latency":"Latenza WS",
   "Telemetry · last 60 min":"Telemetria · ultimi 60 min","Config snapshot":"Snapshot config","Command panel":"Pannello comandi",
   "Reload config":"Ricarica config","Pull latest from GitHub now":"Scarica subito l'ultima da GitHub","Flush local queue":"Svuota coda locale","Force-sync 340 buffered messages":"Forza sync di 340 messaggi in coda",
   "Run diagnostics":"Esegui diagnostica","Collect health bundle":"Raccogli bundle di stato","Maintenance mode":"Modalità manutenzione","Suppress alerts during work":"Silenzia avvisi durante l'intervento",
@@ -1168,7 +1164,7 @@ const I18N={
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
-  "MSP Global Dashboard":"Tableau de bord global MSP","Global Fleet":"Flotte globale","Alerts":"Alertes",
+  "MSP Global Dashboard":"Tableau de bord global MSP","Collector Fleet":"Flotte de collecteurs","Alerts":"Alertes",
   "Reports & SLA":"Rapports et SLA","Tenants":"Clients","Provision Collector":"Provisionner un collecteur",
   "Audit Log":"Journal d'audit","Locations":"Emplacements","Tenant Settings":"Paramètres client",
   "Search collectors, alerts, sites…":"Rechercher collecteurs, alertes, sites…","Guardare Administrator":"Administrateur Guardare",
@@ -1183,7 +1179,7 @@ const I18N={
   "Online":"En ligne","Degraded":"Dégradé","Critical":"Critique","Offline":"Hors ligne","All":"Tous",
   "MSP view · all tenants":"Vue MSP · tous les clients","Every collector across every customer · 1,284 collectors · 92 tenants":"Chaque collecteur de chaque client · 1 284 collecteurs · 92 clients",
   "Export":"Exporter","Provision collector":"Provisionner un collecteur","Collector":"Collecteur","Tenant":"Client","Status":"Statut","Last seen":"Vu pour la dernière fois","CPU":"CPU","Throughput":"Débit","Config":"Config",
-  "← Global Fleet":"← Flotte globale","Live logs":"Logs en direct","Restart collector":"Redémarrer le collecteur","CPU load":"Charge CPU","Queue depth":"Profondeur de file","WS latency":"Latence WS",
+  "← Collector Fleet":"← Flotte de collecteurs","Live logs":"Logs en direct","Restart collector":"Redémarrer le collecteur","CPU load":"Charge CPU","Queue depth":"Profondeur de file","WS latency":"Latence WS",
   "Telemetry · last 60 min":"Télémétrie · 60 dernières min","Config snapshot":"Instantané config","Command panel":"Panneau de commandes",
   "Reload config":"Recharger la config","Pull latest from GitHub now":"Récupérer la dernière depuis GitHub","Flush local queue":"Vider la file locale","Force-sync 340 buffered messages":"Forcer la synchro de 340 messages en attente",
   "Run diagnostics":"Lancer le diagnostic","Collect health bundle":"Collecter le bundle de santé","Maintenance mode":"Mode maintenance","Suppress alerts during work":"Masquer les alertes pendant l'intervention",
@@ -1212,7 +1208,7 @@ const I18N={
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
-  "MSP Global Dashboard":"Panel global MSP","Global Fleet":"Flota global","Alerts":"Alertas",
+  "MSP Global Dashboard":"Panel global MSP","Collector Fleet":"Flota de collectors","Alerts":"Alertas",
   "Reports & SLA":"Informes y SLA","Tenants":"Clientes","Provision Collector":"Aprovisionar collector",
   "Audit Log":"Registro de auditoría","Locations":"Ubicaciones","Tenant Settings":"Ajustes del cliente",
   "Search collectors, alerts, sites…":"Buscar collectors, alertas, sedes…","Guardare Administrator":"Administrador de Guardare",
@@ -1227,7 +1223,7 @@ const I18N={
   "Online":"En línea","Degraded":"Degradado","Critical":"Crítico","Offline":"Desconectado","All":"Todos",
   "MSP view · all tenants":"Vista MSP · todos los clientes","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto por última vez","CPU":"CPU","Throughput":"Rendimiento","Config":"Config",
-  "← Global Fleet":"← Flota global","Live logs":"Registros en vivo","Restart collector":"Reiniciar collector","CPU load":"Carga de CPU","Queue depth":"Profundidad de cola","WS latency":"Latencia WS",
+  "← Collector Fleet":"← Flota de collectors","Live logs":"Registros en vivo","Restart collector":"Reiniciar collector","CPU load":"Carga de CPU","Queue depth":"Profundidad de cola","WS latency":"Latencia WS",
   "Telemetry · last 60 min":"Telemetría · últimos 60 min","Config snapshot":"Instantánea de config","Command panel":"Panel de comandos",
   "Reload config":"Recargar config","Pull latest from GitHub now":"Obtener la última de GitHub ahora","Flush local queue":"Vaciar cola local","Force-sync 340 buffered messages":"Forzar sync de 340 mensajes en cola",
   "Run diagnostics":"Ejecutar diagnóstico","Collect health bundle":"Recopilar paquete de estado","Maintenance mode":"Modo mantenimiento","Suppress alerts during work":"Silenciar alertas durante el trabajo",
@@ -1256,7 +1252,7 @@ const I18N={
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
-  "MSP Global Dashboard":"Painel global MSP","Global Fleet":"Frota global","Alerts":"Alertas",
+  "MSP Global Dashboard":"Painel global MSP","Collector Fleet":"Frota de collectors","Alerts":"Alertas",
   "Reports & SLA":"Relatórios e SLA","Tenants":"Clientes","Provision Collector":"Aprovisionar collector",
   "Audit Log":"Registo de auditoria","Locations":"Localizações","Tenant Settings":"Definições do cliente",
   "Search collectors, alerts, sites…":"Pesquisar collectors, alertas, sedes…","Guardare Administrator":"Administrador do Guardare",
@@ -1271,7 +1267,7 @@ const I18N={
   "Online":"Online","Degraded":"Degradado","Critical":"Crítico","Offline":"Offline","All":"Todos",
   "MSP view · all tenants":"Vista MSP · todos os clientes","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto pela última vez","CPU":"CPU","Throughput":"Débito","Config":"Config",
-  "← Global Fleet":"← Frota global","Live logs":"Registos em direto","Restart collector":"Reiniciar collector","CPU load":"Carga da CPU","Queue depth":"Profundidade da fila","WS latency":"Latência WS",
+  "← Collector Fleet":"← Frota de collectors","Live logs":"Registos em direto","Restart collector":"Reiniciar collector","CPU load":"Carga da CPU","Queue depth":"Profundidade da fila","WS latency":"Latência WS",
   "Telemetry · last 60 min":"Telemetria · últimos 60 min","Config snapshot":"Snapshot de config","Command panel":"Painel de comandos",
   "Reload config":"Recarregar config","Pull latest from GitHub now":"Obter a última do GitHub agora","Flush local queue":"Esvaziar fila local","Force-sync 340 buffered messages":"Forçar sync de 340 mensagens em fila",
   "Run diagnostics":"Executar diagnóstico","Collect health bundle":"Recolher pacote de estado","Maintenance mode":"Modo de manutenção","Suppress alerts during work":"Silenciar alertas durante a intervenção",
