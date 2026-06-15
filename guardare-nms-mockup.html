@@ -869,7 +869,6 @@
       </div>
 
       <div class="filters">
-        <div class="ms" id="fleetTenantFilter"></div>
         <button class="chip active"><span data-i18n="All">All</span> <span class="cell-mut" style="color:inherit" id="fleetCount">—</span></button>
         <button class="chip"><i style="background:#41D98A"></i><span data-i18n="Online">Online</span></button>
         <button class="chip"><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span></button>
@@ -1095,7 +1094,6 @@
           <button class="alert-tab"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct">3</span></button>
           <button class="alert-tab"><span data-i18n="Resolved">Resolved</span> <span class="ct">128</span></button>
         </div>
-        <div class="ms" id="alertTenantFilter"></div>
       </div>
 
       <div class="panel">
@@ -1323,8 +1321,6 @@ function setLang(l){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=TX(el.getAttribute('data-i18n')); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
   updateChrome();
-  makeMultiselect('fleetTenantFilter', fleetTenantOpts, fleetTenants, renderFleetTable);
-  makeMultiselect('alertTenantFilter', alertTenantOpts, alertTenants, renderAlertsFull);
   renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderDetail();
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
   setupRadars();
@@ -1432,7 +1428,8 @@ function renderFleetGrid(){
     </div>`).join('');
 }
 function renderMiniAlerts(){
-  document.getElementById('miniAlerts').innerHTML = alerts.slice(0,5).map(a=>`
+  const list=(currentTenant==='all'?alerts:alerts.filter(a=>a[3]===currentTenant)).slice(0,5);
+  document.getElementById('miniAlerts').innerHTML = list.map(a=>`
     <div class="alert-row" onclick="go('alerts')">
       <span class="alert-bar ${a[0]}"></span>
       <div class="alert-body">
@@ -1440,10 +1437,12 @@ function renderMiniAlerts(){
         <div class="m"><code>${a[2]}</code> · ${TX(a[4])}</div>
       </div>
       <span class="alert-time">${a[5]}</span>
-    </div>`).join('');
+    </div>`).join('') || `<div style="text-align:center;color:var(--mute);padding:22px;font-size:12.5px">${TX('No active alerts.')}</div>`;
 }
 function renderTicker(){
-  const items = alerts.map(a=>`
+  const src = currentTenant==='all' ? alerts : alerts.filter(a=>a[3]===currentTenant);
+  if(!src.length){ document.getElementById('ticker').innerHTML = `<span class="ticker-item" style="color:var(--mute)">${TX('No active alerts for this tenant.')}</span>`; return; }
+  const items = src.map(a=>`
     <span class="ticker-item">
       <span class="sev ${a[0]}">${a[0].toUpperCase()}</span>
       <code>${a[3]}:${a[2]}</code> ${TX(a[1])} <time>${a[5]}</time>
@@ -1451,7 +1450,7 @@ function renderTicker(){
   document.getElementById('ticker').innerHTML = items + items;
 }
 function renderFleetTable(){
-  const rows=fleetRows.filter(r=>fleetTenants.has(r[1]));
+  const rows = currentTenant==='all' ? fleetRows : fleetRows.filter(r=>r[1]===currentTenant);
   _set('fleetCount', String(rows.length));
   document.getElementById('fleetTable').innerHTML = rows.map(r=>`
     <tr onclick="openDetail('${r[1]}:${r[0]}')">
@@ -1462,14 +1461,14 @@ function renderFleetTable(){
       <td class="r">${r[2]==='offline'?'<span class="cell-mut">—</span>':cpuBar(r[4])}</td>
       <td class="r cell-mut">${r[2]==='offline'?'—':r[5]+' msg/s'}</td>
       <td><span class="cfg">${r[6]}</span></td>
-    </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;padding:34px;color:var(--mute)">${TX('No collectors match the selected tenants.')}</td></tr>`;
+    </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;padding:34px;color:var(--mute)">${TX('No collectors to show.')}</td></tr>`;
 }
 function cpuBar(v){
   const col = v>85?'#FF5D5D':v>65?'#F6B53F':'#41D98A';
   return `<span class="bar-mini"><span style="width:${v}%;background:${col}"></span></span><span class="cell-mut">${v}%</span>`;
 }
 function renderAlertsFull(){
-  const items=alerts.map((a,i)=>({a,i})).filter(x=>alertTenants.has(x.a[3]));
+  const items=alerts.map((a,i)=>({a,i})).filter(x=> currentTenant==='all' || x.a[3]===currentTenant);
   document.getElementById('alertFull').innerHTML = items.map(({a,i})=>`
     <div class="afull-row" id="af${i}">
       <div class="afull-sev ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg></div>
@@ -1540,7 +1539,7 @@ function makeMultiselect(mountId, options, selected, onChange){
 function switchTenant(id){
   currentTenant=id;
   updateChrome();
-  renderFleetGrid(); renderConfig(); setupRadars();
+  renderFleetGrid(); renderFleetTable(); renderAlertsFull(); renderMiniAlerts(); renderTicker(); renderConfig(); setupRadars();
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active',o.dataset.tenant===id));
   toast('Switched to '+(id==='all'?TX('All Tenants'):TENANTS[id].name));
 }
