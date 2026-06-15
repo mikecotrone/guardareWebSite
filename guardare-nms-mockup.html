@@ -66,7 +66,7 @@
   .brand-name{font-family:"Open Sans";font-weight:700;letter-spacing:.16em;font-size:15px}
   .brand-name b{color:var(--teal)}
   .brand-sub{font-size:9.5px;letter-spacing:.34em;color:var(--mute);text-transform:uppercase;margin-top:1px}
-  .brand-logo{height:28px;width:auto;display:block;flex:0 0 auto}
+  .brand-logo{height:40px;width:auto;display:block;flex:0 0 auto;filter:brightness(0) invert(1)}
   .brand-div{width:1px;height:24px;background:var(--line);flex:0 0 auto}
   .brand-org{font-size:9.5px;letter-spacing:.2em;line-height:1.3;text-transform:uppercase;color:var(--mute);font-weight:600;white-space:nowrap}
   .brand-org b{display:block;color:var(--dim);font-weight:700}
@@ -510,7 +510,7 @@
     .op-meta{display:none}
     .tenant-switch small{display:none}
     .brand-org,.brand-div{display:none}
-    .brand-logo{height:20px}
+    .brand-logo{height:28px}
     .lang-switch{display:none}
     .lang-mini{display:block}
     .topbar{gap:8px;padding:0 12px}
@@ -1909,11 +1909,14 @@ function vitStep(v,base,rev,sd,lo,hi){
   const noise=(Math.random()+Math.random()-1)*sd;      // ~triangular, mean 0
   return Math.max(lo,Math.min(hi, v+(base-v)*rev+noise));
 }
-function sparkPath(hist,lo,hi){
-  const W=120,H=24,pad=3,n=hist.length,span=(hi-lo)||1;
+function sparkPath(hist){
+  const W=120,H=24,pad=3,n=hist.length;
+  let lo=Math.min.apply(null,hist), hi=Math.max.apply(null,hist);
+  const m=(hi-lo)*0.28||1; lo-=m; hi+=m;          // pad so variation fills the height
+  const span=(hi-lo)||1;
   return hist.map((v,i)=>{
     const x=(i*(W/(n-1))).toFixed(1);
-    const t=Math.max(0,Math.min(1,(v-lo)/span));
+    const t=(v-lo)/span;
     const y=(H-pad-t*(H-2*pad)).toFixed(1);
     return (i?'L':'M')+x+' '+y;
   }).join(' ');
@@ -1923,11 +1926,11 @@ function updateDetailVitals(){
   if(!s) return;
   const cv=document.getElementById('vitCpuV'); if(cv) cv.textContent=s.cpu;
   const cs=document.getElementById('vitCpuSpark');
-  if(cs){cs.setAttribute('d',sparkPath(s.cpuHist,0,100));
+  if(cs){cs.setAttribute('d',sparkPath(s.cpuHist));
          cs.setAttribute('stroke',s.cpu>85?'#FF5D5D':s.cpu>65?'#F6B53F':'#41D98A');}
   const tv=document.getElementById('vitThrV'); if(tv) tv.textContent=s.thr;
   const ts=document.getElementById('vitThrSpark');
-  if(ts) ts.setAttribute('d',sparkPath(s.thrHist,s.thrBase*0.78,s.thrBase*1.22));
+  if(ts) ts.setAttribute('d',sparkPath(s.thrHist));
 }
 function tickVitals(){
   for(const id in VIT){
