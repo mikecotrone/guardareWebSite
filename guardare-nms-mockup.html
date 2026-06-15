@@ -403,7 +403,11 @@
   .svc-m .l{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:3px}
   .svc-impact{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--amber)}
   .svc-protos{display:flex;flex-wrap:wrap;gap:6px}
-  .proto{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:5px;padding:3px 7px}
+  .proto{position:relative;display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:5px;padding:3px 7px}
+  .proto::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(3px);background:var(--raise);color:var(--text);border:1px solid var(--line);font-size:11px;font-weight:500;line-height:1;white-space:nowrap;padding:6px 9px;border-radius:7px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .14s,transform .14s;z-index:60}
+  .proto::before{content:"";position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--raise);opacity:0;pointer-events:none;transition:opacity .14s;z-index:60}
+  .proto:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+  .proto:hover::before{opacity:1}
   .proto i{width:6px;height:6px;border-radius:99px;flex:0 0 auto}
   .proto b{color:var(--text);font-weight:700;font-family:"Open Sans"}
   .svc-impact svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;flex:0 0 auto}
@@ -869,11 +873,11 @@
       </div>
 
       <div class="filters">
-        <button class="chip active"><span data-i18n="All">All</span> <span class="cell-mut" style="color:inherit" id="fleetCount">—</span></button>
-        <button class="chip"><i style="background:#41D98A"></i><span data-i18n="Online">Online</span></button>
-        <button class="chip"><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span></button>
-        <button class="chip"><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span></button>
-        <button class="chip"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span></button>
+        <button class="chip active" data-fs="all" onclick="setFleetFilter('all')"><span data-i18n="All">All</span> <span class="cell-mut" style="color:inherit" id="fleetCount">—</span></button>
+        <button class="chip" data-fs="online" onclick="setFleetFilter('online')"><i style="background:#41D98A"></i><span data-i18n="Online">Online</span> <span class="cell-mut" id="fcOnline">—</span></button>
+        <button class="chip" data-fs="warn" onclick="setFleetFilter('warn')"><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span> <span class="cell-mut" id="fcWarn">—</span></button>
+        <button class="chip" data-fs="crit" onclick="setFleetFilter('crit')"><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span> <span class="cell-mut" id="fcCrit">—</span></button>
+        <button class="chip" data-fs="offline" onclick="setFleetFilter('offline')"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span> <span class="cell-mut" id="fcOffline">—</span></button>
       </div>
 
       <div class="panel">
@@ -1090,9 +1094,9 @@
 
       <div class="alert-tabs-row">
         <div class="alert-tabs">
-          <button class="alert-tab active"><span data-i18n="Active">Active</span> <span class="ct">7</span></button>
-          <button class="alert-tab"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct">3</span></button>
-          <button class="alert-tab"><span data-i18n="Resolved">Resolved</span> <span class="ct">128</span></button>
+          <button class="alert-tab active" data-atab="active" onclick="setAlertTab('active')"><span data-i18n="Active">Active</span> <span class="ct" id="ctActive">0</span></button>
+          <button class="alert-tab" data-atab="acked" onclick="setAlertTab('acked')"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct" id="ctAcked">0</span></button>
+          <button class="alert-tab" data-atab="resolved" onclick="setAlertTab('resolved')"><span data-i18n="Resolved">Resolved</span> <span class="ct" id="ctResolved">0</span></button>
         </div>
       </div>
 
@@ -1396,14 +1400,14 @@ const fleetRows = [
 ];
 
 const alerts = [
-  ['critical','Queue overflow imminent','site-09','acme-corp','Local buffer 96% full · WAN link degraded','2m ago','13:58'],
-  ['critical','Collector unreachable','clinic-7','meridian','No heartbeat for 4 minutes · last sync 14:01','4m ago','14:01'],
-  ['warning','CPU sustained above 85%','site-04','acme-corp','68% → spiking on enrich pipeline','7m ago','13:53'],
-  ['warning','Throughput drop detected','store-51','cascade','512 → 42 msg/s over 90s','9m ago','13:51'],
-  ['warning','Mountain link flapping','avl-01','piedmont','Asheville backhaul 180 msg/s · intermittent','11m ago','13:49'],
-  ['warning','Config drift','dc-east','northwind','Running c4d8a91, repo expects c4d8a92','14m ago','13:46'],
-  ['info','Collector reconnected','site-02','acme-corp','Recovered after 12s WS drop','22m ago','13:38'],
-  ['info','New collector registered','warehouse-1','northwind','Auto-registered on first wss:// connect','31m ago','13:29'],
+  ['critical','Queue overflow imminent','site-09','acme-corp','Local buffer 96% full · WAN link degraded','2m ago','13:58','active'],
+  ['critical','Collector unreachable','clinic-7','meridian','No heartbeat for 4 minutes · last sync 14:01','4m ago','14:01','active'],
+  ['warning','CPU sustained above 85%','site-04','acme-corp','68% → spiking on enrich pipeline','7m ago','13:53','active'],
+  ['warning','Throughput drop detected','store-51','cascade','512 → 42 msg/s over 90s','9m ago','13:51','acked'],
+  ['warning','Mountain link flapping','avl-01','piedmont','Asheville backhaul 180 msg/s · intermittent','11m ago','13:49','active'],
+  ['warning','Config drift','dc-east','northwind','Running c4d8a91, repo expects c4d8a92','14m ago','13:46','acked'],
+  ['info','Collector reconnected','site-02','acme-corp','Recovered after 12s WS drop','22m ago','13:38','resolved'],
+  ['info','New collector registered','warehouse-1','northwind','Auto-registered on first wss:// connect','31m ago','13:29','resolved'],
 ];
 const sevIcon = {
   critical:'<path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/>',
@@ -1449,9 +1453,18 @@ function renderTicker(){
     </span>`).join('');
   document.getElementById('ticker').innerHTML = items + items;
 }
+let fleetStatus='all';
+function setFleetFilter(s){
+  fleetStatus=s;
+  document.querySelectorAll('.filters .chip').forEach(c=>c.classList.toggle('active', c.dataset.fs===s));
+  renderFleetTable();
+}
 function renderFleetTable(){
-  const rows = currentTenant==='all' ? fleetRows : fleetRows.filter(r=>r[1]===currentTenant);
-  _set('fleetCount', String(rows.length));
+  const base = currentTenant==='all' ? fleetRows : fleetRows.filter(r=>r[1]===currentTenant);
+  const rows = fleetStatus==='all' ? base : base.filter(r=>r[2]===fleetStatus);
+  _set('fleetCount', String(base.length));
+  const cnt=s=>base.filter(r=>r[2]===s).length;
+  _set('fcOnline',String(cnt('online'))); _set('fcWarn',String(cnt('warn'))); _set('fcCrit',String(cnt('crit'))); _set('fcOffline',String(cnt('offline')));
   document.getElementById('fleetTable').innerHTML = rows.map(r=>`
     <tr onclick="openDetail('${r[1]}:${r[0]}')">
       <td class="cell-id">${r[0]}</td>
@@ -1467,8 +1480,17 @@ function cpuBar(v){
   const col = v>85?'#FF5D5D':v>65?'#F6B53F':'#41D98A';
   return `<span class="bar-mini"><span style="width:${v}%;background:${col}"></span></span><span class="cell-mut">${v}%</span>`;
 }
+let alertTab='active';
+function setAlertTab(t){
+  alertTab=t;
+  document.querySelectorAll('.alert-tab').forEach(b=>b.classList.toggle('active', b.dataset.atab===t));
+  renderAlertsFull();
+}
 function renderAlertsFull(){
-  const items=alerts.map((a,i)=>({a,i})).filter(x=> currentTenant==='all' || x.a[3]===currentTenant);
+  const scoped=alerts.map((a,i)=>({a,i})).filter(x=> currentTenant==='all' || x.a[3]===currentTenant);
+  const cnt=s=>scoped.filter(x=>x.a[7]===s).length;
+  _set('ctActive',String(cnt('active'))); _set('ctAcked',String(cnt('acked'))); _set('ctResolved',String(cnt('resolved')));
+  const items=scoped.filter(x=>x.a[7]===alertTab);
   document.getElementById('alertFull').innerHTML = items.map(({a,i})=>`
     <div class="afull-row" id="af${i}">
       <div class="afull-sev ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg></div>
@@ -1477,10 +1499,10 @@ function renderAlertsFull(){
         <div class="m"><span class="tn">${tenantName[a[3]]}</span><code>${a[2]}</code><span>${TX(a[4])}</span></div>
       </div>
       <div class="afull-time"><b>${a[6]}</b>${a[5]}</div>
-      <div class="afull-act">
-        <button class="btn" onclick="event.stopPropagation();ackOne(${i})">${TX('Acknowledge')}</button>
-      </div>
-    </div>`).join('') || `<div class="empty" style="padding:50px"><h3>${TX('No alerts')}</h3><p>${TX('No alerts match the selected tenants.')}</p></div>`;
+      <div class="afull-act">${a[7]==='active'
+        ? `<button class="btn" onclick="event.stopPropagation();ackOne(${i})">${TX('Acknowledge')}</button>`
+        : `<span class="cell-mut" style="font-size:12px">${(a[7]==='acked'?TX('Acknowledged'):TX('Resolved'))} ✓</span>`}</div>
+    </div>`).join('') || `<div class="empty" style="padding:50px"><h3>${TX('No alerts')}</h3><p>${TX('Nothing in this view.')}</p></div>`;
 }
 
 /* ---------- placeholders ---------- */
@@ -1613,6 +1635,7 @@ const SVC_ICONS={
 const SVC_WARN='<svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>';
 const PROTO_COLOR={snmp:'var(--teal)',api:'var(--violet)',cli:'var(--amber)'};
 const PROTO_LABEL={snmp:'SNMP',api:'API',cli:'CLI'};
+const PROTO_TIP={snmp:'SNMP polling targets',api:'API polling targets',cli:'CLI polling targets'};
 function svcSeed(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=(h<<13)|(h>>>19);}return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);return ((h^=h>>>16)>>>0)/4294967296;};}
 function genServices(id){
   const r=svcSeed(id), ri=(a,b)=>Math.floor(r()*(b-a+1))+a, pick=a=>a[Math.floor(r()*a.length)];
@@ -1629,7 +1652,7 @@ function genServices(id){
     hudusync:{cats:ri(4,16),assets:ri(180,3400),synced:ri(1,18),ver:`v0.${ri(1,9)}.${ri(0,9)}`,status:'online'}
   };
 }
-function protoChips(p){return `<div class="svc-protos">`+Object.keys(p).map(k=>`<span class="proto"><i style="background:${PROTO_COLOR[k]}"></i>${PROTO_LABEL[k]} <b>${p[k]}</b></span>`).join('')+`</div>`;}
+function protoChips(p){return `<div class="svc-protos">`+Object.keys(p).map(k=>`<span class="proto" data-tip="${TX(PROTO_TIP[k])}" aria-label="${TX(PROTO_TIP[k])}"><i style="background:${PROTO_COLOR[k]}"></i>${PROTO_LABEL[k]} <b>${p[k]}</b></span>`).join('')+`</div>`;}
 function svcCard(o){
   const metrics=o.metrics.map(m=>`<div class="svc-m"><div class="n">${m.n}${m.unit?`<small>${m.unit}</small>`:''}</div><div class="l">${TX(m.l)}</div></div>`).join('');
   const acts=o.acts.map(a=>`<button class="svc-act" data-tip="${TX(a.tip)}" aria-label="${TX(a.tip)}" onclick="toast('${a.toast}')">${a.icon}</button>`).join('');
@@ -1711,8 +1734,8 @@ function toast(msg){
   toastT=setTimeout(()=>el.classList.remove('show'),2600);
 }
 function ackOne(i){
-  const row=document.getElementById('af'+i);
-  if(row){row.style.opacity='.4';row.querySelector('.afull-act').innerHTML='<span class="cell-mut" style="font-size:12px">Acknowledged ✓</span>';}
+  if(alerts[i]) alerts[i][7]='acked';
+  renderAlertsFull();
   toast('Alert acknowledged · logged to audit trail');
 }
 function ackAll(){
