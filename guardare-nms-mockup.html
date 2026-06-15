@@ -87,6 +87,17 @@
   .lang-opt:hover{color:var(--text)}
   .lang-opt.active{background:var(--teal);color:#04201b}
 
+  /* compact language dropdown (mobile) */
+  .lang-mini{display:none;position:relative}
+  .lang-mini-btn{display:flex;align-items:center;gap:5px;padding:6px 9px;border-radius:99px;background:var(--bg-2);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--text)}
+  .lang-mini-btn svg{width:14px;height:14px;opacity:.7}
+  .lang-mini-btn svg.cv{width:11px;opacity:.5}
+  .lang-mini-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:152px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:6px;z-index:90;display:none}
+  .lang-mini-menu.open{display:block}
+  .lang-mini-opt{display:block;width:100%;text-align:left;padding:8px 11px;border-radius:var(--r-sm);font-size:13px;color:var(--text);transition:.12s}
+  .lang-mini-opt:hover{background:var(--bg-2)}
+  .lang-mini-opt.active{background:var(--teal-ghost);color:var(--teal);font-weight:600}
+
   /* radar blip tooltip */
   .dash-radars.paused .radar-sweep{animation-play-state:paused}
   .radar-tip{position:fixed;z-index:200;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
@@ -457,7 +468,13 @@
     .op-meta{display:none}
     .tenant-switch small{display:none}
     .brand-org,.brand-div{display:none}
-    .brand-logo{height:24px}
+    .brand-logo{height:20px}
+    .lang-switch{display:none}
+    .lang-mini{display:block}
+    .topbar{gap:8px;padding:0 12px}
+    .op-badge{display:none}
+    .tenant-switch{padding:6px 9px;gap:6px}
+    .tenant-switch #tenantName{display:inline-block;max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
     .stat-grid{grid-template-columns:1fr}
     .stat-grid.stat-strip{grid-template-columns:1fr}
     .page-title{font-size:22px}
@@ -531,6 +548,20 @@
       <button class="lang-opt" data-lang="fr">FR</button>
       <button class="lang-opt" data-lang="es">ES</button>
       <button class="lang-opt" data-lang="pt">PT</button>
+    </div>
+    <div class="lang-mini">
+      <button class="lang-mini-btn" id="langMiniBtn" aria-label="Language">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        <span id="langMiniLabel">EN</span>
+        <svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="lang-mini-menu" id="langMiniMenu">
+        <button class="lang-mini-opt active" data-lang="en">English</button>
+        <button class="lang-mini-opt" data-lang="it">Italiano</button>
+        <button class="lang-mini-opt" data-lang="fr">Français</button>
+        <button class="lang-mini-opt" data-lang="es">Español</button>
+        <button class="lang-mini-opt" data-lang="pt">Português</button>
+      </div>
     </div>
     <div class="op-badge">
       <div class="op-avatar">MC</div>
@@ -1200,6 +1231,8 @@ function setLang(l){
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
   setupRadars();
   document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===l));
+  const lml=document.getElementById('langMiniLabel'); if(lml) lml.textContent=l.toUpperCase();
+  document.querySelectorAll('.lang-mini-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===l));
 }
 
 /* ---------- data ---------- */
@@ -1380,7 +1413,7 @@ const fleetTenantOpts=[...new Set(fleetRows.map(r=>r[1]))];
 const alertTenantOpts=[...new Set(alerts.map(a=>a[3]))];
 const fleetTenants=new Set(fleetTenantOpts);
 const alertTenants=new Set(alertTenantOpts);
-function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open').forEach(m=>m.classList.remove('open')); }
+function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open,.lang-mini-menu.open').forEach(m=>m.classList.remove('open')); }
 document.addEventListener('click',closeAllMenus);
 function makeMultiselect(mountId, options, selected, onChange){
   const el=document.getElementById(mountId); if(!el) return;
@@ -1641,6 +1674,13 @@ function jitter(){
 /* ---------- init ---------- */
 wireTenantMenu();
 document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=>setLang(o.dataset.lang)));
+(function(){
+  const lmBtn=document.getElementById('langMiniBtn'), lmMenu=document.getElementById('langMiniMenu');
+  if(!lmBtn) return;
+  lmMenu.onclick=e=>e.stopPropagation();
+  lmBtn.onclick=e=>{e.stopPropagation();const open=lmMenu.classList.contains('open');closeAllMenus();if(!open)lmMenu.classList.add('open');};
+  document.querySelectorAll('.lang-mini-opt').forEach(o=>o.addEventListener('click',()=>{setLang(o.dataset.lang);closeAllMenus();}));
+})();
 clock();setInterval(clock,1000);setInterval(jitter,2200);
 setInterval(tickLog,2400);
 setLang('en');
