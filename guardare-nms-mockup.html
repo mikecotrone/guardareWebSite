@@ -402,13 +402,21 @@
   .svc-m .n small{font-size:10.5px;color:var(--dim);font-weight:500;margin-left:1px}
   .svc-m .l{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:3px}
   .svc-impact{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--amber)}
+  .svc-protos{display:flex;flex-wrap:wrap;gap:6px}
+  .proto{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:5px;padding:3px 7px}
+  .proto i{width:6px;height:6px;border-radius:99px;flex:0 0 auto}
+  .proto b{color:var(--text);font-weight:700;font-family:"Open Sans"}
   .svc-impact svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;flex:0 0 auto}
   .svc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line-soft);padding-top:11px;margin-top:auto}
   .svc-ver{font-family:"Open Sans";font-size:11px;color:var(--mute)}
   .svc-acts{display:flex;gap:6px}
-  .svc-act{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);color:var(--dim);transition:.14s}
+  .svc-act{position:relative;width:28px;height:28px;border-radius:7px;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);color:var(--dim);transition:.14s}
   .svc-act:hover{border-color:var(--teal-deep);color:var(--teal)}
   .svc-act svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .svc-act::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(3px);background:var(--raise);color:var(--text);border:1px solid var(--line);font-size:11px;font-weight:500;line-height:1;white-space:nowrap;padding:6px 9px;border-radius:7px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .14s,transform .14s;z-index:60}
+  .svc-act::before{content:"";position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--raise);opacity:0;pointer-events:none;transition:opacity .14s;z-index:60}
+  .svc-act:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+  .svc-act:hover::before{opacity:1}
 
   /* top-level identity strip */
   .id-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px 18px;padding:16px 18px}
@@ -888,7 +896,7 @@
         <div>
           <div class="page-eyebrow"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Global Fleet">← Global Fleet</button> / Acme Corp</div>
           <h1 class="page-title mono" style="font-size:24px" id="detailId">acme-corp:site-04</h1>
-          <p class="page-sub"><span class="td-status s-warn" style="display:inline-flex"><i></i><span data-i18n="Degraded">Degraded</span></span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
+          <p class="page-sub"><span class="td-status s-warn" id="detailStatus" style="display:inline-flex"><i></i><span id="detailStatusTxt">Degraded</span></span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
@@ -900,9 +908,9 @@
       <div class="panel mb18">
         <div class="panel-head"><h3 data-i18n="Identity">Identity</h3></div>
         <div class="id-grid">
-          <div class="id-item"><span class="k" data-i18n="Collector ID">Collector ID</span><span class="vv" style="color:var(--teal)">site-04</span></div>
-          <div class="id-item"><span class="k" data-i18n="Tenant">Tenant</span><span class="vv">acme-corp</span></div>
-          <div class="id-item"><span class="k" data-i18n="Channel">Channel</span><span class="vv" style="color:var(--dim)">telemetry:acme-corp:site-04</span></div>
+          <div class="id-item"><span class="k" data-i18n="Collector ID">Collector ID</span><span class="vv" id="idColl" style="color:var(--teal)">site-04</span></div>
+          <div class="id-item"><span class="k" data-i18n="Tenant">Tenant</span><span class="vv" id="idTenant">acme-corp</span></div>
+          <div class="id-item"><span class="k" data-i18n="Channel">Channel</span><span class="vv" id="idChannel" style="color:var(--dim)">telemetry:acme-corp:site-04</span></div>
           <div class="id-item"><span class="k" data-i18n="Architecture">Architecture</span><span class="vv">Linux ARM64</span></div>
           <div class="id-item"><span class="k" data-i18n="Local buffer">Local buffer</span><span class="vv">MariaDB 11.4</span></div>
           <div class="id-item"><span class="k" data-i18n="Uptime">Uptime</span><span class="vv">18d 6h</span></div>
@@ -936,13 +944,13 @@
       <div class="panel mb18">
         <div class="panel-head">
           <h3 data-i18n="Platform Microservice Management">Platform Microservice Management</h3>
-          <span class="td-status s-warn" style="font-size:11.5px"><i></i><span data-i18n="1 service degraded">1 service degraded</span></span>
+          <span class="td-status s-warn" id="svcSummary" style="font-size:11.5px"><i></i><span id="svcSummaryTxt">1 service degraded</span></span>
         </div>
         <div class="svc-note">
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           <span data-i18n="The Guardare Collector runs as these four microservices — the NMS layer depends on them.">The Guardare Collector runs as these four microservices — the NMS layer depends on them.</span>
         </div>
-        <div class="svc-grid">
+        <div class="svc-grid" id="svcGrid">
 
           <div class="svc-card">
             <div class="svc-top">
@@ -956,9 +964,9 @@
             <div class="svc-foot">
               <span class="svc-ver">v3.2.1</span>
               <div class="svc-acts">
-                <button class="svc-act" title="Reload config" onclick="toast('vCollector · reload config sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" title="Flush queue (force-sync buffered)" onclick="toast('vCollector · flush queue → force-syncing 340 buffered')"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
-                <button class="svc-act" title="Restart service" onclick="toast('vCollector · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="toast('vCollector · reload config sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Flush queue" aria-label="Flush queue" onclick="toast('vCollector · flush queue → force-syncing 340 buffered')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('vCollector · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -975,8 +983,8 @@
             <div class="svc-foot">
               <span class="svc-ver">v2.8.0</span>
               <div class="svc-acts">
-                <button class="svc-act" title="Reload vendor profiles" onclick="toast('Normalizer · reload profiles sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" title="Restart service" onclick="toast('Normalizer · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+                <button class="svc-act" data-tip="Reload profiles" aria-label="Reload profiles" onclick="toast('Normalizer · reload profiles sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('Normalizer · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -994,9 +1002,9 @@
             <div class="svc-foot">
               <span class="svc-ver">v1.9.4</span>
               <div class="svc-acts">
-                <button class="svc-act" title="Reload rules" onclick="toast('Events Director · reload rules sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" title="Maintenance mode (suppress alerts)" onclick="toast('Events Director · maintenance ON → alerts suppressed')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M3 3l18 18"/></svg></button>
-                <button class="svc-act" title="Restart service" onclick="toast('Events Director · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+                <button class="svc-act" data-tip="Reload rules" aria-label="Reload rules" onclick="toast('Events Director · reload rules sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Maintenance" aria-label="Maintenance" onclick="toast('Events Director · maintenance ON → alerts suppressed')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M3 3l18 18"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('Events Director · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -1013,9 +1021,9 @@
             <div class="svc-foot">
               <span class="svc-ver">v0.7.2 · synced 2m ago</span>
               <div class="svc-acts">
-                <button class="svc-act" title="Resync now" onclick="toast('HuduSync · resync to Hudu started')"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15 6.7M3 12a9 9 0 0 1 15-6.7M18 4v4h-4M6 20v-4h4"/></svg></button>
-                <button class="svc-act" title="Reload config" onclick="toast('HuduSync · reload config sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" title="Restart service" onclick="toast('HuduSync · restart queued')"><svg viewBox="0 0 24 24"><path d="M12 4v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+                <button class="svc-act" data-tip="Resync" aria-label="Resync" onclick="toast('HuduSync · resync to Hudu started')"><svg viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0-15.5-2"/><path d="M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2"/><path d="M20 19v-4h-4"/></svg></button>
+                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="toast('HuduSync · reload config sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('HuduSync · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -1317,7 +1325,7 @@ function setLang(l){
   updateChrome();
   makeMultiselect('fleetTenantFilter', fleetTenantOpts, fleetTenants, renderFleetTable);
   makeMultiselect('alertTenantFilter', alertTenantOpts, alertTenants, renderAlertsFull);
-  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();
+  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderDetail();
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
   setupRadars();
   document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===l));
@@ -1596,8 +1604,86 @@ function go(screen){
   });
   document.getElementById('main').scrollTop=0;
 }
+const SVC_ICONS={
+  reload:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg>',
+  flush:'<svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>',
+  restart:'<svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg>',
+  maint:'<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M3 3l18 18"/></svg>',
+  resync:'<svg viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0-15.5-2"/><path d="M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2"/><path d="M20 19v-4h-4"/></svg>'
+};
+const SVC_WARN='<svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>';
+const PROTO_COLOR={snmp:'var(--teal)',api:'var(--violet)',cli:'var(--amber)'};
+const PROTO_LABEL={snmp:'SNMP',api:'API',cli:'CLI'};
+function svcSeed(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=(h<<13)|(h>>>19);}return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);return ((h^=h>>>16)>>>0)/4294967296;};}
+function genServices(id){
+  const r=svcSeed(id), ri=(a,b)=>Math.floor(r()*(b-a+1))+a, pick=a=>a[Math.floor(r()*a.length)];
+  // some collectors only poll SNMP or only API; others mix
+  const modes=[['snmp'],['snmp'],['api'],['snmp','api'],['snmp','api'],['snmp','api','cli'],['snmp','cli'],['api','cli']];
+  const ranges={snmp:[8,64],api:[6,40],cli:[2,16]}, protos={};
+  pick(modes).forEach(p=>{protos[p]=ri(ranges[p][0],ranges[p][1]);});
+  const total=Object.values(protos).reduce((a,b)=>a+b,0);
+  const nErr=r()<0.82?0:ri(1,12), dispatch=ri(35,620);
+  return {
+    vcollector:{throughput:Math.round(total*ri(9,17)),total,protos,ver:`v3.${ri(0,9)}.${ri(0,9)}`,status:'online'},
+    normalizer:{profiles:ri(6,20),errors:nErr,ver:`v2.${ri(0,9)}.${ri(0,9)}`,status:nErr>0?'warn':'online'},
+    events:{rules:ri(45,320),dispatch,ver:`v1.${ri(0,9)}.${ri(0,9)}`,status:dispatch>320?'warn':'online'},
+    hudusync:{cats:ri(4,16),assets:ri(180,3400),synced:ri(1,18),ver:`v0.${ri(1,9)}.${ri(0,9)}`,status:'online'}
+  };
+}
+function protoChips(p){return `<div class="svc-protos">`+Object.keys(p).map(k=>`<span class="proto"><i style="background:${PROTO_COLOR[k]}"></i>${PROTO_LABEL[k]} <b>${p[k]}</b></span>`).join('')+`</div>`;}
+function svcCard(o){
+  const metrics=o.metrics.map(m=>`<div class="svc-m"><div class="n">${m.n}${m.unit?`<small>${m.unit}</small>`:''}</div><div class="l">${TX(m.l)}</div></div>`).join('');
+  const acts=o.acts.map(a=>`<button class="svc-act" data-tip="${TX(a.tip)}" aria-label="${TX(a.tip)}" onclick="toast('${a.toast}')">${a.icon}</button>`).join('');
+  return `<div class="svc-card ${o.deg?'deg':''}">
+    <div class="svc-top"><div><div class="svc-name">${o.name}</div><div class="svc-role">${TX(o.role)}</div></div>
+      <span class="td-status ${statusClass[o.status]}"><i></i>${TX(statusLabel[o.status])}</span></div>
+    <div class="svc-metrics">${metrics}</div>${o.protos||''}${o.impact?`<div class="svc-impact">${SVC_WARN}<span>${TX(o.impact)}</span></div>`:''}
+    <div class="svc-foot"><span class="svc-ver">${o.ver}${o.verExtra||''}</span><div class="svc-acts">${acts}</div></div>
+  </div>`;
+}
+let currentDetailId='acme-corp:site-04';
+function renderDetail(){
+  const id=currentDetailId, parts=id.split(':'), ten=parts[0], coll=parts[1]||id;
+  const set=(i,t)=>{const e=document.getElementById(i); if(e) e.textContent=t;};
+  set('detailId',id); set('idColl',coll); set('idTenant',ten); set('idChannel','telemetry:'+id);
+  const S=genServices(id);
+  const cards=[
+    svcCard({name:'vCollector',role:'Ingests device data',status:S.vcollector.status,
+      metrics:[{n:S.vcollector.throughput,unit:'msg/s',l:'Throughput'},{n:S.vcollector.total,l:'Targets'}],
+      protos:protoChips(S.vcollector.protos),ver:S.vcollector.ver,
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:`vCollector · reload config sent → ${coll}`},
+            {tip:'Flush queue',icon:SVC_ICONS.flush,toast:`vCollector · flush queue → ${coll}`},
+            {tip:'Restart',icon:SVC_ICONS.restart,toast:`vCollector · restart queued`}]}),
+    svcCard({name:'Normalizer',role:'Standardizes telemetry',status:S.normalizer.status,deg:S.normalizer.status!=='online',
+      metrics:[{n:S.normalizer.profiles,l:'Profiles'},{n:S.normalizer.errors,l:'Errors'}],
+      impact:S.normalizer.status!=='online'?'Normalization errors':null,ver:S.normalizer.ver,
+      acts:[{tip:'Reload profiles',icon:SVC_ICONS.reload,toast:`Normalizer · reload profiles sent → ${coll}`},
+            {tip:'Restart',icon:SVC_ICONS.restart,toast:`Normalizer · restart queued`}]}),
+    svcCard({name:'Events Director',role:'Events & alerting',status:S.events.status,deg:S.events.status!=='online',
+      metrics:[{n:S.events.rules,l:'Rules'},{n:S.events.dispatch,unit:'ms',l:'Dispatch'}],
+      impact:S.events.status!=='online'?'Alerting delayed':null,ver:S.events.ver,
+      acts:[{tip:'Reload rules',icon:SVC_ICONS.reload,toast:`Events Director · reload rules sent → ${coll}`},
+            {tip:'Maintenance',icon:SVC_ICONS.maint,toast:`Events Director · maintenance ON → alerts suppressed`},
+            {tip:'Restart',icon:SVC_ICONS.restart,toast:`Events Director · restart queued`}]}),
+    svcCard({name:'HuduSync',role:'Docs & asset sync',status:S.hudusync.status,
+      metrics:[{n:S.hudusync.cats,l:'Categories'},{n:S.hudusync.assets.toLocaleString(),l:'Assets'}],
+      ver:S.hudusync.ver,verExtra:` · synced ${S.hudusync.synced}m ago`,
+      acts:[{tip:'Resync',icon:SVC_ICONS.resync,toast:`HuduSync · resync to Hudu started`},
+            {tip:'Reload config',icon:SVC_ICONS.reload,toast:`HuduSync · reload config sent → ${coll}`},
+            {tip:'Restart',icon:SVC_ICONS.restart,toast:`HuduSync · restart queued`}]})
+  ].join('');
+  const grid=document.getElementById('svcGrid'); if(grid) grid.innerHTML=cards;
+  const deg=[S.vcollector,S.normalizer,S.events,S.hudusync].filter(x=>x.status!=='online').length;
+  const sum=document.getElementById('svcSummary'), sumT=document.getElementById('svcSummaryTxt');
+  if(sum){sum.className='td-status '+(deg?'s-warn':'s-online'); sum.style.fontSize='11.5px';}
+  if(sumT) sumT.textContent = deg ? (deg+' '+(deg>1?'services':'service')+' degraded') : 'All services healthy';
+  const ds=document.getElementById('detailStatus'), dsT=document.getElementById('detailStatusTxt');
+  if(ds){ds.className='td-status '+(deg?'s-warn':'s-online'); ds.style.display='inline-flex';}
+  if(dsT) dsT.textContent=TX(statusLabel[deg?'warn':'online']);
+}
 function openDetail(id){
-  document.getElementById('detailId').textContent=id;
+  currentDetailId=id;
+  renderDetail();
   go('detail');
 }
 document.querySelectorAll('.nav-item').forEach(n=>{
