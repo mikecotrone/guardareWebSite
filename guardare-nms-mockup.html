@@ -871,7 +871,6 @@
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
-          <button class="btn primary" onclick="go('provision')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="Provision collector">Provision collector</span></button>
         </div>
       </div>
 
@@ -940,13 +939,13 @@
         </div>
         <div class="panel mcard">
           <div class="lab" data-i18n="Queue depth">Queue depth</div>
-          <div class="v">340</div>
-          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 16 L30 15 L60 12 L90 9 L120 6" fill="none" stroke="#FF5D5D" stroke-width="1.5"/></svg>
+          <div class="v"><span id="vitQV">24</span></div>
+          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path id="vitQSpark" d="M0 22 L120 22" fill="none" stroke="#FF5D5D" stroke-width="1.5"/></svg>
         </div>
         <div class="panel mcard">
           <div class="lab" data-i18n="WS latency">WS latency</div>
-          <div class="v">11<small>ms</small></div>
-          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 10 L20 12 L40 9 L60 11 L80 8 L100 10 L120 9" fill="none" stroke="#41D98A" stroke-width="1.5"/></svg>
+          <div class="v"><span id="vitLatV">9</span><small>ms</small></div>
+          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path id="vitLatSpark" d="M0 22 L120 22" fill="none" stroke="#41D98A" stroke-width="1.5"/></svg>
         </div>
       </div>
 
@@ -1902,7 +1901,8 @@ function vitSeed(id,status,cpu,thr){
   if(VIT[id]) return;
   VIT[id]={status,cpu,cpuBase:cpu,thr,thrBase:thr,
            cpuHist:Array(7).fill(cpu),thrHist:Array(7).fill(thr),
-           core0:1,core1:1,core0Hist:Array(16).fill(1),core1Hist:Array(16).fill(1)};
+           core0:1,core1:1,core0Hist:Array(16).fill(1),core1Hist:Array(16).fill(1),
+           queue:22,queueHist:Array(16).fill(22),lat:9,latHist:Array(16).fill(9)};
 }
 function vitInit(){
   fleetRows.forEach(r=>vitSeed(r[0],r[2],r[4],r[5]));
@@ -1917,6 +1917,11 @@ function vitStep(v,base,rev,sd,lo,hi){
 function coreStep(v){
   if(Math.random()<0.13) return Math.min(100, v+12+Math.random()*60);   // spike up
   return Math.max(1, 1+(v-1)*0.62+(Math.random()-0.5)*2.2);             // decay toward ~1%
+}
+// generic spike-and-settle: idles near `idle`, occasionally spikes, then drains back
+function spikeStep(v,idle,prob,addMin,addMax,decay,jitter){
+  if(Math.random()<prob) return v+addMin+Math.random()*(addMax-addMin); // spike
+  return Math.max(idle*0.5, idle+(v-idle)*decay+(Math.random()-0.5)*jitter);
 }
 function _spark(hist,lo,hi){
   const W=120,H=24,pad=3,n=hist.length,span=(hi-lo)||1;
@@ -1948,6 +1953,12 @@ function updateDetailVitals(){
   set('vitThrV', s.thr);
   const ts=document.getElementById('vitThrSpark');
   if(ts) ts.setAttribute('d',sparkPath(s.thrHist));
+  set('vitQV', s.queue);
+  const qs=document.getElementById('vitQSpark');
+  if(qs) qs.setAttribute('d',sparkPath(s.queueHist));
+  set('vitLatV', s.lat);
+  const ls=document.getElementById('vitLatSpark');
+  if(ls) ls.setAttribute('d',sparkPath(s.latHist));
 }
 function tickVitals(){
   for(const id in VIT){
@@ -1956,6 +1967,9 @@ function tickVitals(){
       s.cpu=0;s.thr=0;s.core0=0;s.core1=0;
       s.core0Hist.push(0);s.core0Hist.shift();
       s.core1Hist.push(0);s.core1Hist.shift();
+      s.queue=0;s.lat=0;
+      s.queueHist.push(0);s.queueHist.shift();
+      s.latHist.push(0);s.latHist.shift();
       continue;
     }
     s.cpu=Math.round(vitStep(s.cpu,s.cpuBase,0.18,2.4,2,100));   // fleet load
@@ -1965,6 +1979,10 @@ function tickVitals(){
     s.core0=coreStep(s.core0); s.core1=coreStep(s.core1);       // spiky idle cores
     s.core0Hist.push(s.core0); s.core0Hist.shift();
     s.core1Hist.push(s.core1); s.core1Hist.shift();
+    s.queue=Math.round(spikeStep(s.queue,22,0.16,50,280,0.55,8));   // queue builds then drains
+    s.lat=Math.round(spikeStep(s.lat,9,0.12,6,36,0.5,2.5));         // latency blips then recovers
+    s.queueHist.push(s.queue); s.queueHist.shift();
+    s.latHist.push(s.lat); s.latHist.shift();
   }
   fleetRows.forEach(r=>{const s=VIT[r[0]]; if(s&&r[2]!=='offline'){r[4]=s.cpu;r[5]=s.thr;}});
   [acmeNodes,piedmontNodes,atlanticoNodes].forEach(a=>a.forEach(n=>{const s=VIT[n[0]]; if(s&&n[2]!=='offline'){n[3]=s.cpu;n[4]=s.thr;}}));
