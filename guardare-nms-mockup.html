@@ -81,6 +81,12 @@
   .tenant-switch svg{opacity:.5}
   .tenant-switch small{color:var(--mute);font-size:11px}
 
+  /* language switcher */
+  .lang-switch{display:flex;gap:2px;background:var(--bg-2);border:1px solid var(--line);border-radius:99px;padding:3px}
+  .lang-opt{font-size:11.5px;font-weight:600;letter-spacing:.03em;color:var(--mute);padding:4px 9px;border-radius:99px;transition:.14s}
+  .lang-opt:hover{color:var(--text)}
+  .lang-opt.active{background:var(--teal);color:#04201b}
+
   /* tenant dropdown */
   .tenant-wrap{position:relative}
   .tenant-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:264px;background:var(--panel);border:1px solid var(--line);
@@ -460,8 +466,8 @@
 <body>
 <div class="preview-banner" id="previewBanner">
   <span class="pdot"></span>
-  <span><b>Design preview</b> — concept UI, not a live product. <span class="pmut">All sites, alerts, and data shown are fabricated.</span></span>
-  <a class="plink" href="https://guardare.io/community" target="_blank" rel="noopener noreferrer">Help shape 2027 &rarr;</a>
+  <span><b data-i18n="Design preview">Design preview</b> <span data-i18n="— concept UI, not a live product.">— concept UI, not a live product.</span> <span class="pmut" data-i18n="All sites, alerts, and data shown are fabricated.">All sites, alerts, and data shown are fabricated.</span></span>
+  <a class="plink" href="https://guardare.io/community" target="_blank" rel="noopener noreferrer" data-i18n="Help shape 2027 →">Help shape 2027 &rarr;</a>
   <button class="pclose" title="Hide banner" onclick="document.getElementById('previewBanner').remove()">&times;</button>
 </div>
 <div class="app">
@@ -484,10 +490,10 @@
       </button>
       <div class="tenant-menu" id="tenantMenu">
         <button class="tenant-opt active" data-tenant="acme-corp">
-          <span class="t">Acme Corp</span><span class="d">14 sites · North America + Europe</span>
+          <span class="t">Acme Corp</span><span class="d" data-i18n="14 sites · North America + Europe">14 sites · North America + Europe</span>
         </button>
         <button class="tenant-opt" data-tenant="piedmont">
-          <span class="t">Piedmont Regional Health</span><span class="d">4 sites · North Carolina, USA</span>
+          <span class="t">Piedmont Regional Health</span><span class="d" data-i18n="4 sites · North Carolina, USA">4 sites · North Carolina, USA</span>
         </button>
       </div>
     </div>
@@ -496,61 +502,66 @@
 
     <div class="global-search">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input placeholder="Search collectors, alerts, sites…" />
+      <input placeholder="Search collectors, alerts, sites…" data-i18n-ph="Search collectors, alerts, sites…" />
       <kbd>⌘K</kbd>
     </div>
 
     <div class="clock"><span id="clock">—</span></div>
 
+    <div class="lang-switch">
+      <button class="lang-opt active" data-lang="en">EN</button>
+      <button class="lang-opt" data-lang="it">IT</button>
+      <button class="lang-opt" data-lang="fr">FR</button>
+    </div>
     <div class="op-badge">
       <div class="op-avatar">MC</div>
-      <div class="op-meta">Mike C.<small>Guardare Administrator</small></div>
+      <div class="op-meta">Mike C.<small data-i18n="Guardare Administrator">Guardare Administrator</small></div>
     </div>
   </header>
 
   <!-- SIDEBAR -->
   <nav class="sidebar">
-    <div class="nav-group">Operations</div>
+    <div class="nav-group" data-i18n="Operations">Operations</div>
     <button class="nav-item active" data-screen="dashboard">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-      Ops Dashboard
+      <span data-i18n="Ops Dashboard">Ops Dashboard</span>
     </button>
     <button class="nav-item" data-screen="fleet">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
-      Global Fleet
+      <span data-i18n="Global Fleet">Global Fleet</span>
     </button>
     <button class="nav-item" data-screen="alerts">
       <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
-      Alerts
+      <span data-i18n="Alerts">Alerts</span>
       <span class="badge">7</span>
     </button>
     <button class="nav-item" data-screen="reports">
       <svg viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 14l3-4 3 3 4-6"/></svg>
-      Reports &amp; SLA
+      <span data-i18n="Reports &amp; SLA">Reports &amp; SLA</span>
     </button>
 
-    <div class="nav-group">MSP Management</div>
+    <div class="nav-group" data-i18n="MSP Management">MSP Management</div>
     <button class="nav-item" data-screen="tenants">
       <svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
-      Tenants
+      <span data-i18n="Tenants">Tenants</span>
     </button>
     <button class="nav-item" data-screen="provision">
       <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
-      Provision Collector
+      <span data-i18n="Provision Collector">Provision Collector</span>
     </button>
     <button class="nav-item" data-screen="audit">
       <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-      Audit Log
+      <span data-i18n="Audit Log">Audit Log</span>
     </button>
 
-    <div class="nav-group">Configuration</div>
+    <div class="nav-group" data-i18n="Configuration">Configuration</div>
     <button class="nav-item" data-screen="config">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
-      Locations
+      <span data-i18n="Locations">Locations</span>
     </button>
     <button class="nav-item" data-screen="settings">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a7 7 0 0 0-1.7-1L16 3h-4l-.4 2.6a7 7 0 0 0-1.7 1l-2.4-1-2 3.5L7.5 11a7 7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 1.7 1L12 21h4l.4-2.6a7 7 0 0 0 1.7-1l2.4 1 2-3.5-2-1.5a7 7 0 0 0 .1-1z"/></svg>
-      Tenant Settings
+      <span data-i18n="Tenant Settings">Tenant Settings</span>
     </button>
 
     <div class="sidebar-foot">
@@ -568,18 +579,18 @@
       <div class="page-head">
         <div>
           <div class="page-eyebrow" id="dashEyebrow">Acme Corp · live</div>
-          <h1 class="page-title">Ops Dashboard</h1>
-          <p class="page-sub">Real-time visibility across 14 collector sites · streaming over Centrifugo</p>
+          <h1 class="page-title" data-i18n="Ops Dashboard">Ops Dashboard</h1>
+          <p class="page-sub" data-i18n="Real-time visibility across 14 collector sites · streaming over Centrifugo">Real-time visibility across 14 collector sites · streaming over Centrifugo</p>
         </div>
         <div class="head-actions">
-          <button class="btn" onclick="toast('Time range — last 24 hours')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Last 24h</button>
-          <button class="btn primary" onclick="toast('Live feed paused')"><svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>Pause feed</button>
+          <button class="btn" onclick="toast('Time range — last 24 hours')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="Last 24h">Last 24h</span></button>
+          <button class="btn primary" onclick="toast('Live feed paused')"><svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg><span data-i18n="Pause feed">Pause feed</span></button>
         </div>
       </div>
 
       <!-- ticker -->
       <div class="ticker">
-        <div class="ticker-lab"><span class="dot"></span>Live alerts</div>
+        <div class="ticker-lab"><span class="dot"></span><span data-i18n="Live alerts">Live alerts</span></div>
         <div class="ticker-track">
           <div class="ticker-move" id="ticker"></div>
         </div>
@@ -589,7 +600,7 @@
             <div class="dash-radars">
         <div class="panel radar-panel" id="radarPanel-A">
           <div class="panel-head" style="border:none;padding:0 0 6px">
-            <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2EE6C8" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-3"/></svg> Fleet radar</h3>
+            <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2EE6C8" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-3"/></svg> <span data-i18n="Fleet radar">Fleet radar</span></h3>
             <span class="tag" id="radarRegion-A">North America</span>
           </div>
           <div class="radar-wrap">
@@ -631,15 +642,15 @@
             <p id="radarCaption-A">collectors reporting across North America · 1 critical · 1 degraded</p>
           </div>
           <div class="radar-legend">
-            <span><i style="background:#41D98A"></i>Online</span>
-            <span><i style="background:#F6B53F"></i>Degraded</span>
-            <span><i style="background:#FF5D5D"></i>Critical</span>
-            <span><i style="background:#547076"></i>Offline</span>
+            <span><i style="background:#41D98A"></i><span data-i18n="Online">Online</span></span>
+            <span><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span></span>
+            <span><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span></span>
+            <span><i style="background:#547076"></i><span data-i18n="Offline">Offline</span></span>
           </div>
         </div>
         <div class="panel radar-panel" id="radarPanel-B">
           <div class="panel-head" style="border:none;padding:0 0 6px">
-            <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2EE6C8" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-3"/></svg> Fleet radar</h3>
+            <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2EE6C8" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-3"/></svg> <span data-i18n="Fleet radar">Fleet radar</span></h3>
             <span class="tag" id="radarRegion-B">North America</span>
           </div>
           <div class="radar-wrap">
@@ -681,44 +692,44 @@
             <p id="radarCaption-B">collectors reporting across North America · 1 critical · 1 degraded</p>
           </div>
           <div class="radar-legend">
-            <span><i style="background:#41D98A"></i>Online</span>
-            <span><i style="background:#F6B53F"></i>Degraded</span>
-            <span><i style="background:#FF5D5D"></i>Critical</span>
-            <span><i style="background:#547076"></i>Offline</span>
+            <span><i style="background:#41D98A"></i><span data-i18n="Online">Online</span></span>
+            <span><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span></span>
+            <span><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span></span>
+            <span><i style="background:#547076"></i><span data-i18n="Offline">Offline</span></span>
           </div>
         </div>
       </div>
 
       <div class="stat-grid stat-strip">
           <div class="panel stat">
-            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span>Telemetry rate</div>
+            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span><span data-i18n="Telemetry rate">Telemetry rate</span></div>
             <div>
               <div class="big" id="statRate">8.4<small>k msg/s</small></div>
-              <div class="delta up">▲ 6.2% vs 1h ago</div>
+              <div class="delta up" data-i18n="▲ 6.2% vs 1h ago">▲ 6.2% vs 1h ago</div>
             </div>
             <svg class="spark" viewBox="0 0 200 42" preserveAspectRatio="none"><path d="M0 30 L20 28 L40 32 L60 22 L80 26 L100 16 L120 20 L140 12 L160 18 L180 8 L200 14" fill="none" stroke="#2EE6C8" stroke-width="1.5"/></svg>
           </div>
           <div class="panel stat warn">
-            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/></svg></span>Active alerts</div>
+            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/></svg></span><span data-i18n="Active alerts">Active alerts</span></div>
             <div>
               <div class="big">7</div>
-              <div class="delta down">▲ 2 new in last hour</div>
+              <div class="delta down" data-i18n="▲ 2 new in last hour">▲ 2 new in last hour</div>
             </div>
             <svg class="spark" viewBox="0 0 200 42" preserveAspectRatio="none"><path d="M0 34 L40 30 L80 32 L120 22 L160 24 L200 14" fill="none" stroke="#F6B53F" stroke-width="1.5"/></svg>
           </div>
           <div class="panel stat">
-            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span>Fleet uptime</div>
+            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><span data-i18n="Fleet uptime">Fleet uptime</span></div>
             <div>
               <div class="big" id="statUptime">99.94<small>%</small></div>
-              <div class="delta flat">30-day rolling SLA</div>
+              <div class="delta flat" data-i18n="30-day rolling SLA">30-day rolling SLA</div>
             </div>
             <svg class="spark" viewBox="0 0 200 42" preserveAspectRatio="none"><path d="M0 14 L40 16 L80 12 L120 14 L160 10 L200 12" fill="none" stroke="#41D98A" stroke-width="1.5"/></svg>
           </div>
           <div class="panel stat crit">
-            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg></span>Sync backlog</div>
+            <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg></span><span data-i18n="Sync backlog">Sync backlog</span></div>
             <div>
               <div class="big" id="statQueue">1.2<small>k queued</small></div>
-              <div class="delta down">▲ site-07 offline · buffering</div>
+              <div class="delta down" data-i18n="▲ site-07 offline · buffering">▲ site-07 offline · buffering</div>
             </div>
             <svg class="spark" viewBox="0 0 200 42" preserveAspectRatio="none"><path d="M0 30 L40 28 L80 26 L120 18 L160 12 L200 6" fill="none" stroke="#FF5D5D" stroke-width="1.5"/></svg>
           </div>
@@ -729,7 +740,7 @@
       <div class="dash-low">
         <div class="panel">
           <div class="panel-head">
-            <h3>Collector health grid</h3>
+            <h3 data-i18n="Collector health grid">Collector health grid</h3>
             <span class="tag" id="gridCount">14 sites · tap to inspect</span>
           </div>
           <div class="fleet-grid" id="fleetGrid"></div>
@@ -737,8 +748,8 @@
 
         <div class="panel">
           <div class="panel-head">
-            <h3>Recent alerts</h3>
-            <button class="tag" style="color:var(--teal);cursor:pointer" onclick="go('alerts')">View all →</button>
+            <h3 data-i18n="Recent alerts">Recent alerts</h3>
+            <button class="tag" style="color:var(--teal);cursor:pointer" onclick="go('alerts')" data-i18n="View all →">View all →</button>
           </div>
           <div class="alert-mini" id="miniAlerts"></div>
         </div>
@@ -746,10 +757,10 @@
 
       <div class="panel console">
         <div class="console-head">
-          <h3><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg> Console</h3>
+          <h3><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg> <span data-i18n="Console">Console</span></h3>
           <div class="console-ctrl">
             <span class="console-site">site-id: <b id="consoleSite">acme-corp:site-04</b></span>
-            <span class="console-live"><span class="dot"></span>live</span>
+            <span class="console-live"><span class="dot"></span><span data-i18n="live">live</span></span>
           </div>
         </div>
         <div class="console-body" id="consoleBody"></div>
@@ -758,31 +769,31 @@
     <section class="screen" id="screen-fleet">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow">MSP view · all tenants</div>
-          <h1 class="page-title">Global Fleet</h1>
-          <p class="page-sub">Every collector across every customer · 1,284 collectors · 92 tenants</p>
+          <div class="page-eyebrow" data-i18n="MSP view · all tenants">MSP view · all tenants</div>
+          <h1 class="page-title" data-i18n="Global Fleet">Global Fleet</h1>
+          <p class="page-sub" data-i18n="Every collector across every customer · 1,284 collectors · 92 tenants">Every collector across every customer · 1,284 collectors · 92 tenants</p>
         </div>
         <div class="head-actions">
-          <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg>Export</button>
-          <button class="btn primary" onclick="go('provision')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Provision collector</button>
+          <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
+          <button class="btn primary" onclick="go('provision')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="Provision collector">Provision collector</span></button>
         </div>
       </div>
 
       <div class="filters">
         <div class="ms" id="fleetTenantFilter"></div>
-        <button class="chip active">All <span class="cell-mut" style="color:inherit" id="fleetCount">—</span></button>
-        <button class="chip"><i style="background:#41D98A"></i>Online</button>
-        <button class="chip"><i style="background:#F6B53F"></i>Degraded</button>
-        <button class="chip"><i style="background:#FF5D5D"></i>Critical</button>
-        <button class="chip"><i style="background:#547076"></i>Offline</button>
+        <button class="chip active"><span data-i18n="All">All</span> <span class="cell-mut" style="color:inherit" id="fleetCount">—</span></button>
+        <button class="chip"><i style="background:#41D98A"></i><span data-i18n="Online">Online</span></button>
+        <button class="chip"><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span></button>
+        <button class="chip"><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span></button>
+        <button class="chip"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span></button>
       </div>
 
       <div class="panel">
         <table>
           <thead>
             <tr>
-              <th>Collector</th><th>Tenant</th><th>Status</th><th>Last seen</th>
-              <th class="r">CPU</th><th class="r">Throughput</th><th>Config</th>
+              <th data-i18n="Collector">Collector</th><th data-i18n="Tenant">Tenant</th><th data-i18n="Status">Status</th><th data-i18n="Last seen">Last seen</th>
+              <th class="r" data-i18n="CPU">CPU</th><th class="r" data-i18n="Throughput">Throughput</th><th data-i18n="Config">Config</th>
             </tr>
           </thead>
           <tbody id="fleetTable"></tbody>
@@ -794,34 +805,34 @@
     <section class="screen" id="screen-detail">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer">← Global Fleet</button> / Acme Corp</div>
+          <div class="page-eyebrow"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Global Fleet">← Global Fleet</button> / Acme Corp</div>
           <h1 class="page-title mono" style="font-size:24px" id="detailId">acme-corp:site-04</h1>
-          <p class="page-sub"><span class="td-status s-warn" style="display:inline-flex"><i></i>Degraded</span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
+          <p class="page-sub"><span class="td-status s-warn" style="display:inline-flex"><i></i><span data-i18n="Degraded">Degraded</span></span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
         </div>
         <div class="head-actions">
-          <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Live logs</button>
-          <button class="btn primary" onclick="toast('Restart command queued → commands:acme-corp:site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg>Restart collector</button>
+          <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
+          <button class="btn primary" onclick="toast('Restart command queued → commands:acme-corp:site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Restart collector">Restart collector</span></button>
         </div>
       </div>
 
       <div class="metric-cards">
         <div class="panel mcard">
-          <div class="lab">CPU load</div>
+          <div class="lab" data-i18n="CPU load">CPU load</div>
           <div class="v">68<small>%</small></div>
           <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 18 L20 16 L40 19 L60 12 L80 14 L100 8 L120 10" fill="none" stroke="#F6B53F" stroke-width="1.5"/></svg>
         </div>
         <div class="panel mcard">
-          <div class="lab">Throughput</div>
+          <div class="lab" data-i18n="Throughput">Throughput</div>
           <div class="v">612<small>msg/s</small></div>
           <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 14 L20 12 L40 16 L60 10 L80 13 L100 7 L120 9" fill="none" stroke="#2EE6C8" stroke-width="1.5"/></svg>
         </div>
         <div class="panel mcard">
-          <div class="lab">Queue depth</div>
+          <div class="lab" data-i18n="Queue depth">Queue depth</div>
           <div class="v">340</div>
           <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 16 L30 15 L60 12 L90 9 L120 6" fill="none" stroke="#FF5D5D" stroke-width="1.5"/></svg>
         </div>
         <div class="panel mcard">
-          <div class="lab">WS latency</div>
+          <div class="lab" data-i18n="WS latency">WS latency</div>
           <div class="v">11<small>ms</small></div>
           <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 10 L20 12 L40 9 L60 11 L80 8 L100 10 L120 9" fill="none" stroke="#41D98A" stroke-width="1.5"/></svg>
         </div>
@@ -831,10 +842,10 @@
         <div>
           <div class="panel chart-panel mb18">
             <div class="panel-head" style="border:none;padding:0 0 4px">
-              <h3>Telemetry · last 60 min</h3>
+              <h3 data-i18n="Telemetry · last 60 min">Telemetry · last 60 min</h3>
               <div class="chart-legend">
-                <span><i style="background:#2EE6C8"></i>Throughput</span>
-                <span><i style="background:#F6B53F"></i>CPU</span>
+                <span><i style="background:#2EE6C8"></i><span data-i18n="Throughput">Throughput</span></span>
+                <span><i style="background:#F6B53F"></i><span data-i18n="CPU">CPU</span></span>
               </div>
             </div>
             <svg class="big-chart" viewBox="0 0 720 230" preserveAspectRatio="none">
@@ -855,7 +866,7 @@
           </div>
 
           <div class="panel">
-            <div class="panel-head"><h3>Config snapshot</h3><span class="cfg">a3f9c2e</span></div>
+            <div class="panel-head"><h3 data-i18n="Config snapshot">Config snapshot</h3><span class="cfg">a3f9c2e</span></div>
             <pre class="config-snap"><span class="cmt"># pulled from yourorg/guardare-configs/sites/acme-prod-04</span>
 <span class="key">ingestion</span>:
   <span class="key">poll_interval</span>: <span class="num">30</span>
@@ -875,41 +886,41 @@
 
         <div>
           <div class="panel cmd-panel mb18">
-            <div class="panel-head"><h3><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg>Command panel</h3></div>
+            <div class="panel-head"><h3><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg><span data-i18n="Command panel">Command panel</span></h3></div>
             <div class="cmd-list">
               <button class="cmd-btn" onclick="toast('Reload command sent → site-04')">
                 <span class="cmd-ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></span>
-                <span class="cmd-txt"><div class="t">Reload config</div><div class="d">Pull latest from GitHub now</div></span>
+                <span class="cmd-txt"><div class="t" data-i18n="Reload config">Reload config</div><div class="d" data-i18n="Pull latest from GitHub now">Pull latest from GitHub now</div></span>
                 <span class="cmd-go">→</span>
               </button>
               <button class="cmd-btn" onclick="toast('Drain command sent → site-04')">
                 <span class="cmd-ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span>
-                <span class="cmd-txt"><div class="t">Flush local queue</div><div class="d">Force-sync 340 buffered messages</div></span>
+                <span class="cmd-txt"><div class="t" data-i18n="Flush local queue">Flush local queue</div><div class="d" data-i18n="Force-sync 340 buffered messages">Force-sync 340 buffered messages</div></span>
                 <span class="cmd-go">→</span>
               </button>
               <button class="cmd-btn" onclick="toast('Diagnostics requested → site-04')">
                 <span class="cmd-ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>
-                <span class="cmd-txt"><div class="t">Run diagnostics</div><div class="d">Collect health bundle</div></span>
+                <span class="cmd-txt"><div class="t" data-i18n="Run diagnostics">Run diagnostics</div><div class="d" data-i18n="Collect health bundle">Collect health bundle</div></span>
                 <span class="cmd-go">→</span>
               </button>
               <button class="cmd-btn" onclick="toast('Maintenance mode ON → alerts suppressed')">
                 <span class="cmd-ic warn"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg></span>
-                <span class="cmd-txt"><div class="t">Maintenance mode</div><div class="d">Suppress alerts during work</div></span>
+                <span class="cmd-txt"><div class="t" data-i18n="Maintenance mode">Maintenance mode</div><div class="d" data-i18n="Suppress alerts during work">Suppress alerts during work</div></span>
                 <span class="cmd-go">→</span>
               </button>
             </div>
           </div>
 
           <div class="panel">
-            <div class="panel-head"><h3>Identity</h3></div>
+            <div class="panel-head"><h3 data-i18n="Identity">Identity</h3></div>
             <div class="info-rows">
-              <div class="info-row"><span class="k">Collector ID</span><span class="vv" style="color:var(--teal)">site-04</span></div>
-              <div class="info-row"><span class="k">Tenant</span><span class="vv">acme-corp</span></div>
-              <div class="info-row"><span class="k">Channel</span><span class="vv" style="color:var(--dim)">telemetry:acme-corp:site-04</span></div>
-              <div class="info-row"><span class="k">Architecture</span><span class="vv">Linux ARM64</span></div>
-              <div class="info-row"><span class="k">Local buffer</span><span class="vv">MariaDB 11.4</span></div>
-              <div class="info-row"><span class="k">Uptime</span><span class="vv">18d 6h</span></div>
-              <div class="info-row"><span class="k">JWT expiry</span><span class="vv">214d</span></div>
+              <div class="info-row"><span class="k" data-i18n="Collector ID">Collector ID</span><span class="vv" style="color:var(--teal)">site-04</span></div>
+              <div class="info-row"><span class="k" data-i18n="Tenant">Tenant</span><span class="vv">acme-corp</span></div>
+              <div class="info-row"><span class="k" data-i18n="Channel">Channel</span><span class="vv" style="color:var(--dim)">telemetry:acme-corp:site-04</span></div>
+              <div class="info-row"><span class="k" data-i18n="Architecture">Architecture</span><span class="vv">Linux ARM64</span></div>
+              <div class="info-row"><span class="k" data-i18n="Local buffer">Local buffer</span><span class="vv">MariaDB 11.4</span></div>
+              <div class="info-row"><span class="k" data-i18n="Uptime">Uptime</span><span class="vv">18d 6h</span></div>
+              <div class="info-row"><span class="k" data-i18n="JWT expiry">JWT expiry</span><span class="vv">214d</span></div>
             </div>
           </div>
         </div>
@@ -921,20 +932,20 @@
       <div class="page-head">
         <div>
           <div class="page-eyebrow">Acme Corp</div>
-          <h1 class="page-title">Alert Management</h1>
-          <p class="page-sub">Triage, acknowledge, and resolve across the fleet</p>
+          <h1 class="page-title" data-i18n="Alert Management">Alert Management</h1>
+          <p class="page-sub" data-i18n="Triage, acknowledge, and resolve across the fleet">Triage, acknowledge, and resolve across the fleet</p>
         </div>
         <div class="head-actions">
-          <button class="btn" onclick="toast('Alert rules editor')"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="4"/></svg>Alert rules</button>
-          <button class="btn primary" onclick="ackAll()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>Acknowledge all</button>
+          <button class="btn" onclick="toast('Alert rules editor')"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="4"/></svg><span data-i18n="Alert rules">Alert rules</span></button>
+          <button class="btn primary" onclick="ackAll()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Acknowledge all">Acknowledge all</span></button>
         </div>
       </div>
 
       <div class="alert-tabs-row">
         <div class="alert-tabs">
-          <button class="alert-tab active">Active <span class="ct">7</span></button>
-          <button class="alert-tab">Acknowledged <span class="ct">3</span></button>
-          <button class="alert-tab">Resolved <span class="ct">128</span></button>
+          <button class="alert-tab active"><span data-i18n="Active">Active</span> <span class="ct">7</span></button>
+          <button class="alert-tab"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct">3</span></button>
+          <button class="alert-tab"><span data-i18n="Resolved">Resolved</span> <span class="ct">128</span></button>
         </div>
         <div class="ms" id="alertTenantFilter"></div>
       </div>
@@ -957,6 +968,119 @@
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
 
 <script>
+/* ---------- i18n (English-as-key) ---------- */
+let lang='en';
+const I18N={
+ it:{
+  "Operations":"Operazioni","MSP Management":"Gestione MSP","Configuration":"Configurazione",
+  "Ops Dashboard":"Dashboard operativa","Global Fleet":"Flotta globale","Alerts":"Avvisi",
+  "Reports & SLA":"Report e SLA","Tenants":"Clienti","Provision Collector":"Provisioning collector",
+  "Audit Log":"Log di audit","Locations":"Sedi","Tenant Settings":"Impostazioni cliente",
+  "Search collectors, alerts, sites…":"Cerca collector, avvisi, sedi…","Guardare Administrator":"Amministratore Guardare",
+  "14 sites · North America + Europe":"14 sedi · Nord America + Europa","4 sites · North Carolina, USA":"4 sedi · Carolina del Nord, USA",
+  "Design preview":"Anteprima di design","— concept UI, not a live product.":"— UI concettuale, non un prodotto reale.",
+  "All sites, alerts, and data shown are fabricated.":"Tutte le sedi, gli avvisi e i dati mostrati sono fittizi.","Help shape 2027 →":"Contribuisci al 2027 →",
+  "Real-time visibility across 14 collector sites · streaming over Centrifugo":"Visibilità in tempo reale su 14 sedi collector · streaming via Centrifugo",
+  "Last 24h":"Ultime 24h","Pause feed":"Pausa feed","Live alerts":"Avvisi in diretta","Fleet radar":"Radar flotta",
+  "Telemetry rate":"Frequenza telemetria","Active alerts":"Avvisi attivi","Fleet uptime":"Uptime flotta","Sync backlog":"Coda di sincronizzazione",
+  "▲ 6.2% vs 1h ago":"▲ 6,2% vs 1h fa","▲ 2 new in last hour":"▲ 2 nuovi nell'ultima ora","30-day rolling SLA":"SLA su 30 giorni","▲ site-07 offline · buffering":"▲ site-07 offline · buffering in corso",
+  "Collector health grid":"Stato dei collector","Recent alerts":"Avvisi recenti","View all →":"Vedi tutti →","Console":"Console","live":"in diretta",
+  "Online":"Online","Degraded":"Degradato","Critical":"Critico","Offline":"Offline","All":"Tutti",
+  "MSP view · all tenants":"Vista MSP · tutti i clienti","Every collector across every customer · 1,284 collectors · 92 tenants":"Ogni collector di ogni cliente · 1.284 collector · 92 clienti",
+  "Export":"Esporta","Provision collector":"Provisioning collector","Collector":"Collector","Tenant":"Cliente","Status":"Stato","Last seen":"Ultimo contatto","CPU":"CPU","Throughput":"Throughput","Config":"Config",
+  "← Global Fleet":"← Flotta globale","Live logs":"Log in diretta","Restart collector":"Riavvia collector","CPU load":"Carico CPU","Queue depth":"Profondità coda","WS latency":"Latenza WS",
+  "Telemetry · last 60 min":"Telemetria · ultimi 60 min","Config snapshot":"Snapshot config","Command panel":"Pannello comandi",
+  "Reload config":"Ricarica config","Pull latest from GitHub now":"Scarica subito l'ultima da GitHub","Flush local queue":"Svuota coda locale","Force-sync 340 buffered messages":"Forza sync di 340 messaggi in coda",
+  "Run diagnostics":"Esegui diagnostica","Collect health bundle":"Raccogli bundle di stato","Maintenance mode":"Modalità manutenzione","Suppress alerts during work":"Silenzia avvisi durante l'intervento",
+  "Identity":"Identità","Collector ID":"ID collector","Channel":"Canale","Architecture":"Architettura","Local buffer":"Buffer locale","Uptime":"Uptime","JWT expiry":"Scadenza JWT",
+  "Alert Management":"Gestione avvisi","Triage, acknowledge, and resolve across the fleet":"Valuta, conferma e risolvi su tutta la flotta","Alert rules":"Regole avvisi","Acknowledge all":"Conferma tutti",
+  "Active":"Attivi","Acknowledged":"Confermati","Resolved":"Risolti","Acknowledge":"Conferma",
+  "No alerts":"Nessun avviso","No alerts match the selected tenants.":"Nessun avviso corrisponde ai clienti selezionati.","No collectors match the selected tenants.":"Nessun collector corrisponde ai clienti selezionati.",
+  "All tenants":"Tutti i clienti","None":"Nessuno","selected":"selezionati","sites":"sedi","tap to inspect":"tocca per ispezionare",
+  "North America":"Nord America","Europe":"Europa","North Carolina, USA":"Carolina del Nord, USA",
+  "collectors reporting across North America · 1 critical · 1 degraded":"collector attivi in Nord America · 1 critico · 1 degradato",
+  "collectors reporting across Europe · 1 critical · 1 degraded":"collector attivi in Europa · 1 critico · 1 degradato",
+  "collectors reporting across North Carolina, USA · 1 degraded":"collector attivi in Carolina del Nord, USA · 1 degradato",
+  "Top-level site locations for this tenant":"Sedi principali per questo cliente","Add location":"Aggiungi sede","Save changes":"Salva modifiche","locations":"sedi",
+  "These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.":"Queste coordinate definiscono dove ogni collector viene posizionato sul Radar flotta. Modificando latitudine / longitudine qui i pin verranno riposizionati al salvataggio.",
+  "Location name":"Nome sede","City / Region":"Città / Regione","Latitude":"Latitudine","Longitude":"Longitudine",
+  "Generate uptime and performance reports for any tenant.":"Genera report di uptime e performance per qualsiasi cliente.","Build a report":"Crea un report",
+  "Tenant Management":"Gestione clienti","Create, suspend, and configure customer organizations.":"Crea, sospendi e configura le organizzazioni clienti.","Add a tenant":"Aggiungi un cliente",
+  "Provision a Collector":"Provisioning di un collector","Generate a JWT bundle and ship a zero-touch onboarding package.":"Genera un bundle JWT e distribuisci un pacchetto di onboarding zero-touch.","Generate bundle":"Genera bundle",
+  "Global Audit Log":"Log di audit globale","Every state-changing action across all tenants, with filtering.":"Ogni azione che modifica lo stato su tutti i clienti, con filtri.","View log":"Visualizza log",
+  "Branding, RBAC roles, retention windows, and alert defaults per tenant.":"Branding, ruoli RBAC, finestre di retention e impostazioni avvisi per cliente.","Open settings":"Apri impostazioni",
+  "Queue overflow imminent":"Overflow coda imminente","Collector unreachable":"Collector irraggiungibile","CPU sustained above 85%":"CPU costante sopra l'85%","Throughput drop detected":"Calo di throughput rilevato",
+  "Mountain link flapping":"Link di montagna instabile","Config drift":"Drift di configurazione","Collector reconnected":"Collector riconnesso","New collector registered":"Nuovo collector registrato",
+  "Local buffer 96% full · WAN link degraded":"Buffer locale pieno al 96% · link WAN degradato","No heartbeat for 4 minutes · last sync 14:01":"Nessun heartbeat da 4 minuti · ultimo sync 14:01",
+  "68% → spiking on enrich pipeline":"68% → picchi sulla pipeline di enrich","512 → 42 msg/s over 90s":"512 → 42 msg/s in 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittente",
+  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://"
+ },
+ fr:{
+  "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
+  "Ops Dashboard":"Tableau de bord Ops","Global Fleet":"Flotte globale","Alerts":"Alertes",
+  "Reports & SLA":"Rapports et SLA","Tenants":"Clients","Provision Collector":"Provisionner un collecteur",
+  "Audit Log":"Journal d'audit","Locations":"Emplacements","Tenant Settings":"Paramètres client",
+  "Search collectors, alerts, sites…":"Rechercher collecteurs, alertes, sites…","Guardare Administrator":"Administrateur Guardare",
+  "14 sites · North America + Europe":"14 sites · Amérique du Nord + Europe","4 sites · North Carolina, USA":"4 sites · Caroline du Nord, États-Unis",
+  "Design preview":"Aperçu de conception","— concept UI, not a live product.":"— interface conceptuelle, pas un produit réel.",
+  "All sites, alerts, and data shown are fabricated.":"Tous les sites, alertes et données affichés sont fictifs.","Help shape 2027 →":"Façonnez 2027 →",
+  "Real-time visibility across 14 collector sites · streaming over Centrifugo":"Visibilité en temps réel sur 14 sites collecteurs · streaming via Centrifugo",
+  "Last 24h":"Dernières 24h","Pause feed":"Suspendre le flux","Live alerts":"Alertes en direct","Fleet radar":"Radar de flotte",
+  "Telemetry rate":"Débit télémétrie","Active alerts":"Alertes actives","Fleet uptime":"Disponibilité flotte","Sync backlog":"File de synchro",
+  "▲ 6.2% vs 1h ago":"▲ 6,2% vs il y a 1h","▲ 2 new in last hour":"▲ 2 nouveaux la dernière heure","30-day rolling SLA":"SLA glissant sur 30 jours","▲ site-07 offline · buffering":"▲ site-07 hors ligne · mise en mémoire",
+  "Collector health grid":"Santé des collecteurs","Recent alerts":"Alertes récentes","View all →":"Voir tout →","Console":"Console","live":"en direct",
+  "Online":"En ligne","Degraded":"Dégradé","Critical":"Critique","Offline":"Hors ligne","All":"Tous",
+  "MSP view · all tenants":"Vue MSP · tous les clients","Every collector across every customer · 1,284 collectors · 92 tenants":"Chaque collecteur de chaque client · 1 284 collecteurs · 92 clients",
+  "Export":"Exporter","Provision collector":"Provisionner un collecteur","Collector":"Collecteur","Tenant":"Client","Status":"Statut","Last seen":"Vu pour la dernière fois","CPU":"CPU","Throughput":"Débit","Config":"Config",
+  "← Global Fleet":"← Flotte globale","Live logs":"Logs en direct","Restart collector":"Redémarrer le collecteur","CPU load":"Charge CPU","Queue depth":"Profondeur de file","WS latency":"Latence WS",
+  "Telemetry · last 60 min":"Télémétrie · 60 dernières min","Config snapshot":"Instantané config","Command panel":"Panneau de commandes",
+  "Reload config":"Recharger la config","Pull latest from GitHub now":"Récupérer la dernière depuis GitHub","Flush local queue":"Vider la file locale","Force-sync 340 buffered messages":"Forcer la synchro de 340 messages en attente",
+  "Run diagnostics":"Lancer le diagnostic","Collect health bundle":"Collecter le bundle de santé","Maintenance mode":"Mode maintenance","Suppress alerts during work":"Masquer les alertes pendant l'intervention",
+  "Identity":"Identité","Collector ID":"ID collecteur","Channel":"Canal","Architecture":"Architecture","Local buffer":"Tampon local","Uptime":"Disponibilité","JWT expiry":"Expiration JWT",
+  "Alert Management":"Gestion des alertes","Triage, acknowledge, and resolve across the fleet":"Triez, accusez réception et résolvez sur toute la flotte","Alert rules":"Règles d'alerte","Acknowledge all":"Tout accuser",
+  "Active":"Actives","Acknowledged":"Accusées","Resolved":"Résolues","Acknowledge":"Accuser",
+  "No alerts":"Aucune alerte","No alerts match the selected tenants.":"Aucune alerte ne correspond aux clients sélectionnés.","No collectors match the selected tenants.":"Aucun collecteur ne correspond aux clients sélectionnés.",
+  "All tenants":"Tous les clients","None":"Aucun","selected":"sélectionnés","sites":"sites","tap to inspect":"appuyez pour inspecter",
+  "North America":"Amérique du Nord","Europe":"Europe","North Carolina, USA":"Caroline du Nord, États-Unis",
+  "collectors reporting across North America · 1 critical · 1 degraded":"collecteurs actifs en Amérique du Nord · 1 critique · 1 dégradé",
+  "collectors reporting across Europe · 1 critical · 1 degraded":"collecteurs actifs en Europe · 1 critique · 1 dégradé",
+  "collectors reporting across North Carolina, USA · 1 degraded":"collecteurs actifs en Caroline du Nord, États-Unis · 1 dégradé",
+  "Top-level site locations for this tenant":"Emplacements principaux pour ce client","Add location":"Ajouter un emplacement","Save changes":"Enregistrer","locations":"emplacements",
+  "These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.":"Ces coordonnées définissent où chaque collecteur est placé sur le Radar de flotte. Modifier la latitude / longitude ici repositionnera les points lors de l'enregistrement.",
+  "Location name":"Nom de l'emplacement","City / Region":"Ville / Région","Latitude":"Latitude","Longitude":"Longitude",
+  "Generate uptime and performance reports for any tenant.":"Générez des rapports de disponibilité et de performance pour tout client.","Build a report":"Créer un rapport",
+  "Tenant Management":"Gestion des clients","Create, suspend, and configure customer organizations.":"Créez, suspendez et configurez les organisations clientes.","Add a tenant":"Ajouter un client",
+  "Provision a Collector":"Provisionner un collecteur","Generate a JWT bundle and ship a zero-touch onboarding package.":"Générez un bundle JWT et déployez un package d'onboarding zéro-touch.","Generate bundle":"Générer le bundle",
+  "Global Audit Log":"Journal d'audit global","Every state-changing action across all tenants, with filtering.":"Chaque action modifiant l'état sur tous les clients, avec filtrage.","View log":"Voir le journal",
+  "Branding, RBAC roles, retention windows, and alert defaults per tenant.":"Branding, rôles RBAC, fenêtres de rétention et alertes par défaut par client.","Open settings":"Ouvrir les paramètres",
+  "Queue overflow imminent":"Débordement de file imminent","Collector unreachable":"Collecteur injoignable","CPU sustained above 85%":"CPU soutenu au-dessus de 85%","Throughput drop detected":"Chute de débit détectée",
+  "Mountain link flapping":"Liaison montagne instable","Config drift":"Dérive de configuration","Collector reconnected":"Collecteur reconnecté","New collector registered":"Nouveau collecteur enregistré",
+  "Local buffer 96% full · WAN link degraded":"Tampon local plein à 96% · liaison WAN dégradée","No heartbeat for 4 minutes · last sync 14:01":"Aucun battement depuis 4 minutes · dernière synchro 14:01",
+  "68% → spiking on enrich pipeline":"68% → pics sur le pipeline d'enrichissement","512 → 42 msg/s over 90s":"512 → 42 msg/s sur 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittent",
+  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://"
+ }
+};
+function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
+function updateChrome(){
+  const tn=TENANTS[currentTenant];
+  _set('tenantName',tn.name); _set('tenantSites','/ '+tn.sites+' '+TX('sites'));
+  _set('dashEyebrow', tn.name+' · '+TX('live'));
+  _set('gridCount', tn.sites+' '+TX('sites')+' · '+TX('tap to inspect'));
+  _set('consoleSite', tn.consoleSite);
+}
+function setLang(l){
+  lang=l; document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=TX(el.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
+  updateChrome();
+  makeMultiselect('fleetTenantFilter', fleetTenantOpts, fleetTenants, renderFleetTable);
+  makeMultiselect('alertTenantFilter', alertTenantOpts, alertTenants, renderAlertsFull);
+  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();
+  Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
+  setupRadars();
+  document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===l));
+}
+
 /* ---------- data ---------- */
 const tenantColors = {
   'acme-corp':'#2EE6C8','betacorp':'#94A2FF','northwind':'#F6B53F','meridian':'#41D98A','cascade':'#FF8FB1','piedmont':'#5BD0FF'
@@ -1060,8 +1184,8 @@ function renderMiniAlerts(){
     <div class="alert-row" onclick="go('alerts')">
       <span class="alert-bar ${a[0]}"></span>
       <div class="alert-body">
-        <div class="t">${a[1]}</div>
-        <div class="m"><code>${a[2]}</code> · ${a[4]}</div>
+        <div class="t">${TX(a[1])}</div>
+        <div class="m"><code>${a[2]}</code> · ${TX(a[4])}</div>
       </div>
       <span class="alert-time">${a[5]}</span>
     </div>`).join('');
@@ -1070,7 +1194,7 @@ function renderTicker(){
   const items = alerts.map(a=>`
     <span class="ticker-item">
       <span class="sev ${a[0]}">${a[0].toUpperCase()}</span>
-      <code>${a[3]}:${a[2]}</code> ${a[1]} <time>${a[5]}</time>
+      <code>${a[3]}:${a[2]}</code> ${TX(a[1])} <time>${a[5]}</time>
     </span>`).join('');
   document.getElementById('ticker').innerHTML = items + items;
 }
@@ -1081,12 +1205,12 @@ function renderFleetTable(){
     <tr onclick="openDetail('${r[1]}:${r[0]}')">
       <td class="cell-id">${r[0]}</td>
       <td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[r[1]]}">${tnInit(r[1])}</span>${tenantName[r[1]]}</span></td>
-      <td><span class="td-status ${statusClass[r[2]]}"><i></i>${statusLabel[r[2]]}</span></td>
+      <td><span class="td-status ${statusClass[r[2]]}"><i></i>${TX(statusLabel[r[2]])}</span></td>
       <td class="cell-mut">${r[3]}</td>
       <td class="r">${r[2]==='offline'?'<span class="cell-mut">—</span>':cpuBar(r[4])}</td>
       <td class="r cell-mut">${r[2]==='offline'?'—':r[5]+' msg/s'}</td>
       <td><span class="cfg">${r[6]}</span></td>
-    </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;padding:34px;color:var(--mute)">No collectors match the selected tenants.</td></tr>`;
+    </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;padding:34px;color:var(--mute)">${TX('No collectors match the selected tenants.')}</td></tr>`;
 }
 function cpuBar(v){
   const col = v>85?'#FF5D5D':v>65?'#F6B53F':'#41D98A';
@@ -1098,14 +1222,14 @@ function renderAlertsFull(){
     <div class="afull-row" id="af${i}">
       <div class="afull-sev ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg></div>
       <div class="afull-main">
-        <div class="t">${a[1]}</div>
-        <div class="m"><span class="tn">${tenantName[a[3]]}</span><code>${a[2]}</code><span>${a[4]}</span></div>
+        <div class="t">${TX(a[1])}</div>
+        <div class="m"><span class="tn">${tenantName[a[3]]}</span><code>${a[2]}</code><span>${TX(a[4])}</span></div>
       </div>
       <div class="afull-time"><b>${a[6]}</b>${a[5]}</div>
       <div class="afull-act">
-        <button class="btn" onclick="event.stopPropagation();ackOne(${i})">Acknowledge</button>
+        <button class="btn" onclick="event.stopPropagation();ackOne(${i})">${TX('Acknowledge')}</button>
       </div>
-    </div>`).join('') || `<div class="empty" style="padding:50px"><h3>No alerts</h3><p>No alerts match the selected tenants.</p></div>`;
+    </div>`).join('') || `<div class="empty" style="padding:50px"><h3>${TX('No alerts')}</h3><p>${TX('No alerts match the selected tenants.')}</p></div>`;
 }
 
 /* ---------- placeholders ---------- */
@@ -1121,12 +1245,12 @@ function renderPlaceholder(key){
   document.getElementById('screen-'+key).innerHTML = `
     <div class="page-head"><div>
       <div class="page-eyebrow">Guardare</div>
-      <h1 class="page-title">${t}</h1>
+      <h1 class="page-title">${TX(t)}</h1>
     </div></div>
     <div class="panel"><div class="empty">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
-      <h3>${t}</h3><p>${d}</p>
-      <button class="btn primary" style="margin-top:18px" onclick="toast('${cta} — wired in the next build pass')">${cta}</button>
+      <h3>${TX(t)}</h3><p>${TX(d)}</p>
+      <button class="btn primary" style="margin-top:18px" onclick="toast('${cta} — wired in the next build pass')">${TX(cta)}</button>
     </div></div>`;
 }
 
@@ -1139,9 +1263,9 @@ function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.
 document.addEventListener('click',closeAllMenus);
 function makeMultiselect(mountId, options, selected, onChange){
   const el=document.getElementById(mountId); if(!el) return;
-  el.innerHTML=`<button class="ms-btn" data-toggle><svg viewBox="0 0 24 24"><path d="M3 6h18M7 12h10M11 18h2"/></svg>Tenants: <b data-label></b></button>
+  el.innerHTML=`<button class="ms-btn" data-toggle><svg viewBox="0 0 24 24"><path d="M3 6h18M7 12h10M11 18h2"/></svg>${TX('Tenants')}: <b data-label></b></button>
     <div class="ms-menu">
-      <label class="ms-opt"><input type="checkbox" data-all><span style="font-weight:600">All tenants</span></label>
+      <label class="ms-opt"><input type="checkbox" data-all><span style="font-weight:600">${TX('All tenants')}</span></label>
       <div class="ms-sep"></div>
       ${options.map(o=>`<label class="ms-opt"><input type="checkbox" data-v="${o}"><span class="av" style="background:${tenantColors[o]}">${tnInit(o)}</span>${tenantName[o]}</label>`).join('')}
     </div>`;
@@ -1153,7 +1277,7 @@ function makeMultiselect(mountId, options, selected, onChange){
     optCbs.forEach(cb=>cb.checked=selected.has(cb.dataset.v));
     allCb.checked=selected.size===options.length;
     allCb.indeterminate=selected.size>0&&selected.size<options.length;
-    lbl.textContent=selected.size===options.length?'All':(selected.size===0?'None':selected.size+' selected');
+    lbl.textContent=selected.size===options.length?TX('All'):(selected.size===0?TX('None'):selected.size+' '+TX('selected'));
   }
   allCb.onchange=()=>{ if(allCb.checked){options.forEach(o=>selected.add(o));}else{selected.clear();} sync(); onChange(); };
   optCbs.forEach(cb=>cb.onchange=()=>{ cb.checked?selected.add(cb.dataset.v):selected.delete(cb.dataset.v); sync(); onChange(); });
@@ -1163,10 +1287,7 @@ function makeMultiselect(mountId, options, selected, onChange){
 /* ---------- tenant switcher ---------- */
 function switchTenant(id){
   currentTenant=id; const t=TENANTS[id];
-  _set('tenantName',t.name); _set('tenantSites','/ '+t.sites+' sites');
-  _set('dashEyebrow', t.name+' · live');
-  _set('gridCount', t.sites+' sites · tap to inspect');
-  _set('consoleSite', t.consoleSite);
+  updateChrome();
   renderFleetGrid(); renderConfig(); setupRadars();
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active',o.dataset.tenant===id));
   toast('Switched to '+t.name);
@@ -1190,30 +1311,30 @@ function renderConfig(){
       <td><input class="loc-input" value="${l[2]}"></td>
       <td class="r"><input class="loc-input loc-coord" value="${l[3]}"></td>
       <td class="r"><input class="loc-input loc-coord" value="${l[4]}"></td>
-      <td><span class="td-status ${sc}"><i></i>${sl}</span></td>
+      <td><span class="td-status ${sc}"><i></i>${TX(sl)}</span></td>
       <td class="r"><button class="loc-del" title="Remove" onclick="toast('Remove location — confirm in the next build')">&times;</button></td>
     </tr>`;
   }).join('');
   document.getElementById('screen-config').innerHTML=`
     <div class="page-head">
       <div>
-        <div class="page-eyebrow">Configuration</div>
-        <h1 class="page-title">Locations</h1>
-        <p class="page-sub">Top-level site locations for this tenant</p>
+        <div class="page-eyebrow">${TX('Configuration')}</div>
+        <h1 class="page-title">${TX('Locations')}</h1>
+        <p class="page-sub">${TX('Top-level site locations for this tenant')}</p>
       </div>
       <div class="head-actions">
-        <button class="btn" onclick="toast('Add location row — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add location</button>
-        <button class="btn primary" onclick="toast('Locations saved · radar pins will update')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>Save changes</button>
+        <button class="btn" onclick="toast('Add location row — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add location')}</button>
+        <button class="btn primary" onclick="toast('Locations saved · radar pins will update')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
       </div>
     </div>
     <div class="cfg-bar">
-      <div class="cfg-tenant">Tenant: <span class="tn-avatar" style="background:${tenantColors[currentTenant]}">${tnInit(currentTenant)}</span> <b>${t.name}</b> · ${t.locations.length} locations</div>
+      <div class="cfg-tenant">${TX('Tenant')}: <span class="tn-avatar" style="background:${tenantColors[currentTenant]}">${tnInit(currentTenant)}</span> <b>${t.name}</b> · ${t.locations.length} ${TX('locations')}</div>
     </div>
     <div class="cfg-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
-      These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.</div>
+      ${TX('These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.')}</div>
     <div class="panel" style="overflow-x:auto">
       <table>
-        <thead><tr><th>Location name</th><th>Collector</th><th>City / Region</th><th class="r">Latitude</th><th class="r">Longitude</th><th>Status</th><th></th></tr></thead>
+        <thead><tr><th>${TX('Location name')}</th><th>${TX('Collector')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th>${TX('Status')}</th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>`;
@@ -1318,8 +1439,8 @@ function applyRegion(S, rid){
     const b=document.getElementById('blips-'+r+'-'+S); if(b)b.style.opacity=op;
   });
   const r=REGIONS[rid];
-  _set('radarRegion-'+S,r.label);_set('onlineCount-'+S,r.online);
-  _set('totalCount-'+S,'/ '+r.total);_set('radarCaption-'+S,r.cap);
+  _set('radarRegion-'+S,TX(r.label));_set('onlineCount-'+S,r.online);
+  _set('totalCount-'+S,'/ '+r.total);_set('radarCaption-'+S,TX(r.cap));
 }
 let rotI=0, rotTimer=null;
 const _mq=window.matchMedia('(max-width:1024px)');
@@ -1357,13 +1478,11 @@ function jitter(){
 }
 
 /* ---------- init ---------- */
-makeMultiselect('fleetTenantFilter', fleetTenantOpts, fleetTenants, renderFleetTable);
-makeMultiselect('alertTenantFilter', alertTenantOpts, alertTenants, renderAlertsFull);
 wireTenantMenu();
-renderFleetGrid();renderMiniAlerts();renderTicker();renderFleetTable();renderAlertsFull();renderConfig();
+document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=>setLang(o.dataset.lang)));
 clock();setInterval(clock,1000);setInterval(jitter,2200);
 setInterval(tickLog,2400);
-setupRadars();
+setLang('en');
 </script>
 </body>
 </html>
