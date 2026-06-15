@@ -865,7 +865,7 @@
     <section class="screen" id="screen-fleet">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow" data-i18n="MSP view · all tenants">MSP view · all tenants</div>
+          <div class="page-eyebrow" data-i18n="MSP view">MSP view</div>
           <h1 class="page-title" data-i18n="Collector Fleet">Collector Fleet</h1>
           <p class="page-sub" data-i18n="Every collector across every customer · 1,284 collectors · 92 tenants">Every collector across every customer · 1,284 collectors · 92 tenants</p>
         </div>
@@ -927,13 +927,13 @@
       <div class="metric-cards">
         <div class="panel mcard">
           <div class="lab" data-i18n="CPU load">CPU load</div>
-          <div class="v">68<small>%</small></div>
-          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 18 L20 16 L40 19 L60 12 L80 14 L100 8 L120 10" fill="none" stroke="#F6B53F" stroke-width="1.5"/></svg>
+          <div class="v"><span id="vitCpuV">68</span><small>%</small></div>
+          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path id="vitCpuSpark" d="M0 18 L20 16 L40 19 L60 12 L80 14 L100 8 L120 10" fill="none" stroke="#F6B53F" stroke-width="1.5"/></svg>
         </div>
         <div class="panel mcard">
           <div class="lab" data-i18n="Throughput">Throughput</div>
-          <div class="v">612<small>msg/s</small></div>
-          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path d="M0 14 L20 12 L40 16 L60 10 L80 13 L100 7 L120 9" fill="none" stroke="#2EE6C8" stroke-width="1.5"/></svg>
+          <div class="v"><span id="vitThrV">612</span><small>msg/s</small></div>
+          <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path id="vitThrSpark" d="M0 14 L20 12 L40 16 L60 10 L80 13 L100 7 L120 9" fill="none" stroke="#2EE6C8" stroke-width="1.5"/></svg>
         </div>
         <div class="panel mcard">
           <div class="lab" data-i18n="Queue depth">Queue depth</div>
@@ -1140,7 +1140,7 @@ const I18N={
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs 1h fa","▲ 2 new in last hour":"▲ 2 nuovi nell'ultima ora","30-day rolling SLA":"SLA su 30 giorni","▲ site-07 offline · buffering":"▲ site-07 offline · buffering in corso",
   "Collector health grid":"Stato dei collector","Recent alerts":"Avvisi recenti","View all →":"Vedi tutti →","Console":"Console","live":"in diretta",
   "Online":"Online","Degraded":"Degradato","Critical":"Critico","Offline":"Offline","All":"Tutti",
-  "MSP view · all tenants":"Vista MSP · tutti i clienti","Every collector across every customer · 1,284 collectors · 92 tenants":"Ogni collector di ogni cliente · 1.284 collector · 92 clienti",
+  "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Ogni collector di ogni cliente · 1.284 collector · 92 clienti",
   "Export":"Esporta","Provision collector":"Provisioning collector","Collector":"Collector","Tenant":"Cliente","Status":"Stato","Last seen":"Ultimo contatto","CPU":"CPU","Throughput":"Throughput","Config":"Config",
   "← Collector Fleet":"← Flotta collector","Live logs":"Log in diretta","Restart collector":"Riavvia collector","CPU load":"Carico CPU","Queue depth":"Profondità coda","WS latency":"Latenza WS",
   "Telemetry · last 60 min":"Telemetria · ultimi 60 min","Config snapshot":"Snapshot config","Command panel":"Pannello comandi",
@@ -1184,7 +1184,7 @@ const I18N={
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs il y a 1h","▲ 2 new in last hour":"▲ 2 nouveaux la dernière heure","30-day rolling SLA":"SLA glissant sur 30 jours","▲ site-07 offline · buffering":"▲ site-07 hors ligne · mise en mémoire",
   "Collector health grid":"Santé des collecteurs","Recent alerts":"Alertes récentes","View all →":"Voir tout →","Console":"Console","live":"en direct",
   "Online":"En ligne","Degraded":"Dégradé","Critical":"Critique","Offline":"Hors ligne","All":"Tous",
-  "MSP view · all tenants":"Vue MSP · tous les clients","Every collector across every customer · 1,284 collectors · 92 tenants":"Chaque collecteur de chaque client · 1 284 collecteurs · 92 clients",
+  "MSP view":"Vue MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Chaque collecteur de chaque client · 1 284 collecteurs · 92 clients",
   "Export":"Exporter","Provision collector":"Provisionner un collecteur","Collector":"Collecteur","Tenant":"Client","Status":"Statut","Last seen":"Vu pour la dernière fois","CPU":"CPU","Throughput":"Débit","Config":"Config",
   "← Collector Fleet":"← Flotte de collecteurs","Live logs":"Logs en direct","Restart collector":"Redémarrer le collecteur","CPU load":"Charge CPU","Queue depth":"Profondeur de file","WS latency":"Latence WS",
   "Telemetry · last 60 min":"Télémétrie · 60 dernières min","Config snapshot":"Instantané config","Command panel":"Panneau de commandes",
@@ -1228,7 +1228,7 @@ const I18N={
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs hace 1h","▲ 2 new in last hour":"▲ 2 nuevas en la última hora","30-day rolling SLA":"SLA móvil de 30 días","▲ site-07 offline · buffering":"▲ site-07 desconectado · almacenando",
   "Collector health grid":"Estado de los collectors","Recent alerts":"Alertas recientes","View all →":"Ver todo →","Console":"Consola","live":"en vivo",
   "Online":"En línea","Degraded":"Degradado","Critical":"Crítico","Offline":"Desconectado","All":"Todos",
-  "MSP view · all tenants":"Vista MSP · todos los clientes","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
+  "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto por última vez","CPU":"CPU","Throughput":"Rendimiento","Config":"Config",
   "← Collector Fleet":"← Flota de collectors","Live logs":"Registros en vivo","Restart collector":"Reiniciar collector","CPU load":"Carga de CPU","Queue depth":"Profundidad de cola","WS latency":"Latencia WS",
   "Telemetry · last 60 min":"Telemetría · últimos 60 min","Config snapshot":"Instantánea de config","Command panel":"Panel de comandos",
@@ -1272,7 +1272,7 @@ const I18N={
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs há 1h","▲ 2 new in last hour":"▲ 2 novos na última hora","30-day rolling SLA":"SLA móvel de 30 dias","▲ site-07 offline · buffering":"▲ site-07 offline · em buffer",
   "Collector health grid":"Estado dos collectors","Recent alerts":"Alertas recentes","View all →":"Ver tudo →","Console":"Consola","live":"em direto",
   "Online":"Online","Degraded":"Degradado","Critical":"Crítico","Offline":"Offline","All":"Todos",
-  "MSP view · all tenants":"Vista MSP · todos os clientes","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
+  "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto pela última vez","CPU":"CPU","Throughput":"Débito","Config":"Config",
   "← Collector Fleet":"← Frota de collectors","Live logs":"Registos em direto","Restart collector":"Reiniciar collector","CPU load":"Carga da CPU","Queue depth":"Profundidade da fila","WS latency":"Latência WS",
   "Telemetry · last 60 min":"Telemetria · últimos 60 min","Config snapshot":"Snapshot de config","Command panel":"Painel de comandos",
@@ -1639,8 +1639,9 @@ function renderConfig(){
 function go(screen){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
   document.getElementById('screen-'+screen).classList.add('show');
+  const navKey = screen==='detail' ? 'fleet' : screen;
   document.querySelectorAll('.nav-item').forEach(n=>{
-    n.classList.toggle('active', n.dataset.screen===screen);
+    n.classList.toggle('active', n.dataset.screen===navKey);
   });
   document.getElementById('main').scrollTop=0;
 }
@@ -1655,6 +1656,7 @@ const SVC_WARN='<svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 1
 const PROTO_COLOR={snmp:'var(--teal)',api:'var(--violet)',cli:'var(--amber)'};
 const PROTO_LABEL={snmp:'SNMP',api:'API',cli:'CLI'};
 const PROTO_TIP={snmp:'SNMP polling targets',api:'API polling targets',cli:'CLI polling targets'};
+const PROTO_OVERRIDE={'atlantico:sao-01':{api:22,cli:9}};
 function svcSeed(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=(h<<13)|(h>>>19);}return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);return ((h^=h>>>16)>>>0)/4294967296;};}
 function genServices(id){
   const r=svcSeed(id), ri=(a,b)=>Math.floor(r()*(b-a+1))+a, pick=a=>a[Math.floor(r()*a.length)];
@@ -1662,6 +1664,7 @@ function genServices(id){
   const modes=[['snmp'],['snmp'],['api'],['snmp','api'],['snmp','api'],['snmp','api','cli'],['snmp','cli'],['api','cli']];
   const ranges={snmp:[8,64],api:[6,40],cli:[2,16]}, protos={};
   pick(modes).forEach(p=>{protos[p]=ri(ranges[p][0],ranges[p][1]);});
+  if(PROTO_OVERRIDE[id]){Object.keys(protos).forEach(k=>delete protos[k]);Object.assign(protos,PROTO_OVERRIDE[id]);}
   const total=Object.values(protos).reduce((a,b)=>a+b,0);
   const nErr=r()<0.82?0:ri(1,12), dispatch=ri(35,620);
   return {
@@ -1721,6 +1724,7 @@ function renderDetail(){
   const ds=document.getElementById('detailStatus'), dsT=document.getElementById('detailStatusTxt');
   if(ds){ds.className='td-status '+(deg?'s-warn':'s-online'); ds.style.display='inline-flex';}
   if(dsT) dsT.textContent=TX(statusLabel[deg?'warn':'online']);
+  if(typeof updateDetailVitals==='function') updateDetailVitals();
 }
 function openDetail(id){
   currentDetailId=id;
@@ -1889,6 +1893,58 @@ function jitter(){
   if(q){const v=(1.1+Math.random()*0.4).toFixed(1);q.innerHTML=v+'<small>k queued</small>';}
 }
 
+/* ---------- per-collector CPU / throughput ebb & flow ---------- */
+const VIT={};
+function vitSeed(id,status,cpu,thr){
+  if(VIT[id]) return;
+  VIT[id]={status,cpu,cpuBase:cpu,thr,thrBase:thr,
+           cpuHist:Array(7).fill(cpu),thrHist:Array(7).fill(thr)};
+}
+function vitInit(){
+  fleetRows.forEach(r=>vitSeed(r[0],r[2],r[4],r[5]));
+  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(a=>a.forEach(n=>vitSeed(n[0],n[2],n[3],n[4])));
+}
+// mean-reverting random walk: drifts around baseline at a realistic rate
+function vitStep(v,base,rev,sd,lo,hi){
+  const noise=(Math.random()+Math.random()-1)*sd;      // ~triangular, mean 0
+  return Math.max(lo,Math.min(hi, v+(base-v)*rev+noise));
+}
+function sparkPath(hist,lo,hi){
+  const W=120,H=24,pad=3,n=hist.length,span=(hi-lo)||1;
+  return hist.map((v,i)=>{
+    const x=(i*(W/(n-1))).toFixed(1);
+    const t=Math.max(0,Math.min(1,(v-lo)/span));
+    const y=(H-pad-t*(H-2*pad)).toFixed(1);
+    return (i?'L':'M')+x+' '+y;
+  }).join(' ');
+}
+function updateDetailVitals(){
+  const coll=(currentDetailId.split(':')[1])||currentDetailId, s=VIT[coll];
+  if(!s) return;
+  const cv=document.getElementById('vitCpuV'); if(cv) cv.textContent=s.cpu;
+  const cs=document.getElementById('vitCpuSpark');
+  if(cs){cs.setAttribute('d',sparkPath(s.cpuHist,0,100));
+         cs.setAttribute('stroke',s.cpu>85?'#FF5D5D':s.cpu>65?'#F6B53F':'#41D98A');}
+  const tv=document.getElementById('vitThrV'); if(tv) tv.textContent=s.thr;
+  const ts=document.getElementById('vitThrSpark');
+  if(ts) ts.setAttribute('d',sparkPath(s.thrHist,s.thrBase*0.78,s.thrBase*1.22));
+}
+function tickVitals(){
+  for(const id in VIT){
+    const s=VIT[id];
+    if(s.status==='offline'){s.cpu=0;s.thr=0;continue;}
+    s.cpu=Math.round(vitStep(s.cpu,s.cpuBase,0.18,2.4,2,100));   // normal CPU rate of change
+    s.thr=Math.round(vitStep(s.thr,s.thrBase,0.20,s.thrBase*0.02,s.thrBase*0.82,s.thrBase*1.18)); // gentle
+    s.cpuHist.push(s.cpu); s.cpuHist.shift();
+    s.thrHist.push(s.thr); s.thrHist.shift();
+  }
+  fleetRows.forEach(r=>{const s=VIT[r[0]]; if(s&&r[2]!=='offline'){r[4]=s.cpu;r[5]=s.thr;}});
+  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(a=>a.forEach(n=>{const s=VIT[n[0]]; if(s&&n[2]!=='offline'){n[3]=s.cpu;n[4]=s.thr;}}));
+  const vis=id=>{const e=document.getElementById(id);return e&&e.classList.contains('show');};
+  if(vis('screen-dashboard')) renderFleetGrid();
+  if(vis('screen-fleet')) renderFleetTable();
+  if(vis('screen-detail')) updateDetailVitals();
+}
 /* ---------- init ---------- */
 wireTenantMenu();
 document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=>setLang(o.dataset.lang)));
@@ -1901,6 +1957,7 @@ document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=
 })();
 clock();setInterval(clock,1000);setInterval(jitter,2200);
 setInterval(tickLog,2400);
+vitInit();setInterval(tickVitals,2000);
 setLang('en');
 </script>
 </body>
