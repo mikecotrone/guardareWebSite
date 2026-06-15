@@ -906,7 +906,7 @@
         <div class="head-actions">
           <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
           <button class="btn" onclick="toast('Diagnostics requested → full collector health bundle')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
-          <button class="btn primary" onclick="toast('Restart command queued → commands:acme-corp:site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Restart collector">Restart collector</span></button>
+          <button class="btn primary" onclick="toast('Reboot command queued → commands:acme-corp:site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Reboot collector">Reboot collector</span></button>
         </div>
       </div>
 
@@ -1045,6 +1045,7 @@
               <div class="chart-legend">
                 <span><i style="background:#2EE6C8"></i><span data-i18n="Throughput">Throughput</span></span>
                 <span><i style="background:#F6B53F"></i><span data-i18n="CPU">CPU</span></span>
+                <span><i style="background:#41D98A"></i><span data-i18n="WS latency">WS latency</span></span>
               </div>
             </div>
             <svg class="big-chart" viewBox="0 0 720 230" preserveAspectRatio="none">
@@ -1058,6 +1059,7 @@
               <path id="teleThrArea" d="" fill="url(#area)"/>
               <path id="teleThrLine" d="" fill="none" stroke="#2EE6C8" stroke-width="2"/>
               <path id="teleCpuLine" d="" fill="none" stroke="#F6B53F" stroke-width="1.8" opacity="0.9"/>
+              <path id="teleLatLine" d="" fill="none" stroke="#41D98A" stroke-width="1.8" opacity="0.9"/>
             </svg>
             <div style="display:flex;justify-content:space-between;font-family:"Open Sans";font-size:10.5px;color:var(--mute);margin-top:8px">
               <span>13:00</span><span>13:15</span><span>13:30</span><span>13:45</span><span>14:00</span>
@@ -1144,7 +1146,7 @@ const I18N={
   "Online":"Online","Degraded":"Degradato","Critical":"Critico","Offline":"Offline","All":"Tutti",
   "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Ogni collector di ogni cliente · 1.284 collector · 92 clienti",
   "Export":"Esporta","Provision collector":"Provisioning collector","Collector":"Collector","Tenant":"Cliente","Status":"Stato","Last seen":"Ultimo contatto","CPU":"CPU","Throughput":"Throughput","Config":"Config",
-  "← Collector Fleet":"← Flotta collector","Live logs":"Log in diretta","Restart collector":"Riavvia collector","CPU load":"Carico CPU","Queue depth":"Profondità coda","WS latency":"Latenza WS",
+  "← Collector Fleet":"← Flotta collector","Live logs":"Log in diretta","Reboot collector":"Riavvia collector","CPU load":"Carico CPU","Queue depth":"Profondità coda","WS latency":"Latenza WS",
   "Telemetry · last 60 min":"Telemetria · ultimi 60 min","Config snapshot":"Snapshot config","Command panel":"Pannello comandi",
   "Reload config":"Ricarica config","Pull latest from GitHub now":"Scarica subito l'ultima da GitHub","Flush local queue":"Svuota coda locale","Force-sync 340 buffered messages":"Forza sync di 340 messaggi in coda",
   "Run diagnostics":"Esegui diagnostica","Collect health bundle":"Raccogli bundle di stato","Maintenance mode":"Modalità manutenzione","Suppress alerts during work":"Silenzia avvisi durante l'intervento",
@@ -1188,7 +1190,7 @@ const I18N={
   "Online":"En ligne","Degraded":"Dégradé","Critical":"Critique","Offline":"Hors ligne","All":"Tous",
   "MSP view":"Vue MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Chaque collecteur de chaque client · 1 284 collecteurs · 92 clients",
   "Export":"Exporter","Provision collector":"Provisionner un collecteur","Collector":"Collecteur","Tenant":"Client","Status":"Statut","Last seen":"Vu pour la dernière fois","CPU":"CPU","Throughput":"Débit","Config":"Config",
-  "← Collector Fleet":"← Flotte de collecteurs","Live logs":"Logs en direct","Restart collector":"Redémarrer le collecteur","CPU load":"Charge CPU","Queue depth":"Profondeur de file","WS latency":"Latence WS",
+  "← Collector Fleet":"← Flotte de collecteurs","Live logs":"Logs en direct","Reboot collector":"Redémarrer le collecteur","CPU load":"Charge CPU","Queue depth":"Profondeur de file","WS latency":"Latence WS",
   "Telemetry · last 60 min":"Télémétrie · 60 dernières min","Config snapshot":"Instantané config","Command panel":"Panneau de commandes",
   "Reload config":"Recharger la config","Pull latest from GitHub now":"Récupérer la dernière depuis GitHub","Flush local queue":"Vider la file locale","Force-sync 340 buffered messages":"Forcer la synchro de 340 messages en attente",
   "Run diagnostics":"Lancer le diagnostic","Collect health bundle":"Collecter le bundle de santé","Maintenance mode":"Mode maintenance","Suppress alerts during work":"Masquer les alertes pendant l'intervention",
@@ -1232,7 +1234,7 @@ const I18N={
   "Online":"En línea","Degraded":"Degradado","Critical":"Crítico","Offline":"Desconectado","All":"Todos",
   "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto por última vez","CPU":"CPU","Throughput":"Rendimiento","Config":"Config",
-  "← Collector Fleet":"← Flota de collectors","Live logs":"Registros en vivo","Restart collector":"Reiniciar collector","CPU load":"Carga de CPU","Queue depth":"Profundidad de cola","WS latency":"Latencia WS",
+  "← Collector Fleet":"← Flota de collectors","Live logs":"Registros en vivo","Reboot collector":"Reiniciar collector","CPU load":"Carga de CPU","Queue depth":"Profundidad de cola","WS latency":"Latencia WS",
   "Telemetry · last 60 min":"Telemetría · últimos 60 min","Config snapshot":"Instantánea de config","Command panel":"Panel de comandos",
   "Reload config":"Recargar config","Pull latest from GitHub now":"Obtener la última de GitHub ahora","Flush local queue":"Vaciar cola local","Force-sync 340 buffered messages":"Forzar sync de 340 mensajes en cola",
   "Run diagnostics":"Ejecutar diagnóstico","Collect health bundle":"Recopilar paquete de estado","Maintenance mode":"Modo mantenimiento","Suppress alerts during work":"Silenciar alertas durante el trabajo",
@@ -1276,7 +1278,7 @@ const I18N={
   "Online":"Online","Degraded":"Degradado","Critical":"Crítico","Offline":"Offline","All":"Todos",
   "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto pela última vez","CPU":"CPU","Throughput":"Débito","Config":"Config",
-  "← Collector Fleet":"← Frota de collectors","Live logs":"Registos em direto","Restart collector":"Reiniciar collector","CPU load":"Carga da CPU","Queue depth":"Profundidade da fila","WS latency":"Latência WS",
+  "← Collector Fleet":"← Frota de collectors","Live logs":"Registos em direto","Reboot collector":"Reiniciar collector","CPU load":"Carga da CPU","Queue depth":"Profundidade da fila","WS latency":"Latência WS",
   "Telemetry · last 60 min":"Telemetria · últimos 60 min","Config snapshot":"Snapshot de config","Command panel":"Painel de comandos",
   "Reload config":"Recarregar config","Pull latest from GitHub now":"Obter a última do GitHub agora","Flush local queue":"Esvaziar fila local","Force-sync 340 buffered messages":"Forçar sync de 340 mensagens em fila",
   "Run diagnostics":"Executar diagnóstico","Collect health bundle":"Recolher pacote de estado","Maintenance mode":"Modo de manutenção","Suppress alerts during work":"Silenciar alertas durante a intervenção",
@@ -1727,7 +1729,7 @@ function renderDetail(){
   if(ds){ds.className='td-status '+(deg?'s-warn':'s-online'); ds.style.display='inline-flex';}
   if(dsT) dsT.textContent=TX(statusLabel[deg?'warn':'online']);
   const _vs=VIT[coll];
-  if(_vs){bigThrHist=Array(48).fill(_vs.thr);bigCpuHist=Array(48).fill((_vs.core0+_vs.core1)/2);}
+  if(_vs){bigThrHist=Array(48).fill(_vs.thr);bigCpuHist=Array(48).fill((_vs.core0+_vs.core1)/2);bigLatHist=Array(48).fill(_vs.lat);}
   if(typeof updateDetailVitals==='function') updateDetailVitals();
 }
 function openDetail(id){
@@ -1899,7 +1901,7 @@ function jitter(){
 
 /* ---------- per-collector CPU / throughput ebb & flow ---------- */
 const VIT={};
-let bigThrHist=[], bigCpuHist=[];   // rolling window for the detail Telemetry chart
+let bigThrHist=[], bigCpuHist=[], bigLatHist=[];   // rolling window for the detail Telemetry chart
 function vitSeed(id,status,cpu,thr){
   if(VIT[id]) return;
   VIT[id]={status,cpu,cpuBase:cpu,thr,thrBase:thr,
@@ -1959,6 +1961,8 @@ function updateBigChart(){
   tl.setAttribute('d',tp);
   if(ta) ta.setAttribute('d', tp?tp+' L720 230 L0 230 Z':'');
   if(cl) cl.setAttribute('d', bigPath(bigCpuHist,18,212));
+  const ll=document.getElementById('teleLatLine');
+  if(ll) ll.setAttribute('d', bigPath(bigLatHist,18,212));
 }
 function updateDetailVitals(){
   const coll=(currentDetailId.split(':')[1])||currentDetailId, s=VIT[coll];
@@ -1985,6 +1989,7 @@ function updateDetailVitals(){
   if(ls) ls.setAttribute('d',sparkPath(s.latHist));
   bigThrHist.push(s.thr); if(bigThrHist.length>60) bigThrHist.shift();
   bigCpuHist.push((s.core0+s.core1)/2); if(bigCpuHist.length>60) bigCpuHist.shift();
+  bigLatHist.push(s.lat); if(bigLatHist.length>60) bigLatHist.shift();
   updateBigChart();
 }
 function tickVitals(){
