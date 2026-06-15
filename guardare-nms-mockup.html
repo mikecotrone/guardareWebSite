@@ -1154,7 +1154,7 @@
     <div id="rebootConfirm">
       <div class="modal-ic warn"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></div>
       <h3 class="modal-title" id="rebootTitle" data-i18n="Reboot collector?">Reboot collector?</h3>
-      <p class="modal-text">You're about to reboot <b class="mono" id="rebootTarget">acme-corp:site-04</b>. It will drop its WebSocket connection for ~10 seconds. Buffered telemetry is preserved locally and synced on reconnect.</p>
+      <p class="modal-text">You're about to reboot <b class="mono" id="rebootTarget">acme-corp:site-04</b>. This reboots the collector's <b>Ubuntu Linux host</b> — the OS restarts and all four microservices go offline until it comes back up. Buffered telemetry is preserved locally and synced on reconnect.</p>
       <div class="modal-acts">
         <button class="btn" onclick="closeRebootModal()" data-i18n="No, cancel">No, cancel</button>
         <button class="btn danger" onclick="confirmReboot()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Yes, reboot">Yes, reboot</span></button>
@@ -1844,8 +1844,8 @@ function confirmReboot(){
     t--;
     if(t>0){
       numEl.textContent=t;
-      if(t===9) statusEl.textContent='Collector going offline…';
-      else if(t===6) statusEl.textContent='Restarting microservices…';
+      if(t===9) statusEl.textContent='Ubuntu host going down for reboot…';
+      else if(t===6) statusEl.textContent='Booting Ubuntu · starting microservices…';
       else if(t===3) statusEl.textContent='Re-establishing wss:// connection…';
     } else {
       clearInterval(rebootTimer); rebootTimer=null;
