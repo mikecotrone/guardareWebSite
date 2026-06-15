@@ -4,7 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex,nofollow" />
-<title>Guardare — Ops Console (Design Preview)</title>
+<title>Guardare Administrator</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2NCA2NCc+PHJlY3Qgd2lkdGg9JzY0JyBoZWlnaHQ9JzY0JyByeD0nMTQnIGZpbGw9JyMwQTE1MTgnLz48Y2lyY2xlIGN4PSczMicgY3k9JzMyJyByPScyMScgZmlsbD0nbm9uZScgc3Ryb2tlPScjMkVFNkM4JyBzdHJva2Utd2lkdGg9JzMnIG9wYWNpdHk9JzAuNDUnLz48Y2lyY2xlIGN4PSczMicgY3k9JzMyJyByPScxMycgZmlsbD0nbm9uZScgc3Ryb2tlPScjMkVFNkM4JyBzdHJva2Utd2lkdGg9JzMnIG9wYWNpdHk9JzAuOCcvPjxwYXRoIGQ9J00zMiAzMiBMNTIgMTgnIHN0cm9rZT0nIzJFRTZDOCcgc3Ryb2tlLXdpZHRoPSczJyBzdHJva2UtbGluZWNhcD0ncm91bmQnLz48Y2lyY2xlIGN4PSczMicgY3k9JzMyJyByPSc0LjUnIGZpbGw9JyMyRUU2QzgnLz48L3N2Zz4=" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
@@ -1011,6 +1012,7 @@
             <div class="svc-metrics">
               <div class="svc-m"><div class="n" title="Meraki, Arista, UniFi, Fortinet, Cisco IOS, Palo Alto…">14</div><div class="l" data-i18n="Profiles">Profiles</div></div>
               <div class="svc-m"><div class="n">0</div><div class="l" data-i18n="Errors">Errors</div></div>
+              <div class="svc-m"><div class="n">182,400</div><div class="l" data-i18n="DB items">DB items</div></div>
             </div>
             <div class="svc-foot">
               <span class="svc-ver">v2.8.0</span>
@@ -1029,6 +1031,7 @@
             <div class="svc-metrics">
               <div class="svc-m"><div class="n">126</div><div class="l" data-i18n="Rules">Rules</div></div>
               <div class="svc-m"><div class="n">480<small>ms</small></div><div class="l" data-i18n="Dispatch">Dispatch</div></div>
+              <div class="svc-m"><div class="n">37</div><div class="l" data-i18n="Alerts">Alerts</div></div>
             </div>
             <div class="svc-impact"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span data-i18n="Alerting delayed">Alerting delayed</span></div>
             <div class="svc-foot">
@@ -1716,10 +1719,11 @@ function genServices(id){
   if(PROTO_OVERRIDE[id]){Object.keys(protos).forEach(k=>delete protos[k]);Object.assign(protos,PROTO_OVERRIDE[id]);}
   const total=Object.values(protos).reduce((a,b)=>a+b,0);
   const nErr=r()<0.82?0:ri(1,12), dispatch=ri(35,620);
+  const dbItems=ri(12,480)*1000+ri(0,999), alertsFired=ri(0,58);
   return {
     vcollector:{throughput:Math.round(total*ri(9,17)),total,protos,ver:`v3.${ri(0,9)}.${ri(0,9)}`,status:'online'},
-    normalizer:{profiles:ri(6,20),errors:nErr,ver:`v2.${ri(0,9)}.${ri(0,9)}`,status:nErr>0?'warn':'online'},
-    events:{rules:ri(45,320),dispatch,ver:`v1.${ri(0,9)}.${ri(0,9)}`,status:dispatch>320?'warn':'online'},
+    normalizer:{profiles:ri(6,20),errors:nErr,dbItems,ver:`v2.${ri(0,9)}.${ri(0,9)}`,status:nErr>0?'warn':'online'},
+    events:{rules:ri(45,320),dispatch,alerts:alertsFired,ver:`v1.${ri(0,9)}.${ri(0,9)}`,status:dispatch>320?'warn':'online'},
     hudusync:{cats:ri(4,16),assets:ri(180,3400),synced:ri(1,18),ver:`v0.${ri(1,9)}.${ri(0,9)}`,status:'online'}
   };
 }
@@ -1748,12 +1752,12 @@ function renderDetail(){
             {tip:'Flush queue',icon:SVC_ICONS.flush,toast:`vCollector · flush queue → ${coll}`},
             {tip:'Restart',icon:SVC_ICONS.restart,toast:`vCollector · restart queued`}]}),
     svcCard({name:'Normalizer',role:'Standardizes telemetry',status:S.normalizer.status,deg:S.normalizer.status!=='online',
-      metrics:[{n:S.normalizer.profiles,l:'Profiles'},{n:S.normalizer.errors,l:'Errors'}],
+      metrics:[{n:S.normalizer.profiles,l:'Profiles'},{n:S.normalizer.errors,l:'Errors'},{n:S.normalizer.dbItems.toLocaleString(),l:'DB items'}],
       impact:S.normalizer.status!=='online'?'Normalization errors':null,ver:S.normalizer.ver,
       acts:[{tip:'Reload profiles',icon:SVC_ICONS.reload,toast:`Normalizer · reload profiles sent → ${coll}`},
             {tip:'Restart',icon:SVC_ICONS.restart,toast:`Normalizer · restart queued`}]}),
     svcCard({name:'Events Director',role:'Events & alerting',status:S.events.status,deg:S.events.status!=='online',
-      metrics:[{n:S.events.rules,l:'Rules'},{n:S.events.dispatch,unit:'ms',l:'Dispatch'}],
+      metrics:[{n:S.events.rules,l:'Rules'},{n:S.events.dispatch,unit:'ms',l:'Dispatch'},{n:S.events.alerts,l:'Alerts'}],
       impact:S.events.status!=='online'?'Alerting delayed':null,ver:S.events.ver,
       acts:[{tip:'Reload rules',icon:SVC_ICONS.reload,toast:`Events Director · reload rules sent → ${coll}`},
             {tip:'Maintenance',icon:SVC_ICONS.maint,toast:`Events Director · maintenance ON → alerts suppressed`},
