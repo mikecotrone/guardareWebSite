@@ -1055,9 +1055,9 @@
                 <stop offset="0%" stop-color="#2EE6C8" stop-opacity="0.28"/>
                 <stop offset="100%" stop-color="#2EE6C8" stop-opacity="0"/>
               </linearGradient></defs>
-              <path d="M0 160 C60 150 90 120 150 130 C210 140 240 90 300 100 C360 110 390 70 450 85 C510 100 540 55 600 70 C660 85 690 60 720 72 L720 230 L0 230 Z" fill="url(#area)"/>
-              <path d="M0 160 C60 150 90 120 150 130 C210 140 240 90 300 100 C360 110 390 70 450 85 C510 100 540 55 600 70 C660 85 690 60 720 72" fill="none" stroke="#2EE6C8" stroke-width="2"/>
-              <path d="M0 120 C60 110 90 130 150 118 C210 106 240 140 300 128 C360 116 390 95 450 110 C510 125 540 100 600 92 C660 84 690 105 720 96" fill="none" stroke="#F6B53F" stroke-width="1.8" stroke-dasharray="0" opacity="0.9"/>
+              <path id="teleThrArea" d="" fill="url(#area)"/>
+              <path id="teleThrLine" d="" fill="none" stroke="#2EE6C8" stroke-width="2"/>
+              <path id="teleCpuLine" d="" fill="none" stroke="#F6B53F" stroke-width="1.8" opacity="0.9"/>
             </svg>
             <div style="display:flex;justify-content:space-between;font-family:"Open Sans";font-size:10.5px;color:var(--mute);margin-top:8px">
               <span>13:00</span><span>13:15</span><span>13:30</span><span>13:45</span><span>14:00</span>
@@ -1726,6 +1726,8 @@ function renderDetail(){
   const ds=document.getElementById('detailStatus'), dsT=document.getElementById('detailStatusTxt');
   if(ds){ds.className='td-status '+(deg?'s-warn':'s-online'); ds.style.display='inline-flex';}
   if(dsT) dsT.textContent=TX(statusLabel[deg?'warn':'online']);
+  const _vs=VIT[coll];
+  if(_vs){bigThrHist=Array(48).fill(_vs.thr);bigCpuHist=Array(48).fill((_vs.core0+_vs.core1)/2);}
   if(typeof updateDetailVitals==='function') updateDetailVitals();
 }
 function openDetail(id){
@@ -1897,6 +1899,7 @@ function jitter(){
 
 /* ---------- per-collector CPU / throughput ebb & flow ---------- */
 const VIT={};
+let bigThrHist=[], bigCpuHist=[];   // rolling window for the detail Telemetry chart
 function vitSeed(id,status,cpu,thr){
   if(VIT[id]) return;
   VIT[id]={status,cpu,cpuBase:cpu,thr,thrBase:thr,
@@ -1936,6 +1939,27 @@ function sparkPath(hist){
   let lo=Math.min.apply(null,hist), hi=Math.max.apply(null,hist);
   const m=(hi-lo)*0.28||1; return _spark(hist,lo-m,hi+m);   // auto-range so variation fills height
 }
+// wide Telemetry chart: each series auto-ranged to its own min/max, mapped into top..bot
+function bigPath(hist,top,bot){
+  const W=720,n=hist.length;
+  if(n<2) return '';
+  let lo=Math.min.apply(null,hist), hi=Math.max.apply(null,hist);
+  const m=(hi-lo)*0.2||1; lo-=m; hi+=m; const span=(hi-lo)||1;
+  return hist.map((v,i)=>{
+    const x=(i*(W/(n-1))).toFixed(1);
+    const t=(v-lo)/span;
+    const y=(bot-t*(bot-top)).toFixed(1);
+    return (i?'L':'M')+x+' '+y;
+  }).join(' ');
+}
+function updateBigChart(){
+  const tl=document.getElementById('teleThrLine'); if(!tl) return;
+  const ta=document.getElementById('teleThrArea'), cl=document.getElementById('teleCpuLine');
+  const tp=bigPath(bigThrHist,18,212);
+  tl.setAttribute('d',tp);
+  if(ta) ta.setAttribute('d', tp?tp+' L720 230 L0 230 Z':'');
+  if(cl) cl.setAttribute('d', bigPath(bigCpuHist,18,212));
+}
 function updateDetailVitals(){
   const coll=(currentDetailId.split(':')[1])||currentDetailId, s=VIT[coll];
   if(!s) return;
@@ -1959,6 +1983,9 @@ function updateDetailVitals(){
   set('vitLatV', s.lat);
   const ls=document.getElementById('vitLatSpark');
   if(ls) ls.setAttribute('d',sparkPath(s.latHist));
+  bigThrHist.push(s.thr); if(bigThrHist.length>60) bigThrHist.shift();
+  bigCpuHist.push((s.core0+s.core1)/2); if(bigCpuHist.length>60) bigCpuHist.shift();
+  updateBigChart();
 }
 function tickVitals(){
   for(const id in VIT){
