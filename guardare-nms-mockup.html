@@ -88,6 +88,7 @@
   .lang-opt.active{background:var(--teal);color:#04201b}
 
   /* radar blip tooltip */
+  .dash-radars.paused .radar-sweep{animation-play-state:paused}
   .radar-tip{position:fixed;z-index:200;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
     background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:9px 12px;min-width:158px}
   .radar-tip.show{opacity:1;transform:none}
@@ -529,6 +530,7 @@
       <button class="lang-opt" data-lang="it">IT</button>
       <button class="lang-opt" data-lang="fr">FR</button>
       <button class="lang-opt" data-lang="es">ES</button>
+      <button class="lang-opt" data-lang="pt">PT</button>
     </div>
     <div class="op-badge">
       <div class="op-avatar">MC</div>
@@ -1120,6 +1122,51 @@ const I18N={
   "Local buffer 96% full · WAN link degraded":"Búfer local al 96% · enlace WAN degradado","No heartbeat for 4 minutes · last sync 14:01":"Sin latido durante 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos en la canalización de enriquecimiento","512 → 42 msg/s over 90s":"512 → 42 msg/s en 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
   "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Aggregate · every customer":"Agregado · todos los clientes"
+ },
+ pt:{
+  "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
+  "MSP Global Dashboard":"Painel global MSP","Global Fleet":"Frota global","Alerts":"Alertas",
+  "Reports & SLA":"Relatórios e SLA","Tenants":"Clientes","Provision Collector":"Aprovisionar collector",
+  "Audit Log":"Registo de auditoria","Locations":"Localizações","Tenant Settings":"Definições do cliente",
+  "Search collectors, alerts, sites…":"Pesquisar collectors, alertas, sedes…","Guardare Administrator":"Administrador do Guardare",
+  "14 sites · North America + Europe":"14 sedes · América do Norte + Europa","4 sites · North Carolina, USA":"4 sedes · Carolina do Norte, EUA",
+  "Design preview":"Pré-visualização de design","— concept UI, not a live product.":"— interface conceptual, não um produto real.",
+  "All sites, alerts, and data shown are fabricated.":"Todas as sedes, alertas e dados apresentados são fictícios.","Help shape 2027 →":"Ajude a moldar 2027 →",
+  "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilidade em tempo real em toda a sua frota de collectors · streaming via Centrifugo",
+  "Last 24h":"Últimas 24h","Pause feed":"Pausar fluxo","Live alerts":"Alertas em direto","Fleet radar":"Radar da frota",
+  "Telemetry rate":"Taxa de telemetria","Active alerts":"Alertas ativos","Fleet uptime":"Disponibilidade da frota","Sync backlog":"Fila de sincronização",
+  "▲ 6.2% vs 1h ago":"▲ 6,2% vs há 1h","▲ 2 new in last hour":"▲ 2 novos na última hora","30-day rolling SLA":"SLA móvel de 30 dias","▲ site-07 offline · buffering":"▲ site-07 offline · em buffer",
+  "Collector health grid":"Estado dos collectors","Recent alerts":"Alertas recentes","View all →":"Ver tudo →","Console":"Consola","live":"em direto",
+  "Online":"Online","Degraded":"Degradado","Critical":"Crítico","Offline":"Offline","All":"Todos",
+  "MSP view · all tenants":"Vista MSP · todos os clientes","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
+  "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto pela última vez","CPU":"CPU","Throughput":"Débito","Config":"Config",
+  "← Global Fleet":"← Frota global","Live logs":"Registos em direto","Restart collector":"Reiniciar collector","CPU load":"Carga da CPU","Queue depth":"Profundidade da fila","WS latency":"Latência WS",
+  "Telemetry · last 60 min":"Telemetria · últimos 60 min","Config snapshot":"Snapshot de config","Command panel":"Painel de comandos",
+  "Reload config":"Recarregar config","Pull latest from GitHub now":"Obter a última do GitHub agora","Flush local queue":"Esvaziar fila local","Force-sync 340 buffered messages":"Forçar sync de 340 mensagens em fila",
+  "Run diagnostics":"Executar diagnóstico","Collect health bundle":"Recolher pacote de estado","Maintenance mode":"Modo de manutenção","Suppress alerts during work":"Silenciar alertas durante a intervenção",
+  "Identity":"Identidade","Collector ID":"ID do collector","Channel":"Canal","Architecture":"Arquitetura","Local buffer":"Buffer local","Uptime":"Tempo ativo","JWT expiry":"Validade do JWT",
+  "Alert Management":"Gestão de alertas","Triage, acknowledge, and resolve across the fleet":"Triagem, confirmação e resolução em toda a frota","Alert rules":"Regras de alerta","Acknowledge all":"Confirmar todos",
+  "Active":"Ativos","Acknowledged":"Confirmados","Resolved":"Resolvidos","Acknowledge":"Confirmar",
+  "No alerts":"Sem alertas","No alerts match the selected tenants.":"Nenhum alerta corresponde aos clientes selecionados.","No collectors match the selected tenants.":"Nenhum collector corresponde aos clientes selecionados.",
+  "All tenants":"Todos os clientes","None":"Nenhum","selected":"selecionados","sites":"sedes","tap to inspect":"toque para inspecionar",
+  "North America":"América do Norte","Europe":"Europa","North Carolina, USA":"Carolina do Norte, EUA",
+  "collectors reporting across North America · 1 critical · 1 degraded":"collectors ativos na América do Norte · 1 crítico · 1 degradado",
+  "collectors reporting across Europe · 1 critical · 1 degraded":"collectors ativos na Europa · 1 crítico · 1 degradado",
+  "collectors reporting across North Carolina, USA · 1 degraded":"collectors ativos na Carolina do Norte, EUA · 1 degradado",
+  "Top-level site locations for this tenant":"Localizações principais das sedes deste cliente","Add location":"Adicionar localização","Save changes":"Guardar alterações","locations":"localizações",
+  "These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.":"Estas coordenadas definem onde cada collector é colocado no Radar da frota. Editar a latitude / longitude aqui reposiciona os pontos ao guardar.",
+  "Location name":"Nome da localização","City / Region":"Cidade / Região","Latitude":"Latitude","Longitude":"Longitude",
+  "Generate uptime and performance reports for any tenant.":"Gere relatórios de disponibilidade e desempenho para qualquer cliente.","Build a report":"Criar um relatório",
+  "Tenant Management":"Gestão de clientes","Create, suspend, and configure customer organizations.":"Crie, suspenda e configure as organizações de clientes.","Add a tenant":"Adicionar um cliente",
+  "Provision a Collector":"Aprovisionar um collector","Generate a JWT bundle and ship a zero-touch onboarding package.":"Gere um pacote JWT e distribua um pacote de integração sem intervenção.","Generate bundle":"Gerar pacote",
+  "Global Audit Log":"Registo de auditoria global","Every state-changing action across all tenants, with filtering.":"Cada ação que altera o estado em todos os clientes, com filtros.","View log":"Ver registo",
+  "Branding, RBAC roles, retention windows, and alert defaults per tenant.":"Marca, funções RBAC, janelas de retenção e alertas predefinidos por cliente.","Open settings":"Abrir definições",
+  "Queue overflow imminent":"Transbordo de fila iminente","Collector unreachable":"Collector inacessível","CPU sustained above 85%":"CPU sustentada acima de 85%","Throughput drop detected":"Queda de débito detetada",
+  "Mountain link flapping":"Ligação de montanha instável","Config drift":"Desvio de configuração","Collector reconnected":"Collector reconectado","New collector registered":"Novo collector registado",
+  "Local buffer 96% full · WAN link degraded":"Buffer local a 96% · ligação WAN degradada","No heartbeat for 4 minutes · last sync 14:01":"Sem heartbeat há 4 minutos · última sync 14:01",
+  "68% → spiking on enrich pipeline":"68% → picos no pipeline de enriquecimento","512 → 42 msg/s over 90s":"512 → 42 msg/s em 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
+  "Running c4d8a91, repo expects c4d8a92":"A executar c4d8a91, o repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado após queda WS de 12s","Auto-registered on first wss:// connect":"Registado automaticamente na primeira ligação wss://",
+  "All Tenants":"Todos os clientes","Aggregate · every customer":"Agregado · todos os clientes"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -1519,7 +1566,7 @@ function applyRegion(S, rid){
   _set('radarRegion-'+S,TX(r.label));_set('onlineCount-'+S,r.online);
   _set('totalCount-'+S,'/ '+r.total);_set('radarCaption-'+S,TX(r.cap));
 }
-let rotI=0, rotTimer=null;
+let rotI=0, rotTimer=null, radarHover=false;
 const _mq=window.matchMedia('(max-width:1024px)');
 function setupRadars(){
   if(rotTimer){clearInterval(rotTimer);rotTimer=null;}
@@ -1532,7 +1579,7 @@ function setupRadars(){
     if(panelB) panelB.style.display='none';
     if(regs.length>1){
       applyRegion('A',regs[rotI%regs.length]);
-      rotTimer=setInterval(()=>{rotI++;applyRegion('A',regs[rotI%regs.length]);},7000);
+      rotTimer=setInterval(()=>{if(radarHover)return;rotI++;applyRegion('A',regs[rotI%regs.length]);},7000);
     } else { applyRegion('A',regs[0]); }
   } else {                               // desktop
     if(single){ if(panelB) panelB.style.display='none'; applyRegion('A',regs[0]); }
@@ -1540,7 +1587,7 @@ function setupRadars(){
     else {                               // 3+ regions (All Tenants): both panels sweep the set
       if(panelB) panelB.style.display='';
       applyRegion('A',regs[rotI%regs.length]); applyRegion('B',regs[(rotI+1)%regs.length]);
-      rotTimer=setInterval(()=>{rotI++;applyRegion('A',regs[rotI%regs.length]);applyRegion('B',regs[(rotI+1)%regs.length]);},5000);
+      rotTimer=setInterval(()=>{if(radarHover)return;rotI++;applyRegion('A',regs[rotI%regs.length]);applyRegion('B',regs[(rotI+1)%regs.length]);},5000);
     }
   }
 }
@@ -1556,12 +1603,18 @@ _mq.addEventListener('change',setupRadars);
       <div class="rt-meta"><span class="rt-dot" style="background:${stCol[st]}"></span>${TX(statusLabel[st])} · <code>${b.dataset.coll}</code></div>
       <div class="rt-ten"><span class="tn-avatar" style="background:${tenantColors[b.dataset.tenant]}">${tnInit(b.dataset.tenant)}</span>${tenantName[b.dataset.tenant]}</div>`;
     tip.classList.add('show');
+    radarHover=true;                                   // freeze region rotation while inspecting
+    const dr=document.querySelector('.dash-radars'); if(dr) dr.classList.add('paused');
+  }
+  function hide(){
+    tip.classList.remove('show'); radarHover=false;
+    const dr=document.querySelector('.dash-radars'); if(dr) dr.classList.remove('paused');
   }
   document.addEventListener('mouseover',e=>{ const b=e.target.closest&&e.target.closest('.blip'); if(b&&b.dataset.site) show(b); });
   document.addEventListener('mouseout',e=>{
     const from=e.target.closest&&e.target.closest('.blip'); if(!from) return;
     const to=e.relatedTarget&&e.relatedTarget.closest?e.relatedTarget.closest('.blip'):null;
-    if(to!==from) tip.classList.remove('show');
+    if(to!==from) hide();
   });
   document.addEventListener('mousemove',e=>{
     if(!tip.classList.contains('show')) return;
