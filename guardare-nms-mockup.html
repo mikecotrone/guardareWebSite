@@ -231,6 +231,19 @@
   @keyframes locFlash{0%{background:var(--teal-ghost)}60%{background:var(--teal-ghost)}100%{background:transparent}}
   tr.loc-flash td{animation:locFlash 1.6s ease-out}
   tr.loc-flash td:first-child{box-shadow:inset 3px 0 0 var(--teal)}
+  .aud-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .aud-chip{font-size:12.5px;font-weight:600;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:99px;padding:6px 14px;cursor:pointer;transition:.15s}
+  .aud-chip:hover{color:var(--text);border-color:var(--line)}
+  .aud-chip.on{color:var(--bg);background:var(--teal);border-color:var(--teal)}
+  .aud-when{color:var(--dim);white-space:nowrap;font-size:12.5px}
+  .aud-actor{display:flex;flex-direction:column;line-height:1.3}
+  .aud-actor b{font-weight:600;font-size:13px}
+  .aud-actor span{font-size:11px;color:var(--mute)}
+  .aud-act{display:flex;align-items:center;gap:9px;min-width:280px}
+  .aud-cat{font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid;white-space:nowrap}
+  .aud-plat{font-size:11px;font-weight:600;color:var(--mute);background:var(--panel-2);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
+  .aud-ip{color:var(--dim);font-size:12px;white-space:nowrap}
+  .aud-empty{text-align:center;color:var(--mute);padding:34px 0}
   .hw-badge{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:99px;border:1px solid var(--line)}
   .hw-phys{color:var(--teal);background:var(--teal-ghost);border-color:var(--teal-deep)}
   .hw-virt{color:var(--violet);background:#94a2ff1a;border-color:#3a4790}
@@ -728,6 +741,29 @@
   .reboot-ring-svg .ring-fg{fill:none;stroke:var(--teal);stroke-width:8;stroke-linecap:round}
   .reboot-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;font-family:"Open Sans";color:var(--text)}
   .reboot-status{font-size:13px;color:var(--dim);min-height:18px;letter-spacing:.01em}
+  .modal-ic.info{background:#0e2c33;color:var(--teal)}
+  .modal-wide{width:min(540px,94vw)}
+  .diag-list{display:flex;flex-direction:column;text-align:left;margin:8px 0 2px;max-height:48vh;overflow:auto}
+  .diag-row{display:flex;align-items:center;gap:12px;padding:9px 4px;border-bottom:1px solid var(--line-soft)}
+  .diag-row:last-child{border-bottom:none}
+  .diag-ic{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .diag-ic svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .diag-ic.ok{color:var(--green);background:#0e2c1c}
+  .diag-ic.warn{color:var(--amber);background:#3a2a10}
+  .diag-ic.fail{color:var(--red);background:#3a1414}
+  .diag-ic.running{background:transparent}
+  .diag-spin{width:15px;height:15px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--teal);animation:diagspin .7s linear infinite}
+  @keyframes diagspin{to{transform:rotate(360deg)}}
+  .diag-main{flex:1;display:flex;flex-direction:column;line-height:1.3;min-width:0}
+  .diag-main b{font-size:13px;font-weight:600;color:var(--text)}
+  .diag-main span{font-size:11px;color:var(--mute)}
+  .diag-note{font-size:11.5px;color:var(--dim);white-space:nowrap}
+  .diag-note.warn{color:var(--amber)} .diag-note.fail{color:var(--red)} .diag-note.ok{color:var(--green)}
+  .diag-summary{display:flex;gap:18px;justify-content:center;margin:15px 0 17px;font-size:13px;font-weight:600}
+  .diag-summary .ds{display:inline-flex;align-items:center;gap:6px;color:var(--mute)}
+  .diag-summary .ds.ok::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .diag-summary .ds.warn::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber)}
+  .diag-summary .ds.fail::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red)}
 
   @media (max-width:1024px){
     .app{grid-template-columns:1fr;grid-template-rows:56px 1fr}
@@ -1155,7 +1191,7 @@
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
-          <button class="btn" onclick="toast('Diagnostics requested → full collector health bundle')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
+          <button class="btn" onclick="openDiagnostics()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
           <button class="btn primary" onclick="openRebootModal()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Reboot collector">Reboot collector</span></button>
         </div>
       </div>
@@ -1329,7 +1365,7 @@
 
           <div class="panel">
             <div class="panel-head">
-              <h3 data-i18n="Config snapshot">Config snapshot</h3>
+              <h3 data-i18n="Active running configuration">Active running configuration</h3>
               <div class="cfg-pickrow">
                 <div class="yaml-pick" id="normSubPick" style="display:none">
                   <button class="yaml-pick-btn" onclick="toggleNormSub(event)"><span id="normSubLabel">SNMP</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -4250,6 +4286,20 @@ snmp_field_mapping:
   </div>
 </div>
 
+<div class="modal-backdrop" id="diagModal" onclick="diagBackdrop(event)">
+  <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="diagTitle">
+    <div class="modal-ic info"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
+    <h3 class="modal-title" id="diagTitle" data-i18n="Running diagnostics…">Running diagnostics…</h3>
+    <p class="modal-text"><span data-i18n="Probing">Probing</span> <b class="mono" id="diagTarget">acme-corp:site-04</b> — <span data-i18n="network, DNS, datastores, and every collector microservice.">network, DNS, datastores, and every collector microservice.</span></p>
+    <div class="diag-list" id="diagList"></div>
+    <div class="diag-summary" id="diagSummary" style="display:none"></div>
+    <div class="modal-acts" id="diagActs" style="display:none">
+      <button class="btn" onclick="closeDiag()" data-i18n="Close">Close</button>
+      <button class="btn primary" onclick="runDiagnostics()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Re-run">Re-run</span></button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
@@ -4272,7 +4322,7 @@ const I18N={
   "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Ogni collector di ogni cliente · 1.284 collector · 92 clienti",
   "Export":"Esporta","Provision collector":"Provisioning collector","Collector":"Collector","Tenant":"Cliente","Status":"Stato","Last seen":"Ultimo contatto","CPU":"CPU","Throughput":"Throughput","Config":"Config",
   "← Collector Fleet":"← Flotta collector","Live logs":"Log in diretta","Reboot collector":"Riavvia collector","CPU load":"Carico CPU","Queue depth":"Profondità coda","WS latency":"Latenza WS",
-  "Telemetry · last 60 min":"Telemetria · ultimi 60 min","Config snapshot":"Snapshot config","Command panel":"Pannello comandi",
+  "Telemetry · last 60 min":"Telemetria · ultimi 60 min","Active running configuration":"Configurazione attiva in esecuzione","Command panel":"Pannello comandi",
   "Reload config":"Ricarica config","Pull latest from GitHub now":"Scarica subito l'ultima da GitHub","Flush local queue":"Svuota coda locale","Force-sync 340 buffered messages":"Forza sync di 340 messaggi in coda",
   "Run diagnostics":"Esegui diagnostica","Collect health bundle":"Raccogli bundle di stato","Maintenance mode":"Modalità manutenzione","Suppress alerts during work":"Silenzia avvisi durante l'intervento",
   "Guardare Collector Identity":"Identità del Collector Guardare","Collector ID":"ID collector","Channel":"Canale","Architecture":"Architettura","Local buffer":"Buffer locale","Uptime":"Uptime","JWT expiry":"Scadenza JWT",
@@ -4296,7 +4346,7 @@ const I18N={
   "Mountain link flapping":"Link di montagna instabile","Config drift":"Drift di configurazione","Collector reconnected":"Collector riconnesso","New collector registered":"Nuovo collector registrato",
   "Local buffer 96% full · WAN link degraded":"Buffer locale pieno al 96% · link WAN degradato","No heartbeat for 4 minutes · last sync 14:01":"Nessun heartbeat da 4 minuti · ultimo sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picchi sulla pipeline di enrich","512 → 42 msg/s over 90s":"512 → 42 msg/s in 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittente",
-  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Integrate Guardare into your team's stack.":"Integra Guardare nello stack del tuo team.","Hardware / Server Inventory":"Inventario hardware / server","Physical server":"Server fisico","Virtual machine":"Macchina virtuale","Virtual":"Virtuale","Hypervisor":"Hypervisor","Model":"Modello","Service tag":"Service tag","Instance ID":"ID istanza","Form factor":"Form factor","Processor":"Processore","Memory":"Memoria","Storage":"Storage","Network":"Rete","Load avg":"Carico medio","Memory used":"Memoria usata","Storage used":"Storage usato","Aggregate · every customer":"Aggregato · ogni cliente",
+  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Running diagnostics…":"Diagnostica in corso…","Diagnostics complete · all healthy":"Diagnostica completata · tutto integro","Diagnostics complete · issues found":"Diagnostica completata · problemi rilevati","Diagnostics complete":"Diagnostica completata","Probing":"Verifica di","network, DNS, datastores, and every collector microservice.":"rete, DNS, datastore e ogni microservizio del collector.","Re-run":"Riesegui","Close":"Chiudi","passed":"superati","warnings":"avvisi","failed":"falliti","elevated latency":"latenza elevata","no response":"nessuna risposta","Network reachability":"Raggiungibilità di rete","DNS resolution":"Risoluzione DNS","TLS / certificate":"TLS / certificato","Cloud database":"Database cloud","Local buffer":"Buffer locale","Heartbeat / presence":"Heartbeat / presenza","GitOps config sync":"Sync config GitOps","Operations":"Operazioni","Global Audit Log":"Log di audit globale","Audit log":"Log di audit","events":"eventi","newest first":"più recenti prima","Export CSV":"Esporta CSV","Time":"Ora","Actor":"Autore","Action":"Azione","Target":"Oggetto","Source IP":"IP origine","Platform":"Piattaforma","No matching events":"Nessun evento corrispondente","Security":"Sicurezza","Provisioning":"Provisioning","Config":"Config","Billing":"Fatturazione","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operatore MSP","Tenant Admin":"Admin cliente","Tenant User":"Utente cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integra Guardare nello stack del tuo team.","Hardware / Server Inventory":"Inventario hardware / server","Physical server":"Server fisico","Virtual machine":"Macchina virtuale","Virtual":"Virtuale","Hypervisor":"Hypervisor","Model":"Modello","Service tag":"Service tag","Instance ID":"ID istanza","Form factor":"Form factor","Processor":"Processore","Memory":"Memoria","Storage":"Storage","Network":"Rete","Load avg":"Carico medio","Memory used":"Memoria usata","Storage used":"Storage usato","Aggregate · every customer":"Aggregato · ogni cliente",
   "Back to MSP":"Torna a MSP","Collectors":"Collector","Network":"Rete","Management plane":"Piano di gestione","In design":"In progettazione",
   "The monitored network: devices, clients, and links these collectors observe.":"La rete monitorata: dispositivi, client e collegamenti osservati da questi collector.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Questo è il piano NMS / di gestione. Il monitoraggio a livello di dispositivo per questo cliente arriverà in una versione futura.",
@@ -4321,7 +4371,7 @@ const I18N={
   "MSP view":"Vue MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Chaque collecteur de chaque client · 1 284 collecteurs · 92 clients",
   "Export":"Exporter","Provision collector":"Provisionner un collecteur","Collector":"Collecteur","Tenant":"Client","Status":"Statut","Last seen":"Vu pour la dernière fois","CPU":"CPU","Throughput":"Débit","Config":"Config",
   "← Collector Fleet":"← Flotte de collecteurs","Live logs":"Logs en direct","Reboot collector":"Redémarrer le collecteur","CPU load":"Charge CPU","Queue depth":"Profondeur de file","WS latency":"Latence WS",
-  "Telemetry · last 60 min":"Télémétrie · 60 dernières min","Config snapshot":"Instantané config","Command panel":"Panneau de commandes",
+  "Telemetry · last 60 min":"Télémétrie · 60 dernières min","Active running configuration":"Configuration active en cours","Command panel":"Panneau de commandes",
   "Reload config":"Recharger la config","Pull latest from GitHub now":"Récupérer la dernière depuis GitHub","Flush local queue":"Vider la file locale","Force-sync 340 buffered messages":"Forcer la synchro de 340 messages en attente",
   "Run diagnostics":"Lancer le diagnostic","Collect health bundle":"Collecter le bundle de santé","Maintenance mode":"Mode maintenance","Suppress alerts during work":"Masquer les alertes pendant l'intervention",
   "Guardare Collector Identity":"Identité du collecteur Guardare","Collector ID":"ID collecteur","Channel":"Canal","Architecture":"Architecture","Local buffer":"Tampon local","Uptime":"Disponibilité","JWT expiry":"Expiration JWT",
@@ -4345,7 +4395,7 @@ const I18N={
   "Mountain link flapping":"Liaison montagne instable","Config drift":"Dérive de configuration","Collector reconnected":"Collecteur reconnecté","New collector registered":"Nouveau collecteur enregistré",
   "Local buffer 96% full · WAN link degraded":"Tampon local plein à 96% · liaison WAN dégradée","No heartbeat for 4 minutes · last sync 14:01":"Aucun battement depuis 4 minutes · dernière synchro 14:01",
   "68% → spiking on enrich pipeline":"68% → pics sur le pipeline d'enrichissement","512 → 42 msg/s over 90s":"512 → 42 msg/s sur 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittent",
-  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Integrate Guardare into your team's stack.":"Intégrez Guardare à la stack de votre équipe.","Hardware / Server Inventory":"Inventaire matériel / serveur","Physical server":"Serveur physique","Virtual machine":"Machine virtuelle","Virtual":"Virtuel","Hypervisor":"Hyperviseur","Model":"Modèle","Service tag":"Service tag","Instance ID":"ID d'instance","Form factor":"Format","Processor":"Processeur","Memory":"Mémoire","Storage":"Stockage","Network":"Réseau","Load avg":"Charge moy.","Memory used":"Mémoire utilisée","Storage used":"Stockage utilisé","Aggregate · every customer":"Agrégé · tous les clients",
+  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Running diagnostics…":"Diagnostic en cours…","Diagnostics complete · all healthy":"Diagnostic terminé · tout est sain","Diagnostics complete · issues found":"Diagnostic terminé · problèmes détectés","Diagnostics complete":"Diagnostic terminé","Probing":"Analyse de","network, DNS, datastores, and every collector microservice.":"réseau, DNS, bases de données et chaque microservice du collector.","Re-run":"Relancer","Close":"Fermer","passed":"réussis","warnings":"avertissements","failed":"échoués","elevated latency":"latence élevée","no response":"aucune réponse","Network reachability":"Accessibilité réseau","DNS resolution":"Résolution DNS","TLS / certificate":"TLS / certificat","Cloud database":"Base de données cloud","Local buffer":"Buffer local","Heartbeat / presence":"Heartbeat / présence","GitOps config sync":"Sync config GitOps","Operations":"Opérations","Global Audit Log":"Journal d'audit global","Audit log":"Journal d'audit","events":"événements","newest first":"plus récents d'abord","Export CSV":"Exporter CSV","Time":"Heure","Actor":"Auteur","Action":"Action","Target":"Cible","Source IP":"IP source","Platform":"Plateforme","No matching events":"Aucun événement correspondant","Security":"Sécurité","Provisioning":"Provisioning","Config":"Config","Billing":"Facturation","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Opérateur MSP","Tenant Admin":"Admin client","Tenant User":"Utilisateur client","System":"Système","Integrate Guardare into your team's stack.":"Intégrez Guardare à la stack de votre équipe.","Hardware / Server Inventory":"Inventaire matériel / serveur","Physical server":"Serveur physique","Virtual machine":"Machine virtuelle","Virtual":"Virtuel","Hypervisor":"Hyperviseur","Model":"Modèle","Service tag":"Service tag","Instance ID":"ID d'instance","Form factor":"Format","Processor":"Processeur","Memory":"Mémoire","Storage":"Stockage","Network":"Réseau","Load avg":"Charge moy.","Memory used":"Mémoire utilisée","Storage used":"Stockage utilisé","Aggregate · every customer":"Agrégé · tous les clients",
   "Back to MSP":"Retour au MSP","Collectors":"Collecteurs","Network":"Réseau","Management plane":"Plan de gestion","In design":"En conception",
   "The monitored network: devices, clients, and links these collectors observe.":"Le réseau supervisé : appareils, clients et liaisons observés par ces collecteurs.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Ceci est le plan NMS / de gestion. La supervision au niveau des appareils pour ce client arrivera dans une version ultérieure.",
@@ -4370,7 +4420,7 @@ const I18N={
   "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto por última vez","CPU":"CPU","Throughput":"Rendimiento","Config":"Config",
   "← Collector Fleet":"← Flota de collectors","Live logs":"Registros en vivo","Reboot collector":"Reiniciar collector","CPU load":"Carga de CPU","Queue depth":"Profundidad de cola","WS latency":"Latencia WS",
-  "Telemetry · last 60 min":"Telemetría · últimos 60 min","Config snapshot":"Instantánea de config","Command panel":"Panel de comandos",
+  "Telemetry · last 60 min":"Telemetría · últimos 60 min","Active running configuration":"Configuración activa en ejecución","Command panel":"Panel de comandos",
   "Reload config":"Recargar config","Pull latest from GitHub now":"Obtener la última de GitHub ahora","Flush local queue":"Vaciar cola local","Force-sync 340 buffered messages":"Forzar sync de 340 mensajes en cola",
   "Run diagnostics":"Ejecutar diagnóstico","Collect health bundle":"Recopilar paquete de estado","Maintenance mode":"Modo mantenimiento","Suppress alerts during work":"Silenciar alertas durante el trabajo",
   "Guardare Collector Identity":"Identidad del collector Guardare","Collector ID":"ID de collector","Channel":"Canal","Architecture":"Arquitectura","Local buffer":"Búfer local","Uptime":"Tiempo activo","JWT expiry":"Caducidad JWT",
@@ -4394,7 +4444,7 @@ const I18N={
   "Mountain link flapping":"Enlace de montaña inestable","Config drift":"Desviación de configuración","Collector reconnected":"Collector reconectado","New collector registered":"Nuevo collector registrado",
   "Local buffer 96% full · WAN link degraded":"Búfer local al 96% · enlace WAN degradado","No heartbeat for 4 minutes · last sync 14:01":"Sin latido durante 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos en la canalización de enriquecimiento","512 → 42 msg/s over 90s":"512 → 42 msg/s en 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
-  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Integrate Guardare into your team's stack.":"Integra Guardare en el stack de tu equipo.","Hardware / Server Inventory":"Inventario de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de servicio","Instance ID":"ID de instancia","Form factor":"Factor de forma","Processor":"Procesador","Memory":"Memoria","Storage":"Almacenamiento","Network":"Red","Load avg":"Carga media","Memory used":"Memoria usada","Storage used":"Almacenamiento usado","Aggregate · every customer":"Agregado · todos los clientes",
+  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Running diagnostics…":"Ejecutando diagnóstico…","Diagnostics complete · all healthy":"Diagnóstico completo · todo correcto","Diagnostics complete · issues found":"Diagnóstico completo · problemas detectados","Diagnostics complete":"Diagnóstico completo","Probing":"Probando","network, DNS, datastores, and every collector microservice.":"red, DNS, almacenes de datos y cada microservicio del collector.","Re-run":"Reejecutar","Close":"Cerrar","passed":"superados","warnings":"advertencias","failed":"fallidos","elevated latency":"latencia elevada","no response":"sin respuesta","Network reachability":"Accesibilidad de red","DNS resolution":"Resolución DNS","TLS / certificate":"TLS / certificado","Cloud database":"Base de datos en la nube","Local buffer":"Búfer local","Heartbeat / presence":"Heartbeat / presencia","GitOps config sync":"Sync config GitOps","Operations":"Operaciones","Global Audit Log":"Registro de auditoría global","Audit log":"Registro de auditoría","events":"eventos","newest first":"más recientes primero","Export CSV":"Exportar CSV","Time":"Hora","Actor":"Autor","Action":"Acción","Target":"Objetivo","Source IP":"IP de origen","Platform":"Plataforma","No matching events":"Sin eventos coincidentes","Security":"Seguridad","Provisioning":"Aprovisionamiento","Config":"Config","Billing":"Facturación","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operador MSP","Tenant Admin":"Admin de cliente","Tenant User":"Usuario de cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integra Guardare en el stack de tu equipo.","Hardware / Server Inventory":"Inventario de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de servicio","Instance ID":"ID de instancia","Form factor":"Factor de forma","Processor":"Procesador","Memory":"Memoria","Storage":"Almacenamiento","Network":"Red","Load avg":"Carga media","Memory used":"Memoria usada","Storage used":"Almacenamiento usado","Aggregate · every customer":"Agregado · todos los clientes",
   "Back to MSP":"Volver a MSP","Collectors":"Colectores","Network":"Red","Management plane":"Plano de gestión","In design":"En diseño",
   "The monitored network: devices, clients, and links these collectors observe.":"La red supervisada: dispositivos, clientes y enlaces que observan estos colectores.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este es el plano NMS / de gestión. La supervisión a nivel de dispositivo para este cliente llegará en una versión posterior.",
@@ -4419,7 +4469,7 @@ const I18N={
   "MSP view":"Vista MSP","Every collector across every customer · 1,284 collectors · 92 tenants":"Cada collector de cada cliente · 1.284 collectors · 92 clientes",
   "Export":"Exportar","Provision collector":"Aprovisionar collector","Collector":"Collector","Tenant":"Cliente","Status":"Estado","Last seen":"Visto pela última vez","CPU":"CPU","Throughput":"Débito","Config":"Config",
   "← Collector Fleet":"← Frota de collectors","Live logs":"Registos em direto","Reboot collector":"Reiniciar collector","CPU load":"Carga da CPU","Queue depth":"Profundidade da fila","WS latency":"Latência WS",
-  "Telemetry · last 60 min":"Telemetria · últimos 60 min","Config snapshot":"Snapshot de config","Command panel":"Painel de comandos",
+  "Telemetry · last 60 min":"Telemetria · últimos 60 min","Active running configuration":"Configuração ativa em execução","Command panel":"Painel de comandos",
   "Reload config":"Recarregar config","Pull latest from GitHub now":"Obter a última do GitHub agora","Flush local queue":"Esvaziar fila local","Force-sync 340 buffered messages":"Forçar sync de 340 mensagens em fila",
   "Run diagnostics":"Executar diagnóstico","Collect health bundle":"Recolher pacote de estado","Maintenance mode":"Modo de manutenção","Suppress alerts during work":"Silenciar alertas durante a intervenção",
   "Guardare Collector Identity":"Identidade do collector Guardare","Collector ID":"ID do collector","Channel":"Canal","Architecture":"Arquitetura","Local buffer":"Buffer local","Uptime":"Tempo ativo","JWT expiry":"Validade do JWT",
@@ -4444,7 +4494,7 @@ const I18N={
   "Local buffer 96% full · WAN link degraded":"Buffer local a 96% · ligação WAN degradada","No heartbeat for 4 minutes · last sync 14:01":"Sem heartbeat há 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos no pipeline de enriquecimento","512 → 42 msg/s over 90s":"512 → 42 msg/s em 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
   "Running c4d8a91, repo expects c4d8a92":"A executar c4d8a91, o repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado após queda WS de 12s","Auto-registered on first wss:// connect":"Registado automaticamente na primeira ligação wss://",
-  "All Tenants":"Todos os clientes","Integrate Guardare into your team's stack.":"Integre o Guardare ao stack da sua equipa.","Hardware / Server Inventory":"Inventário de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de serviço","Instance ID":"ID da instância","Form factor":"Fator de forma","Processor":"Processador","Memory":"Memória","Storage":"Armazenamento","Network":"Rede","Load avg":"Carga média","Memory used":"Memória usada","Storage used":"Armazenamento usado","Aggregate · every customer":"Agregado · todos os clientes",
+  "All Tenants":"Todos os clientes","Running diagnostics…":"Executando diagnóstico…","Diagnostics complete · all healthy":"Diagnóstico concluído · tudo saudável","Diagnostics complete · issues found":"Diagnóstico concluído · problemas detetados","Diagnostics complete":"Diagnóstico concluído","Probing":"A verificar","network, DNS, datastores, and every collector microservice.":"rede, DNS, datastores e cada microsserviço do collector.","Re-run":"Reexecutar","Close":"Fechar","passed":"aprovados","warnings":"avisos","failed":"falhados","elevated latency":"latência elevada","no response":"sem resposta","Network reachability":"Acessibilidade de rede","DNS resolution":"Resolução DNS","TLS / certificate":"TLS / certificado","Cloud database":"Base de dados na cloud","Local buffer":"Buffer local","Heartbeat / presence":"Heartbeat / presença","GitOps config sync":"Sync config GitOps","Operations":"Operações","Global Audit Log":"Registo de auditoria global","Audit log":"Registo de auditoria","events":"eventos","newest first":"mais recentes primeiro","Export CSV":"Exportar CSV","Time":"Hora","Actor":"Autor","Action":"Ação","Target":"Alvo","Source IP":"IP de origem","Platform":"Plataforma","No matching events":"Sem eventos correspondentes","Security":"Segurança","Provisioning":"Aprovisionamento","Config":"Config","Billing":"Faturação","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operador MSP","Tenant Admin":"Admin de cliente","Tenant User":"Utilizador de cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integre o Guardare ao stack da sua equipa.","Hardware / Server Inventory":"Inventário de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de serviço","Instance ID":"ID da instância","Form factor":"Fator de forma","Processor":"Processador","Memory":"Memória","Storage":"Armazenamento","Network":"Rede","Load avg":"Carga média","Memory used":"Memória usada","Storage used":"Armazenamento usado","Aggregate · every customer":"Agregado · todos os clientes",
   "Back to MSP":"Voltar ao MSP","Collectors":"Coletores","Network":"Rede","Management plane":"Plano de gestão","In design":"Em design",
   "The monitored network: devices, clients, and links these collectors observe.":"A rede monitorada: dispositivos, clientes e links que estes coletores observam.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
@@ -4477,7 +4527,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=TX(el.getAttribute('data-i18n')); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
   updateChrome();
-  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderDetail();
+  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderAudit();renderDetail();
   renderTenants(); renderTenantMenu(); if(currentTenantCtx){ buildCtxBar(); renderTenantNMS(); }
   if(currentTenantCtx){ const tm=document.getElementById('screen-tenant-manage'); if(tm&&tm.classList.contains('show')) renderTenantManage(currentTenantCtx); }
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
@@ -4681,7 +4731,6 @@ function updateAlertCounts(){
 const placeholders = {
   reports:['Reports & SLA','Generate uptime and performance reports for any tenant.','Build a report'],
   provision:['Provision a Collector','Generate a JWT bundle and ship a zero-touch onboarding package.','Generate bundle'],
-  audit:['Global Audit Log','Every state-changing action across all tenants, with filtering.','View log'],
 };
 function renderPlaceholder(key){
   const [t,d,cta]=placeholders[key];
@@ -5225,6 +5274,7 @@ function pickTenant(slug){
   else if(cur==='fleet') renderFleetTable();
   else if(cur==='alerts') renderAlertsFull();
   else if(cur==='config') renderConfig();
+  else if(cur==='audit') renderAudit();
   go(cur);
 }
 function pickAllTenants(){ currentTenantCtx=null; switchTenant('all'); go('dashboard'); }
@@ -5256,6 +5306,82 @@ function gotoLocation(slug,coll){
 }
 function gotoLocationFromDetail(){
   const p=(currentDetailId||'').split(':'); gotoLocation(p[0], p[1]||currentDetailId);
+}
+/* ---------- audit log ---------- */
+let auditFilter='all';
+function auditCatColor(c){ return {security:'#2EE6C8',provisioning:'#94A2FF',alerts:'#F6B53F',config:'#41D98A',tenants:'#5BD0FF',billing:'#F6B53F',collector:'#8BA7AC'}[c]||'#8BA7AC'; }
+function auditRoleLabel(r){ return {msp_superadmin:'MSP Super Admin',msp_operator:'MSP Operator',tenant_admin:'Tenant Admin',tenant_user:'Tenant User',system:'System'}[r]||r; }
+function auditCatLabel(c){ return c.charAt(0).toUpperCase()+c.slice(1); }
+const AUDIT_LOG=[
+  {t:'2m ago',     actor:'Dana Ruiz',        role:'msp_operator',   tenant:'acme-corp', cat:'alerts',       action:'Acknowledged alert',        target:'acme-corp:site-09 · CPU critical', ip:'73.42.18.9'},
+  {t:'9m ago',     actor:'Guardare System',  role:'system',         tenant:'northwind', cat:'config',       action:'Config hot-reloaded',       target:'northwind:dc-east · processing.yaml', ip:'—'},
+  {t:'17m ago',    actor:'Mike Chen',        role:'msp_superadmin', tenant:'piedmont',  cat:'provisioning', action:'Provisioned collector',     target:'piedmont:avl-01', ip:'73.42.18.9'},
+  {t:'24m ago',    actor:'j.weber@acme-corp',role:'tenant_admin',   tenant:'acme-corp', cat:'alerts',       action:'Updated alert rule',        target:'telemetry.cpu > 90%', ip:'98.110.7.55'},
+  {t:'38m ago',    actor:'Sam Okafor',       role:'msp_operator',   tenant:'cascade',   cat:'collector',    action:'Sent reconfigure command',  target:'cascade:store-51', ip:'10.4.2.11'},
+  {t:'52m ago',    actor:'Mike Chen',        role:'msp_superadmin', tenant:'platform',  cat:'security',     action:'Rotated Centrifugo HMAC secret', target:'centrifugo · jwt_hmac', ip:'73.42.18.9'},
+  {t:'1h ago',     actor:'Guardare System',  role:'system',         tenant:'betacorp',  cat:'provisioning', action:'Collector auto-registered', target:'betacorp:edge-12', ip:'45.18.220.3'},
+  {t:'1h ago',     actor:'Dana Ruiz',        role:'msp_operator',   tenant:'cascade',   cat:'alerts',       action:'Resolved alert',            target:'cascade:store-40 · WS drop', ip:'73.42.18.9'},
+  {t:'2h ago',     actor:'a.flores@cascade', role:'tenant_admin',   tenant:'cascade',   cat:'config',       action:'Edited location coordinates', target:'cascade:store-22', ip:'66.87.143.20'},
+  {t:'2h ago',     actor:'Mike Chen',        role:'msp_superadmin', tenant:'cascade',   cat:'billing',      action:'Changed plan',              target:'cascade · Growth → Enterprise', ip:'73.42.18.9'},
+  {t:'3h ago',     actor:'Sam Okafor',       role:'msp_operator',   tenant:'acme-corp', cat:'collector',    action:'Rebooted collector',        target:'acme-corp:site-04', ip:'10.4.2.11'},
+  {t:'3h ago',     actor:'Mike Chen',        role:'msp_superadmin', tenant:'atlantico', cat:'security',     action:'Started tenant impersonation', target:'atlantico', ip:'73.42.18.9'},
+  {t:'4h ago',     actor:'Mike Chen',        role:'msp_superadmin', tenant:'atlantico', cat:'security',     action:'Ended impersonation session', target:'atlantico', ip:'73.42.18.9'},
+  {t:'Today 09:41',actor:'r.greene@northwind',role:'tenant_admin',  tenant:'northwind', cat:'collector',    action:'Cleared local queue',       target:'northwind:warehouse-1', ip:'207.99.4.61'},
+  {t:'Today 09:14',actor:'Dana Ruiz',        role:'msp_operator',   tenant:'platform',  cat:'security',     action:'Signed in (passkey)',       target:'session · web', ip:'73.42.18.9'},
+  {t:'Today 08:52',actor:'Mike Chen',        role:'msp_superadmin', tenant:'platform',  cat:'config',       action:'Connected integration',     target:'GitHub (GitOps)', ip:'73.42.18.9'},
+  {t:'Yesterday 22:03',actor:'Guardare System',role:'system',       tenant:'acme-corp', cat:'config',       action:'Pushed config via GitOps',  target:'sites/acme-prod-01/alerts.yaml', ip:'—'},
+  {t:'Yesterday 18:30',actor:'Sam Okafor',   role:'msp_operator',   tenant:'meridian',  cat:'alerts',       action:'Muted alerts (maintenance)', target:'meridian:clinic-7', ip:'10.4.2.11'},
+  {t:'Yesterday 16:12',actor:'Mike Chen',    role:'msp_superadmin', tenant:'atlantico', cat:'tenants',      action:'Created tenant',            target:'atlantico (Starter · trial)', ip:'73.42.18.9'},
+  {t:'Yesterday 15:48',actor:'Mike Chen',    role:'msp_superadmin', tenant:'atlantico', cat:'provisioning', action:'Downloaded onboarding bundle', target:'atlantico:sao-01', ip:'73.42.18.9'},
+  {t:'Yesterday 11:05',actor:'p.nguyen@meridian',role:'tenant_admin',tenant:'meridian', cat:'tenants',      action:'Invited user',              target:'c.reyes@meridian (tenant_user)', ip:'162.4.88.10'},
+  {t:'Jun 14 16:40',actor:'Dana Ruiz',       role:'msp_operator',   tenant:'northwind', cat:'tenants',      action:'Updated collector limit',   target:'northwind · 30', ip:'73.42.18.9'},
+  {t:'Jun 14 14:22',actor:'k.shah@betacorp', role:'tenant_admin',   tenant:'betacorp',  cat:'security',     action:'Generated collector JWT',   target:'betacorp:hq-core', ip:'45.18.220.3'},
+  {t:'Jun 14 10:09',actor:'Mike Chen',       role:'msp_superadmin', tenant:'platform',  cat:'config',       action:'Changed retention window',  target:'telemetry · 90d', ip:'73.42.18.9'},
+  {t:'Jun 13 19:55',actor:'t.barnes@piedmont',role:'tenant_admin',  tenant:'piedmont',  cat:'tenants',      action:'Changed user role',         target:'l.kemp@piedmont → tenant_user', ip:'71.30.140.7'},
+  {t:'Jun 13 13:31',actor:'Sam Okafor',      role:'msp_operator',   tenant:'meridian',  cat:'billing',      action:'Updated billing contact',   target:'meridian', ip:'10.4.2.11'},
+  {t:'Jun 13 09:18',actor:'Mike Chen',       role:'msp_superadmin', tenant:'platform',  cat:'tenants',      action:'Suspended tenant',          target:'Trailhead Co (demo)', ip:'73.42.18.9'},
+  {t:'Jun 12 17:02',actor:'Dana Ruiz',       role:'msp_operator',   tenant:'cascade',   cat:'collector',    action:'Sent reconfigure command',  target:'cascade:store-22', ip:'73.42.18.9'},
+];
+function renderAudit(){
+  const scope=currentTenantCtx;
+  const cats=[['all','All'],['security','Security'],['provisioning','Provisioning'],['alerts','Alerts'],['config','Config'],['tenants','Tenants'],['billing','Billing'],['collector','Collector']];
+  let list=AUDIT_LOG.filter(e=> !scope || e.tenant===scope);
+  const total=list.length;
+  list=list.filter(e=> auditFilter==='all'||e.cat===auditFilter);
+  const chips=cats.map(([k,l])=>`<button class="aud-chip${auditFilter===k?' on':''}" onclick="auditFilter='${k}';renderAudit()">${TX(l)}</button>`).join('');
+  const rows=list.map(e=>{
+    const col=auditCatColor(e.cat);
+    const ten = e.tenant==='platform'
+      ? `<span class="aud-plat">${TX('Platform')}</span>`
+      : `<span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[e.tenant]||'var(--teal)'}">${tnInit(tenantName[e.tenant]||e.tenant)}</span>${tenantName[e.tenant]||e.tenant}</span>`;
+    return `<tr>
+      <td class="aud-when">${e.t}</td>
+      <td><div class="aud-actor"><b>${e.actor}</b><span>${TX(auditRoleLabel(e.role))}</span></div></td>
+      <td>${ten}</td>
+      <td class="aud-act"><span class="aud-cat" style="color:${col};border-color:${col}55;background:${col}14">${TX(auditCatLabel(e.cat))}</span><span>${TX(e.action)}</span></td>
+      <td class="cell-id">${e.target}</td>
+      <td class="aud-ip mono">${e.ip}</td>
+    </tr>`;
+  }).join('');
+  const name = scope ? (tenantName[scope]||scope)+' — '+TX('Audit log') : TX('Global Audit Log');
+  document.getElementById('screen-audit').innerHTML=`
+    <div class="page-head">
+      <div>
+        <div class="page-eyebrow">${TX('Operations')}</div>
+        <h1 class="page-title">${name}</h1>
+        <p class="page-sub">${list.length} ${TX('of')} ${total} ${TX('events')} · ${TX('newest first')}</p>
+      </div>
+      <div class="head-actions">
+        <button class="btn" onclick="toast('Audit export (CSV) — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>${TX('Export CSV')}</button>
+      </div>
+    </div>
+    <div class="aud-filter">${chips}</div>
+    <div class="panel" style="overflow-x:auto">
+      <table>
+        <thead><tr><th>${TX('Time')}</th><th>${TX('Actor')}</th><th>${TX('Tenant')}</th><th>${TX('Action')}</th><th>${TX('Target')}</th><th>${TX('Source IP')}</th></tr></thead>
+        <tbody>${rows||`<tr><td colspan="6" class="aud-empty">${TX('No matching events')}</td></tr>`}</tbody>
+      </table>
+    </div>`;
 }
 function renderConfig(){
   const list=locationRows();
@@ -5500,6 +5626,7 @@ document.querySelectorAll('.nav-item').forEach(n=>{
     else if(s==='tenants') renderTenants();
     else if(s==='fleet') renderFleetTable();
     else if(s==='alerts') renderAlertsFull();
+    else if(s==='audit') renderAudit();
     else if(placeholders[s]) renderPlaceholder(s);
     go(s);
     toggleNav(false);
@@ -5578,6 +5705,68 @@ function ackOne(i){
 function ackAll(){
   alerts.forEach((a,i)=>ackOne(i));
   toast('All active alerts acknowledged');
+}
+
+/* ---------- diagnostics modal ---------- */
+const DIAG_CHECKS=[
+  {k:'net',          label:'Network reachability', detail:'wss:// → Centrifugo proxy', force:true},
+  {k:'dns',          label:'DNS resolution',       detail:'proxy.guardare.io',         force:true},
+  {k:'tls',          label:'TLS / certificate',    detail:'TLS 1.3 · valid 214d',       force:true},
+  {k:'clouddb',      label:'Cloud database',       detail:'MariaDB pool · telemetry'},
+  {k:'localdb',      label:'Local buffer',         detail:'MariaDB 11.4 · on-site queue'},
+  {k:'redis',        label:'Heartbeat / presence', detail:'Centrifugo · Redis'},
+  {k:'github',       label:'GitOps config sync',   detail:'GitHub · SHA verified'},
+  {k:'svc-vcoll',    label:'vCollector',           detail:'ingestion microservice'},
+  {k:'svc-norm',     label:'Normalizer',           detail:'ETL microservice'},
+  {k:'svc-events',   label:'Events Director',      detail:'alerting microservice'},
+  {k:'svc-hudu',     label:'HuduSync',             detail:'documentation sync'},
+];
+let diagTimer=null;
+function openDiagnostics(){ document.getElementById('diagModal').classList.add('show'); runDiagnostics(); }
+function closeDiag(){ document.getElementById('diagModal').classList.remove('show'); if(diagTimer){clearTimeout(diagTimer);diagTimer=null;} }
+function diagBackdrop(e){ if(e.target.id==='diagModal') closeDiag(); }
+function runDiagnostics(){
+  if(diagTimer){clearTimeout(diagTimer);diagTimer=null;}
+  const target=currentDetailId;
+  document.getElementById('diagTarget').textContent=target;
+  document.getElementById('diagTitle').textContent=TX('Running diagnostics…');
+  document.getElementById('diagSummary').style.display='none';
+  document.getElementById('diagActs').style.display='none';
+  let s=2166136261>>>0; for(const ch of target){ s^=ch.charCodeAt(0); s=Math.imul(s,16777619)>>>0; }
+  const rnd=()=>{ s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;return s/4294967296; };
+  const results=DIAG_CHECKS.map(c=>{
+    let st='ok';
+    if(!c.force){ const r=rnd(); if(r>0.94) st='fail'; else if(r>0.82) st='warn'; }
+    const note = st==='ok' ? (Math.round(3+rnd()*38)+' ms') : (st==='warn'?TX('elevated latency'):TX('no response'));
+    return {...c, st, note};
+  });
+  document.getElementById('diagList').innerHTML=results.map(r=>`<div class="diag-row" id="dg-${r.k}">
+      <span class="diag-ic running"><span class="diag-spin"></span></span>
+      <span class="diag-main"><b>${TX(r.label)}</b><span>${TX(r.detail)}</span></span>
+      <span class="diag-note" id="dgn-${r.k}"></span>
+    </div>`).join('');
+  let i=0;
+  const ICON={ok:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>',
+    warn:'<svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>',
+    fail:'<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>'};
+  const step=()=>{
+    if(i>=results.length){ finishDiag(results); return; }
+    const r=results[i], row=document.getElementById('dg-'+r.k);
+    if(row){ const ic=row.querySelector('.diag-ic'); ic.className='diag-ic '+r.st; ic.innerHTML=ICON[r.st];
+      const n=document.getElementById('dgn-'+r.k); n.textContent=r.note; n.className='diag-note '+r.st; }
+    i++; diagTimer=setTimeout(step, 330);
+  };
+  diagTimer=setTimeout(step, 320);
+}
+function finishDiag(results){
+  const ok=results.filter(r=>r.st==='ok').length, warn=results.filter(r=>r.st==='warn').length, fail=results.filter(r=>r.st==='fail').length;
+  document.getElementById('diagTitle').textContent = (warn||fail)?TX('Diagnostics complete · issues found'):TX('Diagnostics complete · all healthy');
+  const sum=document.getElementById('diagSummary');
+  sum.className='diag-summary '+(fail?'fail':(warn?'warn':'ok'));
+  sum.innerHTML=`<span class="ds ok">${ok} ${TX('passed')}</span><span class="ds warn">${warn} ${TX('warnings')}</span><span class="ds fail">${fail} ${TX('failed')}</span>`;
+  sum.style.display='flex';
+  document.getElementById('diagActs').style.display='flex';
+  toast(TX('Diagnostics complete')+' · '+currentDetailId);
 }
 
 /* ---------- console log stream ---------- */
@@ -5904,7 +6093,7 @@ document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=
 clock();setInterval(clock,1000);setInterval(jitter,2200);
 setInterval(tickLog,2400);
 vitInit();setInterval(tickVitals,2000);
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){const c=document.getElementById('rebootConfirm'); if(c&&c.style.display!=='none'&&document.getElementById('rebootModal').classList.contains('show')) closeRebootModal();} });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){const c=document.getElementById('rebootConfirm'); if(c&&c.style.display!=='none'&&document.getElementById('rebootModal').classList.contains('show')) closeRebootModal(); const dm=document.getElementById('diagModal'); if(dm&&dm.classList.contains('show')) closeDiag();} });
 setLang('en');
 </script>
 </body>
