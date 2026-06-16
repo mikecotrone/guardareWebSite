@@ -569,6 +569,7 @@
     background:var(--panel);color:var(--dim);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
   .ctx-back:hover{color:var(--text);border-color:var(--teal-deep)}
   .ctx-sep{width:1px;height:20px;background:var(--line)}
+  .ctx-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);flex:0 0 auto}
   .ctx-tenant{display:flex;align-items:center;gap:8px;font-family:"Open Sans";font-weight:600;font-size:14px;white-space:nowrap}
   .ctx-tenant .ctx-dot{width:9px;height:9px;border-radius:99px;box-shadow:0 0 8px currentColor}
   .ctx-pick{position:relative}
@@ -778,7 +779,7 @@
     </button>
     <button class="nav-item" data-screen="fleet">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
-      <span data-i18n="Collector Fleet">Collector Fleet</span>
+      <span data-i18n="Collector Management">Collector Management</span>
     </button>
     <button class="nav-item" data-screen="alerts">
       <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
@@ -823,8 +824,7 @@
     <!-- ===== TENANT CONTEXT BAR (shown inside a tenant workspace) ===== -->
     <div class="ctxbar" id="ctxBar">
       <div class="ctx-left">
-        <button class="ctx-back" id="ctxBack" onclick="exitTenant()">⟵ Back to MSP</button>
-        <div class="ctx-sep"></div>
+        <span class="ctx-label" data-i18n="Tenant Collectors">Tenant Collectors</span>
         <div class="ctx-pick" id="ctxPick">
           <button class="ctx-pick-btn" onclick="toggleCtxPick(event)">
             <span class="ctx-cdot s-online" id="ctxCollDot"></span><span id="ctxCollLabel">collector</span>
@@ -1034,7 +1034,7 @@
       <div class="page-head">
         <div>
           <div class="page-eyebrow" data-i18n="MSP view">MSP view</div>
-          <h1 class="page-title" data-i18n="Collector Fleet">Collector Fleet</h1>
+          <h1 class="page-title" data-i18n="Collector Management">Collector Management</h1>
           <p class="page-sub" data-i18n="Every collector across every customer · 1,284 collectors · 92 tenants">Every collector across every customer · 1,284 collectors · 92 tenants</p>
         </div>
         <div class="head-actions">
@@ -4209,7 +4209,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"La rete monitorata: dispositivi, client e collegamenti osservati da questi collector.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Questo è il piano NMS / di gestione. Il monitoraggio a livello di dispositivo per questo cliente arriverà in una versione futura.",
   "Device Inventory":"Inventario dispositivi","Internet Health":"Stato Internet","Top Talkers":"Top consumatori","Client Activity":"Attività client",
-  "Working in":"Stai lavorando in","Open workspace":"Apri area di lavoro","Exit tenant":"Esci dal cliente","Current":"Attuale","Collector Management":"Gestione collector","Tenant Management":"Gestione clienti","Dashboard":"Dashboard","Audit log":"Log di audit","Tenants":"Clienti","No matches":"Nessun risultato"
+  "Working in":"Stai lavorando in","Open workspace":"Apri area di lavoro","Exit tenant":"Esci dal cliente","Current":"Attuale","Collector Management":"Gestione collector","Tenant Management":"Gestione clienti","Dashboard":"Dashboard","Audit log":"Log di audit","Tenants":"Clienti","No matches":"Nessun risultato","Tenant Collectors":"Collector del cliente"
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -4258,7 +4258,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"Le réseau supervisé : appareils, clients et liaisons observés par ces collecteurs.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Ceci est le plan NMS / de gestion. La supervision au niveau des appareils pour ce client arrivera dans une version ultérieure.",
   "Device Inventory":"Inventaire des appareils","Internet Health":"État Internet","Top Talkers":"Principaux émetteurs","Client Activity":"Activité des clients",
-  "Working in":"Vous travaillez dans","Open workspace":"Ouvrir l'espace","Exit tenant":"Quitter le client","Current":"Actuel","Collector Management":"Gestion des collecteurs","Tenant Management":"Gestion des clients","Dashboard":"Tableau de bord","Audit log":"Journal d'audit","Tenants":"Clients","No matches":"Aucun résultat"
+  "Working in":"Vous travaillez dans","Open workspace":"Ouvrir l'espace","Exit tenant":"Quitter le client","Current":"Actuel","Collector Management":"Gestion des collecteurs","Tenant Management":"Gestion des clients","Dashboard":"Tableau de bord","Audit log":"Journal d'audit","Tenants":"Clients","No matches":"Aucun résultat","Tenant Collectors":"Collecteurs du client"
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -4307,7 +4307,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"La red supervisada: dispositivos, clientes y enlaces que observan estos colectores.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este es el plano NMS / de gestión. La supervisión a nivel de dispositivo para este cliente llegará en una versión posterior.",
   "Device Inventory":"Inventario de dispositivos","Internet Health":"Estado de Internet","Top Talkers":"Principales emisores","Client Activity":"Actividad de clientes",
-  "Working in":"Trabajando en","Open workspace":"Abrir espacio","Exit tenant":"Salir del cliente","Current":"Actual","Collector Management":"Gestión de collectors","Tenant Management":"Gestión de clientes","Dashboard":"Panel","Audit log":"Registro de auditoría","Tenants":"Clientes","No matches":"Sin resultados"
+  "Working in":"Trabajando en","Open workspace":"Abrir espacio","Exit tenant":"Salir del cliente","Current":"Actual","Collector Management":"Gestión de collectors","Tenant Management":"Gestión de clientes","Dashboard":"Panel","Audit log":"Registro de auditoría","Tenants":"Clientes","No matches":"Sin resultados","Tenant Collectors":"Collectors del cliente"
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -4357,7 +4357,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"A rede monitorada: dispositivos, clientes e links que estes coletores observam.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
   "Device Inventory":"Inventário de dispositivos","Internet Health":"Saúde da Internet","Top Talkers":"Principais consumidores","Client Activity":"Atividade de clientes",
-  "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Management":"Gestão de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados"
+  "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Management":"Gestão de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados","Tenant Collectors":"Collectors do cliente"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -5022,7 +5022,7 @@ function renderDetail(){
   set('detailId',id); set('idColl',coll); set('idTenant',ten); set('idChannel','telemetry:'+id);
   const oc=CRUMB_ORIGIN[navHighlight]||CRUMB_ORIGIN.fleet;   /* breadcrumb returns to wherever you came from */
   const crumb=document.getElementById('detailCrumb');
-  if(crumb) crumb.innerHTML=`<button onclick="go('${oc.s}')" style="color:var(--teal);cursor:pointer">← ${TX(oc.k)}</button> / ${tenantName[ten]||ten}`;
+  if(crumb) crumb.innerHTML=`<button onclick="go('${oc.s}')" style="color:var(--teal);cursor:pointer">← ${TX(oc.k)}</button> / ${coll}`;
   const S=genServices(id);
   const cards=[
     svcCard({name:'vCollector',role:'Ingests device data',status:S.vcollector.status,
@@ -5082,7 +5082,6 @@ function buildCtxBar(){
   const menu=document.getElementById('ctxPickMenu');
   if(menu) menu.innerHTML=collectorsForTenant(slug).map(c=>
     `<button class="${c.id===coll?'sel':''}" onclick="switchCollector('${c.id}')"><span class="ctx-cdot ${statusClass[c.status]||'s-online'}"></span>${c.id}<small>${TX(statusLabel[c.status]||'')}</small></button>`).join('');
-  set('ctxBack','⟵ '+TX('Back to MSP'));
 }
 function toggleCtxPick(e){ e.stopPropagation(); const m=document.getElementById('ctxPickMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 function enterTenant(slug){
@@ -5129,6 +5128,7 @@ function openDetail(id){
   currentDetailId=id;
   currentTenantCtx=id.split(':')[0];
   currentPlane='control';
+  navHighlight='fleet';          /* a collector view always lives under Collector Management */
   buildCtxBar();
   renderDetail();
   go('detail');
