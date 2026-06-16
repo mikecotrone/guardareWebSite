@@ -69,8 +69,8 @@
   .brand-sub{font-size:9.5px;letter-spacing:.34em;color:var(--mute);text-transform:uppercase;margin-top:1px}
   .brand-logo{height:40px;width:auto;display:block;flex:0 0 auto;filter:brightness(0) invert(1)}
   .brand-div{width:1px;height:24px;background:var(--line);flex:0 0 auto}
-  .brand-org{font-size:9.5px;letter-spacing:.2em;line-height:1.3;text-transform:uppercase;color:var(--mute);font-weight:600;white-space:nowrap}
-  .brand-org b{display:block;color:var(--dim);font-weight:700}
+  .brand-org{font-size:9.5px;letter-spacing:.2em;line-height:1.3;text-transform:uppercase;color:#A7C6CB;font-weight:700;white-space:nowrap}
+  .brand-org b{display:block;color:var(--teal);font-weight:800;text-shadow:0 0 14px var(--teal-ghost)}
 
   .tenant-switch{
     display:flex;align-items:center;gap:9px;padding:6px 12px 6px 11px;
@@ -167,6 +167,19 @@
   .global-search input{flex:1;background:none;border:none;color:var(--text);font-family:inherit;font-size:12.5px;outline:none}
   .global-search input::placeholder{color:var(--mute)}
   .global-search kbd{font-family:"Open Sans";font-size:10px;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  .global-search{position:relative}
+  .search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;box-shadow:var(--shadow);padding:6px;max-height:62vh;overflow:auto;display:none;z-index:160}
+  .search-results.show{display:block}
+  .sr-group{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:700;padding:9px 9px 5px}
+  .sr-item{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--text)}
+  .sr-item:hover,.sr-item.active{background:var(--raise)}
+  .sr-item .sr-dot{width:8px;height:8px;border-radius:99px;flex:0 0 8px}
+  .sr-item .sr-av{width:20px;height:20px;border-radius:6px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#04201b}
+  .sr-item .sr-main{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sr-item .sr-main b{font-family:"Open Sans"}
+  .sr-item .sr-sub{color:var(--dim);font-size:11px;flex:0 0 auto}
+  .sr-empty{padding:20px 12px;text-align:center;color:var(--mute);font-size:12.5px}
 
   .clock{font-family:"Open Sans";font-size:12.5px;color:var(--dim);letter-spacing:.04em}
   .clock b{color:var(--text)}
@@ -537,7 +550,64 @@
   .tnt-region{font-size:9.5px;font-weight:600;letter-spacing:.04em;color:var(--dim);background:var(--raise);
     border:1px solid var(--line-soft);padding:2px 7px;border-radius:5px}
   .tnt-foot .btn{padding:6px 13px;font-size:12px}
+  .tnt-card.current{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),0 14px 30px -18px #000}
+  .tnt-current-badge{position:absolute;top:0;right:0;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:#04201b;background:var(--teal);padding:3px 9px;border-bottom-left-radius:8px}
+  .tnt-ctx-banner{display:flex;align-items:center;gap:11px;margin-bottom:18px;padding:11px 16px;border:1px solid var(--teal-deep);
+    background:linear-gradient(90deg,var(--teal-ghost),transparent);border-radius:10px;font-size:13px;color:var(--text);flex-wrap:wrap}
+  .tnt-ctx-banner .cdot{width:9px;height:9px;border-radius:99px;box-shadow:0 0 8px currentColor;flex:0 0 auto}
+  .tnt-ctx-banner .sp{flex:1 1 40px}
+  .tnt-ctx-banner .btn{padding:6px 12px;font-size:12px}
   @media(max-width:560px){ .tnt-grid{grid-template-columns:1fr} }
+
+  /* ---------- TENANT CONTEXT BAR (UniFi-style scoped workspace) ---------- */
+  .ctxbar{display:none;position:sticky;top:0;z-index:30;align-items:center;justify-content:space-between;gap:14px;
+    padding:11px 28px;background:rgba(10,21,24,.88);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
+  .ctxbar.show{display:flex}
+  .ctx-left{display:flex;align-items:center;gap:12px;min-width:0;flex-wrap:wrap}
+  .ctx-back{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:8px;border:1px solid var(--line);
+    background:var(--panel);color:var(--dim);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .ctx-back:hover{color:var(--text);border-color:var(--teal-deep)}
+  .ctx-sep{width:1px;height:20px;background:var(--line)}
+  .ctx-tenant{display:flex;align-items:center;gap:8px;font-family:"Open Sans";font-weight:600;font-size:14px;white-space:nowrap}
+  .ctx-tenant .ctx-dot{width:9px;height:9px;border-radius:99px;box-shadow:0 0 8px currentColor}
+  .ctx-pick{position:relative}
+  .ctx-pick-btn{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:8px;border:1px solid var(--line);
+    background:var(--bg-2);color:var(--text);font-size:12.5px;font-weight:600;cursor:pointer;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .ctx-pick-btn:hover{border-color:var(--teal-deep)}
+  .ctx-pick-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;opacity:.6}
+  .ctx-pick-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:200px;max-height:330px;overflow:auto;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:6px;z-index:60;display:none}
+  .ctx-pick-menu.open{display:block}
+  .ctx-pick-menu button{display:flex;width:100%;align-items:center;gap:9px;padding:7px 10px;border-radius:7px;border:none;background:none;
+    color:var(--dim);font-size:12.5px;font-weight:600;cursor:pointer;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;text-align:left}
+  .ctx-pick-menu button:hover{background:var(--raise);color:var(--text)}
+  .ctx-pick-menu button.sel{color:var(--teal)}
+  .ctx-pick-menu button small{margin-left:auto;font-size:10px;color:var(--mute);font-weight:600;font-family:"Open Sans"}
+  .ctx-cdot{width:7px;height:7px;border-radius:99px;flex:0 0 auto}
+  .ctx-cdot.s-online{background:var(--green)} .ctx-cdot.s-warn{background:var(--amber)}
+  .ctx-cdot.s-crit{background:var(--red)} .ctx-cdot.s-offline{background:var(--mute)}
+  .ctx-planes{display:flex;gap:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:3px;flex:0 0 auto}
+  .ctx-plane{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:7px;border:none;background:none;
+    color:var(--dim);font-size:12.5px;font-weight:600;cursor:pointer}
+  .ctx-plane svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .ctx-plane:hover{color:var(--text)}
+  .ctx-plane.active{background:var(--panel);color:var(--teal)}
+  @media(max-width:600px){ .ctxbar{padding:9px 14px;flex-wrap:wrap;gap:9px} .ctx-planes{order:3;width:100%} .ctx-plane{flex:1;justify-content:center} }
+
+  /* ---------- NMS / management plane stub ---------- */
+  .nms-soon{flex:0 0 auto;align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--violet);background:#171c3a;border:1px solid #2b3270;padding:5px 11px;border-radius:99px}
+  .nms-note{margin:2px 0 20px;font-size:13px;color:var(--dim);background:var(--panel);border:1px dashed var(--line);
+    border-left:3px solid var(--violet);border-radius:10px;padding:13px 16px;line-height:1.5}
+  .nms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+  .nms-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;opacity:.9}
+  .nms-card-h{display:flex;align-items:center;gap:10px;font-family:"Open Sans";font-weight:600;font-size:14px;margin-bottom:16px}
+  .nms-ic{width:10px;height:10px;border-radius:3px;background:var(--c)}
+  .nms-ghost{display:flex;flex-direction:column;gap:10px}
+  .nms-ghost span{height:11px;border-radius:6px;background:linear-gradient(90deg,#10242a,#16323a,#10242a);background-size:200% 100%;animation:nmsShimmer 1.9s linear infinite}
+  .nms-ghost span:nth-child(1){width:88%} .nms-ghost span:nth-child(2){width:68%} .nms-ghost span:nth-child(3){width:52%}
+  @keyframes nmsShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
 
   /* toast */
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -658,29 +728,16 @@
         <span id="tenantName">Acme Corp</span> <small id="tenantSites">/ 14 sites</small>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </button>
-      <div class="tenant-menu" id="tenantMenu">
-        <button class="tenant-opt active" data-tenant="all">
-          <span class="t" data-i18n="All Tenants">All Tenants</span><span class="d" data-i18n="Aggregate · every customer">Aggregate · every customer</span>
-        </button>
-        <div class="ms-sep"></div>
-        <button class="tenant-opt" data-tenant="acme-corp">
-          <span class="t">Acme Corp</span><span class="d" data-i18n="14 sites · North America + Europe">14 sites · North America + Europe</span>
-        </button>
-        <button class="tenant-opt" data-tenant="piedmont">
-          <span class="t">Piedmont Regional Health</span><span class="d" data-i18n="4 sites · North Carolina, USA">4 sites · North Carolina, USA</span>
-        </button>
-        <button class="tenant-opt" data-tenant="atlantico">
-          <span class="t">Atlântico Telecom</span><span class="d" data-i18n="1 site · São Paulo, Brazil">1 site · São Paulo, Brazil</span>
-        </button>
-      </div>
+      <div class="tenant-menu" id="tenantMenu"></div>
     </div>
 
     <div class="topbar-spacer" style="flex:1"></div>
 
-    <div class="global-search">
+    <div class="global-search" id="globalSearch">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input placeholder="Search collectors, alerts, sites…" data-i18n-ph="Search collectors, alerts, sites…" />
+      <input id="searchInput" placeholder="Search collectors, alerts, sites…" data-i18n-ph="Search collectors, alerts, sites…" autocomplete="off" />
       <kbd>⌘K</kbd>
+      <div class="search-results" id="searchResults"></div>
     </div>
 
     <div class="clock"><span id="clock">—</span></div>
@@ -763,6 +820,21 @@
   <!-- MAIN -->
   <main class="main" id="main">
 
+    <!-- ===== TENANT CONTEXT BAR (shown inside a tenant workspace) ===== -->
+    <div class="ctxbar" id="ctxBar">
+      <div class="ctx-left">
+        <button class="ctx-back" id="ctxBack" onclick="exitTenant()">⟵ Back to MSP</button>
+        <div class="ctx-sep"></div>
+        <div class="ctx-pick" id="ctxPick">
+          <button class="ctx-pick-btn" onclick="toggleCtxPick(event)">
+            <span class="ctx-cdot s-online" id="ctxCollDot"></span><span id="ctxCollLabel">collector</span>
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="ctx-pick-menu" id="ctxPickMenu"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== DASHBOARD ===== -->
     <section class="screen show" id="screen-dashboard">
       <div class="page-head">
@@ -773,7 +845,6 @@
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Time range — last 24 hours')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="Last 24h">Last 24h</span></button>
-          <button class="btn primary" onclick="toast('Live feed paused')"><svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg><span data-i18n="Pause feed">Pause feed</span></button>
         </div>
       </div>
 
@@ -983,7 +1054,7 @@
         <table>
           <thead>
             <tr>
-              <th data-i18n="Collector">Collector</th><th data-i18n="Tenant">Tenant</th><th data-i18n="Status">Status</th><th data-i18n="Last seen">Last seen</th>
+              <th data-i18n="Tenant">Tenant</th><th data-i18n="Collector">Collector</th><th data-i18n="Status">Status</th><th data-i18n="Last seen">Last seen</th>
               <th class="r" data-i18n="CPU">CPU</th><th class="r" data-i18n="Throughput">Throughput</th><th data-i18n="Config">Config</th>
             </tr>
           </thead>
@@ -996,7 +1067,7 @@
     <section class="screen" id="screen-detail">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Fleet">← Collector Fleet</button> / Acme Corp</div>
+          <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Management">← Collector Management</button> / Acme Corp</div>
           <h1 class="page-title mono" style="font-size:24px" id="detailId">acme-corp:site-04</h1>
           <p class="page-sub"><span class="td-status s-warn" id="detailStatus" style="display:inline-flex"><i></i><span id="detailStatusTxt">Degraded</span></span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
         </div>
@@ -1231,6 +1302,7 @@
     <section class="screen" id="screen-audit"></section>
     <section class="screen" id="screen-config"></section>
     <section class="screen" id="screen-settings"></section>
+    <section class="screen" id="screen-nms"></section>
   </main>
 </div>
 
@@ -4100,7 +4172,7 @@ const I18N={
   "Design preview":"Anteprima di design","— concept UI, not a live product.":"— UI concettuale, non un prodotto reale.",
   "All sites, alerts, and data shown are fabricated.":"Tutte le sedi, gli avvisi e i dati mostrati sono fittizi.","Help shape 2027 →":"Contribuisci al 2027 →",
   "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilità in tempo reale su tutta la flotta collector · streaming via Centrifugo",
-  "Last 24h":"Ultime 24h","Pause feed":"Pausa feed","Live alerts":"Avvisi in diretta","Fleet radar":"Radar flotta",
+  "Last 24h":"Ultime 24h","Live alerts":"Avvisi in diretta","Fleet radar":"Radar flotta",
   "Telemetry rate":"Frequenza telemetria","Active alerts":"Avvisi attivi","Fleet uptime":"Uptime flotta","Sync backlog":"Coda di sincronizzazione",
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs 1h fa","▲ 2 new in last hour":"▲ 2 nuovi nell'ultima ora","30-day rolling SLA":"SLA su 30 giorni","▲ site-07 offline · buffering":"▲ site-07 offline · buffering in corso",
   "Collector health grid":"Stato dei collector","Recent alerts":"Avvisi recenti","View all →":"Vedi tutti →","Console":"Console","live":"in diretta",
@@ -4132,7 +4204,12 @@ const I18N={
   "Mountain link flapping":"Link di montagna instabile","Config drift":"Drift di configurazione","Collector reconnected":"Collector riconnesso","New collector registered":"Nuovo collector registrato",
   "Local buffer 96% full · WAN link degraded":"Buffer locale pieno al 96% · link WAN degradato","No heartbeat for 4 minutes · last sync 14:01":"Nessun heartbeat da 4 minuti · ultimo sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picchi sulla pipeline di enrich","512 → 42 msg/s over 90s":"512 → 42 msg/s in 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittente",
-  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Aggregate · every customer":"Aggregato · ogni cliente"
+  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Aggregate · every customer":"Aggregato · ogni cliente",
+  "Back to MSP":"Torna a MSP","Collectors":"Collector","Network":"Rete","Management plane":"Piano di gestione","In design":"In progettazione",
+  "The monitored network: devices, clients, and links these collectors observe.":"La rete monitorata: dispositivi, client e collegamenti osservati da questi collector.",
+  "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Questo è il piano NMS / di gestione. Il monitoraggio a livello di dispositivo per questo cliente arriverà in una versione futura.",
+  "Device Inventory":"Inventario dispositivi","Internet Health":"Stato Internet","Top Talkers":"Top consumatori","Client Activity":"Attività client",
+  "Working in":"Stai lavorando in","Open workspace":"Apri area di lavoro","Exit tenant":"Esci dal cliente","Current":"Attuale","Collector Management":"Gestione collector","Tenant Management":"Gestione clienti","Dashboard":"Dashboard","Audit log":"Log di audit","Tenants":"Clienti","No matches":"Nessun risultato"
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -4144,7 +4221,7 @@ const I18N={
   "Design preview":"Aperçu de conception","— concept UI, not a live product.":"— interface conceptuelle, pas un produit réel.",
   "All sites, alerts, and data shown are fabricated.":"Tous les sites, alertes et données affichés sont fictifs.","Help shape 2027 →":"Façonnez 2027 →",
   "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilité en temps réel sur votre flotte de collecteurs · streaming via Centrifugo",
-  "Last 24h":"Dernières 24h","Pause feed":"Suspendre le flux","Live alerts":"Alertes en direct","Fleet radar":"Radar de flotte",
+  "Last 24h":"Dernières 24h","Live alerts":"Alertes en direct","Fleet radar":"Radar de flotte",
   "Telemetry rate":"Débit télémétrie","Active alerts":"Alertes actives","Fleet uptime":"Disponibilité flotte","Sync backlog":"File de synchro",
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs il y a 1h","▲ 2 new in last hour":"▲ 2 nouveaux la dernière heure","30-day rolling SLA":"SLA glissant sur 30 jours","▲ site-07 offline · buffering":"▲ site-07 hors ligne · mise en mémoire",
   "Collector health grid":"Santé des collecteurs","Recent alerts":"Alertes récentes","View all →":"Voir tout →","Console":"Console","live":"en direct",
@@ -4176,7 +4253,12 @@ const I18N={
   "Mountain link flapping":"Liaison montagne instable","Config drift":"Dérive de configuration","Collector reconnected":"Collecteur reconnecté","New collector registered":"Nouveau collecteur enregistré",
   "Local buffer 96% full · WAN link degraded":"Tampon local plein à 96% · liaison WAN dégradée","No heartbeat for 4 minutes · last sync 14:01":"Aucun battement depuis 4 minutes · dernière synchro 14:01",
   "68% → spiking on enrich pipeline":"68% → pics sur le pipeline d'enrichissement","512 → 42 msg/s over 90s":"512 → 42 msg/s sur 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittent",
-  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Aggregate · every customer":"Agrégé · tous les clients"
+  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Aggregate · every customer":"Agrégé · tous les clients",
+  "Back to MSP":"Retour au MSP","Collectors":"Collecteurs","Network":"Réseau","Management plane":"Plan de gestion","In design":"En conception",
+  "The monitored network: devices, clients, and links these collectors observe.":"Le réseau supervisé : appareils, clients et liaisons observés par ces collecteurs.",
+  "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Ceci est le plan NMS / de gestion. La supervision au niveau des appareils pour ce client arrivera dans une version ultérieure.",
+  "Device Inventory":"Inventaire des appareils","Internet Health":"État Internet","Top Talkers":"Principaux émetteurs","Client Activity":"Activité des clients",
+  "Working in":"Vous travaillez dans","Open workspace":"Ouvrir l'espace","Exit tenant":"Quitter le client","Current":"Actuel","Collector Management":"Gestion des collecteurs","Tenant Management":"Gestion des clients","Dashboard":"Tableau de bord","Audit log":"Journal d'audit","Tenants":"Clients","No matches":"Aucun résultat"
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -4188,7 +4270,7 @@ const I18N={
   "Design preview":"Vista previa de diseño","— concept UI, not a live product.":"— interfaz conceptual, no un producto real.",
   "All sites, alerts, and data shown are fabricated.":"Todas las sedes, alertas y datos mostrados son ficticios.","Help shape 2027 →":"Ayuda a dar forma a 2027 →",
   "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilidad en tiempo real en toda tu flota de collectors · streaming vía Centrifugo",
-  "Last 24h":"Últimas 24h","Pause feed":"Pausar flujo","Live alerts":"Alertas en vivo","Fleet radar":"Radar de flota",
+  "Last 24h":"Últimas 24h","Live alerts":"Alertas en vivo","Fleet radar":"Radar de flota",
   "Telemetry rate":"Tasa de telemetría","Active alerts":"Alertas activas","Fleet uptime":"Disponibilidad de flota","Sync backlog":"Cola de sincronización",
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs hace 1h","▲ 2 new in last hour":"▲ 2 nuevas en la última hora","30-day rolling SLA":"SLA móvil de 30 días","▲ site-07 offline · buffering":"▲ site-07 desconectado · almacenando",
   "Collector health grid":"Estado de los collectors","Recent alerts":"Alertas recientes","View all →":"Ver todo →","Console":"Consola","live":"en vivo",
@@ -4220,7 +4302,12 @@ const I18N={
   "Mountain link flapping":"Enlace de montaña inestable","Config drift":"Desviación de configuración","Collector reconnected":"Collector reconectado","New collector registered":"Nuevo collector registrado",
   "Local buffer 96% full · WAN link degraded":"Búfer local al 96% · enlace WAN degradado","No heartbeat for 4 minutes · last sync 14:01":"Sin latido durante 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos en la canalización de enriquecimiento","512 → 42 msg/s over 90s":"512 → 42 msg/s en 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
-  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Aggregate · every customer":"Agregado · todos los clientes"
+  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Aggregate · every customer":"Agregado · todos los clientes",
+  "Back to MSP":"Volver a MSP","Collectors":"Colectores","Network":"Red","Management plane":"Plano de gestión","In design":"En diseño",
+  "The monitored network: devices, clients, and links these collectors observe.":"La red supervisada: dispositivos, clientes y enlaces que observan estos colectores.",
+  "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este es el plano NMS / de gestión. La supervisión a nivel de dispositivo para este cliente llegará en una versión posterior.",
+  "Device Inventory":"Inventario de dispositivos","Internet Health":"Estado de Internet","Top Talkers":"Principales emisores","Client Activity":"Actividad de clientes",
+  "Working in":"Trabajando en","Open workspace":"Abrir espacio","Exit tenant":"Salir del cliente","Current":"Actual","Collector Management":"Gestión de collectors","Tenant Management":"Gestión de clientes","Dashboard":"Panel","Audit log":"Registro de auditoría","Tenants":"Clientes","No matches":"Sin resultados"
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -4232,7 +4319,7 @@ const I18N={
   "Design preview":"Pré-visualização de design","— concept UI, not a live product.":"— interface conceptual, não um produto real.",
   "All sites, alerts, and data shown are fabricated.":"Todas as sedes, alertas e dados apresentados são fictícios.","Help shape 2027 →":"Ajude a moldar 2027 →",
   "Real-time visibility across your collector fleet · streaming over Centrifugo":"Visibilidade em tempo real em toda a sua frota de collectors · streaming via Centrifugo",
-  "Last 24h":"Últimas 24h","Pause feed":"Pausar fluxo","Live alerts":"Alertas em direto","Fleet radar":"Radar da frota",
+  "Last 24h":"Últimas 24h","Live alerts":"Alertas em direto","Fleet radar":"Radar da frota",
   "Telemetry rate":"Taxa de telemetria","Active alerts":"Alertas ativos","Fleet uptime":"Disponibilidade da frota","Sync backlog":"Fila de sincronização",
   "▲ 6.2% vs 1h ago":"▲ 6,2% vs há 1h","▲ 2 new in last hour":"▲ 2 novos na última hora","30-day rolling SLA":"SLA móvel de 30 dias","▲ site-07 offline · buffering":"▲ site-07 offline · em buffer",
   "Collector health grid":"Estado dos collectors","Recent alerts":"Alertas recentes","View all →":"Ver tudo →","Console":"Consola","live":"em direto",
@@ -4265,7 +4352,12 @@ const I18N={
   "Local buffer 96% full · WAN link degraded":"Buffer local a 96% · ligação WAN degradada","No heartbeat for 4 minutes · last sync 14:01":"Sem heartbeat há 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos no pipeline de enriquecimento","512 → 42 msg/s over 90s":"512 → 42 msg/s em 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
   "Running c4d8a91, repo expects c4d8a92":"A executar c4d8a91, o repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado após queda WS de 12s","Auto-registered on first wss:// connect":"Registado automaticamente na primeira ligação wss://",
-  "All Tenants":"Todos os clientes","Aggregate · every customer":"Agregado · todos os clientes"
+  "All Tenants":"Todos os clientes","Aggregate · every customer":"Agregado · todos os clientes",
+  "Back to MSP":"Voltar ao MSP","Collectors":"Coletores","Network":"Rede","Management plane":"Plano de gestão","In design":"Em design",
+  "The monitored network: devices, clients, and links these collectors observe.":"A rede monitorada: dispositivos, clientes e links que estes coletores observam.",
+  "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
+  "Device Inventory":"Inventário de dispositivos","Internet Health":"Saúde da Internet","Top Talkers":"Principais consumidores","Client Activity":"Atividade de clientes",
+  "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Management":"Gestão de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -4280,6 +4372,7 @@ function activeCtx(){
   }
   return TENANTS[currentTenant];
 }
+function tenantScope(){ return currentTenantCtx || currentTenant; }  /* operational screens follow the selected tenant */
 function updateChrome(){
   const c=activeCtx();
   const nm=currentTenant==='all'?TX('All Tenants'):c.name;
@@ -4294,6 +4387,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
   updateChrome();
   renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderDetail();
+  renderTenants(); renderTenantMenu(); if(currentTenantCtx){ buildCtxBar(); renderTenantNMS(); }
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
   setupRadars();
   document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('active',o.dataset.lang===l));
@@ -4436,15 +4530,16 @@ function setFleetFilter(s){
   renderFleetTable();
 }
 function renderFleetTable(){
-  const base = currentTenant==='all' ? fleetRows : fleetRows.filter(r=>r[1]===currentTenant);
+  const sc=tenantScope();
+  const base = sc==='all' ? fleetRows : fleetRows.filter(r=>r[1]===sc);
   const rows = fleetStatus==='all' ? base : base.filter(r=>r[2]===fleetStatus);
   _set('fleetCount', String(base.length));
   const cnt=s=>base.filter(r=>r[2]===s).length;
   _set('fcOnline',String(cnt('online'))); _set('fcWarn',String(cnt('warn'))); _set('fcCrit',String(cnt('crit'))); _set('fcOffline',String(cnt('offline')));
   document.getElementById('fleetTable').innerHTML = rows.map(r=>`
     <tr onclick="openDetail('${r[1]}:${r[0]}')">
-      <td class="cell-id">${r[0]}</td>
       <td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[r[1]]}">${tnInit(r[1])}</span>${tenantName[r[1]]}</span></td>
+      <td class="cell-id">${r[0]}</td>
       <td><span class="td-status ${statusClass[r[2]]}"><i></i>${TX(statusLabel[r[2]])}</span></td>
       <td class="cell-mut">${r[3]}</td>
       <td class="r">${r[2]==='offline'?'<span class="cell-mut">—</span>':cpuBar(r[4])}</td>
@@ -4463,7 +4558,8 @@ function setAlertTab(t){
   renderAlertsFull();
 }
 function renderAlertsFull(){
-  const scoped=alerts.map((a,i)=>({a,i})).filter(x=> currentTenant==='all' || x.a[3]===currentTenant);
+  const sc=tenantScope();
+  const scoped=alerts.map((a,i)=>({a,i})).filter(x=> sc==='all' || x.a[3]===sc);
   const cnt=s=>scoped.filter(x=>x.a[7]===s).length;
   _set('ctActive',String(cnt('active'))); _set('ctAcked',String(cnt('acked'))); _set('ctResolved',String(cnt('resolved')));
   const items=scoped.filter(x=>x.a[7]===alertTab);
@@ -4568,6 +4664,13 @@ function renderTenants(){
       </div>
     </div>
 
+    ${currentTenantCtx ? `<div class="tnt-ctx-banner">
+      <span class="cdot" style="background:${tenantColors[currentTenantCtx]||'var(--teal)'};color:${tenantColors[currentTenantCtx]||'var(--teal)'}"></span>
+      <span>${TX('Working in')} <b>${tenantName[currentTenantCtx]||currentTenantCtx}</b></span>
+      <div class="sp"></div>
+      <button class="btn primary" onclick="enterTenant('${currentTenantCtx}')">${TX('Open workspace')}</button>
+      <button class="btn" onclick="clearTenantSelection()">${TX('Exit tenant')}</button>
+    </div>` : ''}
     <div class="tnt-grid">
       ${TENANT_DIR.map(tntCard).join('')}
     </div>`;
@@ -4581,8 +4684,10 @@ function tntCard(t){
   const onPct = t.col ? Math.round(t.online / t.col * 100) : 0;
   const al = tntActiveAlerts(t.slug);
   const alClass = al===0 ? 'ok' : al>=3 ? 'crit' : 'warn';
+  const cur = (t.slug===currentTenantCtx);
   return `
-    <div class="tnt-card" style="--c:${color}" onclick="toast('Opening ${name.replace(/'/g,"\\'")} workspace — wired in the next build pass')">
+    <div class="tnt-card${cur?' current':''}" style="--c:${color}" onclick="enterTenant('${t.slug}')">
+      ${cur?`<span class="tnt-current-badge">${TX('Current')}</span>`:''}
       <div class="tnt-top">
         <div class="tnt-ava">${tnInit(name)}</div>
         <div class="tnt-id">
@@ -4606,7 +4711,7 @@ function tntCard(t){
       </div>
       <div class="tnt-foot">
         <div class="tnt-regions">${t.regions.map(r=>`<span class="tnt-region">${r}</span>`).join('')}</div>
-        <button class="btn" onclick="event.stopPropagation();toast('Manage ${name.replace(/'/g,"\\'")} — wired in the next build pass')">Manage</button>
+        <button class="btn" onclick="event.stopPropagation();enterTenant('${t.slug}')">Manage</button>
       </div>
     </div>`;
 }
@@ -4727,7 +4832,7 @@ function selectNormSub(key){ currentNormSub=key; closeAllMenus(); renderCfgViewe
 function toggleSvcPick(e){ e.stopPropagation(); const m=document.getElementById('svcPickMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 function toggleNormSub(e){ e.stopPropagation(); const m=document.getElementById('normSubMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 
-function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open,.lang-mini-menu.open,.yaml-pick-menu.open').forEach(m=>m.classList.remove('open')); }
+function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open,.lang-mini-menu.open,.yaml-pick-menu.open,.ctx-pick-menu.open').forEach(m=>m.classList.remove('open')); }
 document.addEventListener('click',closeAllMenus);
 function makeMultiselect(mountId, options, selected, onChange){
   const el=document.getElementById(mountId); if(!el) return;
@@ -4753,6 +4858,29 @@ function makeMultiselect(mountId, options, selected, onChange){
 }
 
 /* ---------- tenant switcher ---------- */
+function renderTenantMenu(){
+  const menu=document.getElementById('tenantMenu'); if(!menu) return;
+  const allActive = (currentTenant==='all' && !currentTenantCtx) ? ' active' : '';
+  let html=`<button class="tenant-opt${allActive}" data-tenant="all" onclick="pickAllTenants();closeAllMenus()">
+      <span class="t">${TX('All Tenants')}</span><span class="d">${TX('Aggregate · every customer')}</span>
+    </button><div class="ms-sep"></div>`;
+  html+=TENANT_DIR.map(t=>{
+    const name=tenantName[t.slug]||t.slug;
+    const sub=`${t.plan} · ${t.regions.join(' + ')}`;
+    const active=currentTenantCtx===t.slug?' active':'';
+    return `<button class="tenant-opt${active}" data-tenant="${t.slug}" onclick="pickTenant('${t.slug}');closeAllMenus()">
+      <span class="t">${name}</span><span class="d">${sub}</span>
+    </button>`;
+  }).join('');
+  menu.innerHTML=html;
+}
+function pickTenant(slug){
+  /* if already on the Tenants screen, just flip the selected tenant in place — don't dive into a collector */
+  const onTenants=document.getElementById('screen-tenants').classList.contains('show');
+  if(onTenants){ currentTenantCtx=slug; renderTenants(); go('tenants'); }
+  else enterTenant(slug);
+}
+function pickAllTenants(){ currentTenantCtx=null; switchTenant('all'); go('dashboard'); }
 function switchTenant(id){
   currentTenant=id;
   updateChrome();
@@ -4764,7 +4892,7 @@ function wireTenantMenu(){
   const btn=document.getElementById('tenantBtn'), menu=document.getElementById('tenantMenu');
   menu.onclick=e=>e.stopPropagation();
   btn.onclick=e=>{e.stopPropagation();const open=menu.classList.contains('open');closeAllMenus();if(!open)menu.classList.add('open');};
-  document.querySelectorAll('.tenant-opt').forEach(o=>o.addEventListener('click',()=>{switchTenant(o.dataset.tenant);closeAllMenus();}));
+  renderTenantMenu();
 }
 
 /* ---------- configuration: tenant locations ---------- */
@@ -4812,13 +4940,30 @@ function renderConfig(){
 }
 
 /* ---------- navigation ---------- */
+let navHighlight='dashboard';   /* the sidebar section stays lit while drilling into a collector (detail) or the network plane (nms) */
+function syncTopbarTenant(){
+  /* the topbar tenant launcher always reflects the selected/working tenant (sticky) */
+  updateChrome();
+  if(currentTenantCtx){
+    const slug=currentTenantCtx, name=tenantName[slug]||slug, color=tenantColors[slug]||'#2EE6C8';
+    const dir=(typeof TENANT_DIR!=='undefined')?TENANT_DIR.find(x=>x.slug===slug):null;
+    const d=document.querySelector('.tenant-switch .dot'); if(d) d.style.background=color;
+    const tn=document.getElementById('tenantName'); if(tn) tn.textContent=name;
+    const ts=document.getElementById('tenantSites'); if(ts) ts.textContent='/ '+(dir?dir.sites:'—')+' '+TX('sites');
+  }
+  if(typeof renderTenantMenu==='function') renderTenantMenu();
+}
 function go(screen){
+  const inTenant = (screen==='detail'||screen==='nms');
+  if(!inTenant) navHighlight=screen;   /* tenant selection is sticky — not cleared by navigation */
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
   document.getElementById('screen-'+screen).classList.add('show');
-  const navKey = screen==='detail' ? 'fleet' : screen;
+  const bar=document.getElementById('ctxBar');
+  if(bar) bar.classList.toggle('show', !!(inTenant && currentTenantCtx));
   document.querySelectorAll('.nav-item').forEach(n=>{
-    n.classList.toggle('active', n.dataset.screen===navKey);
+    n.classList.toggle('active', n.dataset.screen===navHighlight);
   });
+  syncTopbarTenant();
   document.getElementById('main').scrollTop=0;
 }
 const SVC_ICONS={
@@ -4863,10 +5008,21 @@ function svcCard(o){
   </div>`;
 }
 let currentDetailId='acme-corp:site-04';
+/* breadcrumb label + return target, keyed by the section the collector was opened from */
+const CRUMB_ORIGIN={
+  fleet:{s:'fleet',k:'Collector Management'},
+  tenants:{s:'tenants',k:'Tenant Management'},
+  dashboard:{s:'dashboard',k:'Dashboard'},
+  alerts:{s:'alerts',k:'Alerts'},
+  audit:{s:'audit',k:'Audit log'}
+};
 function renderDetail(){
   const id=currentDetailId, parts=id.split(':'), ten=parts[0], coll=parts[1]||id;
   const set=(i,t)=>{const e=document.getElementById(i); if(e) e.textContent=t;};
   set('detailId',id); set('idColl',coll); set('idTenant',ten); set('idChannel','telemetry:'+id);
+  const oc=CRUMB_ORIGIN[navHighlight]||CRUMB_ORIGIN.fleet;   /* breadcrumb returns to wherever you came from */
+  const crumb=document.getElementById('detailCrumb');
+  if(crumb) crumb.innerHTML=`<button onclick="go('${oc.s}')" style="color:var(--teal);cursor:pointer">← ${TX(oc.k)}</button> / ${tenantName[ten]||ten}`;
   const S=genServices(id);
   const cards=[
     svcCard({name:'vCollector',role:'Ingests device data',status:S.vcollector.status,
@@ -4906,8 +5062,74 @@ function renderDetail(){
   if(typeof updateDetailVitals==='function') updateDetailVitals();
   if(typeof renderCfgViewer==='function') renderCfgViewer();
 }
+/* ---------- tenant workspace (UniFi-style scoped context) ---------- */
+let currentTenantCtx=null, currentPlane='control';
+function collectorsForTenant(slug){
+  const out=[], seen={};
+  const push=(id,st)=>{ if(id && !seen[id]){ seen[id]=1; out.push({id,status:st||'online'}); } };
+  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(arr=>arr.forEach(n=>{ if(n[1]===slug) push(n[0],n[2]); }));
+  fleetRows.forEach(r=>{ if(r[1]===slug) push(r[0],r[2]); });
+  return out;
+}
+function ctxStatusOf(slug,coll){ const f=collectorsForTenant(slug).find(c=>c.id===coll); return f?f.status:'online'; }
+function buildCtxBar(){
+  if(!currentTenantCtx) return;
+  const slug=currentTenantCtx, coll=currentDetailId.split(':')[1];
+  const name=tenantName[slug]||slug, color=tenantColors[slug]||'#2EE6C8';
+  const set=(i,t)=>{const e=document.getElementById(i); if(e) e.textContent=t;};
+  set('ctxCollLabel',coll);
+  const cd=document.getElementById('ctxCollDot'); if(cd) cd.className='ctx-cdot '+(statusClass[ctxStatusOf(slug,coll)]||'s-online');
+  const menu=document.getElementById('ctxPickMenu');
+  if(menu) menu.innerHTML=collectorsForTenant(slug).map(c=>
+    `<button class="${c.id===coll?'sel':''}" onclick="switchCollector('${c.id}')"><span class="ctx-cdot ${statusClass[c.status]||'s-online'}"></span>${c.id}<small>${TX(statusLabel[c.status]||'')}</small></button>`).join('');
+  set('ctxBack','⟵ '+TX('Back to MSP'));
+}
+function toggleCtxPick(e){ e.stopPropagation(); const m=document.getElementById('ctxPickMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
+function enterTenant(slug){
+  const list=collectorsForTenant(slug); const first=(list[0]||{id:'site-01'}).id;
+  currentTenantCtx=slug; currentPlane='control';
+  openDetail(slug+':'+first);
+}
+function exitTenant(){ currentTenantCtx=null; closeAllMenus(); renderTenants(); go('tenants'); }
+function clearTenantSelection(){ currentTenantCtx=null; closeAllMenus(); renderTenants(); go('tenants'); }
+function switchCollector(id){
+  closeAllMenus();
+  currentDetailId=currentTenantCtx+':'+id;
+  buildCtxBar();
+  if(currentPlane==='control'){ renderDetail(); go('detail'); }
+  else { renderTenantNMS(); go('nms'); }
+}
+function setPlane(p){
+  currentPlane=p; buildCtxBar();
+  if(p==='control'){ renderDetail(); go('detail'); }
+  else { renderTenantNMS(); go('nms'); }
+}
+function renderTenantNMS(){
+  if(!currentTenantCtx) return;
+  const slug=currentTenantCtx, name=tenantName[slug]||slug, color=tenantColors[slug]||'#2EE6C8';
+  const cards=['Device Inventory','Internet Health','Top Talkers','Client Activity'].map(t=>`
+    <div class="nms-card">
+      <div class="nms-card-h"><span class="nms-ic" style="--c:${color}"></span>${TX(t)}</div>
+      <div class="nms-ghost"><span></span><span></span><span></span></div>
+    </div>`).join('');
+  document.getElementById('screen-nms').innerHTML=`
+    <div class="page-head">
+      <div>
+        <div class="page-eyebrow">${TX('Management plane')} · ${name}</div>
+        <h1 class="page-title">${TX('Network')}</h1>
+        <p class="page-sub">${TX('The monitored network: devices, clients, and links these collectors observe.')}</p>
+      </div>
+      <span class="nms-soon">${TX('In design')}</span>
+    </div>
+    <div class="nms-note">${TX('This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.')}</div>
+    <div class="nms-grid">${cards}</div>`;
+}
+function openFromRadar(tenant,coll){ navHighlight='fleet'; openDetail(tenant+':'+coll); }  /* radar → collector, origin = Collector Management */
 function openDetail(id){
   currentDetailId=id;
+  currentTenantCtx=id.split(':')[0];
+  currentPlane='control';
+  buildCtxBar();
   renderDetail();
   go('detail');
 }
@@ -4916,6 +5138,8 @@ document.querySelectorAll('.nav-item').forEach(n=>{
     const s=n.dataset.screen;
     if(s==='config') renderConfig();
     else if(s==='tenants') renderTenants();
+    else if(s==='fleet') renderFleetTable();
+    else if(s==='alerts') renderAlertsFull();
     else if(placeholders[s]) renderPlaceholder(s);
     go(s);
     toggleNav(false);
@@ -5096,6 +5320,10 @@ _mq.addEventListener('change',setupRadars);
     const dr=document.querySelector('.dash-radars'); if(dr) dr.classList.remove('paused');
   }
   document.addEventListener('mouseover',e=>{ const b=e.target.closest&&e.target.closest('.blip'); if(b&&b.dataset.site) show(b); });
+  document.addEventListener('click',e=>{
+    const b=e.target.closest&&e.target.closest('.blip');
+    if(b&&b.dataset.coll){ hide(); openFromRadar(b.dataset.tenant,b.dataset.coll); }
+  });
   document.addEventListener('mouseout',e=>{
     const from=e.target.closest&&e.target.closest('.blip'); if(!from) return;
     const to=e.relatedTarget&&e.relatedTarget.closest?e.relatedTarget.closest('.blip'):null;
@@ -5240,13 +5468,69 @@ function tickVitals(){
     s.queueHist.push(s.queue); s.queueHist.shift();
     s.latHist.push(s.lat); s.latHist.shift();
   }
-  fleetRows.forEach(r=>{const s=VIT[r[0]]; if(s&&r[2]!=='offline'){r[4]=s.cpu;r[5]=s.thr;}});
-  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(a=>a.forEach(n=>{const s=VIT[n[0]]; if(s&&n[2]!=='offline'){n[3]=s.cpu;n[4]=s.thr;}}));
+  const coreAvg=s=>Math.round((s.core0+s.core1)/2);   // fleet CPU mirrors the collector's actual two cores
+  fleetRows.forEach(r=>{const s=VIT[r[0]]; if(s&&r[2]!=='offline'){r[4]=coreAvg(s);r[5]=s.thr;}});
+  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(a=>a.forEach(n=>{const s=VIT[n[0]]; if(s&&n[2]!=='offline'){n[3]=coreAvg(s);n[4]=s.thr;}}));
   const vis=id=>{const e=document.getElementById(id);return e&&e.classList.contains('show');};
   if(vis('screen-dashboard')) renderFleetGrid();
   if(vis('screen-fleet')) renderFleetTable();
   if(vis('screen-detail')) updateDetailVitals();
 }
+/* ---------- global search ---------- */
+function _allCollectors(){
+  const seen={}, out=[];
+  const push=(coll,ten,st)=>{const k=ten+':'+coll; if(coll&&!seen[k]){seen[k]=1; out.push({coll,ten,st:st||'online'});}};
+  fleetRows.forEach(r=>push(r[0],r[1],r[2]));
+  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(a=>a.forEach(n=>push(n[0],n[1],n[2])));
+  return out;
+}
+const _sevCol={crit:'var(--red)',warn:'var(--amber)',info:'var(--violet)'};
+const _stCol2={online:'var(--green)',warn:'var(--amber)',crit:'var(--red)',offline:'var(--mute)'};
+function _se(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function runSearch(q){
+  const box=document.getElementById('searchResults'); if(!box) return;
+  q=(q||'').trim().toLowerCase();
+  if(!q){ box.classList.remove('show'); box.innerHTML=''; return; }
+  const cols=_allCollectors().filter(c=>c.coll.toLowerCase().includes(q)||c.ten.includes(q)||(tenantName[c.ten]||'').toLowerCase().includes(q)).slice(0,6);
+  const tens=TENANT_DIR.filter(t=>t.slug.includes(q)||(tenantName[t.slug]||'').toLowerCase().includes(q)||(t.plan||'').toLowerCase().includes(q)).slice(0,4);
+  const als=alerts.map((a,i)=>({a,i})).filter(x=>(x.a[1]||'').toLowerCase().includes(q)||(x.a[2]||'').toLowerCase().includes(q)||(tenantName[x.a[3]]||'').toLowerCase().includes(q)).slice(0,4);
+  let h='';
+  if(cols.length) h+=`<div class="sr-group">${TX('Collectors')}</div>`+cols.map(c=>
+    `<div class="sr-item" onclick="searchGoCollector('${_se(c.ten)}','${_se(c.coll)}')">
+      <span class="sr-dot" style="background:${_stCol2[c.st]||'var(--green)'}"></span>
+      <span class="sr-main"><b>${_se(c.coll)}</b></span><span class="sr-sub">${_se(tenantName[c.ten]||c.ten)}</span></div>`).join('');
+  if(tens.length) h+=`<div class="sr-group">${TX('Tenants')}</div>`+tens.map(t=>
+    `<div class="sr-item" onclick="searchGoTenant('${_se(t.slug)}')">
+      <span class="sr-av" style="background:${tenantColors[t.slug]||'var(--teal)'}">${_se(tnInit(tenantName[t.slug]||t.slug))}</span>
+      <span class="sr-main"><b>${_se(tenantName[t.slug]||t.slug)}</b></span><span class="sr-sub">${_se(t.plan||'')}</span></div>`).join('');
+  if(als.length) h+=`<div class="sr-group">${TX('Alerts')}</div>`+als.map(x=>
+    `<div class="sr-item" onclick="searchGoAlert(${x.i})">
+      <span class="sr-dot" style="background:${_sevCol[x.a[0]]||'var(--amber)'}"></span>
+      <span class="sr-main"><b>${_se(TX(x.a[1]))}</b></span><span class="sr-sub">${_se(tenantName[x.a[3]]||x.a[3])}</span></div>`).join('');
+  box.innerHTML = h || `<div class="sr-empty">${TX('No matches')}</div>`;
+  box.classList.add('show');
+}
+function closeSearch(){ const b=document.getElementById('searchResults'); if(b){b.classList.remove('show');b.innerHTML='';} const i=document.getElementById('searchInput'); if(i) i.value=''; }
+function searchGoCollector(ten,coll){ closeSearch(); navHighlight='fleet'; openDetail(ten+':'+coll); }
+function searchGoTenant(slug){ closeSearch(); currentTenantCtx=slug; renderTenants(); go('tenants'); }
+function searchGoAlert(i){ closeSearch(); renderAlertsFull(); go('alerts'); }
+(function(){
+  const inp=document.getElementById('searchInput'), box=document.getElementById('searchResults');
+  if(!inp||!box) return;
+  inp.addEventListener('input',()=>runSearch(inp.value));
+  inp.addEventListener('focus',()=>{ if(inp.value.trim()) runSearch(inp.value); });
+  inp.addEventListener('keydown',e=>{
+    const items=[...box.querySelectorAll('.sr-item')];
+    let ai=items.findIndex(it=>it.classList.contains('active'));
+    if(e.key==='ArrowDown'){ e.preventDefault(); if(!items.length)return; ai=(ai+1)%items.length; items.forEach(it=>it.classList.remove('active')); items[ai].classList.add('active'); items[ai].scrollIntoView({block:'nearest'}); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); if(!items.length)return; ai=(ai-1+items.length)%items.length; items.forEach(it=>it.classList.remove('active')); items[ai].classList.add('active'); items[ai].scrollIntoView({block:'nearest'}); }
+    else if(e.key==='Enter'){ const t=items[ai>=0?ai:0]; if(t) t.click(); }
+    else if(e.key==='Escape'){ closeSearch(); inp.blur(); }
+  });
+  box.addEventListener('mousedown',e=>e.preventDefault());   // preserve input focus until click resolves
+  document.addEventListener('click',e=>{ const gs=document.getElementById('globalSearch'); if(gs&&!gs.contains(e.target)) box.classList.remove('show'); });
+  document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){ e.preventDefault(); inp.focus(); inp.select(); } });
+})();
 /* ---------- init ---------- */
 wireTenantMenu();
 document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=>setLang(o.dataset.lang)));
