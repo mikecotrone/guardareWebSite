@@ -144,9 +144,6 @@
   .alert-tabs-row .alert-tabs{margin-bottom:0}
 
   /* configuration / locations editor */
-  .cfg-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
-  .cfg-tenant{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--dim)}
-  .cfg-tenant b{color:var(--text)}
   .cfg-note{display:flex;align-items:center;gap:9px;padding:11px 15px;border-radius:var(--r-sm);background:var(--teal-ghost);
     border:1px solid var(--teal-deep);font-size:12.5px;color:var(--dim);margin-bottom:18px}
   .cfg-note svg{width:16px;height:16px;stroke:var(--teal);fill:none;stroke-width:1.8;flex:0 0 16px}
@@ -550,9 +547,6 @@
   .tnt-region{font-size:9.5px;font-weight:600;letter-spacing:.04em;color:var(--dim);background:var(--raise);
     border:1px solid var(--line-soft);padding:2px 7px;border-radius:5px}
   .tnt-foot .btn{padding:6px 13px;font-size:12px}
-  .tnt-card.current{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),0 14px 30px -18px #000}
-  .tnt-current-badge{position:absolute;top:0;right:0;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    color:#04201b;background:var(--teal);padding:3px 9px;border-bottom-left-radius:8px}
   .tnt-ctx-banner{display:flex;align-items:center;gap:11px;margin-bottom:18px;padding:11px 16px;border:1px solid var(--teal-deep);
     background:linear-gradient(90deg,var(--teal-ghost),transparent);border-radius:10px;font-size:13px;color:var(--text);flex-wrap:wrap}
   .tnt-ctx-banner .cdot{width:9px;height:9px;border-radius:99px;box-shadow:0 0 8px currentColor;flex:0 0 auto}
@@ -608,6 +602,25 @@
   .tm-loc-coll{color:var(--dim);font-size:12px}
   @media(max-width:760px){ .tm-grid{grid-template-columns:1fr} .tm-loc-hd,.tm-loc{grid-template-columns:1fr 104px}
     .tm-loc-hd span:nth-child(2),.tm-loc-coll{display:none} }
+  /* integrations */
+  .intg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:820px){ .intg-grid{grid-template-columns:1fr} }
+  .intg-card{padding:18px}
+  .intg-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .intg-logo{width:40px;height:40px;border-radius:10px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;
+    font-size:19px;font-weight:800;color:#06181c;background:var(--c);box-shadow:0 6px 16px -8px var(--c)}
+  .intg-id{flex:1;min-width:0}
+  .intg-id b{display:block;font-size:15px;color:var(--text)}
+  .intg-cat{font-size:11px;color:var(--dim)}
+  .intg-status{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:99px;flex:0 0 auto}
+  .intg-status.on{color:var(--green);background:#41d98a1a;border:1px solid #41d98a55}
+  .intg-status.off{color:var(--dim);background:var(--bg-2);border:1px solid var(--line)}
+  .intg-desc{font-size:12.5px;color:var(--dim);line-height:1.5;margin:0 0 14px}
+  .intg-field{display:flex;flex-direction:column;gap:5px;margin-bottom:11px}
+  .intg-field label{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600}
+  .intg-actions{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:13px;border-top:1px solid var(--line-soft)}
+  .intg-toggle{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);cursor:pointer}
+  .intg-toggle input{width:15px;height:15px;accent-color:var(--teal);cursor:pointer}
   @media(max-width:560px){ .tnt-grid{grid-template-columns:1fr} }
 
   /* ---------- TENANT CONTEXT BAR (UniFi-style scoped workspace) ---------- */
@@ -855,6 +868,10 @@
     <button class="nav-item" data-screen="config">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
       <span data-i18n="Locations">Locations</span>
+    </button>
+    <button class="nav-item" data-screen="integrations">
+      <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
+      <span data-i18n="Integrations">Integrations</span>
     </button>
     <button class="nav-item" data-screen="settings">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a7 7 0 0 0-1.7-1L16 3h-4l-.4 2.6a7 7 0 0 0-1.7 1l-2.4-1-2 3.5L7.5 11a7 7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 1.7 1L12 21h4l.4-2.6a7 7 0 0 0 1.7-1l2.4 1 2-3.5-2-1.5a7 7 0 0 0 .1-1z"/></svg>
@@ -1349,6 +1366,7 @@
     <section class="screen" id="screen-reports"></section>
     <section class="screen" id="screen-tenants"></section>
     <section class="screen" id="screen-tenant-manage"></section>
+    <section class="screen" id="screen-integrations"></section>
     <section class="screen" id="screen-provision"></section>
     <section class="screen" id="screen-audit"></section>
     <section class="screen" id="screen-config"></section>
@@ -4260,7 +4278,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"La rete monitorata: dispositivi, client e collegamenti osservati da questi collector.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Questo è il piano NMS / di gestione. Il monitoraggio a livello di dispositivo per questo cliente arriverà in una versione futura.",
   "Device Inventory":"Inventario dispositivi","Internet Health":"Stato Internet","Top Talkers":"Top consumatori","Client Activity":"Attività client",
-  "Working in":"Stai lavorando in","Open workspace":"Apri area di lavoro","Exit tenant":"Esci dal cliente","Current":"Attuale","Collector Management":"Gestione collector","Tenant Management":"Gestione clienti","Dashboard":"Dashboard","Audit log":"Log di audit","Tenants":"Clienti","No matches":"Nessun risultato","Tenant Collectors":"Collector del cliente","Tenant details":"Dettagli cliente","Tickets & SLA":"Ticket e SLA","last 30 days":"ultimi 30 giorni","Open tickets":"Ticket aperti","Closed (30d)":"Chiusi (30g)","SLA met":"SLA rispettato","SLA breached":"SLA violato","Overview":"Panoramica","Plan":"Piano","Open alerts":"Avvisi aperti","Address":"Indirizzo","since":"dal","Open collector workspace":"Apri area collector","Collector limit":"Limite collector","Monthly recurring":"Ricavo mensile","Accent color":"Colore accento","Tenant slug":"Slug cliente","Tenant name":"Nome cliente","Danger zone":"Zona pericolosa","Suspend":"Sospendi","Delete":"Elimina"
+  "Working in":"Stai lavorando in","Open workspace":"Apri area di lavoro","Exit tenant":"Esci dal cliente","Current":"Attuale","Collector Management":"Gestione collector","Tenant Management":"Gestione clienti","Dashboard":"Dashboard","Audit log":"Log di audit","Tenants":"Clienti","No matches":"Nessun risultato","Tenant Collectors":"Collector del cliente","Tenant details":"Dettagli cliente","Tickets & SLA":"Ticket e SLA","Integrations":"Integrazioni","Connected":"Connesso","Available":"Disponibile","API endpoint":"Endpoint API","Enabled":"Abilitato","Save":"Salva","Connect":"Connetti","Add integration":"Aggiungi integrazione","Not set":"Non impostato","of":"di","integrations connected":"integrazioni connesse","last 30 days":"ultimi 30 giorni","Open tickets":"Ticket aperti","Closed (30d)":"Chiusi (30g)","SLA met":"SLA rispettato","SLA breached":"SLA violato","Overview":"Panoramica","Plan":"Piano","Open alerts":"Avvisi aperti","Address":"Indirizzo","since":"dal","Open collector workspace":"Apri area collector","Collector limit":"Limite collector","Monthly recurring":"Ricavo mensile","Accent color":"Colore accento","Tenant slug":"Slug cliente","Tenant name":"Nome cliente","Danger zone":"Zona pericolosa","Suspend":"Sospendi","Delete":"Elimina"
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -4309,7 +4327,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"Le réseau supervisé : appareils, clients et liaisons observés par ces collecteurs.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Ceci est le plan NMS / de gestion. La supervision au niveau des appareils pour ce client arrivera dans une version ultérieure.",
   "Device Inventory":"Inventaire des appareils","Internet Health":"État Internet","Top Talkers":"Principaux émetteurs","Client Activity":"Activité des clients",
-  "Working in":"Vous travaillez dans","Open workspace":"Ouvrir l'espace","Exit tenant":"Quitter le client","Current":"Actuel","Collector Management":"Gestion des collecteurs","Tenant Management":"Gestion des clients","Dashboard":"Tableau de bord","Audit log":"Journal d'audit","Tenants":"Clients","No matches":"Aucun résultat","Tenant Collectors":"Collecteurs du client","Tenant details":"Détails du client","Tickets & SLA":"Tickets et SLA","last 30 days":"30 derniers jours","Open tickets":"Tickets ouverts","Closed (30d)":"Fermés (30j)","SLA met":"SLA respecté","SLA breached":"SLA non respecté","Overview":"Aperçu","Plan":"Forfait","Open alerts":"Alertes ouvertes","Address":"Adresse","since":"depuis","Open collector workspace":"Ouvrir l'espace collecteurs","Collector limit":"Limite de collecteurs","Monthly recurring":"Revenu mensuel","Accent color":"Couleur d'accent","Tenant slug":"Slug du client","Tenant name":"Nom du client","Danger zone":"Zone sensible","Suspend":"Suspendre","Delete":"Supprimer"
+  "Working in":"Vous travaillez dans","Open workspace":"Ouvrir l'espace","Exit tenant":"Quitter le client","Current":"Actuel","Collector Management":"Gestion des collecteurs","Tenant Management":"Gestion des clients","Dashboard":"Tableau de bord","Audit log":"Journal d'audit","Tenants":"Clients","No matches":"Aucun résultat","Tenant Collectors":"Collecteurs du client","Tenant details":"Détails du client","Tickets & SLA":"Tickets et SLA","Integrations":"Intégrations","Connected":"Connecté","Available":"Disponible","API endpoint":"Point de terminaison API","Enabled":"Activé","Save":"Enregistrer","Connect":"Connecter","Add integration":"Ajouter une intégration","Not set":"Non défini","of":"sur","integrations connected":"intégrations connectées","last 30 days":"30 derniers jours","Open tickets":"Tickets ouverts","Closed (30d)":"Fermés (30j)","SLA met":"SLA respecté","SLA breached":"SLA non respecté","Overview":"Aperçu","Plan":"Forfait","Open alerts":"Alertes ouvertes","Address":"Adresse","since":"depuis","Open collector workspace":"Ouvrir l'espace collecteurs","Collector limit":"Limite de collecteurs","Monthly recurring":"Revenu mensuel","Accent color":"Couleur d'accent","Tenant slug":"Slug du client","Tenant name":"Nom du client","Danger zone":"Zone sensible","Suspend":"Suspendre","Delete":"Supprimer"
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -4358,7 +4376,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"La red supervisada: dispositivos, clientes y enlaces que observan estos colectores.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este es el plano NMS / de gestión. La supervisión a nivel de dispositivo para este cliente llegará en una versión posterior.",
   "Device Inventory":"Inventario de dispositivos","Internet Health":"Estado de Internet","Top Talkers":"Principales emisores","Client Activity":"Actividad de clientes",
-  "Working in":"Trabajando en","Open workspace":"Abrir espacio","Exit tenant":"Salir del cliente","Current":"Actual","Collector Management":"Gestión de collectors","Tenant Management":"Gestión de clientes","Dashboard":"Panel","Audit log":"Registro de auditoría","Tenants":"Clientes","No matches":"Sin resultados","Tenant Collectors":"Collectors del cliente","Tenant details":"Detalles del cliente","Tickets & SLA":"Tickets y SLA","last 30 days":"últimos 30 días","Open tickets":"Tickets abiertos","Closed (30d)":"Cerrados (30d)","SLA met":"SLA cumplido","SLA breached":"SLA incumplido","Overview":"Resumen","Plan":"Plan","Open alerts":"Alertas abiertas","Address":"Dirección","since":"desde","Open collector workspace":"Abrir espacio de collectors","Collector limit":"Límite de collectors","Monthly recurring":"Ingreso mensual","Accent color":"Color de acento","Tenant slug":"Slug del cliente","Tenant name":"Nombre del cliente","Danger zone":"Zona de peligro","Suspend":"Suspender","Delete":"Eliminar"
+  "Working in":"Trabajando en","Open workspace":"Abrir espacio","Exit tenant":"Salir del cliente","Current":"Actual","Collector Management":"Gestión de collectors","Tenant Management":"Gestión de clientes","Dashboard":"Panel","Audit log":"Registro de auditoría","Tenants":"Clientes","No matches":"Sin resultados","Tenant Collectors":"Collectors del cliente","Tenant details":"Detalles del cliente","Tickets & SLA":"Tickets y SLA","Integrations":"Integraciones","Connected":"Conectado","Available":"Disponible","API endpoint":"Endpoint de API","Enabled":"Habilitado","Save":"Guardar","Connect":"Conectar","Add integration":"Añadir integración","Not set":"No establecido","of":"de","integrations connected":"integraciones conectadas","last 30 days":"últimos 30 días","Open tickets":"Tickets abiertos","Closed (30d)":"Cerrados (30d)","SLA met":"SLA cumplido","SLA breached":"SLA incumplido","Overview":"Resumen","Plan":"Plan","Open alerts":"Alertas abiertas","Address":"Dirección","since":"desde","Open collector workspace":"Abrir espacio de collectors","Collector limit":"Límite de collectors","Monthly recurring":"Ingreso mensual","Accent color":"Color de acento","Tenant slug":"Slug del cliente","Tenant name":"Nombre del cliente","Danger zone":"Zona de peligro","Suspend":"Suspender","Delete":"Eliminar"
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -4408,7 +4426,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"A rede monitorada: dispositivos, clientes e links que estes coletores observam.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
   "Device Inventory":"Inventário de dispositivos","Internet Health":"Saúde da Internet","Top Talkers":"Principais consumidores","Client Activity":"Atividade de clientes",
-  "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Management":"Gestão de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados","Tenant Collectors":"Collectors do cliente","Tenant details":"Detalhes do cliente","Tickets & SLA":"Tickets e SLA","last 30 days":"últimos 30 dias","Open tickets":"Tickets abertos","Closed (30d)":"Fechados (30d)","SLA met":"SLA cumprido","SLA breached":"SLA violado","Overview":"Visão geral","Plan":"Plano","Open alerts":"Alertas abertos","Address":"Endereço","since":"desde","Open collector workspace":"Abrir espaço de collectors","Collector limit":"Limite de collectors","Monthly recurring":"Receita mensal","Accent color":"Cor de destaque","Tenant slug":"Slug do cliente","Tenant name":"Nome do cliente","Danger zone":"Zona de perigo","Suspend":"Suspender","Delete":"Eliminar"
+  "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Management":"Gestão de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados","Tenant Collectors":"Collectors do cliente","Tenant details":"Detalhes do cliente","Tickets & SLA":"Tickets e SLA","Integrations":"Integrações","Connected":"Conectado","Available":"Disponível","API endpoint":"Endpoint da API","Enabled":"Ativado","Save":"Salvar","Connect":"Conectar","Add integration":"Adicionar integração","Not set":"Não definido","of":"de","integrations connected":"integrações conectadas","last 30 days":"últimos 30 dias","Open tickets":"Tickets abertos","Closed (30d)":"Fechados (30d)","SLA met":"SLA cumprido","SLA breached":"SLA violado","Overview":"Visão geral","Plan":"Plano","Open alerts":"Alertas abertos","Address":"Endereço","since":"desde","Open collector workspace":"Abrir espaço de collectors","Collector limit":"Limite de collectors","Monthly recurring":"Receita mensal","Accent color":"Cor de destaque","Tenant slug":"Slug do cliente","Tenant name":"Nome do cliente","Danger zone":"Zona de perigo","Suspend":"Suspender","Delete":"Eliminar"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -4437,7 +4455,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=TX(el.getAttribute('data-i18n')); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
   updateChrome();
-  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderDetail();
+  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderDetail();
   renderTenants(); renderTenantMenu(); if(currentTenantCtx){ buildCtxBar(); renderTenantNMS(); }
   if(currentTenantCtx){ const tm=document.getElementById('screen-tenant-manage'); if(tm&&tm.classList.contains('show')) renderTenantManage(currentTenantCtx); }
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
@@ -4729,11 +4747,9 @@ function tntCard(t){
   const onPct = t.col ? Math.round(t.online / t.col * 100) : 0;
   const al = tntActiveAlerts(t.slug);
   const alClass = al===0 ? 'ok' : al>=3 ? 'crit' : 'warn';
-  const cur = (t.slug===currentTenantCtx);
   const tix = tenantTickets(t.slug);
   return `
-    <div class="tnt-card${cur?' current':''}" style="--c:${color}" onclick="manageTenant('${t.slug}')">
-      ${cur?`<span class="tnt-current-badge">${TX('Current')}</span>`:''}
+    <div class="tnt-card" style="--c:${color}" onclick="manageTenant('${t.slug}')">
       <div class="tnt-top">
         <div class="tnt-ava">${tnInit(name)}</div>
         <div class="tnt-id">
@@ -4772,19 +4788,49 @@ function tntCard(t){
 }
 
 /* ---------- per-tenant Management page ---------- */
-/* addresses are zipped onto each tenant's actual demo collectors so Locations always matches the fleet */
-const SITE_CITIES={
-  'acme-corp':['New York, NY','Toronto, ON','Chicago, IL','Dallas, TX','Boston, MA','Atlanta, GA','Miami, FL','Denver, CO','Phoenix, AZ','Seattle, WA','London, UK','Frankfurt, DE','Milan, IT','Amsterdam, NL'],
-  'betacorp':['San Jose, CA','Austin, TX'],
-  'northwind':['Reno, NV','Columbus, OH','Memphis, TN'],
-  'meridian':['Durham, NC','Winston-Salem, NC'],
-  'cascade':['Charlotte, NC','Nashville, TN','Birmingham, AL'],
-  'piedmont':['Charlotte, NC','Raleigh, NC','Greensboro, NC','Asheville, NC'],
-  'atlantico':['São Paulo, BR'],
+/* canonical per-collector site registry — single source of truth for the Locations screen + tenant page */
+const COLLECTOR_SITES={
+  'acme-corp:site-01':{name:'HQ — New York',city:'New York, NY',lat:40.7128,lng:-74.0060},
+  'acme-corp:site-02':{name:'Toronto DC',city:'Toronto, ON',lat:43.6532,lng:-79.3832},
+  'acme-corp:site-03':{name:'Chicago Hub',city:'Chicago, IL',lat:41.8781,lng:-87.6298},
+  'acme-corp:site-04':{name:'Dallas Edge',city:'Dallas, TX',lat:32.7767,lng:-96.7970},
+  'acme-corp:site-05':{name:'Boston Office',city:'Boston, MA',lat:42.3601,lng:-71.0589},
+  'acme-corp:site-06':{name:'Atlanta POP',city:'Atlanta, GA',lat:33.7490,lng:-84.3880},
+  'acme-corp:site-07':{name:'Miami Branch',city:'Miami, FL',lat:25.7617,lng:-80.1918},
+  'acme-corp:site-08':{name:'Denver DC',city:'Denver, CO',lat:39.7392,lng:-104.9903},
+  'acme-corp:site-09':{name:'Phoenix Edge',city:'Phoenix, AZ',lat:33.4484,lng:-112.0740},
+  'acme-corp:site-10':{name:'Seattle Hub',city:'Seattle, WA',lat:47.6062,lng:-122.3321},
+  'acme-corp:site-11':{name:'London Hub',city:'London, UK',lat:51.5072,lng:-0.1276},
+  'acme-corp:site-12':{name:'Frankfurt Edge',city:'Frankfurt, DE',lat:50.1109,lng:8.6821},
+  'acme-corp:site-13':{name:'Milan POP',city:'Milan, IT',lat:45.4642,lng:9.1900},
+  'acme-corp:site-14':{name:'Amsterdam DC',city:'Amsterdam, NL',lat:52.3676,lng:4.9041},
+  'betacorp:edge-12':{name:'San Jose Edge',city:'San Jose, CA',lat:37.3382,lng:-121.8863},
+  'betacorp:hq-core':{name:'Austin HQ',city:'Austin, TX',lat:30.2672,lng:-97.7431},
+  'northwind:dc-west':{name:'West Distribution Ctr',city:'Reno, NV',lat:39.5296,lng:-119.8138},
+  'northwind:dc-east':{name:'East Distribution Ctr',city:'Columbus, OH',lat:39.9612,lng:-82.9988},
+  'northwind:warehouse-1':{name:'Memphis Warehouse',city:'Memphis, TN',lat:35.1495,lng:-90.0490},
+  'meridian:clinic-3':{name:'Durham Clinic',city:'Durham, NC',lat:35.9940,lng:-78.8986},
+  'meridian:clinic-7':{name:'Winston Clinic',city:'Winston-Salem, NC',lat:36.0999,lng:-80.2442},
+  'cascade:store-22':{name:'SouthPark Store',city:'Charlotte, NC',lat:35.2271,lng:-80.8431},
+  'cascade:store-40':{name:'Green Hills Store',city:'Nashville, TN',lat:36.1627,lng:-86.7816},
+  'cascade:store-51':{name:'Galleria Store',city:'Birmingham, AL',lat:33.5186,lng:-86.8104},
+  'piedmont:clt-01':{name:'Charlotte Medical',city:'Charlotte, NC',lat:35.2271,lng:-80.8431},
+  'piedmont:ral-01':{name:'Raleigh Campus',city:'Raleigh, NC',lat:35.7796,lng:-78.6382},
+  'piedmont:gso-01':{name:'Greensboro Clinic',city:'Greensboro, NC',lat:36.0726,lng:-79.7920},
+  'piedmont:avl-01':{name:'Asheville Annex',city:'Asheville, NC',lat:35.5951,lng:-82.5515},
+  'atlantico:sao-01':{name:'São Paulo NOC',city:'São Paulo, BR',lat:-23.5505,lng:-46.6333},
 };
+function siteOf(slug,coll){ return COLLECTOR_SITES[slug+':'+coll]||{name:coll,city:'—',lat:'',lng:''}; }
+/* every tenant's locations, derived live from its actual collectors (keyed lookup, never positional) */
 function tenantLocations(slug){
-  const cities=SITE_CITIES[slug]||[];
-  return collectorsForTenant(slug).map((c,i)=>({coll:c.id,status:c.status,address:cities[i]||'—'}));
+  return collectorsForTenant(slug).map(c=>{ const m=siteOf(slug,c.id); return {coll:c.id,status:c.status,address:m.city,name:m.name}; });
+}
+/* locations for the Locations screen, scoped to the selected tenant (or every tenant when 'all') */
+function locationRows(){
+  const scope=currentTenantCtx||currentTenant, out=[];
+  const add=slug=>collectorsForTenant(slug).forEach(c=>{ const m=siteOf(slug,c.id); out.push({tenant:slug,coll:c.id,status:c.status,name:m.name,city:m.city,lat:m.lat,lng:m.lng}); });
+  if(scope==='all') TENANT_DIR.forEach(t=>add(t.slug)); else add(scope);
+  return out;
 }
 /* deterministic, health-aware ticket/SLA stats per tenant (stable across renders) */
 function tenantTickets(slug){
@@ -5031,6 +5077,59 @@ function makeMultiselect(mountId, options, selected, onChange){
   sync();
 }
 
+/* ---------- Integrations (API management) ---------- */
+const INTEGRATIONS=[
+  {id:'jitbit',name:'JitBit',cat:'Ticketing / Helpdesk',c:'#2E9BE6',
+   desc:'Open and sync help-desk tickets from Guardare alerts, with two-way status updates.',
+   connected:true, endpoint:'https://yourorg.jitbit.com/helpdesk/api', fields:[['API token','password','jb_live_••••••••••••']]},
+  {id:'teamdynamix',name:'TeamDynamix',cat:'ITSM / PSA',c:'#7C5CFF',
+   desc:'Create incidents and service tickets in TDX and map collectors to assets.',
+   connected:false, endpoint:'https://yourorg.teamdynamix.com/TDWebApi', fields:[['Web API key','password',''],['Application ID','text','']]},
+  {id:'github',name:'GitHub',cat:'GitOps / Config',c:'#8B95A7',
+   desc:'Pull collector microservice configs and commit changes back to the source repo.',
+   connected:true, endpoint:'https://api.github.com', fields:[['Personal access token','password','ghp_••••••••••••']]},
+  {id:'pagerduty',name:'PagerDuty',cat:'Alerting / On-call',c:'#41D98A',
+   desc:'Route critical and warning alerts to the right on-call schedules and escalation policies.',
+   connected:false, endpoint:'https://events.pagerduty.com/v2/enqueue', fields:[['Integration key','password','']]},
+];
+function renderIntegrations(){
+  const conn=INTEGRATIONS.filter(i=>i.connected).length;
+  const cards=INTEGRATIONS.map(it=>{
+    const fields=it.fields.map(f=>`
+      <div class="intg-field"><label>${f[0]}</label>
+        <input class="tm-input" type="${f[1]}" value="${f[2]||''}" ${f[1]==='password'?'placeholder="••••••••"':'placeholder="'+TX('Not set')+'"'} onchange="toast('${it.name} — ${TX('unsaved change')}')"></div>`).join('');
+    return `
+      <div class="panel intg-card">
+        <div class="intg-head">
+          <span class="intg-logo" style="--c:${it.c}">${it.name[0]}</span>
+          <div class="intg-id"><b>${it.name}</b><span class="intg-cat">${it.cat}</span></div>
+          <span class="intg-status ${it.connected?'on':'off'}">${it.connected?TX('Connected'):TX('Available')}</span>
+        </div>
+        <p class="intg-desc">${it.desc}</p>
+        <div class="intg-field"><label>${TX('API endpoint')}</label><input class="tm-input mono" value="${it.endpoint}" onchange="toast('${it.name} — ${TX('unsaved change')}')"></div>
+        ${fields}
+        <div class="intg-actions">
+          <label class="intg-toggle"><input type="checkbox" ${it.connected?'checked':''} onchange="toast('${it.name} ' + (this.checked?'${TX('enabled')}':'${TX('disabled')}'))"><span>${TX('Enabled')}</span></label>
+          <button class="btn ${it.connected?'':'primary'}" onclick="toast('${it.name} — ${it.connected?TX('changes saved'):TX('connection test sent')}')">${it.connected?TX('Save'):TX('Connect')}</button>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('screen-integrations').innerHTML=`
+    <div class="page-head">
+      <div>
+        <div class="page-eyebrow">${TX('Configuration')}</div>
+        <h1 class="page-title">${TX('Integrations')}</h1>
+        <p class="page-sub">${TX('Connect Guardare to your PSA, ticketing, code, and alerting tools via API.')}</p>
+      </div>
+      <div class="head-actions">
+        <button class="btn" onclick="toast('${TX('Browse integration catalog')} — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add integration')}</button>
+      </div>
+    </div>
+    <div class="cfg-note"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7"/></svg>
+      ${conn} ${TX('of')} ${INTEGRATIONS.length} ${TX('integrations connected')} · ${TX('keys are stored as Docker secrets, never in config files.')}</div>
+    <div class="intg-grid">${cards}</div>`;
+}
+
 /* ---------- tenant switcher ---------- */
 function renderTenantMenu(){
   const menu=document.getElementById('tenantMenu'); if(!menu) return;
@@ -5078,19 +5177,17 @@ function wireTenantMenu(){
 
 /* ---------- configuration: tenant locations ---------- */
 function renderConfig(){
-  const t=activeCtx();
-  const _nm=currentTenant==='all'?TX('All Tenants'):t.name;
-  const _av=tenantColors[currentTenant]||'#2EE6C8';
-  const _ini=currentTenant==='all'?'★':tnInit(currentTenant);
-  const stMap={online:['s-online','Online'],degraded:['s-warn','Degraded'],offline:['s-offline','Offline']};
-  const rows=t.locations.map(l=>{
-    const [sc,sl]=stMap[l[5]]||stMap.online;
+  const list=locationRows();
+  const stMap={online:['s-online','Online'],warn:['s-warn','Degraded'],degraded:['s-warn','Degraded'],crit:['s-crit','Critical'],offline:['s-offline','Offline']};
+  const rows=list.map(l=>{
+    const [sc,sl]=stMap[l.status]||stMap.online;
     return `<tr>
-      <td><input class="loc-input" value="${l[0]}"></td>
-      <td class="cell-id">${l[1]}</td>
-      <td><input class="loc-input" value="${l[2]}"></td>
-      <td class="r"><input class="loc-input loc-coord" value="${l[3]}"></td>
-      <td class="r"><input class="loc-input loc-coord" value="${l[4]}"></td>
+      <td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[l.tenant]||'var(--teal)'}">${tnInit(tenantName[l.tenant]||l.tenant)}</span>${tenantName[l.tenant]||l.tenant}</span></td>
+      <td><input class="loc-input" value="${l.name}"></td>
+      <td class="cell-id">${l.coll}</td>
+      <td><input class="loc-input" value="${l.city}"></td>
+      <td class="r"><input class="loc-input loc-coord" value="${l.lat}"></td>
+      <td class="r"><input class="loc-input loc-coord" value="${l.lng}"></td>
       <td><span class="td-status ${sc}"><i></i>${TX(sl)}</span></td>
       <td class="r"><button class="loc-del" title="Remove" onclick="toast('Remove location — confirm in the next build')">&times;</button></td>
     </tr>`;
@@ -5100,21 +5197,18 @@ function renderConfig(){
       <div>
         <div class="page-eyebrow">${TX('Configuration')}</div>
         <h1 class="page-title">${TX('Locations')}</h1>
-        <p class="page-sub">${TX('Top-level site locations for this tenant')}</p>
+        <p class="page-sub">${list.length} ${TX('locations')} · ${TX('top-level sites plotted on the Fleet Radar')}</p>
       </div>
       <div class="head-actions">
         <button class="btn" onclick="toast('Add location row — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add location')}</button>
         <button class="btn primary" onclick="toast('Locations saved · radar pins will update')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
       </div>
     </div>
-    <div class="cfg-bar">
-      <div class="cfg-tenant">${TX('Tenant')}: <span class="tn-avatar" style="background:${_av}">${_ini}</span> <b>${_nm}</b> · ${t.locations.length} ${TX('locations')}</div>
-    </div>
     <div class="cfg-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
       ${TX('These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.')}</div>
     <div class="panel" style="overflow-x:auto">
       <table>
-        <thead><tr><th>${TX('Location name')}</th><th>${TX('Collector')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th>${TX('Status')}</th><th></th></tr></thead>
+        <thead><tr><th>${TX('Tenant')}</th><th>${TX('Location name')}</th><th>${TX('Collector')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th>${TX('Status')}</th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>`;
@@ -5318,6 +5412,7 @@ document.querySelectorAll('.nav-item').forEach(n=>{
   n.addEventListener('click',()=>{
     const s=n.dataset.screen;
     if(s==='config') renderConfig();
+    else if(s==='integrations') renderIntegrations();
     else if(s==='tenants') renderTenants();
     else if(s==='fleet') renderFleetTable();
     else if(s==='alerts') renderAlertsFull();
