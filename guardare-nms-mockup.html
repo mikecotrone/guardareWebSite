@@ -906,7 +906,6 @@
     <section class="screen show" id="screen-dashboard">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow" id="dashEyebrow">Acme Corp · live</div>
           <h1 class="page-title" data-i18n="MSP Global Dashboard">MSP Global Dashboard</h1>
           <p class="page-sub" data-i18n="Real-time visibility across your collector fleet · streaming over Centrifugo">Real-time visibility across your collector fleet · streaming over Centrifugo</p>
         </div>
@@ -4448,7 +4447,6 @@ function updateChrome(){
   const c=activeCtx();
   const nm=currentTenant==='all'?TX('All Tenants'):c.name;
   _set('tenantName',nm); _set('tenantSites','/ '+c.sites+' '+TX('sites'));
-  _set('dashEyebrow', nm+' · '+TX('live'));
   _set('gridCount', c.sites+' '+TX('sites')+' · '+TX('tap to inspect'));
   _set('consoleSite', c.consoleSite);
 }
