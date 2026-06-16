@@ -224,9 +224,22 @@
   .page-eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:7px}
   .page-title{font-family:"Open Sans";font-size:27px;font-weight:600;letter-spacing:-.01em}
   .detail-title{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .detail-ten{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;border-radius:99px;
-    background:var(--panel-2);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--text)}
-  .detail-ten .tn-avatar{width:20px;height:20px;font-size:9px}
+  .detail-addr{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--dim);cursor:pointer;border-radius:6px;padding:2px 6px;margin:-2px -6px;transition:color .15s,background .15s}
+  .detail-addr:hover,.detail-addr:focus-visible{color:var(--teal);background:var(--teal-ghost);outline:none}
+  .detail-addr:hover #detailAddrTxt,.detail-addr:focus-visible #detailAddrTxt{text-decoration:underline}
+  .detail-addr svg{width:15px;height:15px;fill:none;stroke:var(--teal);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  @keyframes locFlash{0%{background:var(--teal-ghost)}60%{background:var(--teal-ghost)}100%{background:transparent}}
+  tr.loc-flash td{animation:locFlash 1.6s ease-out}
+  tr.loc-flash td:first-child{box-shadow:inset 3px 0 0 var(--teal)}
+  .hw-badge{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:99px;border:1px solid var(--line)}
+  .hw-phys{color:var(--teal);background:var(--teal-ghost);border-color:var(--teal-deep)}
+  .hw-virt{color:var(--violet);background:#94a2ff1a;border-color:#3a4790}
+  .hw-res{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line-soft)}
+  .hw-bar-top{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--dim);margin-bottom:6px}
+  .hw-bar-top b{color:var(--text);font-size:13px}
+  .hw-track{height:6px;border-radius:99px;background:var(--panel-2);overflow:hidden}
+  .hw-track span{display:block;height:100%;border-radius:99px}
+  @media(max-width:720px){.hw-res{grid-template-columns:1fr}}
   .page-sub{color:var(--dim);font-size:13px;margin-top:5px}
   .head-actions{display:flex;gap:10px}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:var(--r-sm);
@@ -1136,7 +1149,7 @@
           <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Management">← Collector Management</button> / Acme Corp</div>
           <div class="detail-title">
             <h1 class="page-title" style="font-size:24px" id="detailId">Collector</h1>
-            <span class="detail-ten" id="detailTenChip"><span class="tn-avatar" id="detailTenAv"></span><span id="detailTenName"></span></span>
+            <span class="detail-addr" id="detailAddr" role="button" tabindex="0" title="View in Locations" onclick="gotoLocationFromDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gotoLocationFromDetail();}"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="detailAddrTxt">—</span></span>
           </div>
           <p class="page-sub"><span class="td-status s-warn" id="detailStatus" style="display:inline-flex"><i></i><span id="detailStatusTxt">Degraded</span></span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
         </div>
@@ -1153,11 +1166,20 @@
           <div class="id-item"><span class="k" data-i18n="Collector ID">Collector ID</span><span class="vv" id="idColl" style="color:var(--teal)">site-04</span></div>
           <div class="id-item"><span class="k" data-i18n="Tenant">Tenant</span><span class="vv" id="idTenant">acme-corp</span></div>
           <div class="id-item"><span class="k" data-i18n="Channel">Channel</span><span class="vv" id="idChannel" style="color:var(--dim)">telemetry:acme-corp:site-04</span></div>
-          <div class="id-item"><span class="k" data-i18n="Architecture">Architecture</span><span class="vv">Linux ARM64</span></div>
+          <div class="id-item"><span class="k" data-i18n="Architecture">Architecture</span><span class="vv" id="idArch">Linux ARM64</span></div>
           <div class="id-item"><span class="k" data-i18n="Local buffer">Local buffer</span><span class="vv">MariaDB 11.4</span></div>
           <div class="id-item"><span class="k" data-i18n="Uptime">Uptime</span><span class="vv">18d 6h</span></div>
           <div class="id-item"><span class="k" data-i18n="JWT expiry">JWT expiry</span><span class="vv">214d</span></div>
         </div>
+      </div>
+
+      <div class="panel mb18">
+        <div class="panel-head">
+          <h3 data-i18n="Hardware / Server Inventory">Hardware / Server Inventory</h3>
+          <span class="hw-badge hw-phys" id="hwTypeBadge">Physical server</span>
+        </div>
+        <div class="id-grid" id="hwGrid"></div>
+        <div class="hw-res" id="hwRes"></div>
       </div>
 
       <div class="metric-cards">
@@ -4274,7 +4296,7 @@ const I18N={
   "Mountain link flapping":"Link di montagna instabile","Config drift":"Drift di configurazione","Collector reconnected":"Collector riconnesso","New collector registered":"Nuovo collector registrato",
   "Local buffer 96% full · WAN link degraded":"Buffer locale pieno al 96% · link WAN degradato","No heartbeat for 4 minutes · last sync 14:01":"Nessun heartbeat da 4 minuti · ultimo sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picchi sulla pipeline di enrich","512 → 42 msg/s over 90s":"512 → 42 msg/s in 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittente",
-  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Aggregate · every customer":"Aggregato · ogni cliente",
+  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Integrate Guardare into your team's stack.":"Integra Guardare nello stack del tuo team.","Hardware / Server Inventory":"Inventario hardware / server","Physical server":"Server fisico","Virtual machine":"Macchina virtuale","Virtual":"Virtuale","Hypervisor":"Hypervisor","Model":"Modello","Service tag":"Service tag","Instance ID":"ID istanza","Form factor":"Form factor","Processor":"Processore","Memory":"Memoria","Storage":"Storage","Network":"Rete","Load avg":"Carico medio","Memory used":"Memoria usata","Storage used":"Storage usato","Aggregate · every customer":"Aggregato · ogni cliente",
   "Back to MSP":"Torna a MSP","Collectors":"Collector","Network":"Rete","Management plane":"Piano di gestione","In design":"In progettazione",
   "The monitored network: devices, clients, and links these collectors observe.":"La rete monitorata: dispositivi, client e collegamenti osservati da questi collector.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Questo è il piano NMS / di gestione. Il monitoraggio a livello di dispositivo per questo cliente arriverà in una versione futura.",
@@ -4323,7 +4345,7 @@ const I18N={
   "Mountain link flapping":"Liaison montagne instable","Config drift":"Dérive de configuration","Collector reconnected":"Collecteur reconnecté","New collector registered":"Nouveau collecteur enregistré",
   "Local buffer 96% full · WAN link degraded":"Tampon local plein à 96% · liaison WAN dégradée","No heartbeat for 4 minutes · last sync 14:01":"Aucun battement depuis 4 minutes · dernière synchro 14:01",
   "68% → spiking on enrich pipeline":"68% → pics sur le pipeline d'enrichissement","512 → 42 msg/s over 90s":"512 → 42 msg/s sur 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittent",
-  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Aggregate · every customer":"Agrégé · tous les clients",
+  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Integrate Guardare into your team's stack.":"Intégrez Guardare à la stack de votre équipe.","Hardware / Server Inventory":"Inventaire matériel / serveur","Physical server":"Serveur physique","Virtual machine":"Machine virtuelle","Virtual":"Virtuel","Hypervisor":"Hyperviseur","Model":"Modèle","Service tag":"Service tag","Instance ID":"ID d'instance","Form factor":"Format","Processor":"Processeur","Memory":"Mémoire","Storage":"Stockage","Network":"Réseau","Load avg":"Charge moy.","Memory used":"Mémoire utilisée","Storage used":"Stockage utilisé","Aggregate · every customer":"Agrégé · tous les clients",
   "Back to MSP":"Retour au MSP","Collectors":"Collecteurs","Network":"Réseau","Management plane":"Plan de gestion","In design":"En conception",
   "The monitored network: devices, clients, and links these collectors observe.":"Le réseau supervisé : appareils, clients et liaisons observés par ces collecteurs.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Ceci est le plan NMS / de gestion. La supervision au niveau des appareils pour ce client arrivera dans une version ultérieure.",
@@ -4372,7 +4394,7 @@ const I18N={
   "Mountain link flapping":"Enlace de montaña inestable","Config drift":"Desviación de configuración","Collector reconnected":"Collector reconectado","New collector registered":"Nuevo collector registrado",
   "Local buffer 96% full · WAN link degraded":"Búfer local al 96% · enlace WAN degradado","No heartbeat for 4 minutes · last sync 14:01":"Sin latido durante 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos en la canalización de enriquecimiento","512 → 42 msg/s over 90s":"512 → 42 msg/s en 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
-  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Aggregate · every customer":"Agregado · todos los clientes",
+  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Integrate Guardare into your team's stack.":"Integra Guardare en el stack de tu equipo.","Hardware / Server Inventory":"Inventario de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de servicio","Instance ID":"ID de instancia","Form factor":"Factor de forma","Processor":"Procesador","Memory":"Memoria","Storage":"Almacenamiento","Network":"Red","Load avg":"Carga media","Memory used":"Memoria usada","Storage used":"Almacenamiento usado","Aggregate · every customer":"Agregado · todos los clientes",
   "Back to MSP":"Volver a MSP","Collectors":"Colectores","Network":"Red","Management plane":"Plano de gestión","In design":"En diseño",
   "The monitored network: devices, clients, and links these collectors observe.":"La red supervisada: dispositivos, clientes y enlaces que observan estos colectores.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este es el plano NMS / de gestión. La supervisión a nivel de dispositivo para este cliente llegará en una versión posterior.",
@@ -4422,7 +4444,7 @@ const I18N={
   "Local buffer 96% full · WAN link degraded":"Buffer local a 96% · ligação WAN degradada","No heartbeat for 4 minutes · last sync 14:01":"Sem heartbeat há 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos no pipeline de enriquecimento","512 → 42 msg/s over 90s":"512 → 42 msg/s em 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
   "Running c4d8a91, repo expects c4d8a92":"A executar c4d8a91, o repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado após queda WS de 12s","Auto-registered on first wss:// connect":"Registado automaticamente na primeira ligação wss://",
-  "All Tenants":"Todos os clientes","Aggregate · every customer":"Agregado · todos os clientes",
+  "All Tenants":"Todos os clientes","Integrate Guardare into your team's stack.":"Integre o Guardare ao stack da sua equipa.","Hardware / Server Inventory":"Inventário de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de serviço","Instance ID":"ID da instância","Form factor":"Fator de forma","Processor":"Processador","Memory":"Memória","Storage":"Armazenamento","Network":"Rede","Load avg":"Carga média","Memory used":"Memória usada","Storage used":"Armazenamento usado","Aggregate · every customer":"Agregado · todos os clientes",
   "Back to MSP":"Voltar ao MSP","Collectors":"Coletores","Network":"Rede","Management plane":"Plano de gestão","In design":"Em design",
   "The monitored network: devices, clients, and links these collectors observe.":"A rede monitorada: dispositivos, clientes e links que estes coletores observam.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
@@ -4831,6 +4853,52 @@ function locationRows(){
   if(scope==='all') TENANT_DIR.forEach(t=>add(t.slug)); else add(scope);
   return out;
 }
+/* deterministic hardware / virtual-server inventory per collector (stable across renders) */
+function hwInventory(slug,coll){
+  let s=2166136261>>>0;
+  for(const ch of (slug+':'+coll)){ s^=ch.charCodeAt(0); s=Math.imul(s,16777619)>>>0; }
+  const rnd=()=>{ s^=s<<13; s>>>=0; s^=s>>>17; s^=s<<5; s>>>=0; return s/4294967296; };
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const hex=n=>{ let o=''; for(let i=0;i<n;i++) o+='0123456789ABCDEF'[Math.floor(rnd()*16)]; return o; };
+  const virtual=rnd()<0.45;
+  const arch=(!virtual&&rnd()<0.3)?'Linux ARM64':'Linux x86-64';
+  const cpu=arch==='Linux ARM64'?'Ampere Altra (8C) ARM64':pick(['Intel Xeon E-2378G (8C/16T)','Intel Xeon E-2336 (6C/12T)','AMD EPYC 4344P (8C/16T)','Intel Xeon Silver 4410Y (12C/24T)']);
+  return {
+    virtual, arch, cpu,
+    model: virtual?pick(['VMware ESXi 8.0','Proxmox VE 8.2','Microsoft Hyper-V 2022','KVM / libvirt']):pick(['Dell PowerEdge R350','HPE ProLiant DL20 Gen11','Lenovo ThinkSystem SR250 V3','Supermicro SYS-510T-MR']),
+    serial: virtual?('vm-'+hex(8).toLowerCase()):hex(7),
+    host: virtual?('esx-'+slug.slice(0,3)+'-0'+(1+Math.floor(rnd()*6))):null,
+    formFactor: virtual?'VM':pick(['1U rack','Tower','2U rack']),
+    ramGB: pick([16,32,32,64,64,128]),
+    diskGB: pick([256,512,512,960,1920]),
+    diskType: pick(['NVMe SSD','SATA SSD','NVMe SSD']),
+    nic: pick(['2× 1GbE','1× 10GbE','2× 10GbE']),
+    load: +(0.2+rnd()*2.4).toFixed(2),
+    ramUsed: Math.round(28+rnd()*55),
+    diskUsed: Math.round(22+rnd()*60)
+  };
+}
+function renderHwInventory(ten,coll){
+  const hw=hwInventory(ten,coll);
+  const badge=document.getElementById('hwTypeBadge');
+  if(badge){ badge.textContent=hw.virtual?TX('Virtual machine'):TX('Physical server'); badge.className='hw-badge '+(hw.virtual?'hw-virt':'hw-phys'); }
+  const ia=document.getElementById('idArch'); if(ia) ia.textContent=hw.arch;
+  const row=(k,v,style)=>`<div class="id-item"><span class="k">${TX(k)}</span><span class="vv"${style||''}>${v}</span></div>`;
+  const g=document.getElementById('hwGrid');
+  if(g) g.innerHTML=[
+    row(hw.virtual?'Hypervisor':'Model',hw.model),
+    row(hw.virtual?'Instance ID':'Service tag',hw.serial,' style="color:var(--teal)"'),
+    row('Form factor',hw.virtual?(TX('Virtual')+' · '+(hw.host||'—')):hw.formFactor),
+    row('Processor',hw.cpu),
+    row('Memory',hw.ramGB+' GB'),
+    row('Storage',hw.diskGB+' GB '+hw.diskType),
+    row('Network',hw.nic),
+    row('Load avg',hw.load.toFixed(2))
+  ].join('');
+  const bar=(k,pct,col)=>`<div class="hw-bar"><div class="hw-bar-top"><span>${TX(k)}</span><b>${pct}%</b></div><div class="hw-track"><span style="width:${pct}%;background:${pct>85?'var(--red)':col}"></span></div></div>`;
+  const r=document.getElementById('hwRes');
+  if(r) r.innerHTML=bar('Memory used',hw.ramUsed,'var(--teal)')+bar('Storage used',hw.diskUsed,'var(--violet)');
+}
 /* deterministic, health-aware ticket/SLA stats per tenant (stable across renders) */
 function tenantTickets(slug){
   const dir=TENANT_DIR.find(t=>t.slug===slug)||{col:4};
@@ -5118,7 +5186,7 @@ function renderIntegrations(){
       <div>
         <div class="page-eyebrow">${TX('Configuration')}</div>
         <h1 class="page-title">${TX('Integrations')}</h1>
-        <p class="page-sub">${TX('Connect Guardare to your PSA, ticketing, code, and alerting tools via API.')}</p>
+        <p class="page-sub">${TX("Integrate Guardare into your team's stack.")}</p>
       </div>
       <div class="head-actions">
         <button class="btn" onclick="toast('${TX('Browse integration catalog')} — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add integration')}</button>
@@ -5175,12 +5243,26 @@ function wireTenantMenu(){
 }
 
 /* ---------- configuration: tenant locations ---------- */
+/* jump from a collector page to its row on the Locations screen, scoped + highlighted */
+function gotoLocation(slug,coll){
+  if(slug) currentTenantCtx=slug;          /* scope Locations to this tenant so the row is present */
+  syncTopbarTenant();
+  renderConfig();
+  go('config');
+  setTimeout(()=>{
+    const row=document.querySelector('#screen-config tr[data-loc="'+slug+':'+coll+'"]');
+    if(row){ row.scrollIntoView({behavior:'smooth',block:'center'}); row.classList.remove('loc-flash'); void row.offsetWidth; row.classList.add('loc-flash'); setTimeout(()=>row.classList.remove('loc-flash'),1700); }
+  },70);
+}
+function gotoLocationFromDetail(){
+  const p=(currentDetailId||'').split(':'); gotoLocation(p[0], p[1]||currentDetailId);
+}
 function renderConfig(){
   const list=locationRows();
   const stMap={online:['s-online','Online'],warn:['s-warn','Degraded'],degraded:['s-warn','Degraded'],crit:['s-crit','Critical'],offline:['s-offline','Offline']};
   const rows=list.map(l=>{
     const [sc,sl]=stMap[l.status]||stMap.online;
-    return `<tr>
+    return `<tr data-loc="${l.tenant}:${l.coll}">
       <td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[l.tenant]||'var(--teal)'}">${tnInit(tenantName[l.tenant]||l.tenant)}</span>${tenantName[l.tenant]||l.tenant}</span></td>
       <td><input class="loc-input" value="${l.name}"></td>
       <td class="cell-id">${l.coll}</td>
@@ -5293,11 +5375,10 @@ const CRUMB_ORIGIN={
 function renderDetail(){
   const id=currentDetailId, parts=id.split(':'), ten=parts[0], coll=parts[1]||id;
   const set=(i,t)=>{const e=document.getElementById(i); if(e) e.textContent=t;};
-  const site=(typeof siteOf==='function')?siteOf(ten,coll):{name:coll};
+  const site=(typeof siteOf==='function')?siteOf(ten,coll):{name:coll,city:'—'};
   set('detailId',site.name||coll); set('idColl',coll); set('idTenant',ten); set('idChannel','telemetry:'+id);
-  const tName=tenantName[ten]||ten, tCol=tenantColors[ten]||'var(--teal)';
-  set('detailTenName',tName);
-  const _av=document.getElementById('detailTenAv'); if(_av){ _av.textContent=tnInit(tName); _av.style.background=tCol; }
+  set('detailAddrTxt', site.city||'—');
+  if(typeof renderHwInventory==='function') renderHwInventory(ten,coll);
   const oc=CRUMB_ORIGIN[navHighlight]||CRUMB_ORIGIN.fleet;   /* breadcrumb returns to wherever you came from */
   const crumb=document.getElementById('detailCrumb');
   if(crumb) crumb.innerHTML=`<button onclick="go('${oc.s}')" style="color:var(--teal);cursor:pointer">← ${TX(oc.k)}</button> / ${coll}`;
