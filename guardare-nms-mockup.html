@@ -1307,7 +1307,7 @@ api_configuration:
    authentication:
       auth_url: "https://192.168.1.1"
       auth_uri: "/api/auth/login"
-      auth_username: "apiAdmin"
+      auth_username: "${UNIFI_USERNAME}"
       auth_password: "${UNIFI_PASSWORD}"
       auth_method: "POST"
    routes:
@@ -1346,7 +1346,7 @@ api_configuration:
    authentication:
       auth_url: "https://10.115.116.217"
       auth_uri: "/api/auth/login"
-      auth_username: "apiAdmin"
+      auth_username: "${UNIFI_USERNAME}"
       auth_password: "${UNIFI_PASSWORD}"
       auth_method: "POST"
    routes:
@@ -1376,7 +1376,7 @@ api_configuration:
    authentication:
       auth_url: "https://192.168.1.75"
       auth_uri: "/command-api"
-      auth_username: "mikecotrone"
+      auth_username: "${ARISTA_USERNAME}"
       auth_password: "${ARISTA_PASSWORD}"
       auth_method: "POST"
    json_rpc:
