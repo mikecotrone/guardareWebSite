@@ -6225,6 +6225,7 @@ function toggleNavDisc(key){
   const ch=document.getElementById('navChildren-'+key); if(!ch) return;
   const open=ch.classList.toggle('open');
   const dc=document.querySelector('.nav-disc[data-disc="'+key+'"]'); if(dc) dc.classList.toggle('expanded',open);
+  if(open && key==='cfgmgr'){ const first=ch.querySelector('.nav-subitem'); if(first) goCfgSub(first.dataset.sub); }
 }
 function goCfgSub(sub){
   cfgSubPage=sub;
