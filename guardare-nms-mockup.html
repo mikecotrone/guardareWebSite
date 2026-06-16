@@ -494,7 +494,7 @@
   .yaml-pick-menu button.sel{color:var(--teal)}
   .yaml-pick-menu .pl{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.04em;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
   .svc-dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--teal)}
-  .tealdot{background:var(--teal)} .greendot{background:var(--green)} .amberdot{background:var(--amber)} .violetdot{background:var(--violet)}
+  .tealdot{background:var(--teal)} .greendot{background:var(--green)} .amberdot{background:var(--amber)} .violetdot{background:var(--violet)} .basedot{background:var(--dim)}
   .yaml-fileline{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--mute);padding:9px 18px 0}
   .yaml-view{margin:10px 16px 16px;max-height:440px;overflow:auto;white-space:pre;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;line-height:1.65;tab-size:2;padding:14px 16px;background:#08151A;border:1px solid var(--line);border-radius:10px;color:var(--dim)}
   .yaml-view::-webkit-scrollbar{width:11px;height:11px}
@@ -1477,6 +1477,7 @@
                 <div class="yaml-pick" id="svcPick">
                   <button class="yaml-pick-btn primary" onclick="toggleSvcPick(event)"><span class="svc-dot" id="cfgSvcDot"></span><span id="svcPickLabel">vCollector</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
                   <div class="yaml-pick-menu" id="svcPickMenu">
+                    <button data-svc="base" onclick="selectCfgSvc('base')"><span class="svc-dot basedot"></span>Collector base <span class="pl">YAML</span></button>
                     <button data-svc="vcollector" onclick="selectCfgSvc('vcollector')"><span class="svc-dot tealdot"></span>vCollector <span class="pl">YAML</span></button>
                     <button data-svc="normalizer" onclick="selectCfgSvc('normalizer')"><span class="svc-dot greendot"></span>Normalizer <span class="pl">YAML</span></button>
                     <button data-svc="events"     onclick="selectCfgSvc('events')"><span class="svc-dot amberdot"></span>Events Director <span class="pl">JSON</span></button>
@@ -1532,6 +1533,196 @@
 
 <div class="radar-tip" id="radarTip"></div>
 <!-- ===== EMBEDDED MICROSERVICE CONFIGS (inert; read by config viewer) ===== -->
+<script type="text/plain" id="cfg-base">
+---
+# ===========================================================================
+# GUARDARE SERVICE CONFIGURATION FILE  (serviceConfig.yaml)
+# (c)2026 VistaTech, Inc. ALL RIGHTS RESERVED
+# PRODUCTION · Collector base (OS) bootstrap configuration
+# UBUNTU LOCAL INSTALL: /usr/bin/com.vistatech.collector/serviceConfig.yaml
+#
+#     ____                     _
+#    / ___|_   _  __ _ _ __ __| | __ _ _ __ ___
+#   | |  _| | | |/ _` | '__/ _` |/ _` | '__/ _ \
+#   | |_| | |_| | (_| | | | (_| | (_| | | |  __/
+#    \____|\__,_|\__,_|_|  \__,_|\__,_|_|  \___|
+#             S E R V I C E   C O N F I G
+# ---------------------------------------------------------------------------
+# On-box bootstrap layer: identity + connection + local DB + repo tokens.
+# Microservice runtime configs (vCollector, Normalizer, Events Director,
+# HuduSync) are pulled from GitHub on a polling schedule. All secrets are
+# injected from the Docker / systemd environment as ${ENV_VAR} values and
+# are never written to disk in cleartext.
+# ===========================================================================
+#
+#
+# GLOBAL SERVICE-SPECIFIC IDENTIFICATION MAPPING
+globalServiceConfiguration:
+- collector_site_id: "SITE01"
+  customer_name: "Site 01 Campus"
+  customer_location: "100 Example Plaza, Anytown, ST 00000"
+  vcollector_unique_assigned_id: "12001"
+  normalizer_unique_assigned_id: "12002"
+  eventsDirector_unique_assigned_id: "12003"
+#
+#
+# LOCAL MARIADB (on-box buffer + outbound message queue)
+database:
+  host: "localhost"
+  port: 3306
+  username: "${DB_USERNAME}"
+  password: "${DB_PASSWORD}"
+  databases:
+    normalized: "normalizedDb"
+    collectorOps: "collectorOpsDb"
+    rulesFiredState: "rulesFiredStateDb"
+    huduSync: "huduSyncDb"
+    eventsDirector: "eventsDirectorDb"
+#
+#
+# CLI POOL SCALING CONFIGURATION
+cli_worker_pool:
+  shell_instances: 4
+  job_timeout_seconds: 15
+  per_shell_queue_max: 100
+#
+#
+# HUDU (IT documentation) INTEGRATION
+integrations:
+  hudu:
+    enabled: true
+    api_key: "${HUDU_API_KEY}"
+    admin_api_key: "${HUDU_ADMIN_API_KEY}"
+#
+#
+# HUDU CLOUD SYNC — DYNAMIC CONFIG REPOSITORY
+huduCloudSyncConfiguration:
+  - repo_config_service_name: "hudusync"
+    repo_config_token: "${HUDUSYNC_REPO_TOKEN}"
+    repo_config_uri: "huduSyncCFG/"
+    repo_config_file_name: "_huduSync.yaml"
+    repo_poll_interval_seconds: 300
+#
+#
+# REPOSITORY API INTEGRATION (E.G. GITHUB)
+# ---------------------------------------------------------------------------
+repositoryIntegrationConfiguration:
+- repo_api_service_name: "github"
+  repo_api_base_url: "api.github.com/"
+  repo_api_repo_uri: "repos/"
+  repo_api_version: "2022-11-28"
+  repo_api_user_agent: "Guardare"
+  repo_api_owner_uri: "${REPO_OWNER}/"
+#
+#
+# ITSM EVENT MANAGEMENT API INTEGRATION (E.G. PAGERDUTY)
+itsmEventManagementIntegration:
+- itsm_service_name: "pagerDuty"
+  itsm_api_token: "${PAGERDUTY_API_TOKEN}"
+  itsm_api_from_email: "${PAGERDUTY_FROM_EMAIL}"
+  # seconds between live maintenance-window checks
+  itsm_check_maint_window_freq: "300"
+  # seconds between incident status-change checks from ITSM
+  itsm_check_incident_status_changes_freq: "60"
+#
+#
+# STATUS PAGE MONITORING INTEGRATION (E.G. UPTIMEROBOT)
+statusPageMonitoringIntegration:
+- status_monitor_name: "vCollector"
+  status_monitor_desc: "Status Page Monitor for vCollector Microservice"
+  status_monitor_state: "enabled"
+  status_probe_cmd: "${UPTIMEROBOT_VCOLLECTOR_URL}"
+  send_every_seconds: 60
+#
+- status_monitor_name: "normalizer"
+  status_monitor_desc: "Status Page Monitor for Normalizer Microservice"
+  status_monitor_state: "enabled"
+  status_probe_cmd: "${UPTIMEROBOT_NORMALIZER_URL}"
+  send_every_seconds: 60
+#
+- status_monitor_name: "eventsDirector"
+  status_monitor_desc: "Status Page Monitor for Events Director Microservice"
+  status_monitor_state: "enabled"
+  status_probe_cmd: "${UPTIMEROBOT_EVENTSDIRECTOR_URL}"
+  send_every_seconds: 60
+#
+#- status_monitor_name: "guardareUpdateHelper"
+#  status_monitor_desc: "Status Page Monitor for Guardare Update Helper Microservice"
+#  status_monitor_state: "enabled"
+#  status_probe_cmd: "${UPTIMEROBOT_UPDATEHELPER_URL}"
+#  send_every_seconds: 60
+#
+#
+# GUARDARE CORE DYNAMIC CONFIG REPOSITORY SETTINGS
+# (vCollector, Normalizer, Events Director)
+guardareCoreDynamicConfiguration:
+# VCOLLECTOR
+- repo_config_service_name: "vcollector"
+  repo_config_token: "${VCOLLECTOR_REPO_TOKEN}"
+  repo_config_uri: "vCollectorCFG/"
+  repo_config_file_name: "_vCollectorCfg.yaml"
+#
+# NORMALIZER (API + SNMP + CLI)
+- repo_config_service_name: "Normalizer"
+  repo_config_token: "${NORMALIZER_REPO_TOKEN}"
+  repo_config_uri: "normalizerCFG/"
+  normalizerApiCfgArray:
+  - repo_config_file_name_unifi: "_normalizerApiCfg_unifi.yaml"
+    repo_config_file_name_meraki: "_normalizerApiCfg_meraki.yaml"
+    repo_config_file_name_arista: "_normalizerApiCfg_arista.yaml"
+    repo_config_file_name_azure: "_normalizerApiCfg_azure.yaml"
+  normalizerSnmpCfgArray:
+  - repo_config_file_name: "_normalizerSnmpCfg.yaml"
+  normalizerCliCfgArray:
+  - repo_config_file_name: "_normalizerCliCfg.yaml"
+#
+# EVENTS DIRECTOR
+- repo_config_service_name: "eventsDirector"
+  repo_config_token: "${EVENTSDIRECTOR_REPO_TOKEN}"
+  repo_config_uri: "eventsDirectorCFG/"
+  repo_config_file_name: "_eventsDirector_RuleSetConfig.yaml"
+  repo_poll_interval_seconds: 30
+#
+#
+# GUARDARE HELPER UPDATE SERVICE CONFIGURATION
+# ---------------------------------------------------------------------------
+guardareHelperConfiguration:
+# VCOLLECTOR
+- upgrade_service_name: "vCollector"
+  upgrade_service_status: "enabled"
+  upgrade_githubrepo_service_key: "${VCOLLECTOR_REPO_TOKEN}"
+  upgrade_githubrepo_cfg_uri: "guardareSoftwareBIN/"
+  upgrade_githubrepo_file_name: "vCollector_Available_Release.yaml"
+  upgrade_allow_days_schedule: "SUN, MON, TUE, WED, THU, FRI, SAT"
+  upgrade_execution_time_schedule: "03:00"
+#
+# NORMALIZER
+- upgrade_service_name: "normalizer"
+  upgrade_service_status: "disabled"
+  upgrade_githubrepo_service_key: "${NORMALIZER_REPO_TOKEN}"
+  upgrade_githubrepo_cfg_uri: "guardareSoftwareBIN/"
+  upgrade_githubrepo_file_name: "normalizer_Available_Release.yaml"
+  upgrade_allow_days_schedule: "SUN, MON, TUE, WED, THU, FRI, SAT"
+  upgrade_execution_time_schedule: "03:00"
+#
+# EVENTS DIRECTOR
+- upgrade_service_name: "eventsDirector"
+  upgrade_service_status: "disabled"
+  upgrade_githubrepo_service_key: "${EVENTSDIRECTOR_REPO_TOKEN}"
+  upgrade_githubrepo_cfg_uri: "guardareSoftwareBIN/"
+  upgrade_githubrepo_file_name: "eventsDirector_Available_Release.yaml"
+  upgrade_allow_days_schedule: "SUN, MON, TUE, WED, THU, FRI, SAT"
+  upgrade_execution_time_schedule: "03:00"
+#
+# GUARDARE UPDATE HELPER
+- upgrade_service_name: "guardareUpdateHelper"
+  upgrade_service_status: "disabled"
+  upgrade_githubrepo_service_key: ""
+  upgrade_githubrepo_cfg_uri: "guardareSoftwareBIN/"
+  upgrade_githubrepo_file_name: "guardareUpdateHelper_Available_Release.yaml"
+  upgrade_allow_days_schedule: "SUN, MON, TUE, WED, THU, FRI, SAT"
+  upgrade_execution_time_schedule: "03:00"
+</script>
 <script type="text/plain" id="cfg-vcollector">
 ---
 # VCOLLECTOR YAML CONFIGURATION FILE
@@ -5210,6 +5401,7 @@ const fleetTenants=new Set(fleetTenantOpts);
 const alertTenants=new Set(alertTenantOpts);
 /* ===== Per-microservice config viewer ===== */
 const CFG_FILES={
+  base:{label:'Collector base', lang:'yaml', file:'serviceConfig.yaml', el:'cfg-base', dot:'basedot', local:true, path:'/usr/bin/com.vistatech.collector/serviceConfig.yaml'},
   vcollector:{label:'vCollector', lang:'yaml', file:'vcollector.yaml',     el:'cfg-vcollector', dot:'tealdot'},
   normalizer:{label:'Normalizer', lang:'yaml', dot:'greendot', sub:[
     {key:'snmp',   label:'SNMP',       file:'normalizer-snmp.yaml',   el:'cfg-norm-snmp'},
@@ -5299,7 +5491,7 @@ function renderCfgViewer(){
   const id=(typeof currentDetailId!=='undefined')?currentDetailId:'acme-corp:site-04';
   const tenant=id.split(':')[0], site=id.split(':')[1]||'site';
   const fl=document.getElementById('cfgFileLine');
-  if(fl) fl.textContent='# yourorg/guardare-configs/sites/'+tenant+'-'+site+' · '+file;
+  if(fl) fl.textContent = svc.local ? ('# '+svc.path) : ('# yourorg/guardare-configs/sites/'+tenant+'-'+site+' · '+file);
   const sha=document.getElementById('cfgSha');
   if(sha) sha.textContent=_hash7(id+':'+file);
   // primary picklist label + dot + selected state
