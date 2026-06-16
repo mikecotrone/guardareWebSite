@@ -5529,7 +5529,19 @@ function pickTenant(slug){
   toast('Switched to '+(tenantName[slug]||slug));   /* announce every tenant change, same as All Tenants */
   go(cur);
 }
-function pickAllTenants(){ currentTenantCtx=null; switchTenant('all'); go('dashboard'); }
+function pickAllTenants(){
+  currentTenantCtx=null;
+  /* if managing a specific tenant, All Tenants returns to the tenants list */
+  if(document.getElementById('screen-tenant-manage').classList.contains('show')){ switchTenant('all'); renderTenants(); go('tenants'); return; }
+  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','integrations'];
+  let cur=SCREENS.find(s=>{const e=document.getElementById('screen-'+s); return e&&e.classList.contains('show');}) || 'dashboard';
+  switchTenant('all');                 /* refreshes dashboard, fleet, alerts, config + announces the switch */
+  if(cur==='tenants') renderTenants();
+  else if(cur==='audit') renderAudit();
+  else if(cur==='integrations') renderIntegrations();
+  updateAlertCounts();
+  go(cur);                             /* stay on the screen you were on */
+}
 function switchTenant(id){
   currentTenant=id;
   updateChrome();
