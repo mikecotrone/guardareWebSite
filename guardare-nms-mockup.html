@@ -437,6 +437,34 @@
   .config-snap{font-family:"Open Sans";font-size:11.5px;line-height:1.7;padding:16px 18px;color:var(--dim);overflow-x:auto}
   .config-snap .key{color:var(--teal)} .config-snap .str{color:var(--amber)} .config-snap .num{color:var(--violet)}
   .config-snap .cmt{color:var(--mute)}
+  /* ===== Per-microservice config viewer ===== */
+  .cfg-pickrow{display:flex;align-items:center;gap:8px}
+  .yaml-pick{position:relative}
+  .yaml-pick-btn{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-family:"Open Sans";font-size:12px;font-weight:600;cursor:pointer;line-height:1}
+  .yaml-pick-btn:hover{border-color:var(--teal-deep);background:var(--raise)}
+  .yaml-pick-btn.primary{border-color:var(--teal-deep)}
+  .yaml-pick-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;opacity:.7}
+  .yaml-pick-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:208px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:6px;z-index:70;display:none}
+  .yaml-pick-menu.open{display:block}
+  .yaml-pick-menu button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:8px 10px;border-radius:7px;border:none;background:none;color:var(--dim);font-family:"Open Sans";font-size:12.5px;font-weight:600;cursor:pointer}
+  .yaml-pick-menu button:hover{background:var(--raise);color:var(--text)}
+  .yaml-pick-menu button.sel{color:var(--teal)}
+  .yaml-pick-menu .pl{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.04em;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  .svc-dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--teal)}
+  .tealdot{background:var(--teal)} .greendot{background:var(--green)} .amberdot{background:var(--amber)} .violetdot{background:var(--violet)}
+  .yaml-fileline{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--mute);padding:9px 18px 0}
+  .yaml-view{margin:10px 16px 16px;max-height:440px;overflow:auto;white-space:pre;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;line-height:1.65;tab-size:2;padding:14px 16px;background:#08151A;border:1px solid var(--line);border-radius:10px;color:var(--dim)}
+  .yaml-view::-webkit-scrollbar{width:11px;height:11px}
+  .yaml-view::-webkit-scrollbar-thumb{background:#1B3A41;border-radius:7px;border:3px solid #08151A}
+  .yaml-view::-webkit-scrollbar-thumb:hover{background:#26505a}
+  .yaml-view::-webkit-scrollbar-track{background:transparent}
+  .yaml-view::-webkit-scrollbar-corner{background:transparent}
+  /* YAML tokens */
+  .y-key{color:var(--teal)} .y-str{color:#E0B66B} .y-num{color:var(--violet)} .y-bool{color:var(--green)}
+  .y-cmt{color:var(--mute);font-style:italic} .y-punct{color:#6F8E94}
+  .y-anchor{color:#C58BFF} .y-var{color:#5FD0B0} .y-fn{color:#6FB7FF}
+  /* JSON tokens */
+  .j-key{color:var(--teal)} .j-str{color:#E0B66B} .j-num{color:var(--violet)} .j-bool{color:var(--green)} .j-null{color:#6FB7FF}
 
   /* ---------- ALERTS SCREEN ---------- */
   .alert-tabs{display:flex;gap:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:4px;margin-bottom:18px;width:fit-content}
@@ -469,6 +497,47 @@
 
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .mb18{margin-bottom:18px}
+
+  /* ---------- TENANTS ---------- */
+  .tnt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(312px,1fr));gap:18px}
+  .tnt-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);
+    border-radius:var(--r);padding:17px 18px 15px;display:flex;flex-direction:column;gap:14px;position:relative;
+    overflow:hidden;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .tnt-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);opacity:.9}
+  .tnt-card:hover{transform:translateY(-3px);border-color:var(--teal-deep);box-shadow:0 16px 36px -20px #000}
+  .tnt-top{display:flex;align-items:center;gap:12px}
+  .tnt-ava{flex:0 0 auto;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
+    font-family:"Open Sans";font-weight:700;font-size:14.5px;color:#06201b;letter-spacing:.02em;
+    background:linear-gradient(140deg,var(--c),rgba(0,0,0,.42))}
+  .tnt-id{flex:1;min-width:0}
+  .tnt-name{font-family:"Open Sans";font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tnt-slug{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;color:var(--mute);margin-top:3px}
+  .tnt-status{flex:0 0 auto;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:4px 9px 4px 8px;border-radius:99px;display:inline-flex;align-items:center;gap:6px}
+  .tnt-status::before{content:"";width:6px;height:6px;border-radius:99px;background:currentColor;box-shadow:0 0 7px currentColor}
+  .st-active{color:var(--green);background:#0e2a1c} .st-trial{color:var(--amber);background:#2c2410} .st-suspended{color:var(--red);background:#2c1414}
+  .tnt-planrow{display:flex;align-items:center;justify-content:space-between}
+  .tnt-plan{font-size:10.5px;font-weight:600;letter-spacing:.03em;padding:3px 9px;border-radius:6px;border:1px solid}
+  .plan-Enterprise{color:var(--violet);border-color:#2b3270;background:#161b39}
+  .plan-Growth{color:#5BD0FF;border-color:#1d4658;background:#0e2630}
+  .plan-Starter{color:var(--dim);border-color:var(--line);background:var(--raise)}
+  .tnt-mrr{font-family:"Open Sans";font-size:16px;font-weight:700}
+  .tnt-mrr small{font-size:11px;color:var(--mute);font-weight:500;margin-left:1px}
+  .tnt-usage-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--dim);margin-bottom:7px}
+  .tnt-usage-top b{color:var(--text);font-weight:600}
+  .tnt-bar{height:6px;border-radius:99px;background:#0a1a1f;overflow:hidden}
+  .tnt-bar i{display:block;height:100%;border-radius:99px;transition:width .4s ease}
+  .tnt-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--line-soft);padding-top:13px}
+  .tnt-stats>div{display:flex;flex-direction:column;gap:4px}
+  .tnt-stats .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .tnt-stats .v{font-family:"Open Sans";font-size:16px;font-weight:600;line-height:1}
+  .tnt-stats .v.ok{color:var(--dim)} .tnt-stats .v.warn{color:var(--amber)} .tnt-stats .v.crit{color:var(--red)}
+  .tnt-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .tnt-regions{display:flex;gap:5px;flex-wrap:wrap}
+  .tnt-region{font-size:9.5px;font-weight:600;letter-spacing:.04em;color:var(--dim);background:var(--raise);
+    border:1px solid var(--line-soft);padding:2px 7px;border-radius:5px}
+  .tnt-foot .btn{padding:6px 13px;font-size:12px}
+  @media(max-width:560px){ .tnt-grid{grid-template-columns:1fr} }
 
   /* toast */
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -1094,21 +1163,33 @@
           </div>
 
           <div class="panel">
-            <div class="panel-head"><h3 data-i18n="Config snapshot">Config snapshot</h3><span class="cfg">a3f9c2e</span></div>
-            <pre class="config-snap"><span class="cmt"># pulled from yourorg/guardare-configs/sites/acme-prod-04</span>
-<span class="key">ingestion</span>:
-  <span class="key">poll_interval</span>: <span class="num">30</span>
-  <span class="key">sources</span>:
-    - <span class="key">type</span>: <span class="str">"snmp"</span>
-      <span class="key">target</span>: <span class="str">"10.20.0.0/24"</span>
-    - <span class="key">type</span>: <span class="str">"syslog"</span>
-      <span class="key">port</span>: <span class="num">514</span>
-<span class="key">processing</span>:
-  <span class="key">pipeline</span>: <span class="str">"enrich-normalize-batch"</span>
-  <span class="key">batch_size</span>: <span class="num">500</span>
-<span class="key">alerts</span>:
-  <span class="key">cpu_threshold</span>: <span class="num">85</span>
-  <span class="key">queue_threshold</span>: <span class="num">1000</span></pre>
+            <div class="panel-head">
+              <h3 data-i18n="Config snapshot">Config snapshot</h3>
+              <div class="cfg-pickrow">
+                <div class="yaml-pick" id="normSubPick" style="display:none">
+                  <button class="yaml-pick-btn" onclick="toggleNormSub(event)"><span id="normSubLabel">SNMP</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+                  <div class="yaml-pick-menu" id="normSubMenu">
+                    <button data-sub="snmp"   onclick="selectNormSub('snmp')">SNMP manifest</button>
+                    <button data-sub="arista" onclick="selectNormSub('arista')">Arista EOS manifest</button>
+                    <button data-sub="azure"  onclick="selectNormSub('azure')">Azure manifest</button>
+                    <button data-sub="unifi"  onclick="selectNormSub('unifi')">UniFi manifest</button>
+                    <button data-sub="cli"    onclick="selectNormSub('cli')">CLI manifest</button>
+                  </div>
+                </div>
+                <div class="yaml-pick" id="svcPick">
+                  <button class="yaml-pick-btn primary" onclick="toggleSvcPick(event)"><span class="svc-dot" id="cfgSvcDot"></span><span id="svcPickLabel">vCollector</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+                  <div class="yaml-pick-menu" id="svcPickMenu">
+                    <button data-svc="vcollector" onclick="selectCfgSvc('vcollector')"><span class="svc-dot tealdot"></span>vCollector <span class="pl">YAML</span></button>
+                    <button data-svc="normalizer" onclick="selectCfgSvc('normalizer')"><span class="svc-dot greendot"></span>Normalizer <span class="pl">YAML</span></button>
+                    <button data-svc="events"     onclick="selectCfgSvc('events')"><span class="svc-dot amberdot"></span>Events Director <span class="pl">JSON</span></button>
+                    <button data-svc="hudusync"   onclick="selectCfgSvc('hudusync')"><span class="svc-dot violetdot"></span>HuduSync <span class="pl">YAML</span></button>
+                  </div>
+                </div>
+                <span class="cfg" id="cfgSha">a3f9c2e</span>
+              </div>
+            </div>
+            <div class="yaml-fileline" id="cfgFileLine"># yourorg/guardare-configs/sites/acme-prod-04 · vcollector.yaml</div>
+            <pre class="yaml-view" id="yamlView"></pre>
           </div>
     </section>
 
@@ -1150,6 +1231,2609 @@
 </div>
 
 <div class="radar-tip" id="radarTip"></div>
+<!-- ===== EMBEDDED MICROSERVICE CONFIGS (inert; read by config viewer) ===== -->
+<script type="text/plain" id="cfg-vcollector">
+---
+# VCOLLECTOR YAML CONFIGURATION FILE
+#
+# SNMP ENUMERATION K/V INTERPRETATION SUPPORT
+#   STRING CONCATENATION: [VALUE] %
+#   INTEGER DIVISION MATH: [VALUE / 10]
+#   INTEGER MULTIPLICATION: [VALUE * 10]
+#   INTEGER ADD / SUBTRACT: [VALUE +/- 10]
+#   INTEGER ADD / SUBTRACT WITH ADDING STRING UNIT: [VALUE * .1]F
+#   INTEGER ADD / SUBTRACT WITH ADDING STRING UNIT: [VALUE /1000] seconds
+#
+# TIMETICKS FORMATTING (ASN VALUES):
+#   (TimeTicks) -> (ByteString) Word32
+#   (TimeTicks) -> (6038309) 16:46:23.09
+#   (TimeTicks) -> integer_format or time_format
+#
+# SUPPORTED API MODEL TYPES:
+#   1. jwt
+#   2. json_rpc
+#   3. api_key
+#
+# JWT SUPPORTED REST PROFILES:
+#   1. UNIFI
+#   2. RESTCONF
+#   3. UNMS
+#   4. AZURE
+#   5. AZURE-BODY
+#
+# CHANGE HISTORY
+#   2026-04-30: Added route_id 111113 to each Azure VM endpoint (GCC-FP,
+#     GCC-DC01, GCC-FIN). New route hits Azure's VM-Get endpoint (the same
+#     path as instanceView but without the /instanceView suffix), returning
+#     static VM resource definition: vmSize, osType, region, OS disk, OS
+#     image. Powers the Azure vServers Hudu layout's static fields.
+#   2026-05-04: Added UNVR Protect API endpoint (000010) for camera/NVR
+#     bootstrap data. Reassigned Arista from 000002 to 000003 (collision).
+#     Normalized indentation across all endpoint blocks (1-space leading,
+#     3-space body) to match the API style established by the original
+#     UDMP block. Aligned route field ordering for consistency.
+# ===========================================================================
+
+
+api_configuration:
+
+#      _    ____ ___    ____             __ _
+#     / \  |  _ \_ _|  / ___|___  _ __  / _(_) __ _ ___
+#    / _ \ | |_) | |  | |   / _ \| '_ \| |_| |/ _` / __|
+#   / ___ \|  __/| |  | |__| (_) | | | |  _| | (_| \__ \
+#  /_/   \_\_|  |___|  \____\___/|_| |_|_| |_|\__, |___/
+#                                             |___/
+# ===========================================================================
+
+
+#   _   _ _   _ ___ _____ ___
+#  | | | | \ | |_ _|  ___|_ _|
+#  | | | |  \| || || |_   | |
+#  | |_| | |\  || ||  _|  | |
+#   \___/|_| \_|___|_|   |___|
+#
+# UDMP — Network, Connect, Access
+# ---------------------------------------------------------------------------
+ - endpoint_id: "000001"
+   endpoint_manufacturer: "Ubiquiti"
+   endpoint_model_type: "Unifi API"
+   endpoint_hostname: "MYB-UDMP01"
+   endpoint_site_id: "MYB01"
+   endpoint_auth_freq: "10"
+   endpoint_route_freq: "15"
+   api_model_type: "jwt"
+   api_jwt_profile: "unifi"
+   authentication:
+      auth_url: "https://192.168.1.1"
+      auth_uri: "/api/auth/login"
+      auth_username: "apiAdmin"
+      auth_password: "${UNIFI_PASSWORD}"
+      auth_method: "POST"
+   routes:
+      - route_id: "11111"
+        route_desc: "Core device details"
+        route_method: "GET"
+        route_uri: "/proxy/network/api/s/default/stat/device"
+      - route_id: "2222"
+        route_desc: "Controller global system alarms"
+        route_method: "GET"
+        route_uri: "/proxy/network/api/s/default/stat/alarm?archived=false"
+      - route_id: "5555"
+        route_desc: "Active clients with traffic and UniFi devices (v2 API)"
+        route_method: "GET"
+        route_uri: "/proxy/network/v2/api/site/default/clients/active?includeTrafficUsage=true&includeUnifiDevices=true"
+      - route_id: "44444"
+        route_desc: "Connect App Device Info"
+        route_method: "GET"
+        route_uri: "/proxy/connect/api/v2/devices"
+      - route_id: "70001"
+        route_desc: "UniFi Access device topology"
+        route_method: "GET"
+        route_uri: "/proxy/access/api/v2/devices/topology"
+#
+# UNVR 01 — Protect bootstrap (cameras + NVR)
+# ---------------------------------------------------------------------------
+ - endpoint_id: "000010"
+   endpoint_manufacturer: "Ubiquiti"
+   endpoint_model_type: "UNVR 01"
+   endpoint_hostname: "MYB-UNVR01"
+   endpoint_site_id: "MYB01"
+   endpoint_auth_freq: "10"
+   endpoint_route_freq: "30"
+   api_model_type: "jwt"
+   api_jwt_profile: "unifi"
+   authentication:
+      auth_url: "https://10.115.116.217"
+      auth_uri: "/api/auth/login"
+      auth_username: "apiAdmin"
+      auth_password: "${UNIFI_PASSWORD}"
+      auth_method: "POST"
+   routes:
+      - route_id: "20001"
+        route_desc: "UNVR #1 Bootstrap manifest"
+        route_method: "GET"
+        route_uri: "/proxy/protect/api/bootstrap"
+#
+#
+#      _         _     _
+#     / \   _ __(_)___| |_ __ _
+#    / _ \ | '__| / __| __/ _` |
+#   / ___ \| |  | \__ \ || (_| |
+#  /_/   \_\_|  |_|___/\__\__,_|
+#
+# Arista cEOS01 — JSON-RPC command API
+# ---------------------------------------------------------------------------
+ - endpoint_id: "000003"
+   endpoint_manufacturer: "Arista"
+   endpoint_model_type: "Arista EOS"
+   endpoint_hostname: "cEOS01"
+   endpoint_site_id: "MYB01"
+   endpoint_auth_freq: "0"
+   endpoint_route_freq: "60"
+   api_model_type: "json_rpc"
+   api_jwt_profile: ""
+   authentication:
+      auth_url: "https://192.168.1.75"
+      auth_uri: "/command-api"
+      auth_username: "mikecotrone"
+      auth_password: "${ARISTA_PASSWORD}"
+      auth_method: "POST"
+   json_rpc:
+      - json_rpc_version: "2.0"
+        json_rpc_method: "runCmds"
+   json_rpc_params:
+      - format: "json"
+        timestamps: "false"
+   json_rpc_cmds:
+      - cmd: "show version"
+      - cmd: "show ip interface brief"
+   routes:
+      - route_id: "30001"
+        route_desc: "Arista EOS Command API"
+        route_method: "POST"
+        route_uri: "/command-api"
+#
+#
+#   __  __                _    _
+#  |  \/  | ___ _ __ __ _| | _(_)
+#  | |\/| |/ _ \ '__/ _` | |/ / |
+#  | |  | |  __/ | | (_| |   <| |
+#  |_|  |_|\___|_|  \__,_|_|\_\_|
+#
+# Cisco Meraki — Dashboard API
+# ---------------------------------------------------------------------------
+ - endpoint_id: "000006"
+   endpoint_manufacturer: "Cisco"
+   endpoint_model_type: "Meraki Dashboard API"
+   endpoint_hostname: "MYB-MERAKI"
+   endpoint_site_id: "OVG01"
+   endpoint_auth_freq: "0"
+   endpoint_route_freq: "60"
+   api_model_type: "api_key"
+   api_jwt_profile: ""
+   authentication:
+      auth_url: "https://api.meraki.com"
+      auth_uri: ""
+      auth_username: ""
+      auth_password: ""
+      auth_method: "GET"
+   headers:
+      - X-Cisco-Meraki-API-Key: "${MERAKI_API_KEY}"
+   routes:
+      - route_id: "60001"
+        route_desc: "Get all organization devices"
+        route_method: "GET"
+        route_url: "https://api.meraki.com"
+        route_uri: "/api/v1/organizations/578149602163689538/devices"
+      - route_id: "60002"
+        route_desc: "Get device statuses"
+        route_method: "GET"
+        route_url: "https://api.meraki.com"
+        route_uri: "/api/v1/organizations/578149602163689538/devices/statuses"
+      - route_id: "60003"
+        route_desc: "Get organization networks"
+        route_method: "GET"
+        route_url: "https://api.meraki.com"
+        route_uri: "/api/v1/organizations/578149602163689538/networks"
+#
+#
+#                                          __ _
+#   /_\  _____  _ _ _ ___    /_\  _ __ ___/ _(_)__ _
+#  / _ \|_ /| || | '_/ -_)  / _ \| '_ \ |  _| / _` |
+# /_/ \_\/__|\_,_|_| \___| /_/ \_\ .__/_|_| |_\__, |
+#                                |_|          |___/
+#
+# Microsoft Azure — VM-Get + InstanceView + Metrics
+# ---------------------------------------------------------------------------
+ - endpoint_id: "0001"
+   endpoint_manufacturer: "Microsoft"
+   endpoint_model_type: "Azure Host"
+   endpoint_hostname: "GCC-FP"
+   endpoint_site_id: "MYB01"
+   endpoint_auth_freq: "10"
+   endpoint_route_freq: "60"
+   api_model_type: "jwt"
+   api_jwt_profile: "azure"
+   authentication:
+      auth_url: "https://login.microsoftonline.com"
+      auth_uri: "/d3bffc00-eb61-42b5-a008-20579ebb8325/oauth2/v2.0/token"
+      auth_client_id: "${AZURE_CLIENT_ID}"
+      auth_client_secret: "${AZURE_CLIENT_SECRET}"
+      auth_grant_type: "client_credentials"
+      auth_scope: "https://management.azure.com/.default"
+      auth_method: "POST"
+   routes:
+      - route_id: "11111"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-FP: Get Operational Status for this Virtual Server"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP/instanceView?api-version=2024-07-01"
+      - route_id: "111112"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-FP: Get vCPU Utilization"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
+      - route_id: "111113"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-FP: Get VM Instance Properties (size, OS, region, disk)"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP?api-version=2024-07-01"
+#
+ - endpoint_id: "0002"
+   endpoint_manufacturer: "Microsoft"
+   endpoint_model_type: "Azure Host"
+   endpoint_hostname: "GCC-DC01"
+   endpoint_site_id: "MYB01"
+   endpoint_auth_freq: "10"
+   endpoint_route_freq: "60"
+   api_model_type: "jwt"
+   api_jwt_profile: "azure"
+   authentication:
+      auth_url: "https://login.microsoftonline.com"
+      auth_uri: "/d3bffc00-eb61-42b5-a008-20579ebb8325/oauth2/v2.0/token"
+      auth_client_id: "${AZURE_CLIENT_ID}"
+      auth_client_secret: "${AZURE_CLIENT_SECRET}"
+      auth_grant_type: "client_credentials"
+      auth_scope: "https://management.azure.com/.default"
+      auth_method: "POST"
+   routes:
+      - route_id: "11111"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-DC01: Get Operational Status for this Virtual Server"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01/instanceView?api-version=2024-07-01"
+      - route_id: "111112"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-DC01: Get vCPU Utilization"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
+      - route_id: "111113"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-DC01: Get VM Instance Properties (size, OS, region, disk)"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01?api-version=2024-07-01"
+#
+ - endpoint_id: "0003"
+   endpoint_manufacturer: "Microsoft"
+   endpoint_model_type: "Azure Host"
+   endpoint_hostname: "GCC-FIN"
+   endpoint_site_id: "MYB01"
+   endpoint_auth_freq: "10"
+   endpoint_route_freq: "60"
+   api_model_type: "jwt"
+   api_jwt_profile: "azure"
+   authentication:
+      auth_url: "https://login.microsoftonline.com"
+      auth_uri: "/d3bffc00-eb61-42b5-a008-20579ebb8325/oauth2/v2.0/token"
+      auth_client_id: "${AZURE_CLIENT_ID}"
+      auth_client_secret: "${AZURE_CLIENT_SECRET}"
+      auth_grant_type: "client_credentials"
+      auth_scope: "https://management.azure.com/.default"
+      auth_method: "POST"
+   routes:
+      - route_id: "11111"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-FIN: Get Operational Status for this Virtual Server"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN/instanceView?api-version=2024-07-01"
+      - route_id: "111112"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-FIN: Get vCPU Utilization"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
+      - route_id: "111113"
+        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_url: "https://management.azure.com"
+        route_desc: "GCC-FIN: Get VM Instance Properties (size, OS, region, disk)"
+        route_method: "GET"
+        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN?api-version=2024-07-01"
+#
+#
+#   ____  _   _ __  __ ____     ____             __ _
+#  / ___|| \ | |  \/  |  _ \   / ___|___  _ __  / _(_) __ _ ___
+#  \___ \|  \| | |\/| | |_) | | |   / _ \| '_ \| |_| |/ _` / __|
+#   ___) | |\  | |  | |  __/  | |__| (_) | | | |  _| | (_| \__ \
+#  |____/|_| \_|_|  |_|_|      \____\___/|_| |_|_| |_|\__, |___/
+#                                                     |___/
+# ===========================================================================
+snmp_configuration:
+
+ - snmp_endpoint_id: "00001"
+   snmp_endpoint_manufacturer: "Ubiquiti"
+   snmp_endpoint_device_type: "switch"
+   snmp_endpoint_name: "192.168.0.2"
+   snmp_endpoint_site_id: "MYB01"
+   snmp_endpoint_port: "161"
+   snmp_endpoint_version: "v1"
+   snmp_endpoint_community: "${SNMP_COMMUNITY}"
+   snmp_oid:
+      - snmp_oid: ".1.3.6.1.2.1.1.4.0"
+        snmp_oid_name: systemUptime
+        snmp_oid_desc: "System uptime"
+        snmp_oid_call_freq: "30"
+#
+#
+#   ___ _    ___    ___           __ _
+#  / __| |  |_ _|  / __|___ _ _  / _(_)__ _ ___
+# | (__| |__ | |  | (__/ _ \ ' \|  _| / _` (_-_
+#  \___|____|___|  \___\___/_||_|_| |_\__, /__/
+#                                     |___/
+# ===========================================================================
+cli_configuration:
+
+# ── PUBLIC DNS RESOLVERS ────────────────────────────────────────────────────
+
+ - cli_id: "00001"
+   cli_test_description: "Google DNS Primary"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "8.8.8.8"
+   cli_test_freq: "30"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+ - cli_id: "00002"
+   cli_test_description: "Google DNS Secondary"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "8.8.4.4"
+   cli_test_freq: "30"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+ - cli_id: "00003"
+   cli_test_description: "Cloudflare DNS Primary"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "1.1.1.1"
+   cli_test_freq: "30"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+ - cli_id: "00004"
+   cli_test_description: "Cloudflare DNS Secondary"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "1.0.0.1"
+   cli_test_freq: "30"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+ - cli_id: "00005"
+   cli_test_description: "Quad9 DNS"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "9.9.9.9"
+   cli_test_freq: "30"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+ - cli_id: "00006"
+   cli_test_description: "OpenDNS Primary"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "208.67.222.222"
+   cli_test_freq: "60"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+# ── ANYCAST / CDN EDGES ─────────────────────────────────────────────────────
+
+ - cli_id: "00007"
+   cli_test_description: "Cloudflare WARP edge"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "162.159.36.1"
+   cli_test_freq: "60"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+ - cli_id: "00008"
+   cli_test_description: "Microsoft Azure root"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "13.107.21.200"
+   cli_test_freq: "60"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+# ── HIGHER-LATENCY GLOBAL TARGETS (path diversity) ──────────────────────────
+
+ - cli_id: "00009"
+   cli_test_description: "Hurricane Electric DNS"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "74.82.42.42"
+   cli_test_freq: "60"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+
+ - cli_id: "00010"
+   cli_test_description: "NTT DNS"
+   cli_test_type: "ping_rtt"
+   cli_test_type_options: "3, -1"
+   cli_test_ip_hostname: "129.250.35.250"
+   cli_test_freq: "60"
+   cli_test_manufacturer: "generic"
+   cli_site_id: "MYB01"
+</script>
+<script type="text/plain" id="cfg-norm-snmp">
+---
+# NORMALIZER SNMP MANIFEST YAML CONFIGURATION FILE
+# -------------------------------------------------------------------
+define_GlobalSettings:
+ primary-key-id: "ipAddress"
+#
+#
+# -------------------------------------------------------------------
+# SNMP DATABASE COLUMN SCHMEA MAPPING
+# -------------------------------------------------------------------
+table_snmp_topology:
+ timestamp: ""
+ ipAddress: "*resultsDb:epHostname"
+ manufacturer: "*resultsDb:manufacturer"
+ oid: "*resultsDb:typePath"
+ oidName: "*resultsDb:typePathName"
+ queryResult: "*resultsDb:rawResult"
+ queryResultType: "*resultsDb:rawResultTypeDescriptor"
+#
+</script>
+<script type="text/plain" id="cfg-norm-arista">
+---
+# NORMALIZER ARISTA EOS API MANIFEST YAML CONFIGURATION FILE
+#
+# SUPPORTED SCRIPT FUNCTIONS AND SIGNATURES:
+#    manufacturer: "!macVendorLookup($mac)"
+#    ipAddress: "!crossTableLookup(table-name:columnName)"
+#    ipAddress: "!crossTableLookup(table-name:columnName:localField->sourceField)"
+#
+# -------------------------------------------------------------------
+#
+#      _         _     _
+#     / \   _ __(_)___| |_ __ _
+#    / _ \ | '__| / __| __/ _` |
+#   / ___ \| |  | \__ \ || (_| |
+#  /_/   \_\_|  |_|___/\__\__,_|
+#
+# ARISTA EOS ROUTES (eAPI / JSON-RPC)
+# -------------------------------------------------------------------
+# NOTE: Arista eAPI returns all commands in a single JSON-RPC response.
+# vCollector sends: show version, show interfaces status, show ip interface brief
+# Response structure: result[0], result[1], result[2]
+# -------------------------------------------------------------------
+define_AristaEosCommandApi: &Arista_EOS_Command_Api
+ name: "Arista_EOS_Command_Api"
+ type: "api"
+ manufacturer: "arista"
+ product-line: "EOS"
+ description: "Arista EOS eAPI JSON-RPC Command API"
+ route: "/command-api"
+ route-method: "POST"
+ node-section-anchor: "global"
+# -------------------------------------------------------------------
+#
+#
+# ARISTA EOS TABLE MAPPINGS
+# -------------------------------------------------------------------------------------------------------------------------------------------
+#
+# TABLE: arista-device-profile
+# Source: eAPI "show version"
+# JSON fields: modelName, serialNumber, version, systemMacAddress,
+#              hardwareRevision, architecture, memTotal, memFree,
+#              bootupTimestamp, mfgName, internalVersion
+# -------------------------------------------------------------------
+table_arista-device-profile:
+ apiRouteBlock: *Arista_EOS_Command_Api
+ siteId: "MYB01"
+ profileUuid: "$serialNumber"
+ hostname: "!useHostnameSelf"
+ model: "$modelName"
+ serialNumber: "$serialNumber"
+ ipAddress: "$managementIp"
+ macAddress: "$systemMacAddress"
+ swVersion: "$version"
+ internalVersion: "$internalVersion"
+ hardwareRevision: "$hardwareRevision"
+ architecture: "$architecture"
+ memoryTotal: "$memTotal"
+ memoryFree: "$memFree"
+ bootupTimestamp: "$bootupTimestamp"
+ productLineStr: "EOS"
+ manufacturerStr: "arista"
+#
+# TABLE: arista-interface-status
+# Source: eAPI "show interfaces status"
+# NOTE: Commented out until we confirm how vCollector delivers
+#       multi-command JSON-RPC results to Normalizer.
+#       Interface data is keyed by interface name under interfaceStatuses.
+# -------------------------------------------------------------------
+#table_arista-interface-status:
+# apiRouteBlock: *Arista_EOS_Command_Api
+# profileUuid: "!useHostnameSelf"
+# hostname: "!useHostnameSelf"
+# interfaceName: "$interfaceStatuses->*"
+# linkStatus: "$*->$linkStatus"
+# lineProtocolStatus: "$*->$lineProtocolStatus"
+# bandwidth: "$*->$bandwidth"
+# interfaceType: "$*->$interfaceType"
+# description: "$*->$description"
+# duplex: "$*->$duplex"
+# autoNegotiateActive: "$*->$autoNegotiateActive"
+# productLineStr: "EOS"
+# manufacturerStr: "arista"
+#
+# TABLE: arista-ip-interface
+# Source: eAPI "show ip interface brief"
+# NOTE: Commented out — same dependency as above.
+# -------------------------------------------------------------------
+#table_arista-ip-interface:
+# apiRouteBlock: *Arista_EOS_Command_Api
+# profileUuid: "!useHostnameSelf"
+# hostname: "!useHostnameSelf"
+# interfaceName: "$interfaces->*"
+# ipAddress: "$*->$interfaceAddress->$ipAddr->$address"
+# maskLen: "$*->$interfaceAddress->$ipAddr->$maskLen"
+# interfaceStatus: "$*->$interfaceStatus"
+# lineProtocolStatus: "$*->$lineProtocolStatus"
+# mtu: "$*->$mtu"
+# productLineStr: "EOS"
+# manufacturerStr: "arista"
+#
+#
+# =========================================================================
+# DEVICE IDENTITY CANONICALIZATION MAPPINGS
+# =========================================================================
+# Schema is machine-authored — Cloud UI generates these blocks.
+#
+# Arista is exclusively a switching/routing vendor. All EOS devices
+# canonicalize as network/switch by default.  No model-prefix branching
+# needed — Arista's catalog is homogeneous enough that this works.
+# Future model-specific routing (e.g. DCS-7280R spines vs CCS-720
+# campus switches) can be added without breaking changes when needed.
+# =========================================================================
+deviceIdentityMapping:
+
+ # -----------------------------------------------------------------------
+ # ARISTA EOS DEVICES — all classified as network/switch
+ # -----------------------------------------------------------------------
+ arista-device-profile:
+  schemaVersion: 1
+  sourceTableStr: "arista-device-profile"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "adp-cat-default"
+      description: "Arista EOS device → network"
+      when: { default: true }
+      result: "network"
+
+   deviceTypeStr:
+    - id: "adp-typ-default"
+      description: "Arista EOS device → switch"
+      when: { default: true }
+      result: "switch"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddress"
+   ipAddressStr: "$ipAddress"
+   hostnameStr: "$hostname"
+   displayNameStr: "$hostname"
+   modelStr: "$model"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+#
+</script>
+<script type="text/plain" id="cfg-norm-azure">
+---
+# ============================================================================
+# MYB01 NORMALIZER CONFIGURATION — MICROSOFT AZURE
+# ============================================================================
+# Updated 2026-04-30 (Azure Phase 1b)
+#
+# CHANGE FROM PHASE 1
+#   Added one line — resourceGroupStr: "GCC-AZURE" — to each of the 3
+#   table_azure-vm-instance-properties-* blocks. Normalizer's dyn-tables
+#   builder ALTERs each existing table to add the new column on next
+#   restart. After one full vCollector cycle (~60s) the column populates
+#   for all 3 VMs.
+#
+#   Why static literal: the resource group is encoded in each route URI
+#   (resourceGroups/GCC-AZURE) — known at config time, changing it
+#   requires editing the URIs anyway. Parsing $id from the response
+#   would auto-derive but adds traversal complexity for zero practical
+#   benefit at the current 1-resource-group scale. Switch to $id parsing
+#   when multi-RG customers come along.
+#
+# EVERYTHING ELSE BYTE-IDENTICAL TO PHASE 1.
+# ============================================================================
+
+
+# ============================================================================
+# SECTION A — ROUTE ANCHORS
+# ============================================================================
+
+# -------------------------------------------------------------------
+define_AzureVmInstancePropertiesGccFp: &Azure_VM_InstanceProperties_GCC_FP
+ name: "Azure_VM_InstanceProperties_GCC_FP"
+ type: "api"
+ manufacturer: "microsoft"
+ product-line: "AZURE"
+ description: "GCC-FP VM Instance Properties (static identity)"
+ route: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP?api-version=2024-07-01"
+ route-method: "GET"
+ node-section-anchor: "global"
+# -------------------------------------------------------------------
+define_AzureVmInstancePropertiesGccDc01: &Azure_VM_InstanceProperties_GCC_DC01
+ name: "Azure_VM_InstanceProperties_GCC_DC01"
+ type: "api"
+ manufacturer: "microsoft"
+ product-line: "AZURE"
+ description: "GCC-DC01 VM Instance Properties (static identity)"
+ route: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01?api-version=2024-07-01"
+ route-method: "GET"
+ node-section-anchor: "global"
+# -------------------------------------------------------------------
+define_AzureVmInstancePropertiesGccFin: &Azure_VM_InstanceProperties_GCC_FIN
+ name: "Azure_VM_InstanceProperties_GCC_FIN"
+ type: "api"
+ manufacturer: "microsoft"
+ product-line: "AZURE"
+ description: "GCC-FIN VM Instance Properties (static identity)"
+ route: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN?api-version=2024-07-01"
+ route-method: "GET"
+ node-section-anchor: "global"
+# -------------------------------------------------------------------
+
+
+# ============================================================================
+# SECTION B — TABLE MAPPINGS
+# ============================================================================
+#
+# Field path notes — Azure VM-Get response shape:
+#   $location                                              → "eastus"
+#   $name                                                  → "GCC-FP" (matches computerName)
+#   $properties->$hardwareProfile->$vmSize                 → "Standard_B2s"
+#   $properties->$storageProfile->$osDisk->$osType         → "Windows" or "Linux"
+#   $properties->$storageProfile->$osDisk->$diskSizeGB     → 127 (integer)
+#   $properties->$storageProfile->$imageReference->$sku    → "2022-datacenter-azure-edition"
+#   $properties->$storageProfile->$osDisk->$managedDisk->$storageAccountType → "Standard_LRS"
+
+table_azure-vm-instance-properties-gcc-fp:
+ apiRouteBlock: *Azure_VM_InstanceProperties_GCC_FP
+ siteId: "GCC01"
+ profileUuid: "$name"
+ serverName: "$name"
+ vmSizeStr: "$properties->$hardwareProfile->$vmSize"
+ osTypeStr: "$properties->$storageProfile->$osDisk->$osType"
+ osDiskSizeGbInt: "$properties->$storageProfile->$osDisk->$diskSizeGB"
+ osImageSkuStr: "$properties->$storageProfile->$imageReference->$sku"
+ osDiskTypeStr: "$properties->$storageProfile->$osDisk->$managedDisk->$storageAccountType"
+ regionStr: "$location"
+ productLineStr: "AZURE"
+ manufacturerStr: "microsoft"
+ resourceGroupStr: "GCC-AZURE"
+#
+table_azure-vm-instance-properties-gcc-dc01:
+ apiRouteBlock: *Azure_VM_InstanceProperties_GCC_DC01
+ siteId: "GCC01"
+ profileUuid: "$name"
+ serverName: "$name"
+ vmSizeStr: "$properties->$hardwareProfile->$vmSize"
+ osTypeStr: "$properties->$storageProfile->$osDisk->$osType"
+ osDiskSizeGbInt: "$properties->$storageProfile->$osDisk->$diskSizeGB"
+ osImageSkuStr: "$properties->$storageProfile->$imageReference->$sku"
+ osDiskTypeStr: "$properties->$storageProfile->$osDisk->$managedDisk->$storageAccountType"
+ regionStr: "$location"
+ productLineStr: "AZURE"
+ manufacturerStr: "microsoft"
+ resourceGroupStr: "GCC-AZURE"
+#
+table_azure-vm-instance-properties-gcc-fin:
+ apiRouteBlock: *Azure_VM_InstanceProperties_GCC_FIN
+ siteId: "GCC01"
+ profileUuid: "$name"
+ serverName: "$name"
+ vmSizeStr: "$properties->$hardwareProfile->$vmSize"
+ osTypeStr: "$properties->$storageProfile->$osDisk->$osType"
+ osDiskSizeGbInt: "$properties->$storageProfile->$osDisk->$diskSizeGB"
+ osImageSkuStr: "$properties->$storageProfile->$imageReference->$sku"
+ osDiskTypeStr: "$properties->$storageProfile->$osDisk->$managedDisk->$storageAccountType"
+ regionStr: "$location"
+ productLineStr: "AZURE"
+ manufacturerStr: "microsoft"
+ resourceGroupStr: "GCC-AZURE"
+
+
+# ============================================================================
+# SECTION C — DEVICE IDENTITY MAPPINGS
+# ============================================================================
+
+deviceIdentityMapping:
+
+ azure-vm-instance-properties-gcc-fp:
+  schemaVersion: 1
+  sourceTableStr: "azure-vm-instance-properties-gcc-fp"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "avip-fp-cat-default"
+      description: "Azure VM → virtualization"
+      when: { default: true }
+      result: "virtualization"
+
+   deviceTypeStr:
+    - id: "avip-fp-typ-default"
+      description: "Azure VM → virtualMachine"
+      when: { default: true }
+      result: "virtualMachine"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   cloudResourceIdStr: "$profileUuid"
+   hostnameStr: "$serverName"
+   displayNameStr: "$serverName"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+
+ azure-vm-instance-properties-gcc-dc01:
+  schemaVersion: 1
+  sourceTableStr: "azure-vm-instance-properties-gcc-dc01"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "avip-dc01-cat-default"
+      description: "Azure VM → virtualization"
+      when: { default: true }
+      result: "virtualization"
+
+   deviceTypeStr:
+    - id: "avip-dc01-typ-default"
+      description: "Azure VM → virtualMachine"
+      when: { default: true }
+      result: "virtualMachine"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   cloudResourceIdStr: "$profileUuid"
+   hostnameStr: "$serverName"
+   displayNameStr: "$serverName"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+
+ azure-vm-instance-properties-gcc-fin:
+  schemaVersion: 1
+  sourceTableStr: "azure-vm-instance-properties-gcc-fin"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "avip-fin-cat-default"
+      description: "Azure VM → virtualization"
+      when: { default: true }
+      result: "virtualization"
+
+   deviceTypeStr:
+    - id: "avip-fin-typ-default"
+      description: "Azure VM → virtualMachine"
+      when: { default: true }
+      result: "virtualMachine"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   cloudResourceIdStr: "$profileUuid"
+   hostnameStr: "$serverName"
+   displayNameStr: "$serverName"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+</script>
+<script type="text/plain" id="cfg-norm-unifi">
+---
+# NORMALIZER UBIQUITI UNIFI API MANIFEST YAML CONFIGURATION FILE
+#
+# SUPPORTED SCRIPT FUNCTIONS AND SIGNATURES:
+#    manufacturer: "!macVendorLookup($mac)"
+#    ipAddress: "!crossTableLookup(table-name:columnName)"
+#    ipAddress: "!crossTableLookup(table-name:columnName:localField->sourceField)"
+#
+# -------------------------------------------------------------------
+#
+#   _   _ _   _ ___ _____ ___
+#  | | | | \ | |_ _|  ___|_ _|
+#  | | | |  \| || || |_   | |
+#  | |_| | |\  || ||  _|  | |
+#   \___/|_| \_|___|_|   |___|
+#
+# UBIQUITI UNIFI ROUTES
+# --------------------------------------------------------------------------------------------
+define_RouteStatDevice: &Route_Stat_Device
+ name: "Route_Stat_Device"
+ type: "api"
+ manufacturer: "ubiquiti"
+ product-line: "UNIFI"
+ description: "All Unifi core device details"
+ route: "/proxy/network/api/s/default/stat/device"
+ route-method: "GET"
+ node-section-anchor: "_id"
+# -------------------------------------------------------------------
+define_RouteStatSysinfo: &Route_Stat_Sysinfo
+ name: "Route_Stat_Sysinfo"
+ type: "api"
+ manufacturer: "ubiquiti"
+ product-line: "UNIFI"
+ description: "UDM Controller Details"
+ route: "/proxy/network/api/s/default/stat/sysinfo"
+ route-method: "GET"
+ node-section-anchor: ""
+# -------------------------------------------------------------------
+define_RouteStatAlarm: &Route_Stat_Alarm
+ name: "Route_Stat_Alarm"
+ type: "api"
+ manufacturer: "ubiquiti"
+ product-line: "UNIFI"
+ description: "Events from UDM"
+ route: "/proxy/network/api/s/default/stat/alarm?archived=false"
+ route-method: "GET"
+ node-section-anchor: "_id"
+# -------------------------------------------------------------------
+define_RouteClientsActive: &Route_Clients_Active
+ name: "Route_Clients_Active"
+ type: "api"
+ manufacturer: "ubiquiti"
+ product-line: "UNIFI"
+ description: "All active clients from UDM (v2 API)"
+ route: "/proxy/network/v2/api/site/default/clients/active?includeTrafficUsage=true&includeUnifiDevices=true"
+ route-method: "GET"
+ node-section-anchor: "id"
+# -------------------------------------------------------------------
+define_ProtectApiBootstrap: &Protect_Api_Bootstrap
+ name: "Protect_Api_Bootstrap"
+ type: "api"
+ manufacturer: "ubiquiti"
+ product-line: "PROTECT"
+ description: "Bootstrap file from UNVR Controller"
+ route: "/proxy/protect/api/bootstrap"
+ route-method: "GET"
+ node-section-anchor: "id"
+# -------------------------------------------------------------------
+define_ConnectDevice: &Connect_Device
+ name: "Connect_Device"
+ type: "api"
+ manufacturer: "ubiquiti"
+ product-line: "UNIFI-CONNECT"
+ description: "All Connect App Devices"
+ route: "/proxy/connect/api/v2/devices"
+ route-method: "GET"
+ node-section-anchor: "ip"
+# -------------------------------------------------------------------
+define_AccessTopology: &Access_Topology
+ name: "Access_Topology"
+ type: "api"
+ manufacturer: "ubiquiti"
+ product-line: "UNIFI-ACCESS"
+ description: "UniFi Access device topology (flattened by routeApiEnvelope)"
+ route: "/proxy/access/api/v2/devices/topology"
+ route-method: "GET"
+ node-section-anchor: "unique_id"
+# -------------------------------------------------------------------
+#
+#
+# INCLUDE RULE LIST DEFINITIONS
+# -------------------------------------------------------------------
+define_IncludeKeyValueList001: &IncludeKeyValueList_001
+ modelKey: "camera|nvr"
+# -------------------------------------------------------------------
+define_IncludeKeyValueList_NVR: &IncludeKeyValueList_NVR
+ modelKey: "nvr"
+# -------------------------------------------------------------------
+define_IncludeKeyValueList_UDMPRO: &IncludeKeyValueList_UDMPRO
+ model: "UDMPRO"
+# -------------------------------------------------------------------
+define_IncludeKeyValueList_CAMERA: &IncludeKeyValueList_CAMERA
+ modelKey: "camera"
+# -------------------------------------------------------------------
+define_IncludeKeyValueList_WirelessClient: &IncludeKeyValueList_WirelessClient
+ type: "WIRELESS"
+# -------------------------------------------------------------------
+#
+# EXCLUDE RULE LIST DEFINITIONS
+# -------------------------------------------------------------------
+define_ExcludeKeyValueList_AdoptedByOther: &ExcludeKeyValueList_AdoptedByOther
+ isAdoptedByOther: "true"
+# -------------------------------------------------------------------
+define_ExcludeKeyValueList_UdmUap: &ExcludeKeyValueList_UdmUap
+ type: "udm|uap"
+# -------------------------------------------------------------------
+#
+#
+# UBIQUITI UNIFI NETWORK TABLES
+# -------------------------------------------------------------------
+table_network-device-profile:
+ apiRouteBlock: *Route_Stat_Device
+ profileUuid: "$_id"
+ hostname: "$name"
+ model: "$model"
+ deviceTypeStr: "$type"
+ ipAddress: "$ip"
+ macAddress: "$mac"
+ status: "$state"
+ usingLteBackup: "$lte_failover"
+ swVersion: "$version"
+ swUpgradeStatus: "$upgradable"
+ lastSeenDateTime: "$last_seen"
+ productLineStr: "UNIFI"
+ manufacturerStr: "UBIQUITI"
+ # NORM-001 (ED-007): presence reconciliation
+ # If a device disappears from /stat/device for more than absencePruneTimeoutSec,
+ # prune the row + cascade-delete children + deviceIdentity, audit to
+ # prunedProfileLog. Safety bound caps prunes per cycle.
+ presenceReconciliation:
+  enabled: true
+  absencePruneTimeoutSec: 3600
+  maxPruneCountPerCycle: 10
+#
+table_network-device-configuration:
+ apiRouteBlock: *Route_Stat_Device
+ profileUuid: "$_id"
+ ipaddress: "!crossTableLookup(network-device-profile:ipaddress)"
+ hostname: "!crossTableLookup(network-device-profile:hostname)"
+ configVersion: "$cfgversion"
+ controllerIp: "$inform_ip"
+ controllerMacAddr: "$gateway_mac"
+#
+table_network-device-health-stats:
+ apiRouteBlock: *Route_Stat_Device
+ profileUuid: "$_id"
+ ipaddress: "!crossTableLookup(network-device-profile:ipaddress)"
+ hostname: "!crossTableLookup(network-device-profile:hostname)"
+ myController: "!crossTableLookup(network-device-configuration:controllerIp)"
+ memoryTotal: "$sys_stats->$mem_total"
+ memoryUsed: "$sys_stats->$mem_used"
+ cpuLoadAverage: "$sys_stats->$loadavg_5"
+ fanUtilization: "$fan_level"
+ temperature: "$general_temperature"
+ overallPoePowerAvailable: "$total_max_power"
+ overallPoePowerInUse: "$total_used_power"
+ adoptedByController: "$adopted"
+#
+table_network-device-adjacent-neighbors:
+ apiRouteBlock: *Route_Stat_Device
+ profileUuid: "$_id"
+ ipaddress: "!crossTableLookup(network-device-profile:ipaddress)"
+ hostname: "!crossTableLookup(network-device-profile:hostname)"
+ localPortId: "$lldp_table[]->$local_port_idx*"
+ localPortDesc: "$local_port_idx*->$local_port_name"
+#
+table_network-device-interface-stats:
+ apiRouteBlock: *Route_Stat_Device
+ excludeKeyValueList: *ExcludeKeyValueList_UdmUap
+ profileUuid: "$_id"
+ ipaddress: "!crossTableLookup(network-device-profile:ipaddress)"
+ hostname: "!crossTableLookup(network-device-profile:hostname)"
+ interfaceId: "$port_table[]->$port_idx*"
+ portState: "$port_idx*->$up"
+ interfaceName: "$port_idx*->$name"
+ interfaceType: "$port_idx*->$media"
+ interfaceDescription: "$port_idx*->$name"
+ interfaceStpState: "$port_idx*->$stp_state"
+ txErrors: "$port_idx*->$tx_errors"
+ txDropped: "$port_idx*->$tx_dropped"
+ txPackets: "$port_idx*->$tx_packets"
+ rxErrors: "$port_idx*->$rx_errors"
+ rxDrops: "$port_idx*->$rx_dropped"
+ rxPackets: "$port_idx*->$rx_packets"
+ portAnomaly: "$port_idx*->$custom_anomalies"
+ poeWattUtilization: "$port_idx*->$poe_current"
+#
+table_network-device-interface-macAddr:
+  apiRouteBlock: *Route_Stat_Device
+  profileUuid: "$_id"
+  ipaddress: "!crossTableLookup(network-device-profile:ipaddress)"
+  hostname: "!crossTableLookup(network-device-profile:hostname)"
+  interfaceId: "$port_table[]->$port_idx*"
+  macAddr: "$port_idx*->$mac_table[]->$mac*"
+  vlanId: "$mac*->$vlan"
+  age: "$mac*->$age"
+  entryType: "$mac*->$static"
+#
+#
+# UBIQUITI UNIFI NETWORK CLIENTS (v2 API)
+# -------------------------------------------------------------------
+table_network-client-profile:
+ apiRouteBlock: *Route_Clients_Active
+ # --- Identity ---
+ profileUuid: "$id"
+ hostname: "$hostname"
+ displayName: "$display_name"
+ description: "$name"
+ manufacturer: "$oui"
+ model: "$model_name"
+ macAddress: "$mac"
+ ipAddress: "$ip"
+ # --- Status ---
+ status: "$status"
+ clientType: "$type"
+ isGuest: "$is_guest"
+ isBlocked: "$blocked"
+ # --- Timing ---
+ firstSeen: "$first_seen"
+ lastSeen: "$last_seen"
+ uptime: "$uptime"
+ assocTime: "$assoc_time"
+ # --- Network ---
+ connectedNetworkName: "$network_name"
+ connectedNetworkId: "$network_id"
+ connectedNetworkVlanId: "$vlan"
+ # --- Uplink ---
+ uplinkMac: "$uplink_mac"
+ uplinkName: "$last_uplink_name"
+ connectedSwitchPort: "$sw_port"
+ wiredRateMbps: "$wired_rate_mbps"
+ # --- WiFi (wireless clients only) ---
+ connectedWifiApMacAddr: "$ap_mac"
+ connectedWifiNetwork: "$essid"
+#
+table_network-client-wireless-stats:
+ apiRouteBlock: *Route_Clients_Active
+ includeKeyValueList: *IncludeKeyValueList_WirelessClient
+ # --- Key ---
+ profileUuid: "$id"
+ clientMac: "$mac"
+ apMac: "$ap_mac"
+ # --- RF metrics ---
+ signal: "$signal"
+ noise: "$noise"
+ rssi: "$rssi"
+ channel: "$channel"
+ channelWidth: "$channel_width"
+ radio: "$radio"
+ radioProto: "$radio_proto"
+ mimo: "$mimo"
+ bssid: "$bssid"
+ # --- WiFi experience ---
+ wifiExperienceScore: "$wifi_experience_score"
+ wifiExperienceAverage: "$wifi_experience_average"
+ wifiTxAttempts: "$wifi_tx_attempts"
+ wifiTxRetriesPercentage: "$wifi_tx_retries_percentage"
+ # --- Rates ---
+ txRate: "$tx_rate"
+ rxRate: "$rx_rate"
+ txMcsIndex: "$tx_mcs_index"
+ ccq: "$ccq"
+ # --- Client behavior ---
+ roamCount: "$roam_count"
+ idletime: "$idletime"
+ powersaveEnabled: "$powersave_enabled"
+#
+#
+# UBIQUITI UNIFI CONTROLLERS
+# -------------------------------------------------------------------
+table_unifi-controller-system:
+ apiRouteBlock: *Route_Stat_Device
+ includeKeyValueList: *IncludeKeyValueList_UDMPRO
+ profileUuid: "$_id"
+ modelType: "$model"
+ macAddr: "$mac"
+ wanIp: "$ip"
+ lanIp: "$lan_ip"
+ status: "$state"
+ hostname: "$name"
+ internetLatency: "$uptime_stats->$WAN->$alerting_monitors[0]->$latency_average"
+ kernelVersion: "$kernel_version"
+ osVersion: "$version"
+ updateAvailable: "$upgradable"
+ productLineStr: "UNIFI"
+ manufacturerStr: "ubiquiti"
+#
+table_unifi-controller-server-application:
+ apiRouteBlock: *Route_Stat_Sysinfo
+ profileUuid: "$hostname"
+ ipaddress: "!crossTableLookup(unifi-controller-system:lanIp)"
+ hostname: "!crossTableLookup(unifi-controller-system:hostname)"
+ platformType: "$ubnt_device_type"
+ applicationName: "$name"
+ currentVersion: "$version"
+ previousVersion: "$previous_version"
+ updateAvailable: "$update_available"
+ applicationUptime: "$uptime"
+#
+table_unifi-event-notification:
+ apiRouteBlock: *Route_Stat_Alarm
+ profileUuid: "$_id"
+ eventAlertId: "$unique_alertid"
+ eventTimeStamp: "$datetime"
+ eventType: "$event_type"
+ eventSrcIpAddr: "$src_ip"
+ eventInterface: "$in_iface"
+ eventTitle: "$key"
+ eventMessage: "$msg"
+#
+#
+# UBIQUITI PROTECT CAMERAS / DEVICES
+# -------------------------------------------------------------------
+table_protect-device-profile:
+ apiRouteBlock: *Protect_Api_Bootstrap
+ includeKeyValueList: *IncludeKeyValueList_CAMERA
+ excludeKeyValueList: *ExcludeKeyValueList_AdoptedByOther
+ profileUuid: "$id"
+ hostname: "$name"
+ model: "$type"
+ deviceTypeStr: "$modelKey"
+ ipAddress: "$host"
+ macAddress: "$mac"
+ status: "$state"
+ swVersion: "$latestFirmwareVersion"
+ swUpgradeStatus: "$fwUpdateState"
+ lastSeenDateTime: "$lastSeen"
+ productLineStr: "PROTECT"
+ manufacturerStr: "ubiquiti"
+ presenceReconciliation:
+  enabled: true
+  absencePruneTimeoutSec: 3600
+  maxPruneCountPerCycle: 10
+#
+table_protect-device-configuration:
+ apiRouteBlock: *Protect_Api_Bootstrap
+ includeKeyValueList: *IncludeKeyValueList_CAMERA
+ profileUuid: "$id"
+ ipaddress: "!crossTableLookup(protect-device-profile:ipAddress)"
+ hostname: "!crossTableLookup(protect-device-profile:hostname)"
+ controllerIp: "$connectionHost"
+ controllerMacAddr: "$nvrMac"
+ configurationActive: ""
+#
+table_protect-device-health-stats:
+ apiRouteBlock: *Protect_Api_Bootstrap
+ includeKeyValueList: *IncludeKeyValueList_CAMERA
+ profileUuid: "$id"
+ ipaddress: "!crossTableLookup(protect-device-profile:ipAddress)"
+ hostname: "!crossTableLookup(protect-device-profile:hostname)"
+ uptime: "$uptime"
+ protectAdoptedByController: "$isAdopted"
+#
+#
+# UBIQUITI PROTECT UNVR CONTROLLERS
+# -------------------------------------------------------------------
+table_protect-controller-system:
+ apiRouteBlock: *Protect_Api_Bootstrap
+ includeKeyValueList: *IncludeKeyValueList_NVR
+ profileUuid: "$id"
+ modelType: "$type"
+ macAddr: "$mac"
+ wanIp: "$publicIp"
+ lanIp: "$host"
+ hostname: "$name"
+ kernelVersion: "$ucoreVersion"
+ osVersion: "$firmwareVersion"
+ productLineStr: "PROTECT"
+ manufacturerStr: "ubiquiti"
+#
+table_protect-controller-applications:
+ apiRouteBlock: *Protect_Api_Bootstrap
+ includeKeyValueList: *IncludeKeyValueList_NVR
+ profileUuid: "$id"
+ ipaddress: "!crossTableLookup(protect-controller-system:lanIp)"
+ hostname: "!crossTableLookup(protect-controller-system:hostname)"
+ platformType: "$type"
+ applicationName: "$hostShortname"
+ currentVersion: "$firmwareVersion"
+ previousVersion: ""
+ updateAvailable: ""
+ applicationUptime: "$uptime"
+#
+table_protect-controller-health:
+ apiRouteBlock: *Protect_Api_Bootstrap
+ includeKeyValueList: *IncludeKeyValueList_NVR
+ profileUuid: "$id"
+ ipaddress: "!crossTableLookup(protect-controller-system:lanIp)"
+ hostname: "!crossTableLookup(protect-controller-system:hostname)"
+ storageTotalSize: "$systemInfo->$storage->$size"
+ storageUsed: "$systemInfo->$storage->$used"
+ storageType: "$systemInfo->$storage->$type"
+ storageAvailable: "$systemInfo->$storage->$available"
+ memoryTotal: "$systemInfo->$memory->$total"
+ memoryAvailable: "$systemInfo->$memory->$available"
+ cpuLoadAverage: "$systemInfo->$cpu->$averageLoad"
+ temperature: "$systemInfo->$cpu->$temperature"
+#
+#
+# UBIQUITI CONNECT DEVICES
+# -------------------------------------------------------------------
+table_connect-device-profile:
+ apiRouteBlock: *Connect_Device
+ profileUuid: "$id"
+ ipaddress: "$ip"
+ hostname: "$name"
+ macAddress: "$mac"
+ online: "$online"
+ connectAdoptedByController: "$state"
+ currentVersion: "$firmwareversion"
+ productLineStr: "UNIFI-CONNECT"
+ manufacturerStr: "ubiquiti"
+#
+#
+# UBIQUITI ACCESS DEVICES — door readers, hubs, elevator controllers
+# -------------------------------------------------------------------
+# Source: routeApiEnvelope flattens the topology tree into a flat array
+# of device records with building/floor/door context inlined per record.
+# After flatten, each iterated dict has the following relevant fields:
+#   $unique_id           → "68d79a9aef7d" (MAC sans colons; primary key)
+#   $alias               → "(M) HVAC Mech Door Reader" (friendly name)
+#   $name                → "UA-Lite-EF7D" (raw vendor name)
+#   $device_type         → "UDA-LITE"
+#   $hw_type             → "GA"
+#   $firmware            → "v3.17.11.0"
+#   $mac                 → "68:D7:9A:9A:EF:7D"
+#   $ip                  → "10.115.117.227"
+#   $guid                → "94a8c213-e611-..."
+#   $connected_uah_id    → "68d79a5c232c" (parent hub MAC sans colons)
+#   $is_online           → bool
+#   $is_adopted          → bool
+#   $is_managed          → bool
+#   $is_connected        → bool
+#   $start_time          → unix epoch
+#   $last_seen           → unix epoch
+#   $buildingName        → "MYB01-UDMP-01"   (inlined by flatten)
+#   $floorName           → "Mezzanine Floor" (inlined by flatten)
+#   $doorName            → "(M) HVAC Mech Hub" (inlined by flatten)
+#   $doorFullName        → "MYB01-UDMP-01 - Mezzanine Floor - (M) HVAC Mech Hub"
+# -------------------------------------------------------------------
+table_access-device-profile:
+ apiRouteBlock: *Access_Topology
+ # --- Identity ---
+ profileUuid: "$unique_id"
+ hostname: "$alias"
+ displayName: "$alias"
+ description: "$name"
+ model: "$device_type"
+ hardwareRevision: "$hw_type"
+ firmware: "$firmware"
+ macAddress: "$mac"
+ ipAddress: "$ip"
+ guid: "$guid"
+ # --- State ---
+ status: "$is_online"
+ isAdopted: "$is_adopted"
+ isManaged: "$is_managed"
+ isConnected: "$is_connected"
+ # --- Topology ---
+ connectedHubMac: "$connected_uah_id"
+ buildingName: "$buildingName"
+ floorName: "$floorName"
+ doorName: "$doorName"
+ doorFullName: "$doorFullName"
+ # --- Timing ---
+ startTime: "$start_time"
+ lastSeenDateTime: "$last_seen"
+ # --- Classification (literal) ---
+ deviceTypeStr: "access-control"
+ productLineStr: "UNIFI-ACCESS"
+ manufacturerStr: "ubiquiti"
+#
+#
+# =========================================================================
+# DEVICE IDENTITY CANONICALIZATION MAPPINGS
+# =========================================================================
+# Schema is machine-authored — Cloud UI generates these blocks.
+# Each block keys off the kebab table name from the section above.
+# Engine processes fieldCopies first (boring direct copies), then routingRules
+# (ordered first-match-wins classification). Catch-all uses { default: true }.
+# Operators: equals | in | prefix | contains | matches | present
+# Compound: nested and / or
+# =========================================================================
+deviceIdentityMapping:
+
+ # -----------------------------------------------------------------------
+ # UNIFI NETWORK DEVICES — switches, gateways, UAPs
+ # -----------------------------------------------------------------------
+ network-device-profile:
+  schemaVersion: 1
+  sourceTableStr: "network-device-profile"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "ndp-cat-001"
+      description: "UAPs are wireless infrastructure"
+      when: { field: "deviceTypeStr", operator: "equals", value: "uap" }
+      result: "wifi"
+    - id: "ndp-cat-002"
+      description: "Switches and gateways are network infrastructure"
+      when: { field: "deviceTypeStr", operator: "in", value: ["usw", "udm", "ugw"] }
+      result: "network"
+    - id: "ndp-cat-default"
+      description: "Default to network for unclassified UniFi hardware"
+      when: { default: true }
+      result: "network"
+
+   deviceTypeStr:
+    - id: "ndp-typ-001"
+      description: "Echo upstream deviceTypeStr if present"
+      when: { field: "deviceTypeStr", operator: "present" }
+      result: "$deviceTypeStr"
+    - id: "ndp-typ-default"
+      description: "Default fallback"
+      when: { default: true }
+      result: "unknown"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddress"
+   ipAddressStr: "$ipAddress"
+   hostnameStr: "$hostname"
+   displayNameStr: "$hostname"
+   modelStr: "$model"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+   lastSeenAtStr: "$lastSeenDateTime"
+   statusStr: "$status"
+
+ # -----------------------------------------------------------------------
+ # UNIFI NETWORK CLIENTS — VLAN/hostname/manufacturer classification
+ # -----------------------------------------------------------------------
+ # NOTE: ncp-typ-004 used to route Access Control VLAN clients to
+ # deviceType=access-control as a workaround when no Access-specific data
+ # source existed. Now that table_access-device-profile exists, those door
+ # readers/hubs are sourced from the topology API instead. The ncp-typ-004
+ # rule below is RETAINED for any non-UA clients on the Access Control VLAN
+ # (badge printers, networked door bells, etc.) but its match population
+ # will shrink as the dedicated Access pipeline takes over.
+ # -----------------------------------------------------------------------
+ network-client-profile:
+  schemaVersion: 1
+  sourceTableStr: "network-client-profile"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "ncp-cat-001"
+      description: "Voice VLAN — VoIP phones"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Voice VLAN" }
+      result: "endpoint"
+    - id: "ncp-cat-002"
+      description: "Video VLAN — security cameras and NVRs"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Video VLAN" }
+      result: "endpoint"
+    - id: "ncp-cat-003"
+      description: "Access Control VLAN — door readers, badge hardware"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Access Control VLAN" }
+      result: "iot"
+    - id: "ncp-cat-004"
+      description: "HVAC VLAN — building management/HVAC equipment"
+      when: { field: "connectedNetworkName", operator: "contains", value: "HVAC VLAN" }
+      result: "iot"
+    - id: "ncp-cat-005"
+      description: "Management VLAN — admin workstations and infrastructure"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Management VLAN" }
+      result: "client"
+    - id: "ncp-cat-006"
+      description: "Workstations VLAN — staff workstations"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Workstations VLAN" }
+      result: "client"
+    - id: "ncp-cat-007"
+      description: "Data VLAN — general data network clients"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Data VLAN" }
+      result: "client"
+    - id: "ncp-cat-default"
+      description: "Default fallback for unrecognized networks"
+      when: { default: true }
+      result: "client"
+
+   deviceTypeStr:
+    - id: "ncp-typ-001"
+      description: "UNVR hostname → network video recorder"
+      when: { field: "hostname", operator: "equals", value: "UNVR" }
+      result: "nvr"
+    - id: "ncp-typ-002"
+      description: "Voice VLAN → phone"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Voice VLAN" }
+      result: "phone"
+    - id: "ncp-typ-003"
+      description: "Video VLAN → camera"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Video VLAN" }
+      result: "camera"
+    - id: "ncp-typ-004"
+      description: "Access Control VLAN → access-control (legacy fallback; UA devices now sourced from access-device-profile)"
+      when: { field: "connectedNetworkName", operator: "contains", value: "Access Control VLAN" }
+      result: "access-control"
+    - id: "ncp-typ-005"
+      description: "HVAC VLAN → hvac"
+      when: { field: "connectedNetworkName", operator: "contains", value: "HVAC VLAN" }
+      result: "hvac"
+    - id: "ncp-typ-default"
+      description: "Default — workstation"
+      when: { default: true }
+      result: "workstation"
+
+  # NOTE: hostnameStr and displayNameStr are intentionally swapped vs. the raw
+  # source columns because UniFi's $display_name field carries the friendly,
+  # MAC-disambiguated name (e.g. "Carrier iVue HVAC Router", "iPhone c9:e4")
+  # while $hostname is often empty for non-DHCP-named third-party devices.
+  # Downstream consumers (HuduSync runSyncCycle, EventsDirector) read
+  # hostnameStr first and skip rows where it's empty — promoting displayName
+  # into hostnameStr ensures third-party devices on VLANs (HVAC, Voice,
+  # Video, Access Control) reach Hudu instead of being silently skipped.
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddress"
+   ipAddressStr: "$ipAddress"
+   hostnameStr: "$displayName"   # PREFERRED: UniFi's friendly/disambiguated name
+   displayNameStr: "$hostname"   # FALLBACK: raw DHCP/mDNS hostname when present
+   manufacturerStr: "$manufacturer"
+   modelStr: "$model"
+   connectedNetworkName: "$connectedNetworkName"
+   connectedNetworkId: "$connectedNetworkId"
+   lastSeenAtStr: "$lastSeen"
+   firstSeenAtStr: "$firstSeen"
+   statusStr: "$status"
+
+ # -----------------------------------------------------------------------
+ # PROTECT NVR CONTROLLERS — always server/nvr
+ # -----------------------------------------------------------------------
+ protect-controller-system:
+  schemaVersion: 1
+  sourceTableStr: "protect-controller-system"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "pcs-cat-default"
+      description: "Protect NVRs are servers"
+      when: { default: true }
+      result: "server"
+
+   deviceTypeStr:
+    - id: "pcs-typ-default"
+      description: "All Protect controllers are NVRs"
+      when: { default: true }
+      result: "nvr"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddr"
+   ipAddressStr: "$lanIp"
+   hostnameStr: "$hostname"
+   displayNameStr: "$hostname"
+   modelStr: "$modelType"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+
+ # -----------------------------------------------------------------------
+ # PROTECT CAMERAS — always endpoint, type echoes upstream or defaults to camera
+ # -----------------------------------------------------------------------
+ protect-device-profile:
+  schemaVersion: 1
+  sourceTableStr: "protect-device-profile"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "pdp-cat-default"
+      description: "All Protect devices are endpoints"
+      when: { default: true }
+      result: "endpoint"
+
+   deviceTypeStr:
+    - id: "pdp-typ-001"
+      description: "Echo upstream deviceTypeStr if present"
+      when: { field: "deviceTypeStr", operator: "present" }
+      result: "$deviceTypeStr"
+    - id: "pdp-typ-default"
+      description: "Default to camera"
+      when: { default: true }
+      result: "camera"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddress"
+   ipAddressStr: "$ipAddress"
+   hostnameStr: "$hostname"
+   displayNameStr: "$hostname"
+   modelStr: "$model"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+   lastSeenAtStr: "$lastSeenDateTime"
+   statusStr: "$status"
+
+ # -----------------------------------------------------------------------
+ # CONNECT DISPLAYS — always endpoint/connect-display
+ # -----------------------------------------------------------------------
+ connect-device-profile:
+  schemaVersion: 1
+  sourceTableStr: "connect-device-profile"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "cdp-cat-default"
+      description: "Connect displays are endpoints"
+      when: { default: true }
+      result: "endpoint"
+
+   deviceTypeStr:
+    - id: "cdp-typ-default"
+      description: "All Connect devices classified as connect-display"
+      when: { default: true }
+      result: "connect-display"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddress"
+   ipAddressStr: "$ipaddress"
+   hostnameStr: "$hostname"
+   displayNameStr: "$hostname"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+
+ # -----------------------------------------------------------------------
+ # ACCESS DEVICES — UA-Lite door readers, UA-Hub controllers, UAH-ELEV
+ # -----------------------------------------------------------------------
+ # All Access devices are IoT-category access-control endpoints. The
+ # specific UA model is captured in modelStr ($device_type from API:
+ # UDA-LITE, UAH, UAH-ELEV). connectedHubMac links readers to their
+ # parent hubs for topology queries downstream.
+ # -----------------------------------------------------------------------
+ access-device-profile:
+  schemaVersion: 1
+  sourceTableStr: "access-device-profile"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "adp-cat-default"
+      description: "Access devices are IoT (door readers, hubs, elevator controllers)"
+      when: { default: true }
+      result: "iot"
+
+   deviceTypeStr:
+    - id: "adp-typ-default"
+      description: "All Access devices classified as access-control"
+      when: { default: true }
+      result: "access-control"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddress"
+   ipAddressStr: "$ipAddress"
+   hostnameStr: "$hostname"        # alias from API ("(M) HVAC Mech Door Reader")
+   displayNameStr: "$displayName"  # same as hostname for Access devices
+   modelStr: "$model"              # device_type → "UDA-LITE"
+   hardwareRevisionStr: "$hardwareRevision"
+   firmwareStr: "$firmware"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+   connectedHubMacStr: "$connectedHubMac"
+   buildingNameStr: "$buildingName"
+   floorNameStr: "$floorName"
+   doorNameStr: "$doorName"
+   doorFullNameStr: "$doorFullName"
+   lastSeenAtStr: "$lastSeenDateTime"
+   statusStr: "$status"
+#
+</script>
+<script type="text/plain" id="cfg-norm-cli">
+---
+# ===========================================================================
+# NORMALIZER CLI MANIFEST YAML CONFIGURATION FILE
+# ---------------------------------------------------------------------------
+# Stage 2 — YAML-driven CLI envelope mapping (Path B)
+#
+# Replaces the legacy single-table cli_data approach with structured
+# per-test-type tables that the YAML pipeline populates from the worker
+# pool's β JSON envelopes.
+#
+# CLI envelopes are vendor-agnostic — ping is ping regardless of whether
+# the target is a public DNS resolver or an internal switch. Manufacturer
+# is captured in the envelope but not used for routing here (single
+# 'generic' bucket).
+#
+# Conventions:
+#   - Table block keys use "table_" prefix to match the API YAML convention.
+#     The prefix is stripped to derive the SQL table name
+#     (table_cliPingProfile -> cliPingProfile).
+#   - cliRouteBlock anchors define the route discriminator (cli_test_type
+#     matches the testTypeStr in the β envelope).
+#   - field_copies maps β envelope keys ($endpointId, $host, etc.) to SQL
+#     column names. Literal values pass through; {script: $now()} evaluates
+#     as a script function.
+#   - array_source on a table block iterates the named array, emitting one
+#     row per element. $__index and $__value resolve to the current
+#     element's position and value within the array.
+#   - profileUuidStr: {script: $uuid()} — fresh UUID per row guarantees
+#     every cycle is a new INSERT, preserving full time-series history.
+#     Tables grow monotonically; retention strategy will be needed
+#     eventually (recommend: schedule TRUNCATE/DELETE older than N days).
+# ===========================================================================
+
+define_GlobalSettings:
+  protocol: cli
+  manufacturer: generic
+  primary-key-id: cliId
+
+# ===========================================================================
+# PING_RTT — anchor + tables
+# ---------------------------------------------------------------------------
+# Two tables per ping_rtt route:
+#   table_cliPingProfile — one row per ping cycle per endpoint
+#                          (summary fields: min/avg/max/mdev/lossPct)
+#   table_cliPingSamples — one row per RTT sample (3 packets per ping
+#                          → 3 sample rows per cycle)
+# ===========================================================================
+
+define_cliRouteBlock_pingRtt: &cliRouteBlock_pingRtt
+  name: cliRouteBlock_pingRtt
+  cli_test_type: ping_rtt
+  manufacturer: generic
+  node-section-anchor: ""
+
+table_cliPingProfile:
+  cliRouteBlock: *cliRouteBlock_pingRtt
+  field_copies:
+    profileUuidStr: {script: $uuid()}
+    cliId:        $endpointId
+    host:         $host
+    pingMin:      $min
+    pingAvg:      $avg
+    pingMax:      $max
+    pingMdev:     $mdev
+    pingLossPct:  $lossPct
+    sampleCount:  $sampleCount
+    exitCode:     $exitCode
+    wallClockMs:  $wallClockMs
+    completed:    $completed
+    siteId:       $siteId
+    timestamp:    {script: $now()}
+
+table_cliPingSamples:
+  cliRouteBlock: *cliRouteBlock_pingRtt
+  array_source: $samples
+  field_copies:
+    profileUuidStr: {script: $uuid()}
+    cliId:       $endpointId
+    host:        $host
+    sampleIdx:   $__index
+    sampleMs:    $__value
+    siteId:      $siteId
+    timestamp:   {script: $now()}
+
+# ===========================================================================
+# PING_FULL — full ping output captured for diagnostic/forensic use
+# ---------------------------------------------------------------------------
+# Single table, includes the raw ping output text in addition to summary.
+# Use ping_full when you want the full ping text persisted for later
+# inspection (e.g. high-loss endpoints needing manual review).
+# ===========================================================================
+
+define_cliRouteBlock_pingFull: &cliRouteBlock_pingFull
+  name: cliRouteBlock_pingFull
+  cli_test_type: ping_full
+  manufacturer: generic
+  node-section-anchor: ""
+
+table_cliPingProfileFull:
+  cliRouteBlock: *cliRouteBlock_pingFull
+  field_copies:
+    profileUuidStr: {script: $uuid()}
+    cliId:        $endpointId
+    host:         $host
+    pingAvg:      $avg
+    pingLossPct:  $lossPct
+    sampleCount:  $sampleCount
+    exitCode:     $exitCode
+    wallClockMs:  $wallClockMs
+    completed:    $completed
+    rawOutput:    $rawText
+    siteId:       $siteId
+    timestamp:    {script: $now()}
+
+# ===========================================================================
+# IPERF3 UDP — bandwidth, jitter, loss
+# ---------------------------------------------------------------------------
+# Use for UDP throughput tests (typical: scheduled bandwidth probes
+# between MYB01 and remote sites for SD-WAN validation).
+# ===========================================================================
+
+define_cliRouteBlock_iperf3Udp: &cliRouteBlock_iperf3Udp
+  name: cliRouteBlock_iperf3Udp
+  cli_test_type: iperf3_udp
+  manufacturer: generic
+  node-section-anchor: ""
+
+table_cliIperf3Profile:
+  cliRouteBlock: *cliRouteBlock_iperf3Udp
+  field_copies:
+    profileUuidStr:  {script: $uuid()}
+    cliId:           $endpointId
+    host:            $host
+    bitsPerSec:      $bitsPerSec
+    bytes:           $bytes
+    seconds:         $seconds
+    jitterMs:        $jitterMs
+    lostPackets:     $lostPackets
+    totalPackets:    $totalPackets
+    exitCode:        $exitCode
+    wallClockMs:     $wallClockMs
+    completed:       $completed
+    siteId:          $siteId
+    timestamp:       {script: $now()}
+
+# ===========================================================================
+# IPERF3 TCP — bandwidth (no jitter/loss for TCP — those are UDP-only)
+# ===========================================================================
+
+define_cliRouteBlock_iperf3Tcp: &cliRouteBlock_iperf3Tcp
+  name: cliRouteBlock_iperf3Tcp
+  cli_test_type: iperf3_tcp
+  manufacturer: generic
+  node-section-anchor: ""
+
+table_cliIperf3TcpProfile:
+  cliRouteBlock: *cliRouteBlock_iperf3Tcp
+  field_copies:
+    profileUuidStr:  {script: $uuid()}
+    cliId:           $endpointId
+    host:            $host
+    bitsPerSec:      $bitsPerSec
+    bytes:           $bytes
+    seconds:         $seconds
+    exitCode:        $exitCode
+    wallClockMs:     $wallClockMs
+    completed:       $completed
+    siteId:          $siteId
+    timestamp:       {script: $now()}
+</script>
+<script type="text/plain" id="cfg-events">
+[
+  {
+    "id": "API-CORE-DEVICE-DOWN-0001",
+    "name": "VLAN 01: Unifi Core Device Down Check",
+    "type": "api",
+    "enabled": true,
+    "severity_level": "P1",
+    "alert": {
+      "title": "$HOSTNAME ($IPADDRESS) Device Down (API)",
+      "message": "$HOSTNAME ($IPADDRESS) is down"
+    },
+    "rule_logic": {
+      "target_table": "networkDeviceProfile",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "matches",
+            "value": "*.*.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "status",
+            "op": "=",
+            "value": "0",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "status",
+        "op": "=",
+        "value": "1",
+        "type": "integer"
+      }
+    },
+    "suppress": {
+      "conditions": [
+        {
+          "field": "status",
+          "op": "in",
+          "values": ["2", "3", "4", "5", "6"],
+          "type": "integer"
+        }
+      ]
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "CLI-LATENCYTRACER-0001",
+    "name": "Latency Tracer: Google DNS 8.8.8.8",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "Latency Detected to: $IPADDRESS (LatencyTracer)",
+      "message": "$IPADDRESS has triggered a round-trip LatencyTracer alert: $RESULT ms"
+    },
+    "rule_logic": {
+      "target_table": "cli_data",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "=",
+            "value": "8.8.8.8",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "result",
+            "op": ">",
+            "value": "95",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "result",
+        "op": "<=",
+        "value": "95",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 1,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  }
+]
+</script>
+<script type="text/plain" id="cfg-hudusync">
+# ---------------------------------------------------------------
+# HUDUSYNC DYNAMIC CONFIGURATION
+# Site: MYB01 - Meyers Building Development
+# (c)2026 VistaTech, Inc. ALL RIGHTS RESERVED
+# ---------------------------------------------------------------
+#
+# UPDATED: 2026-05-04 (Lifecycle policy tightened)
+# - Workstations gracePeriodDays reduced from 7 to 1 day. Stale
+#   client devices now age out of Hudu within 24 hours of going
+#   missing from deviceIdentity (was 7 days).
+# - Added explicit "preserve" entries for every other layout so
+#   the policy intent is visible in the config rather than relying
+#   on the default-preserve fallback in huduLayoutLifecyclePolicy_
+#   Class. Behaviorally identical to omission, but operators reading
+#   this file can confirm at a glance which layouts auto-delete and
+#   which don't.
+#
+# UPDATED: 2026-05-01 (UniFi Access topology source)
+# - Access Control rule now routes to accessDeviceProfile (new
+#   Normalizer table populated from /proxy/access/api/v2/devices/
+#   topology). Tightened match keys to manufacturer=ubiquiti /
+#   product_line=UNIFI-ACCESS so the rule only matches devices
+#   from the topology API. Legacy networkClientProfile-sourced
+#   Access Control rows (created by ncp-typ-004) will no longer
+#   match this rule and will fall through to the catch-all
+#   workstation rule unless ncp-typ-004 is also removed.
+# - Added ac_firmware, ac_hardware_revision, ac_online, ac_adopted,
+#   ac_connected_hub_mac, ac_building, ac_floor, ac_door_location
+#   field_mappings to populate the Access Control layout's new
+#   fields directly from accessDeviceProfile.
+# - Existing manufacturer / product_line / model / mac_address /
+#   ip_address / site_id_location mappings populate via
+#   deviceIdentity, which the new access-device-profile
+#   deviceIdentityMapping in the Normalizer YAML feeds.
+#
+# UPDATED: 2026-05-01 (Access Control layout standardized)
+# - Removed ac_management_ip / ac_manufacturer / ac_model field
+#   mappings. Hudu's Access Control layout now uses the same field
+#   labels as other layouts ("Device Manufacturer", "Model Type",
+#   "Product Line", "Management IP"), so the existing generic
+#   identity mappings handle Access Control assets correctly.
+# - NOTE: Hudu Access Control layout had a trailing space on
+#   "Device Manufacturer " field — fixed in Hudu UI as part of
+#   this change. If field writes ever silently fail again, scan
+#   for trailing whitespace in field labels via the asset_layouts
+#   API.
+# - Model Type field on Access Control will be blank for client
+#   sourced rows (UniFi doesn't expose model for clients in the
+#   .model column — the SKU code UA-HUB/UA-Lite/UAH-ELEV lives in
+#   .hostname instead). Future enhancement: canonicalizer routing
+#   rule to populate modelStr from hostname for access-control
+#   deviceTypeStr specifically.
+#
+# UPDATED: 2026-05-01 (Serial Number bug fix + cleanup)
+# - Removed buggy "networkClientProfile: manufacturer" source from
+#   the serial mapping (was writing OUI vendor string into Hudu
+#   Serial Number field). UniFi does not expose serial numbers for
+#   client devices, so the field is now correctly left blank for
+#   client-sourced rows.
+# - Removed ws_serial_number entirely (was redundant with `serial`
+#   once the buggy networkClientProfile source was removed).
+# - Removed description mapping (Hudu Description field deleted
+#   from the Access Control layout).
+#
+# UPDATED: 2026-04-30 (Azure Phase 1b - Resource Group + Power State)
+# - Added health_table per Azure rule (azureVmStatusGccFp / Dc01 / Fin),
+#   pairing each properties table with its matching status table. This
+#   merges vmStatus into profileDataDict via loadProfileAndHealthData.
+# - Added azure_resource_group field_mapping (reads resourceGroupStr
+#   from the new Normalizer column).
+# - Added azure_power_state field_mapping (reads vmStatus from the
+#   per-VM status tables loaded as health_table data).
+# ---------------------------------------------------------------
+#
+#
+# HUDU INSTANCE
+base_url: "https://vistatechgso.huducloud.com"
+#
+#
+# SYNC ENGINE SETTINGS
+sync_interval_minutes: 4
+stale_threshold_days: 30
+rich_text_field_name: "Guardare Status"
+#
+#
+#
+# ---------------------------------------------------------------
+# LAYOUT LIFECYCLE POLICIES (v1.2)
+# ---------------------------------------------------------------
+# autoDelete: stale assets are deleted after gracePeriodDays elapses
+# preserve:   stale assets remain in Hudu indefinitely (default)
+# ---------------------------------------------------------------
+layoutLifecycle:
+#
+  Workstations:
+    mode: "autoDelete"
+    gracePeriodDays: 1
+#
+  Network Devices:
+    mode: "preserve"
+#
+  Wifi:
+    mode: "preserve"
+#
+  Connect Display:
+    mode: "preserve"
+#
+  Video Endpoints:
+    mode: "preserve"
+#
+  Video Servers:
+    mode: "preserve"
+#
+  Access Control:
+    mode: "preserve"
+#
+  Azure vServers:
+    mode: "preserve"
+#
+  Voice:
+    mode: "preserve"
+#
+  HVAC:
+    mode: "preserve"
+#
+  Power Devices:
+    mode: "preserve"
+#
+#
+# SITE IDENTITY
+site_identity:
+  MYB01: "Meyers Building"
+  OVG01: "Greensboro Coliseum"
+  GCC01: "Greensboro Chamber of Commerce"
+#
+#
+# ---------------------------------------------------------------
+# DEVICE TYPE MAPPING RULES
+# ---------------------------------------------------------------
+device_type_mapping:
+#
+# =============================================================
+# UBIQUITI UNIFI NETWORK DEVICES
+# =============================================================
+#
+  - match_manufacturer: "ubiquiti"
+    match_product_line: "UNIFI"
+    match_device_type: "usw"
+    match_model_prefix: []
+    hudu_layout_name: "Network Devices"
+    hudu_company_id: 5
+    profile_table: "networkDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: "networkDeviceHealthStats"
+    health_join_column: "profileUuid"
+#
+  - match_manufacturer: "ubiquiti"
+    match_product_line: "UNIFI"
+    match_device_type: "udm"
+    match_model_prefix: []
+    hudu_layout_name: "Network Devices"
+    hudu_company_id: 5
+    profile_table: "networkDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: "networkDeviceHealthStats"
+    health_join_column: "profileUuid"
+#
+  - match_manufacturer: "ubiquiti"
+    match_product_line: "UNIFI"
+    match_device_type: "uap"
+    match_model_prefix: []
+    hudu_layout_name: "Wifi"
+    hudu_company_id: 5
+    profile_table: "networkDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: "networkDeviceHealthStats"
+    health_join_column: "profileUuid"
+#
+# =============================================================
+# UBIQUITI UNIFI CONNECT (DISPLAYS)
+# =============================================================
+#
+  - match_manufacturer: "ubiquiti"
+    match_product_line: "UNIFI-CONNECT"
+    match_device_type: "connect-display"
+    match_model_prefix: []
+    hudu_layout_name: "Connect Display"
+    hudu_company_id: 5
+    profile_table: "connectDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+# =============================================================
+# UBIQUITI UNIFI PROTECT (CAMERAS / NVR)
+# =============================================================
+#
+  - match_manufacturer: ""
+    match_product_line: "PROTECT"
+    match_device_type: "camera"
+    match_model_prefix: []
+    hudu_layout_name: "Video Endpoints"
+    hudu_company_id: 5
+    profile_table: "protectDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: "protectDeviceConfiguration"
+    health_join_column: "profileUuid"
+#
+  - match_manufacturer: ""
+    match_product_line: ""
+    match_device_type: "camera"
+    match_model_prefix: []
+    hudu_layout_name: "Workstations"
+    hudu_company_id: 5
+    profile_table: "networkClientProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+  - match_manufacturer: ""
+    match_product_line: "PROTECT"
+    match_device_type: "nvr"
+    match_model_prefix: []
+    hudu_layout_name: "Video Servers"
+    hudu_company_id: 5
+    profile_table: "protectControllerSystem"
+    profile_join_column: "profileUuid"
+    health_table: "protectControllerHealth"
+    health_join_column: "profileUuid"
+#
+  - match_manufacturer: ""
+    match_product_line: ""
+    match_device_type: "nvr"
+    match_model_prefix: []
+    hudu_layout_name: "Workstations"
+    hudu_company_id: 5
+    profile_table: "networkClientProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+# =============================================================
+# UBIQUITI UNIFI ACCESS (DOOR READERS / HUBS / ELEVATOR CTRLs)
+# =============================================================
+# Sourced from /proxy/access/api/v2/devices/topology via the
+# accessDeviceProfile table. Match keys tightened to ubiquiti +
+# UNIFI-ACCESS so this rule does not absorb legacy
+# networkClientProfile rows that ncp-typ-004 still classifies as
+# access-control.
+#
+  - match_manufacturer: "ubiquiti"
+    match_product_line: "UNIFI-ACCESS"
+    match_device_type: "access-control"
+    match_model_prefix: []
+    hudu_layout_name: "Access Control"
+    hudu_company_id: 5
+    profile_table: "accessDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+# =============================================================
+# ARISTA EOS
+# =============================================================
+#
+  - match_manufacturer: "arista"
+    match_product_line: "EOS"
+    match_device_type: "switch"
+    match_model_prefix: []
+    hudu_layout_name: "Network Devices"
+    hudu_company_id: 5
+    profile_table: "aristaDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+# =============================================================
+# CISCO MERAKI (OVG01)
+# =============================================================
+#
+  - match_manufacturer: "cisco"
+    match_product_line: "MERAKI"
+    match_device_type: "switch"
+    match_model_prefix: []
+    hudu_layout_name: "Network Devices"
+    hudu_company_id: 5
+    profile_table: "merakiDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+  - match_manufacturer: "cisco"
+    match_product_line: "MERAKI"
+    match_device_type: "ap"
+    match_model_prefix: []
+    hudu_layout_name: "Wifi"
+    hudu_company_id: 5
+    profile_table: "merakiDeviceProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+# =============================================================
+# MICROSOFT AZURE (GCC01) - THREE PER-VM RULES WITH HEALTH TABLES
+# =============================================================
+#
+# Each rule pairs a per-VM properties table with its corresponding
+# per-VM status table. loadProfileAndHealthData merges columns from
+# both tables into profileDataDict, making vmStatus reachable for
+# the azure_power_state field_mapping.
+#
+  - match_manufacturer: "microsoft"
+    match_product_line: "AZURE"
+    match_device_type: "virtualMachine"
+    match_model_prefix: []
+    hudu_layout_name: "Azure vServers"
+    hudu_company_id: 5
+    profile_table: "azureVmInstancePropertiesGccFp"
+    profile_join_column: "profileUuid"
+    health_table: "azureVmStatusGccFp"
+    health_join_column: "profileUuid"
+#
+  - match_manufacturer: "microsoft"
+    match_product_line: "AZURE"
+    match_device_type: "virtualMachine"
+    match_model_prefix: []
+    hudu_layout_name: "Azure vServers"
+    hudu_company_id: 5
+    profile_table: "azureVmInstancePropertiesGccDc01"
+    profile_join_column: "profileUuid"
+    health_table: "azureVmStatusGccDc01"
+    health_join_column: "profileUuid"
+#
+  - match_manufacturer: "microsoft"
+    match_product_line: "AZURE"
+    match_device_type: "virtualMachine"
+    match_model_prefix: []
+    hudu_layout_name: "Azure vServers"
+    hudu_company_id: 5
+    profile_table: "azureVmInstancePropertiesGccFin"
+    profile_join_column: "profileUuid"
+    health_table: "azureVmStatusGccFin"
+    health_join_column: "profileUuid"
+#
+# =============================================================
+# VOICE / VOIP PHONES
+# =============================================================
+#
+  - match_manufacturer: ""
+    match_product_line: ""
+    match_device_type: "phone"
+    match_model_prefix: []
+    hudu_layout_name: "Voice"
+    hudu_company_id: 5
+    profile_table: "networkClientProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+# =============================================================
+# HVAC
+# =============================================================
+#
+  - match_manufacturer: ""
+    match_product_line: ""
+    match_device_type: "hvac"
+    match_model_prefix: []
+    hudu_layout_name: "HVAC"
+    hudu_company_id: 5
+    profile_table: "networkClientProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+# =============================================================
+# TRIPP LITE UPS (SNMP)
+# =============================================================
+#
+  - match_manufacturer: "tripplite"
+    match_product_line: "SNMP"
+    match_device_type: "ups"
+    match_model_prefix: []
+    hudu_layout_name: "Power Devices"
+    hudu_company_id: 5
+#
+# =============================================================
+# WORKSTATIONS - CATCH-ALL FOR WIRED CLIENTS
+# =============================================================
+#
+  - match_manufacturer: ""
+    match_product_line: ""
+    match_device_type: "workstation"
+    match_model_prefix: []
+    hudu_layout_name: "Workstations"
+    hudu_company_id: 5
+    profile_table: "networkClientProfile"
+    profile_join_column: "profileUuid"
+    health_table: ""
+    health_join_column: ""
+#
+#
+# ---------------------------------------------------------------
+# FIELD MAPPING - TABLE/COLUMN -> HUDU FIELD
+# ---------------------------------------------------------------
+field_mapping:
+#
+# --- SITE IDENTITY ---
+  site_id_location:
+    hudu_field: "Site ID"
+    update_mode: "always"
+    source:
+      networkDeviceProfile: "siteId"
+      merakiDeviceProfile: "siteId"
+      protectDeviceProfile: "siteId"
+      protectControllerSystem: "siteId"
+      connectDeviceProfile: "siteId"
+      networkClientProfile: "siteId"
+      aristaDeviceProfile: "siteId"
+      accessDeviceProfile: "siteId"
+      azureVmInstancePropertiesGccFp: "siteId"
+      azureVmInstancePropertiesGccDc01: "siteId"
+      azureVmInstancePropertiesGccFin: "siteId"
+#
+# --- IDENTITY (from deviceIdentity) ---
+  manufacturer:
+    hudu_field: "Device Manufacturer"
+    update_mode: "always"
+    source:
+      deviceIdentity: "manufacturerStr"
+      networkClientProfile: "manufacturer"
+#
+  product_line:
+    hudu_field: "Product Line"
+    update_mode: "always"
+    source:
+      deviceIdentity: "productLineStr"
+#
+  ip_address:
+    hudu_field: "Management IP"
+    update_mode: "always"
+    source:
+      deviceIdentity: "ipAddressStr"
+      networkClientProfile: "ipAddress"
+#
+  mac_address:
+    hudu_field: "MAC Address"
+    update_mode: "create_only"
+    source:
+      deviceIdentity: "macAddressStr"
+      networkClientProfile: "macAddress"
+#
+  model:
+    hudu_field: "Model Type"
+    update_mode: "always"
+    source:
+      networkDeviceProfile: "model"
+      merakiDeviceProfile: "model"
+      protectDeviceProfile: "model"
+      protectControllerSystem: "modelType"
+      connectDeviceProfile: "model"
+      networkClientProfile: "model"
+      aristaDeviceProfile: "model"
+      accessDeviceProfile: "model"
+#
+  serial:
+    hudu_field: "Serial Number"
+    update_mode: "create_only"
+    source:
+      networkDeviceProfile: "serialNumber"
+      merakiDeviceProfile: "profileUuid"
+      aristaDeviceProfile: "serialNumber"
+#
+  firmware:
+    hudu_field: "OS Version"
+    update_mode: "always"
+    source:
+      networkDeviceProfile: "swVersion"
+      merakiDeviceDetail: "firmware"
+      protectDeviceProfile: "swVersion"
+      protectControllerSystem: "osVersion"
+      connectDeviceProfile: "currentVersion"
+      aristaDeviceProfile: "version"
+#
+  controller:
+    hudu_field: "Associated Controller"
+    update_mode: "always"
+    source:
+      networkDeviceHealthStats: "myController"
+      merakiDeviceProfile: "gateway"
+      connectDeviceProfile: "connectAdoptedByController"
+#
+  connected_unvr:
+    hudu_field: "Connected UNVR"
+    update_mode: "always"
+    source:
+      protectDeviceConfiguration: "controllerIp"
+#
+# --- ACCESS CONTROL FIELDS (UA-Lite / UA-Hub / UAH-ELEV) ---
+#
+# These mappings populate Access Control layout fields that don't
+# fit the generic identity mappings above. Values come from the
+# accessDeviceProfile table, which is fed by the topology API
+# flatten in routeApiEnvelope.
+#
+  ac_firmware:
+    hudu_field: "Firmware"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "firmware"
+#
+  ac_hardware_revision:
+    hudu_field: "Hardware Revision"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "hardwareRevision"
+#
+  ac_online:
+    hudu_field: "Online"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "status"
+#
+# NOTE: status field carries is_online from the API (bool serialized
+# as "True"/"False"). If the field looks ugly in Hudu, future cleanup
+# is to normalize to "online"/"offline" in routeApiEnvelope or via a
+# Normalizer transform.
+  ac_adopted:
+    hudu_field: "Adopted"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "isAdopted"
+#
+  ac_connected_hub_mac:
+    hudu_field: "Connected Hub MAC"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "connectedHubMac"
+#
+  ac_building:
+    hudu_field: "Building"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "buildingName"
+#
+  ac_floor:
+    hudu_field: "Floor"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "floorName"
+#
+  ac_door_location:
+    hudu_field: "Door Location"
+    update_mode: "always"
+    source:
+      accessDeviceProfile: "doorName"
+#
+# --- WORKSTATION / CLIENT FIELDS ---
+#
+  ws_hostname:
+    hudu_field: "Hostname"
+    update_mode: "always"
+    source:
+      networkClientProfile: "hostname"
+#
+  ws_status:
+    hudu_field: "Status"
+    update_mode: "always"
+    source:
+      networkClientProfile: "status"
+#
+  ws_ip_address:
+    hudu_field: "IP Address"
+    update_mode: "always"
+    source:
+      networkClientProfile: "ipAddress"
+#
+  ws_mac_address:
+    hudu_field: "MAC Address"
+    update_mode: "create_only"
+    source:
+      networkClientProfile: "macAddress"
+#
+  ws_model:
+    hudu_field: "Model Type"
+    update_mode: "always"
+    source:
+      networkClientProfile: "model"
+#
+  ws_vlan:
+    hudu_field: "VLAN"
+    update_mode: "always"
+    source:
+      networkClientProfile: "connectedNetworkName"
+#
+  ws_display_name:
+    hudu_field: "Display Name"
+    update_mode: "always"
+    source:
+      networkClientProfile: "displayName"
+#
+  ws_uplink_parent:
+    hudu_field: "Uplink Parent"
+    update_mode: "always"
+    source:
+      networkClientProfile: "uplinkName"
+#
+  ws_uplink_parent_mac:
+    hudu_field: "Uplink Parent MAC Address"
+    update_mode: "always"
+    source:
+      networkClientProfile: "uplinkMac"
+#
+# --- AZURE vSERVERS LAYOUT FIELDS ---
+#
+  azure_vm_size:
+    hudu_field: "VM Server Size"
+    update_mode: "always"
+    source:
+      azureVmInstancePropertiesGccFp: "vmSizeStr"
+      azureVmInstancePropertiesGccDc01: "vmSizeStr"
+      azureVmInstancePropertiesGccFin: "vmSizeStr"
+#
+  azure_os_platform:
+    hudu_field: "OS Platform"
+    update_mode: "always"
+    source:
+      azureVmInstancePropertiesGccFp: "osTypeStr"
+      azureVmInstancePropertiesGccDc01: "osTypeStr"
+      azureVmInstancePropertiesGccFin: "osTypeStr"
+#
+  azure_region:
+    hudu_field: "Region"
+    update_mode: "always"
+    source:
+      azureVmInstancePropertiesGccFp: "regionStr"
+      azureVmInstancePropertiesGccDc01: "regionStr"
+      azureVmInstancePropertiesGccFin: "regionStr"
+#
+  azure_os_image:
+    hudu_field: "OS Image / SKU"
+    update_mode: "always"
+    source:
+      azureVmInstancePropertiesGccFp: "osImageSkuStr"
+      azureVmInstancePropertiesGccDc01: "osImageSkuStr"
+      azureVmInstancePropertiesGccFin: "osImageSkuStr"
+#
+  azure_os_disk_size:
+    hudu_field: "OS Disk Size"
+    update_mode: "always"
+    source:
+      azureVmInstancePropertiesGccFp: "osDiskSizeGbInt"
+      azureVmInstancePropertiesGccDc01: "osDiskSizeGbInt"
+      azureVmInstancePropertiesGccFin: "osDiskSizeGbInt"
+#
+  azure_resource_group:
+    hudu_field: "Resource Group"
+    update_mode: "always"
+    source:
+      azureVmInstancePropertiesGccFp: "resourceGroupStr"
+      azureVmInstancePropertiesGccDc01: "resourceGroupStr"
+      azureVmInstancePropertiesGccFin: "resourceGroupStr"
+#
+  azure_power_state:
+    hudu_field: "Power State"
+    update_mode: "always"
+    source:
+      azureVmStatusGccFp: "vmStatus"
+      azureVmStatusGccDc01: "vmStatus"
+      azureVmStatusGccFin: "vmStatus"
+#
+#
+# ---------------------------------------------------------------
+# SNMP FIELD MAPPING (unchanged)
+# ---------------------------------------------------------------
+snmp_field_mapping:
+#
+  ups_model:
+    hudu_field: "Model Type"
+    update_mode: "always"
+    oid: ".1.3.6.1.2.1.33.1.1.2.0"
+#
+  ups_firmware:
+    hudu_field: "OS Version"
+    update_mode: "always"
+    oid: ".1.3.6.1.2.1.33.1.1.3.0"
+#
+  ups_serial:
+    hudu_field: "Serial Number"
+    update_mode: "create_only"
+    oid: ".1.3.6.1.2.1.33.1.1.5.0"
+#
+  ups_product_line:
+    hudu_field: "Product Line"
+    update_mode: "always"
+    oid: ".1.3.6.1.2.1.33.1.1.1.0"
+</script>
+
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
 
 <div class="modal-backdrop" id="rebootModal" onclick="rebootBackdrop(event)">
@@ -1579,7 +4263,6 @@ function updateAlertCounts(){
 /* ---------- placeholders ---------- */
 const placeholders = {
   reports:['Reports & SLA','Generate uptime and performance reports for any tenant.','Build a report'],
-  tenants:['Tenant Management','Create, suspend, and configure customer organizations.','Add a tenant'],
   provision:['Provision a Collector','Generate a JWT bundle and ship a zero-touch onboarding package.','Generate bundle'],
   audit:['Global Audit Log','Every state-changing action across all tenants, with filtering.','View log'],
   settings:['Tenant Settings','Branding, RBAC roles, retention windows, and alert defaults per tenant.','Open settings'],
@@ -1598,12 +4281,223 @@ function renderPlaceholder(key){
     </div></div>`;
 }
 
+/* ---------- tenant management screen ---------- */
+const TENANT_DIR = [
+  {slug:'cascade',   plan:'Enterprise', status:'active', col:42, online:40, max:50, sites:42, regions:['NA'],      mrr:6800, since:'Sep 2023'},
+  {slug:'northwind', plan:'Enterprise', status:'active', col:18, online:17, max:30, sites:18, regions:['NA'],      mrr:5100, since:'Jan 2024'},
+  {slug:'acme-corp', plan:'Enterprise', status:'active', col:14, online:12, max:25, sites:14, regions:['NA','EU'], mrr:4200, since:'Mar 2024'},
+  {slug:'meridian',  plan:'Growth',     status:'active', col:9,  online:8,  max:15, sites:9,  regions:['NA'],      mrr:2400, since:'Jun 2024'},
+  {slug:'betacorp',  plan:'Growth',     status:'active', col:7,  online:7,  max:15, sites:7,  regions:['NA'],      mrr:1900, since:'Aug 2024'},
+  {slug:'piedmont',  plan:'Growth',     status:'active', col:4,  online:3,  max:10, sites:4,  regions:['NC'],      mrr:1600, since:'Nov 2024'},
+  {slug:'atlantico', plan:'Starter',    status:'trial',  col:1,  online:1,  max:5,  sites:1,  regions:['SA'],      mrr:0,    since:'May 2026'},
+];
+const tntStatusLabel={active:'Active',trial:'Trial',suspended:'Suspended'};
+function tntMoney(n){ return '$'+n.toLocaleString('en-US'); }
+function tntActiveAlerts(slug){ return alerts.filter(a=>a[3]===slug && a[7]==='active').length; }
+
+function renderTenants(){
+  const totalCol = TENANT_DIR.reduce((s,t)=>s+t.col,0);
+  const onlineCol = TENANT_DIR.reduce((s,t)=>s+t.online,0);
+  const mrrTotal = TENANT_DIR.reduce((s,t)=>s+t.mrr,0);
+  const openAlerts = TENANT_DIR.reduce((s,t)=>s+tntActiveAlerts(t.slug),0);
+  const nActive = TENANT_DIR.filter(t=>t.status==='active').length;
+  const nTrial  = TENANT_DIR.filter(t=>t.status==='trial').length;
+  const onlinePct = Math.round(onlineCol/totalCol*100);
+
+  document.getElementById('screen-tenants').innerHTML = `
+    <div class="page-head">
+      <div>
+        <div class="page-eyebrow">MSP management</div>
+        <h1 class="page-title" data-i18n="Tenant Management">${TX('Tenant Management')}</h1>
+        <p class="page-sub" data-i18n="Create, suspend, and configure customer organizations.">${TX('Create, suspend, and configure customer organizations.')}</p>
+      </div>
+      <div class="head-actions">
+        <button class="btn primary" onclick="toast('${TX('Add a tenant')} — wired in the next build pass')">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="Add a tenant">${TX('Add a tenant')}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="stat-grid stat-strip">
+      <div class="panel stat">
+        <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></span>Tenants</div>
+        <div><div class="big">${TENANT_DIR.length}</div><div class="delta flat">${nActive} active · ${nTrial} trial</div></div>
+      </div>
+      <div class="panel stat">
+        <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>Active collectors</div>
+        <div><div class="big">${onlineCol}<small>/ ${totalCol}</small></div><div class="delta up">${onlinePct}% online across fleet</div></div>
+        <svg class="spark" viewBox="0 0 200 42" preserveAspectRatio="none"><path d="M0 30 L40 26 L80 28 L120 18 L160 20 L200 12" fill="none" stroke="#41D98A" stroke-width="1.5"/></svg>
+      </div>
+      <div class="panel stat">
+        <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Monthly recurring</div>
+        <div><div class="big">$${(mrrTotal/1000).toFixed(1)}<small>k MRR</small></div><div class="delta up">across ${TENANT_DIR.length} tenants</div></div>
+        <svg class="spark" viewBox="0 0 200 42" preserveAspectRatio="none"><path d="M0 34 L40 30 L80 24 L120 22 L160 14 L200 10" fill="none" stroke="#2EE6C8" stroke-width="1.5"/></svg>
+      </div>
+      <div class="panel stat ${openAlerts?'warn':''}">
+        <div class="lab"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>Open alerts</div>
+        <div><div class="big">${openAlerts}</div><div class="delta ${openAlerts?'down':'flat'}">${openAlerts?'across 3 tenants':'all clear'}</div></div>
+      </div>
+    </div>
+
+    <div class="tnt-grid">
+      ${TENANT_DIR.map(tntCard).join('')}
+    </div>`;
+}
+
+function tntCard(t){
+  const color = tenantColors[t.slug] || 'var(--teal)';
+  const name = tenantName[t.slug] || t.slug;
+  const usage = Math.round(t.col / t.max * 100);
+  const usageColor = usage>=90 ? 'var(--red)' : usage>=75 ? 'var(--amber)' : 'var(--green)';
+  const onPct = t.col ? Math.round(t.online / t.col * 100) : 0;
+  const al = tntActiveAlerts(t.slug);
+  const alClass = al===0 ? 'ok' : al>=3 ? 'crit' : 'warn';
+  return `
+    <div class="tnt-card" style="--c:${color}" onclick="toast('Opening ${name.replace(/'/g,"\\'")} workspace — wired in the next build pass')">
+      <div class="tnt-top">
+        <div class="tnt-ava">${tnInit(name)}</div>
+        <div class="tnt-id">
+          <div class="tnt-name">${name}</div>
+          <div class="tnt-slug">${t.slug} · since ${t.since}</div>
+        </div>
+        <span class="tnt-status st-${t.status}">${tntStatusLabel[t.status]}</span>
+      </div>
+      <div class="tnt-planrow">
+        <span class="tnt-plan plan-${t.plan}">${t.plan}</span>
+        <span class="tnt-mrr">${t.mrr?tntMoney(t.mrr):'—'}<small>${t.mrr?'/mo':''}</small></span>
+      </div>
+      <div>
+        <div class="tnt-usage-top"><span>Collectors</span><span><b>${t.col}</b> / ${t.max}</span></div>
+        <div class="tnt-bar"><i style="width:${usage}%;background:${usageColor}"></i></div>
+      </div>
+      <div class="tnt-stats">
+        <div><span class="k">Sites</span><span class="v">${t.sites}</span></div>
+        <div><span class="k">Online</span><span class="v">${onPct}%</span></div>
+        <div><span class="k">Alerts</span><span class="v ${alClass}">${al}</span></div>
+      </div>
+      <div class="tnt-foot">
+        <div class="tnt-regions">${t.regions.map(r=>`<span class="tnt-region">${r}</span>`).join('')}</div>
+        <button class="btn" onclick="event.stopPropagation();toast('Manage ${name.replace(/'/g,"\\'")} — wired in the next build pass')">Manage</button>
+      </div>
+    </div>`;
+}
+
 /* ---------- tenant multiselect filters ---------- */
 const fleetTenantOpts=[...new Set(fleetRows.map(r=>r[1]))];
 const alertTenantOpts=[...new Set(alerts.map(a=>a[3]))];
 const fleetTenants=new Set(fleetTenantOpts);
 const alertTenants=new Set(alertTenantOpts);
-function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open,.lang-mini-menu.open').forEach(m=>m.classList.remove('open')); }
+/* ===== Per-microservice config viewer ===== */
+const CFG_FILES={
+  vcollector:{label:'vCollector', lang:'yaml', file:'vcollector.yaml',     el:'cfg-vcollector', dot:'tealdot'},
+  normalizer:{label:'Normalizer', lang:'yaml', dot:'greendot', sub:[
+    {key:'snmp',   label:'SNMP',       file:'normalizer-snmp.yaml',   el:'cfg-norm-snmp'},
+    {key:'arista', label:'Arista EOS', file:'normalizer-arista.yaml', el:'cfg-norm-arista'},
+    {key:'azure',  label:'Azure',      file:'normalizer-azure.yaml',  el:'cfg-norm-azure'},
+    {key:'unifi',  label:'UniFi',      file:'normalizer-unifi.yaml',  el:'cfg-norm-unifi'},
+    {key:'cli',    label:'CLI',        file:'normalizer-cli.yaml',    el:'cfg-norm-cli'}
+  ]},
+  events:  {label:'Events Director', lang:'json', file:'events-director.json', el:'cfg-events', dot:'amberdot'},
+  hudusync:{label:'HuduSync',        lang:'yaml', file:'hudusync.yaml',        el:'cfg-hudusync', dot:'violetdot'}
+};
+let currentCfgSvc='vcollector', currentNormSub='snmp';
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function _stripComment(line, keep){
+  let inS=false,inD=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==="'" && !inD) inS=!inS;
+    else if(c==='"' && !inS) inD=!inD;
+    else if(c==='#' && !inS && !inD){
+      return line.slice(0,i)+keep('<span class="y-cmt">'+escHtml(line.slice(i))+'</span>');
+    }
+  }
+  return line;
+}
+function yamlHL(src){
+  return src.replace(/\r/g,'').split('\n').map(raw=>{
+    const store=[]; const keep=h=>{store.push(h);return '\u0001'+(store.length-1)+'\u0001';};
+    let s=_stripComment(raw, keep);
+    s=escHtml(s);
+    // quoted strings (double then single)
+    s=s.replace(/"(?:[^"\\]|\\.)*"/g, m=>keep('<span class="y-str">'+m+'</span>'));
+    s=s.replace(/'(?:[^'\\]|\\.)*'/g, m=>keep('<span class="y-str">'+m+'</span>'));
+    // anchors &x and aliases *x
+    s=s.replace(/(^|[\s:{[,])([&*][A-Za-z0-9_\-]+)/g,(m,p,a)=>p+'<span class="y-anchor">'+a+'</span>');
+    // !functions / !tags
+    s=s.replace(/!{1,2}[A-Za-z_][\w]*/g, m=>'<span class="y-fn">'+m+'</span>');
+    // $variables (incl $_id, $__index, $*) and ->
+    s=s.replace(/\$[A-Za-z_*][\w*]*/g, m=>'<span class="y-var">'+m+'</span>');
+    // leading key:  (after indent, optional "- ")
+    s=s.replace(/^(\s*)(- )?([A-Za-z0-9_."\-\/]+)(:)(?=\s|$)/,(m,ind,dash,key,colon)=>
+       ind+(dash?'<span class="y-punct">- </span>':'')+'<span class="y-key">'+key+'</span><span class="y-punct">:</span>');
+    // bare list dash
+    s=s.replace(/^(\s*)(- )(?!<span)/,(m,ind)=>ind+'<span class="y-punct">- </span>');
+    // booleans / null
+    s=s.replace(/\b(true|false|null)\b/g,'<span class="y-bool">$1</span>');
+    // numbers
+    s=s.replace(/(^|[\s:[,{])(-?\d+(?:\.\d+)?)\b/g,(m,p,n)=>p+'<span class="y-num">'+n+'</span>');
+    // restore protected spans
+    s=s.replace(/\u0001(\d+)\u0001/g,(m,i)=>store[+i]);
+    return s;
+  }).join('\n');
+}
+function jsonHL(src){
+  let s=escHtml(src.replace(/\r/g,''));
+  // strings: key (followed by colon) vs value
+  s=s.replace(/"(?:[^"\\]|\\.)*"(\s*:)?/g,(m,colon)=>{
+    const str=colon?m.slice(0,m.length-colon.length):m;
+    return colon ? '<span class="j-key">'+str+'</span>'+colon : '<span class="j-str">'+str+'</span>';
+  });
+  // bare numbers
+  s=s.replace(/(^|[\s:[,])(-?\d+(?:\.\d+)?)(?=[\s,\]}])/g,(m,p,n)=>p+'<span class="j-num">'+n+'</span>');
+  // booleans
+  s=s.replace(/\b(true|false)\b/g,'<span class="j-bool">$1</span>');
+  // null
+  s=s.replace(/\bnull\b/g,'<span class="j-null">null</span>');
+  return s;
+}
+function _hash7(str){let h=0;for(let i=0;i<str.length;i++){h=(Math.imul(h,31)+str.charCodeAt(i))>>>0;}return ('0000000'+h.toString(16)).slice(-7);}
+
+function renderCfgViewer(){
+  const view=document.getElementById('yamlView'); if(!view) return;
+  const svc=CFG_FILES[currentCfgSvc]; if(!svc) return;
+  let entry=svc, file=svc.file;
+  if(svc.sub){
+    entry=svc.sub.find(x=>x.key===currentNormSub)||svc.sub[0];
+    file=entry.file;
+  }
+  const block=document.getElementById(entry.el);
+  const raw=block?block.textContent.replace(/^\n/,''):('# '+file+' not found');
+  view.innerHTML = svc.lang==='json' ? jsonHL(raw) : yamlHL(raw);
+  view.scrollTop=0; view.scrollLeft=0;
+  // file path line + per-file SHA, scoped to the open collector
+  const id=(typeof currentDetailId!=='undefined')?currentDetailId:'acme-corp:site-04';
+  const tenant=id.split(':')[0], site=id.split(':')[1]||'site';
+  const fl=document.getElementById('cfgFileLine');
+  if(fl) fl.textContent='# yourorg/guardare-configs/sites/'+tenant+'-'+site+' · '+file;
+  const sha=document.getElementById('cfgSha');
+  if(sha) sha.textContent=_hash7(id+':'+file);
+  // primary picklist label + dot + selected state
+  const lbl=document.getElementById('svcPickLabel'); if(lbl) lbl.textContent=svc.label;
+  const dot=document.getElementById('cfgSvcDot'); if(dot) dot.className='svc-dot '+(svc.dot||'tealdot');
+  document.querySelectorAll('#svcPickMenu button').forEach(b=>b.classList.toggle('sel', b.dataset.svc===currentCfgSvc));
+  // normalizer sub-picklist visibility + label + selected state
+  const subWrap=document.getElementById('normSubPick');
+  if(subWrap) subWrap.style.display = svc.sub ? '' : 'none';
+  if(svc.sub){
+    const sl=document.getElementById('normSubLabel'); if(sl) sl.textContent=(entry.label||'')+' manifest';
+    document.querySelectorAll('#normSubMenu button').forEach(b=>b.classList.toggle('sel', b.dataset.sub===currentNormSub));
+  }
+}
+function selectCfgSvc(key){ currentCfgSvc=key; if(key==='normalizer' && !currentNormSub) currentNormSub='snmp'; closeAllMenus(); renderCfgViewer(); }
+function selectNormSub(key){ currentNormSub=key; closeAllMenus(); renderCfgViewer(); }
+function toggleSvcPick(e){ e.stopPropagation(); const m=document.getElementById('svcPickMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
+function toggleNormSub(e){ e.stopPropagation(); const m=document.getElementById('normSubMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
+
+function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open,.lang-mini-menu.open,.yaml-pick-menu.open').forEach(m=>m.classList.remove('open')); }
 document.addEventListener('click',closeAllMenus);
 function makeMultiselect(mountId, options, selected, onChange){
   const el=document.getElementById(mountId); if(!el) return;
@@ -1780,6 +4674,7 @@ function renderDetail(){
   const _vs=VIT[coll];
   if(_vs){bigThrHist=Array(48).fill(_vs.thr);bigCpuHist=Array(48).fill((_vs.core0+_vs.core1)/2);bigLatHist=Array(48).fill(_vs.lat);}
   if(typeof updateDetailVitals==='function') updateDetailVitals();
+  if(typeof renderCfgViewer==='function') renderCfgViewer();
 }
 function openDetail(id){
   currentDetailId=id;
@@ -1790,6 +4685,7 @@ document.querySelectorAll('.nav-item').forEach(n=>{
   n.addEventListener('click',()=>{
     const s=n.dataset.screen;
     if(s==='config') renderConfig();
+    else if(s==='tenants') renderTenants();
     else if(placeholders[s]) renderPlaceholder(s);
     go(s);
     toggleNav(false);
