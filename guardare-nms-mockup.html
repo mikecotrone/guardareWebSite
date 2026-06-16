@@ -6218,7 +6218,7 @@ function renderCfgMgr(){
       cfgScaffold(cat);
   } else {
     const f=files.find(x=>x.cat===cfgSubPage)||files[0];
-    body='<div class="cfg-editor">'+cfgSourceStrip(f,cfgMgrColl)+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
+    body='<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
   }
   el.innerHTML=head+bar+cfgOsCard()+body;
 }
