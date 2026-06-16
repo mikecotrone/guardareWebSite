@@ -742,6 +742,52 @@
   .reboot-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;font-family:"Open Sans";color:var(--text)}
   .reboot-status{font-size:13px;color:var(--dim);min-height:18px;letter-spacing:.01em}
   .modal-ic.info{background:#0e2c33;color:var(--teal)}
+  @keyframes panelFlash{0%{box-shadow:0 0 0 1px var(--teal),0 0 22px var(--teal-ghost)}100%{box-shadow:none}}
+  .panel-flash{animation:panelFlash 1.6s ease-out}
+  /* ---- AI / Anthropic surfaces ---- */
+  .ai-card{position:relative;border:1px solid #d9775733;background:linear-gradient(180deg,#1a14110d,transparent),var(--panel);overflow:hidden}
+  .ai-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#D97757}
+  .ai-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+  .ai-head h3{font-family:"Open Sans";font-size:15px;font-weight:600;flex:1}
+  .ai-spark{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#d9775720;color:#E0926F;flex:0 0 auto}
+  .ai-spark svg{width:17px;height:17px;fill:currentColor;stroke:none}
+  .ai-spark.lg{width:38px;height:38px;border-radius:10px}.ai-spark.lg svg{width:21px;height:21px}
+  .ai-conf{font-size:11px;font-weight:700;letter-spacing:.03em;color:#E0926F;background:#d9775714;border:1px solid #d9775740;border-radius:99px;padding:3px 10px;white-space:nowrap}
+  .ai-refresh{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .ai-refresh:hover{color:#E0926F;border-color:#d9775755}
+  .ai-refresh svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .ai-body{font-size:13.5px;line-height:1.62;color:var(--text)}
+  .ai-typing{animation:aiTyping .9s ease-out}
+  @keyframes aiTyping{from{opacity:.25;filter:blur(2px)}to{opacity:1;filter:none}}
+  .ai-next{display:flex;gap:10px;align-items:baseline;margin-top:13px;padding-top:13px;border-top:1px solid var(--line-soft);font-size:13px;color:var(--dim);line-height:1.5}
+  .ai-next-k{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#E0926F;white-space:nowrap;flex:0 0 auto}
+  .ai-foot{display:flex;align-items:center;gap:7px;margin-top:13px;font-size:11px;color:var(--mute)}
+  .ai-dot{width:6px;height:6px;border-radius:50%;background:#D97757;box-shadow:0 0 7px #d97757aa}
+  .ai-card.ai-off{border-color:var(--line)}.ai-card.ai-off::before{background:var(--mute)}
+  .ai-explain{color:#E0926F!important;border-color:#d9775740!important;background:#d9775712!important}
+  .ai-explain:hover{border-color:#d9775588!important;background:#d9775722!important}
+  .ai-explain svg{fill:currentColor;stroke:none;width:13px;height:13px}
+  .afull-act{display:flex;align-items:center;gap:8px}
+  /* AI modal */
+  .ai-modal{text-align:left}
+  .ai-modal-head{display:flex;align-items:center;gap:13px;margin-bottom:15px}
+  .ai-modal-head .modal-title{margin:0}
+  .ai-sub{font-size:12px;color:var(--dim);margin-top:3px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .ai-sub .sev{font-size:9.5px;padding:2px 7px}
+  .ai-think{display:flex;align-items:center;gap:11px;justify-content:center;padding:34px 0;color:var(--dim);font-size:13.5px}
+  .ai-result{font-size:13px}
+  .ai-lead{font-size:14px;line-height:1.6;color:var(--text);margin-bottom:16px}
+  .ai-block{margin-bottom:15px}
+  .ai-block h4{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#E0926F;margin-bottom:7px}
+  .ai-block p{font-size:13px;line-height:1.6;color:var(--dim)}
+  .ai-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+  .ai-steps li{font-size:13px;line-height:1.55;color:var(--text)}
+  .ai-sigs{display:flex;flex-wrap:wrap;gap:7px}
+  .ai-sigs span{font-size:11.5px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:99px;padding:4px 11px;font-family:"Open Sans"}
+  .ai-impact{font-size:12.5px;color:var(--dim);background:#d9775710;border:1px solid #d9775733;border-radius:var(--r-sm);padding:11px 13px;line-height:1.55}
+  .ai-impact b{color:var(--text)}
+  .ai-conf-inline{color:var(--mute)}
+  .ai-modal .ai-foot{justify-content:center;margin-top:16px}
   .modal-wide{width:min(540px,94vw)}
   .diag-list{display:flex;flex-direction:column;text-align:left;margin:8px 0 2px;max-height:48vh;overflow:auto}
   .diag-row{display:flex;align-items:center;gap:12px;padding:9px 4px;border-bottom:1px solid var(--line-soft)}
@@ -1134,7 +1180,7 @@
         </div>
       </div>
 
-      <div class="panel console">
+      <div class="panel console" id="consolePanel">
         <div class="console-head">
           <h3><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg> <span data-i18n="Console">Console</span></h3>
           <div class="console-ctrl">
@@ -1190,11 +1236,13 @@
           <p class="page-sub"><span class="td-status s-warn" id="detailStatus" style="display:inline-flex"><i></i><span id="detailStatusTxt">Degraded</span></span> · last seen 4s ago · firmware 2026r1 · Linux ARM64</p>
         </div>
         <div class="head-actions">
-          <button class="btn" onclick="toast('Opened live log stream')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
+          <button class="btn" onclick="jumpToConsole()"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
           <button class="btn" onclick="openDiagnostics()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
           <button class="btn primary" onclick="openRebootModal()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Reboot collector">Reboot collector</span></button>
         </div>
       </div>
+
+      <div class="panel ai-card mb18" id="aiSummaryCard"></div>
 
       <div class="panel mb18">
         <div class="panel-head"><h3 data-i18n="Guardare Collector Identity">Guardare Collector Identity</h3></div>
@@ -4300,6 +4348,22 @@ snmp_field_mapping:
   </div>
 </div>
 
+<div class="modal-backdrop" id="aiModal" onclick="aiBackdrop(event)">
+  <div class="modal modal-wide ai-modal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
+    <div class="ai-modal-head">
+      <span class="ai-spark lg"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg></span>
+      <div><h3 class="modal-title" id="aiTitle" data-i18n="Alert triage">Alert triage</h3><p class="ai-sub" id="aiAlertRef"></p></div>
+    </div>
+    <div class="ai-think" id="aiThink"><span class="diag-spin"></span> <span data-i18n="Claude is analyzing the alert…">Claude is analyzing the alert…</span></div>
+    <div class="ai-result" id="aiResult" style="display:none"></div>
+    <div class="modal-acts" id="aiActs" style="display:none">
+      <button class="btn" onclick="closeAi()" data-i18n="Close">Close</button>
+      <button class="btn primary" onclick="toast(TX('Draft ticket created in JitBit'))"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3z"/></svg><span data-i18n="Draft ticket">Draft ticket</span></button>
+    </div>
+    <div class="ai-foot"><span class="ai-dot"></span><span data-i18n="Powered by Claude · Anthropic">Powered by Claude · Anthropic</span></div>
+  </div>
+</div>
+
 <script>
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
@@ -4346,7 +4410,7 @@ const I18N={
   "Mountain link flapping":"Link di montagna instabile","Config drift":"Drift di configurazione","Collector reconnected":"Collector riconnesso","New collector registered":"Nuovo collector registrato",
   "Local buffer 96% full · WAN link degraded":"Buffer locale pieno al 96% · link WAN degradato","No heartbeat for 4 minutes · last sync 14:01":"Nessun heartbeat da 4 minuti · ultimo sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picchi sulla pipeline di enrich","512 → 42 msg/s over 90s":"512 → 42 msg/s in 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittente",
-  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Running diagnostics…":"Diagnostica in corso…","Diagnostics complete · all healthy":"Diagnostica completata · tutto integro","Diagnostics complete · issues found":"Diagnostica completata · problemi rilevati","Diagnostics complete":"Diagnostica completata","Probing":"Verifica di","network, DNS, datastores, and every collector microservice.":"rete, DNS, datastore e ogni microservizio del collector.","Re-run":"Riesegui","Close":"Chiudi","passed":"superati","warnings":"avvisi","failed":"falliti","elevated latency":"latenza elevata","no response":"nessuna risposta","Network reachability":"Raggiungibilità di rete","DNS resolution":"Risoluzione DNS","TLS / certificate":"TLS / certificato","Cloud database":"Database cloud","Local buffer":"Buffer locale","Heartbeat / presence":"Heartbeat / presenza","GitOps config sync":"Sync config GitOps","Operations":"Operazioni","Global Audit Log":"Log di audit globale","Audit log":"Log di audit","events":"eventi","newest first":"più recenti prima","Export CSV":"Esporta CSV","Time":"Ora","Actor":"Autore","Action":"Azione","Target":"Oggetto","Source IP":"IP origine","Platform":"Piattaforma","No matching events":"Nessun evento corrispondente","Security":"Sicurezza","Provisioning":"Provisioning","Config":"Config","Billing":"Fatturazione","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operatore MSP","Tenant Admin":"Admin cliente","Tenant User":"Utente cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integra Guardare nello stack del tuo team.","Hardware / Server Inventory":"Inventario hardware / server","Physical server":"Server fisico","Virtual machine":"Macchina virtuale","Virtual":"Virtuale","Hypervisor":"Hypervisor","Model":"Modello","Service tag":"Service tag","Instance ID":"ID istanza","Form factor":"Form factor","Processor":"Processore","Memory":"Memoria","Storage":"Storage","Network":"Rete","Load avg":"Carico medio","Memory used":"Memoria usata","Storage used":"Storage usato","Aggregate · every customer":"Aggregato · ogni cliente",
+  "Running c4d8a91, repo expects c4d8a92":"In esecuzione c4d8a91, il repo si aspetta c4d8a92","Recovered after 12s WS drop":"Recuperato dopo caduta WS di 12s","Auto-registered on first wss:// connect":"Auto-registrato alla prima connessione wss://","All Tenants":"Tutti i clienti","Explain":"Spiega","Alert triage":"Triage avviso","Claude is analyzing the alert…":"Claude sta analizzando l'avviso…","Draft ticket":"Bozza ticket","Draft ticket created in JitBit":"Bozza ticket creata in JitBit","Powered by Claude · Anthropic":"Con tecnologia Claude · Anthropic","Probable cause":"Causa probabile","Recommended actions":"Azioni consigliate","Related signals":"Segnali correlati","Estimated impact":"Impatto stimato","Confidence":"Affidabilità","High":"Alta","Medium":"Media","AI health summary":"Riepilogo AI dello stato","Suggested next step":"Prossimo passo consigliato","Regenerate":"Rigenera","Connect Anthropic to enable AI triage":"Collega Anthropic per abilitare il triage AI","Connect Anthropic":"Collega Anthropic","a virtual host":"un host virtuale","physical hardware":"hardware fisico","Running on":"In esecuzione su","Live log stream · streaming":"Stream log in diretta · in streaming","Running diagnostics…":"Diagnostica in corso…","Diagnostics complete · all healthy":"Diagnostica completata · tutto integro","Diagnostics complete · issues found":"Diagnostica completata · problemi rilevati","Diagnostics complete":"Diagnostica completata","Probing":"Verifica di","network, DNS, datastores, and every collector microservice.":"rete, DNS, datastore e ogni microservizio del collector.","Re-run":"Riesegui","Close":"Chiudi","passed":"superati","warnings":"avvisi","failed":"falliti","elevated latency":"latenza elevata","no response":"nessuna risposta","Network reachability":"Raggiungibilità di rete","DNS resolution":"Risoluzione DNS","TLS / certificate":"TLS / certificato","Cloud database":"Database cloud","Local buffer":"Buffer locale","Heartbeat / presence":"Heartbeat / presenza","GitOps config sync":"Sync config GitOps","Operations":"Operazioni","Global Audit Log":"Log di audit globale","Audit log":"Log di audit","events":"eventi","newest first":"più recenti prima","Export CSV":"Esporta CSV","Time":"Ora","Actor":"Autore","Action":"Azione","Target":"Oggetto","Source IP":"IP origine","Platform":"Piattaforma","No matching events":"Nessun evento corrispondente","Security":"Sicurezza","Provisioning":"Provisioning","Config":"Config","Billing":"Fatturazione","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operatore MSP","Tenant Admin":"Admin cliente","Tenant User":"Utente cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integra Guardare nello stack del tuo team.","Hardware / Server Inventory":"Inventario hardware / server","Physical server":"Server fisico","Virtual machine":"Macchina virtuale","Virtual":"Virtuale","Hypervisor":"Hypervisor","Model":"Modello","Service tag":"Service tag","Instance ID":"ID istanza","Form factor":"Form factor","Processor":"Processore","Memory":"Memoria","Storage":"Storage","Network":"Rete","Load avg":"Carico medio","Memory used":"Memoria usata","Storage used":"Storage usato","Aggregate · every customer":"Aggregato · ogni cliente",
   "Back to MSP":"Torna a MSP","Collectors":"Collector","Network":"Rete","Management plane":"Piano di gestione","In design":"In progettazione",
   "The monitored network: devices, clients, and links these collectors observe.":"La rete monitorata: dispositivi, client e collegamenti osservati da questi collector.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Questo è il piano NMS / di gestione. Il monitoraggio a livello di dispositivo per questo cliente arriverà in una versione futura.",
@@ -4395,7 +4459,7 @@ const I18N={
   "Mountain link flapping":"Liaison montagne instable","Config drift":"Dérive de configuration","Collector reconnected":"Collecteur reconnecté","New collector registered":"Nouveau collecteur enregistré",
   "Local buffer 96% full · WAN link degraded":"Tampon local plein à 96% · liaison WAN dégradée","No heartbeat for 4 minutes · last sync 14:01":"Aucun battement depuis 4 minutes · dernière synchro 14:01",
   "68% → spiking on enrich pipeline":"68% → pics sur le pipeline d'enrichissement","512 → 42 msg/s over 90s":"512 → 42 msg/s sur 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul Asheville 180 msg/s · intermittent",
-  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Running diagnostics…":"Diagnostic en cours…","Diagnostics complete · all healthy":"Diagnostic terminé · tout est sain","Diagnostics complete · issues found":"Diagnostic terminé · problèmes détectés","Diagnostics complete":"Diagnostic terminé","Probing":"Analyse de","network, DNS, datastores, and every collector microservice.":"réseau, DNS, bases de données et chaque microservice du collector.","Re-run":"Relancer","Close":"Fermer","passed":"réussis","warnings":"avertissements","failed":"échoués","elevated latency":"latence élevée","no response":"aucune réponse","Network reachability":"Accessibilité réseau","DNS resolution":"Résolution DNS","TLS / certificate":"TLS / certificat","Cloud database":"Base de données cloud","Local buffer":"Buffer local","Heartbeat / presence":"Heartbeat / présence","GitOps config sync":"Sync config GitOps","Operations":"Opérations","Global Audit Log":"Journal d'audit global","Audit log":"Journal d'audit","events":"événements","newest first":"plus récents d'abord","Export CSV":"Exporter CSV","Time":"Heure","Actor":"Auteur","Action":"Action","Target":"Cible","Source IP":"IP source","Platform":"Plateforme","No matching events":"Aucun événement correspondant","Security":"Sécurité","Provisioning":"Provisioning","Config":"Config","Billing":"Facturation","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Opérateur MSP","Tenant Admin":"Admin client","Tenant User":"Utilisateur client","System":"Système","Integrate Guardare into your team's stack.":"Intégrez Guardare à la stack de votre équipe.","Hardware / Server Inventory":"Inventaire matériel / serveur","Physical server":"Serveur physique","Virtual machine":"Machine virtuelle","Virtual":"Virtuel","Hypervisor":"Hyperviseur","Model":"Modèle","Service tag":"Service tag","Instance ID":"ID d'instance","Form factor":"Format","Processor":"Processeur","Memory":"Mémoire","Storage":"Stockage","Network":"Réseau","Load avg":"Charge moy.","Memory used":"Mémoire utilisée","Storage used":"Stockage utilisé","Aggregate · every customer":"Agrégé · tous les clients",
+  "Running c4d8a91, repo expects c4d8a92":"Exécute c4d8a91, le dépôt attend c4d8a92","Recovered after 12s WS drop":"Rétabli après coupure WS de 12s","Auto-registered on first wss:// connect":"Auto-enregistré à la première connexion wss://","All Tenants":"Tous les clients","Explain":"Expliquer","Alert triage":"Triage d'alerte","Claude is analyzing the alert…":"Claude analyse l'alerte…","Draft ticket":"Brouillon de ticket","Draft ticket created in JitBit":"Brouillon de ticket créé dans JitBit","Powered by Claude · Anthropic":"Propulsé par Claude · Anthropic","Probable cause":"Cause probable","Recommended actions":"Actions recommandées","Related signals":"Signaux associés","Estimated impact":"Impact estimé","Confidence":"Confiance","High":"Élevée","Medium":"Moyenne","AI health summary":"Résumé d'état IA","Suggested next step":"Prochaine étape suggérée","Regenerate":"Régénérer","Connect Anthropic to enable AI triage":"Connectez Anthropic pour activer le triage IA","Connect Anthropic":"Connecter Anthropic","a virtual host":"un hôte virtuel","physical hardware":"matériel physique","Running on":"Exécuté sur","Live log stream · streaming":"Flux de logs en direct · en cours","Running diagnostics…":"Diagnostic en cours…","Diagnostics complete · all healthy":"Diagnostic terminé · tout est sain","Diagnostics complete · issues found":"Diagnostic terminé · problèmes détectés","Diagnostics complete":"Diagnostic terminé","Probing":"Analyse de","network, DNS, datastores, and every collector microservice.":"réseau, DNS, bases de données et chaque microservice du collector.","Re-run":"Relancer","Close":"Fermer","passed":"réussis","warnings":"avertissements","failed":"échoués","elevated latency":"latence élevée","no response":"aucune réponse","Network reachability":"Accessibilité réseau","DNS resolution":"Résolution DNS","TLS / certificate":"TLS / certificat","Cloud database":"Base de données cloud","Local buffer":"Buffer local","Heartbeat / presence":"Heartbeat / présence","GitOps config sync":"Sync config GitOps","Operations":"Opérations","Global Audit Log":"Journal d'audit global","Audit log":"Journal d'audit","events":"événements","newest first":"plus récents d'abord","Export CSV":"Exporter CSV","Time":"Heure","Actor":"Auteur","Action":"Action","Target":"Cible","Source IP":"IP source","Platform":"Plateforme","No matching events":"Aucun événement correspondant","Security":"Sécurité","Provisioning":"Provisioning","Config":"Config","Billing":"Facturation","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Opérateur MSP","Tenant Admin":"Admin client","Tenant User":"Utilisateur client","System":"Système","Integrate Guardare into your team's stack.":"Intégrez Guardare à la stack de votre équipe.","Hardware / Server Inventory":"Inventaire matériel / serveur","Physical server":"Serveur physique","Virtual machine":"Machine virtuelle","Virtual":"Virtuel","Hypervisor":"Hyperviseur","Model":"Modèle","Service tag":"Service tag","Instance ID":"ID d'instance","Form factor":"Format","Processor":"Processeur","Memory":"Mémoire","Storage":"Stockage","Network":"Réseau","Load avg":"Charge moy.","Memory used":"Mémoire utilisée","Storage used":"Stockage utilisé","Aggregate · every customer":"Agrégé · tous les clients",
   "Back to MSP":"Retour au MSP","Collectors":"Collecteurs","Network":"Réseau","Management plane":"Plan de gestion","In design":"En conception",
   "The monitored network: devices, clients, and links these collectors observe.":"Le réseau supervisé : appareils, clients et liaisons observés par ces collecteurs.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Ceci est le plan NMS / de gestion. La supervision au niveau des appareils pour ce client arrivera dans une version ultérieure.",
@@ -4444,7 +4508,7 @@ const I18N={
   "Mountain link flapping":"Enlace de montaña inestable","Config drift":"Desviación de configuración","Collector reconnected":"Collector reconectado","New collector registered":"Nuevo collector registrado",
   "Local buffer 96% full · WAN link degraded":"Búfer local al 96% · enlace WAN degradado","No heartbeat for 4 minutes · last sync 14:01":"Sin latido durante 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos en la canalización de enriquecimiento","512 → 42 msg/s over 90s":"512 → 42 msg/s en 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
-  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Running diagnostics…":"Ejecutando diagnóstico…","Diagnostics complete · all healthy":"Diagnóstico completo · todo correcto","Diagnostics complete · issues found":"Diagnóstico completo · problemas detectados","Diagnostics complete":"Diagnóstico completo","Probing":"Probando","network, DNS, datastores, and every collector microservice.":"red, DNS, almacenes de datos y cada microservicio del collector.","Re-run":"Reejecutar","Close":"Cerrar","passed":"superados","warnings":"advertencias","failed":"fallidos","elevated latency":"latencia elevada","no response":"sin respuesta","Network reachability":"Accesibilidad de red","DNS resolution":"Resolución DNS","TLS / certificate":"TLS / certificado","Cloud database":"Base de datos en la nube","Local buffer":"Búfer local","Heartbeat / presence":"Heartbeat / presencia","GitOps config sync":"Sync config GitOps","Operations":"Operaciones","Global Audit Log":"Registro de auditoría global","Audit log":"Registro de auditoría","events":"eventos","newest first":"más recientes primero","Export CSV":"Exportar CSV","Time":"Hora","Actor":"Autor","Action":"Acción","Target":"Objetivo","Source IP":"IP de origen","Platform":"Plataforma","No matching events":"Sin eventos coincidentes","Security":"Seguridad","Provisioning":"Aprovisionamiento","Config":"Config","Billing":"Facturación","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operador MSP","Tenant Admin":"Admin de cliente","Tenant User":"Usuario de cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integra Guardare en el stack de tu equipo.","Hardware / Server Inventory":"Inventario de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de servicio","Instance ID":"ID de instancia","Form factor":"Factor de forma","Processor":"Procesador","Memory":"Memoria","Storage":"Almacenamiento","Network":"Red","Load avg":"Carga media","Memory used":"Memoria usada","Storage used":"Almacenamiento usado","Aggregate · every customer":"Agregado · todos los clientes",
+  "Running c4d8a91, repo expects c4d8a92":"Ejecutando c4d8a91, el repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado tras caída WS de 12s","Auto-registered on first wss:// connect":"Autorregistrado en la primera conexión wss://","All Tenants":"Todos los clientes","Explain":"Explicar","Alert triage":"Triaje de alerta","Claude is analyzing the alert…":"Claude está analizando la alerta…","Draft ticket":"Borrador de ticket","Draft ticket created in JitBit":"Borrador de ticket creado en JitBit","Powered by Claude · Anthropic":"Con tecnología de Claude · Anthropic","Probable cause":"Causa probable","Recommended actions":"Acciones recomendadas","Related signals":"Señales relacionadas","Estimated impact":"Impacto estimado","Confidence":"Confianza","High":"Alta","Medium":"Media","AI health summary":"Resumen de estado con IA","Suggested next step":"Siguiente paso sugerido","Regenerate":"Regenerar","Connect Anthropic to enable AI triage":"Conecta Anthropic para habilitar el triaje con IA","Connect Anthropic":"Conectar Anthropic","a virtual host":"un host virtual","physical hardware":"hardware físico","Running on":"Ejecutándose en","Live log stream · streaming":"Flujo de registros en vivo · transmitiendo","Running diagnostics…":"Ejecutando diagnóstico…","Diagnostics complete · all healthy":"Diagnóstico completo · todo correcto","Diagnostics complete · issues found":"Diagnóstico completo · problemas detectados","Diagnostics complete":"Diagnóstico completo","Probing":"Probando","network, DNS, datastores, and every collector microservice.":"red, DNS, almacenes de datos y cada microservicio del collector.","Re-run":"Reejecutar","Close":"Cerrar","passed":"superados","warnings":"advertencias","failed":"fallidos","elevated latency":"latencia elevada","no response":"sin respuesta","Network reachability":"Accesibilidad de red","DNS resolution":"Resolución DNS","TLS / certificate":"TLS / certificado","Cloud database":"Base de datos en la nube","Local buffer":"Búfer local","Heartbeat / presence":"Heartbeat / presencia","GitOps config sync":"Sync config GitOps","Operations":"Operaciones","Global Audit Log":"Registro de auditoría global","Audit log":"Registro de auditoría","events":"eventos","newest first":"más recientes primero","Export CSV":"Exportar CSV","Time":"Hora","Actor":"Autor","Action":"Acción","Target":"Objetivo","Source IP":"IP de origen","Platform":"Plataforma","No matching events":"Sin eventos coincidentes","Security":"Seguridad","Provisioning":"Aprovisionamiento","Config":"Config","Billing":"Facturación","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operador MSP","Tenant Admin":"Admin de cliente","Tenant User":"Usuario de cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integra Guardare en el stack de tu equipo.","Hardware / Server Inventory":"Inventario de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de servicio","Instance ID":"ID de instancia","Form factor":"Factor de forma","Processor":"Procesador","Memory":"Memoria","Storage":"Almacenamiento","Network":"Red","Load avg":"Carga media","Memory used":"Memoria usada","Storage used":"Almacenamiento usado","Aggregate · every customer":"Agregado · todos los clientes",
   "Back to MSP":"Volver a MSP","Collectors":"Colectores","Network":"Red","Management plane":"Plano de gestión","In design":"En diseño",
   "The monitored network: devices, clients, and links these collectors observe.":"La red supervisada: dispositivos, clientes y enlaces que observan estos colectores.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este es el plano NMS / de gestión. La supervisión a nivel de dispositivo para este cliente llegará en una versión posterior.",
@@ -4494,7 +4558,7 @@ const I18N={
   "Local buffer 96% full · WAN link degraded":"Buffer local a 96% · ligação WAN degradada","No heartbeat for 4 minutes · last sync 14:01":"Sem heartbeat há 4 minutos · última sync 14:01",
   "68% → spiking on enrich pipeline":"68% → picos no pipeline de enriquecimento","512 → 42 msg/s over 90s":"512 → 42 msg/s em 90s","Asheville backhaul 180 msg/s · intermittent":"Backhaul de Asheville 180 msg/s · intermitente",
   "Running c4d8a91, repo expects c4d8a92":"A executar c4d8a91, o repo espera c4d8a92","Recovered after 12s WS drop":"Recuperado após queda WS de 12s","Auto-registered on first wss:// connect":"Registado automaticamente na primeira ligação wss://",
-  "All Tenants":"Todos os clientes","Running diagnostics…":"Executando diagnóstico…","Diagnostics complete · all healthy":"Diagnóstico concluído · tudo saudável","Diagnostics complete · issues found":"Diagnóstico concluído · problemas detetados","Diagnostics complete":"Diagnóstico concluído","Probing":"A verificar","network, DNS, datastores, and every collector microservice.":"rede, DNS, datastores e cada microsserviço do collector.","Re-run":"Reexecutar","Close":"Fechar","passed":"aprovados","warnings":"avisos","failed":"falhados","elevated latency":"latência elevada","no response":"sem resposta","Network reachability":"Acessibilidade de rede","DNS resolution":"Resolução DNS","TLS / certificate":"TLS / certificado","Cloud database":"Base de dados na cloud","Local buffer":"Buffer local","Heartbeat / presence":"Heartbeat / presença","GitOps config sync":"Sync config GitOps","Operations":"Operações","Global Audit Log":"Registo de auditoria global","Audit log":"Registo de auditoria","events":"eventos","newest first":"mais recentes primeiro","Export CSV":"Exportar CSV","Time":"Hora","Actor":"Autor","Action":"Ação","Target":"Alvo","Source IP":"IP de origem","Platform":"Plataforma","No matching events":"Sem eventos correspondentes","Security":"Segurança","Provisioning":"Aprovisionamento","Config":"Config","Billing":"Faturação","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operador MSP","Tenant Admin":"Admin de cliente","Tenant User":"Utilizador de cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integre o Guardare ao stack da sua equipa.","Hardware / Server Inventory":"Inventário de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de serviço","Instance ID":"ID da instância","Form factor":"Fator de forma","Processor":"Processador","Memory":"Memória","Storage":"Armazenamento","Network":"Rede","Load avg":"Carga média","Memory used":"Memória usada","Storage used":"Armazenamento usado","Aggregate · every customer":"Agregado · todos os clientes",
+  "All Tenants":"Todos os clientes","Explain":"Explicar","Alert triage":"Triagem de alerta","Claude is analyzing the alert…":"Claude está a analisar o alerta…","Draft ticket":"Rascunho de ticket","Draft ticket created in JitBit":"Rascunho de ticket criado no JitBit","Powered by Claude · Anthropic":"Desenvolvido com Claude · Anthropic","Probable cause":"Causa provável","Recommended actions":"Ações recomendadas","Related signals":"Sinais relacionados","Estimated impact":"Impacto estimado","Confidence":"Confiança","High":"Alta","Medium":"Média","AI health summary":"Resumo de estado com IA","Suggested next step":"Próximo passo sugerido","Regenerate":"Regenerar","Connect Anthropic to enable AI triage":"Ligue a Anthropic para ativar a triagem com IA","Connect Anthropic":"Ligar Anthropic","a virtual host":"um host virtual","physical hardware":"hardware físico","Running on":"Em execução em","Live log stream · streaming":"Stream de logs ao vivo · a transmitir","Running diagnostics…":"Executando diagnóstico…","Diagnostics complete · all healthy":"Diagnóstico concluído · tudo saudável","Diagnostics complete · issues found":"Diagnóstico concluído · problemas detetados","Diagnostics complete":"Diagnóstico concluído","Probing":"A verificar","network, DNS, datastores, and every collector microservice.":"rede, DNS, datastores e cada microsserviço do collector.","Re-run":"Reexecutar","Close":"Fechar","passed":"aprovados","warnings":"avisos","failed":"falhados","elevated latency":"latência elevada","no response":"sem resposta","Network reachability":"Acessibilidade de rede","DNS resolution":"Resolução DNS","TLS / certificate":"TLS / certificado","Cloud database":"Base de dados na cloud","Local buffer":"Buffer local","Heartbeat / presence":"Heartbeat / presença","GitOps config sync":"Sync config GitOps","Operations":"Operações","Global Audit Log":"Registo de auditoria global","Audit log":"Registo de auditoria","events":"eventos","newest first":"mais recentes primeiro","Export CSV":"Exportar CSV","Time":"Hora","Actor":"Autor","Action":"Ação","Target":"Alvo","Source IP":"IP de origem","Platform":"Plataforma","No matching events":"Sem eventos correspondentes","Security":"Segurança","Provisioning":"Aprovisionamento","Config":"Config","Billing":"Faturação","Collector":"Collector","MSP Super Admin":"MSP Super Admin","MSP Operator":"Operador MSP","Tenant Admin":"Admin de cliente","Tenant User":"Utilizador de cliente","System":"Sistema","Integrate Guardare into your team's stack.":"Integre o Guardare ao stack da sua equipa.","Hardware / Server Inventory":"Inventário de hardware / servidor","Physical server":"Servidor físico","Virtual machine":"Máquina virtual","Virtual":"Virtual","Hypervisor":"Hipervisor","Model":"Modelo","Service tag":"Etiqueta de serviço","Instance ID":"ID da instância","Form factor":"Fator de forma","Processor":"Processador","Memory":"Memória","Storage":"Armazenamento","Network":"Rede","Load avg":"Carga média","Memory used":"Memória usada","Storage used":"Armazenamento usado","Aggregate · every customer":"Agregado · todos os clientes",
   "Back to MSP":"Voltar ao MSP","Collectors":"Coletores","Network":"Rede","Management plane":"Plano de gestão","In design":"Em design",
   "The monitored network: devices, clients, and links these collectors observe.":"A rede monitorada: dispositivos, clientes e links que estes coletores observam.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
@@ -4713,7 +4777,9 @@ function renderAlertsFull(){
         <div class="m"><span class="tn">${tenantName[a[3]]}</span><code>${a[2]}</code><span>${TX(a[4])}</span></div>
       </div>
       <div class="afull-time"><b>${a[6]}</b>${a[5]}</div>
-      <div class="afull-act">${a[7]==='active'
+      <div class="afull-act">
+        <button class="btn ai-explain" onclick="event.stopPropagation();explainAlert(${i})"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg><span data-i18n="Explain">Explain</span></button>
+        ${a[7]==='active'
         ? `<button class="btn" onclick="event.stopPropagation();ackOne(${i})">${TX('Acknowledge')}</button>`
         : `<span class="cell-mut" style="font-size:12px">${(a[7]==='acked'?TX('Acknowledged'):TX('Resolved'))} ✓</span>`}</div>
     </div>`).join('') || `<div class="empty" style="padding:50px"><h3>${TX('No alerts')}</h3><p>${TX('Nothing in this view.')}</p></div>`;
@@ -5207,6 +5273,10 @@ const INTEGRATIONS=[
   {id:'pagerduty',name:'PagerDuty',cat:'Alerting / On-call',c:'#41D98A',
    desc:'Route critical and warning alerts to the right on-call schedules and escalation policies.',
    connected:false, endpoint:'https://events.pagerduty.com/v2/enqueue', fields:[['Integration key','password','']]},
+  {id:'anthropic',name:'Anthropic',cat:'AI / Ops Assistant',c:'#D97757',
+   desc:'Summarize alert storms, explain collector anomalies, and draft remediation runbooks with Claude — powering Guardare AI triage.',
+   connected:true, endpoint:'https://api.anthropic.com/v1/messages',
+   fields:[['API key (x-api-key)','password','sk-ant-••••••••••••'],['Model','text','claude-sonnet-4-6'],['anthropic-version','text','2023-06-01']]},
 ];
 function renderIntegrations(){
   const conn=INTEGRATIONS.filter(i=>i.connected).length;
@@ -5505,6 +5575,7 @@ function renderDetail(){
   set('detailId',site.name||coll); set('idColl',coll); set('idTenant',ten); set('idChannel','telemetry:'+id);
   set('detailAddrTxt', site.city||'—');
   if(typeof renderHwInventory==='function') renderHwInventory(ten,coll);
+  if(typeof renderAiSummary==='function') renderAiSummary(false);
   const oc=CRUMB_ORIGIN[navHighlight]||CRUMB_ORIGIN.fleet;   /* breadcrumb returns to wherever you came from */
   const crumb=document.getElementById('detailCrumb');
   if(crumb) crumb.innerHTML=`<button onclick="go('${oc.s}')" style="color:var(--teal);cursor:pointer">← ${TX(oc.k)}</button> / ${coll}`;
@@ -5707,7 +5778,153 @@ function ackAll(){
   toast('All active alerts acknowledged');
 }
 
+/* ---------- AI triage (Anthropic / Claude) ---------- */
+function aiEnabled(){ const a=INTEGRATIONS.find(i=>i.id==='anthropic'); return !!(a&&a.connected); }
+function aiModel(){ const a=INTEGRATIONS.find(i=>i.id==='anthropic'); return (a&&a.fields[1]&&a.fields[1][2])||'claude-sonnet-4-6'; }
+const AI_ALERT_KB={
+  'Queue overflow imminent':{conf:'High',
+    lead:'The on-site buffer is close to saturating because outbound sync has stalled — this is a connectivity problem, not a collector fault.',
+    cause:'The local MariaDB buffer is filling faster than it can drain: the outbound wss:// link to Centrifugo is degraded, so telemetry is queuing on-site instead of syncing to the cloud.',
+    actions:['Check the site WAN uplink / ISP first — packet loss on the link is the most common root cause.','Confirm the Centrifugo proxy is reachable and the collector JWT is still valid (run Diagnostics).','If the link can\'t be restored quickly, raise the local buffer ceiling so no telemetry is dropped while drain catches up.'],
+    signals:['Local buffer 96% full','WS latency elevated','Drain rate < ingest rate'],
+    impact:'Telemetry gaps likely within ~8 minutes if the buffer fully saturates.'},
+  'Collector unreachable':{conf:'High',
+    lead:'No heartbeat for several minutes — the collector or its uplink is down. Data after the last sync is at risk.',
+    cause:'The heartbeat channel has gone silent past the 30s presence window. Either the Ubuntu host is down, the collector process crashed, or the site lost connectivity entirely.',
+    actions:['Verify site power and network — most unreachable events are local outages.','If the host is up, restart the collector service; buffered telemetry will sync on reconnect.','If unreachable for more than 15 min, dispatch a field tech to the site.'],
+    signals:['No heartbeat 4m','Presence left','Last sync 14:01'],
+    impact:'All telemetry from this site is paused until it reconnects.'},
+  'CPU sustained above 85%':{conf:'Medium',
+    lead:'The enrich/ETL pipeline is running hot. No data loss yet, but throughput will suffer if it persists.',
+    cause:'Sustained CPU pressure is concentrated on the Normalizer (ETL) stage — likely a burst of high-cardinality data or an inefficient enrich rule pushing one core toward saturation.',
+    actions:['Review recent changes to the Normalizer config / enrich rules pushed via GitOps.','Check whether one upstream device is emitting abnormally high message volume.','If load stays above 85% for 10+ min, schedule a maintenance-window reconfigure to rebalance the pipeline.'],
+    signals:['Core1 spiking','Enrich queue growing','Throughput plateau'],
+    impact:'Processing latency rises; alerts from this collector may lag by seconds.'},
+  'Throughput drop detected':{conf:'Medium',
+    lead:'Message rate fell sharply in under two minutes — usually an upstream source going quiet, not the collector failing.',
+    cause:'Ingest dropped from ~512 to ~42 msg/s. The collector itself is healthy, so the most likely cause is an upstream device or feed that stopped emitting, or a polling source that timed out.',
+    actions:['Identify which ingestion source fell silent (compare per-source rates in the last hour).','Check the upstream device/SNMP target for its own outage.','If the source is expected to be quiet, suppress this rule for that window to cut noise.'],
+    signals:['512 → 42 msg/s','90s window','Single-source drop'],
+    impact:'Visibility gap for the affected source until it resumes.'},
+  'Mountain link flapping':{conf:'Medium',
+    lead:'An intermittent backhaul is causing repeated short reconnects — recoverable, but noisy and worth stabilizing.',
+    cause:'The Asheville backhaul is flapping: brief WS drops followed by automatic recovery. Message recovery is replaying buffered data each time, so nothing is lost, but the churn inflates latency.',
+    actions:['Open a ticket with the backhaul provider citing the flap timestamps.','Confirm message recovery is replaying cleanly after each reconnect (it should be).','Consider raising the reconnect backoff slightly to reduce churn during unstable periods.'],
+    signals:['180 msg/s intermittent','Repeated WS drops','Recovery replays OK'],
+    impact:'Elevated latency and alert jitter while the link is unstable.'},
+  'Config drift':{conf:'High',
+    lead:'The running config is one commit behind the repo. GitOps will reconcile on the next poll — verify the change was intended.',
+    cause:'The collector is running SHA c4d8a91 while the GitHub source expects c4d8a92. A config was committed upstream and this collector hasn\'t pulled/applied it yet, or a hot-reload failed.',
+    actions:['Confirm the upstream commit (c4d8a92) is the intended change.','Wait one poll cycle — the collector should pull and hot-reload automatically.','If drift persists after two cycles, the hot-reload likely failed; check the collector log and re-push.'],
+    signals:['Running c4d8a91','Repo c4d8a92','1 commit behind'],
+    impact:'Minor — the collector is operating on a slightly stale ruleset until it reconciles.'},
+  'Collector reconnected':{conf:'High',
+    lead:'Informational — a brief WS drop already self-healed. No action needed.',
+    cause:'The collector lost its WebSocket for ~12 seconds and reconnected automatically. Centrifugo message recovery replayed the gap, so no telemetry was lost.',
+    actions:['No action required.','If reconnects become frequent on this collector, investigate the local network for instability.'],
+    signals:['12s WS drop','Auto-recovered','History replayed'],
+    impact:'None — continuity preserved by message recovery.'},
+  'New collector registered':{conf:'High',
+    lead:'Informational — a new collector completed zero-touch onboarding and is now reporting.',
+    cause:'A collector connected via wss:// for the first time with a valid JWT bundle and auto-registered into the tenant fleet.',
+    actions:['Confirm the new collector appears under the correct tenant and site.','Assign it to the right location and verify its first telemetry looks sane.'],
+    signals:['First wss:// connect','Auto-registered','JWT valid'],
+    impact:'None — expected onboarding event.'},
+};
+function aiGeneric(a){ return {conf:'Medium',
+  lead:'Claude reviewed this alert against the collector\'s recent telemetry and channel state.',
+  cause:'Signal: '+a[4]+'. The pattern is consistent with a transient condition on '+(tenantName[a[3]]||a[3])+' / '+a[2]+' rather than a hard failure.',
+  actions:['Open the collector\'s live logs and confirm the condition is still present.','Run Diagnostics to rule out network, DNS, datastore, and microservice faults.','Acknowledge once mitigated so it drops out of the active queue.'],
+  signals:[a[4]], impact:'Scoped to '+a[2]+' until the underlying signal clears.'}; }
+let aiTimer=null;
+function explainAlert(i){
+  const a=alerts[i]; if(!a) return;
+  const modal=document.getElementById('aiModal');
+  if(!aiEnabled()){ toast(TX('Connect Anthropic to enable AI triage')); go('integrations'); renderIntegrations(); return; }
+  document.getElementById('aiTitle').textContent=TX('Alert triage');
+  document.getElementById('aiAlertRef').innerHTML=`<span class="sev ${a[0]}">${a[0].toUpperCase()}</span> ${TX(a[1])} · <code>${a[3]}:${a[2]}</code> · ${aiModel()}`;
+  document.getElementById('aiThink').style.display='flex';
+  document.getElementById('aiResult').style.display='none';
+  document.getElementById('aiActs').style.display='none';
+  modal.classList.add('show');
+  if(aiTimer) clearTimeout(aiTimer);
+  aiTimer=setTimeout(()=>{
+    document.getElementById('aiResult').innerHTML=renderAiResult(a);
+    document.getElementById('aiThink').style.display='none';
+    document.getElementById('aiResult').style.display='block';
+    document.getElementById('aiActs').style.display='flex';
+  }, 950);
+}
+function renderAiResult(a){
+  const kb=AI_ALERT_KB[a[1]]||aiGeneric(a);
+  return `<p class="ai-lead">${TX(kb.lead)}</p>
+    <div class="ai-block"><h4>${TX('Probable cause')}</h4><p>${TX(kb.cause)}</p></div>
+    <div class="ai-block"><h4>${TX('Recommended actions')}</h4><ol class="ai-steps">${kb.actions.map(s=>`<li>${TX(s)}</li>`).join('')}</ol></div>
+    <div class="ai-block"><h4>${TX('Related signals')}</h4><div class="ai-sigs">${kb.signals.map(s=>`<span>${TX(s)}</span>`).join('')}</div></div>
+    <div class="ai-impact"><b>${TX('Estimated impact')}:</b> ${TX(kb.impact)} <span class="ai-conf-inline">· ${TX('Confidence')}: ${TX(kb.conf)}</span></div>`;
+}
+function closeAi(){ document.getElementById('aiModal').classList.remove('show'); if(aiTimer){clearTimeout(aiTimer);aiTimer=null;} }
+function aiBackdrop(e){ if(e.target.id==='aiModal') closeAi(); }
+
+function collStatus(ten,coll){
+  let st='online';
+  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(arr=>arr.forEach(n=>{ if(n[1]===ten&&n[0]===coll) st=n[2]; }));
+  fleetRows.forEach(r=>{ if(r[1]===ten&&r[0]===coll) st=r[2]; });
+  return st;
+}
+function aiCollectorSummary(ten,coll){
+  const st=collStatus(ten,coll);
+  const site=(typeof siteOf==='function')?siteOf(ten,coll):{name:coll};
+  const hw=(typeof hwInventory==='function')?hwInventory(ten,coll):{virtual:false,model:'host',ramUsed:50,diskUsed:50};
+  const name=site.name||coll, host=hw.virtual?TX('a virtual host'):TX('physical hardware');
+  const M={
+    crit:{conf:'High',
+      body:`${name} is in a critical state. ${TX('Outbound sync is degraded and the local buffer is approaching its high-water mark — telemetry is being captured on-site but is at risk of gapping if the link doesn\'t recover.')} ${TX('Running on')} ${host} (${hw.model}).`,
+      next:TX('Check the WAN uplink and confirm the Centrifugo proxy is reachable; if microservices don\'t recover within a few minutes, trigger a remote reboot.')},
+    warn:{conf:'Medium',
+      body:`${name} is degraded but stable. ${TX('CPU on the enrich pipeline is elevated and throughput is running below its 24-hour baseline. All four microservices are still reporting and no data has been lost.')} ${TX('Running on')} ${host} (${hw.model}).`,
+      next:TX('Watch the Normalizer service — if CPU stays above 85% for 10+ minutes, schedule a maintenance-window reconfigure.')},
+    online:{conf:'High',
+      body:`${name} is healthy. ${TX('All four microservices are reporting, WebSocket latency is nominal, and the local buffer is well under its high-water mark.')} ${TX('Memory and storage utilization are within normal range. Running on')} ${host} (${hw.model}).`,
+      next:TX('No action needed. The collector will pull its next GitOps config on schedule.')},
+    offline:{conf:'High',
+      body:`${name} is offline — ${TX('no heartbeat has been received recently and presence has dropped from the fleet channel. Telemetry after the last sync is buffered locally and will replay on reconnect.')}`,
+      next:TX('Verify site power and connectivity; the collector will auto-register when it comes back online.')},
+  };
+  return {st, ...(M[st]||M.online)};
+}
+function renderAiSummary(regen){
+  const card=document.getElementById('aiSummaryCard'); if(!card) return;
+  if(!aiEnabled()){
+    card.classList.add('ai-off');
+    card.innerHTML=`<div class="ai-head"><span class="ai-spark"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg></span><h3>${TX('AI health summary')}</h3></div>
+      <p class="ai-body">${TX('Connect Anthropic to enable AI triage')}.</p>
+      <div class="ai-next"><button class="btn primary" onclick="go('integrations');renderIntegrations()"><span>${TX('Connect Anthropic')}</span></button></div>`;
+    return;
+  }
+  card.classList.remove('ai-off');
+  const p=currentDetailId.split(':'), s=aiCollectorSummary(p[0],p[1]||currentDetailId);
+  card.innerHTML=`
+    <div class="ai-head">
+      <span class="ai-spark"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg></span>
+      <h3>${TX('AI health summary')}</h3>
+      <span class="ai-conf">${TX('Confidence')}: ${TX(s.conf)}</span>
+      <button class="ai-refresh" title="${TX('Regenerate')}" onclick="renderAiSummary(true)"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+    </div>
+    <p class="ai-body${regen?' ai-typing':''}">${s.body}</p>
+    <div class="ai-next"><span class="ai-next-k">${TX('Suggested next step')}</span><span>${s.next}</span></div>
+    <div class="ai-foot"><span class="ai-dot"></span>${TX('Powered by Claude · Anthropic')} · ${aiModel()}</div>`;
+}
+
 /* ---------- diagnostics modal ---------- */
+function jumpToConsole(){
+  const p=document.getElementById('consolePanel'); if(!p) return;
+  p.scrollIntoView({behavior:'smooth',block:'center'});
+  p.classList.remove('panel-flash'); void p.offsetWidth; p.classList.add('panel-flash');
+  setTimeout(()=>p.classList.remove('panel-flash'),1600);
+  const body=document.getElementById('consoleBody'); if(body) body.scrollTop=body.scrollHeight;
+  toast(TX('Live log stream · streaming'));
+}
 const DIAG_CHECKS=[
   {k:'net',          label:'Network reachability', detail:'wss:// → Centrifugo proxy', force:true},
   {k:'dns',          label:'DNS resolution',       detail:'proxy.guardare.io',         force:true},
@@ -6093,7 +6310,7 @@ document.querySelectorAll('.lang-opt').forEach(o=>o.addEventListener('click',()=
 clock();setInterval(clock,1000);setInterval(jitter,2200);
 setInterval(tickLog,2400);
 vitInit();setInterval(tickVitals,2000);
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){const c=document.getElementById('rebootConfirm'); if(c&&c.style.display!=='none'&&document.getElementById('rebootModal').classList.contains('show')) closeRebootModal(); const dm=document.getElementById('diagModal'); if(dm&&dm.classList.contains('show')) closeDiag();} });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){const c=document.getElementById('rebootConfirm'); if(c&&c.style.display!=='none'&&document.getElementById('rebootModal').classList.contains('show')) closeRebootModal(); const dm=document.getElementById('diagModal'); if(dm&&dm.classList.contains('show')) closeDiag(); const am=document.getElementById('aiModal'); if(am&&am.classList.contains('show')) closeAi();} });
 setLang('en');
 </script>
 </body>
