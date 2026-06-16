@@ -1172,6 +1172,7 @@
                     <button data-sub="snmp"   onclick="selectNormSub('snmp')">SNMP manifest</button>
                     <button data-sub="arista" onclick="selectNormSub('arista')">Arista EOS manifest</button>
                     <button data-sub="azure"  onclick="selectNormSub('azure')">Azure manifest</button>
+                    <button data-sub="meraki" onclick="selectNormSub('meraki')">Meraki manifest</button>
                     <button data-sub="unifi"  onclick="selectNormSub('unifi')">UniFi manifest</button>
                     <button data-sub="cli"    onclick="selectNormSub('cli')">CLI manifest</button>
                   </div>
@@ -1262,8 +1263,8 @@
 #   5. AZURE-BODY
 #
 # CHANGE HISTORY
-#   2026-04-30: Added route_id 111113 to each Azure VM endpoint (GCC-FP,
-#     GCC-DC01, GCC-FIN). New route hits Azure's VM-Get endpoint (the same
+#   2026-04-30: Added route_id 111113 to each Azure VM endpoint (AZ-VM01,
+#     AZ-VM02, AZ-VM03). New route hits Azure's VM-Get endpoint (the same
 #     path as instanceView but without the /instanceView suffix), returning
 #     static VM resource definition: vmSize, osType, region, OS disk, OS
 #     image. Powers the Azure vServers Hudu layout's static fields.
@@ -1297,8 +1298,8 @@ api_configuration:
  - endpoint_id: "000001"
    endpoint_manufacturer: "Ubiquiti"
    endpoint_model_type: "Unifi API"
-   endpoint_hostname: "MYB-UDMP01"
-   endpoint_site_id: "MYB01"
+   endpoint_hostname: "SITE01-UDMP01"
+   endpoint_site_id: "SITE01"
    endpoint_auth_freq: "10"
    endpoint_route_freq: "15"
    api_model_type: "jwt"
@@ -1336,8 +1337,8 @@ api_configuration:
  - endpoint_id: "000010"
    endpoint_manufacturer: "Ubiquiti"
    endpoint_model_type: "UNVR 01"
-   endpoint_hostname: "MYB-UNVR01"
-   endpoint_site_id: "MYB01"
+   endpoint_hostname: "SITE01-UNVR01"
+   endpoint_site_id: "SITE01"
    endpoint_auth_freq: "10"
    endpoint_route_freq: "30"
    api_model_type: "jwt"
@@ -1367,7 +1368,7 @@ api_configuration:
    endpoint_manufacturer: "Arista"
    endpoint_model_type: "Arista EOS"
    endpoint_hostname: "cEOS01"
-   endpoint_site_id: "MYB01"
+   endpoint_site_id: "SITE01"
    endpoint_auth_freq: "0"
    endpoint_route_freq: "60"
    api_model_type: "json_rpc"
@@ -1405,8 +1406,8 @@ api_configuration:
  - endpoint_id: "000006"
    endpoint_manufacturer: "Cisco"
    endpoint_model_type: "Meraki Dashboard API"
-   endpoint_hostname: "MYB-MERAKI"
-   endpoint_site_id: "OVG01"
+   endpoint_hostname: "SITE02-MERAKI"
+   endpoint_site_id: "SITE02"
    endpoint_auth_freq: "0"
    endpoint_route_freq: "60"
    api_model_type: "api_key"
@@ -1424,17 +1425,17 @@ api_configuration:
         route_desc: "Get all organization devices"
         route_method: "GET"
         route_url: "https://api.meraki.com"
-        route_uri: "/api/v1/organizations/578149602163689538/devices"
+        route_uri: "/api/v1/organizations/${MERAKI_ORG_ID}/devices"
       - route_id: "60002"
         route_desc: "Get device statuses"
         route_method: "GET"
         route_url: "https://api.meraki.com"
-        route_uri: "/api/v1/organizations/578149602163689538/devices/statuses"
+        route_uri: "/api/v1/organizations/${MERAKI_ORG_ID}/devices/statuses"
       - route_id: "60003"
         route_desc: "Get organization networks"
         route_method: "GET"
         route_url: "https://api.meraki.com"
-        route_uri: "/api/v1/organizations/578149602163689538/networks"
+        route_uri: "/api/v1/organizations/${MERAKI_ORG_ID}/networks"
 #
 #
 #                                          __ _
@@ -1448,15 +1449,15 @@ api_configuration:
  - endpoint_id: "0001"
    endpoint_manufacturer: "Microsoft"
    endpoint_model_type: "Azure Host"
-   endpoint_hostname: "GCC-FP"
-   endpoint_site_id: "MYB01"
+   endpoint_hostname: "AZ-VM01"
+   endpoint_site_id: "SITE01"
    endpoint_auth_freq: "10"
    endpoint_route_freq: "60"
    api_model_type: "jwt"
    api_jwt_profile: "azure"
    authentication:
       auth_url: "https://login.microsoftonline.com"
-      auth_uri: "/d3bffc00-eb61-42b5-a008-20579ebb8325/oauth2/v2.0/token"
+      auth_uri: "/${AZURE_TENANT_ID}/oauth2/v2.0/token"
       auth_client_id: "${AZURE_CLIENT_ID}"
       auth_client_secret: "${AZURE_CLIENT_SECRET}"
       auth_grant_type: "client_credentials"
@@ -1464,36 +1465,36 @@ api_configuration:
       auth_method: "POST"
    routes:
       - route_id: "11111"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-FP: Get Operational Status for this Virtual Server"
+        route_desc: "AZ-VM01: Get Operational Status for this Virtual Server"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP/instanceView?api-version=2024-07-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM01/instanceView?api-version=2024-07-01"
       - route_id: "111112"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-FP: Get vCPU Utilization"
+        route_desc: "AZ-VM01: Get vCPU Utilization"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM01/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
       - route_id: "111113"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-FP: Get VM Instance Properties (size, OS, region, disk)"
+        route_desc: "AZ-VM01: Get VM Instance Properties (size, OS, region, disk)"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP?api-version=2024-07-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM01?api-version=2024-07-01"
 #
  - endpoint_id: "0002"
    endpoint_manufacturer: "Microsoft"
    endpoint_model_type: "Azure Host"
-   endpoint_hostname: "GCC-DC01"
-   endpoint_site_id: "MYB01"
+   endpoint_hostname: "AZ-VM02"
+   endpoint_site_id: "SITE01"
    endpoint_auth_freq: "10"
    endpoint_route_freq: "60"
    api_model_type: "jwt"
    api_jwt_profile: "azure"
    authentication:
       auth_url: "https://login.microsoftonline.com"
-      auth_uri: "/d3bffc00-eb61-42b5-a008-20579ebb8325/oauth2/v2.0/token"
+      auth_uri: "/${AZURE_TENANT_ID}/oauth2/v2.0/token"
       auth_client_id: "${AZURE_CLIENT_ID}"
       auth_client_secret: "${AZURE_CLIENT_SECRET}"
       auth_grant_type: "client_credentials"
@@ -1501,36 +1502,36 @@ api_configuration:
       auth_method: "POST"
    routes:
       - route_id: "11111"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-DC01: Get Operational Status for this Virtual Server"
+        route_desc: "AZ-VM02: Get Operational Status for this Virtual Server"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01/instanceView?api-version=2024-07-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM02/instanceView?api-version=2024-07-01"
       - route_id: "111112"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-DC01: Get vCPU Utilization"
+        route_desc: "AZ-VM02: Get vCPU Utilization"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM02/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
       - route_id: "111113"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-DC01: Get VM Instance Properties (size, OS, region, disk)"
+        route_desc: "AZ-VM02: Get VM Instance Properties (size, OS, region, disk)"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01?api-version=2024-07-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM02?api-version=2024-07-01"
 #
  - endpoint_id: "0003"
    endpoint_manufacturer: "Microsoft"
    endpoint_model_type: "Azure Host"
-   endpoint_hostname: "GCC-FIN"
-   endpoint_site_id: "MYB01"
+   endpoint_hostname: "AZ-VM03"
+   endpoint_site_id: "SITE01"
    endpoint_auth_freq: "10"
    endpoint_route_freq: "60"
    api_model_type: "jwt"
    api_jwt_profile: "azure"
    authentication:
       auth_url: "https://login.microsoftonline.com"
-      auth_uri: "/d3bffc00-eb61-42b5-a008-20579ebb8325/oauth2/v2.0/token"
+      auth_uri: "/${AZURE_TENANT_ID}/oauth2/v2.0/token"
       auth_client_id: "${AZURE_CLIENT_ID}"
       auth_client_secret: "${AZURE_CLIENT_SECRET}"
       auth_grant_type: "client_credentials"
@@ -1538,23 +1539,23 @@ api_configuration:
       auth_method: "POST"
    routes:
       - route_id: "11111"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-FIN: Get Operational Status for this Virtual Server"
+        route_desc: "AZ-VM03: Get Operational Status for this Virtual Server"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN/instanceView?api-version=2024-07-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM03/instanceView?api-version=2024-07-01"
       - route_id: "111112"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-FIN: Get vCPU Utilization"
+        route_desc: "AZ-VM03: Get vCPU Utilization"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM03/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01"
       - route_id: "111113"
-        route_subscription_id: "d3bffc00-eb61-42b5-a008-20579ebb8325"
+        route_subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         route_url: "https://management.azure.com"
-        route_desc: "GCC-FIN: Get VM Instance Properties (size, OS, region, disk)"
+        route_desc: "AZ-VM03: Get VM Instance Properties (size, OS, region, disk)"
         route_method: "GET"
-        route_uri: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN?api-version=2024-07-01"
+        route_uri: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM03?api-version=2024-07-01"
 #
 #
 #   ____  _   _ __  __ ____     ____             __ _
@@ -1570,7 +1571,7 @@ snmp_configuration:
    snmp_endpoint_manufacturer: "Ubiquiti"
    snmp_endpoint_device_type: "switch"
    snmp_endpoint_name: "192.168.0.2"
-   snmp_endpoint_site_id: "MYB01"
+   snmp_endpoint_site_id: "SITE01"
    snmp_endpoint_port: "161"
    snmp_endpoint_version: "v1"
    snmp_endpoint_community: "${SNMP_COMMUNITY}"
@@ -1598,7 +1599,7 @@ cli_configuration:
    cli_test_ip_hostname: "8.8.8.8"
    cli_test_freq: "30"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
  - cli_id: "00002"
    cli_test_description: "Google DNS Secondary"
@@ -1607,7 +1608,7 @@ cli_configuration:
    cli_test_ip_hostname: "8.8.4.4"
    cli_test_freq: "30"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
  - cli_id: "00003"
    cli_test_description: "Cloudflare DNS Primary"
@@ -1616,7 +1617,7 @@ cli_configuration:
    cli_test_ip_hostname: "1.1.1.1"
    cli_test_freq: "30"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
  - cli_id: "00004"
    cli_test_description: "Cloudflare DNS Secondary"
@@ -1625,7 +1626,7 @@ cli_configuration:
    cli_test_ip_hostname: "1.0.0.1"
    cli_test_freq: "30"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
  - cli_id: "00005"
    cli_test_description: "Quad9 DNS"
@@ -1634,7 +1635,7 @@ cli_configuration:
    cli_test_ip_hostname: "9.9.9.9"
    cli_test_freq: "30"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
  - cli_id: "00006"
    cli_test_description: "OpenDNS Primary"
@@ -1643,7 +1644,7 @@ cli_configuration:
    cli_test_ip_hostname: "208.67.222.222"
    cli_test_freq: "60"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
 # ── ANYCAST / CDN EDGES ─────────────────────────────────────────────────────
 
@@ -1654,7 +1655,7 @@ cli_configuration:
    cli_test_ip_hostname: "162.159.36.1"
    cli_test_freq: "60"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
  - cli_id: "00008"
    cli_test_description: "Microsoft Azure root"
@@ -1663,7 +1664,7 @@ cli_configuration:
    cli_test_ip_hostname: "13.107.21.200"
    cli_test_freq: "60"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
 # ── HIGHER-LATENCY GLOBAL TARGETS (path diversity) ──────────────────────────
 
@@ -1674,7 +1675,7 @@ cli_configuration:
    cli_test_ip_hostname: "74.82.42.42"
    cli_test_freq: "60"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 
  - cli_id: "00010"
    cli_test_description: "NTT DNS"
@@ -1683,7 +1684,7 @@ cli_configuration:
    cli_test_ip_hostname: "129.250.35.250"
    cli_test_freq: "60"
    cli_test_manufacturer: "generic"
-   cli_site_id: "MYB01"
+   cli_site_id: "SITE01"
 </script>
 <script type="text/plain" id="cfg-norm-snmp">
 ---
@@ -1752,7 +1753,7 @@ define_AristaEosCommandApi: &Arista_EOS_Command_Api
 # -------------------------------------------------------------------
 table_arista-device-profile:
  apiRouteBlock: *Arista_EOS_Command_Api
- siteId: "MYB01"
+ siteId: "SITE01"
  profileUuid: "$serialNumber"
  hostname: "!useHostnameSelf"
  model: "$modelName"
@@ -1856,19 +1857,19 @@ deviceIdentityMapping:
 <script type="text/plain" id="cfg-norm-azure">
 ---
 # ============================================================================
-# MYB01 NORMALIZER CONFIGURATION — MICROSOFT AZURE
+# SITE01 NORMALIZER CONFIGURATION — MICROSOFT AZURE
 # ============================================================================
 # Updated 2026-04-30 (Azure Phase 1b)
 #
 # CHANGE FROM PHASE 1
-#   Added one line — resourceGroupStr: "GCC-AZURE" — to each of the 3
+#   Added one line — resourceGroupStr: "AZ-RG01" — to each of the 3
 #   table_azure-vm-instance-properties-* blocks. Normalizer's dyn-tables
 #   builder ALTERs each existing table to add the new column on next
 #   restart. After one full vCollector cycle (~60s) the column populates
 #   for all 3 VMs.
 #
 #   Why static literal: the resource group is encoded in each route URI
-#   (resourceGroups/GCC-AZURE) — known at config time, changing it
+#   (resourceGroups/AZ-RG01) — known at config time, changing it
 #   requires editing the URIs anyway. Parsing $id from the response
 #   would auto-derive but adds traversal complexity for zero practical
 #   benefit at the current 1-resource-group scale. Switch to $id parsing
@@ -1883,33 +1884,33 @@ deviceIdentityMapping:
 # ============================================================================
 
 # -------------------------------------------------------------------
-define_AzureVmInstancePropertiesGccFp: &Azure_VM_InstanceProperties_GCC_FP
- name: "Azure_VM_InstanceProperties_GCC_FP"
+define_AzureVmInstancePropertiesAzVm01: &Azure_VM_InstanceProperties_AZ_VM01
+ name: "Azure_VM_InstanceProperties_AZ_VM01"
  type: "api"
  manufacturer: "microsoft"
  product-line: "AZURE"
- description: "GCC-FP VM Instance Properties (static identity)"
- route: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP?api-version=2024-07-01"
+ description: "AZ-VM01 VM Instance Properties (static identity)"
+ route: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM01?api-version=2024-07-01"
  route-method: "GET"
  node-section-anchor: "global"
 # -------------------------------------------------------------------
-define_AzureVmInstancePropertiesGccDc01: &Azure_VM_InstanceProperties_GCC_DC01
- name: "Azure_VM_InstanceProperties_GCC_DC01"
+define_AzureVmInstancePropertiesAzVm02: &Azure_VM_InstanceProperties_AZ_VM02
+ name: "Azure_VM_InstanceProperties_AZ_VM02"
  type: "api"
  manufacturer: "microsoft"
  product-line: "AZURE"
- description: "GCC-DC01 VM Instance Properties (static identity)"
- route: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-DC01?api-version=2024-07-01"
+ description: "AZ-VM02 VM Instance Properties (static identity)"
+ route: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM02?api-version=2024-07-01"
  route-method: "GET"
  node-section-anchor: "global"
 # -------------------------------------------------------------------
-define_AzureVmInstancePropertiesGccFin: &Azure_VM_InstanceProperties_GCC_FIN
- name: "Azure_VM_InstanceProperties_GCC_FIN"
+define_AzureVmInstancePropertiesAzVm03: &Azure_VM_InstanceProperties_AZ_VM03
+ name: "Azure_VM_InstanceProperties_AZ_VM03"
  type: "api"
  manufacturer: "microsoft"
  product-line: "AZURE"
- description: "GCC-FIN VM Instance Properties (static identity)"
- route: "/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FIN?api-version=2024-07-01"
+ description: "AZ-VM03 VM Instance Properties (static identity)"
+ route: "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/AZ-RG01/providers/Microsoft.Compute/virtualMachines/AZ-VM03?api-version=2024-07-01"
  route-method: "GET"
  node-section-anchor: "global"
 # -------------------------------------------------------------------
@@ -1921,16 +1922,16 @@ define_AzureVmInstancePropertiesGccFin: &Azure_VM_InstanceProperties_GCC_FIN
 #
 # Field path notes — Azure VM-Get response shape:
 #   $location                                              → "eastus"
-#   $name                                                  → "GCC-FP" (matches computerName)
+#   $name                                                  → "AZ-VM01" (matches computerName)
 #   $properties->$hardwareProfile->$vmSize                 → "Standard_B2s"
 #   $properties->$storageProfile->$osDisk->$osType         → "Windows" or "Linux"
 #   $properties->$storageProfile->$osDisk->$diskSizeGB     → 127 (integer)
 #   $properties->$storageProfile->$imageReference->$sku    → "2022-datacenter-azure-edition"
 #   $properties->$storageProfile->$osDisk->$managedDisk->$storageAccountType → "Standard_LRS"
 
-table_azure-vm-instance-properties-gcc-fp:
- apiRouteBlock: *Azure_VM_InstanceProperties_GCC_FP
- siteId: "GCC01"
+table_azure-vm-instance-properties-az-vm01:
+ apiRouteBlock: *Azure_VM_InstanceProperties_AZ_VM01
+ siteId: "SITE03"
  profileUuid: "$name"
  serverName: "$name"
  vmSizeStr: "$properties->$hardwareProfile->$vmSize"
@@ -1941,11 +1942,11 @@ table_azure-vm-instance-properties-gcc-fp:
  regionStr: "$location"
  productLineStr: "AZURE"
  manufacturerStr: "microsoft"
- resourceGroupStr: "GCC-AZURE"
+ resourceGroupStr: "AZ-RG01"
 #
-table_azure-vm-instance-properties-gcc-dc01:
- apiRouteBlock: *Azure_VM_InstanceProperties_GCC_DC01
- siteId: "GCC01"
+table_azure-vm-instance-properties-az-vm02:
+ apiRouteBlock: *Azure_VM_InstanceProperties_AZ_VM02
+ siteId: "SITE03"
  profileUuid: "$name"
  serverName: "$name"
  vmSizeStr: "$properties->$hardwareProfile->$vmSize"
@@ -1956,11 +1957,11 @@ table_azure-vm-instance-properties-gcc-dc01:
  regionStr: "$location"
  productLineStr: "AZURE"
  manufacturerStr: "microsoft"
- resourceGroupStr: "GCC-AZURE"
+ resourceGroupStr: "AZ-RG01"
 #
-table_azure-vm-instance-properties-gcc-fin:
- apiRouteBlock: *Azure_VM_InstanceProperties_GCC_FIN
- siteId: "GCC01"
+table_azure-vm-instance-properties-az-vm03:
+ apiRouteBlock: *Azure_VM_InstanceProperties_AZ_VM03
+ siteId: "SITE03"
  profileUuid: "$name"
  serverName: "$name"
  vmSizeStr: "$properties->$hardwareProfile->$vmSize"
@@ -1971,7 +1972,7 @@ table_azure-vm-instance-properties-gcc-fin:
  regionStr: "$location"
  productLineStr: "AZURE"
  manufacturerStr: "microsoft"
- resourceGroupStr: "GCC-AZURE"
+ resourceGroupStr: "AZ-RG01"
 
 
 # ============================================================================
@@ -1980,19 +1981,19 @@ table_azure-vm-instance-properties-gcc-fin:
 
 deviceIdentityMapping:
 
- azure-vm-instance-properties-gcc-fp:
+ azure-vm-instance-properties-az-vm01:
   schemaVersion: 1
-  sourceTableStr: "azure-vm-instance-properties-gcc-fp"
+  sourceTableStr: "azure-vm-instance-properties-az-vm01"
 
   routingRules:
    deviceCategoryStr:
-    - id: "avip-fp-cat-default"
+    - id: "avip-vm01-cat-default"
       description: "Azure VM → virtualization"
       when: { default: true }
       result: "virtualization"
 
    deviceTypeStr:
-    - id: "avip-fp-typ-default"
+    - id: "avip-vm01-typ-default"
       description: "Azure VM → virtualMachine"
       when: { default: true }
       result: "virtualMachine"
@@ -2006,19 +2007,19 @@ deviceIdentityMapping:
    manufacturerStr: "$manufacturerStr"
    productLineStr: "$productLineStr"
 
- azure-vm-instance-properties-gcc-dc01:
+ azure-vm-instance-properties-az-vm02:
   schemaVersion: 1
-  sourceTableStr: "azure-vm-instance-properties-gcc-dc01"
+  sourceTableStr: "azure-vm-instance-properties-az-vm02"
 
   routingRules:
    deviceCategoryStr:
-    - id: "avip-dc01-cat-default"
+    - id: "avip-vm02-cat-default"
       description: "Azure VM → virtualization"
       when: { default: true }
       result: "virtualization"
 
    deviceTypeStr:
-    - id: "avip-dc01-typ-default"
+    - id: "avip-vm02-typ-default"
       description: "Azure VM → virtualMachine"
       when: { default: true }
       result: "virtualMachine"
@@ -2032,19 +2033,19 @@ deviceIdentityMapping:
    manufacturerStr: "$manufacturerStr"
    productLineStr: "$productLineStr"
 
- azure-vm-instance-properties-gcc-fin:
+ azure-vm-instance-properties-az-vm03:
   schemaVersion: 1
-  sourceTableStr: "azure-vm-instance-properties-gcc-fin"
+  sourceTableStr: "azure-vm-instance-properties-az-vm03"
 
   routingRules:
    deviceCategoryStr:
-    - id: "avip-fin-cat-default"
+    - id: "avip-vm03-cat-default"
       description: "Azure VM → virtualization"
       when: { default: true }
       result: "virtualization"
 
    deviceTypeStr:
-    - id: "avip-fin-typ-default"
+    - id: "avip-vm03-typ-default"
       description: "Azure VM → virtualMachine"
       when: { default: true }
       result: "virtualMachine"
@@ -2504,10 +2505,10 @@ table_connect-device-profile:
 #   $is_connected        → bool
 #   $start_time          → unix epoch
 #   $last_seen           → unix epoch
-#   $buildingName        → "MYB01-UDMP-01"   (inlined by flatten)
+#   $buildingName        → "SITE01-UDMP-01"   (inlined by flatten)
 #   $floorName           → "Mezzanine Floor" (inlined by flatten)
 #   $doorName            → "(M) HVAC Mech Hub" (inlined by flatten)
-#   $doorFullName        → "MYB01-UDMP-01 - Mezzanine Floor - (M) HVAC Mech Hub"
+#   $doorFullName        → "SITE01-UDMP-01 - Mezzanine Floor - (M) HVAC Mech Hub"
 # -------------------------------------------------------------------
 table_access-device-profile:
  apiRouteBlock: *Access_Topology
@@ -2961,7 +2962,7 @@ table_cliPingProfileFull:
 # IPERF3 UDP — bandwidth, jitter, loss
 # ---------------------------------------------------------------------------
 # Use for UDP throughput tests (typical: scheduled bandwidth probes
-# between MYB01 and remote sites for SD-WAN validation).
+# between SITE01 and remote sites for SD-WAN validation).
 # ===========================================================================
 
 define_cliRouteBlock_iperf3Udp: &cliRouteBlock_iperf3Udp
@@ -3012,6 +3013,231 @@ table_cliIperf3TcpProfile:
     completed:       $completed
     siteId:          $siteId
     timestamp:       {script: $now()}
+</script>
+<script type="text/plain" id="cfg-norm-meraki">
+---
+# NORMALIZER CISCO MERAKI API MANIFEST YAML CONFIGURATION FILE
+# Site: SITE01 - Site 01 (Multi-Tenant)
+#
+# SUPPORTED SCRIPT FUNCTIONS AND SIGNATURES:
+#    manufacturer: "!macVendorLookup($mac)"
+#    ipAddress: "!crossTableLookup(table-name:columnName)"
+#    ipAddress: "!crossTableLookup(table-name:columnName:localField->sourceField)"
+#
+# -------------------------------------------------------------------
+#
+#   ____ ___ ____   ____ ___      __  __ _____ ____      _    _  _____
+#  / ___|_ _/ ___| / ___/ _ \    |  \/  | ____|  _ \    / \  | |/ /_ _|
+# | |    | |\___ \| |  | | | |   | |\/| |  _| | |_) |  / _ \ | ' / | |
+# | |___ | | ___) | |__| |_| |   | |  | | |___|  _ <  / ___ \| . \ | |
+#  \____|___|____/ \____\___/    |_|  |_|_____|_| \_\/_/   \_\_|\_\___|
+#
+# CISCO MERAKI ROUTE DEFINITIONS
+# -------------------------------------------------------------------
+define_MerakiRouteDeviceStatuses: &Meraki_Route_Device_Statuses
+ name: "Meraki_Route_Device_Statuses"
+ type: "api"
+ manufacturer: "cisco"
+ product-line: "MERAKI"
+ description: "Meraki organization device statuses"
+ route: "/api/v1/organizations/${MERAKI_ORG_ID}/devices/statuses"
+ route-method: "GET"
+ node-section-anchor: "serial"
+# -------------------------------------------------------------------
+define_MerakiRouteDevices: &Meraki_Route_Devices
+ name: "Meraki_Route_Devices"
+ type: "api"
+ manufacturer: "cisco"
+ product-line: "MERAKI"
+ description: "Meraki organization devices"
+ route: "/api/v1/organizations/${MERAKI_ORG_ID}/devices"
+ route-method: "GET"
+ node-section-anchor: "serial"
+# -------------------------------------------------------------------
+define_MerakiRouteNetworks: &Meraki_Route_Networks
+ name: "Meraki_Route_Networks"
+ type: "api"
+ manufacturer: "cisco"
+ product-line: "MERAKI"
+ description: "Meraki organization networks"
+ route: "/api/v1/organizations/${MERAKI_ORG_ID}/networks"
+ route-method: "GET"
+ node-section-anchor: "id"
+# -------------------------------------------------------------------
+
+
+#
+# INCLUDE RULE LIST DEFINITIONS
+# -------------------------------------------------------------------
+define_IncludeKeyValueList_MerakiSwitch: &IncludeKeyValueList_MerakiSwitch
+ productType: "switch"
+# -------------------------------------------------------------------
+define_IncludeKeyValueList_MerakiAP: &IncludeKeyValueList_MerakiAP
+ productType: "wireless"
+# -------------------------------------------------------------------
+
+
+#
+# CISCO MERAKI TABLE MAPPINGS
+# -------------------------------------------------------------------
+table_meraki-device-profile:
+ apiRouteBlock: *Meraki_Route_Device_Statuses
+ profileUuid: "$serial"
+ hostname: "$name"
+ model: "$model"
+ ipAddress: "$lanIp"
+ macAddress: "$mac"
+ status: "$status"
+ publicIp: "$publicIp"
+ networkId: "$networkId"
+ productType: "$productType"
+ gateway: "$gateway"
+ primaryDns: "$primaryDns"
+ secondaryDns: "$secondaryDns"
+ lastReportedAt: "$lastReportedAt"
+ productLineStr: "MERAKI"
+ manufacturerStr: "cisco"
+#
+table_meraki-device-detail:
+ apiRouteBlock: *Meraki_Route_Devices
+ profileUuid: "$serial"
+ hostname: "$name"
+ model: "$model"
+ ipAddress: "$lanIp"
+ macAddress: "$mac"
+ networkId: "$networkId"
+ productType: "$productType"
+ firmware: "$firmware"
+ imei: "$imei"
+ floorPlanId: "$floorPlanId"
+ productLineStr: "MERAKI"
+ manufacturerStr: "cisco"
+#
+table_meraki-network-profile:
+ apiRouteBlock: *Meraki_Route_Networks
+ profileUuid: "$id"
+ networkName: "$name"
+ organizationId: "$organizationId"
+ productTypes: "$productTypes"
+ timeZone: "$timeZone"
+ enrollmentString: "$enrollmentString"
+ isBoundToConfigTemplate: "$isBoundToConfigTemplate"
+ notes: "$notes"
+ productLineStr: "MERAKI"
+ manufacturerStr: "cisco"
+
+
+#
+# =========================================================================
+# DEVICE IDENTITY CANONICALIZATION MAPPINGS
+# =========================================================================
+# Schema is machine-authored - Cloud UI generates these blocks.
+# Only meraki-device-profile produces canonical deviceIdentity rows.
+# meraki-device-detail and meraki-network-profile are skipped silently
+# (no deviceIdentityMapping block defined for them).
+#
+# Model prefix routing covers both legacy Meraki SKUs (MX/MS/MR/MV/MT/MG/Z)
+# and Catalyst-on-Meraki SKUs (CW for wireless, post-Cisco-merger).
+# =========================================================================
+deviceIdentityMapping:
+
+ # -----------------------------------------------------------------------
+ # MERAKI DEVICES - model prefix drives category/type
+ # -----------------------------------------------------------------------
+ meraki-device-profile:
+  schemaVersion: 1
+  sourceTableStr: "meraki-device-profile"
+
+  routingRules:
+   deviceCategoryStr:
+    - id: "mdp-cat-001"
+      description: "MX security appliance / firewall"
+      when: { field: "model", operator: "prefix", value: "MX" }
+      result: "network"
+    - id: "mdp-cat-002"
+      description: "MS switch"
+      when: { field: "model", operator: "prefix", value: "MS" }
+      result: "network"
+    - id: "mdp-cat-003"
+      description: "MR legacy Meraki access point"
+      when: { field: "model", operator: "prefix", value: "MR" }
+      result: "wifi"
+    - id: "mdp-cat-004"
+      description: "CW Catalyst Wireless access point (Cisco-merger SKU)"
+      when: { field: "model", operator: "prefix", value: "CW" }
+      result: "wifi"
+    - id: "mdp-cat-005"
+      description: "MV smart camera"
+      when: { field: "model", operator: "prefix", value: "MV" }
+      result: "endpoint"
+    - id: "mdp-cat-006"
+      description: "MT environmental sensor"
+      when: { field: "model", operator: "prefix", value: "MT" }
+      result: "iot"
+    - id: "mdp-cat-007"
+      description: "MG cellular gateway"
+      when: { field: "model", operator: "prefix", value: "MG" }
+      result: "network"
+    - id: "mdp-cat-008"
+      description: "Z teleworker gateway"
+      when: { field: "model", operator: "prefix", value: "Z" }
+      result: "network"
+    - id: "mdp-cat-default"
+      description: "Default fallback for unknown Meraki SKU"
+      when: { default: true }
+      result: "network"
+
+   deviceTypeStr:
+    - id: "mdp-typ-001"
+      description: "MX -> firewall"
+      when: { field: "model", operator: "prefix", value: "MX" }
+      result: "firewall"
+    - id: "mdp-typ-002"
+      description: "MS -> switch"
+      when: { field: "model", operator: "prefix", value: "MS" }
+      result: "switch"
+    - id: "mdp-typ-003"
+      description: "MR -> ap"
+      when: { field: "model", operator: "prefix", value: "MR" }
+      result: "ap"
+    - id: "mdp-typ-004"
+      description: "CW -> ap (Catalyst Wireless)"
+      when: { field: "model", operator: "prefix", value: "CW" }
+      result: "ap"
+    - id: "mdp-typ-005"
+      description: "MV -> camera"
+      when: { field: "model", operator: "prefix", value: "MV" }
+      result: "camera"
+    - id: "mdp-typ-006"
+      description: "MT -> sensor"
+      when: { field: "model", operator: "prefix", value: "MT" }
+      result: "sensor"
+    - id: "mdp-typ-007"
+      description: "MG -> cellular-gateway"
+      when: { field: "model", operator: "prefix", value: "MG" }
+      result: "cellular-gateway"
+    - id: "mdp-typ-008"
+      description: "Z -> teleworker-gateway"
+      when: { field: "model", operator: "prefix", value: "Z" }
+      result: "teleworker-gateway"
+    - id: "mdp-typ-default"
+      description: "Default fallback"
+      when: { default: true }
+      result: "unknown"
+
+  fieldCopies:
+   siteId: "$siteId"
+   profileUuidStr: "$profileUuid"
+   macAddressStr: "$macAddress"
+   ipAddressStr: "$ipAddress"
+   hostnameStr: "$hostname"
+   displayNameStr: "$hostname"
+   modelStr: "$model"
+   manufacturerStr: "$manufacturerStr"
+   productLineStr: "$productLineStr"
+   lastSeenAtStr: "$lastReportedAt"
+   statusStr: "$status"
+#
 </script>
 <script type="text/plain" id="cfg-events">
 [
@@ -3139,7 +3365,7 @@ table_cliIperf3TcpProfile:
 <script type="text/plain" id="cfg-hudusync">
 # ---------------------------------------------------------------
 # HUDUSYNC DYNAMIC CONFIGURATION
-# Site: MYB01 - Meyers Building Development
+# Site: SITE01 - Site 01 Campus
 # (c)2026 VistaTech, Inc. ALL RIGHTS RESERVED
 # ---------------------------------------------------------------
 #
@@ -3202,7 +3428,7 @@ table_cliIperf3TcpProfile:
 #   from the Access Control layout).
 #
 # UPDATED: 2026-04-30 (Azure Phase 1b - Resource Group + Power State)
-# - Added health_table per Azure rule (azureVmStatusGccFp / Dc01 / Fin),
+# - Added health_table per Azure rule (azureVmStatusAzVm01 / Dc01 / Fin),
 #   pairing each properties table with its matching status table. This
 #   merges vmStatus into profileDataDict via loadProfileAndHealthData.
 # - Added azure_resource_group field_mapping (reads resourceGroupStr
@@ -3213,7 +3439,7 @@ table_cliIperf3TcpProfile:
 #
 #
 # HUDU INSTANCE
-base_url: "https://vistatechgso.huducloud.com"
+base_url: "https://vistatech.huducloud.com"
 #
 #
 # SYNC ENGINE SETTINGS
@@ -3268,9 +3494,9 @@ layoutLifecycle:
 #
 # SITE IDENTITY
 site_identity:
-  MYB01: "Meyers Building"
-  OVG01: "Greensboro Coliseum"
-  GCC01: "Greensboro Chamber of Commerce"
+  SITE01: "Site 01"
+  SITE02: "Site 02"
+  SITE03: "Site 03"
 #
 #
 # ---------------------------------------------------------------
@@ -3414,7 +3640,7 @@ device_type_mapping:
     health_join_column: ""
 #
 # =============================================================
-# CISCO MERAKI (OVG01)
+# CISCO MERAKI (SITE02)
 # =============================================================
 #
   - match_manufacturer: "cisco"
@@ -3440,7 +3666,7 @@ device_type_mapping:
     health_join_column: ""
 #
 # =============================================================
-# MICROSOFT AZURE (GCC01) - THREE PER-VM RULES WITH HEALTH TABLES
+# MICROSOFT AZURE (SITE03) - THREE PER-VM RULES WITH HEALTH TABLES
 # =============================================================
 #
 # Each rule pairs a per-VM properties table with its corresponding
@@ -3454,9 +3680,9 @@ device_type_mapping:
     match_model_prefix: []
     hudu_layout_name: "Azure vServers"
     hudu_company_id: 5
-    profile_table: "azureVmInstancePropertiesGccFp"
+    profile_table: "azureVmInstancePropertiesAzVm01"
     profile_join_column: "profileUuid"
-    health_table: "azureVmStatusGccFp"
+    health_table: "azureVmStatusAzVm01"
     health_join_column: "profileUuid"
 #
   - match_manufacturer: "microsoft"
@@ -3465,9 +3691,9 @@ device_type_mapping:
     match_model_prefix: []
     hudu_layout_name: "Azure vServers"
     hudu_company_id: 5
-    profile_table: "azureVmInstancePropertiesGccDc01"
+    profile_table: "azureVmInstancePropertiesAzVm02"
     profile_join_column: "profileUuid"
-    health_table: "azureVmStatusGccDc01"
+    health_table: "azureVmStatusAzVm02"
     health_join_column: "profileUuid"
 #
   - match_manufacturer: "microsoft"
@@ -3476,9 +3702,9 @@ device_type_mapping:
     match_model_prefix: []
     hudu_layout_name: "Azure vServers"
     hudu_company_id: 5
-    profile_table: "azureVmInstancePropertiesGccFin"
+    profile_table: "azureVmInstancePropertiesAzVm03"
     profile_join_column: "profileUuid"
-    health_table: "azureVmStatusGccFin"
+    health_table: "azureVmStatusAzVm03"
     health_join_column: "profileUuid"
 #
 # =============================================================
@@ -3556,9 +3782,9 @@ field_mapping:
       networkClientProfile: "siteId"
       aristaDeviceProfile: "siteId"
       accessDeviceProfile: "siteId"
-      azureVmInstancePropertiesGccFp: "siteId"
-      azureVmInstancePropertiesGccDc01: "siteId"
-      azureVmInstancePropertiesGccFin: "siteId"
+      azureVmInstancePropertiesAzVm01: "siteId"
+      azureVmInstancePropertiesAzVm02: "siteId"
+      azureVmInstancePropertiesAzVm03: "siteId"
 #
 # --- IDENTITY (from deviceIdentity) ---
   manufacturer:
@@ -3755,57 +3981,57 @@ field_mapping:
     hudu_field: "VM Server Size"
     update_mode: "always"
     source:
-      azureVmInstancePropertiesGccFp: "vmSizeStr"
-      azureVmInstancePropertiesGccDc01: "vmSizeStr"
-      azureVmInstancePropertiesGccFin: "vmSizeStr"
+      azureVmInstancePropertiesAzVm01: "vmSizeStr"
+      azureVmInstancePropertiesAzVm02: "vmSizeStr"
+      azureVmInstancePropertiesAzVm03: "vmSizeStr"
 #
   azure_os_platform:
     hudu_field: "OS Platform"
     update_mode: "always"
     source:
-      azureVmInstancePropertiesGccFp: "osTypeStr"
-      azureVmInstancePropertiesGccDc01: "osTypeStr"
-      azureVmInstancePropertiesGccFin: "osTypeStr"
+      azureVmInstancePropertiesAzVm01: "osTypeStr"
+      azureVmInstancePropertiesAzVm02: "osTypeStr"
+      azureVmInstancePropertiesAzVm03: "osTypeStr"
 #
   azure_region:
     hudu_field: "Region"
     update_mode: "always"
     source:
-      azureVmInstancePropertiesGccFp: "regionStr"
-      azureVmInstancePropertiesGccDc01: "regionStr"
-      azureVmInstancePropertiesGccFin: "regionStr"
+      azureVmInstancePropertiesAzVm01: "regionStr"
+      azureVmInstancePropertiesAzVm02: "regionStr"
+      azureVmInstancePropertiesAzVm03: "regionStr"
 #
   azure_os_image:
     hudu_field: "OS Image / SKU"
     update_mode: "always"
     source:
-      azureVmInstancePropertiesGccFp: "osImageSkuStr"
-      azureVmInstancePropertiesGccDc01: "osImageSkuStr"
-      azureVmInstancePropertiesGccFin: "osImageSkuStr"
+      azureVmInstancePropertiesAzVm01: "osImageSkuStr"
+      azureVmInstancePropertiesAzVm02: "osImageSkuStr"
+      azureVmInstancePropertiesAzVm03: "osImageSkuStr"
 #
   azure_os_disk_size:
     hudu_field: "OS Disk Size"
     update_mode: "always"
     source:
-      azureVmInstancePropertiesGccFp: "osDiskSizeGbInt"
-      azureVmInstancePropertiesGccDc01: "osDiskSizeGbInt"
-      azureVmInstancePropertiesGccFin: "osDiskSizeGbInt"
+      azureVmInstancePropertiesAzVm01: "osDiskSizeGbInt"
+      azureVmInstancePropertiesAzVm02: "osDiskSizeGbInt"
+      azureVmInstancePropertiesAzVm03: "osDiskSizeGbInt"
 #
   azure_resource_group:
     hudu_field: "Resource Group"
     update_mode: "always"
     source:
-      azureVmInstancePropertiesGccFp: "resourceGroupStr"
-      azureVmInstancePropertiesGccDc01: "resourceGroupStr"
-      azureVmInstancePropertiesGccFin: "resourceGroupStr"
+      azureVmInstancePropertiesAzVm01: "resourceGroupStr"
+      azureVmInstancePropertiesAzVm02: "resourceGroupStr"
+      azureVmInstancePropertiesAzVm03: "resourceGroupStr"
 #
   azure_power_state:
     hudu_field: "Power State"
     update_mode: "always"
     source:
-      azureVmStatusGccFp: "vmStatus"
-      azureVmStatusGccDc01: "vmStatus"
-      azureVmStatusGccFin: "vmStatus"
+      azureVmStatusAzVm01: "vmStatus"
+      azureVmStatusAzVm02: "vmStatus"
+      azureVmStatusAzVm03: "vmStatus"
 #
 #
 # ---------------------------------------------------------------
@@ -4394,6 +4620,7 @@ const CFG_FILES={
     {key:'snmp',   label:'SNMP',       file:'normalizer-snmp.yaml',   el:'cfg-norm-snmp'},
     {key:'arista', label:'Arista EOS', file:'normalizer-arista.yaml', el:'cfg-norm-arista'},
     {key:'azure',  label:'Azure',      file:'normalizer-azure.yaml',  el:'cfg-norm-azure'},
+    {key:'meraki', label:'Meraki',     file:'normalizer-meraki.yaml', el:'cfg-norm-meraki'},
     {key:'unifi',  label:'UniFi',      file:'normalizer-unifi.yaml',  el:'cfg-norm-unifi'},
     {key:'cli',    label:'CLI',        file:'normalizer-cli.yaml',    el:'cfg-norm-cli'}
   ]},
