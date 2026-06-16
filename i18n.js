@@ -68,7 +68,21 @@
       'contact.eyebrow': "parliamo — let's talk", 'contact.h2': 'Have questions?',
       'contact.lead': 'Guardare is built and maintained by VistaTech, Inc. in downtown Greensboro, North Carolina, USA.',
       'contact.addr.h': 'Address', 'contact.phone.h': 'Phone', 'contact.email.h': 'Email', 'contact.connect.h': 'Connect',
-      'contact.cta': 'Get in touch'
+      'contact.cta': 'Get in touch',
+      'rel.h1': 'Every release, on the record.',
+      'rel.sub': 'Platform updates across vCollector, the Normalizer, Events Director, and HuduSync — documented as they ship. Signed binaries and live release data arrive with the 2027 open-source launch.',
+      'rel.cur.h2': 'The current platform.',
+      'rel.cur.lead': 'What Guardare runs today, proven nightly across VistaTech-managed environments.',
+      'rel.status': 'Stable · In production since January 2024',
+      'rel.cur.1': '— API, JSON-RPC, RESTConf, SNMP, Remote PowerShell, and Linux libc collection.',
+      'rel.cur.2': '— dynamic schemas created and updated entirely from admin configuration.',
+      'rel.cur.3': '— Crescendo escalation feeding incident response and bi-directional ITSM ticketing.',
+      'rel.cur.4': '— zero-duplicate documentation sync with full lifecycle management.',
+      'rel.storylink': 'Read the full development story →',
+      'rel.coming.h2': 'Binaries, checksums, live data.',
+      'rel.coming.lead': 'When Guardare’s source opens in 2027, releases publish to the public repositories with signed binaries, checksums, and full notes — and this page switches to live release data over the GitHub API, updating itself the moment a version ships. Until then, the platform ships privately to VistaTech-managed deployments, and every milestone lands here first.',
+      'rel.followbuild': 'Follow the build',
+      'rel.watchrepo': 'Watch the repository on GitHub →'
     },
 
     it: {
@@ -130,7 +144,21 @@
       'contact.eyebrow': 'parliamo — let’s talk', 'contact.h2': 'Hai domande?',
       'contact.lead': 'Guardare è sviluppata e gestita da VistaTech, Inc. nel centro di Greensboro, North Carolina, USA.',
       'contact.addr.h': 'Indirizzo', 'contact.phone.h': 'Telefono', 'contact.email.h': 'Email', 'contact.connect.h': 'Connettiti',
-      'contact.cta': 'Contattaci'
+      'contact.cta': 'Contattaci',
+      'rel.h1': 'Ogni release, messa agli atti.',
+      'rel.sub': 'Aggiornamenti della piattaforma su vCollector, Normalizer, Events Director e HuduSync — documentati man mano che vengono rilasciati. Binari firmati e dati di release in tempo reale arriveranno con il lancio open source del 2027.',
+      'rel.cur.h2': 'La piattaforma attuale.',
+      'rel.cur.lead': 'Ciò che Guardare esegue oggi, collaudato ogni notte negli ambienti gestiti da VistaTech.',
+      'rel.status': 'Stabile · In produzione da gennaio 2024',
+      'rel.cur.1': '— raccolta tramite API, JSON-RPC, RESTConf, SNMP, Remote PowerShell e Linux libc.',
+      'rel.cur.2': '— schemi dinamici creati e aggiornati interamente dalla configurazione dell’amministratore.',
+      'rel.cur.3': '— escalation Crescendo che alimenta la risposta agli incidenti e il ticketing ITSM bidirezionale.',
+      'rel.cur.4': '— sincronizzazione della documentazione senza duplicati, con gestione completa del ciclo di vita.',
+      'rel.storylink': 'Leggi tutta la storia dello sviluppo →',
+      'rel.coming.h2': 'Binari, checksum, dati in tempo reale.',
+      'rel.coming.lead': 'Quando il codice di Guardare diventerà open source nel 2027, le release saranno pubblicate nei repository pubblici con binari firmati, checksum e note complete — e questa pagina passerà ai dati di release in tempo reale tramite la GitHub API, aggiornandosi nel momento stesso in cui una versione viene rilasciata. Fino ad allora, la piattaforma viene distribuita privatamente alle installazioni gestite da VistaTech, e ogni traguardo compare prima qui.',
+      'rel.followbuild': 'Segui lo sviluppo',
+      'rel.watchrepo': 'Osserva il repository su GitHub →'
     },
 
     pt: {
@@ -192,7 +220,21 @@
       'contact.eyebrow': 'parliamo — let’s talk', 'contact.h2': 'Tem perguntas?',
       'contact.lead': 'A Guardare é desenvolvida e mantida pela VistaTech, Inc. no centro de Greensboro, Carolina do Norte, EUA.',
       'contact.addr.h': 'Endereço', 'contact.phone.h': 'Telefone', 'contact.email.h': 'E-mail', 'contact.connect.h': 'Conecte-se',
-      'contact.cta': 'Fale conosco'
+      'contact.cta': 'Fale conosco',
+      'rel.h1': 'Cada versão, registrada.',
+      'rel.sub': 'Atualizações da plataforma em vCollector, Normalizer, Events Director e HuduSync — documentadas à medida que são lançadas. Binários assinados e dados de versão em tempo real chegam com o lançamento open source de 2027.',
+      'rel.cur.h2': 'A plataforma atual.',
+      'rel.cur.lead': 'O que a Guardare executa hoje, comprovado todas as noites nos ambientes gerenciados pela VistaTech.',
+      'rel.status': 'Estável · Em produção desde janeiro de 2024',
+      'rel.cur.1': '— coleta via API, JSON-RPC, RESTConf, SNMP, Remote PowerShell e Linux libc.',
+      'rel.cur.2': '— esquemas dinâmicos criados e atualizados inteiramente a partir da configuração do administrador.',
+      'rel.cur.3': '— escalonamento Crescendo que alimenta a resposta a incidentes e o ticketing ITSM bidirecional.',
+      'rel.cur.4': '— sincronização de documentação sem duplicatas, com gestão completa do ciclo de vida.',
+      'rel.storylink': 'Leia toda a história do desenvolvimento →',
+      'rel.coming.h2': 'Binários, checksums, dados em tempo real.',
+      'rel.coming.lead': 'Quando o código da Guardare se tornar open source em 2027, as versões serão publicadas nos repositórios públicos com binários assinados, checksums e notas completas — e esta página passará a exibir dados de versão em tempo real pela GitHub API, atualizando-se no momento em que uma versão é lançada. Até lá, a plataforma é distribuída de forma privada às implantações gerenciadas pela VistaTech, e cada marco aparece aqui primeiro.',
+      'rel.followbuild': 'Acompanhe a construção',
+      'rel.watchrepo': 'Acompanhe o repositório no GitHub →'
     },
 
     fr: {
@@ -254,7 +296,21 @@
       'contact.eyebrow': 'parliamo — let’s talk', 'contact.h2': 'Des questions ?',
       'contact.lead': 'Guardare est développée et maintenue par VistaTech, Inc. dans le centre de Greensboro, Caroline du Nord, États-Unis.',
       'contact.addr.h': 'Adresse', 'contact.phone.h': 'Téléphone', 'contact.email.h': 'E-mail', 'contact.connect.h': 'Se connecter',
-      'contact.cta': 'Nous contacter'
+      'contact.cta': 'Nous contacter',
+      'rel.h1': 'Chaque version, dûment consignée.',
+      'rel.sub': 'Mises à jour de la plateforme sur vCollector, Normalizer, Events Director et HuduSync — documentées au fil de leur publication. Les binaires signés et les données de version en temps réel arriveront avec le lancement open source de 2027.',
+      'rel.cur.h2': 'La plateforme actuelle.',
+      'rel.cur.lead': 'Ce que Guardare exécute aujourd’hui, éprouvé chaque nuit dans les environnements gérés par VistaTech.',
+      'rel.status': 'Stable · En production depuis janvier 2024',
+      'rel.cur.1': '— collecte via API, JSON-RPC, RESTConf, SNMP, Remote PowerShell et Linux libc.',
+      'rel.cur.2': '— schémas dynamiques créés et mis à jour entièrement depuis la configuration de l’administrateur.',
+      'rel.cur.3': '— escalade Crescendo qui alimente la réponse aux incidents et le ticketing ITSM bidirectionnel.',
+      'rel.cur.4': '— synchronisation de la documentation sans doublon, avec gestion complète du cycle de vie.',
+      'rel.storylink': 'Lire toute l’histoire du développement →',
+      'rel.coming.h2': 'Binaires, sommes de contrôle, données en temps réel.',
+      'rel.coming.lead': 'Lorsque le code de Guardare deviendra open source en 2027, les versions seront publiées dans les dépôts publics avec des binaires signés, des sommes de contrôle et des notes complètes — et cette page basculera vers les données de version en temps réel via la GitHub API, se mettant à jour dès qu’une version est publiée. D’ici là, la plateforme est livrée en privé aux déploiements gérés par VistaTech, et chaque jalon apparaît d’abord ici.',
+      'rel.followbuild': 'Suivez le développement',
+      'rel.watchrepo': 'Suivez le dépôt sur GitHub →'
     },
 
     es: {
@@ -316,7 +372,21 @@
       'contact.eyebrow': 'parliamo — let’s talk', 'contact.h2': '¿Tienes preguntas?',
       'contact.lead': 'Guardare está desarrollada y mantenida por VistaTech, Inc. en el centro de Greensboro, Carolina del Norte, EE. UU.',
       'contact.addr.h': 'Dirección', 'contact.phone.h': 'Teléfono', 'contact.email.h': 'Correo', 'contact.connect.h': 'Conecta',
-      'contact.cta': 'Contáctanos'
+      'contact.cta': 'Contáctanos',
+      'rel.h1': 'Cada versión, registrada.',
+      'rel.sub': 'Actualizaciones de la plataforma en vCollector, Normalizer, Events Director y HuduSync — documentadas a medida que se publican. Los binarios firmados y los datos de versión en tiempo real llegarán con el lanzamiento open source de 2027.',
+      'rel.cur.h2': 'La plataforma actual.',
+      'rel.cur.lead': 'Lo que Guardare ejecuta hoy, probado cada noche en los entornos gestionados por VistaTech.',
+      'rel.status': 'Estable · En producción desde enero de 2024',
+      'rel.cur.1': '— recopilación mediante API, JSON-RPC, RESTConf, SNMP, Remote PowerShell y Linux libc.',
+      'rel.cur.2': '— esquemas dinámicos creados y actualizados por completo desde la configuración del administrador.',
+      'rel.cur.3': '— escalado Crescendo que alimenta la respuesta a incidentes y el ticketing ITSM bidireccional.',
+      'rel.cur.4': '— sincronización de documentación sin duplicados, con gestión completa del ciclo de vida.',
+      'rel.storylink': 'Lee toda la historia del desarrollo →',
+      'rel.coming.h2': 'Binarios, checksums, datos en tiempo real.',
+      'rel.coming.lead': 'Cuando el código de Guardare se abra en 2027, las versiones se publicarán en los repositorios públicos con binarios firmados, checksums y notas completas — y esta página pasará a mostrar datos de versión en tiempo real a través de la GitHub API, actualizándose en el momento en que se publica una versión. Hasta entonces, la plataforma se distribuye de forma privada a las implementaciones gestionadas por VistaTech, y cada hito aparece aquí primero.',
+      'rel.followbuild': 'Sigue el desarrollo',
+      'rel.watchrepo': 'Observa el repositorio en GitHub →'
     }
   };
 
