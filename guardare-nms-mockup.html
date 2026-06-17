@@ -450,6 +450,14 @@
   .cell-id{font-family:"Open Sans";font-size:12.5px;color:var(--text)}
   .cell-tenant{display:inline-flex;align-items:center;gap:8px}
   .hide-tenant-col .col-tenant{display:none}
+  .cols-fixed{table-layout:fixed;min-width:100%}
+  .th-resizable{position:relative}
+  .col-resizer{position:absolute;top:0;right:-4px;width:9px;height:100%;cursor:col-resize;user-select:none;z-index:6;touch-action:none}
+  .col-resizer::after{content:"";position:absolute;top:22%;right:4px;height:56%;width:2px;border-radius:2px;background:var(--line);transition:background .14s}
+  .th-resizable:hover .col-resizer::after,.th-resizable.resizing .col-resizer::after{background:var(--teal)}
+  body.col-resizing{cursor:col-resize!important;user-select:none}
+  .cols-fixed th,.cols-fixed td{overflow:hidden}
+  .cols-fixed td.cell-id{white-space:nowrap;text-overflow:ellipsis}
   .tn-avatar{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:700;
     font-family:"Open Sans";color:#04201b}
   .cell-mut{color:var(--mute);font-family:"Open Sans";font-size:12px}
@@ -640,6 +648,9 @@
   .alert-tab.active .ct{color:var(--teal)}
   .alert-full{padding:6px}
   .afull-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:16px;align-items:center;padding:15px 16px;border-radius:var(--r-sm);transition:.14s}
+  .afull-row.has-tenant{grid-template-columns:auto minmax(120px,170px) 1fr auto auto}
+  .afull-tenant{display:flex;align-items:center;gap:8px;min-width:0}
+  .afull-tname{font-size:12.5px;font-weight:600;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .afull-row:hover{background:var(--bg-2)}
   .afull-sev{width:42px;height:42px;border-radius:9px;display:grid;place-items:center}
   .afull-sev svg{width:19px;height:19px;stroke-width:1.8;fill:none}
@@ -1040,6 +1051,8 @@
     .dash-top{gap:14px}
     .radar-wrap{max-width:248px}
     .afull-row{grid-template-columns:auto 1fr auto;gap:12px}
+    .afull-row.has-tenant{grid-template-columns:auto auto 1fr auto}
+    .afull-tname{display:none}
     .afull-time{display:none}
     .console-ctrl{gap:8px}
     .console-site{font-size:10.5px}
@@ -1413,7 +1426,7 @@
         <button class="chip" data-fs="offline" onclick="setFleetFilter('offline')"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span> <span class="cell-mut" id="fcOffline">—</span></button>
       </div>
 
-      <div class="panel">
+      <div class="panel" style="overflow-x:auto">
         <table id="fleetTbl">
           <thead>
             <tr>
@@ -5278,6 +5291,33 @@ function renderFleetTable(){
       <td><span class="cfg">${r[6]}</span></td>
     </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;padding:34px;color:var(--mute)">${TX('No collectors to show.')}</td></tr>`;
 }
+/* ---------- Collector Serviceability: resizable columns ---------- */
+let fleetResizeInit=false;
+const FLEET_DEFW=[160,150,120,130,120,120,120];
+function initFleetResize(){
+  const tbl=document.getElementById('fleetTbl'); if(!tbl||fleetResizeInit) return;
+  const ths=[...tbl.querySelectorAll('thead th')]; if(!ths.length) return;
+  ths.forEach((th,idx)=>{
+    let w=th.offsetWidth; if(w<10) w=FLEET_DEFW[idx]||120;
+    th.style.width=w+'px';
+    th.classList.add('th-resizable');
+    const grip=document.createElement('span');
+    grip.className='col-resizer';
+    grip.addEventListener('mousedown',e=>startColResize(e,th));
+    th.appendChild(grip);
+  });
+  tbl.classList.add('cols-fixed');
+  fleetResizeInit=true;
+}
+function startColResize(e,th){
+  e.preventDefault(); e.stopPropagation();
+  const startX=e.pageX, startW=th.offsetWidth;
+  th.classList.add('resizing'); document.body.classList.add('col-resizing');
+  const move=ev=>{ th.style.width=Math.max(60, startW+(ev.pageX-startX))+'px'; };
+  const up=()=>{ document.removeEventListener('mousemove',move); document.removeEventListener('mouseup',up);
+    th.classList.remove('resizing'); document.body.classList.remove('col-resizing'); };
+  document.addEventListener('mousemove',move); document.addEventListener('mouseup',up);
+}
 function cpuBar(v){
   const col = v>85?'#FF5D5D':v>65?'#F6B53F':'#41D98A';
   return `<span class="bar-mini"><span style="width:${v}%;background:${col}"></span></span><span class="cell-mut">${v}%</span>`;
@@ -5295,11 +5335,12 @@ function renderAlertsFull(){
   _set('ctActive',String(cnt('active'))); _set('ctAcked',String(cnt('acked'))); _set('ctResolved',String(cnt('resolved')));
   const items=scoped.filter(x=>x.a[7]===alertTab);
   document.getElementById('alertFull').innerHTML = items.map(({a,i})=>`
-    <div class="afull-row" id="af${i}">
+    <div class="afull-row${sc==='all'?' has-tenant':''}" id="af${i}">
       <div class="afull-sev ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg></div>
+      ${sc==='all'?`<div class="afull-tenant"><span class="tn-avatar" style="background:${tenantColors[a[3]]||'var(--teal)'}">${tnInit(tenantName[a[3]]||a[3])}</span><span class="afull-tname">${tenantName[a[3]]||a[3]}</span></div>`:''}
       <div class="afull-main">
         <div class="t">${TX(a[1])}</div>
-        <div class="m"><span class="tn">${tenantName[a[3]]}</span><code>${a[2]}</code><span>${TX(a[4])}</span></div>
+        <div class="m"><code>${a[2]}</code><span>${TX(a[4])}</span></div>
       </div>
       <div class="afull-time"><b>${a[6]}</b>${a[5]}</div>
       <div class="afull-act">
@@ -5885,7 +5926,7 @@ function intgCard(it, scope){
     : `<div class="intg-field"><label>${f[0]}</label>
         <input class="tm-input" type="${f[1]}" value="${f[2]||''}" ${f[1]==='password'?'placeholder="••••••••"':'placeholder="'+TX('Not set')+'"'} onchange="toast('${it.name} — ${TX('unsaved change')}')"></div>`).join('');
   let actions;
-  if(mode==='inherited') actions=`<span class="intg-note-inline">${TX('Managed at platform level')}</span><button class="btn" onclick="pickAllTenants()">${TX('Manage')}</button>`;
+  if(mode==='inherited') actions=`<span class="intg-note-inline">${TX('Managed at platform level')}</span><button class="btn ${connected?'danger':'primary'}" onclick="intgOp('${it.id}',${connected?'false':'true'})">${connected?TX('Disconnect'):TX('Connect')}</button>`;
   else if(mode==='rollup') actions=`<span class="intg-note-inline">${rollN} ${TX('of')} ${TENANT_INTG_TOTAL} ${TX('tenants connected')}</span><button class="btn" onclick="toast('${TX('Pick a tenant from the switcher to configure')}')">${TX('Configure per tenant')}</button>`;
   else { const ctxName = it.scope==='tenant' ? (tenantName[scope]||scope) : TX('platform');
     actions=`<label class="intg-toggle"><input type="checkbox" ${connected?'checked':''} onchange="toast('${it.name} — ${ctxName} ' + (this.checked?'${TX('enabled')}':'${TX('disabled')}'))"><span>${TX('Enabled')}</span></label>
@@ -6104,8 +6145,8 @@ function renderAudit(){
       : `<span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[e.tenant]||'var(--teal)'}">${tnInit(tenantName[e.tenant]||e.tenant)}</span>${tenantName[e.tenant]||e.tenant}</span>`;
     return `<tr>
       <td class="aud-when">${e.t}</td>
-      <td><div class="aud-actor"><b>${e.actor}</b><span>${TX(auditRoleLabel(e.role))}</span></div></td>
       ${oneTenant?'':`<td>${ten}</td>`}
+      <td><div class="aud-actor"><b>${e.actor}</b><span>${TX(auditRoleLabel(e.role))}</span></div></td>
       <td class="aud-act"><span class="aud-cat" style="color:${col};border-color:${col}55;background:${col}14">${TX(auditCatLabel(e.cat))}</span><span>${TX(e.action)}</span></td>
       <td class="cell-id">${e.target}</td>
       <td class="aud-ip mono">${e.ip}</td>
@@ -6126,7 +6167,7 @@ function renderAudit(){
     <div class="aud-filter">${chips}</div>
     <div class="panel" style="overflow-x:auto">
       <table>
-        <thead><tr><th>${TX('Time')}</th><th>${TX('Actor')}</th>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Action')}</th><th>${TX('Target')}</th><th>${TX('Source IP')}</th></tr></thead>
+        <thead><tr><th>${TX('Time')}</th>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Actor')}</th><th>${TX('Action')}</th><th>${TX('Target')}</th><th>${TX('Source IP')}</th></tr></thead>
         <tbody>${rows||`<tr><td colspan="${oneTenant?5:6}" class="aud-empty">${TX('No matching events')}</td></tr>`}</tbody>
       </table>
     </div>`;
@@ -6437,6 +6478,7 @@ function go(screen){
   document.querySelectorAll('.nav-subitem').forEach(s=>s.classList.toggle('active', navHighlight==='cfgmgr' && s.dataset.sub===cfgSubPage));
   if(navHighlight==='cfgmgr'){ const _ch=document.getElementById('navChildren-cfgmgr'); if(_ch)_ch.classList.add('open'); const _dc=document.querySelector('.nav-disc[data-disc="cfgmgr"]'); if(_dc)_dc.classList.add('expanded'); if(typeof syncNormNav==='function') syncNormNav(); }
   syncTopbarTenant();
+  if(screen==='fleet' && typeof initFleetResize==='function') initFleetResize();
   document.getElementById('main').scrollTop=0;
 }
 const SVC_ICONS={
