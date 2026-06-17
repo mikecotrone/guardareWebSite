@@ -589,6 +589,44 @@
   .os-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
   .os-dot.r{background:#FF5F56}.os-dot.y{background:#FFBD2E}.os-dot.g{background:#27C93F}
   @media(max-width:820px){.os-term{display:none}}
+  /* ---- Guardare Global Configuration (Collector base) form ---- */
+  .gcfg{display:flex;flex-direction:column;gap:16px;margin-bottom:18px}
+  .gcfg-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+  .gcfg-chead{display:flex;align-items:center;gap:13px;padding:15px 18px;border-bottom:1px solid var(--line)}
+  .gcfg-cic{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--teal-ghost);border:1px solid #2ee6c844}
+  .gcfg-cic svg{width:20px;height:20px;stroke:var(--teal);fill:none;stroke-width:1.8}
+  .gcfg-ctext{flex:1;min-width:0}
+  .gcfg-ctext h3{margin:0;font-size:15px;font-weight:700;color:var(--text)}
+  .gcfg-ctext p{margin:3px 0 0;font-size:12px;color:var(--mute)}
+  .gcfg-ctext code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--teal);font-size:11.5px}
+  .gcfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;padding:18px}
+  .gcfg-grid-3{grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:760px){.gcfg-grid,.gcfg-grid-3{grid-template-columns:1fr}}
+  .gcfg-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .gcfg-field.span2{grid-column:1/-1}
+  .gcfg-field label{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:700}
+  .gcfg-field label .req{color:var(--teal);margin-left:2px}
+  .gcfg-iwrap{position:relative;display:flex;align-items:center}
+  .gcfg-iwrap .pfx{position:absolute;left:11px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--mute);pointer-events:none}
+  .gcfg-iwrap.has-pfx .tm-input{padding-left:31px}
+  .gcfg-hint{font-size:11px;color:var(--dim);line-height:1.45}
+  .gcfg-addr{position:relative}
+  .gcfg-addr-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:5px;z-index:80;display:none;max-height:262px;overflow:auto}
+  .gcfg-addr-menu.open{display:block}
+  .gcfg-addr-opt{display:flex;align-items:flex-start;gap:9px;width:100%;text-align:left;padding:9px 10px;border:0;background:none;color:var(--text);font:inherit;font-size:12.5px;border-radius:7px;cursor:pointer}
+  .gcfg-addr-opt:hover{background:var(--raise)}
+  .gcfg-addr-opt svg{flex:none;width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:1.7;margin-top:1px}
+  .gcfg-addr-loading,.gcfg-addr-empty,.gcfg-addr-note{padding:9px 11px;font-size:12px;color:var(--mute)}
+  .gcfg-addr-note{color:var(--amber);font-size:11px}
+  .gcfg-addr-loading{display:flex;align-items:center;gap:8px}
+  .gcfg-spin{width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sweep .7s linear infinite;display:inline-block}
+  .gcfg-actions{display:flex;justify-content:flex-end;gap:10px}
+  .gcfg-soon{display:flex;align-items:center;gap:13px;padding:15px 18px;border:1px dashed var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--raise),var(--panel))}
+  .gcfg-soon .gcfg-cic{background:#E9542018;border-color:#E9542040}
+  .gcfg-soon .gcfg-cic svg{stroke:#E95420}
+  .gcfg-soon-tx b{display:block;color:var(--text);font-weight:700;font-size:13.5px}
+  .gcfg-soon-tx span{font-size:12px;color:var(--dim)}
+  .gcfg-soon .soon-tag{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#E95420;border:1px solid #E9542050;background:#E9542014;padding:3px 9px;border-radius:99px}
   .cfg-pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
   .cfg-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:10px;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--dim);font-size:12.5px;font-weight:600;font-family:inherit}
   .cfg-pill:hover{border-color:var(--teal-deep);color:var(--text)}
@@ -6227,7 +6265,7 @@ function collManifests(coll){
   return set;
 }
 const CFG_CATS=[
-  {cat:'base',name:'Collector base (OS)',dot:'var(--dim)',scope:'On-box',blurb:'Collector identity, local database connection, repository access and the update schedule — the on-box bootstrap layer for this collector.'},
+  {cat:'base',name:'Guardare Global Configuration',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, customer, location and the unique IDs that bind each microservice to this box.'},
   {cat:'defaults',name:'Shared defaults',dot:'var(--violet)',scope:'Shared',blurb:'Fleet-wide baseline — poll intervals, SNMP, logging and alerting defaults inherited by every collector unless it overrides them.'},
   {cat:'vcollector',name:'vCollector',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
   {cat:'normalizer',name:'Normalizer',dot:'var(--green)',scope:'Per-collector',blurb:'Per-manufacturer manifests that map raw device data into the unified Guardare schema — one profile per manufacturer this collector polls.'},
@@ -6378,6 +6416,184 @@ function syncNormNav(){
   const box=document.getElementById('navSubNorm'); if(box) box.classList.toggle('open',on);
   const dsc=document.querySelector('.nav-subdisc[data-sub="normalizer"]'); if(dsc) dsc.classList.toggle('expanded',on);
 }
+/* ===== Collector base → Guardare Global Configuration form ===== */
+const GCFG={};
+function _esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function gcfgApplyToYaml(content,g){
+  const set=(txt,key,val)=>txt.replace(new RegExp('('+key+':\\s*")[^"]*(")'),'$1'+String(val).replace(/"/g,'')+'$2');
+  let o=content;
+  ['collector_site_id','customer_name','customer_location','vcollector_unique_assigned_id','normalizer_unique_assigned_id','eventsDirector_unique_assigned_id']
+    .forEach(k=>{ if(g[k]!=null) o=set(o,k,g[k]); });
+  return o;
+}
+function gcfgFor(coll){
+  if(GCFG[coll]) return GCFG[coll];
+  const t=coll.split(':')[0];
+  const r=cfgSeed('gcfg|'+coll);
+  const states=['NC','VA','SC','GA','TN'];
+  const st=states[Math.floor(r()*states.length)];
+  const site=st+String(1+Math.floor(r()*40)).padStart(2,'0');
+  const base=12001+Math.floor(r()*300)*3;
+  const addrPool=[
+    '3816 Patterson St, Greensboro, NC 27407','1200 Eastchester Dr, High Point, NC 27265',
+    '4904 W Market St, Greensboro, NC 27407','200 N Davie St, Greensboro, NC 27401',
+    '628 Green Valley Rd, Greensboro, NC 27408','1451 S Elm-Eugene St, Greensboro, NC 27406'
+  ];
+  const g={
+    collector_site_id:site,
+    customer_name:(tenantName[t]||t),
+    customer_location:addrPool[Math.floor(r()*addrPool.length)],
+    vcollector_unique_assigned_id:String(base),
+    normalizer_unique_assigned_id:String(base+1),
+    eventsDirector_unique_assigned_id:String(base+2)
+  };
+  GCFG[coll]=g;
+  try{ const bf=cfgFilesFor(coll).find(f=>f.key==='base'); if(bf){ const s=cfgState(coll,bf); s.content=gcfgApplyToYaml(s.content,g); } }catch(_){}
+  return g;
+}
+function cfgBaseForm(coll){
+  const g=gcfgFor(coll);
+  const idIcon='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.4"/><path d="M14 10h4M14 14h4M5 16c.6-1.6 2-2.4 4-2.4s3.4.8 4 2.4"/></svg>';
+  const globeIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>';
+  const pinIcon='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>';
+  const field=(id,label,val,hint,req,pfx)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${label}${req?'<span class="req">*</span>':''}</label>
+      <div class="gcfg-iwrap${pfx?' has-pfx':''}">${pfx?`<span class="pfx">${pfx}</span>`:''}<input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
+      <span class="gcfg-hint">${hint}</span>
+    </div>`;
+  return `
+  <div class="gcfg">
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${globeIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Guardare Global Configuration')}</h3>
+          <p>${TX('Written to')} <code>serviceConfig.yaml → globalServiceConfiguration</code> ${TX('on this collector')}.</p></div>
+        <span class="cfg-scope-pill local">${TX('On-box')}</span>
+      </div>
+      <div class="gcfg-grid">
+        ${field('gcfg_site',TX('Collector site ID'),g.collector_site_id,TX('Short site code used across the fleet, e.g. NC03.'),true)}
+        ${field('gcfg_customer',TX('Customer name'),g.customer_name,TX('The organization this collector belongs to.'),true)}
+        <div class="gcfg-field span2">
+          <label for="gcfgAddr">${TX('Customer location')}<span class="req">*</span></label>
+          <div class="gcfg-addr">
+            <input id="gcfgAddr" class="tm-input" value="${_esc(g.customer_location)}" autocomplete="off" spellcheck="false"
+              placeholder="${TX('Start typing a street address…')}"
+              oninput="gcfgAddrInput(this.value)" onfocus="gcfgAddrInput(this.value)" onblur="gcfgAddrBlur()"
+              onkeydown="if(event.key==='Escape')gcfgAddrClose()">
+            <div class="gcfg-addr-menu" id="gcfgAddrMenu"></div>
+          </div>
+          <span class="gcfg-hint">${TX('Searchable — pick a match to autofill. Geocoding by OpenStreetMap; you can also type it in full.')}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${idIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Service identity mapping')}</h3>
+          <p>${TX('Unique IDs that bind each microservice instance on this box to Guardare.')}</p></div>
+      </div>
+      <div class="gcfg-grid gcfg-grid-3">
+        ${field('gcfg_vid',TX('vCollector ID'),g.vcollector_unique_assigned_id,TX('vcollector_unique_assigned_id'),true,'#')}
+        ${field('gcfg_nid',TX('Normalizer ID'),g.normalizer_unique_assigned_id,TX('normalizer_unique_assigned_id'),true,'#')}
+        ${field('gcfg_eid',TX('Events Director ID'),g.eventsDirector_unique_assigned_id,TX('eventsDirector_unique_assigned_id'),true,'#')}
+      </div>
+    </div>
+
+    <div class="gcfg-soon">
+      <span class="gcfg-cic">${UBUNTU_SVG}</span>
+      <div class="gcfg-soon-tx"><b>${TX('Ubuntu service & host')}</b><span>${TX('systemd unit, auto-update channel and on-box resource limits — configurable here soon.')}</span></div>
+      <span class="soon-tag">${TX('Coming soon')}</span>
+    </div>
+
+    <div class="gcfg-actions">
+      <button class="btn" onclick="cfgBaseReset()">${TX('Reset')}</button>
+      <button class="btn primary" onclick="cfgBaseSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save global configuration')}</button>
+    </div>
+  </div>`;
+}
+function cfgBaseReadForm(){
+  const ids={collector_site_id:'gcfg_site',customer_name:'gcfg_customer',customer_location:'gcfgAddr',
+    vcollector_unique_assigned_id:'gcfg_vid',normalizer_unique_assigned_id:'gcfg_nid',eventsDirector_unique_assigned_id:'gcfg_eid'};
+  const out={};
+  for(const k in ids){ const el=document.getElementById(ids[k]); if(el) out[k]=el.value.trim(); }
+  return out;
+}
+function cfgBaseSave(){
+  const coll=cfgMgrColl; if(!coll) return;
+  const vals=cfgBaseReadForm();
+  if(!vals.collector_site_id || !vals.customer_name || !vals.customer_location){ toast(TX('Site ID, customer and location are required')); return; }
+  for(const k of ['vcollector_unique_assigned_id','normalizer_unique_assigned_id','eventsDirector_unique_assigned_id']){
+    if(vals[k] && !/^\d+$/.test(vals[k])){ toast(TX('Service IDs must be numeric')); return; }
+  }
+  const g=gcfgFor(coll); Object.assign(g,vals);
+  try{ const bf=cfgFilesFor(coll).find(f=>f.key==='base'); if(bf){ const s=cfgState(coll,bf); s.content=gcfgApplyToYaml(s.content,g); s.sha=_hash7(coll+'base'+JSON.stringify(g)); s.pulled=TX('just now'); s.drift=false; } }catch(_){}
+  renderCfgMgr();
+  toast(TX('Saved')+' · serviceConfig.yaml → '+cfgCollName(coll));
+}
+function cfgBaseReset(){
+  const coll=cfgMgrColl; if(!coll) return;
+  const g=gcfgFor(coll);
+  ['collector_site_id','customer_name','customer_location','vcollector_unique_assigned_id','normalizer_unique_assigned_id','eventsDirector_unique_assigned_id']
+    .forEach(k=>{ const id={collector_site_id:'gcfg_site',customer_name:'gcfg_customer',customer_location:'gcfgAddr',vcollector_unique_assigned_id:'gcfg_vid',normalizer_unique_assigned_id:'gcfg_nid',eventsDirector_unique_assigned_id:'gcfg_eid'}[k]; const el=document.getElementById(id); if(el) el.value=g[k]; });
+  gcfgAddrClose();
+  toast(TX('Reverted to last saved values'));
+}
+/* ---- searchable address finder (OpenStreetMap / Photon, with offline fallback) ---- */
+let gcfgAddrTimer=null, gcfgAddrSeq=0, gcfgAddrList=[];
+function gcfgAddrInput(q){
+  clearTimeout(gcfgAddrTimer);
+  const menu=document.getElementById('gcfgAddrMenu'); if(!menu) return;
+  if(!q || q.trim().length<3){ gcfgAddrClose(); return; }
+  menu.classList.add('open');
+  menu.innerHTML='<div class="gcfg-addr-loading"><span class="gcfg-spin"></span>'+TX('Searching addresses…')+'</div>';
+  const seq=++gcfgAddrSeq;
+  gcfgAddrTimer=setTimeout(()=>gcfgAddrFetch(q.trim(),seq),300);
+}
+function gcfgAddrFetch(q,seq){
+  let done=false;
+  const fail=()=>{ if(done||seq!==gcfgAddrSeq) return; done=true; gcfgAddrRender(gcfgFallback(q),true); };
+  try{
+    fetch('https://photon.komoot.io/api/?limit=6&lang=en&q='+encodeURIComponent(q))
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>{ if(done||seq!==gcfgAddrSeq) return; done=true;
+        const list=((d&&d.features)||[]).map(f=>gcfgFmt(f.properties)).filter(Boolean);
+        gcfgAddrRender(list.length?list:gcfgFallback(q), !list.length); })
+      .catch(fail);
+    setTimeout(()=>{ if(!done) fail(); },3500);
+  }catch(_){ fail(); }
+}
+function gcfgFmt(p){
+  if(!p) return null;
+  const l1=[p.housenumber,p.street||(p.osm_key==='place'?'':p.name)].filter(Boolean).join(' ').trim();
+  const head=l1||p.name||'';
+  const tail=[p.city||p.town||p.village||p.county,p.state,p.postcode].filter(Boolean).join(', ');
+  const ctry=(p.country&&p.country!=='United States of America'&&p.country!=='United States')?p.country:'';
+  return [head,tail,ctry].filter(Boolean).join(', ');
+}
+function gcfgFallback(q){
+  const pool=['3816 Patterson St, Greensboro, NC 27407','1200 Eastchester Dr, High Point, NC 27265','4904 W Market St, Greensboro, NC 27407','200 N Davie St, Greensboro, NC 27401','628 Green Valley Rd, Greensboro, NC 27408','1451 S Elm-Eugene St, Greensboro, NC 27406'];
+  const ql=q.toLowerCase(), m=pool.filter(a=>a.toLowerCase().includes(ql));
+  return (m.length?m:pool).slice(0,5);
+}
+function gcfgAddrRender(list,offline){
+  const menu=document.getElementById('gcfgAddrMenu'); if(!menu) return;
+  gcfgAddrList=list||[];
+  if(!gcfgAddrList.length){ menu.innerHTML='<div class="gcfg-addr-empty">'+TX('No matches — type the full address')+'</div>'; menu.classList.add('open'); return; }
+  const pin='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>';
+  menu.innerHTML=(offline?'<div class="gcfg-addr-note">'+TX('Offline — showing sample addresses')+'</div>':'')+
+    gcfgAddrList.map((a,i)=>'<button type="button" class="gcfg-addr-opt" onmousedown="event.preventDefault();gcfgAddrPick('+i+')">'+pin+'<span>'+_esc(a)+'</span></button>').join('');
+  menu.classList.add('open');
+}
+function gcfgAddrPick(i){
+  const a=gcfgAddrList[i]; if(a==null) return;
+  const inp=document.getElementById('gcfgAddr'); if(inp) inp.value=a;
+  gcfgAddrClose();
+}
+function gcfgAddrBlur(){ setTimeout(gcfgAddrClose,160); }
+function gcfgAddrClose(){ const menu=document.getElementById('gcfgAddrMenu'); if(menu){ menu.classList.remove('open'); menu.innerHTML=''; } gcfgAddrSeq++; }
+
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
   const scope=tenantScope(), isAll=scope==='all';
@@ -6403,7 +6619,10 @@ function renderCfgMgr(){
       '<span class="cfg-coll-site">'+TX('Site')+' · <b>'+(curRow.name||'—')+'</b></span>'+
     '</div>';
   let body;
-  if(cfgSubPage==='normalizer'){
+  if(cfgSubPage==='base'){
+    const f=files.find(x=>x.key==='base')||files[0];
+    body=cfgBaseForm(cfgMgrColl)+cfgSourcePeek(f,cfgMgrColl);
+  } else if(cfgSubPage==='normalizer'){
     const mans=files.filter(f=>f.cat==='normalizer');
     const cards=mans.map(f=>cfgManCard(f,cfgMgrColl)).join('');
     body='<div class="cfg-mannote"><span class="cfg-man-dot"></span>'+TX('This collector runs')+' <b>'+mans.length+'</b> '+TX('manufacturer manifests — one normalization profile per polled manufacturer.')+' '+TX('Open one to configure it.')+'</div>'+
