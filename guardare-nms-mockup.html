@@ -6250,10 +6250,13 @@ function toggleNavDisc(key){
   const ch=document.getElementById('navChildren-'+key); if(!ch) return;
   const dc=document.querySelector('.nav-disc[data-disc="'+key+'"]');
   if(key==='cfgmgr'){
-    /* If we're not already on the config page, clicking the parent always opens
-       the disclosure AND navigates to a subpage (current one, or the first).
-       Only toggle the submenu collapsed when we're already viewing it. */
-    if(navHighlight!=='cfgmgr'){
+    /* Navigate to the config page whenever it isn't the screen actually on display
+       (navHighlight is sticky across detail/nms views, so it can read 'cfgmgr' while a
+       different — or empty — screen is showing). Only toggle the submenu collapsed when
+       the config page is genuinely the visible, rendered screen. */
+    const cfgScreen=document.getElementById('screen-cfgmgr');
+    const onCfgPage = cfgScreen && cfgScreen.classList.contains('show') && cfgScreen.children.length>0;
+    if(!onCfgPage){
       const first=ch.querySelector('.nav-subitem');
       goCfgSub(cfgSubPage || (first?first.dataset.sub:'base'));
     } else {
