@@ -966,6 +966,7 @@
   .diag-note.warn{color:var(--amber)} .diag-note.fail{color:var(--red)} .diag-note.ok{color:var(--green)}
   .diag-summary{display:flex;gap:18px;justify-content:center;margin:15px 0 17px;font-size:13px;font-weight:600}
   .diag-summary .ds{display:inline-flex;align-items:center;gap:6px;color:var(--mute)}
+  .svc-done{margin:14px 0 16px;padding:11px 14px;border-radius:10px;background:#0e2c1c;border:1px solid #1c5238;color:var(--green);font-size:12.5px;font-weight:600;text-align:center;line-height:1.45}
   .diag-summary .ds.ok::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
   .diag-summary .ds.warn::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber)}
   .diag-summary .ds.fail::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red)}
@@ -1486,9 +1487,9 @@
             <div class="svc-foot">
               <span class="svc-ver">v3.2.1</span>
               <div class="svc-acts">
-                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="toast('vCollector · reload config sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Flush queue" aria-label="Flush queue" onclick="toast('vCollector · flush queue → force-syncing 340 buffered')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('vCollector · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
+                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="svcOp('vcoll.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Flush queue" aria-label="Flush queue" onclick="svcOp('vcoll.flush')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('vcoll.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -1506,8 +1507,8 @@
             <div class="svc-foot">
               <span class="svc-ver">v2.8.0</span>
               <div class="svc-acts">
-                <button class="svc-act" data-tip="Reload profiles" aria-label="Reload profiles" onclick="toast('Normalizer · reload profiles sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('Normalizer · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
+                <button class="svc-act" data-tip="Reload profiles" aria-label="Reload profiles" onclick="svcOp('norm.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('norm.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -1526,9 +1527,9 @@
             <div class="svc-foot">
               <span class="svc-ver">v1.9.4</span>
               <div class="svc-acts">
-                <button class="svc-act" data-tip="Reload rules" aria-label="Reload rules" onclick="toast('Events Director · reload rules sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Maintenance" aria-label="Maintenance" onclick="toast('Events Director · maintenance ON → alerts suppressed')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M3 3l18 18"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('Events Director · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
+                <button class="svc-act" data-tip="Reload rules" aria-label="Reload rules" onclick="svcOp('events.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Maintenance" aria-label="Maintenance" onclick="svcOp('events.maint')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M3 3l18 18"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('events.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -1545,9 +1546,9 @@
             <div class="svc-foot">
               <span class="svc-ver">v0.7.2 · synced 2m ago</span>
               <div class="svc-acts">
-                <button class="svc-act" data-tip="Resync" aria-label="Resync" onclick="toast('HuduSync · resync to Hudu started')"><svg viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0-15.5-2"/><path d="M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2"/><path d="M20 19v-4h-4"/></svg></button>
-                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="toast('HuduSync · reload config sent → site-04')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('HuduSync · restart queued')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
+                <button class="svc-act" data-tip="Resync" aria-label="Resync" onclick="svcOp('hudu.resync')"><svg viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0-15.5-2"/><path d="M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2"/><path d="M20 19v-4h-4"/></svg></button>
+                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="svcOp('hudu.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('hudu.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
               </div>
             </div>
           </div>
@@ -4756,6 +4757,30 @@ snmp_field_mapping:
   </div>
 </div>
 
+<div class="modal-backdrop" id="svcModal" onclick="svcBackdrop(event)">
+  <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="svcTitle">
+    <div id="svcConfirm">
+      <div class="modal-ic info" id="svcConfirmIc"></div>
+      <h3 class="modal-title" id="svcTitle"></h3>
+      <p class="modal-text" id="svcText"></p>
+      <div class="modal-acts">
+        <button class="btn" onclick="closeSvcModal()" data-i18n="No, cancel">No, cancel</button>
+        <button class="btn primary" id="svcConfirmBtn" onclick="confirmSvcOp()"></button>
+      </div>
+    </div>
+    <div id="svcProgress" style="display:none">
+      <div class="modal-ic info" id="svcProgIc"></div>
+      <h3 class="modal-title" id="svcProgTitle"></h3>
+      <p class="modal-text"><span id="svcProgSub"></span></p>
+      <div class="diag-list" id="svcList"></div>
+      <div class="svc-done" id="svcDone" style="display:none"></div>
+      <div class="modal-acts" id="svcActs" style="display:none">
+        <button class="btn primary" onclick="closeSvcModal()" data-i18n="Done">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="aiModal" onclick="aiBackdrop(event)">
   <div class="modal modal-wide ai-modal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
     <div class="ai-modal-head">
@@ -6788,6 +6813,140 @@ function finishDiag(results){
   sum.style.display='flex';
   document.getElementById('diagActs').style.display='flex';
   toast(TX('Diagnostics complete')+' · '+currentDetailId);
+}
+
+/* ---------- platform microservice actions (confirm → staged op) ---------- */
+const SVC_IC={
+  reload:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg>',
+  flush:'<svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>',
+  restart:'<svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg>',
+  maint:'<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M3 3l18 18"/></svg>',
+  resync:'<svg viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0-15.5-2"/><path d="M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2"/><path d="M20 19v-4h-4"/></svg>'
+};
+const SVC_OPS={
+  'vcoll.reload':{ic:'reload',danger:false,cbtn:'Yes, reload',
+    ctitle:'Reload vCollector config?',
+    ctext:'Pull the latest <b>_vCollectorCfg.yaml</b> from the GitOps repo and hot-reload vCollector on {t}. No restart — ingestion stays online and uninterrupted.',
+    ptitle:'Reloading vCollector…',
+    steps:[['Pulling from GitHub','guardare-configs · main','sha c4d8a92'],['Validating against schema','vCollector profile','0 errors'],['Hot-reloading service','no restart required','applied'],['Verifying running config','SHA matches source','ok']],
+    done:'vCollector · config reloaded',donenote:'Now running c4d8a92 · 48 API targets active · 0 errors'},
+  'vcoll.flush':{ic:'flush',danger:false,cbtn:'Yes, flush now',
+    ctitle:'Flush vCollector queue?',
+    ctext:'Force-sync the on-site buffer to Centrifugo now, ahead of the normal schedule. About <b>340 buffered messages</b> on {t} will be drained immediately.',
+    ptitle:'Flushing queue…',
+    steps:[['Pausing new intake','buffering briefly','held'],['Draining local queue','340 msgs → Centrifugo','sent'],['Confirming delivery','acks from proxy','340 / 340'],['Resuming intake','queue depth 0','live']],
+    done:'vCollector · queue flushed',donenote:'340 buffered messages synced · local queue empty'},
+  'vcoll.restart':{ic:'restart',danger:true,cbtn:'Yes, restart',
+    ctitle:'Restart vCollector?',
+    ctext:'Restart the vCollector microservice on {t}. Ingestion pauses for a few seconds — buffered telemetry is preserved locally and replays on reconnect.',
+    ptitle:'Restarting vCollector…',
+    steps:[['Sending stop signal','systemctl stop vcollector','stopped'],['Releasing resources','draining in-flight work','clean'],['Starting service','systemctl start vcollector','pid 4821'],['Re-subscribing channels','wss:// · recover=on','subscribed'],['Health check','vCollector reporting','online']],
+    done:'vCollector · restarted',donenote:'Back online in 6s · ingestion resumed · no data lost'},
+  'norm.reload':{ic:'reload',danger:false,cbtn:'Yes, reload',
+    ctitle:'Reload Normalizer profiles?',
+    ctext:'Pull the latest manufacturer manifests from GitOps and hot-reload Normalizer on {t}. Every polled-manufacturer profile is re-read; no restart.',
+    ptitle:'Reloading Normalizer…',
+    steps:[['Pulling from GitHub','normalizerCFG/ · main','sha c4d8a92'],['Re-reading manifests','14 manufacturer profiles','parsed'],['Validating mappings','unified schema','0 errors'],['Hot-reloading service','no restart required','applied']],
+    done:'Normalizer · profiles reloaded',donenote:'14 profiles active · 182,400 items mapped · 0 errors'},
+  'norm.restart':{ic:'restart',danger:true,cbtn:'Yes, restart',
+    ctitle:'Restart Normalizer?',
+    ctext:'Restart the Normalizer (ETL) microservice on {t}. In-flight enrichment drains first; queued telemetry replays after the service is back.',
+    ptitle:'Restarting Normalizer…',
+    steps:[['Sending stop signal','systemctl stop normalizer','stopped'],['Draining ETL pipeline','finishing in-flight batches','clean'],['Starting service','systemctl start normalizer','pid 4822'],['Re-attaching local DB','MariaDB 11.4 buffer','connected'],['Health check','Normalizer reporting','online']],
+    done:'Normalizer · restarted',donenote:'Back online in 7s · enrichment resumed · 0 errors'},
+  'events.reload':{ic:'reload',danger:false,cbtn:'Yes, reload',
+    ctitle:'Reload Events Director rules?',
+    ctext:'Pull the latest ruleset from GitOps and hot-reload Events Director on {t}. Active alert rules are re-evaluated; no restart.',
+    ptitle:'Reloading Events Director…',
+    steps:[['Pulling from GitHub','eventsDirectorCFG/ · main','sha c4d8a92'],['Parsing ruleset','126 rules','valid'],['Re-evaluating active alerts','37 open','re-scored'],['Hot-reloading service','no restart required','applied']],
+    done:'Events Director · rules reloaded',donenote:'126 rules active · dispatch path verified'},
+  'events.maint':{ic:'maint',danger:true,cbtn:'Yes, enable',
+    ctitle:'Enable maintenance mode?',
+    ctext:'Put Events Director into maintenance mode for {t}. <b>Alerts from this collector will be suppressed</b> until you turn it back off — use during planned work to avoid noise.',
+    ptitle:'Enabling maintenance mode…',
+    steps:[['Arming maintenance window','Events Director','armed'],['Suppressing alert dispatch','37 active rules held','suppressed'],['Notifying on-call routes','PagerDuty · Slack','informed']],
+    done:'Events Director · maintenance ON',donenote:'Alerts suppressed for site-04 · remember to disable when work is done'},
+  'events.restart':{ic:'restart',danger:true,cbtn:'Yes, restart',
+    ctitle:'Restart Events Director?',
+    ctext:'Restart the Events Director microservice on {t}. Alerting pauses briefly during the restart; the ruleset reloads automatically on start.',
+    ptitle:'Restarting Events Director…',
+    steps:[['Sending stop signal','systemctl stop events','stopped'],['Holding alert dispatch','queue parked','held'],['Starting service','systemctl start events','pid 4823'],['Reloading ruleset','126 rules','loaded'],['Health check','Events Director reporting','online']],
+    done:'Events Director · restarted',donenote:'Back online in 5s · alerting resumed · queue replayed'},
+  'hudu.resync':{ic:'resync',danger:false,cbtn:'Yes, resync',
+    ctitle:'Resync HuduSync now?',
+    ctext:'Run a full HuduSync reconciliation for {t} ahead of the scheduled sync. Discovered assets are diffed against Hudu and changes are pushed.',
+    ptitle:'Resyncing to Hudu…',
+    steps:[['Connecting to Hudu','api.hudu.app','authenticated'],['Diffing asset inventory','1,204 local assets','compared'],['Pushing changes','18 created · 42 updated','written'],['Linking relations','asset layouts','mapped']],
+    done:'HuduSync · resync complete',donenote:'60 assets reconciled · synced just now'},
+  'hudu.reload':{ic:'reload',danger:false,cbtn:'Yes, reload',
+    ctitle:'Reload HuduSync config?',
+    ctext:'Pull the latest <b>_huduSync.yaml</b> from GitOps and hot-reload HuduSync on {t}. Layout mappings and lifecycle policies are re-read; no restart.',
+    ptitle:'Reloading HuduSync…',
+    steps:[['Pulling from GitHub','huduSyncCFG/ · main','sha c4d8a92'],['Validating against schema','HuduSync config','0 errors'],['Re-reading layout maps','9 categories','parsed'],['Hot-reloading service','no restart required','applied']],
+    done:'HuduSync · config reloaded',donenote:'9 categories mapped · next sync on schedule'},
+  'hudu.restart':{ic:'restart',danger:true,cbtn:'Yes, restart',
+    ctitle:'Restart HuduSync?',
+    ctext:'Restart the HuduSync microservice on {t}. The current sync (if any) finishes first; the next sync runs on schedule after restart.',
+    ptitle:'Restarting HuduSync…',
+    steps:[['Sending stop signal','systemctl stop hudusync','stopped'],['Finishing current sync','flush pending writes','clean'],['Starting service','systemctl start hudusync','pid 4824'],['Re-authenticating to Hudu','api.hudu.app','ok'],['Health check','HuduSync reporting','online']],
+    done:'HuduSync · restarted',donenote:'Back online in 6s · sync schedule resumed'}
+};
+let svcOpTimer=null, svcOpCur=null;
+function svcOp(id){
+  const op=SVC_OPS[id]; if(!op) return;
+  svcOpCur=op;
+  const t=currentDetailId;
+  document.getElementById('svcConfirm').style.display='block';
+  document.getElementById('svcProgress').style.display='none';
+  document.getElementById('svcDone').style.display='none';
+  document.getElementById('svcActs').style.display='none';
+  const ic=document.getElementById('svcConfirmIc');
+  ic.className='modal-ic '+(op.danger?'warn':'info'); ic.innerHTML=SVC_IC[op.ic];
+  document.getElementById('svcProgIc').className='modal-ic '+(op.danger?'warn':'info');
+  document.getElementById('svcProgIc').innerHTML=SVC_IC[op.ic];
+  document.getElementById('svcTitle').textContent=TX(op.ctitle);
+  document.getElementById('svcText').innerHTML=TX(op.ctext).replace('{t}','<b class="mono">'+t+'</b>');
+  const cb=document.getElementById('svcConfirmBtn');
+  cb.className='btn '+(op.danger?'danger':'primary');
+  cb.innerHTML=SVC_IC[op.ic]+'<span>'+TX(op.cbtn)+'</span>';
+  document.getElementById('svcModal').classList.add('show');
+}
+function closeSvcModal(){ document.getElementById('svcModal').classList.remove('show'); if(svcOpTimer){clearTimeout(svcOpTimer);svcOpTimer=null;} }
+function svcBackdrop(e){
+  if(e.target.id!=='svcModal') return;                                  // ignore clicks inside the card
+  if(document.getElementById('svcConfirm').style.display!=='none') closeSvcModal();  // don't bail mid-operation
+}
+function confirmSvcOp(){
+  const op=svcOpCur; if(!op) return;
+  const t=currentDetailId;
+  document.getElementById('svcConfirm').style.display='none';
+  document.getElementById('svcProgress').style.display='block';
+  document.getElementById('svcDone').style.display='none';
+  document.getElementById('svcActs').style.display='none';
+  document.getElementById('svcProgTitle').textContent=TX(op.ptitle);
+  document.getElementById('svcProgSub').innerHTML=TX('On')+' <b class="mono">'+t+'</b>';
+  const CHK='<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>';
+  document.getElementById('svcList').innerHTML=op.steps.map((s,idx)=>`<div class="diag-row" id="svcstep-${idx}">
+      <span class="diag-ic running"><span class="diag-spin"></span></span>
+      <span class="diag-main"><b>${TX(s[0])}</b><span>${TX(s[1])}</span></span>
+      <span class="diag-note" id="svcstepn-${idx}"></span>
+    </div>`).join('');
+  let i=0;
+  const step=()=>{
+    if(i>=op.steps.length){ finishSvcOp(op,t); return; }
+    const row=document.getElementById('svcstep-'+i);
+    if(row){ const ic=row.querySelector('.diag-ic'); ic.className='diag-ic ok'; ic.innerHTML=CHK;
+      const n=document.getElementById('svcstepn-'+i); n.textContent=TX(op.steps[i][2]); n.className='diag-note ok'; }
+    i++; svcOpTimer=setTimeout(step, 440);
+  };
+  if(svcOpTimer){clearTimeout(svcOpTimer);} svcOpTimer=setTimeout(step, 400);
+}
+function finishSvcOp(op,t){
+  document.getElementById('svcProgTitle').textContent=TX(op.done);
+  const d=document.getElementById('svcDone');
+  d.textContent=TX(op.donenote); d.style.display='block';
+  document.getElementById('svcActs').style.display='flex';
+  toast(TX(op.done)+' · '+t);
 }
 
 /* ---------- console log stream ---------- */
