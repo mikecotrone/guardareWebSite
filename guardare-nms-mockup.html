@@ -1099,7 +1099,7 @@
     </button>
     <button class="nav-item" data-screen="fleet">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
-      <span data-i18n="Collector Management">Collector Management</span>
+      <span data-i18n="Collector Serviceability">Collector Serviceability</span>
     </button>
     <button class="nav-item" data-screen="alerts">
       <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
@@ -1366,7 +1366,7 @@
       <div class="page-head">
         <div>
           <div class="page-eyebrow" data-i18n="MSP view">MSP view</div>
-          <h1 class="page-title" data-i18n="Collector Management">Collector Management</h1>
+          <h1 class="page-title" data-i18n="Collector Serviceability">Collector Serviceability</h1>
           <p class="page-sub" data-i18n="Every collector across every customer · 1,284 collectors · 92 tenants">Every collector across every customer · 1,284 collectors · 92 tenants</p>
         </div>
         <div class="head-actions">
@@ -1399,7 +1399,7 @@
     <section class="screen" id="screen-detail">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Management">← Collector Management</button> / Acme Corp</div>
+          <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Serviceability">← Collector Serviceability</button> / Acme Corp</div>
           <div class="detail-title">
             <h1 class="page-title" style="font-size:24px" id="detailId">Collector</h1>
             <span class="detail-addr" id="detailAddr" role="button" tabindex="0" title="View in Locations" onclick="gotoLocationFromDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gotoLocationFromDetail();}"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="detailAddrTxt">—</span></span>
@@ -4850,7 +4850,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"La rete monitorata: dispositivi, client e collegamenti osservati da questi collector.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Questo è il piano NMS / di gestione. Il monitoraggio a livello di dispositivo per questo cliente arriverà in una versione futura.",
   "Device Inventory":"Inventario dispositivi","Internet Health":"Stato Internet","Top Talkers":"Top consumatori","Client Activity":"Attività client",
-  "Working in":"Stai lavorando in","Open workspace":"Apri area di lavoro","Exit tenant":"Esci dal cliente","Current":"Attuale","Collector Management":"Gestione collector","Tenant Management":"Gestione clienti","Dashboard":"Dashboard","Audit log":"Log di audit","Tenants":"Clienti","No matches":"Nessun risultato","Tenant Collectors":"Collector del cliente","Tenant details":"Dettagli cliente","Tickets & SLA":"Ticket e SLA","Integrations":"Integrazioni","Connected":"Connesso","Available":"Disponibile","API endpoint":"Endpoint API","Enabled":"Abilitato","Save":"Salva","Connect":"Connetti","Add integration":"Aggiungi integrazione","Not set":"Non impostato","of":"di","integrations connected":"integrazioni connesse","last 30 days":"ultimi 30 giorni","Open tickets":"Ticket aperti","Closed (30d)":"Chiusi (30g)","SLA met":"SLA rispettato","SLA breached":"SLA violato","Overview":"Panoramica","Plan":"Piano","Open alerts":"Avvisi aperti","Address":"Indirizzo","since":"dal","Open collector workspace":"Apri area collector","Collector limit":"Limite collector","Monthly recurring":"Ricavo mensile","Accent color":"Colore accento","Tenant slug":"Slug cliente","Tenant name":"Nome cliente","Danger zone":"Zona pericolosa","Suspend":"Sospendi","Delete":"Elimina"
+  "Working in":"Stai lavorando in","Open workspace":"Apri area di lavoro","Exit tenant":"Esci dal cliente","Current":"Attuale","Collector Serviceability":"Manutenzione collector","Tenant Management":"Gestione clienti","Dashboard":"Dashboard","Audit log":"Log di audit","Tenants":"Clienti","No matches":"Nessun risultato","Tenant Collectors":"Collector del cliente","Tenant details":"Dettagli cliente","Tickets & SLA":"Ticket e SLA","Integrations":"Integrazioni","Connected":"Connesso","Available":"Disponibile","API endpoint":"Endpoint API","Enabled":"Abilitato","Save":"Salva","Connect":"Connetti","Add integration":"Aggiungi integrazione","Not set":"Non impostato","of":"di","integrations connected":"integrazioni connesse","last 30 days":"ultimi 30 giorni","Open tickets":"Ticket aperti","Closed (30d)":"Chiusi (30g)","SLA met":"SLA rispettato","SLA breached":"SLA violato","Overview":"Panoramica","Plan":"Piano","Open alerts":"Avvisi aperti","Address":"Indirizzo","since":"dal","Open collector workspace":"Apri area collector","Collector limit":"Limite collector","Monthly recurring":"Ricavo mensile","Accent color":"Colore accento","Tenant slug":"Slug cliente","Tenant name":"Nome cliente","Danger zone":"Zona pericolosa","Suspend":"Sospendi","Delete":"Elimina"
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -4899,7 +4899,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"Le réseau supervisé : appareils, clients et liaisons observés par ces collecteurs.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Ceci est le plan NMS / de gestion. La supervision au niveau des appareils pour ce client arrivera dans une version ultérieure.",
   "Device Inventory":"Inventaire des appareils","Internet Health":"État Internet","Top Talkers":"Principaux émetteurs","Client Activity":"Activité des clients",
-  "Working in":"Vous travaillez dans","Open workspace":"Ouvrir l'espace","Exit tenant":"Quitter le client","Current":"Actuel","Collector Management":"Gestion des collecteurs","Tenant Management":"Gestion des clients","Dashboard":"Tableau de bord","Audit log":"Journal d'audit","Tenants":"Clients","No matches":"Aucun résultat","Tenant Collectors":"Collecteurs du client","Tenant details":"Détails du client","Tickets & SLA":"Tickets et SLA","Integrations":"Intégrations","Connected":"Connecté","Available":"Disponible","API endpoint":"Point de terminaison API","Enabled":"Activé","Save":"Enregistrer","Connect":"Connecter","Add integration":"Ajouter une intégration","Not set":"Non défini","of":"sur","integrations connected":"intégrations connectées","last 30 days":"30 derniers jours","Open tickets":"Tickets ouverts","Closed (30d)":"Fermés (30j)","SLA met":"SLA respecté","SLA breached":"SLA non respecté","Overview":"Aperçu","Plan":"Forfait","Open alerts":"Alertes ouvertes","Address":"Adresse","since":"depuis","Open collector workspace":"Ouvrir l'espace collecteurs","Collector limit":"Limite de collecteurs","Monthly recurring":"Revenu mensuel","Accent color":"Couleur d'accent","Tenant slug":"Slug du client","Tenant name":"Nom du client","Danger zone":"Zone sensible","Suspend":"Suspendre","Delete":"Supprimer"
+  "Working in":"Vous travaillez dans","Open workspace":"Ouvrir l'espace","Exit tenant":"Quitter le client","Current":"Actuel","Collector Serviceability":"Maintenance des collecteurs","Tenant Management":"Gestion des clients","Dashboard":"Tableau de bord","Audit log":"Journal d'audit","Tenants":"Clients","No matches":"Aucun résultat","Tenant Collectors":"Collecteurs du client","Tenant details":"Détails du client","Tickets & SLA":"Tickets et SLA","Integrations":"Intégrations","Connected":"Connecté","Available":"Disponible","API endpoint":"Point de terminaison API","Enabled":"Activé","Save":"Enregistrer","Connect":"Connecter","Add integration":"Ajouter une intégration","Not set":"Non défini","of":"sur","integrations connected":"intégrations connectées","last 30 days":"30 derniers jours","Open tickets":"Tickets ouverts","Closed (30d)":"Fermés (30j)","SLA met":"SLA respecté","SLA breached":"SLA non respecté","Overview":"Aperçu","Plan":"Forfait","Open alerts":"Alertes ouvertes","Address":"Adresse","since":"depuis","Open collector workspace":"Ouvrir l'espace collecteurs","Collector limit":"Limite de collecteurs","Monthly recurring":"Revenu mensuel","Accent color":"Couleur d'accent","Tenant slug":"Slug du client","Tenant name":"Nom du client","Danger zone":"Zone sensible","Suspend":"Suspendre","Delete":"Supprimer"
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -4948,7 +4948,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"La red supervisada: dispositivos, clientes y enlaces que observan estos colectores.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este es el plano NMS / de gestión. La supervisión a nivel de dispositivo para este cliente llegará en una versión posterior.",
   "Device Inventory":"Inventario de dispositivos","Internet Health":"Estado de Internet","Top Talkers":"Principales emisores","Client Activity":"Actividad de clientes",
-  "Working in":"Trabajando en","Open workspace":"Abrir espacio","Exit tenant":"Salir del cliente","Current":"Actual","Collector Management":"Gestión de collectors","Tenant Management":"Gestión de clientes","Dashboard":"Panel","Audit log":"Registro de auditoría","Tenants":"Clientes","No matches":"Sin resultados","Tenant Collectors":"Collectors del cliente","Tenant details":"Detalles del cliente","Tickets & SLA":"Tickets y SLA","Integrations":"Integraciones","Connected":"Conectado","Available":"Disponible","API endpoint":"Endpoint de API","Enabled":"Habilitado","Save":"Guardar","Connect":"Conectar","Add integration":"Añadir integración","Not set":"No establecido","of":"de","integrations connected":"integraciones conectadas","last 30 days":"últimos 30 días","Open tickets":"Tickets abiertos","Closed (30d)":"Cerrados (30d)","SLA met":"SLA cumplido","SLA breached":"SLA incumplido","Overview":"Resumen","Plan":"Plan","Open alerts":"Alertas abiertas","Address":"Dirección","since":"desde","Open collector workspace":"Abrir espacio de collectors","Collector limit":"Límite de collectors","Monthly recurring":"Ingreso mensual","Accent color":"Color de acento","Tenant slug":"Slug del cliente","Tenant name":"Nombre del cliente","Danger zone":"Zona de peligro","Suspend":"Suspender","Delete":"Eliminar"
+  "Working in":"Trabajando en","Open workspace":"Abrir espacio","Exit tenant":"Salir del cliente","Current":"Actual","Collector Serviceability":"Mantenimiento de collectors","Tenant Management":"Gestión de clientes","Dashboard":"Panel","Audit log":"Registro de auditoría","Tenants":"Clientes","No matches":"Sin resultados","Tenant Collectors":"Collectors del cliente","Tenant details":"Detalles del cliente","Tickets & SLA":"Tickets y SLA","Integrations":"Integraciones","Connected":"Conectado","Available":"Disponible","API endpoint":"Endpoint de API","Enabled":"Habilitado","Save":"Guardar","Connect":"Conectar","Add integration":"Añadir integración","Not set":"No establecido","of":"de","integrations connected":"integraciones conectadas","last 30 days":"últimos 30 días","Open tickets":"Tickets abiertos","Closed (30d)":"Cerrados (30d)","SLA met":"SLA cumplido","SLA breached":"SLA incumplido","Overview":"Resumen","Plan":"Plan","Open alerts":"Alertas abiertas","Address":"Dirección","since":"desde","Open collector workspace":"Abrir espacio de collectors","Collector limit":"Límite de collectors","Monthly recurring":"Ingreso mensual","Accent color":"Color de acento","Tenant slug":"Slug del cliente","Tenant name":"Nombre del cliente","Danger zone":"Zona de peligro","Suspend":"Suspender","Delete":"Eliminar"
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -4998,7 +4998,7 @@ const I18N={
   "The monitored network: devices, clients, and links these collectors observe.":"A rede monitorada: dispositivos, clientes e links que estes coletores observam.",
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
   "Device Inventory":"Inventário de dispositivos","Internet Health":"Saúde da Internet","Top Talkers":"Principais consumidores","Client Activity":"Atividade de clientes",
-  "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Management":"Gestão de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados","Tenant Collectors":"Collectors do cliente","Tenant details":"Detalhes do cliente","Tickets & SLA":"Tickets e SLA","Integrations":"Integrações","Connected":"Conectado","Available":"Disponível","API endpoint":"Endpoint da API","Enabled":"Ativado","Save":"Salvar","Connect":"Conectar","Add integration":"Adicionar integração","Not set":"Não definido","of":"de","integrations connected":"integrações conectadas","last 30 days":"últimos 30 dias","Open tickets":"Tickets abertos","Closed (30d)":"Fechados (30d)","SLA met":"SLA cumprido","SLA breached":"SLA violado","Overview":"Visão geral","Plan":"Plano","Open alerts":"Alertas abertos","Address":"Endereço","since":"desde","Open collector workspace":"Abrir espaço de collectors","Collector limit":"Limite de collectors","Monthly recurring":"Receita mensal","Accent color":"Cor de destaque","Tenant slug":"Slug do cliente","Tenant name":"Nome do cliente","Danger zone":"Zona de perigo","Suspend":"Suspender","Delete":"Eliminar"
+  "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Serviceability":"Manutenção de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados","Tenant Collectors":"Collectors do cliente","Tenant details":"Detalhes do cliente","Tickets & SLA":"Tickets e SLA","Integrations":"Integrações","Connected":"Conectado","Available":"Disponível","API endpoint":"Endpoint da API","Enabled":"Ativado","Save":"Salvar","Connect":"Conectar","Add integration":"Adicionar integração","Not set":"Não definido","of":"de","integrations connected":"integrações conectadas","last 30 days":"últimos 30 dias","Open tickets":"Tickets abertos","Closed (30d)":"Fechados (30d)","SLA met":"SLA cumprido","SLA breached":"SLA violado","Overview":"Visão geral","Plan":"Plano","Open alerts":"Alertas abertos","Address":"Endereço","since":"desde","Open collector workspace":"Abrir espaço de collectors","Collector limit":"Limite de collectors","Monthly recurring":"Receita mensal","Accent color":"Cor de destaque","Tenant slug":"Slug do cliente","Tenant name":"Nome do cliente","Danger zone":"Zona de perigo","Suspend":"Suspender","Delete":"Eliminar"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -5883,7 +5883,7 @@ function pickTenant(slug){
   refreshDashboard();                 /* radar, fleet grid, mini-alerts, ticker, console all follow */
   const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations'];
   let cur=SCREENS.find(s=>{const e=document.getElementById('screen-'+s); return e&&e.classList.contains('show');});
-  if(!cur) cur='fleet';   /* from a collector view → land on Collector Management (scoped), not a specific collector */
+  if(!cur) cur='fleet';   /* from a collector view → land on Collector Serviceability (scoped), not a specific collector */
   if(cur==='tenants') renderTenants();
   else if(cur==='fleet') renderFleetTable();
   else if(cur==='alerts') renderAlertsFull();
@@ -6219,13 +6219,26 @@ function renderCfgMgr(){
     const f=files.find(x=>x.cat===cfgSubPage)||files[0];
     body='<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
   }
-  el.innerHTML=head+bar+cfgOsCard()+body;
+  el.innerHTML=head+bar+(cfgSubPage==='base'?cfgOsCard():'')+body;
 }
 function toggleNavDisc(key){
   const ch=document.getElementById('navChildren-'+key); if(!ch) return;
+  const dc=document.querySelector('.nav-disc[data-disc="'+key+'"]');
+  if(key==='cfgmgr'){
+    /* If we're not already on the config page, clicking the parent always opens
+       the disclosure AND navigates to a subpage (current one, or the first).
+       Only toggle the submenu collapsed when we're already viewing it. */
+    if(navHighlight!=='cfgmgr'){
+      const first=ch.querySelector('.nav-subitem');
+      goCfgSub(cfgSubPage || (first?first.dataset.sub:'base'));
+    } else {
+      const open=ch.classList.toggle('open');
+      if(dc) dc.classList.toggle('expanded',open);
+    }
+    return;
+  }
   const open=ch.classList.toggle('open');
-  const dc=document.querySelector('.nav-disc[data-disc="'+key+'"]'); if(dc) dc.classList.toggle('expanded',open);
-  if(open && key==='cfgmgr'){ const first=ch.querySelector('.nav-subitem'); if(first) goCfgSub(first.dataset.sub); }
+  if(dc) dc.classList.toggle('expanded',open);
 }
 function goCfgSub(sub){
   cfgSubPage=sub;
@@ -6308,7 +6321,7 @@ function svcCard(o){
 let currentDetailId='acme-corp:site-04';
 /* breadcrumb label + return target, keyed by the section the collector was opened from */
 const CRUMB_ORIGIN={
-  fleet:{s:'fleet',k:'Collector Management'},
+  fleet:{s:'fleet',k:'Collector Serviceability'},
   tenants:{s:'tenants',k:'Tenant Management'},
   dashboard:{s:'dashboard',k:'Dashboard'},
   alerts:{s:'alerts',k:'Alerts'},
@@ -6425,12 +6438,12 @@ function renderTenantNMS(){
     <div class="nms-note">${TX('This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.')}</div>
     <div class="nms-grid">${cards}</div>`;
 }
-function openFromRadar(tenant,coll){ navHighlight='fleet'; openDetail(tenant+':'+coll); }  /* radar → collector, origin = Collector Management */
+function openFromRadar(tenant,coll){ navHighlight='fleet'; openDetail(tenant+':'+coll); }  /* radar → collector, origin = Collector Serviceability */
 function openDetail(id){
   currentDetailId=id;
   currentTenantCtx=id.split(':')[0];
   currentPlane='control';
-  navHighlight='fleet';          /* a collector view always lives under Collector Management */
+  navHighlight='fleet';          /* a collector view always lives under Collector Serviceability */
   buildCtxBar();
   renderDetail();
   go('detail');
