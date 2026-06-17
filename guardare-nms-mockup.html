@@ -449,6 +449,7 @@
   .s-offline i{background:var(--mute)} .s-offline{color:var(--mute)}
   .cell-id{font-family:"Open Sans";font-size:12.5px;color:var(--text)}
   .cell-tenant{display:inline-flex;align-items:center;gap:8px}
+  .hide-tenant-col .col-tenant{display:none}
   .tn-avatar{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:700;
     font-family:"Open Sans";color:#04201b}
   .cell-mut{color:var(--mute);font-family:"Open Sans";font-size:12px}
@@ -702,6 +703,12 @@
   .tnt-region{font-size:9.5px;font-weight:600;letter-spacing:.04em;color:var(--dim);background:var(--raise);
     border:1px solid var(--line-soft);padding:2px 7px;border-radius:5px}
   .tnt-foot .btn{padding:6px 13px;font-size:12px}
+  .tnt-grip{display:inline-flex;align-items:center;color:var(--mute);cursor:grab;padding:2px;border-radius:6px;transition:.15s}
+  .tnt-grip svg{width:18px;height:18px;fill:currentColor;stroke:none}
+  .tnt-grip:hover{color:var(--dim);background:var(--raise)}
+  .tnt-card[draggable="true"]:active{cursor:grabbing}
+  .tnt-card.dragging{opacity:.4;transform:none;border-style:dashed;border-color:var(--teal)}
+  .tnt-card.drop-target{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal-ghost) inset}
   .tnt-ctx-banner{display:flex;align-items:center;gap:11px;margin-bottom:18px;padding:11px 16px;border:1px solid var(--teal-deep);
     background:linear-gradient(90deg,var(--teal-ghost),transparent);border-radius:10px;font-size:13px;color:var(--text);flex-wrap:wrap}
   .tnt-ctx-banner .cdot{width:9px;height:9px;border-radius:99px;box-shadow:0 0 8px currentColor;flex:0 0 auto}
@@ -762,12 +769,18 @@
   @media(max-width:820px){ .intg-grid{grid-template-columns:1fr} }
   .intg-group{margin-top:34px}
   .intg-group:first-of-type{margin-top:20px}
-  .intg-group-head{display:flex;align-items:center;gap:12px;margin-bottom:17px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+  .intg-group-head{display:flex;align-items:center;gap:12px;width:100%;margin:0;padding:12px 6px 13px;border:0;border-bottom:1px solid var(--line);background:none;color:inherit;font:inherit;cursor:pointer;text-align:left;transition:border-color .15s}
+  .intg-group-head:hover{border-bottom-color:var(--teal-deep)}
   .intg-group-title{font-size:19px;font-weight:600;color:var(--text);margin:0;padding-left:13px;
     border-left:4px solid var(--teal);line-height:1.2;letter-spacing:-.01em}
   .intg-group-count{font-size:11.5px;font-weight:700;color:var(--teal);background:var(--teal-ghost);
     border:1px solid #2ee6c844;padding:3px 10px;border-radius:99px;line-height:1.4}
   .intg-group-meta{margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  .intg-acc-caret{margin-left:8px;width:18px;height:18px;flex:0 0 18px;stroke:var(--dim);fill:none;stroke-width:2;transition:transform .22s}
+  .intg-group.open .intg-acc-caret{transform:rotate(180deg)}
+  .intg-acc-body{overflow:hidden;max-height:0;transition:max-height .3s ease}
+  .intg-group.open .intg-acc-body{max-height:3000px}
+  .intg-acc-body .intg-grid{padding-top:18px}
   .intg-card{padding:18px}
   .intg-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
   .intg-logo{width:40px;height:40px;border-radius:10px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;
@@ -1401,10 +1414,10 @@
       </div>
 
       <div class="panel">
-        <table>
+        <table id="fleetTbl">
           <thead>
             <tr>
-              <th data-i18n="Tenant">Tenant</th><th data-i18n="Collector">Collector</th><th data-i18n="Status">Status</th><th data-i18n="Last seen">Last seen</th>
+              <th class="col-tenant" data-i18n="Tenant">Tenant</th><th data-i18n="Collector">Collector</th><th data-i18n="Status">Status</th><th data-i18n="Last seen">Last seen</th>
               <th class="r" data-i18n="CPU">CPU</th><th class="r" data-i18n="Throughput">Throughput</th><th data-i18n="Config">Config</th>
             </tr>
           </thead>
@@ -4798,6 +4811,30 @@ snmp_field_mapping:
   </div>
 </div>
 
+<div class="modal-backdrop" id="intgModal" onclick="intgBackdrop(event)">
+  <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="intgTitle">
+    <div id="intgConfirm">
+      <div class="modal-ic info" id="intgConfirmIc"></div>
+      <h3 class="modal-title" id="intgTitle"></h3>
+      <p class="modal-text" id="intgText"></p>
+      <div class="modal-acts">
+        <button class="btn" onclick="closeIntgModal()" data-i18n="No, cancel">No, cancel</button>
+        <button class="btn primary" id="intgConfirmBtn" onclick="confirmIntgOp()"></button>
+      </div>
+    </div>
+    <div id="intgProgress" style="display:none">
+      <div class="modal-ic info" id="intgProgIc"></div>
+      <h3 class="modal-title" id="intgProgTitle"></h3>
+      <p class="modal-text"><span id="intgProgSub"></span></p>
+      <div class="diag-list" id="intgList"></div>
+      <div class="svc-done" id="intgDone" style="display:none"></div>
+      <div class="modal-acts" id="intgActs" style="display:none">
+        <button class="btn primary" onclick="closeIntgModal()" data-i18n="Done">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="aiModal" onclick="aiBackdrop(event)">
   <div class="modal modal-wide ai-modal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
     <div class="ai-modal-head">
@@ -5229,9 +5266,10 @@ function renderFleetTable(){
   _set('fleetCount', String(base.length));
   const cnt=s=>base.filter(r=>r[2]===s).length;
   _set('fcOnline',String(cnt('online'))); _set('fcWarn',String(cnt('warn'))); _set('fcCrit',String(cnt('crit'))); _set('fcOffline',String(cnt('offline')));
+  const tbl=document.getElementById('fleetTbl'); if(tbl) tbl.classList.toggle('hide-tenant-col', sc!=='all');
   document.getElementById('fleetTable').innerHTML = rows.map(r=>`
     <tr onclick="openDetail('${r[1]}:${r[0]}')">
-      <td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[r[1]]}">${tnInit(r[1])}</span>${tenantName[r[1]]}</span></td>
+      <td class="col-tenant"><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[r[1]]}">${tnInit(r[1])}</span>${tenantName[r[1]]}</span></td>
       <td class="cell-id">${r[0]}</td>
       <td><span class="td-status ${statusClass[r[2]]}"><i></i>${TX(statusLabel[r[2]])}</span></td>
       <td class="cell-mut">${r[3]}</td>
@@ -5372,7 +5410,11 @@ function tntCard(t){
   const alClass = al===0 ? 'ok' : al>=3 ? 'crit' : 'warn';
   const tix = tenantTickets(t.slug);
   return `
-    <div class="tnt-card" style="--c:${color}" onclick="manageTenant('${t.slug}')">
+    <div class="tnt-card" style="--c:${color}" draggable="true" data-slug="${t.slug}"
+      onclick="manageTenant('${t.slug}')"
+      ondragstart="tntDragStart(event,'${t.slug}')" ondragend="tntDragEnd(event)"
+      ondragover="tntDragOver(event)" ondragenter="tntDragEnter(event)" ondragleave="tntDragLeave(event)"
+      ondrop="tntDrop(event,'${t.slug}')">
       <div class="tnt-top">
         <div class="tnt-ava">${tnInit(name)}</div>
         <div class="tnt-id">
@@ -5405,12 +5447,31 @@ function tntCard(t){
       </div>
       <div class="tnt-foot">
         <div class="tnt-regions">${t.regions.map(r=>`<span class="tnt-region">${r}</span>`).join('')}</div>
-        <button class="btn" onclick="event.stopPropagation();manageTenant('${t.slug}')">Manage</button>
+        <span class="tnt-grip" title="${TX('Drag to reorder')}" aria-hidden="true" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></span>
       </div>
     </div>`;
 }
 
-/* ---------- per-tenant Management page ---------- */
+/* ---------- tenant card drag-and-drop reorder ---------- */
+let tntDragSlug=null;
+function tntDragStart(e,slug){ tntDragSlug=slug; try{e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',slug);}catch(_){} const c=e.currentTarget; if(c) c.classList.add('dragging'); }
+function tntDragEnd(e){ const c=e.currentTarget; if(c) c.classList.remove('dragging'); document.querySelectorAll('.tnt-card.drop-target').forEach(x=>x.classList.remove('drop-target')); tntDragSlug=null; }
+function tntDragOver(e){ e.preventDefault(); try{e.dataTransfer.dropEffect='move';}catch(_){} }
+function tntDragEnter(e){ const c=e.currentTarget; if(c && !c.classList.contains('dragging')) c.classList.add('drop-target'); }
+function tntDragLeave(e){ const c=e.currentTarget; if(c && !c.contains(e.relatedTarget)) c.classList.remove('drop-target'); }
+function tntDrop(e,targetSlug){ e.preventDefault(); const c=e.currentTarget; if(c) c.classList.remove('drop-target'); const from=tntDragSlug; if(!from||from===targetSlug) return; reorderTenants(from,targetSlug); }
+function reorderTenants(fromSlug,toSlug){
+  const fromIdx=TENANT_DIR.findIndex(t=>t.slug===fromSlug);
+  const toIdx=TENANT_DIR.findIndex(t=>t.slug===toSlug);
+  if(fromIdx<0||toIdx<0) return;
+  const [moved]=TENANT_DIR.splice(fromIdx,1);
+  const insertAt=TENANT_DIR.findIndex(t=>t.slug===toSlug);
+  TENANT_DIR.splice(fromIdx<toIdx?insertAt+1:insertAt,0,moved);
+  renderTenants();
+  if(typeof renderTenantMenu==='function') renderTenantMenu();
+  toast(TX('Reordered')+' · '+(tenantName[fromSlug]||fromSlug));
+}
+
 /* canonical per-collector site registry — single source of truth for the Locations screen + tenant page */
 const COLLECTOR_SITES={
   'acme-corp:site-01':{name:'HQ — New York',city:'New York, NY',lat:40.7128,lng:-74.0060},
@@ -5828,7 +5889,7 @@ function intgCard(it, scope){
   else if(mode==='rollup') actions=`<span class="intg-note-inline">${rollN} ${TX('of')} ${TENANT_INTG_TOTAL} ${TX('tenants connected')}</span><button class="btn" onclick="toast('${TX('Pick a tenant from the switcher to configure')}')">${TX('Configure per tenant')}</button>`;
   else { const ctxName = it.scope==='tenant' ? (tenantName[scope]||scope) : TX('platform');
     actions=`<label class="intg-toggle"><input type="checkbox" ${connected?'checked':''} onchange="toast('${it.name} — ${ctxName} ' + (this.checked?'${TX('enabled')}':'${TX('disabled')}'))"><span>${TX('Enabled')}</span></label>
-             <button class="btn ${connected?'':'primary'}" onclick="toast('${it.name} — ${connected?TX('changes saved'):TX('connection test sent')}')">${connected?TX('Save'):TX('Connect')}</button>`; }
+             <button class="btn ${connected?'danger':'primary'}" onclick="intgOp('${it.id}',${connected?'false':'true'})">${connected?TX('Disconnect'):TX('Connect')}</button>`; }
   return `
     <div class="panel intg-card${readOnly?' intg-readonly':''}">
       <div class="intg-head">
@@ -5842,10 +5903,26 @@ function intgCard(it, scope){
       <div class="intg-actions">${actions}</div>
     </div>`;
 }
+let intgAccOpen=null;   /* Set of expanded group keys; null until first render → first section open */
+function toggleIntgAcc(btn){
+  const item=btn.closest('.intg-group'); if(!item) return;
+  const key=item.dataset.group;
+  const open=item.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open?'true':'false');
+  if(!intgAccOpen) intgAccOpen=new Set(_intgDefaultOpen());
+  if(open) intgAccOpen.add(key); else intgAccOpen.delete(key);
+}
+function _intgDefaultOpen(){
+  const isAll=tenantScope()==='all';
+  const order = isAll ? ['gitops','ai','servicedesk','alerting'] : ['servicedesk','alerting','gitops','ai'];
+  const first=order.find(k=>INTEGRATIONS.some(i=>i.group===k));
+  return first?[first]:[];
+}
 function renderIntegrations(){
   const scope=tenantScope(), isAll=scope==='all';
   const titleOf={}; INTG_GROUPS.forEach(([k,t])=>titleOf[k]=t);
   const order = isAll ? ['gitops','ai','servicedesk','alerting'] : ['servicedesk','alerting','gitops','ai'];
+  const firstKey=order.find(k=>INTEGRATIONS.some(i=>i.group===k));
   const sections=order.map(key=>{
     const items=INTEGRATIONS.filter(i=>i.group===key);
     if(!items.length) return '';
@@ -5856,28 +5933,26 @@ function renderIntegrations(){
       const c=items.filter(i=>i.connected).length;
       meta = isAll ? `${c} ${TX('connected')}` : TX('Inherited from platform');
     } else {
-      if(isAll){ scopePill=`<span class="intg-scope perten">${TX('Per-tenant')}</span>`; meta=TX('Configured per tenant'); }
-      else {
-        scopePill=`<span class="intg-scope perten"><span class="tn-avatar xs" style="background:${tenantColors[scope]}">${tnInit(scope)}</span>${tenantName[scope]||scope}</span>`;
-        const c=items.filter(i=>{const s=tIntg(scope,i.id);return s&&s.connected;}).length;
-        meta=`${c} ${TX('connected')}`;
-      }
+      scopePill=`<span class="intg-scope perten">${TX('Per-tenant')}</span>`;
+      if(isAll){ meta=TX('Configured per tenant'); }
+      else { const c=items.filter(i=>{const s=tIntg(scope,i.id);return s&&s.connected;}).length; meta=`${c} ${TX('connected')}`; }
     }
+    const isOpen = intgAccOpen ? intgAccOpen.has(key) : (key===firstKey);
     return `
-      <section class="intg-group">
-        <div class="intg-group-head">
+      <section class="intg-group${isOpen?' open':''}" data-group="${key}">
+        <button class="intg-group-head" type="button" onclick="toggleIntgAcc(this)" aria-expanded="${isOpen}">
           <h2 class="intg-group-title">${TX(titleOf[key])}</h2>
           <span class="intg-group-count">${items.length}</span>
           ${scopePill}
           <span class="intg-group-meta">${meta}</span>
-        </div>
-        <div class="intg-grid">${items.map(it=>intgCard(it,scope)).join('')}</div>
+          <svg class="intg-acc-caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="intg-acc-body"><div class="intg-grid">${items.map(it=>intgCard(it,scope)).join('')}</div></div>
       </section>`;
   }).join('');
   const platformConn=INTEGRATIONS.filter(i=>i.scope==='platform'&&i.connected).length;
   const tenantConnectors=INTEGRATIONS.filter(i=>i.scope==='tenant').length;
   const tenantConn=isAll?0:INTEGRATIONS.filter(i=>{const s=tIntg(scope,i.id);return s&&s.connected;}).length;
-  const titleChip = isAll ? '' : `<span class="title-chip" style="--c:${tenantColors[scope]}"><span class="tn-avatar xs" style="background:${tenantColors[scope]}">${tnInit(scope)}</span>${tenantName[scope]||scope}</span>`;
   const sub = isAll
     ? TX('Platform connectors are shared across every tenant · ticketing and on-call route per tenant.')
     : `${tenantName[scope]||scope} · ${TX('alert routing to their service desk and on-call · platform connectors are inherited.')}`;
@@ -5888,7 +5963,7 @@ function renderIntegrations(){
     <div class="page-head">
       <div>
         <div class="page-eyebrow">${TX('Configuration')}</div>
-        <h1 class="page-title">${TX('Integrations')} ${titleChip}</h1>
+        <h1 class="page-title">${TX('Integrations')}</h1>
         <p class="page-sub">${sub}</p>
       </div>
       <div class="head-actions">
@@ -5897,7 +5972,7 @@ function renderIntegrations(){
     </div>
     <div class="cfg-note"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7"/></svg>
       ${note}</div>
-    ${sections}`;
+    <div class="intg-accordion">${sections}</div>`;
 }
 
 /* ---------- tenant switcher ---------- */
@@ -6016,6 +6091,7 @@ const AUDIT_LOG=[
 ];
 function renderAudit(){
   const scope=currentTenantCtx;
+  const oneTenant=!!scope;
   const cats=[['all','All'],['security','Security'],['provisioning','Provisioning'],['alerts','Alerts'],['config','Config'],['tenants','Tenants'],['billing','Billing'],['collector','Collector']];
   let list=AUDIT_LOG.filter(e=> !scope || e.tenant===scope);
   const total=list.length;
@@ -6029,7 +6105,7 @@ function renderAudit(){
     return `<tr>
       <td class="aud-when">${e.t}</td>
       <td><div class="aud-actor"><b>${e.actor}</b><span>${TX(auditRoleLabel(e.role))}</span></div></td>
-      <td>${ten}</td>
+      ${oneTenant?'':`<td>${ten}</td>`}
       <td class="aud-act"><span class="aud-cat" style="color:${col};border-color:${col}55;background:${col}14">${TX(auditCatLabel(e.cat))}</span><span>${TX(e.action)}</span></td>
       <td class="cell-id">${e.target}</td>
       <td class="aud-ip mono">${e.ip}</td>
@@ -6050,18 +6126,19 @@ function renderAudit(){
     <div class="aud-filter">${chips}</div>
     <div class="panel" style="overflow-x:auto">
       <table>
-        <thead><tr><th>${TX('Time')}</th><th>${TX('Actor')}</th><th>${TX('Tenant')}</th><th>${TX('Action')}</th><th>${TX('Target')}</th><th>${TX('Source IP')}</th></tr></thead>
-        <tbody>${rows||`<tr><td colspan="6" class="aud-empty">${TX('No matching events')}</td></tr>`}</tbody>
+        <thead><tr><th>${TX('Time')}</th><th>${TX('Actor')}</th>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Action')}</th><th>${TX('Target')}</th><th>${TX('Source IP')}</th></tr></thead>
+        <tbody>${rows||`<tr><td colspan="${oneTenant?5:6}" class="aud-empty">${TX('No matching events')}</td></tr>`}</tbody>
       </table>
     </div>`;
 }
 function renderConfig(){
   const list=locationRows();
+  const oneTenant=(currentTenantCtx||currentTenant)!=='all';
   const stMap={online:['s-online','Online'],warn:['s-warn','Degraded'],degraded:['s-warn','Degraded'],crit:['s-crit','Critical'],offline:['s-offline','Offline']};
   const rows=list.map(l=>{
     const [sc,sl]=stMap[l.status]||stMap.online;
     return `<tr data-loc="${l.tenant}:${l.coll}">
-      <td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[l.tenant]||'var(--teal)'}">${tnInit(tenantName[l.tenant]||l.tenant)}</span>${tenantName[l.tenant]||l.tenant}</span></td>
+      ${oneTenant?'':`<td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[l.tenant]||'var(--teal)'}">${tnInit(tenantName[l.tenant]||l.tenant)}</span>${tenantName[l.tenant]||l.tenant}</span></td>`}
       <td><input class="loc-input" value="${l.name}"></td>
       <td class="cell-id">${l.coll}</td>
       <td><input class="loc-input" value="${l.city}"></td>
@@ -6087,7 +6164,7 @@ function renderConfig(){
       ${TX('These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.')}</div>
     <div class="panel" style="overflow-x:auto">
       <table>
-        <thead><tr><th>${TX('Tenant')}</th><th>${TX('Location name')}</th><th>${TX('Collector')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th>${TX('Status')}</th><th></th></tr></thead>
+        <thead><tr>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Location name')}</th><th>${TX('Collector')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th>${TX('Status')}</th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>`;
@@ -7008,6 +7085,81 @@ function finishSvcOp(op,t){
   d.textContent=TX(op.donenote); d.style.display='block';
   document.getElementById('svcActs').style.display='flex';
   toast(TX(op.done)+' · '+t);
+}
+
+/* ---------- integration connect / disconnect (confirm → staged op) ---------- */
+const INTG_LINK='<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>';
+const INTG_UNLINK='<svg viewBox="0 0 24 24"><path d="M9 17H7.5a5 5 0 0 1 0-9H9M15 7h1.5a5 5 0 0 1 3.5 8.5"/><path d="M3 3l18 18"/></svg>';
+const INTG_CONNECT_STEPS=[['Validating endpoint','{ep}','reachable'],['Exchanging credentials','OAuth handshake','authorized'],['Sending test event','round-trip check','200 OK'],['Enabling routing','Guardare → {name}','live']];
+const INTG_DISCONNECT_STEPS=[['Disabling routing','Guardare → {name}','stopped'],['Revoking credentials','token invalidated','revoked'],['Closing open sessions','webhooks · subscriptions','closed']];
+let intgOpTimer=null, intgOpCur=null;
+function intgEndpointFor(it,scope){ return it.scope==='platform' ? it.endpoint : it.endpoint.replace('yourorg',scope); }
+function intgOp(id, connect){
+  connect=(connect===true||connect==='true');
+  const it=INTEGRATIONS.find(i=>i.id===id); if(!it) return;
+  const scope=tenantScope();
+  intgOpCur={id, connect, scope};
+  const ic=document.getElementById('intgConfirmIc'); ic.className='modal-ic '+(connect?'info':'warn'); ic.innerHTML=connect?INTG_LINK:INTG_UNLINK;
+  const pic=document.getElementById('intgProgIc'); pic.className='modal-ic '+(connect?'info':'warn'); pic.innerHTML=connect?INTG_LINK:INTG_UNLINK;
+  document.getElementById('intgTitle').textContent=(connect?TX('Connect'):TX('Disconnect'))+' '+it.name+'?';
+  const where = it.scope==='platform' ? TX('for the platform — every tenant inherits it') : (TX('for')+' '+(tenantName[scope]||scope));
+  document.getElementById('intgText').innerHTML = connect
+    ? TX('Guardare will connect to')+' <b>'+it.name+'</b> '+where+'. '+TX('A test event is sent to verify the endpoint and credentials before routing goes live.')
+    : TX('Guardare will disconnect')+' <b>'+it.name+'</b> '+where+'. '+TX('Alert routing through this connector stops until you reconnect.');
+  const cb=document.getElementById('intgConfirmBtn'); cb.className='btn '+(connect?'primary':'danger');
+  cb.innerHTML=(connect?INTG_LINK:INTG_UNLINK)+'<span>'+(connect?TX('Yes, connect'):TX('Yes, disconnect'))+'</span>';
+  document.getElementById('intgConfirm').style.display='block';
+  document.getElementById('intgProgress').style.display='none';
+  document.getElementById('intgDone').style.display='none';
+  document.getElementById('intgActs').style.display='none';
+  document.getElementById('intgModal').classList.add('show');
+}
+function closeIntgModal(){ document.getElementById('intgModal').classList.remove('show'); if(intgOpTimer){clearTimeout(intgOpTimer);intgOpTimer=null;} }
+function intgBackdrop(e){ if(e.target.id!=='intgModal') return; if(document.getElementById('intgConfirm').style.display!=='none') closeIntgModal(); }
+function confirmIntgOp(){
+  const op=intgOpCur; if(!op) return;
+  const it=INTEGRATIONS.find(i=>i.id===op.id);
+  const ep=intgEndpointFor(it,op.scope);
+  document.getElementById('intgConfirm').style.display='none';
+  document.getElementById('intgProgress').style.display='block';
+  document.getElementById('intgDone').style.display='none';
+  document.getElementById('intgActs').style.display='none';
+  document.getElementById('intgProgTitle').textContent=(op.connect?TX('Connecting to'):TX('Disconnecting'))+' '+it.name+'…';
+  document.getElementById('intgProgSub').innerHTML='<b class="mono">'+ep+'</b>';
+  const steps=(op.connect?INTG_CONNECT_STEPS:INTG_DISCONNECT_STEPS).map(s=>[s[0], s[1].replace('{ep}',ep).replace('{name}',it.name), s[2]]);
+  const CHK='<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>';
+  document.getElementById('intgList').innerHTML=steps.map((s,i)=>`<div class="diag-row" id="intgstep-${i}">
+      <span class="diag-ic running"><span class="diag-spin"></span></span>
+      <span class="diag-main"><b>${TX(s[0])}</b><span>${s[1]}</span></span>
+      <span class="diag-note" id="intgstepn-${i}"></span>
+    </div>`).join('');
+  let i=0;
+  const step=()=>{
+    if(i>=steps.length){ finishIntgOp(op); return; }
+    const row=document.getElementById('intgstep-'+i);
+    if(row){ const ic=row.querySelector('.diag-ic'); ic.className='diag-ic ok'; ic.innerHTML=CHK;
+      const n=document.getElementById('intgstepn-'+i); n.textContent=TX(steps[i][2]); n.className='diag-note ok'; }
+    i++; intgOpTimer=setTimeout(step,440);
+  };
+  if(intgOpTimer)clearTimeout(intgOpTimer); intgOpTimer=setTimeout(step,400);
+}
+function intgSetConn(id,val,scope){
+  const it=INTEGRATIONS.find(i=>i.id===id); if(!it) return;
+  if(it.scope==='platform'){ it.connected=val; }
+  else { if(!TENANT_INTG[scope]) TENANT_INTG[scope]={};
+    if(!TENANT_INTG[scope][id]) TENANT_INTG[scope][id]={endpoint:it.endpoint.replace('yourorg',scope)};
+    TENANT_INTG[scope][id].connected=val; }
+}
+function finishIntgOp(op){
+  const it=INTEGRATIONS.find(i=>i.id===op.id);
+  intgSetConn(op.id, op.connect, op.scope);
+  document.getElementById('intgProgTitle').textContent=it.name+' · '+(op.connect?TX('connected'):TX('disconnected'));
+  const d=document.getElementById('intgDone');
+  d.textContent = op.connect ? (it.name+' '+TX('is now routing from Guardare.')) : (it.name+' '+TX('routing has stopped.'));
+  d.style.display='block';
+  document.getElementById('intgActs').style.display='flex';
+  toast(it.name+' · '+(op.connect?TX('connected'):TX('disconnected')));
+  if(typeof renderIntegrations==='function') renderIntegrations();
 }
 
 /* ---------- console log stream ---------- */
