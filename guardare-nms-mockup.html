@@ -196,7 +196,8 @@
   .nav-group:first-child{padding-top:2px}
   .nav-item,.nav-disc{
     display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--r-sm);
-    font-size:13.5px;font-weight:500;color:var(--dim);transition:.15s;position:relative;text-align:left;width:100%
+    font-size:13.5px;font-weight:500;color:var(--dim);transition:.15s;position:relative;text-align:left;width:100%;
+    min-height:38px;cursor:pointer
   }
   .nav-item:hover,.nav-disc:hover{background:var(--panel);color:var(--text)}
   .nav-item.active,.nav-disc.active{background:linear-gradient(90deg,var(--teal-ghost),transparent);color:var(--text)}
@@ -627,6 +628,45 @@
   .gcfg-soon-tx b{display:block;color:var(--text);font-weight:700;font-size:13.5px}
   .gcfg-soon-tx span{font-size:12px;color:var(--dim)}
   .gcfg-soon .soon-tag{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#E95420;border:1px solid #E9542050;background:#E9542014;padding:3px 9px;border-radius:99px}
+  /* Ubuntu host tuning */
+  .gcfg-sechead{display:flex;align-items:center;gap:13px;margin:6px 2px -2px}
+  .gcfg-sec-logo{flex:none;width:34px;height:34px;display:grid;place-items:center}
+  .gcfg-sec-logo svg{width:32px;height:32px}
+  .gcfg-sechead h2{margin:0;font-size:15.5px;font-weight:700;color:var(--text)}
+  .gcfg-sechead p{margin:2px 0 0;font-size:12px;color:var(--mute)}
+  .gcfg-cic.ora{background:#E9542018;border-color:#E9542040}
+  .gcfg-cic.ora svg{stroke:#E95420}
+  .gcfg-subhead{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding:14px 18px 0;display:flex;align-items:center;gap:9px}
+  .gcfg-subnote{font-size:10px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--mute)}
+  .gcfg-iwrap.has-sfx .tm-input{padding-right:44px;text-align:left}
+  .gcfg-iwrap .sfx{position:absolute;right:11px;font-size:11px;font-weight:700;color:var(--mute);pointer-events:none}
+  .gcfg-hint.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--teal);font-size:11px;background:var(--bg-2);border:1px solid var(--line);border-radius:7px;padding:7px 10px}
+  .ucfg-chips{display:flex;gap:8px;flex-wrap:wrap}
+  .ucfg-chip{font-size:12px;font-weight:600;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:99px;padding:5px 13px;cursor:pointer;font-family:inherit}
+  .ucfg-chip:hover{border-color:var(--teal-deep);color:var(--text)}
+  .ucfg-chip.sel{color:var(--teal);background:var(--teal-ghost);border-color:#2ee6c855}
+  .ucfg-wrap{overflow-x:auto;padding:4px 18px 18px}
+  .ucfg-tbl{width:100%;border-collapse:collapse;min-width:560px}
+  .ucfg-tbl th{text-align:left;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:700;padding:4px 8px 9px;white-space:nowrap}
+  .ucfg-tbl th.ctr,.ucfg-tbl td.ctr{text-align:center}
+  .ucfg-tbl th .u{color:var(--teal-deep);font-weight:700}
+  .ucfg-tbl td{padding:8px 8px;border-top:1px solid var(--line-soft);vertical-align:middle}
+  .ucfg-tbl .tm-input.sm{width:70px;padding:6px 8px;font-size:12px;text-align:right}
+  .ucfg-svc-name{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--text);white-space:nowrap;font-size:12.5px}
+  .ucfg-svc-dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .ucfg-svc-unit{font-size:10px;color:var(--mute);margin-top:3px;padding-left:16px}
+  .ucfg-sw{display:inline-flex;cursor:pointer}
+  .ucfg-sw input{position:absolute;opacity:0;width:0;height:0}
+  .ucfg-sw>span{width:34px;height:19px;border-radius:99px;background:var(--bg-2);border:1px solid var(--line);position:relative;transition:.18s}
+  .ucfg-sw>span::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--mute);transition:.18s}
+  .ucfg-sw input:checked+span{background:var(--teal-ghost);border-color:var(--teal-deep)}
+  .ucfg-sw input:checked+span::after{transform:translateX(15px);background:var(--teal)}
+  .ucfg-toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;color:var(--text)}
+  .ucfg-toggle input{position:absolute;opacity:0;width:0;height:0}
+  .ucfg-sw-inline{width:34px;height:19px;border-radius:99px;background:var(--bg-2);border:1px solid var(--line);position:relative;transition:.18s;flex:none}
+  .ucfg-sw-inline::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--mute);transition:.18s}
+  .ucfg-toggle input:checked+.ucfg-sw-inline{background:var(--teal-ghost);border-color:var(--teal-deep)}
+  .ucfg-toggle input:checked+.ucfg-sw-inline::after{transform:translateX(15px);background:var(--teal)}
   .cfg-pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
   .cfg-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:10px;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--dim);font-size:12.5px;font-weight:600;font-family:inherit}
   .cfg-pill:hover{border-color:var(--teal-deep);color:var(--text)}
@@ -6265,7 +6305,7 @@ function collManifests(coll){
   return set;
 }
 const CFG_CATS=[
-  {cat:'base',name:'Guardare Global Configuration',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, customer, location and the unique IDs that bind each microservice to this box.'},
+  {cat:'base',name:'Collector Global Configuration',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, customer, location and the unique IDs that bind each microservice to this box.'},
   {cat:'defaults',name:'Shared defaults',dot:'var(--violet)',scope:'Shared',blurb:'Fleet-wide baseline — poll intervals, SNMP, logging and alerting defaults inherited by every collector unless it overrides them.'},
   {cat:'vcollector',name:'vCollector',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
   {cat:'normalizer',name:'Normalizer',dot:'var(--green)',scope:'Per-collector',blurb:'Per-manufacturer manifests that map raw device data into the unified Guardare schema — one profile per manufacturer this collector polls.'},
@@ -6451,24 +6491,80 @@ function gcfgFor(coll){
   try{ const bf=cfgFilesFor(coll).find(f=>f.key==='base'); if(bf){ const s=cfgState(coll,bf); s.content=gcfgApplyToYaml(s.content,g); } }catch(_){}
   return g;
 }
+/* ---- Ubuntu host tuning model (mirrors guardare-provision.sh) ---- */
+const UCFG={};
+const UCFG_SVCS=[['vcollector','vCollector','VCollector.service','var(--teal)'],['normalizer','Normalizer','Normalizer.service','var(--green)'],['events','Events Director','EventsDirector.service','var(--amber)'],['hudusync','HuduSync','HuduSync.service','var(--violet)']];
+const UCFG_LIMIT_USERS=['vistatech','Debian-snmp','root','syslog'];
+const UCFG_TZ=['America/New_York','America/Chicago','America/Denver','America/Phoenix','America/Los_Angeles','America/Anchorage','Pacific/Honolulu','America/Toronto','America/Sao_Paulo','Europe/London','Europe/Lisbon','Europe/Berlin','UTC'];
+const UCFG_AUTOUPDATE=[['security','Security updates only'],['all','All updates'],['off','Disabled']];
+function ucfgFor(coll){
+  if(UCFG[coll]) return UCFG[coll];
+  const u={nofile_soft:20480,nofile_hard:20480,limit_users:['vistatech','Debian-snmp'],
+    wmem_default_mb:4,wmem_max_mb:16,timezone:'America/New_York',rsyslog_color:true,autoupdate:'security',services:{}};
+  UCFG_SVCS.forEach(([k])=>{ u.services[k]={enabled:(k==='hudusync'),memHigh:4,memMax:8,restartSec:10,burst:5,interval:300}; });
+  UCFG[coll]=u; return u;
+}
+function ucfgBytes(mb){ return Math.round(mb*1024*1024); }
+function ucfgWmemSync(){
+  const line=document.getElementById('ucfgWmemLine'); if(!line) return;
+  const d=parseInt((document.getElementById('ucfg_wdef')||{}).value,10)||0;
+  const m=parseInt((document.getElementById('ucfg_wmax')||{}).value,10)||0;
+  line.textContent='net.ipv4.tcp_wmem = 4096 '+ucfgBytes(d)+' '+ucfgBytes(m);
+}
+function ucfgPreview(u){
+  let out='# /etc/security/limits.conf — file descriptor limits\n';
+  (u.limit_users.length?u.limit_users:['vistatech']).forEach(usr=>{
+    out+=usr+'    soft    nofile    '+u.nofile_soft+'\n'+usr+'    hard    nofile    '+u.nofile_hard+'\n'; });
+  out+='\n# /etc/sysctl.conf — Guardare TCP send buffer tuning\n';
+  out+='net.ipv4.tcp_wmem = 4096 '+ucfgBytes(u.wmem_default_mb)+' '+ucfgBytes(u.wmem_max_mb)+'\n';
+  out+='net.core.wmem_default = '+ucfgBytes(u.wmem_default_mb)+'\n';
+  out+='net.core.wmem_max = '+ucfgBytes(u.wmem_max_mb)+'\n';
+  UCFG_SVCS.forEach(([k,label,unit])=>{ const s=u.services[k]; if(!s.enabled) return;
+    out+='\n# /etc/systemd/system/'+unit+'.d/safety-net.conf\n[Service]\nMemoryAccounting=yes\nMemoryHigh='+s.memHigh+'G\nMemoryMax='+s.memMax+'G\nRestart=on-failure\nRestartSec='+s.restartSec+'\nStartLimitBurst='+s.burst+'\nStartLimitIntervalSec='+s.interval+'\n'; });
+  out+='\n# host basics\ntimedatectl set-timezone '+u.timezone+'\n';
+  out+="rsyslog: $EscapeControlCharactersOnReceive "+(u.rsyslog_color?'off':'on')+'\n';
+  out+='unattended-upgrades: '+u.autoupdate+'\n';
+  return out;
+}
+function cfgHostPeek(coll){
+  const u=ucfgFor(coll);
+  return '<details class="cfg-peek"><summary><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>'+TX('View generated host config (read-only)')+'</summary><div class="cfg-body"><pre class="cfg-pre">'+yamlHL(ucfgPreview(u))+'</pre></div></details>';
+}
 function cfgBaseForm(coll){
-  const g=gcfgFor(coll);
-  const idIcon='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.4"/><path d="M14 10h4M14 14h4M5 16c.6-1.6 2-2.4 4-2.4s3.4.8 4 2.4"/></svg>';
+  const g=gcfgFor(coll), u=ucfgFor(coll);
   const globeIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>';
-  const pinIcon='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>';
-  const field=(id,label,val,hint,req,pfx)=>`
+  const cpuIcon='<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>';
+  const shieldIcon='<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>';
+  const gearIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 2h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 22h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6A7 7 0 0 0 19 12z"/></svg>';
+  const field=(id,label,val,hint,req)=>`
     <div class="gcfg-field">
       <label for="${id}">${label}${req?'<span class="req">*</span>':''}</label>
-      <div class="gcfg-iwrap${pfx?' has-pfx':''}">${pfx?`<span class="pfx">${pfx}</span>`:''}<input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
-      <span class="gcfg-hint">${hint}</span>
+      <div class="gcfg-iwrap"><input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
+      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
     </div>`;
+  const fnum=(id,label,val,hint,sfx,oninput)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${label}</label>
+      <div class="gcfg-iwrap${sfx?' has-sfx':''}"><input id="${id}" class="tm-input" value="${_esc(val)}" inputmode="numeric" autocomplete="off" ${oninput?`oninput="${oninput}"`:''}>${sfx?`<span class="sfx">${sfx}</span>`:''}</div>
+      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
+    </div>`;
+  const chips=UCFG_LIMIT_USERS.map(usr=>`<button type="button" class="ucfg-chip${u.limit_users.indexOf(usr)>-1?' sel':''}" data-user="${usr}" onclick="this.classList.toggle('sel')">${usr}</button>`).join('');
+  const svcRows=UCFG_SVCS.map(([k,label,unit,col])=>{ const s=u.services[k];
+    return `<tr>
+      <td><span class="ucfg-svc-name"><span class="ucfg-svc-dot" style="background:${col}"></span>${label}</span><div class="ucfg-svc-unit mono">${unit}</div></td>
+      <td class="ctr"><label class="ucfg-sw"><input type="checkbox" id="usvc_${k}_en" ${s.enabled?'checked':''}><span></span></label></td>
+      <td><input id="usvc_${k}_high" class="tm-input sm" value="${s.memHigh}" inputmode="numeric"></td>
+      <td><input id="usvc_${k}_max" class="tm-input sm" value="${s.memMax}" inputmode="numeric"></td>
+      <td><input id="usvc_${k}_rsec" class="tm-input sm" value="${s.restartSec}" inputmode="numeric"></td>
+      <td><input id="usvc_${k}_burst" class="tm-input sm" value="${s.burst}" inputmode="numeric"></td>
+      <td><input id="usvc_${k}_int" class="tm-input sm" value="${s.interval}" inputmode="numeric"></td>
+    </tr>`; }).join('');
   return `
   <div class="gcfg">
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic">${globeIcon}</span>
-        <div class="gcfg-ctext"><h3>${TX('Guardare Global Configuration')}</h3>
-          <p>${TX('Written to')} <code>serviceConfig.yaml → globalServiceConfiguration</code> ${TX('on this collector')}.</p></div>
+        <div class="gcfg-ctext"><h3>${TX('Collector Global Configuration')}</h3></div>
         <span class="cfg-scope-pill local">${TX('On-box')}</span>
       </div>
       <div class="gcfg-grid">
@@ -6488,56 +6584,119 @@ function cfgBaseForm(coll){
       </div>
     </div>
 
+    <div class="gcfg-sechead"><span class="gcfg-sec-logo">${UBUNTU_SVG}</span><div><h2>${TX('Ubuntu host tuning')}</h2><p>${TX('Applied to the OS by the provisioning script — file limits, kernel buffers and systemd safety nets.')}</p></div></div>
+
     <div class="gcfg-card">
       <div class="gcfg-chead">
-        <span class="gcfg-cic">${idIcon}</span>
-        <div class="gcfg-ctext"><h3>${TX('Service identity mapping')}</h3>
-          <p>${TX('Unique IDs that bind each microservice instance on this box to Guardare.')}</p></div>
+        <span class="gcfg-cic ora">${cpuIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Host kernel & limits')}</h3></div>
       </div>
-      <div class="gcfg-grid gcfg-grid-3">
-        ${field('gcfg_vid',TX('vCollector ID'),g.vcollector_unique_assigned_id,TX('vcollector_unique_assigned_id'),true,'#')}
-        ${field('gcfg_nid',TX('Normalizer ID'),g.normalizer_unique_assigned_id,TX('normalizer_unique_assigned_id'),true,'#')}
-        ${field('gcfg_eid',TX('Events Director ID'),g.eventsDirector_unique_assigned_id,TX('eventsDirector_unique_assigned_id'),true,'#')}
+      <div class="gcfg-subhead">${TX('File descriptor limits')}</div>
+      <div class="gcfg-grid">
+        ${fnum('ucfg_nsoft',TX('Open files — soft'),u.nofile_soft,TX('nofile soft limit per service user.'))}
+        ${fnum('ucfg_nhard',TX('Open files — hard'),u.nofile_hard,TX('nofile hard ceiling per service user.'))}
+        <div class="gcfg-field span2">
+          <label>${TX('Applies to users')}</label>
+          <div class="ucfg-chips">${chips}</div>
+          <span class="gcfg-hint">${TX('Service accounts that receive the raised descriptor limits.')}</span>
+        </div>
+      </div>
+      <div class="gcfg-subhead">${TX('TCP send buffers')} <span class="gcfg-subnote">${TX('sized for >1MB UniFi stat/device payloads')}</span></div>
+      <div class="gcfg-grid">
+        ${fnum('ucfg_wdef',TX('Default send buffer'),u.wmem_default_mb,TX('net.core.wmem_default — one-write size for most payloads.'),'MB','ucfgWmemSync()')}
+        ${fnum('ucfg_wmax',TX('Max send buffer'),u.wmem_max_mb,TX('net.core.wmem_max — headroom for 100+ device sites.'),'MB','ucfgWmemSync()')}
+        <div class="gcfg-field span2"><span class="gcfg-hint mono" id="ucfgWmemLine">net.ipv4.tcp_wmem = 4096 ${ucfgBytes(u.wmem_default_mb)} ${ucfgBytes(u.wmem_max_mb)}</span></div>
       </div>
     </div>
 
-    <div class="gcfg-soon">
-      <span class="gcfg-cic">${UBUNTU_SVG}</span>
-      <div class="gcfg-soon-tx"><b>${TX('Ubuntu service & host')}</b><span>${TX('systemd unit, auto-update channel and on-box resource limits — configurable here soon.')}</span></div>
-      <span class="soon-tag">${TX('Coming soon')}</span>
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${shieldIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Service safety nets')}</h3>
+          <p>${TX('Per-microservice systemd memory bounds and crash-loop protection — an operational backstop.')}</p></div>
+      </div>
+      <div class="ucfg-wrap">
+        <table class="ucfg-tbl">
+          <thead><tr>
+            <th>${TX('Service')}</th><th class="ctr">${TX('Safety net')}</th>
+            <th>${TX('Mem high')} <span class="u">G</span></th><th>${TX('Mem max')} <span class="u">G</span></th>
+            <th>${TX('Restart')} <span class="u">s</span></th><th>${TX('Burst')}</th><th>${TX('Window')} <span class="u">s</span></th>
+          </tr></thead>
+          <tbody>${svcRows}</tbody>
+        </table>
+      </div>
     </div>
+
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${gearIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Host basics')}</h3></div>
+      </div>
+      <div class="gcfg-grid">
+        <div class="gcfg-field">
+          <label for="ucfg_tz">${TX('Timezone')}</label>
+          <select id="ucfg_tz" class="tm-input">${UCFG_TZ.map(z=>`<option value="${z}" ${z===u.timezone?'selected':''}>${z}</option>`).join('')}</select>
+          <span class="gcfg-hint">${TX('Host clock — timedatectl set-timezone.')}</span>
+        </div>
+        <div class="gcfg-field">
+          <label for="ucfg_autoupdate">${TX('Auto-update channel')}</label>
+          <select id="ucfg_autoupdate" class="tm-input">${UCFG_AUTOUPDATE.map(o=>`<option value="${o[0]}" ${o[0]===u.autoupdate?'selected':''}>${TX(o[1])}</option>`).join('')}</select>
+          <span class="gcfg-hint">${TX('Unattended-upgrades posture for the appliance.')}</span>
+        </div>
+        <div class="gcfg-field span2">
+          <label class="ucfg-toggle"><input type="checkbox" id="ucfg_rsyslog" ${u.rsyslog_color?'checked':''}><span class="ucfg-sw-inline"></span><span>${TX('Colorized log escapes')}</span></label>
+          <span class="gcfg-hint">${TX('rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.')}</span>
+        </div>
+      </div>
+    </div>
+
+    ${cfgHostPeek(coll)}
 
     <div class="gcfg-actions">
       <button class="btn" onclick="cfgBaseReset()">${TX('Reset')}</button>
-      <button class="btn primary" onclick="cfgBaseSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save global configuration')}</button>
+      <button class="btn primary" onclick="cfgBaseSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
     </div>
   </div>`;
 }
 function cfgBaseReadForm(){
-  const ids={collector_site_id:'gcfg_site',customer_name:'gcfg_customer',customer_location:'gcfgAddr',
-    vcollector_unique_assigned_id:'gcfg_vid',normalizer_unique_assigned_id:'gcfg_nid',eventsDirector_unique_assigned_id:'gcfg_eid'};
+  const ids={collector_site_id:'gcfg_site',customer_name:'gcfg_customer',customer_location:'gcfgAddr'};
   const out={};
   for(const k in ids){ const el=document.getElementById(ids[k]); if(el) out[k]=el.value.trim(); }
+  return out;
+}
+function ucfgRead(coll){
+  const u=ucfgFor(coll), gv=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const num=(id,def)=>{const v=parseInt(gv(id),10);return isNaN(v)?def:v;};
+  const out={nofile_soft:num('ucfg_nsoft',u.nofile_soft),nofile_hard:num('ucfg_nhard',u.nofile_hard),
+    limit_users:[...document.querySelectorAll('.ucfg-chip.sel')].map(c=>c.dataset.user),
+    wmem_default_mb:num('ucfg_wdef',u.wmem_default_mb),wmem_max_mb:num('ucfg_wmax',u.wmem_max_mb),
+    timezone:gv('ucfg_tz')||u.timezone,
+    rsyslog_color:document.getElementById('ucfg_rsyslog')?document.getElementById('ucfg_rsyslog').checked:u.rsyslog_color,
+    autoupdate:gv('ucfg_autoupdate')||u.autoupdate, services:{}};
+  UCFG_SVCS.forEach(([k])=>{ const en=document.getElementById('usvc_'+k+'_en');
+    out.services[k]={enabled:en?en.checked:u.services[k].enabled,
+      memHigh:num('usvc_'+k+'_high',u.services[k].memHigh),memMax:num('usvc_'+k+'_max',u.services[k].memMax),
+      restartSec:num('usvc_'+k+'_rsec',u.services[k].restartSec),burst:num('usvc_'+k+'_burst',u.services[k].burst),
+      interval:num('usvc_'+k+'_int',u.services[k].interval)}; });
   return out;
 }
 function cfgBaseSave(){
   const coll=cfgMgrColl; if(!coll) return;
   const vals=cfgBaseReadForm();
   if(!vals.collector_site_id || !vals.customer_name || !vals.customer_location){ toast(TX('Site ID, customer and location are required')); return; }
-  for(const k of ['vcollector_unique_assigned_id','normalizer_unique_assigned_id','eventsDirector_unique_assigned_id']){
-    if(vals[k] && !/^\d+$/.test(vals[k])){ toast(TX('Service IDs must be numeric')); return; }
-  }
+  const uv=ucfgRead(coll);
+  if(uv.nofile_hard < uv.nofile_soft){ toast(TX('Hard file limit must be ≥ soft limit')); return; }
+  if(uv.wmem_max_mb < uv.wmem_default_mb){ toast(TX('Max send buffer must be ≥ default')); return; }
+  for(const k in uv.services){ const s=uv.services[k]; if(s.enabled && s.memMax < s.memHigh){ toast(TX('MemoryMax must be ≥ MemoryHigh')); return; } }
   const g=gcfgFor(coll); Object.assign(g,vals);
+  Object.assign(ucfgFor(coll), uv);
   try{ const bf=cfgFilesFor(coll).find(f=>f.key==='base'); if(bf){ const s=cfgState(coll,bf); s.content=gcfgApplyToYaml(s.content,g); s.sha=_hash7(coll+'base'+JSON.stringify(g)); s.pulled=TX('just now'); s.drift=false; } }catch(_){}
   renderCfgMgr();
-  toast(TX('Saved')+' · serviceConfig.yaml → '+cfgCollName(coll));
+  toast(TX('Saved')+' · '+cfgCollName(coll)+' — '+TX('serviceConfig.yaml + host tuning'));
 }
 function cfgBaseReset(){
   const coll=cfgMgrColl; if(!coll) return;
-  const g=gcfgFor(coll);
-  ['collector_site_id','customer_name','customer_location','vcollector_unique_assigned_id','normalizer_unique_assigned_id','eventsDirector_unique_assigned_id']
-    .forEach(k=>{ const id={collector_site_id:'gcfg_site',customer_name:'gcfg_customer',customer_location:'gcfgAddr',vcollector_unique_assigned_id:'gcfg_vid',normalizer_unique_assigned_id:'gcfg_nid',eventsDirector_unique_assigned_id:'gcfg_eid'}[k]; const el=document.getElementById(id); if(el) el.value=g[k]; });
-  gcfgAddrClose();
+  renderCfgMgr();
   toast(TX('Reverted to last saved values'));
 }
 /* ---- searchable address finder (OpenStreetMap / Photon, with offline fallback) ---- */
