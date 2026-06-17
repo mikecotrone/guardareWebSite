@@ -191,6 +191,7 @@
     border-right:1px solid var(--line);background:linear-gradient(180deg,#0b1c21,#0a161a);
     padding:16px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;z-index:20;
   }
+  .sidebar>*{flex-shrink:0}
   .nav-group{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);
     padding:14px 12px 7px;font-weight:600}
   .nav-group:first-child{padding-top:2px}
@@ -1489,7 +1490,7 @@
         <div>
           <div class="page-eyebrow" data-i18n="MSP view">MSP view</div>
           <h1 class="page-title" data-i18n="Collector Serviceability">Collector Serviceability</h1>
-          <p class="page-sub" data-i18n="Every collector across every customer · 1,284 collectors · 92 tenants">Every collector across every customer · 1,284 collectors · 92 tenants</p>
+          <p class="page-sub" id="fleetSub">Every collector across every customer</p>
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
@@ -5358,6 +5359,13 @@ function renderFleetTable(){
   const cnt=s=>base.filter(r=>r[2]===s).length;
   _set('fcOnline',String(cnt('online'))); _set('fcWarn',String(cnt('warn'))); _set('fcCrit',String(cnt('crit'))); _set('fcOffline',String(cnt('offline')));
   const tbl=document.getElementById('fleetTbl'); if(tbl) tbl.classList.toggle('hide-tenant-col', sc!=='all');
+  const sub=document.getElementById('fleetSub');
+  if(sub){
+    const nC=base.length;
+    sub.textContent = sc==='all'
+      ? TX('Every collector across every customer')+' · '+nC.toLocaleString()+' '+TX('collectors')+' · '+TENANT_DIR.length+' '+TX('tenants')
+      : (tenantName[sc]||sc)+' · '+nC.toLocaleString()+' '+(nC===1?TX('collector'):TX('collectors'));
+  }
   document.getElementById('fleetTable').innerHTML = rows.map(r=>`
     <tr onclick="openDetail('${r[1]}:${r[0]}')">
       <td class="col-tenant"><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[r[1]]}">${tnInit(r[1])}</span>${tenantName[r[1]]}</span></td>
