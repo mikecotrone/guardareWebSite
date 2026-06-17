@@ -638,6 +638,27 @@
   .gcfg-sechead p{margin:2px 0 0;font-size:12px;color:var(--mute)}
   .gcfg-cic.ora{background:#E9542018;border-color:#E9542040}
   .gcfg-cic.ora svg{stroke:#E95420}
+  .gcfg-locktag{display:inline-flex;align-items:center;gap:3px;margin-left:8px;font-size:8.5px;font-weight:700;letter-spacing:.06em;color:var(--mute);vertical-align:middle}
+  .gcfg-locktag svg{width:10px;height:10px;stroke:var(--mute);fill:none;stroke-width:1.9}
+  .gcfg-iwrap.gcfg-locked .tm-input{background:var(--bg-2);color:var(--dim);cursor:not-allowed;padding-right:34px;border-style:dashed}
+  .gcfg-iwrap.gcfg-locked>svg{position:absolute;right:11px;width:14px;height:14px;stroke:var(--mute);fill:none;stroke-width:1.8;pointer-events:none}
+  /* Tenant Configuration page */
+  .tcfg-seg{display:inline-flex;gap:4px;padding:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:11px}
+  .tcfg-seg button{display:flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid transparent;border-radius:8px;background:none;color:var(--dim);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:.14s}
+  .tcfg-seg button svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .tcfg-seg button:hover{color:var(--text)}
+  .tcfg-seg button.on{background:var(--teal-ghost);color:var(--text);border-color:var(--teal-deep)}
+  .tcfg-modelnote{font-size:12px;color:var(--mute);margin-top:10px;line-height:1.5}
+  .tcfg-pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:18px}
+  .tcfg-pick{display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--bg-2);cursor:pointer;text-align:left;transition:.14s;color:var(--text)}
+  .tcfg-pick:hover{border-color:var(--teal-deep);background:var(--raise)}
+  .tcfg-pick .tn-avatar{width:30px;height:30px;font-size:11px;flex:none}
+  .tcfg-pick b{display:block;font-size:13px;font-weight:600}
+  .tcfg-pick span{font-size:11px;color:var(--mute)}
+  .tcfg-meta{display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 16px}
+  .tcfg-mpill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:99px;padding:4px 11px}
+  .tcfg-mpill b{color:var(--text);font-weight:700}
+  .tcfg-textarea{width:100%;min-height:74px;resize:vertical;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;color:var(--text);font:inherit;font-size:12.5px;padding:10px 12px;line-height:1.5}
   .gcfg-subhead{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding:14px 18px 0;display:flex;align-items:center;gap:9px}
   .gcfg-subnote{font-size:10px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--mute)}
   .gcfg-iwrap.has-sfx .tm-input{padding-right:44px;text-align:left}
@@ -1243,6 +1264,10 @@
     </button>
 
     <div class="nav-group" data-i18n="Configuration">Configuration</div>
+    <button class="nav-item" data-screen="tenantcfg">
+      <svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+      <span data-i18n="Tenant Configuration">Tenant Configuration</span>
+    </button>
     <div class="nav-parent">
       <button class="nav-item nav-disc" data-disc="cfgmgr" onclick="toggleNavDisc('cfgmgr')">
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><path d="M7 7h.01M7 17h.01"/></svg>
@@ -1250,8 +1275,7 @@
         <svg class="disc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="nav-children" id="navChildren-cfgmgr">
-        <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Collector base">Collector base</span></button>
-        <button class="nav-subitem" data-sub="defaults" onclick="goCfgSub('defaults')"><span class="sub-lead"></span><span data-i18n="Shared defaults">Shared defaults</span></button>
+        <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global settings">Global settings</span></button>
         <button class="nav-subitem" data-sub="vcollector" onclick="goCfgSub('vcollector')"><span class="sub-lead"></span><span data-i18n="vCollector">vCollector</span></button>
         <div class="nav-subparent">
           <button class="nav-subitem nav-subdisc" data-sub="normalizer" onclick="goCfgSub('normalizer')"><span class="sub-lead"></span><span data-i18n="Normalizer">Normalizer</span><svg class="subdisc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -1774,6 +1798,7 @@
     <section class="screen" id="screen-provision"></section>
     <section class="screen" id="screen-audit"></section>
     <section class="screen" id="screen-config"></section>
+    <section class="screen" id="screen-tenantcfg"></section>
     <section class="screen" id="screen-cfgmgr"></section>
     <section class="screen" id="screen-nms"></section>
   </main>
@@ -5209,6 +5234,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
   updateChrome();
   renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderCfgMgr();renderAudit();renderDetail();
+  if(typeof renderTenantCfg==='function') renderTenantCfg();
   renderTenants(); renderTenantMenu(); if(currentTenantCtx){ buildCtxBar(); renderTenantNMS(); }
   if(currentTenantCtx){ const tm=document.getElementById('screen-tenant-manage'); if(tm&&tm.classList.contains('show')) renderTenantManage(currentTenantCtx); }
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
@@ -6157,6 +6183,7 @@ function switchTenant(id){
   currentTenant=id;
   updateChrome();
   renderFleetGrid(); renderFleetTable(); renderAlertsFull(); renderMiniAlerts(); renderTicker(); renderConfig(); setupRadars();
+  if(typeof renderTenantCfg==='function') renderTenantCfg();
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active',o.dataset.tenant===id));
   toast('Switched to '+(id==='all'?TX('All Tenants'):(TENANTS[id]?TENANTS[id].name:(tenantName[id]||id))));
 }
@@ -6314,8 +6341,7 @@ function collManifests(coll){
   return set;
 }
 const CFG_CATS=[
-  {cat:'base',name:'Collector Global Configuration',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, customer, location and the unique IDs that bind each microservice to this box.'},
-  {cat:'defaults',name:'Shared defaults',dot:'var(--violet)',scope:'Shared',blurb:'Fleet-wide baseline — poll intervals, SNMP, logging and alerting defaults inherited by every collector unless it overrides them.'},
+  {cat:'base',name:'Global settings',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, location and the unique IDs that bind each microservice to this box.'},
   {cat:'vcollector',name:'vCollector',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
   {cat:'normalizer',name:'Normalizer',dot:'var(--green)',scope:'Per-collector',blurb:'Per-manufacturer manifests that map raw device data into the unified Guardare schema — one profile per manufacturer this collector polls.'},
   {cat:'events',name:'Events Director',dot:'var(--amber)',scope:'Per-collector',blurb:'Rule sets that turn normalized telemetry into alerts and route them to the right notification channels.'},
@@ -6323,8 +6349,7 @@ const CFG_CATS=[
 ];
 function cfgFilesFor(coll){
   const files=[
-    {key:'base',cat:'base',label:'Collector base',pill:'serviceConfig.yaml',el:'cfg-base',lang:'yaml',scope:'local',svc:'serviceConfig.yaml',path:'/usr/bin/com.vistatech.collector/serviceConfig.yaml',poll:null},
-    {key:'defaults',cat:'defaults',label:'Shared defaults',pill:'defaults.yaml',el:'cfg-defaults',lang:'yaml',scope:'shared',uri:'shared/',svc:'defaults.yaml',poll:300},
+    {key:'base',cat:'base',label:'Global settings',pill:'serviceConfig.yaml',el:'cfg-base',lang:'yaml',scope:'local',svc:'serviceConfig.yaml',path:'/usr/bin/com.vistatech.collector/serviceConfig.yaml',poll:null},
     {key:'vcollector',cat:'vcollector',label:'vCollector',pill:'_vCollectorCfg.yaml',el:'cfg-vcollector',lang:'yaml',scope:'collector',uri:'vCollectorCFG/',svc:'_vCollectorCfg.yaml',poll:60}
   ];
   collManifests(coll).forEach(k=>{const m=NORM_MAP[k];files.push({key:'norm-'+k,cat:'normalizer',label:'Normalizer · '+m.label,pill:m.label,el:m.el,lang:'yaml',scope:'collector',uri:'normalizerCFG/',svc:m.file,poll:60});});
@@ -6425,8 +6450,8 @@ function cfgOsCard(){
     '<div class="os-body">'+
       '<div class="os-titlerow"><span class="os-name">Ubuntu <b>24.04.4 LTS</b></span><span class="os-codename">noble</span><span class="os-lts">LTS</span></div>'+
       '<div class="os-kvs">'+
-        kv(i_box,TX('Distributor'),'Ubuntu')+
-        kv(i_tag,TX('Release'),'24.04')+
+        kv(i_box,TX('Distribution'),'Ubuntu')+
+        kv(i_tag,TX('Release'),'24.04 LTS')+
         kv(i_moon,TX('Codename'),'noble numbat')+
         kv(i_layers,TX('LSB modules'),TX('none available'))+
       '</div>'+
@@ -6490,7 +6515,7 @@ function gcfgFor(coll){
   ];
   const g={
     collector_site_id:site,
-    customer_name:(tenantName[t]||t),
+    customer_name:tcfgFor(t).customer_name,
     customer_location:addrPool[Math.floor(r()*addrPool.length)],
     vcollector_unique_assigned_id:String(base),
     normalizer_unique_assigned_id:String(base+1),
@@ -6541,6 +6566,9 @@ function cfgHostPeek(coll){
 }
 function cfgBaseForm(coll){
   const g=gcfgFor(coll), u=ucfgFor(coll);
+  const tslug=coll.split(':')[0];
+  const custName=tcfgFor(tslug).customer_name; g.customer_name=custName;
+  const lockSvg='<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
   const globeIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>';
   const cpuIcon='<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>';
   const shieldIcon='<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>';
@@ -6549,6 +6577,12 @@ function cfgBaseForm(coll){
     <div class="gcfg-field">
       <label for="${id}">${label}${req?'<span class="req">*</span>':''}</label>
       <div class="gcfg-iwrap"><input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
+      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
+    </div>`;
+  const lockField=(id,label,val,hint)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${label}<span class="gcfg-locktag">${lockSvg}${TX('locked')}</span></label>
+      <div class="gcfg-iwrap gcfg-locked"><input id="${id}" class="tm-input" value="${_esc(val)}" readonly tabindex="-1">${lockSvg}</div>
       ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
     </div>`;
   const fnum=(id,label,val,hint,sfx,oninput)=>`
@@ -6578,9 +6612,9 @@ function cfgBaseForm(coll){
       </div>
       <div class="gcfg-grid">
         ${field('gcfg_site',TX('Collector site ID'),g.collector_site_id,TX('Short site code used across the fleet, e.g. NC03.'),true)}
-        ${field('gcfg_customer',TX('Customer name'),g.customer_name,TX('The organization this collector belongs to.'),true)}
+        ${lockField('gcfg_customer',TX('Customer name'),custName,TX('Pulled from Tenant Configuration for the selected customer — edit it there.'))}
         <div class="gcfg-field span2">
-          <label for="gcfgAddr">${TX('Customer location')}<span class="req">*</span></label>
+          <label for="gcfgAddr">${TX('Collector location')}<span class="req">*</span></label>
           <div class="gcfg-addr">
             <input id="gcfgAddr" class="tm-input" value="${_esc(g.customer_location)}" autocomplete="off" spellcheck="false"
               placeholder="${TX('Start typing a street address…')}"
@@ -6620,7 +6654,7 @@ function cfgBaseForm(coll){
 
     <div class="gcfg-card">
       <div class="gcfg-chead">
-        <span class="gcfg-cic">${shieldIcon}</span>
+        <span class="gcfg-cic ora">${shieldIcon}</span>
         <div class="gcfg-ctext"><h3>${TX('Service safety nets')}</h3>
           <p>${TX('Per-microservice systemd memory bounds and crash-loop protection — an operational backstop.')}</p></div>
       </div>
@@ -6638,7 +6672,7 @@ function cfgBaseForm(coll){
 
     <div class="gcfg-card">
       <div class="gcfg-chead">
-        <span class="gcfg-cic">${gearIcon}</span>
+        <span class="gcfg-cic ora">${gearIcon}</span>
         <div class="gcfg-ctext"><h3>${TX('Host basics')}</h3></div>
       </div>
       <div class="gcfg-grid">
@@ -6761,6 +6795,191 @@ function gcfgAddrPick(i){
 }
 function gcfgAddrBlur(){ setTimeout(gcfgAddrClose,160); }
 function gcfgAddrClose(){ const menu=document.getElementById('gcfgAddrMenu'); if(menu){ menu.classList.remove('open'); menu.innerHTML=''; } gcfgAddrSeq++; }
+
+/* ===== generic address autocomplete (reused by Tenant Configuration) ===== */
+const ADDR_STATE={};
+function addrInput(id,q){
+  const st=ADDR_STATE[id]||(ADDR_STATE[id]={timer:null,seq:0,list:[]});
+  clearTimeout(st.timer);
+  const menu=document.getElementById(id+'Menu'); if(!menu) return;
+  if(!q || q.trim().length<3){ addrClose(id); return; }
+  menu.classList.add('open');
+  menu.innerHTML='<div class="gcfg-addr-loading"><span class="gcfg-spin"></span>'+TX('Searching addresses…')+'</div>';
+  const seq=++st.seq;
+  st.timer=setTimeout(()=>addrFetch(id,q.trim(),seq),300);
+}
+function addrFetch(id,q,seq){
+  const st=ADDR_STATE[id]; if(!st) return;
+  let done=false;
+  const fail=()=>{ if(done||seq!==st.seq) return; done=true; addrRender(id,gcfgFallback(q),true); };
+  try{
+    fetch('https://photon.komoot.io/api/?limit=6&lang=en&q='+encodeURIComponent(q))
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>{ if(done||seq!==st.seq) return; done=true;
+        const list=((d&&d.features)||[]).map(f=>gcfgFmt(f.properties)).filter(Boolean);
+        addrRender(id,list.length?list:gcfgFallback(q),!list.length); })
+      .catch(fail);
+    setTimeout(()=>{ if(!done) fail(); },3500);
+  }catch(_){ fail(); }
+}
+function addrRender(id,list,offline){
+  const menu=document.getElementById(id+'Menu'); if(!menu) return;
+  const st=ADDR_STATE[id]||(ADDR_STATE[id]={timer:null,seq:0,list:[]});
+  st.list=list||[];
+  if(!st.list.length){ menu.innerHTML='<div class="gcfg-addr-empty">'+TX('No matches — type the full address')+'</div>'; menu.classList.add('open'); return; }
+  const pin='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>';
+  menu.innerHTML=(offline?'<div class="gcfg-addr-note">'+TX('Offline — showing sample addresses')+'</div>':'')+
+    st.list.map((a,i)=>'<button type="button" class="gcfg-addr-opt" onmousedown="event.preventDefault();addrPick(\''+id+'\','+i+')">'+pin+'<span>'+_esc(a)+'</span></button>').join('');
+  menu.classList.add('open');
+}
+function addrPick(id,i){ const st=ADDR_STATE[id]; if(!st) return; const a=st.list[i]; if(a==null) return; const inp=document.getElementById(id); if(inp) inp.value=a; addrClose(id); }
+function addrBlur(id){ setTimeout(()=>addrClose(id),160); }
+function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){ menu.classList.remove('open'); menu.innerHTML=''; } const st=ADDR_STATE[id]; if(st) st.seq++; }
+
+/* ======================= TENANT CONFIGURATION ======================= */
+let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
+const TCFG={};
+const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
+const SINGLE_CUSTOMER={customer_name:'VistaTech Managed Services',legal_name:'VistaTech GSO, LLC',
+  primary_address:'1200 Eastchester Dr, High Point, NC 27265',region:'NC',
+  contact_name:'NOC Desk',contact_email:'noc@vistatechgso.com',notes:''};
+function tcfgFor(slug){
+  if(TCFG[slug]) return TCFG[slug];
+  const r=cfgSeed('tcfg|'+slug), dir=TENANT_DIR.find(t=>t.slug===slug);
+  const nm=tenantName[slug]||slug;
+  const pool=['3816 Patterson St, Greensboro, NC 27407','1200 Eastchester Dr, High Point, NC 27265','4904 W Market St, Greensboro, NC 27407','200 N Davie St, Greensboro, NC 27401','628 Green Valley Rd, Greensboro, NC 27408','1451 S Elm-Eugene St, Greensboro, NC 27406'];
+  const suffix=['Inc.','LLC','Corp.','Group','Holdings'][Math.floor(r()*5)];
+  const desks=['Network Operations','IT Director','NOC Desk','Infrastructure Team'];
+  const slugcontact=slug.replace(/[^a-z]/g,'').slice(0,8)||'ops';
+  const t={
+    customer_name:nm,
+    legal_name:nm+' '+suffix,
+    primary_address:pool[Math.floor(r()*pool.length)],
+    region:(dir&&dir.regions&&dir.regions[0])||'NA',
+    contact_name:desks[Math.floor(r()*desks.length)],
+    contact_email:'noc@'+slugcontact+'.example',
+    notes:''
+  };
+  TCFG[slug]=t; return t;
+}
+function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; MSP_DEPLOYMENT=m; renderTenantCfg(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Single customer'):TX('MSP — multiple customers'))); }
+function tcfgPickTenant(slug){ switchTenant(slug); renderTenantCfg(); go('tenantcfg'); }
+function tcfgReset(){ renderTenantCfg(); }
+function tcfgSave(mode,slug){
+  const gv=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const obj = mode==='single' ? SINGLE_CUSTOMER : tcfgFor(slug);
+  const newName = gv('tcfg_name') || obj.customer_name;
+  obj.customer_name=newName; obj.legal_name=gv('tcfg_legal'); obj.primary_address=gv('tcfgAddr');
+  obj.region=gv('tcfg_region'); obj.contact_name=gv('tcfg_contact'); obj.contact_email=gv('tcfg_email'); obj.notes=gv('tcfg_notes');
+  if(mode==='tenant'){ Object.keys(GCFG).forEach(coll=>{ if(coll.split(':')[0]===slug) GCFG[coll].customer_name=newName; }); }
+  toast(TX('Tenant configuration saved')+' · '+newName);
+  renderTenantCfg();
+}
+function tcfgCustomerCard(obj,mode,slug){
+  const ic='<svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>';
+  const dir = mode==='tenant' ? TENANT_DIR.find(t=>t.slug===slug) : null;
+  const field=(id,label,val,hint,req)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${label}${req?'<span class="req">*</span>':''}</label>
+      <div class="gcfg-iwrap"><input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
+      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
+    </div>`;
+  const meta = dir ? `<div class="tcfg-meta">
+      <span class="tcfg-mpill">${TX('Plan')} <b>${dir.plan}</b></span>
+      <span class="tcfg-mpill">${TX('Status')} <b>${TX(tntStatusLabel[dir.status]||dir.status)}</b></span>
+      <span class="tcfg-mpill">${TX('Sites')} <b>${dir.sites}</b></span>
+      <span class="tcfg-mpill">${TX('Customer since')} <b>${dir.since}</b></span>
+    </div>` : '';
+  return `
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${ic}</span>
+        <div class="gcfg-ctext"><h3>${mode==='single'?TX('Customer details'):_esc(obj.customer_name)}</h3>
+          <p>${mode==='single'?TX('The single organization this deployment serves.'):TX('Identity and primary contact for this customer — drives the locked Customer name on every collector.')}</p></div>
+        <span class="cfg-scope-pill ${mode==='single'?'local':''}">${mode==='single'?TX('Single customer'):TX('Per-tenant')}</span>
+      </div>
+      ${meta}
+      <div class="gcfg-grid">
+        ${field('tcfg_name',TX('Customer name'),obj.customer_name,TX('Display name shown across Guardare and on collectors.'),true)}
+        ${field('tcfg_legal',TX('Legal entity name'),obj.legal_name,TX('Full legal name for reports and SLA documents.'))}
+        <div class="gcfg-field span2">
+          <label for="tcfgAddr">${TX('Primary address')}<span class="req">*</span></label>
+          <div class="gcfg-addr">
+            <input id="tcfgAddr" class="tm-input" value="${_esc(obj.primary_address)}" autocomplete="off" spellcheck="false"
+              placeholder="${TX('Start typing a street address…')}"
+              oninput="addrInput('tcfgAddr',this.value)" onfocus="addrInput('tcfgAddr',this.value)" onblur="addrBlur('tcfgAddr')"
+              onkeydown="if(event.key==='Escape')addrClose('tcfgAddr')">
+            <div class="gcfg-addr-menu" id="tcfgAddrMenu"></div>
+          </div>
+          <span class="gcfg-hint">${TX('Searchable — pick a match to autofill. Geocoding by OpenStreetMap; you can also type it in full.')}</span>
+        </div>
+        <div class="gcfg-field">
+          <label for="tcfg_region">${TX('Primary region')}</label>
+          <select id="tcfg_region" class="tm-input">${TCFG_REGIONS.map(z=>`<option value="${z}" ${z===obj.region?'selected':''}>${z}</option>`).join('')}</select>
+        </div>
+        ${field('tcfg_contact',TX('Primary contact'),obj.contact_name,TX('Team or person Guardare alerts are addressed to.'))}
+        ${field('tcfg_email',TX('Contact email'),obj.contact_email,TX('Where escalations and reports are sent.'))}
+        <div class="gcfg-field span2">
+          <label for="tcfg_notes">${TX('Notes')}</label>
+          <textarea id="tcfg_notes" class="tcfg-textarea" placeholder="${TX('Optional — onboarding notes, account context…')}">${_esc(obj.notes||'')}</textarea>
+        </div>
+      </div>
+      <div class="gcfg-actions" style="padding:0 18px 18px">
+        <button class="btn" onclick="tcfgReset()">${TX('Reset')}</button>
+        <button class="btn primary" onclick="tcfgSave('${mode}','${slug||''}')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
+      </div>
+    </div>`;
+}
+function renderTenantCfg(){
+  const el=document.getElementById('screen-tenantcfg'); if(!el) return;
+  const single = MSP_DEPLOYMENT==='single';
+  const scope = tenantScope();
+  const sub = single ? TX('Single-customer deployment — one customer record.')
+            : (scope==='all' ? TX('Multi-tenant deployment — select a customer to edit its record.')
+                             : `${tenantName[scope]||scope} · ${TX('customer record')}`);
+  const mspIc='<svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l5-3v17M14 21V10l5-2v13M9 9h.01M9 13h.01M9 17h.01"/></svg>';
+  const oneIc='<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+  const modelCard=`
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
+        <div class="gcfg-ctext"><h3>${TX('Deployment model')}</h3>
+          <p>${TX('Whether Guardare manages many customers (MSP) or a single organization. Customer name is configured here, not on the Tenants management page.')}</p></div>
+      </div>
+      <div style="padding:18px">
+        <div class="tcfg-seg">
+          <button class="${!single?'on':''}" onclick="tcfgSetModel('msp')">${mspIc}${TX('MSP — multiple customers')}</button>
+          <button class="${single?'on':''}" onclick="tcfgSetModel('single')">${oneIc}${TX('Single customer')}</button>
+        </div>
+        <div class="tcfg-modelnote">${single?TX('All collectors belong to one customer record. Tenant scoping is hidden across the console.')
+          :TX('Each customer is a tenant with its own collectors, users and dashboards.')}</div>
+      </div>
+    </div>`;
+  let body;
+  if(single){ body=tcfgCustomerCard(SINGLE_CUSTOMER,'single',null); }
+  else if(scope==='all'){
+    const chips=TENANT_DIR.map(t=>{const nm=tenantName[t.slug]||t.slug;
+      return `<button class="tcfg-pick" onclick="tcfgPickTenant('${t.slug}')">
+        <span class="tn-avatar" style="background:${tenantColors[t.slug]||'var(--teal)'}">${tnInit(t.slug)}</span>
+        <span><b>${nm}</b><span>${t.plan} · ${t.sites} ${TX('sites')}</span></span></button>`;}).join('');
+    body=`<div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${'<svg viewBox=\"0 0 24 24\"><path d=\"M3 21V8l9-5 9 5v13\"/><path d=\"M9 21v-6h6v6\"/></svg>'}</span>
+        <div class="gcfg-ctext"><h3>${TX('Select a customer')}</h3><p>${TX('Pick a customer to view and edit its configuration — or use the tenant switcher in the top bar.')}</p></div>
+      </div>
+      <div class="tcfg-pickgrid">${chips}</div>
+    </div>`;
+  } else { body=tcfgCustomerCard(tcfgFor(scope),'tenant',scope); }
+  el.innerHTML=`
+    <div class="page-head">
+      <div>
+        <div class="page-eyebrow">${TX('Configuration')}</div>
+        <h1 class="page-title">${TX('Tenant Configuration')}</h1>
+        <p class="page-sub">${sub}</p>
+      </div>
+    </div>
+    <div class="gcfg">${modelCard}${body}</div>`;
+}
 
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
@@ -7044,6 +7263,7 @@ document.querySelectorAll('.nav-item').forEach(n=>{
     const s=n.dataset.screen;
     if(!s) return;   /* disclosure parents (.nav-disc) carry no data-screen — their inline onclick handles navigation; calling go(undefined) here would blank every screen */
     if(s==='config') renderConfig();
+    else if(s==='tenantcfg') renderTenantCfg();
     else if(s==='cfgmgr') renderCfgMgr();
     else if(s==='integrations') renderIntegrations();
     else if(s==='tenants') renderTenants();
