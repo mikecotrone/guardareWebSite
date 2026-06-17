@@ -624,6 +624,12 @@
   .gcfg-addr-loading{display:flex;align-items:center;gap:8px}
   .gcfg-spin{width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sweep .7s linear infinite;display:inline-block}
   .gcfg-actions{display:flex;justify-content:flex-end;gap:10px}
+  .gcfg-placeholder{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;padding:36px 18px}
+  .gcfg-ph-ic{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--bg-2);border:1px dashed var(--line)}
+  .gcfg-ph-ic svg{width:25px;height:25px;stroke:var(--mute);fill:none;stroke-width:1.6}
+  .gcfg-placeholder b{color:var(--text);font-size:14px;font-weight:700}
+  .gcfg-placeholder span{font-size:12.5px;color:var(--mute);max-width:460px;line-height:1.55}
+  .ucfg-tbl tr.ucfg-off .ucfg-svc-name,.ucfg-tbl tr.ucfg-off .ucfg-svc-unit{opacity:.5}
   .gcfg-soon{display:flex;align-items:center;gap:13px;padding:15px 18px;border:1px dashed var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--raise),var(--panel))}
   .gcfg-soon .gcfg-cic{background:#E9542018;border-color:#E9542040}
   .gcfg-soon .gcfg-cic svg{stroke:#E95420}
@@ -714,6 +720,7 @@
   .cfg-scope-pill.local{color:var(--dim);background:#8ba7ac1a;border:1px solid #8ba7ac44}
   .cfg-scope-pill.shared{color:var(--violet);background:#94a2ff1a;border:1px solid #94a2ff44}
   .cfg-scope-pill.collector{color:var(--teal);background:var(--teal-ghost);border:1px solid #2ee6c844}
+  .cfg-scope-pill.cloud{color:var(--teal);background:var(--teal-ghost);border:1px solid #2ee6c844}
   .cfg-drift{color:var(--amber);background:#f6b53f1a;border:1px solid #f6b53f55;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px}
   .cfg-clean{color:var(--green);background:#41d98a14;border:1px solid #41d98a44;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px}
   .cfg-toolbar{display:flex;align-items:center;gap:9px;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
@@ -1276,13 +1283,8 @@
       </button>
       <div class="nav-children" id="navChildren-cfgmgr">
         <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global settings">Global settings</span></button>
-        <button class="nav-subitem" data-sub="vcollector" onclick="goCfgSub('vcollector')"><span class="sub-lead"></span><span data-i18n="vCollector">vCollector</span></button>
-        <div class="nav-subparent">
-          <button class="nav-subitem nav-subdisc" data-sub="normalizer" onclick="goCfgSub('normalizer')"><span class="sub-lead"></span><span data-i18n="Normalizer">Normalizer</span><svg class="subdisc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
-          <div class="nav-subchildren" id="navSubNorm"></div>
-        </div>
-        <button class="nav-subitem" data-sub="events" onclick="goCfgSub('events')"><span class="sub-lead"></span><span data-i18n="Events Director">Events Director</span></button>
-        <button class="nav-subitem" data-sub="hudusync" onclick="goCfgSub('hudusync')"><span class="sub-lead"></span><span data-i18n="HuduSync">HuduSync</span></button>
+        <button class="nav-subitem" data-sub="ubuntu" onclick="goCfgSub('ubuntu')"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
+        <button class="nav-subitem" data-sub="databases" onclick="goCfgSub('databases')"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
       </div>
     </div>
     <button class="nav-item" data-screen="config">
@@ -6342,6 +6344,8 @@ function collManifests(coll){
 }
 const CFG_CATS=[
   {cat:'base',name:'Global settings',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, location and the unique IDs that bind each microservice to this box.'},
+  {cat:'ubuntu',name:'Ubuntu OS',dot:'#E95420',scope:'On-box',blurb:'Host-level tuning applied by the provisioning script — file-descriptor limits, kernel send buffers, per-service systemd safety nets and base OS settings.'},
+  {cat:'databases',name:'Databases',dot:'var(--violet)',scope:'On-box',blurb:'Local collector MariaDB buffer and queue settings — plus the cloud database connection used by the Guardare NMS.'},
   {cat:'vcollector',name:'vCollector',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
   {cat:'normalizer',name:'Normalizer',dot:'var(--green)',scope:'Per-collector',blurb:'Per-manufacturer manifests that map raw device data into the unified Guardare schema — one profile per manufacturer this collector polls.'},
   {cat:'events',name:'Events Director',dot:'var(--amber)',scope:'Per-collector',blurb:'Rule sets that turn normalized telemetry into alerts and route them to the right notification channels.'},
@@ -6570,9 +6574,6 @@ function cfgBaseForm(coll){
   const custName=tcfgFor(tslug).customer_name; g.customer_name=custName;
   const lockSvg='<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
   const globeIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>';
-  const cpuIcon='<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>';
-  const shieldIcon='<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>';
-  const gearIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 2h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 22h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6A7 7 0 0 0 19 12z"/></svg>';
   const field=(id,label,val,hint,req)=>`
     <div class="gcfg-field">
       <label for="${id}">${label}${req?'<span class="req">*</span>':''}</label>
@@ -6585,23 +6586,6 @@ function cfgBaseForm(coll){
       <div class="gcfg-iwrap gcfg-locked"><input id="${id}" class="tm-input" value="${_esc(val)}" readonly tabindex="-1">${lockSvg}</div>
       ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
     </div>`;
-  const fnum=(id,label,val,hint,sfx,oninput)=>`
-    <div class="gcfg-field">
-      <label for="${id}">${label}</label>
-      <div class="gcfg-iwrap${sfx?' has-sfx':''}"><input id="${id}" class="tm-input" value="${_esc(val)}" inputmode="numeric" autocomplete="off" ${oninput?`oninput="${oninput}"`:''}>${sfx?`<span class="sfx">${sfx}</span>`:''}</div>
-      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
-    </div>`;
-  const chips=UCFG_LIMIT_USERS.map(usr=>`<button type="button" class="ucfg-chip${u.limit_users.indexOf(usr)>-1?' sel':''}" data-user="${usr}" onclick="this.classList.toggle('sel')">${usr}</button>`).join('');
-  const svcRows=UCFG_SVCS.map(([k,label,unit,col])=>{ const s=u.services[k];
-    return `<tr>
-      <td><span class="ucfg-svc-name"><span class="ucfg-svc-dot" style="background:${col}"></span>${label}</span><div class="ucfg-svc-unit mono">${unit}</div></td>
-      <td class="ctr"><label class="ucfg-sw"><input type="checkbox" id="usvc_${k}_en" ${s.enabled?'checked':''}><span></span></label></td>
-      <td><input id="usvc_${k}_high" class="tm-input sm" value="${s.memHigh}" inputmode="numeric"></td>
-      <td><input id="usvc_${k}_max" class="tm-input sm" value="${s.memMax}" inputmode="numeric"></td>
-      <td><input id="usvc_${k}_rsec" class="tm-input sm" value="${s.restartSec}" inputmode="numeric"></td>
-      <td><input id="usvc_${k}_burst" class="tm-input sm" value="${s.burst}" inputmode="numeric"></td>
-      <td><input id="usvc_${k}_int" class="tm-input sm" value="${s.interval}" inputmode="numeric"></td>
-    </tr>`; }).join('');
   return `
   <div class="gcfg">
     <div class="gcfg-card">
@@ -6626,9 +6610,37 @@ function cfgBaseForm(coll){
         </div>
       </div>
     </div>
-
-    <div class="gcfg-sechead"><span class="gcfg-sec-logo">${UBUNTU_SVG}</span><div><h2>${TX('Ubuntu host tuning')}</h2><p>${TX('Applied to the OS by the provisioning script — file limits, kernel buffers and systemd safety nets.')}</p></div></div>
-
+    <div class="gcfg-actions">
+      <button class="btn" onclick="cfgBaseReset()">${TX('Reset')}</button>
+      <button class="btn primary" onclick="cfgBaseSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
+    </div>
+  </div>`;
+}
+function cfgUbuntuForm(coll){
+  const u=ucfgFor(coll);
+  const cpuIcon='<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>';
+  const shieldIcon='<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>';
+  const gearIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 2h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 22h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6A7 7 0 0 0 19 12z"/></svg>';
+  const fnum=(id,label,val,hint,sfx,oninput)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${label}</label>
+      <div class="gcfg-iwrap${sfx?' has-sfx':''}"><input id="${id}" class="tm-input" value="${_esc(val)}" inputmode="numeric" autocomplete="off" ${oninput?`oninput="${oninput}"`:''}>${sfx?`<span class="sfx">${sfx}</span>`:''}</div>
+      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
+    </div>`;
+  const chips=UCFG_LIMIT_USERS.map(usr=>`<button type="button" class="ucfg-chip${u.limit_users.indexOf(usr)>-1?' sel':''}" data-user="${usr}" onclick="this.classList.toggle('sel')">${usr}</button>`).join('');
+  const svcRows=UCFG_SVCS.map(([k,label,unit,col])=>{ const s=u.services[k]; const d=s.enabled?'':' disabled';
+    return `<tr class="${s.enabled?'':'ucfg-off'}" data-svc="${k}">
+      <td><span class="ucfg-svc-name"><span class="ucfg-svc-dot" style="background:${col}"></span>${label}</span><div class="ucfg-svc-unit mono">${unit}</div></td>
+      <td class="ctr"><label class="ucfg-sw"><input type="checkbox" id="usvc_${k}_en" ${s.enabled?'checked':''} onchange="ucfgToggleSvc('${k}')"><span></span></label></td>
+      <td><input id="usvc_${k}_high" class="tm-input sm" value="${s.memHigh}" inputmode="numeric"${d}></td>
+      <td><input id="usvc_${k}_max" class="tm-input sm" value="${s.memMax}" inputmode="numeric"${d}></td>
+      <td><input id="usvc_${k}_rsec" class="tm-input sm" value="${s.restartSec}" inputmode="numeric"${d}></td>
+      <td><input id="usvc_${k}_burst" class="tm-input sm" value="${s.burst}" inputmode="numeric"${d}></td>
+      <td><input id="usvc_${k}_int" class="tm-input sm" value="${s.interval}" inputmode="numeric"${d}></td>
+    </tr>`; }).join('');
+  return `
+  <div class="gcfg">
+    ${cfgOsCard()}
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic ora">${cpuIcon}</span>
@@ -6673,7 +6685,7 @@ function cfgBaseForm(coll){
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic ora">${gearIcon}</span>
-        <div class="gcfg-ctext"><h3>${TX('Host basics')}</h3></div>
+        <div class="gcfg-ctext"><h3>${TX('General settings')}</h3></div>
       </div>
       <div class="gcfg-grid">
         <div class="gcfg-field">
@@ -6696,8 +6708,46 @@ function cfgBaseForm(coll){
     ${cfgHostPeek(coll)}
 
     <div class="gcfg-actions">
-      <button class="btn" onclick="cfgBaseReset()">${TX('Reset')}</button>
-      <button class="btn primary" onclick="cfgBaseSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
+      <button class="btn" onclick="cfgUbuntuReset()">${TX('Reset')}</button>
+      <button class="btn primary" onclick="cfgUbuntuSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
+    </div>
+  </div>`;
+}
+function ucfgToggleSvc(k){
+  const en=document.getElementById('usvc_'+k+'_en'); if(!en) return;
+  ['high','max','rsec','burst','int'].forEach(s=>{const e=document.getElementById('usvc_'+k+'_'+s); if(e) e.disabled=!en.checked;});
+  const tr=en.closest('tr'); if(tr) tr.classList.toggle('ucfg-off',!en.checked);
+}
+function cfgDbForm(coll){
+  const dbIcon='<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>';
+  const cloudIcon='<svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a3.5 3.5 0 0 1-.5 8.5z"/></svg>';
+  return `
+  <div class="gcfg">
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${dbIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Collector database — MariaDB')}</h3>
+          <p>${TX('On-box buffer and outbound message queue for this collector.')}</p></div>
+        <span class="cfg-scope-pill local">${TX('On-box')}</span>
+      </div>
+      <div class="gcfg-placeholder">
+        <span class="gcfg-ph-ic">${dbIcon}</span>
+        <b>${TX('Collector MariaDB options coming next')}</b>
+        <span>${TX('Connection, buffer retention, queue drain and partition policy for the local MariaDB will be configured here.')}</span>
+      </div>
+    </div>
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${cloudIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Cloud database')}</h3>
+          <p>${TX('Central tenant store used by the Guardare NMS.')}</p></div>
+        <span class="cfg-scope-pill cloud">${TX('Cloud')}</span>
+      </div>
+      <div class="gcfg-placeholder">
+        <span class="gcfg-ph-ic">${cloudIcon}</span>
+        <b>${TX('Cloud DB options coming next')}</b>
+        <span>${TX('Endpoint, credentials (via Docker secrets) and pooling for the multi-tenant cloud database will live here.')}</span>
+      </div>
     </div>
   </div>`;
 }
@@ -6727,18 +6777,28 @@ function cfgBaseSave(){
   const coll=cfgMgrColl; if(!coll) return;
   const vals=cfgBaseReadForm();
   if(!vals.collector_site_id || !vals.customer_name || !vals.customer_location){ toast(TX('Site ID, customer and location are required')); return; }
+  const g=gcfgFor(coll); Object.assign(g,vals);
+  try{ const bf=cfgFilesFor(coll).find(f=>f.key==='base'); if(bf){ const s=cfgState(coll,bf); s.content=gcfgApplyToYaml(s.content,g); s.sha=_hash7(coll+'base'+JSON.stringify(g)); s.pulled=TX('just now'); s.drift=false; } }catch(_){}
+  renderCfgMgr();
+  toast(TX('Saved')+' · '+cfgCollName(coll)+' — serviceConfig.yaml');
+}
+function cfgBaseReset(){
+  if(!cfgMgrColl) return;
+  renderCfgMgr();
+  toast(TX('Reverted to last saved values'));
+}
+function cfgUbuntuSave(){
+  const coll=cfgMgrColl; if(!coll) return;
   const uv=ucfgRead(coll);
   if(uv.nofile_hard < uv.nofile_soft){ toast(TX('Hard file limit must be ≥ soft limit')); return; }
   if(uv.wmem_max_mb < uv.wmem_default_mb){ toast(TX('Max send buffer must be ≥ default')); return; }
   for(const k in uv.services){ const s=uv.services[k]; if(s.enabled && s.memMax < s.memHigh){ toast(TX('MemoryMax must be ≥ MemoryHigh')); return; } }
-  const g=gcfgFor(coll); Object.assign(g,vals);
   Object.assign(ucfgFor(coll), uv);
-  try{ const bf=cfgFilesFor(coll).find(f=>f.key==='base'); if(bf){ const s=cfgState(coll,bf); s.content=gcfgApplyToYaml(s.content,g); s.sha=_hash7(coll+'base'+JSON.stringify(g)); s.pulled=TX('just now'); s.drift=false; } }catch(_){}
   renderCfgMgr();
-  toast(TX('Saved')+' · '+cfgCollName(coll)+' — '+TX('serviceConfig.yaml + host tuning'));
+  toast(TX('Saved')+' · '+cfgCollName(coll)+' — '+TX('Ubuntu host tuning'));
 }
-function cfgBaseReset(){
-  const coll=cfgMgrColl; if(!coll) return;
+function cfgUbuntuReset(){
+  if(!cfgMgrColl) return;
   renderCfgMgr();
   toast(TX('Reverted to last saved values'));
 }
@@ -7009,6 +7069,10 @@ function renderCfgMgr(){
   if(cfgSubPage==='base'){
     const f=files.find(x=>x.key==='base')||files[0];
     body=cfgBaseForm(cfgMgrColl)+cfgSourcePeek(f,cfgMgrColl);
+  } else if(cfgSubPage==='ubuntu'){
+    body=cfgUbuntuForm(cfgMgrColl);
+  } else if(cfgSubPage==='databases'){
+    body=cfgDbForm(cfgMgrColl);
   } else if(cfgSubPage==='normalizer'){
     const mans=files.filter(f=>f.cat==='normalizer');
     const cards=mans.map(f=>cfgManCard(f,cfgMgrColl)).join('');
@@ -7022,7 +7086,7 @@ function renderCfgMgr(){
     const f=files.find(x=>x.cat===cfgSubPage)||files[0];
     body='<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
   }
-  el.innerHTML=head+bar+(cfgSubPage==='base'?cfgOsCard():'')+body;
+  el.innerHTML=head+bar+body;
   syncNormNav();
 }
 function toggleNavDisc(key){
