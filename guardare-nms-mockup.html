@@ -189,7 +189,7 @@
   /* ---------- SIDEBAR ---------- */
   .sidebar{
     border-right:1px solid var(--line);background:linear-gradient(180deg,#0b1c21,#0a161a);
-    padding:16px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;z-index:20;
+    padding:16px 12px;display:flex;flex-direction:column;overflow-y:auto;z-index:20;
   }
   .sidebar>*{flex-shrink:0}
   .nav-group{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);
@@ -198,7 +198,8 @@
   .nav-item,.nav-disc{
     display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--r-sm);
     font-size:13.5px;font-weight:500;color:var(--dim);transition:.15s;position:relative;text-align:left;width:100%;
-    min-height:38px;cursor:pointer
+    min-height:38px;cursor:pointer;
+    border-top:2px solid transparent;border-bottom:2px solid transparent;background-clip:padding-box
   }
   .nav-item:hover,.nav-disc:hover{background:var(--panel);color:var(--text)}
   .nav-item.active,.nav-disc.active{background:linear-gradient(90deg,var(--teal-ghost),transparent);color:var(--text)}
