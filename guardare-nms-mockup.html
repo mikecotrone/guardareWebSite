@@ -209,12 +209,21 @@
   .nav-disc .disc-caret{margin-left:auto;width:15px;height:15px;opacity:.55;transition:transform .18s}
   .nav-disc.expanded .disc-caret{transform:rotate(90deg)}
   .nav-children{overflow:hidden;max-height:0;transition:max-height .22s ease}
-  .nav-children.open{max-height:340px}
+  .nav-children.open{max-height:600px}
   .nav-subitem{display:flex;align-items:center;gap:9px;width:100%;padding:7px 14px 7px 40px;margin:1px 0;border:0;background:none;color:var(--mute);font:inherit;font-size:12.5px;cursor:pointer;border-radius:9px;text-align:left;position:relative;transition:.15s}
   .nav-subitem:hover{color:var(--text);background:var(--panel)}
   .nav-subitem .sub-lead{width:5px;height:5px;border-radius:99px;background:var(--mute);flex:none;transition:.15s}
   .nav-subitem.active{color:var(--text);background:linear-gradient(90deg,var(--teal-ghost),transparent)}
   .nav-subitem.active .sub-lead{background:var(--teal);box-shadow:0 0 8px var(--teal)}
+  .nav-subitem .subdisc-caret{margin-left:auto;width:13px;height:13px;opacity:.5;stroke:currentColor;fill:none;stroke-width:2.2;transition:transform .18s}
+  .nav-subitem.expanded .subdisc-caret{transform:rotate(90deg)}
+  .nav-subchildren{overflow:hidden;max-height:0;transition:max-height .22s ease}
+  .nav-subchildren.open{max-height:320px}
+  .nav-subsubitem{display:flex;align-items:center;gap:8px;width:100%;padding:6px 14px 6px 54px;margin:1px 0;border:0;background:none;color:var(--mute);font:inherit;font-size:12px;cursor:pointer;border-radius:9px;text-align:left;position:relative;transition:.15s}
+  .nav-subsubitem:hover{color:var(--text);background:var(--panel)}
+  .nav-subsubitem .ss-lead{width:4px;height:4px;border-radius:99px;background:var(--mute);flex:none;transition:.15s}
+  .nav-subsubitem.active{color:var(--text);background:linear-gradient(90deg,var(--teal-ghost),transparent)}
+  .nav-subsubitem.active .ss-lead{background:var(--green);box-shadow:0 0 7px var(--green)}
   .cfg-scaffold{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:46px 28px;color:var(--dim)}
   .cfg-scaffold-ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:var(--raise);border:1px solid var(--line)}
   .cfg-scaffold-ic svg{width:24px;height:24px;stroke:var(--teal);fill:none;stroke-width:1.7}
@@ -229,7 +238,12 @@
   .cfg-mannote{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--dim);margin-bottom:14px}
   .cfg-mannote b{color:var(--text)}
   .cfg-man-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-  .cfg-man-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:14px 15px;display:flex;flex-direction:column;gap:9px}
+  .cfg-man-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:14px 15px;display:flex;flex-direction:column;gap:9px;transition:.15s}
+  .cfg-man-card:hover{border-color:var(--green);background:var(--raise)}
+  .cfg-manback{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+  .cfg-back-btn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--panel);color:var(--dim);font:inherit;font-size:12px;font-weight:600;padding:5px 11px 5px 8px;border-radius:99px;cursor:pointer;transition:.15s;flex:none}
+  .cfg-back-btn:hover{color:var(--text);border-color:var(--green)}
+  .cfg-back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
   .cfg-man-top{display:flex;align-items:center;gap:8px}
   .cfg-man-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex:none}
   .cfg-man-name{font-weight:600;font-size:13px;color:var(--text)}
@@ -1133,7 +1147,10 @@
         <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Collector base">Collector base</span></button>
         <button class="nav-subitem" data-sub="defaults" onclick="goCfgSub('defaults')"><span class="sub-lead"></span><span data-i18n="Shared defaults">Shared defaults</span></button>
         <button class="nav-subitem" data-sub="vcollector" onclick="goCfgSub('vcollector')"><span class="sub-lead"></span><span data-i18n="vCollector">vCollector</span></button>
-        <button class="nav-subitem" data-sub="normalizer" onclick="goCfgSub('normalizer')"><span class="sub-lead"></span><span data-i18n="Normalizer">Normalizer</span></button>
+        <div class="nav-subparent">
+          <button class="nav-subitem nav-subdisc" data-sub="normalizer" onclick="goCfgSub('normalizer')"><span class="sub-lead"></span><span data-i18n="Normalizer">Normalizer</span><svg class="subdisc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+          <div class="nav-subchildren" id="navSubNorm"></div>
+        </div>
         <button class="nav-subitem" data-sub="events" onclick="goCfgSub('events')"><span class="sub-lead"></span><span data-i18n="Events Director">Events Director</span></button>
         <button class="nav-subitem" data-sub="hudusync" onclick="goCfgSub('hudusync')"><span class="sub-lead"></span><span data-i18n="HuduSync">HuduSync</span></button>
       </div>
@@ -6181,7 +6198,7 @@ function cfgScaffold(cat){
 }
 function cfgManCard(f,coll){
   const st=cfgState(coll,f);
-  return '<div class="cfg-man-card"><div class="cfg-man-top"><span class="cfg-man-dot"></span><span class="cfg-man-name">'+f.pill+'</span></div><div class="cfg-man-path">'+cfgRepoPath(f)+'</div><div class="cfg-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">poll '+f.poll+'s</span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div></div>';
+  return '<div class="cfg-man-card" style="cursor:pointer" onclick="goCfgSub(\''+f.key+'\')"><div class="cfg-man-top"><span class="cfg-man-dot"></span><span class="cfg-man-name">'+f.pill+'</span></div><div class="cfg-man-path">'+cfgRepoPath(f)+'</div><div class="cfg-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">poll '+f.poll+'s</span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div></div>';
 }
 const UBUNTU_SVG='<svg viewBox="0 0 48 48" aria-label="Ubuntu">'+
   '<circle cx="24" cy="24" r="14.5" fill="none" stroke="#E95420" stroke-width="3"/>'+
@@ -6211,15 +6228,49 @@ function cfgOsCard(){
     '</div>'+
   '</div>';
 }
+function currentCfgColl(){
+  if(cfgMgrColl) return cfgMgrColl;
+  const rows=(typeof locationRows==='function')?locationRows():[];
+  return rows.length?rows[0].tenant+':'+rows[0].coll:null;
+}
+function cfgCatFor(sub){
+  if(sub && sub.indexOf('norm-')===0){
+    const mk=sub.slice(5), m=NORM_MAP[mk];
+    return {cat:sub,name:'Normalizer · '+(m?m.label:mk),dot:'var(--green)',scope:'Per-collector',
+      blurb:'Normalization manifest that maps raw '+(m?m.label:mk)+' device output into the unified Guardare schema for this collector.'};
+  }
+  return CFG_CATS.find(c=>c.cat===sub)||CFG_CATS[0];
+}
+function cfgHead(cat){
+  return '<div class="page-head"><div><div class="page-eyebrow">'+TX('Collector Configuration')+'</div><h1 class="page-title">'+TX(cat.name)+'</h1><p class="page-sub">'+TX(cat.blurb||'')+'</p></div></div>';
+}
+function renderNormSubmenu(){
+  const box=document.getElementById('navSubNorm'); if(!box) return;
+  const coll=currentCfgColl();
+  const mans=coll?collManifests(coll):['snmp'];
+  box.innerHTML=mans.map(k=>{
+    const m=NORM_MAP[k]||{label:k}; const sub='norm-'+k;
+    return '<button class="nav-subsubitem" data-sub="'+sub+'" onclick="goCfgSub(\''+sub+'\')"><span class="ss-lead"></span><span>'+m.label+'</span></button>';
+  }).join('');
+  box.querySelectorAll('.nav-subsubitem').forEach(b=>b.classList.toggle('active', b.dataset.sub===cfgSubPage));
+}
+function syncNormNav(){
+  renderNormSubmenu();
+  const on=(cfgSubPage==='normalizer'||(cfgSubPage||'').indexOf('norm-')===0);
+  const box=document.getElementById('navSubNorm'); if(box) box.classList.toggle('open',on);
+  const dsc=document.querySelector('.nav-subdisc[data-sub="normalizer"]'); if(dsc) dsc.classList.toggle('expanded',on);
+}
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
   const scope=tenantScope(), isAll=scope==='all';
   const rows=locationRows();
-  const cat=CFG_CATS.find(c=>c.cat===cfgSubPage)||CFG_CATS[0];
-  const head='<div class="page-head"><div><div class="page-eyebrow">'+TX('Collector Configuration')+'</div><h1 class="page-title">'+TX(cat.name)+'</h1><p class="page-sub">'+TX(cat.blurb||'')+'</p></div></div>';
-  if(!rows.length){ el.innerHTML=head+'<div class="cfg-empty">'+TX('No collectors in scope.')+'</div>'; return; }
+  if(!rows.length){ el.innerHTML=cfgHead(cfgCatFor(cfgSubPage))+'<div class="cfg-empty">'+TX('No collectors in scope.')+'</div>'; syncNormNav(); return; }
   if(!cfgMgrColl || !rows.find(r=>r.tenant+':'+r.coll===cfgMgrColl)) cfgMgrColl=rows[0].tenant+':'+rows[0].coll;
   const files=cfgFilesFor(cfgMgrColl);
+  /* a manifest subpage this collector doesn't run → fall back to the Normalizer overview */
+  if(cfgSubPage.indexOf('norm-')===0 && !files.find(f=>f.key===cfgSubPage)) cfgSubPage='normalizer';
+  const cat=cfgCatFor(cfgSubPage);
+  const head=cfgHead(cat);
   const curT=cfgMgrColl.split(':')[0], curC=cfgMgrColl.split(':')[1];
   const curRow=rows.find(r=>r.tenant+':'+r.coll===cfgMgrColl)||rows[0];
   let menu='';
@@ -6237,14 +6288,18 @@ function renderCfgMgr(){
   if(cfgSubPage==='normalizer'){
     const mans=files.filter(f=>f.cat==='normalizer');
     const cards=mans.map(f=>cfgManCard(f,cfgMgrColl)).join('');
-    body='<div class="cfg-mannote"><span class="cfg-man-dot"></span>'+TX('This collector runs')+' <b>'+mans.length+'</b> '+TX('manufacturer manifests — one normalization profile per polled manufacturer.')+'</div>'+
-      '<div class="cfg-man-grid">'+cards+'<button class="cfg-man-add" onclick="toast(\''+TX('Add manufacturer manifest — coming in the per-service build')+'\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add manufacturer')+'</button></div>'+
-      cfgScaffold(cat);
+    body='<div class="cfg-mannote"><span class="cfg-man-dot"></span>'+TX('This collector runs')+' <b>'+mans.length+'</b> '+TX('manufacturer manifests — one normalization profile per polled manufacturer.')+' '+TX('Open one to configure it.')+'</div>'+
+      '<div class="cfg-man-grid">'+cards+'<button class="cfg-man-add" onclick="toast(\''+TX('Add manufacturer manifest — coming in the per-service build')+'\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add manufacturer')+'</button></div>';
+  } else if(cfgSubPage.indexOf('norm-')===0){
+    const f=files.find(x=>x.key===cfgSubPage)||files[0];
+    body='<div class="cfg-manback"><button class="cfg-back-btn" onclick="goCfgSub(\'normalizer\')"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
+      '<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
   } else {
     const f=files.find(x=>x.cat===cfgSubPage)||files[0];
     body='<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
   }
   el.innerHTML=head+bar+(cfgSubPage==='base'?cfgOsCard():'')+body;
+  syncNormNav();
 }
 function toggleNavDisc(key){
   const ch=document.getElementById('navChildren-'+key); if(!ch) return;
@@ -6290,10 +6345,12 @@ function syncTopbarTenant(){
   if(typeof renderTenantMenu==='function') renderTenantMenu();
 }
 function go(screen){
+  const target=document.getElementById('screen-'+screen);
+  if(!target) return;   /* unknown screen id — do nothing rather than hide every screen (which would black out the page) */
   const inTenant = (screen==='detail'||screen==='nms');
   if(!inTenant && screen!=='tenant-manage') navHighlight=screen;   /* tenant selection is sticky — not cleared by navigation */
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
-  document.getElementById('screen-'+screen).classList.add('show');
+  target.classList.add('show');
   const bar=document.getElementById('ctxBar');
   if(bar) bar.classList.toggle('show', !!(inTenant && currentTenantCtx));
   document.querySelectorAll('.nav-item').forEach(n=>{
@@ -6301,7 +6358,7 @@ function go(screen){
   });
   document.querySelectorAll('.nav-disc').forEach(d=>d.classList.toggle('active', d.dataset.disc===navHighlight));
   document.querySelectorAll('.nav-subitem').forEach(s=>s.classList.toggle('active', navHighlight==='cfgmgr' && s.dataset.sub===cfgSubPage));
-  if(navHighlight==='cfgmgr'){ const _ch=document.getElementById('navChildren-cfgmgr'); if(_ch)_ch.classList.add('open'); const _dc=document.querySelector('.nav-disc[data-disc="cfgmgr"]'); if(_dc)_dc.classList.add('expanded'); }
+  if(navHighlight==='cfgmgr'){ const _ch=document.getElementById('navChildren-cfgmgr'); if(_ch)_ch.classList.add('open'); const _dc=document.querySelector('.nav-disc[data-disc="cfgmgr"]'); if(_dc)_dc.classList.add('expanded'); if(typeof syncNormNav==='function') syncNormNav(); }
   syncTopbarTenant();
   document.getElementById('main').scrollTop=0;
 }
@@ -6479,6 +6536,7 @@ function openDetail(id){
 document.querySelectorAll('.nav-item').forEach(n=>{
   n.addEventListener('click',()=>{
     const s=n.dataset.screen;
+    if(!s) return;   /* disclosure parents (.nav-disc) carry no data-screen — their inline onclick handles navigation; calling go(undefined) here would blank every screen */
     if(s==='config') renderConfig();
     else if(s==='cfgmgr') renderCfgMgr();
     else if(s==='integrations') renderIntegrations();
