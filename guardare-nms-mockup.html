@@ -616,6 +616,8 @@
   .gcfg-addr{position:relative}
   .gcfg-addr-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:5px;z-index:80;display:none;max-height:262px;overflow:auto}
   .gcfg-addr-menu.open{display:block}
+  .loc-addr-menu{position:fixed;left:0;top:0;right:auto}
+  .loc-cohint{font-style:normal;color:var(--mute);font-size:10.5px;display:block;margin-top:1px}
   .gcfg-addr-opt{display:flex;align-items:flex-start;gap:9px;width:100%;text-align:left;padding:9px 10px;border:0;background:none;color:var(--text);font:inherit;font-size:12.5px;border-radius:7px;cursor:pointer}
   .gcfg-addr-opt:hover{background:var(--raise)}
   .gcfg-addr-opt svg{flex:none;width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:1.7;margin-top:1px}
@@ -1218,6 +1220,7 @@
       <button class="lang-opt" data-lang="fr">FR</button>
       <button class="lang-opt" data-lang="es">ES</button>
       <button class="lang-opt" data-lang="pt">PT</button>
+      <button class="lang-opt" data-lang="ja">JA</button>
     </div>
     <div class="lang-mini">
       <button class="lang-mini-btn" id="langMiniBtn" aria-label="Language">
@@ -1231,6 +1234,7 @@
         <button class="lang-mini-opt" data-lang="fr">Français</button>
         <button class="lang-mini-opt" data-lang="es">Español</button>
         <button class="lang-mini-opt" data-lang="pt">Português</button>
+        <button class="lang-mini-opt" data-lang="ja">日本語</button>
       </div>
     </div>
     <div class="op-badge">
@@ -1244,7 +1248,7 @@
     <div class="nav-group" data-i18n="Operations">Operations</div>
     <button class="nav-item active" data-screen="dashboard">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-      <span data-i18n="MSP Global Dashboard">MSP Global Dashboard</span>
+      <span data-i18n="Global Dashboard">Global Dashboard</span>
     </button>
     <button class="nav-item" data-screen="fleet">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
@@ -1260,7 +1264,6 @@
       <span data-i18n="Audit Log">Audit Log</span>
     </button>
 
-    <div class="nav-group" data-i18n="MSP Management">MSP Management</div>
     <button class="nav-item" data-screen="tenants">
       <svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
       <span data-i18n="Tenants">Tenants</span>
@@ -1293,7 +1296,7 @@
     </button>
     <button class="nav-item" data-screen="integrations">
       <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
-      <span data-i18n="Integrations">Integrations</span>
+      <span data-i18n="API Integrations">API Integrations</span>
     </button>
 
     <div class="sidebar-foot">
@@ -1324,7 +1327,7 @@
     <section class="screen show" id="screen-dashboard">
       <div class="page-head">
         <div>
-          <h1 class="page-title" data-i18n="MSP Global Dashboard">MSP Global Dashboard</h1>
+          <h1 class="page-title" data-i18n="Global Dashboard">Global Dashboard</h1>
           <p class="page-sub" data-i18n="Real-time visibility across your collector fleet · streaming over Centrifugo">Real-time visibility across your collector fleet · streaming over Centrifugo</p>
         </div>
         <div class="head-actions"></div>
@@ -5198,6 +5201,40 @@ const I18N={
   "This is the NMS / management plane. Device-level monitoring for this tenant is coming in a later build.":"Este é o plano NMS / de gestão. O monitoramento por dispositivo para este cliente chegará em uma versão futura.",
   "Device Inventory":"Inventário de dispositivos","Internet Health":"Saúde da Internet","Top Talkers":"Principais consumidores","Client Activity":"Atividade de clientes",
   "Working in":"Trabalhando em","Open workspace":"Abrir workspace","Exit tenant":"Sair do cliente","Current":"Atual","Collector Serviceability":"Manutenção de collectors","Tenant Management":"Gestão de clientes","Dashboard":"Painel","Audit log":"Registo de auditoria","Tenants":"Clientes","No matches":"Sem resultados","Tenant Collectors":"Collectors do cliente","Tenant details":"Detalhes do cliente","Tickets & SLA":"Tickets e SLA","Integrations":"Integrações","Connected":"Conectado","Available":"Disponível","API endpoint":"Endpoint da API","Enabled":"Ativado","Save":"Salvar","Connect":"Conectar","Add integration":"Adicionar integração","Not set":"Não definido","of":"de","integrations connected":"integrações conectadas","last 30 days":"últimos 30 dias","Open tickets":"Tickets abertos","Closed (30d)":"Fechados (30d)","SLA met":"SLA cumprido","SLA breached":"SLA violado","Overview":"Visão geral","Plan":"Plano","Open alerts":"Alertas abertos","Address":"Endereço","since":"desde","Open collector workspace":"Abrir espaço de collectors","Collector limit":"Limite de collectors","Monthly recurring":"Receita mensal","Accent color":"Cor de destaque","Tenant slug":"Slug do cliente","Tenant name":"Nome do cliente","Danger zone":"Zona de perigo","Suspend":"Suspender","Delete":"Eliminar"
+ },
+ ja:{
+  "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
+  "Global Dashboard":"グローバルダッシュボード","MSP Global Dashboard":"グローバルダッシュボード","Collector Serviceability":"コレクター稼働状況","Collector Fleet":"コレクターフリート","Alerts":"アラート",
+  "Audit Log":"監査ログ","Tenants":"テナント","Provision Collector":"コレクター展開","Reports & SLA":"レポート & SLA",
+  "Tenant Configuration":"テナント設定","Collector Config":"コレクター設定","Global settings":"グローバル設定","Ubuntu OS":"Ubuntu OS","Databases":"データベース",
+  "Locations":"ロケーション","API Integrations":"API連携","Integrations":"連携",
+  "Search collectors, alerts, sites…":"コレクター・アラート・拠点を検索…","Guardare Administrator":"Guardare 管理者",
+  "Design preview":"デザインプレビュー","— concept UI, not a live product.":"— コンセプトUIであり、実稼働製品ではありません。",
+  "All sites, alerts, and data shown are fabricated.":"表示されている拠点・アラート・データはすべて架空のものです。","Help shape 2027 →":"2027年の形づくりに参加 →",
+  "Real-time visibility across your collector fleet · streaming over Centrifugo":"コレクターフリート全体をリアルタイムに可視化 · Centrifugo でストリーミング",
+  "Live alerts":"ライブアラート","Fleet radar":"フリートレーダー",
+  "Telemetry rate":"テレメトリ速度","Active alerts":"アクティブなアラート","Fleet uptime":"フリート稼働率","Sync backlog":"同期バックログ",
+  "Collector health grid":"コレクター稼働状況グリッド","Recent alerts":"最近のアラート","View all →":"すべて表示 →","Console":"コンソール","live":"ライブ",
+  "Online":"オンライン","Degraded":"劣化","Critical":"重大","Offline":"オフライン","All":"すべて",
+  "Export":"エクスポート","Collector":"コレクター","Tenant":"テナント","Status":"ステータス","Last seen":"最終確認","Throughput":"スループット","Config":"設定",
+  "Alert Management":"アラート管理","Triage, acknowledge, and resolve across the fleet":"フリート全体でトリアージ・確認・解決","Active":"アクティブ","Acknowledged":"確認済み","Resolved":"解決済み","Acknowledge":"確認","Acknowledge all":"すべて確認","Alert rules":"アラートルール",
+  "All Tenants":"すべてのテナント","All tenants":"すべてのテナント","None":"なし","selected":"選択中","sites":"拠点","tap to inspect":"タップして詳細",
+  "Add location":"ロケーションを追加","Save changes":"変更を保存","locations":"ロケーション","Reset":"リセット","Save":"保存","Connect":"接続","Close":"閉じる","Manage":"管理",
+  "Location name":"ロケーション名","City / Region":"市区町村 / 地域","Latitude":"緯度","Longitude":"経度","top-level sites plotted on the Fleet Radar":"フリートレーダーに表示される主要拠点",
+  "Search address…":"住所を検索…","Searching addresses…":"住所を検索中…","Offline — showing sample addresses":"オフライン — サンプル住所を表示","No matches — type the full address":"該当なし — 住所全体を入力してください","Start typing a street address…":"住所を入力してください…","Coordinates filled from address":"住所から座標を入力しました",
+  "Type an address in City / Region to search it — latitude and longitude fill in automatically. These coordinates define where each collector pin is plotted on the Fleet Radar.":"市区町村/地域に住所を入力して検索すると、緯度・経度が自動的に入力されます。これらの座標は各コレクターのピンがフリートレーダー上のどこに表示されるかを決定します。",
+  "Time":"時刻","Actor":"実行者","Action":"アクション","Target":"対象","Source IP":"送信元IP","Audit log":"監査ログ","events":"件","newest first":"新しい順","Export CSV":"CSVをエクスポート","Global Audit Log":"グローバル監査ログ",
+  "Add integration":"連携を追加","Integrate Guardare into your team's stack.":"Guardare をチームのスタックに統合します。","Connected":"接続済み","Available":"利用可能","Enabled":"有効","API endpoint":"APIエンドポイント","Browse integration catalog":"連携カタログを閲覧",
+  "Service desk & ITSM":"サービスデスク & ITSM","Alerting & on-call":"アラート & オンコール","GitOps & configuration":"GitOps & 設定","AI & automation":"AI & 自動化","connected":"接続済み","Per-tenant":"テナントごと","Platform":"プラットフォーム","Inherited":"継承","platform":"プラットフォーム",
+  "Deployment model":"デプロイメントモデル","MSP — multiple customers":"MSP — 複数顧客","Single customer":"単一顧客","Customer details":"顧客情報","Select a customer":"顧客を選択","Customer name":"顧客名","Legal entity name":"法人名","Primary address":"主要住所","Primary region":"主要リージョン","Primary contact":"主要連絡先","Contact email":"連絡先メール","Notes":"メモ","locked":"ロック","Plan":"プラン","Customer since":"顧客開始日","Sites":"拠点","Tenant Management":"テナント管理",
+  "On-box":"オンボックス","Cloud":"クラウド","Collector Global Configuration":"コレクターのグローバル設定","Collector site ID":"コレクター拠点ID","Collector location":"コレクターの所在地",
+  "Host Kernel & Limits":"ホストカーネルと制限","Service Safety Nets":"サービスセーフティネット","General Settings":"一般設定","File Descriptor Limits":"ファイルディスクリプタ制限","TCP Send Buffers":"TCP送信バッファ",
+  "Open files — soft":"オープンファイル — ソフト","Open files — hard":"オープンファイル — ハード","Default send buffer":"デフォルト送信バッファ","Max send buffer":"最大送信バッファ",
+  "Service":"サービス","Safety net":"セーフティネット","Mem high":"メモリ上限(高)","Mem max":"メモリ最大","Restart":"再起動","Burst":"バースト","Window":"ウィンドウ",
+  "Timezone":"タイムゾーン","Auto-update channel":"自動更新チャネル","Colorized log escapes":"カラーログエスケープ","Distribution":"ディストリビューション","Release":"リリース",
+  "Collector database — MariaDB":"コレクターDB — MariaDB","Cloud database":"クラウドデータベース",
+  "Pause":"一時停止","Resume":"再開","Clear":"クリア","Re-run":"再実行","Regenerate":"再生成","High":"高","Medium":"中","Memory":"メモリ","Storage":"ストレージ","Network":"ネットワーク","Model":"モデル","Processor":"プロセッサ",
+  "Working in":"作業中","Open workspace":"ワークスペースを開く","Exit tenant":"テナントを終了","Current":"現在","Overview":"概要","Open alerts":"未対応アラート","Address":"住所","since":"開始","Dashboard":"ダッシュボード","No matches":"該当なし"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -6119,7 +6156,7 @@ function renderIntegrations(){
     <div class="page-head">
       <div>
         <div class="page-eyebrow">${TX('Configuration')}</div>
-        <h1 class="page-title">${TX('Integrations')}</h1>
+        <h1 class="page-title">${TX('API Integrations')}</h1>
         <p class="page-sub">${sub}</p>
       </div>
       <div class="head-actions">
@@ -6298,7 +6335,7 @@ function renderConfig(){
       ${oneTenant?'':`<td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[l.tenant]||'var(--teal)'}">${tnInit(tenantName[l.tenant]||l.tenant)}</span>${tenantName[l.tenant]||l.tenant}</span></td>`}
       <td><input class="loc-input" value="${l.name}"></td>
       <td class="cell-id">${l.coll}</td>
-      <td><input class="loc-input" value="${l.city}"></td>
+      <td><input class="loc-input loc-addr-input" value="${_esc(l.city)}" autocomplete="off" spellcheck="false" placeholder="${TX('Search address…')}" oninput="locAddrInput('${l.tenant}:${l.coll}',this.value)" onfocus="locAddrInput('${l.tenant}:${l.coll}',this.value)" onblur="locAddrBlur()" onkeydown="if(event.key==='Escape')locAddrClose()"></td>
       <td class="r"><input class="loc-input loc-coord" value="${l.lat}"></td>
       <td class="r"><input class="loc-input loc-coord" value="${l.lng}"></td>
       <td><span class="td-status ${sc}"><i></i>${TX(sl)}</span></td>
@@ -6318,14 +6355,80 @@ function renderConfig(){
       </div>
     </div>
     <div class="cfg-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
-      ${TX('These coordinates define where each collector pin is plotted on the Fleet Radar. Editing latitude / longitude here will reposition the pins on save.')}</div>
+      ${TX('Type an address in City / Region to search it — latitude and longitude fill in automatically. These coordinates define where each collector pin is plotted on the Fleet Radar.')}</div>
     <div class="panel" style="overflow-x:auto">
       <table>
         <thead><tr>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Location name')}</th><th>${TX('Collector')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th>${TX('Status')}</th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
-    </div>`;
+    </div>
+    <div class="gcfg-addr-menu loc-addr-menu" id="locAddrMenu"></div>`;
 }
+
+/* ---- Locations: address → lat/long via OpenStreetMap (Photon), offline fallback ---- */
+let LOC_ADDR={row:null,seq:0,list:[],timer:null};
+function locCity(p){ return [p.city||p.town||p.village||p.county||p.name, p.state].filter(Boolean).join(', '); }
+function locFallback(q){
+  return [
+    {label:'Greensboro, NC, USA',city:'Greensboro, NC',lat:36.0726,lng:-79.7920},
+    {label:'High Point, NC, USA',city:'High Point, NC',lat:35.9557,lng:-80.0053},
+    {label:'Winston-Salem, NC, USA',city:'Winston-Salem, NC',lat:36.0999,lng:-80.2442},
+    {label:'Raleigh, NC, USA',city:'Raleigh, NC',lat:35.7796,lng:-78.6382},
+    {label:'Charlotte, NC, USA',city:'Charlotte, NC',lat:35.2271,lng:-80.8431}
+  ];
+}
+function locAddrInput(rowKey,q){
+  LOC_ADDR.row=rowKey; clearTimeout(LOC_ADDR.timer);
+  const menu=document.getElementById('locAddrMenu'); if(!menu) return;
+  if(!q || q.trim().length<3){ locAddrClose(); return; }
+  locAddrPosition(rowKey); menu.classList.add('open');
+  menu.innerHTML='<div class="gcfg-addr-loading"><span class="gcfg-spin"></span>'+TX('Searching addresses…')+'</div>';
+  const seq=++LOC_ADDR.seq;
+  LOC_ADDR.timer=setTimeout(()=>locAddrFetch(q.trim(),seq),300);
+}
+function locAddrFetch(q,seq){
+  let done=false;
+  const fail=()=>{ if(done||seq!==LOC_ADDR.seq) return; done=true; locAddrRender(locFallback(q),true); };
+  try{
+    fetch('https://photon.komoot.io/api/?limit=6&lang=en&q='+encodeURIComponent(q))
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>{ if(done||seq!==LOC_ADDR.seq) return; done=true;
+        const list=((d&&d.features)||[]).map(f=>{ const c=(f.geometry&&f.geometry.coordinates)||[]; const p=f.properties||{};
+          return {label:gcfgFmt(p)||p.name||q, city:locCity(p), lat:c[1], lng:c[0]}; }).filter(x=>x.lat!=null);
+        locAddrRender(list.length?list:locFallback(q), !list.length);
+      }).catch(fail);
+    setTimeout(()=>{ if(!done) fail(); },3500);
+  }catch(_){ fail(); }
+}
+function locAddrPosition(rowKey){
+  const tr=document.querySelector('#screen-config tr[data-loc="'+rowKey+'"]'); if(!tr) return;
+  const inp=tr.querySelector('.loc-addr-input'); const menu=document.getElementById('locAddrMenu'); if(!inp||!menu) return;
+  const r=inp.getBoundingClientRect();
+  menu.style.left=Math.round(r.left)+'px'; menu.style.top=Math.round(r.bottom+4)+'px'; menu.style.width=Math.max(Math.round(r.width),250)+'px';
+}
+function locAddrRender(list,offline){
+  const menu=document.getElementById('locAddrMenu'); if(!menu) return;
+  LOC_ADDR.list=list||[];
+  if(!LOC_ADDR.list.length){ menu.innerHTML='<div class="gcfg-addr-empty">'+TX('No matches — type the full address')+'</div>'; menu.classList.add('open'); return; }
+  const pin='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>';
+  menu.innerHTML=(offline?'<div class="gcfg-addr-note">'+TX('Offline — showing sample addresses')+'</div>':'')+
+    LOC_ADDR.list.map((a,i)=>'<button type="button" class="gcfg-addr-opt" onmousedown="event.preventDefault();locAddrPick('+i+')">'+pin+'<span>'+_esc(a.label)+(a.lat!=null?'<em class="loc-cohint">'+Number(a.lat).toFixed(4)+', '+Number(a.lng).toFixed(4)+'</em>':'')+'</span></button>').join('');
+  menu.classList.add('open');
+}
+function locAddrPick(i){
+  const a=LOC_ADDR.list[i]; if(!a) return;
+  const tr=document.querySelector('#screen-config tr[data-loc="'+LOC_ADDR.row+'"]');
+  if(tr){
+    const cityInp=tr.querySelector('.loc-addr-input'); if(cityInp) cityInp.value=a.city||a.label;
+    const coords=tr.querySelectorAll('.loc-coord');
+    if(coords[0]&&a.lat!=null) coords[0].value=Number(a.lat).toFixed(5);
+    if(coords[1]&&a.lng!=null) coords[1].value=Number(a.lng).toFixed(5);
+    if(typeof toast==='function') toast(TX('Coordinates filled from address'));
+  }
+  locAddrClose();
+}
+function locAddrBlur(){ setTimeout(locAddrClose,160); }
+function locAddrClose(){ const menu=document.getElementById('locAddrMenu'); if(menu){ menu.classList.remove('open'); menu.innerHTML=''; } LOC_ADDR.seq++; }
 
 /* ======================= COLLECTOR CONFIG MANAGER ======================= */
 const NORM_MAP={
