@@ -69,8 +69,8 @@
   .brand-sub{font-size:9.5px;letter-spacing:.34em;color:var(--mute);text-transform:uppercase;margin-top:1px}
   .brand-logo{height:40px;width:auto;display:block;flex:0 0 auto;filter:brightness(0) invert(1)}
   .brand-div{width:1px;height:24px;background:var(--line);flex:0 0 auto}
-  .brand-org{font-size:9.5px;letter-spacing:.2em;line-height:1.3;text-transform:uppercase;color:#A7C6CB;font-weight:700;white-space:nowrap}
-  .brand-org b{display:block;color:var(--teal);font-weight:800;text-shadow:0 0 14px var(--teal-ghost)}
+  .brand-org{font-size:12px;letter-spacing:.18em;line-height:1.25;text-transform:uppercase;color:#A7C6CB;font-weight:700;white-space:nowrap}
+  .brand-org b{display:block;font-size:16px;letter-spacing:.12em;color:var(--teal);font-weight:800;text-shadow:0 0 14px var(--teal-ghost)}
 
   .tenant-switch{
     display:flex;align-items:center;gap:9px;padding:6px 12px 6px 11px;
@@ -317,6 +317,8 @@
     border-radius:var(--r);box-shadow:var(--shadow)}
   .panel-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--line-soft)}
   .panel-head h3{font-family:"Open Sans";font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:9px}
+  /* unified Title Case for all category / section / panel / card / modal titles */
+  .gcfg-chead h3,.panel-head h3,.intg-group-title,.modal-title,.detail-title{text-transform:capitalize}
   .panel-head .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600}
 
   /* ---------- DASHBOARD GRID ---------- */
@@ -1285,7 +1287,7 @@
         <svg class="disc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="nav-children" id="navChildren-cfgmgr">
-        <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global settings">Global settings</span></button>
+        <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global Settings">Global Settings</span></button>
         <button class="nav-subitem" data-sub="ubuntu" onclick="goCfgSub('ubuntu')"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
         <button class="nav-subitem" data-sub="databases" onclick="goCfgSub('databases')"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
       </div>
@@ -5206,7 +5208,7 @@ const I18N={
   "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
   "Global Dashboard":"グローバルダッシュボード","MSP Global Dashboard":"グローバルダッシュボード","Collector Serviceability":"コレクター稼働状況","Collector Fleet":"コレクターフリート","Alerts":"アラート",
   "Audit Log":"監査ログ","Tenants":"テナント","Provision Collector":"コレクター展開","Reports & SLA":"レポート & SLA",
-  "Tenant Configuration":"テナント設定","Collector Config":"コレクター設定","Global settings":"グローバル設定","Ubuntu OS":"Ubuntu OS","Databases":"データベース",
+  "Tenant Configuration":"テナント設定","Collector Config":"コレクター設定","Global Settings":"グローバル設定","Ubuntu OS":"Ubuntu OS","Databases":"データベース",
   "Locations":"ロケーション","API Integrations":"API連携","Integrations":"連携",
   "Search collectors, alerts, sites…":"コレクター・アラート・拠点を検索…","Guardare Administrator":"Guardare 管理者",
   "Design preview":"デザインプレビュー","— concept UI, not a live product.":"— コンセプトUIであり、実稼働製品ではありません。",
@@ -6446,7 +6448,7 @@ function collManifests(coll){
   return set;
 }
 const CFG_CATS=[
-  {cat:'base',name:'Global settings',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, location and the unique IDs that bind each microservice to this box.'},
+  {cat:'base',name:'Global Settings',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, location and the unique IDs that bind each microservice to this box.'},
   {cat:'ubuntu',name:'Ubuntu OS',dot:'#E95420',scope:'On-box',blurb:'Host-level tuning applied by the provisioning script — file-descriptor limits, kernel send buffers, per-service systemd safety nets and base OS settings.'},
   {cat:'databases',name:'Databases',dot:'var(--violet)',scope:'On-box',blurb:'Local collector MariaDB buffer and queue settings — plus the cloud database connection used by the Guardare NMS.'},
   {cat:'vcollector',name:'vCollector',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
@@ -6456,7 +6458,7 @@ const CFG_CATS=[
 ];
 function cfgFilesFor(coll){
   const files=[
-    {key:'base',cat:'base',label:'Global settings',pill:'serviceConfig.yaml',el:'cfg-base',lang:'yaml',scope:'local',svc:'serviceConfig.yaml',path:'/usr/bin/com.vistatech.collector/serviceConfig.yaml',poll:null},
+    {key:'base',cat:'base',label:'Global Settings',pill:'serviceConfig.yaml',el:'cfg-base',lang:'yaml',scope:'local',svc:'serviceConfig.yaml',path:'/usr/bin/com.vistatech.collector/serviceConfig.yaml',poll:null},
     {key:'vcollector',cat:'vcollector',label:'vCollector',pill:'_vCollectorCfg.yaml',el:'cfg-vcollector',lang:'yaml',scope:'collector',uri:'vCollectorCFG/',svc:'_vCollectorCfg.yaml',poll:60}
   ];
   collManifests(coll).forEach(k=>{const m=NORM_MAP[k];files.push({key:'norm-'+k,cat:'normalizer',label:'Normalizer · '+m.label,pill:m.label,el:m.el,lang:'yaml',scope:'collector',uri:'normalizerCFG/',svc:m.file,poll:60});});
@@ -6742,6 +6744,8 @@ function cfgUbuntuForm(coll){
     </tr>`; }).join('');
   return `
   <div class="gcfg">
+    ${cfgOsCard()}
+
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic ora">${gearIcon}</span>
@@ -6764,8 +6768,6 @@ function cfgUbuntuForm(coll){
         </div>
       </div>
     </div>
-
-    ${cfgOsCard()}
 
     <div class="gcfg-card">
       <div class="gcfg-chead">
