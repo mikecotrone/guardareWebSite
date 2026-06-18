@@ -5241,7 +5241,7 @@ const I18N={
   "Time":"時刻","Actor":"実行者","Action":"アクション","Target":"対象","Source IP":"送信元IP","Audit log":"監査ログ","events":"件","newest first":"新しい順","Export CSV":"CSVをエクスポート","Global Audit Log":"グローバル監査ログ",
   "Add integration":"連携を追加","Integrate Guardare into your team's stack.":"Guardare をチームのスタックに統合します。","Connected":"接続済み","Available":"利用可能","Enabled":"有効","API endpoint":"APIエンドポイント","Browse integration catalog":"連携カタログを閲覧",
   "Service desk & ITSM":"サービスデスク & ITSM","Alerting & on-call":"アラート & オンコール","GitOps & configuration":"GitOps & 設定","AI & automation":"AI & 自動化","connected":"接続済み","Per-tenant":"テナントごと","Platform":"プラットフォーム","Inherited":"継承","platform":"プラットフォーム",
-  "Deployment model":"デプロイメントモデル","MSP — multiple customers":"MSP — 複数顧客","Enterprise Customer":"エンタープライズ顧客","Customer details":"顧客情報","Select a customer":"顧客を選択","Customer name":"顧客名","Legal entity name":"法人名","Primary address":"主要住所","Primary region":"主要リージョン","Primary contact":"主要連絡先","Contact email":"連絡先メール","Notes":"メモ","locked":"ロック","Plan":"プラン","Customer since":"顧客開始日","Sites":"拠点","Tenant Management":"テナント管理",
+  "Deployment model":"デプロイメントモデル","MSP Customer":"MSP顧客","Enterprise Customer":"エンタープライズ顧客","Customer details":"顧客情報","Select a customer":"顧客を選択","Customer name":"顧客名","Legal entity name":"法人名","Primary address":"主要住所","Primary region":"主要リージョン","Primary contact":"主要連絡先","Contact email":"連絡先メール","Notes":"メモ","locked":"ロック","Plan":"プラン","Customer since":"顧客開始日","Sites":"拠点","Tenant Management":"テナント管理",
   "On-box":"オンボックス","Cloud":"クラウド","Collector Global Configuration":"コレクターのグローバル設定","Collector site ID":"コレクター拠点ID","Collector location":"コレクターの所在地",
   "Host Kernel & Limits":"ホストカーネルと制限","Service Safety Nets":"サービスセーフティネット","General Settings":"一般設定","File Descriptor Limits":"ファイルディスクリプタ制限","TCP Send Buffers":"TCP送信バッファ",
   "Open files — soft":"オープンファイル — ソフト","Open files — hard":"オープンファイル — ハード","Default send buffer":"デフォルト送信バッファ","Max send buffer":"最大送信バッファ",
@@ -7037,7 +7037,7 @@ function tcfgFor(slug){
   };
   TCFG[slug]=t; return t;
 }
-function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; MSP_DEPLOYMENT=m; renderTenantCfg(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Enterprise Customer'):TX('MSP — multiple customers'))); }
+function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; MSP_DEPLOYMENT=m; renderTenantCfg(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Enterprise Customer'):TX('MSP Customer'))); }
 function tcfgPickTenant(slug){ switchTenant(slug); renderTenantCfg(); go('tenantcfg'); }
 function tcfgReset(){ renderTenantCfg(); }
 function tcfgSave(mode,slug){
@@ -7123,7 +7123,7 @@ function renderTenantCfg(){
       </div>
       <div style="padding:18px">
         <div class="tcfg-seg">
-          <button class="${!single?'on':''}" onclick="tcfgSetModel('msp')">${mspIc}${TX('MSP — multiple customers')}</button>
+          <button class="${!single?'on':''}" onclick="tcfgSetModel('msp')">${mspIc}${TX('MSP Customer')}</button>
           <button class="${single?'on':''}" onclick="tcfgSetModel('single')">${oneIc}${TX('Enterprise Customer')}</button>
         </div>
         <div class="tcfg-modelnote">${single?TX('All collectors belong to one customer record. Tenant scoping is hidden across the console.')
