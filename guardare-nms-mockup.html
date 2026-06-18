@@ -180,7 +180,17 @@
 
   .clock{font-family:"Open Sans";font-size:12.5px;color:var(--dim);letter-spacing:.04em}
   .clock b{color:var(--text)}
-  .op-badge{display:flex;align-items:center;gap:9px}
+  .op-wrap{position:relative}
+  .op-badge{display:flex;align-items:center;gap:9px;background:none;border:1px solid transparent;border-radius:10px;padding:4px 8px 4px 4px;cursor:pointer;color:var(--text);font:inherit;text-align:left}
+  .op-badge:hover{border-color:var(--line);background:var(--bg-2)}
+  .op-cv{width:15px;height:15px;color:var(--mute);flex:none}
+  .op-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:214px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:6px;z-index:95;display:none}
+  .op-menu.open{display:block}
+  .op-menu-head{padding:7px 11px 5px;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--mute);font-weight:700}
+  .op-menu-item{display:flex;align-items:center;gap:10px;width:100%;padding:9px 11px;border:none;background:none;color:var(--text);font:inherit;font-size:12.5px;font-weight:600;border-radius:8px;cursor:pointer;text-align:left}
+  .op-menu-item:hover{background:var(--raise)}
+  .op-menu-item svg{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:1.8;flex:none}
+  .op-menu-sep{height:1px;background:var(--line);margin:5px 2px}
   .op-avatar{width:32px;height:32px;border-radius:99px;background:linear-gradient(135deg,#1a4d4d,#0c2a2a);
     display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--teal);border:1px solid var(--teal-deep)}
   .op-meta{font-size:12px;line-height:1.25}
@@ -659,6 +669,8 @@
   .tcfg-seg button:hover{color:var(--text)}
   .tcfg-seg button.on{background:var(--teal-ghost);color:var(--text);border-color:var(--teal-deep)}
   .tcfg-modelnote{font-size:12px;color:var(--mute);margin-top:10px;line-height:1.5}
+  .acct-modelwarn{display:flex;gap:9px;margin-top:14px;padding:11px 13px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:9px;background:rgba(246,181,63,.06);color:var(--dim);font-size:12px;line-height:1.45}
+  .acct-modelwarn svg{width:16px;height:16px;stroke:var(--amber);fill:none;stroke-width:1.8;flex:none;margin-top:1px}
   .tcfg-pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:18px}
   .tcfg-pick{display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--bg-2);cursor:pointer;text-align:left;transition:.14s;color:var(--text)}
   .tcfg-pick:hover{border-color:var(--teal-deep);background:var(--raise)}
@@ -1248,9 +1260,19 @@
         <button class="lang-mini-opt" data-lang="ja">日本語</button>
       </div>
     </div>
-    <div class="op-badge">
-      <div class="op-avatar">MC</div>
-      <div class="op-meta">Mike C.<small data-i18n="Guardare Administrator">Guardare Administrator</small></div>
+    <div class="op-wrap">
+      <button class="op-badge" id="opBadge" onclick="toggleOpMenu(event)" aria-label="Account menu">
+        <div class="op-avatar">MC</div>
+        <div class="op-meta">Mike C.<small data-i18n="Guardare Administrator">Guardare Administrator</small></div>
+        <svg class="op-cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="op-menu" id="opMenu">
+        <div class="op-menu-head" data-i18n="Signed in as">Signed in as</div>
+        <button class="op-menu-item" onclick="openAccount()"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg><span data-i18n="Account & Organization">Account &amp; Organization</span></button>
+        <button class="op-menu-item" onclick="toast(TX('Profile')+' — wired in the next build')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="My profile">My profile</span></button>
+        <div class="op-menu-sep"></div>
+        <button class="op-menu-item" onclick="toast(TX('Sign out')+' — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span data-i18n="Sign out">Sign out</span></button>
+      </div>
     </div>
   </header>
 
@@ -1821,6 +1843,7 @@
     <section class="screen" id="screen-tenantcfg"></section>
     <section class="screen" id="screen-cfgmgr"></section>
     <section class="screen" id="screen-nms"></section>
+    <section class="screen" id="screen-account"></section>
   </main>
 </div>
 
@@ -5249,7 +5272,7 @@ const I18N={
   "Timezone":"タイムゾーン","Auto-update channel":"自動更新チャネル","Colorized log escapes":"カラーログエスケープ","Distribution":"ディストリビューション","Release":"リリース",
   "Collector database — MariaDB":"コレクターDB — MariaDB","Cloud database":"クラウドデータベース",
   "Pause":"一時停止","Resume":"再開","Clear":"クリア","Re-run":"再実行","Regenerate":"再生成","High":"高","Medium":"中","Memory":"メモリ","Storage":"ストレージ","Network":"ネットワーク","Model":"モデル","Processor":"プロセッサ",
-  "Working in":"作業中","Open workspace":"ワークスペースを開く","Exit tenant":"テナントを終了","Current":"現在","Overview":"概要","Open alerts":"未対応アラート","Address":"住所","since":"開始","Dashboard":"ダッシュボード","Viewing":"表示中","No matches":"該当なし"
+  "Working in":"作業中","Open workspace":"ワークスペースを開く","Exit tenant":"テナントを終了","Current":"現在","Overview":"概要","Open alerts":"未対応アラート","Address":"住所","since":"開始","Dashboard":"ダッシュボード","Account":"アカウント","Account & Organization":"アカウントと組織","Organization":"組織","Owner account":"オーナーアカウント","Instance-wide":"インスタンス全体","My profile":"プロフィール","Sign out":"サインアウト","Signed in as":"サインイン中","Plan & billing":"プランと請求","Authentication & SSO":"認証とSSO","Coming next":"近日対応","Organization name":"組織名","Home region":"ホームリージョン","Viewing":"表示中","No matches":"該当なし"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -5289,6 +5312,7 @@ function setLang(l){
   updateChrome();
   renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderCfgMgr();renderAudit();renderDetail();
   if(typeof renderTenantCfg==='function') renderTenantCfg();
+  if(typeof renderAccount==='function' && document.getElementById('screen-account') && document.getElementById('screen-account').innerHTML.trim()) renderAccount();
   renderTenants(); renderTenantMenu(); if(currentTenantCtx){ buildCtxBar(); renderTenantNMS(); }
   if(currentTenantCtx){ const tm=document.getElementById('screen-tenant-manage'); if(tm&&tm.classList.contains('show')) renderTenantManage(currentTenantCtx); }
   Object.keys(placeholders).forEach(k=>{ const s=document.getElementById('screen-'+k); if(s&&s.innerHTML.trim()) renderPlaceholder(k); });
@@ -5992,7 +6016,7 @@ function selectNormSub(key){ currentNormSub=key; closeAllMenus(); renderCfgViewe
 function toggleSvcPick(e){ e.stopPropagation(); const m=document.getElementById('svcPickMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 function toggleNormSub(e){ e.stopPropagation(); const m=document.getElementById('normSubMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 
-function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open,.lang-mini-menu.open,.yaml-pick-menu.open,.ctx-pick-menu.open').forEach(m=>m.classList.remove('open')); }
+function closeAllMenus(){ document.querySelectorAll('.ms-menu.open,.tenant-menu.open,.lang-mini-menu.open,.yaml-pick-menu.open,.ctx-pick-menu.open,.op-menu.open').forEach(m=>m.classList.remove('open')); }
 document.addEventListener('click',closeAllMenus);
 function makeMultiselect(mountId, options, selected, onChange){
   const el=document.getElementById(mountId); if(!el) return;
@@ -7013,6 +7037,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
+let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1'};
 const TCFG={};
 const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
 const SINGLE_CUSTOMER={customer_name:'VistaTech Managed Services',legal_name:'VistaTech GSO, LLC',
@@ -7037,7 +7062,7 @@ function tcfgFor(slug){
   };
   TCFG[slug]=t; return t;
 }
-function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; MSP_DEPLOYMENT=m; renderTenantCfg(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Enterprise Customer'):TX('MSP Customer'))); }
+function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; MSP_DEPLOYMENT=m; if(typeof renderAccount==='function') renderAccount(); if(typeof renderTenantCfg==='function') renderTenantCfg(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Enterprise Customer'):TX('MSP Customer'))); }
 function tcfgPickTenant(slug){ switchTenant(slug); renderTenantCfg(); go('tenantcfg'); }
 function tcfgReset(){ renderTenantCfg(); }
 function tcfgSave(mode,slug){
@@ -7114,22 +7139,6 @@ function renderTenantCfg(){
                              : `${tenantName[scope]||scope} · ${TX('customer record')}`);
   const mspIc='<svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l5-3v17M14 21V10l5-2v13M9 9h.01M9 13h.01M9 17h.01"/></svg>';
   const oneIc='<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
-  const modelCard=`
-    <div class="gcfg-card">
-      <div class="gcfg-chead">
-        <span class="gcfg-cic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
-        <div class="gcfg-ctext"><h3>${TX('Deployment model')}</h3>
-          <p>${TX('Whether Guardare manages many customers (MSP) or a single organization. Customer name is configured here, not on the Tenants management page.')}</p></div>
-      </div>
-      <div style="padding:18px">
-        <div class="tcfg-seg">
-          <button class="${!single?'on':''}" onclick="tcfgSetModel('msp')">${mspIc}${TX('MSP Customer')}</button>
-          <button class="${single?'on':''}" onclick="tcfgSetModel('single')">${oneIc}${TX('Enterprise Customer')}</button>
-        </div>
-        <div class="tcfg-modelnote">${single?TX('All collectors belong to one customer record. Tenant scoping is hidden across the console.')
-          :TX('Each customer is a tenant with its own collectors, users and dashboards.')}</div>
-      </div>
-    </div>`;
   let body;
   if(single){ body=tcfgCustomerCard(SINGLE_CUSTOMER,'single',null); }
   else if(scope==='all'){
@@ -7153,8 +7162,100 @@ function renderTenantCfg(){
         <p class="page-sub">${sub}</p>
       </div>
     </div>
-    <div class="gcfg">${modelCard}${body}</div>`;
+    <div class="gcfg">${body}</div>`;
 }
+
+/* ======================= ACCOUNT / ORGANIZATION SETTINGS ======================= */
+function accountModelCard(){
+  const single=MSP_DEPLOYMENT==='single';
+  const mspIc='<svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l5-3v17M14 21V10l5-2v13M9 9h.01M9 13h.01M9 17h.01"/></svg>';
+  const oneIc='<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+  const gridIc='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>';
+  const warnIc='<svg viewBox="0 0 24 24"><path d="M10.3 3.2 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.2a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
+  return `
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${gridIc}</span>
+        <div class="gcfg-ctext"><h3>${TX('Deployment model')}</h3>
+          <p>${TX('Whether this Guardare deployment serves many customers (MSP) or a single organization. Set once at provisioning — it shapes the whole console.')}</p></div>
+        <span class="cfg-scope-pill">${TX('Instance-wide')}</span>
+      </div>
+      <div style="padding:18px">
+        <div class="tcfg-seg">
+          <button class="${!single?'on':''}" onclick="tcfgSetModel('msp')">${mspIc}${TX('MSP Customer')}</button>
+          <button class="${single?'on':''}" onclick="tcfgSetModel('single')">${oneIc}${TX('Enterprise Customer')}</button>
+        </div>
+        <div class="tcfg-modelnote">${single?TX('All collectors belong to one customer record. Tenant scoping is hidden across the console.')
+          :TX('Each customer is a tenant with its own collectors, users and dashboards.')}</div>
+        <div class="acct-modelwarn">${warnIc}<span>${TX('Switching this remodels the console — navigation labels, tenant scoping and available screens all adapt to the selected mode.')}</span></div>
+      </div>
+    </div>`;
+}
+function renderAccount(){
+  const el=document.getElementById('screen-account'); if(!el) return;
+  const o=ORG_ACCOUNT;
+  const field=(id,label,val,hint)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${label}</label>
+      <div class="gcfg-iwrap"><input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
+      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
+    </div>`;
+  const bldgIc='<svg viewBox="0 0 24 24"><path d="M3 21V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v16"/><path d="M16 8h3a2 2 0 0 1 2 2v11"/><path d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01"/></svg>';
+  const billIc='<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>';
+  const ssoIc='<svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  const orgCard=`
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${bldgIc}</span>
+        <div class="gcfg-ctext"><h3>${TX('Organization')}</h3><p>${TX('The company that owns and operates this Guardare console.')}</p></div>
+        <span class="cfg-scope-pill">${TX('Owner account')}</span>
+      </div>
+      <div class="gcfg-grid">
+        ${field('acct_name',TX('Organization name'),o.name,TX('Shown in the sidebar and on exported reports.'))}
+        ${field('acct_legal',TX('Legal entity name'),o.legal)}
+        ${field('acct_domain',TX('Primary domain'),o.domain,TX('Used for SSO and email verification.'))}
+        ${field('acct_email',TX('Operations email'),o.email,TX('Where platform-level notices are sent.'))}
+        <div class="gcfg-field">
+          <label for="acct_region">${TX('Home region')}</label>
+          <select id="acct_region" class="tm-input">${['us-east-1','us-west-2','eu-central-1','ap-southeast-2'].map(r=>`<option ${r===o.region?'selected':''}>${r}</option>`).join('')}</select>
+        </div>
+      </div>
+      <div class="gcfg-actions" style="padding:0 18px 18px">
+        <button class="btn" onclick="renderAccount()">${TX('Reset')}</button>
+        <button class="btn primary" onclick="acctSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
+      </div>
+    </div>`;
+  const ph=(ic,title,note)=>`
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${ic}</span>
+        <div class="gcfg-ctext"><h3>${title}</h3></div>
+        <span class="cfg-scope-pill">${TX('Owner account')}</span>
+      </div>
+      <div class="gcfg-placeholder"><span class="gcfg-ph-ic">${ic}</span><b>${TX('Coming next')}</b><span>${note}</span></div>
+    </div>`;
+  el.innerHTML=`
+    <div class="page-head"><div>
+      <div class="page-eyebrow">${TX('Account')}</div>
+      <h1 class="page-title">${TX('Account & Organization')}</h1>
+      <p class="page-sub">${TX('Owner-level settings for this Guardare deployment — set once, applied everywhere.')}</p>
+    </div></div>
+    <div class="gcfg">
+      ${accountModelCard()}
+      ${orgCard}
+      ${ph(billIc,TX('Plan & billing'),TX('Subscription tier, seat counts, collector entitlements and invoices will live here.'))}
+      ${ph(ssoIc,TX('Authentication & SSO'),TX('SAML / OIDC single sign-on, session policy and API token management will live here.'))}
+    </div>`;
+}
+function acctSave(){
+  const gv=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  ORG_ACCOUNT.name=gv('acct_name')||ORG_ACCOUNT.name; ORG_ACCOUNT.legal=gv('acct_legal');
+  ORG_ACCOUNT.domain=gv('acct_domain'); ORG_ACCOUNT.email=gv('acct_email'); ORG_ACCOUNT.region=gv('acct_region');
+  toast(TX('Organization settings saved'));
+  renderAccount();
+}
+function openAccount(){ closeAllMenus(); renderAccount(); go('account'); }
+function toggleOpMenu(e){ e.stopPropagation(); const m=document.getElementById('opMenu'); if(!m) return; const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
