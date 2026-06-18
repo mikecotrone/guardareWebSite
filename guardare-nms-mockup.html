@@ -796,6 +796,8 @@
     overflow:hidden;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
   .tnt-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);opacity:.9}
   .tnt-card:hover{transform:translateY(-3px);border-color:var(--teal-deep);box-shadow:0 16px 36px -20px #000}
+  .tnt-card.tnt-selected{border-color:var(--teal);background:linear-gradient(180deg,#103037,var(--panel-2));box-shadow:0 0 0 1px var(--teal) inset,0 14px 34px -20px #000}
+  .tnt-card.tnt-selected::before{width:4px;background:var(--teal);opacity:1}
   .tnt-top{display:flex;align-items:center;gap:12px}
   .tnt-ava{flex:0 0 auto;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
     font-family:"Open Sans";font-weight:700;font-size:14.5px;color:#06201b;letter-spacing:.02em;
@@ -951,6 +953,13 @@
   .ctx-pick-btn{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:8px;border:1px solid var(--line);
     background:var(--bg-2);color:var(--text);font-size:12.5px;font-weight:600;cursor:pointer;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
   .ctx-pick-btn:hover{border-color:var(--teal-deep)}
+  .ctx-pick-text{display:flex;flex-direction:column;align-items:flex-start;line-height:1.12;gap:1px;text-align:left}
+  .ctx-site{font-size:13.5px;font-weight:700;color:var(--text)}
+  .ctx-coll{font-size:10.5px;font-weight:600;letter-spacing:.05em;color:var(--mute);font-family:"Open Sans"}
+  .ctx-opt-text{display:flex;flex-direction:column;align-items:flex-start;line-height:1.18;gap:1px}
+  .ctx-opt-site{font-size:12.5px;font-weight:600;color:var(--text)}
+  .ctx-pick-menu button.sel .ctx-opt-site{color:var(--teal)}
+  .ctx-opt-coll{font-size:10px;color:var(--mute);font-weight:600;letter-spacing:.04em}
   .ctx-pick-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;opacity:.6}
   .ctx-pick-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:200px;max-height:330px;overflow:auto;
     background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:6px;z-index:60;display:none}
@@ -1316,10 +1325,14 @@
     <!-- ===== TENANT CONTEXT BAR (shown inside a tenant workspace) ===== -->
     <div class="ctxbar" id="ctxBar">
       <div class="ctx-left">
-        <span class="ctx-label" data-i18n="Tenant Collectors">Tenant Collectors</span>
+        <span class="ctx-label" data-i18n="Viewing">Viewing</span>
         <div class="ctx-pick" id="ctxPick">
           <button class="ctx-pick-btn" onclick="toggleCtxPick(event)">
-            <span class="ctx-cdot s-online" id="ctxCollDot"></span><span id="ctxCollLabel">collector</span>
+            <span class="ctx-cdot s-online" id="ctxCollDot"></span>
+            <span class="ctx-pick-text">
+              <span class="ctx-site" id="ctxSiteLabel">Site</span>
+              <span class="ctx-coll" id="ctxCollLabel">collector</span>
+            </span>
             <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="ctx-pick-menu" id="ctxPickMenu"></div>
@@ -1522,7 +1535,7 @@
     <section class="screen" id="screen-fleet">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow" data-i18n="MSP view">MSP view</div>
+          <div class="page-eyebrow" data-i18n="Operations">Operations</div>
           <h1 class="page-title" data-i18n="Collector Serviceability">Collector Serviceability</h1>
           <p class="page-sub" id="fleetSub">Every collector across every customer</p>
         </div>
@@ -1776,7 +1789,7 @@
     <section class="screen" id="screen-alerts">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow">Acme Corp</div>
+          <div class="page-eyebrow" data-i18n="Operations">Operations</div>
           <h1 class="page-title" data-i18n="Alert Management">Alert Management</h1>
           <p class="page-sub" data-i18n="Triage, acknowledge, and resolve across the fleet">Triage, acknowledge, and resolve across the fleet</p>
         </div>
@@ -5238,7 +5251,7 @@ const I18N={
   "Timezone":"タイムゾーン","Auto-update channel":"自動更新チャネル","Colorized log escapes":"カラーログエスケープ","Distribution":"ディストリビューション","Release":"リリース",
   "Collector database — MariaDB":"コレクターDB — MariaDB","Cloud database":"クラウドデータベース",
   "Pause":"一時停止","Resume":"再開","Clear":"クリア","Re-run":"再実行","Regenerate":"再生成","High":"高","Medium":"中","Memory":"メモリ","Storage":"ストレージ","Network":"ネットワーク","Model":"モデル","Processor":"プロセッサ",
-  "Working in":"作業中","Open workspace":"ワークスペースを開く","Exit tenant":"テナントを終了","Current":"現在","Overview":"概要","Open alerts":"未対応アラート","Address":"住所","since":"開始","Dashboard":"ダッシュボード","No matches":"該当なし"
+  "Working in":"作業中","Open workspace":"ワークスペースを開く","Exit tenant":"テナントを終了","Current":"現在","Overview":"概要","Open alerts":"未対応アラート","Address":"住所","since":"開始","Dashboard":"ダッシュボード","Viewing":"表示中","No matches":"該当なし"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -5524,7 +5537,7 @@ function renderPlaceholder(key){
   const [t,d,cta]=placeholders[key];
   document.getElementById('screen-'+key).innerHTML = `
     <div class="page-head"><div>
-      <div class="page-eyebrow">Guardare</div>
+      <div class="page-eyebrow">${TX('Operations')}</div>
       <h1 class="page-title">${TX(t)}</h1>
     </div></div>
     <div class="panel"><div class="empty">
@@ -5560,7 +5573,7 @@ function renderTenants(){
   document.getElementById('screen-tenants').innerHTML = `
     <div class="page-head">
       <div>
-        <div class="page-eyebrow">MSP management</div>
+        <div class="page-eyebrow">${TX('Operations')}</div>
         <h1 class="page-title" data-i18n="Tenant Management">${TX('Tenant Management')}</h1>
         <p class="page-sub" data-i18n="Create, suspend, and configure customer organizations.">${TX('Create, suspend, and configure customer organizations.')}</p>
       </div>
@@ -5606,8 +5619,9 @@ function tntCard(t){
   const al = tntActiveAlerts(t.slug);
   const alClass = al===0 ? 'ok' : al>=3 ? 'crit' : 'warn';
   const tix = tenantTickets(t.slug);
+  const sel = (tenantScope()!=='all' && tenantScope()===t.slug) ? ' tnt-selected' : '';
   return `
-    <div class="tnt-card" style="--c:${color}" draggable="true" data-slug="${t.slug}"
+    <div class="tnt-card${sel}" style="--c:${color}" draggable="true" data-slug="${t.slug}"
       onclick="manageTenant('${t.slug}')"
       ondragstart="tntDragStart(event,'${t.slug}')" ondragend="tntDragEnd(event)"
       ondragover="tntDragOver(event)" ondragenter="tntDragEnter(event)" ondragleave="tntDragLeave(event)"
@@ -6227,6 +6241,7 @@ function switchTenant(id){
   updateChrome();
   renderFleetGrid(); renderFleetTable(); renderAlertsFull(); renderMiniAlerts(); renderTicker(); renderConfig(); setupRadars();
   if(typeof renderTenantCfg==='function') renderTenantCfg();
+  if(typeof renderTenants==='function') renderTenants();
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active',o.dataset.tenant===id));
   toast('Switched to '+(id==='all'?TX('All Tenants'):(TENANTS[id]?TENANTS[id].name:(tenantName[id]||id))));
 }
@@ -7369,11 +7384,13 @@ function buildCtxBar(){
   const slug=currentTenantCtx, coll=currentDetailId.split(':')[1];
   const name=tenantName[slug]||slug, color=tenantColors[slug]||'#2EE6C8';
   const set=(i,t)=>{const e=document.getElementById(i); if(e) e.textContent=t;};
+  const siteOf=(c)=>{ const m=COLLECTOR_SITES[slug+':'+c]; return m?m.name:c; };
   set('ctxCollLabel',coll);
+  set('ctxSiteLabel',siteOf(coll));
   const cd=document.getElementById('ctxCollDot'); if(cd) cd.className='ctx-cdot '+(statusClass[ctxStatusOf(slug,coll)]||'s-online');
   const menu=document.getElementById('ctxPickMenu');
   if(menu) menu.innerHTML=collectorsForTenant(slug).map(c=>
-    `<button class="${c.id===coll?'sel':''}" onclick="switchCollector('${c.id}')"><span class="ctx-cdot ${statusClass[c.status]||'s-online'}"></span>${c.id}<small>${TX(statusLabel[c.status]||'')}</small></button>`).join('');
+    `<button class="${c.id===coll?'sel':''}" onclick="switchCollector('${c.id}')"><span class="ctx-cdot ${statusClass[c.status]||'s-online'}"></span><span class="ctx-opt-text"><span class="ctx-opt-site">${siteOf(c.id)}</span><span class="ctx-opt-coll">${c.id}</span></span><small>${TX(statusLabel[c.status]||'')}</small></button>`).join('');
 }
 function toggleCtxPick(e){ e.stopPropagation(); const m=document.getElementById('ctxPickMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 function enterTenant(slug){
