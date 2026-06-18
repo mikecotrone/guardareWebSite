@@ -6627,7 +6627,6 @@ function cfgUbuntuForm(coll){
       <div class="gcfg-iwrap${sfx?' has-sfx':''}"><input id="${id}" class="tm-input" value="${_esc(val)}" inputmode="numeric" autocomplete="off" ${oninput?`oninput="${oninput}"`:''}>${sfx?`<span class="sfx">${sfx}</span>`:''}</div>
       ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
     </div>`;
-  const chips=UCFG_LIMIT_USERS.map(usr=>`<button type="button" class="ucfg-chip${u.limit_users.indexOf(usr)>-1?' sel':''}" data-user="${usr}" onclick="this.classList.toggle('sel')">${usr}</button>`).join('');
   const svcRows=UCFG_SVCS.map(([k,label,unit,col])=>{ const s=u.services[k]; const d=s.enabled?'':' disabled';
     return `<tr class="${s.enabled?'':'ucfg-off'}" data-svc="${k}">
       <td><span class="ucfg-svc-name"><span class="ucfg-svc-dot" style="background:${col}"></span>${label}</span><div class="ucfg-svc-unit mono">${unit}</div></td>
@@ -6640,52 +6639,10 @@ function cfgUbuntuForm(coll){
     </tr>`; }).join('');
   return `
   <div class="gcfg">
-    ${cfgOsCard()}
-    <div class="gcfg-card">
-      <div class="gcfg-chead">
-        <span class="gcfg-cic ora">${cpuIcon}</span>
-        <div class="gcfg-ctext"><h3>${TX('Host kernel & limits')}</h3></div>
-      </div>
-      <div class="gcfg-subhead">${TX('File descriptor limits')}</div>
-      <div class="gcfg-grid">
-        ${fnum('ucfg_nsoft',TX('Open files — soft'),u.nofile_soft,TX('nofile soft limit per service user.'))}
-        ${fnum('ucfg_nhard',TX('Open files — hard'),u.nofile_hard,TX('nofile hard ceiling per service user.'))}
-        <div class="gcfg-field span2">
-          <label>${TX('Applies to users')}</label>
-          <div class="ucfg-chips">${chips}</div>
-          <span class="gcfg-hint">${TX('Service accounts that receive the raised descriptor limits.')}</span>
-        </div>
-      </div>
-      <div class="gcfg-subhead">${TX('TCP send buffers')} <span class="gcfg-subnote">${TX('sized for >1MB UniFi stat/device payloads')}</span></div>
-      <div class="gcfg-grid">
-        ${fnum('ucfg_wdef',TX('Default send buffer'),u.wmem_default_mb,TX('net.core.wmem_default — one-write size for most payloads.'),'MB','ucfgWmemSync()')}
-        ${fnum('ucfg_wmax',TX('Max send buffer'),u.wmem_max_mb,TX('net.core.wmem_max — headroom for 100+ device sites.'),'MB','ucfgWmemSync()')}
-        <div class="gcfg-field span2"><span class="gcfg-hint mono" id="ucfgWmemLine">net.ipv4.tcp_wmem = 4096 ${ucfgBytes(u.wmem_default_mb)} ${ucfgBytes(u.wmem_max_mb)}</span></div>
-      </div>
-    </div>
-
-    <div class="gcfg-card">
-      <div class="gcfg-chead">
-        <span class="gcfg-cic ora">${shieldIcon}</span>
-        <div class="gcfg-ctext"><h3>${TX('Service safety nets')}</h3>
-          <p>${TX('Per-microservice systemd memory bounds and crash-loop protection — an operational backstop.')}</p></div>
-      </div>
-      <div class="ucfg-wrap">
-        <table class="ucfg-tbl">
-          <thead><tr>
-            <th>${TX('Service')}</th><th class="ctr">${TX('Safety net')}</th>
-            <th>${TX('Mem high')} <span class="u">G</span></th><th>${TX('Mem max')} <span class="u">G</span></th>
-            <th>${TX('Restart')} <span class="u">s</span></th><th>${TX('Burst')}</th><th>${TX('Window')} <span class="u">s</span></th>
-          </tr></thead>
-          <tbody>${svcRows}</tbody>
-        </table>
-      </div>
-    </div>
-
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic ora">${gearIcon}</span>
-        <div class="gcfg-ctext"><h3>${TX('General settings')}</h3></div>
+        <div class="gcfg-ctext"><h3>${TX('General Settings')}</h3></div>
       </div>
       <div class="gcfg-grid">
         <div class="gcfg-field">
@@ -6702,6 +6659,44 @@ function cfgUbuntuForm(coll){
           <label class="ucfg-toggle"><input type="checkbox" id="ucfg_rsyslog" ${u.rsyslog_color?'checked':''}><span class="ucfg-sw-inline"></span><span>${TX('Colorized log escapes')}</span></label>
           <span class="gcfg-hint">${TX('rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.')}</span>
         </div>
+      </div>
+    </div>
+
+    ${cfgOsCard()}
+
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic ora">${cpuIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Host Kernel & Limits')}</h3></div>
+      </div>
+      <div class="gcfg-subhead">${TX('File Descriptor Limits')}</div>
+      <div class="gcfg-grid">
+        ${fnum('ucfg_nsoft',TX('Open files — soft'),u.nofile_soft,TX('nofile soft limit per service user.'))}
+        ${fnum('ucfg_nhard',TX('Open files — hard'),u.nofile_hard,TX('nofile hard ceiling per service user.'))}
+      </div>
+      <div class="gcfg-subhead">${TX('TCP Send Buffers')} <span class="gcfg-subnote">${TX('sized for >1MB UniFi stat/device payloads')}</span></div>
+      <div class="gcfg-grid">
+        ${fnum('ucfg_wdef',TX('Default send buffer'),u.wmem_default_mb,TX('net.core.wmem_default — one-write size for most payloads.'),'MB','ucfgWmemSync()')}
+        ${fnum('ucfg_wmax',TX('Max send buffer'),u.wmem_max_mb,TX('net.core.wmem_max — headroom for 100+ device sites.'),'MB','ucfgWmemSync()')}
+        <div class="gcfg-field span2"><span class="gcfg-hint mono" id="ucfgWmemLine">net.ipv4.tcp_wmem = 4096 ${ucfgBytes(u.wmem_default_mb)} ${ucfgBytes(u.wmem_max_mb)}</span></div>
+      </div>
+    </div>
+
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic ora">${shieldIcon}</span>
+        <div class="gcfg-ctext"><h3>${TX('Service Safety Nets')}</h3>
+          <p>${TX('Per-microservice systemd memory bounds and crash-loop protection — an operational backstop.')}</p></div>
+      </div>
+      <div class="ucfg-wrap">
+        <table class="ucfg-tbl">
+          <thead><tr>
+            <th>${TX('Service')}</th><th class="ctr">${TX('Safety net')}</th>
+            <th>${TX('Mem high')} <span class="u">G</span></th><th>${TX('Mem max')} <span class="u">G</span></th>
+            <th>${TX('Restart')} <span class="u">s</span></th><th>${TX('Burst')}</th><th>${TX('Window')} <span class="u">s</span></th>
+          </tr></thead>
+          <tbody>${svcRows}</tbody>
+        </table>
       </div>
     </div>
 
@@ -6761,7 +6756,7 @@ function ucfgRead(coll){
   const u=ucfgFor(coll), gv=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
   const num=(id,def)=>{const v=parseInt(gv(id),10);return isNaN(v)?def:v;};
   const out={nofile_soft:num('ucfg_nsoft',u.nofile_soft),nofile_hard:num('ucfg_nhard',u.nofile_hard),
-    limit_users:[...document.querySelectorAll('.ucfg-chip.sel')].map(c=>c.dataset.user),
+    limit_users:(document.querySelectorAll('.ucfg-chip').length?[...document.querySelectorAll('.ucfg-chip.sel')].map(c=>c.dataset.user):u.limit_users),
     wmem_default_mb:num('ucfg_wdef',u.wmem_default_mb),wmem_max_mb:num('ucfg_wmax',u.wmem_max_mb),
     timezone:gv('ucfg_tz')||u.timezone,
     rsyslog_color:document.getElementById('ucfg_rsyslog')?document.getElementById('ucfg_rsyslog').checked:u.rsyslog_color,
