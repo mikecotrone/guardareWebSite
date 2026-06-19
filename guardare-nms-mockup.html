@@ -8783,7 +8783,7 @@ function renderAccount(){
     </div></div>
     <div class="gcfg">
       ${accountModelCard()}
-      ${tcfgBody()}
+      ${MSP_DEPLOYMENT==='single' ? '' : tcfgBody()}
       ${orgCard}
       ${supportCard}
       ${ph(ssoIc,TX('Authentication & SSO'),TX('SAML / OIDC single sign-on, session policy and API token management will live here.'))}
