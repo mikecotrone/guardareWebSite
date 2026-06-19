@@ -1395,7 +1395,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.155.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.156.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -6829,11 +6829,11 @@ function setLang(l){
 
 /* ---------- data ---------- */
 const tenantColors = {
-  'acme-corp':'#2EE6C8','betacorp':'#94A2FF','northwind':'#F6B53F','meridian':'#41D98A','cascade':'#FF8FB1','piedmont':'#5BD0FF','atlantico':'#FFD166'
+  'acme-corp':'#2EE6C8','betacorp':'#94A2FF','northwind':'#F6B53F','meridian':'#41D98A','cascade':'#FF8FB1','piedmont':'#5BD0FF','atlantico':'#FFD166','roma':'#E0533D'
 };
 const tenantName = {
   'acme-corp':'Acme Corp','betacorp':'Betacorp','northwind':'Northwind Logistics',
-  'meridian':'Meridian Health','cascade':'Cascade Retail','piedmont':'Piedmont Regional Health','atlantico':'Atlântico Telecom'
+  'meridian':'Meridian Health','cascade':'Cascade Retail','piedmont':'Piedmont Regional Health','atlantico':'Atlântico Telecom','roma':'La città di Roma'
 };
 function tnInit(s){return s.slice(0,2).toUpperCase();}
 
@@ -6841,20 +6841,27 @@ const statusLabel={online:'Online',warn:'Degraded',crit:'Critical',offline:'Offl
 const statusClass={online:'s-online',warn:'s-warn',crit:'s-crit',offline:'s-offline'};
 
 const acmeNodes = [
-  ['site-01','acme-corp','online',23,418],['site-02','acme-corp','online',31,506],
-  ['site-03','acme-corp','online',44,389],['site-04','acme-corp','warn',68,612],
-  ['site-05','acme-corp','online',19,277],['site-06','acme-corp','online',52,441],
-  ['site-07','acme-corp','offline',0,0],['site-08','acme-corp','online',38,398],
-  ['site-09','acme-corp','crit',91,88],['site-10','acme-corp','online',27,512],
-  ['site-11','acme-corp','online',33,470],['site-12','acme-corp','online',41,355],
-  ['site-13','acme-corp','warn',61,299],['site-14','acme-corp','online',22,488],
+  ['site-01','acme-corp','online',30,400],['site-02','acme-corp','online',34,672],
+  ['site-03','acme-corp','crit',98,138],['site-04','acme-corp','online',54,791],
+  ['site-05','acme-corp','online',32,612],['site-06','acme-corp','crit',90,51],
+  ['site-07','acme-corp','online',25,518],['site-08','acme-corp','online',55,264],
+  ['site-09','acme-corp','offline',0,0],['site-10','acme-corp','online',51,534],
+  ['site-11','acme-corp','online',21,743],['site-12','acme-corp','online',29,648],
+  ['site-13','acme-corp','online',14,655],['site-14','acme-corp','online',35,627],
 ];
 const piedmontNodes = [
-  ['clt-01','piedmont','online',24,410],['ral-01','piedmont','online',31,388],
-  ['gso-01','piedmont','online',28,402],['avl-01','piedmont','warn',66,180],
+  ['clt-01','piedmont','online',46,374],['ral-01','piedmont','warn',63,310],
+  ['gso-01','piedmont','warn',64,541],['avl-01','piedmont','online',49,589],
 ];
 const atlanticoNodes = [
-  ['sao-01','atlantico','online',35,521],
+  ['sao-01','atlantico','online',44,851],
+];
+const romaNodes = [
+  ['dc01','roma','online',24,477],['dc02','roma','online',15,775],
+  ['tivoli-01','roma','online',55,446],['frascati-01','roma','online',33,322],
+  ['guidonia-01','roma','offline',0,0],['pomezia-01','roma','online',11,315],
+  ['velletri-01','roma','online',14,748],['civitavecchia-01','roma','online',30,437],
+  ['anzio-01','roma','online',34,828],['albano-01','roma','online',10,795],
 ];
 
 /* per-tenant context: regions drive the radar, locations drive the pins */
@@ -6882,23 +6889,28 @@ const TENANTS = {
 let currentTenant='all';
 
 const fleetRows = [
-  ['site-04','acme-corp','warn','4s ago',68,612,'a3f9c2e'],
-  ['site-09','acme-corp','crit','2s ago',91,88,'a3f9c2e'],
-  ['edge-12','betacorp','online','1s ago',34,743,'7b1e0d4'],
-  ['hq-core','betacorp','online','3s ago',41,820,'7b1e0d4'],
-  ['dc-west','northwind','online','1s ago',29,1104,'c4d8a91'],
-  ['dc-east','northwind','warn','6s ago',77,902,'c4d8a91'],
-  ['clinic-3','meridian','online','2s ago',18,266,'f02ab37'],
-  ['clinic-7','meridian','offline','4m ago',0,0,'f02ab37'],
-  ['store-22','cascade','online','1s ago',45,512,'9ae71c0'],
-  ['store-40','cascade','online','2s ago',38,477,'9ae71c0'],
-  ['store-51','cascade','crit','3s ago',96,42,'9ae71c0'],
-  ['warehouse-1','northwind','online','1s ago',52,688,'c4d8a91'],
-  ['clt-01','piedmont','online','1s ago',24,410,'b7e2f10'],
-  ['ral-01','piedmont','online','2s ago',31,388,'b7e2f10'],
-  ['gso-01','piedmont','online','1s ago',28,402,'b7e2f10'],
-  ['avl-01','piedmont','warn','5s ago',66,180,'b7e2f10'],
-  ['sao-01','atlantico','online','1s ago',35,521,'d5a1f08'],
+  ['site-04','acme-corp','online','8s ago',54,791,'a3f9c2e'],
+  ['site-09','acme-corp','offline','3m ago',0,0,'a3f9c2e'],
+  ['edge-12','betacorp','online','3s ago',32,575,'7b1e0d4'],
+  ['hq-core','betacorp','online','4s ago',46,240,'7b1e0d4'],
+  ['dc-west','northwind','warn','2s ago',78,512,'c4d8a91'],
+  ['dc-east','northwind','warn','9s ago',82,398,'c4d8a91'],
+  ['clinic-3','meridian','online','8s ago',39,369,'f02ab37'],
+  ['clinic-7','meridian','online','2s ago',9,823,'f02ab37'],
+  ['store-22','cascade','crit','7s ago',91,101,'9ae71c0'],
+  ['store-40','cascade','crit','4s ago',97,115,'9ae71c0'],
+  ['store-51','cascade','online','1s ago',49,268,'9ae71c0'],
+  ['warehouse-1','northwind','warn','7s ago',70,568,'c4d8a91'],
+  ['clt-01','piedmont','online','7s ago',46,374,'b7e2f10'],
+  ['ral-01','piedmont','warn','8s ago',63,310,'b7e2f10'],
+  ['gso-01','piedmont','warn','5s ago',64,541,'b7e2f10'],
+  ['avl-01','piedmont','online','7s ago',49,589,'b7e2f10'],
+  ['sao-01','atlantico','online','1s ago',44,851,'d5a1f08'],
+  ['dc01','roma','online','1s ago',24,477,'e1c47a9'],
+  ['dc02','roma','online','5s ago',15,775,'e1c47a9'],
+  ['tivoli-01','roma','online','4s ago',55,446,'e1c47a9'],
+  ['civitavecchia-01','roma','online','3s ago',30,437,'e1c47a9'],
+  ['frascati-01','roma','online','2s ago',33,322,'e1c47a9'],
 ];
 
 const alerts = [
@@ -7078,11 +7090,12 @@ function renderPlaceholder(key){
 const TENANT_DIR = [
   {slug:'cascade',   plan:'Enterprise', status:'active', col:42, online:40, max:50, sites:42, regions:['NA'],      mrr:6800, since:'Sep 2023'},
   {slug:'northwind', plan:'Enterprise', status:'active', col:18, online:17, max:30, sites:18, regions:['NA'],      mrr:5100, since:'Jan 2024'},
-  {slug:'acme-corp', plan:'Enterprise', status:'active', col:14, online:12, max:25, sites:14, regions:['NA','EU'], mrr:4200, since:'Mar 2024'},
+  {slug:'acme-corp', plan:'Enterprise', status:'active', col:14, online:13, max:25, sites:14, regions:['NA','EU'], mrr:4200, since:'Mar 2024'},
   {slug:'meridian',  plan:'Growth',     status:'active', col:9,  online:8,  max:15, sites:9,  regions:['NA'],      mrr:2400, since:'Jun 2024'},
   {slug:'betacorp',  plan:'Growth',     status:'active', col:7,  online:7,  max:15, sites:7,  regions:['NA'],      mrr:1900, since:'Aug 2024'},
-  {slug:'piedmont',  plan:'Growth',     status:'active', col:4,  online:3,  max:10, sites:4,  regions:['NC'],      mrr:1600, since:'Nov 2024'},
+  {slug:'piedmont',  plan:'Growth',     status:'active', col:4,  online:4,  max:10, sites:4,  regions:['NC'],      mrr:1600, since:'Nov 2024'},
   {slug:'atlantico', plan:'Starter',    status:'trial',  col:1,  online:1,  max:5,  sites:1,  regions:['SA'],      mrr:0,    since:'May 2026'},
+  {slug:'roma',      plan:'Enterprise', status:'active', col:10, online:9, max:20, sites:10, regions:['EU'],      mrr:7400, since:'Jun 2026'},
 ];
 const tntStatusLabel={active:'Active',trial:'Trial',suspended:'Suspended'};
 function tntMoney(n){ return '$'+n.toLocaleString('en-US'); }
@@ -7212,6 +7225,16 @@ function reorderTenants(fromSlug,toSlug){
 
 /* canonical per-collector site registry — single source of truth for the Locations screen + tenant page */
 const COLLECTOR_SITES={
+  'roma:dc01':{name:'DC01 — Primary · Roma',city:'Roma, RM',lat:41.9028,lng:12.4964},
+  'roma:dc02':{name:'DC02 — Secondary · Fiumicino',city:'Fiumicino, RM',lat:41.7714,lng:12.2389},
+  'roma:tivoli-01':{name:'Tivoli Edge',city:'Tivoli, RM',lat:41.95972,lng:12.79806},
+  'roma:frascati-01':{name:'Frascati POP',city:'Frascati, RM',lat:41.8085,lng:12.6761},
+  'roma:guidonia-01':{name:'Guidonia Montecelio Site',city:'Guidonia Montecelio, RM',lat:41.9931,lng:12.7236},
+  'roma:pomezia-01':{name:'Pomezia Edge',city:'Pomezia, RM',lat:41.6692,lng:12.5012},
+  'roma:velletri-01':{name:'Velletri POP',city:'Velletri, RM',lat:41.6869,lng:12.7775},
+  'roma:civitavecchia-01':{name:'Civitavecchia Port Site',city:'Civitavecchia, RM',lat:42.0925,lng:11.7958},
+  'roma:anzio-01':{name:'Anzio Edge',city:'Anzio, RM',lat:41.4475,lng:12.6283},
+  'roma:albano-01':{name:'Albano Laziale POP',city:'Albano Laziale, RM',lat:41.7283,lng:12.6608},
   'acme-corp:site-01':{name:'HQ — New York',city:'New York, NY',lat:40.7128,lng:-74.0060},
   'acme-corp:site-02':{name:'Toronto DC',city:'Toronto, ON',lat:43.6532,lng:-79.3832},
   'acme-corp:site-03':{name:'Chicago Hub',city:'Chicago, IL',lat:41.8781,lng:-87.6298},
@@ -8630,7 +8653,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.155.alpha';
+const APP_VERSION='v2026.02.156.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
@@ -9253,7 +9276,7 @@ let currentTenantCtx=null, currentPlane='control';
 function collectorsForTenant(slug){
   const out=[], seen={};
   const push=(id,st)=>{ if(id && !seen[id]){ seen[id]=1; out.push({id,status:st||'online'}); } };
-  [acmeNodes,piedmontNodes,atlanticoNodes].forEach(arr=>arr.forEach(n=>{ if(n[1]===slug) push(n[0],n[2]); }));
+  [acmeNodes,piedmontNodes,atlanticoNodes,romaNodes].forEach(arr=>arr.forEach(n=>{ if(n[1]===slug) push(n[0],n[2]); }));
   fleetRows.forEach(r=>{ if(r[1]===slug) push(r[0],r[2]); });
   return out;
 }
