@@ -715,6 +715,34 @@
   .tcfg-meta{display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 16px}
   .tcfg-mpill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:99px;padding:4px 11px}
   .tcfg-mpill b{color:var(--text);font-weight:700}
+  /* larger, more obvious tenant stat banner */
+  .tcfg-meta-lg{gap:10px;padding:4px 18px 18px}
+  .tcfg-meta-lg .tcfg-mpill{font-size:13px;padding:8px 15px;border-radius:10px}
+  .tcfg-meta-lg .tcfg-mpill b{font-size:14.5px}
+  .tcfg-mpill-link{cursor:pointer;font-family:inherit;transition:.14s}
+  .tcfg-mpill-link svg{width:13px;height:13px;stroke:var(--teal);fill:none;stroke-width:2;margin-left:1px;opacity:.85}
+  .tcfg-mpill-link:hover{border-color:var(--teal);background:var(--teal-ghost)}
+  .tcfg-meta-lg .tcfg-mpill-link b{color:var(--teal)}
+  /* tenant-colored icon: let inline color drive the stroke */
+  .gcfg-cic[style] svg{stroke:currentColor}
+  /* picker: clearer click affordance */
+  .tcfg-pick-id{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .tcfg-pick .tcfg-pick-go{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:2px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--teal);opacity:.72;transition:.14s}
+  .tcfg-pick .tcfg-pick-go svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.6}
+  .tcfg-pick:hover{border-color:var(--teal);background:var(--raise);transform:translateY(-1px);box-shadow:0 9px 22px -16px #000}
+  .tcfg-pick:hover .tcfg-pick-go{opacity:1}
+  /* phone validation */
+  .tm-input.invalid,.tm-input.invalid:focus{border-color:var(--red)}
+  .gcfg-err{font-size:11px;color:var(--red);line-height:1.4}
+  .gcfg-err:empty{display:none}
+  /* SSO recommendation callout */
+  .sso-rec{display:flex;gap:11px;padding:12px 14px;border:1px solid var(--teal-deep);background:var(--teal-ghost);border-radius:10px;margin-bottom:6px}
+  .sso-rec svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:1.8;flex:0 0 18px;margin-top:1px}
+  .sso-rec b{display:block;font-size:13px;color:var(--text);font-weight:700;margin-bottom:3px}
+  .sso-rec span{font-size:12px;color:var(--dim);line-height:1.5}
+  /* build version in sidebar footer */
+  .app-ver{margin-top:12px;font-size:10px;letter-spacing:.03em;color:var(--mute);font-family:ui-monospace,Menlo,Consolas,monospace}
+  .app-ver b{color:var(--dim);font-weight:600}
   .tcfg-textarea{width:100%;min-height:74px;resize:vertical;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;color:var(--text);font:inherit;font-size:12.5px;padding:10px 12px;line-height:1.5}
   .gcfg-subhead{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding:14px 18px 0;display:flex;align-items:center;gap:9px}
   .gcfg-subnote{font-size:10px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--mute)}
@@ -1367,6 +1395,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.152.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5076,6 +5105,14 @@ snmp_field_mapping:
 let lang='en';
 const I18N={
  it:{
+  'Cell phone':'Cellulare',
+  'Mobile number for urgent platform contact.':'Numero di cellulare per contatti urgenti della piattaforma.',
+  'MSP operator':'Operatore MSP',
+  'Support Plan':'Piano di supporto',
+  'View support contract':'Visualizza contratto di supporto',
+  'Tenant configuration':'Configurazione tenant',
+  'Configure':'Configura',
+  'Enter a valid phone number (10–15 digits).':'Inserisci un numero di telefono valido (10–15 cifre).',
   "Operations":"Operazioni","MSP Management":"Gestione MSP","Configuration":"Configurazione",
   "MSP Global Dashboard":"Dashboard globale MSP","Collector Fleet":"Flotta collector","Alerts":"Avvisi",
   "Reports & SLA":"Report e SLA","Tenants":"Clienti","Provision Collector":"Provisioning collector",
@@ -5400,6 +5437,14 @@ const I18N={
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{
+  'Cell phone':'Téléphone portable',
+  'Mobile number for urgent platform contact.':'Numéro de portable pour les contacts urgents de la plateforme.',
+  'MSP operator':'Opérateur MSP',
+  'Support Plan':'Plan de support',
+  'View support contract':'Voir le contrat de support',
+  'Tenant configuration':'Configuration du tenant',
+  'Configure':'Configurer',
+  'Enter a valid phone number (10–15 digits).':'Saisissez un numéro de téléphone valide (10 à 15 chiffres).',
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
   "MSP Global Dashboard":"Tableau de bord global MSP","Collector Fleet":"Flotte de collecteurs","Alerts":"Alertes",
   "Reports & SLA":"Rapports et SLA","Tenants":"Clients","Provision Collector":"Provisionner un collecteur",
@@ -5724,6 +5769,14 @@ const I18N={
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{
+  'Cell phone':'Teléfono móvil',
+  'Mobile number for urgent platform contact.':'Número de móvil para contacto urgente de la plataforma.',
+  'MSP operator':'Operador MSP',
+  'Support Plan':'Plan de soporte',
+  'View support contract':'Ver contrato de soporte',
+  'Tenant configuration':'Configuración del tenant',
+  'Configure':'Configurar',
+  'Enter a valid phone number (10–15 digits).':'Introduce un número de teléfono válido (10–15 dígitos).',
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
   "MSP Global Dashboard":"Panel global MSP","Collector Fleet":"Flota de collectors","Alerts":"Alertas",
   "Reports & SLA":"Informes y SLA","Tenants":"Clientes","Provision Collector":"Aprovisionar collector",
@@ -6048,6 +6101,14 @@ const I18N={
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{
+  'Cell phone':'Telemóvel',
+  'Mobile number for urgent platform contact.':'Número de telemóvel para contacto urgente da plataforma.',
+  'MSP operator':'Operador MSP',
+  'Support Plan':'Plano de suporte',
+  'View support contract':'Ver contrato de suporte',
+  'Tenant configuration':'Configuração do tenant',
+  'Configure':'Configurar',
+  'Enter a valid phone number (10–15 digits).':'Introduza um número de telefone válido (10–15 dígitos).',
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
   "MSP Global Dashboard":"Painel global MSP","Collector Fleet":"Frota de collectors","Alerts":"Alertas",
   "Reports & SLA":"Relatórios e SLA","Tenants":"Clientes","Provision Collector":"Aprovisionar collector",
@@ -6373,6 +6434,14 @@ const I18N={
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{
+  'Cell phone':'携帯電話',
+  'Mobile number for urgent platform contact.':'緊急のプラットフォーム連絡用の携帯番号。',
+  'MSP operator':'MSPオペレーター',
+  'Support Plan':'サポートプラン',
+  'View support contract':'サポート契約を表示',
+  'Tenant configuration':'テナント設定',
+  'Configure':'設定',
+  'Enter a valid phone number (10–15 digits).':'有効な電話番号を入力してください（10〜15桁）。',
   "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
   "Global Dashboard":"グローバルダッシュボード","MSP Global Dashboard":"グローバルダッシュボード","Fleet Management":"フリート管理","Collector Fleet":"コレクターフリート","Alerts":"アラート",
   "Audit Log":"監査ログ","Tenants":"テナント","Provision Collector":"コレクター展開","Reports & SLA":"レポート & SLA",
@@ -8525,12 +8594,13 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
+const APP_VERSION='v2026.02.152.alpha';
+let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
 const SINGLE_CUSTOMER={customer_name:'VistaTech Managed Services',legal_name:'VistaTech GSO, LLC',
   primary_address:'1200 Eastchester Dr, High Point, NC 27265',region:'NC',
-  contact_name:'NOC Desk',contact_email:'noc@vistatechgso.com',notes:''};
+  contact_name:'NOC Desk',contact_email:'noc@vistatechgso.com',contact_phone:'+1 (336) 821-4500',notes:''};
 function tcfgFor(slug){
   if(TCFG[slug]) return TCFG[slug];
   const r=cfgSeed('tcfg|'+slug), dir=TENANT_DIR.find(t=>t.slug===slug);
@@ -8546,6 +8616,7 @@ function tcfgFor(slug){
     region:(dir&&dir.regions&&dir.regions[0])||'NA',
     contact_name:desks[Math.floor(r()*desks.length)],
     contact_email:'noc@'+slugcontact+'.example',
+    contact_phone:'+1 (336) 555-'+String(1000+Math.floor(r()*9000)),
     notes:''
   };
   TCFG[slug]=t; return t;
@@ -8583,26 +8654,26 @@ function tcfgSave(mode,slug){
 function tcfgCustomerCard(obj,mode,slug){
   const ic='<svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>';
   const dir = mode==='tenant' ? TENANT_DIR.find(t=>t.slug===slug) : null;
+  const tcolor = mode==='tenant' ? (tenantColors[slug]||'var(--teal)') : '';
   const field=(id,label,val,hint,req)=>`
     <div class="gcfg-field">
       <label for="${id}">${label}${req?'<span class="req">*</span>':''}</label>
       <div class="gcfg-iwrap"><input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
       ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
     </div>`;
-  const meta = dir ? `<div class="tcfg-meta">
-      <span class="tcfg-mpill">${TX('Plan')} <b>${dir.plan}</b></span>
+  const meta = dir ? `<div class="tcfg-meta tcfg-meta-lg">
+      <button class="tcfg-mpill tcfg-mpill-link" onclick="acctJumpSupport()" title="${TX('View support contract')}">${TX('Support Plan')} <b>${dir.plan}</b><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></button>
       <span class="tcfg-mpill">${TX('Status')} <b>${TX(tntStatusLabel[dir.status]||dir.status)}</b></span>
       <span class="tcfg-mpill">${TX('Sites')} <b>${dir.sites}</b></span>
-      <span class="tcfg-mpill">${TX('Customer since')} <b>${dir.since}</b></span>
     </div>` : '';
   return `
     ${mode==='tenant'?`<div class="tcfg-crumb"><button onclick="tcfgBackToAll()"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>${TX('All customers')}</button><span>›</span><b>${_esc(obj.customer_name)}</b></div>`:''}
-    <div class="gcfg-card">
+    <div class="gcfg-card"${tcolor?` style="border-color:${tcolor}"`:''}>
       <div class="gcfg-chead">
-        <span class="gcfg-cic">${ic}</span>
+        <span class="gcfg-cic"${tcolor?` style="border-color:${tcolor};background:${tcolor}1f;color:${tcolor}"`:''}>${ic}</span>
         <div class="gcfg-ctext"><h3>${mode==='single'?TX('Customer details'):_esc(obj.customer_name)}</h3>
           <p>${mode==='single'?TX('The single organization this deployment serves.'):TX('Identity and primary contact for this customer — drives the locked Customer name on every collector.')}</p></div>
-        <span class="cfg-scope-pill ${mode==='single'?'local':''}">${mode==='single'?TX('Enterprise Customer'):TX('Per-tenant')}</span>
+        <span class="cfg-scope-pill ${mode==='single'?'local':''}">${mode==='single'?TX('Enterprise Customer'):TX('Tenant configuration')}</span>
       </div>
       ${meta}
       <div class="gcfg-grid">
@@ -8625,6 +8696,11 @@ function tcfgCustomerCard(obj,mode,slug){
         </div>
         ${field('tcfg_contact',TX('Primary contact'),obj.contact_name,TX('Team or person Guardare alerts are addressed to.'))}
         ${field('tcfg_email',TX('Contact email'),obj.contact_email,TX('Where escalations and reports are sent.'))}
+        <div class="gcfg-field">
+          <label for="tcfg_phone">${TX('Cell phone')}</label>
+          <div class="gcfg-iwrap"><input id="tcfg_phone" class="tm-input" type="tel" inputmode="tel" value="${_esc(obj.contact_phone||'')}" placeholder="+1 (555) 000-0000" autocomplete="off" spellcheck="false" oninput="validatePhone('tcfg_phone')" onblur="validatePhone('tcfg_phone')"></div>
+          <span class="gcfg-err" id="tcfg_phone_err"></span>
+        </div>
         <div class="gcfg-field span2">
           <label for="tcfg_notes">${TX('Notes')}</label>
           <textarea id="tcfg_notes" class="tcfg-textarea" placeholder="${TX('Optional — onboarding notes, account context…')}">${_esc(obj.notes||'')}</textarea>
@@ -8644,7 +8720,8 @@ function tcfgBody(){
     const chips=TENANT_DIR.map(t=>{const nm=tenantName[t.slug]||t.slug;
       return `<button class="tcfg-pick" onclick="tcfgPickTenant('${t.slug}')">
         <span class="tn-avatar" style="background:${tenantColors[t.slug]||'var(--teal)'}">${tnInit(t.slug)}</span>
-        <span><b>${nm}</b><span>${t.plan} · ${t.sites} ${TX('sites')}</span></span></button>`;}).join('');
+        <span class="tcfg-pick-id"><b>${nm}</b><span>${t.plan} · ${t.sites} ${TX('sites')}</span></span>
+        <span class="tcfg-pick-go">${TX('Configure')}<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></button>`;}).join('');
     return `<div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic">${'<svg viewBox=\"0 0 24 24\"><path d=\"M3 21V8l9-5 9 5v13\"/><path d=\"M9 21v-6h6v6\"/></svg>'}</span>
@@ -8698,6 +8775,20 @@ function accountModelCard(){
       </div>
     </div>`;
 }
+function validatePhone(id){
+  const el=document.getElementById(id); if(!el) return;
+  const err=document.getElementById(id+'_err');
+  const v=(el.value||'').trim(), digits=v.replace(/\D/g,'');
+  const ok = v==='' || (/^[+\d()\-.\s]+$/.test(v) && digits.length>=10 && digits.length<=15);
+  el.classList.toggle('invalid', !ok);
+  if(err) err.textContent = ok ? '' : TX('Enter a valid phone number (10–15 digits).');
+  return ok;
+}
+function acctJumpSupport(){
+  const el=document.getElementById('acctSupportCard'); if(!el) return;
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.classList.remove('panel-flash'); void el.offsetWidth; el.classList.add('panel-flash');
+}
 function renderAccount(){
   const el=document.getElementById('screen-account'); if(!el) return;
   const o=ORG_ACCOUNT;
@@ -8707,12 +8798,19 @@ function renderAccount(){
       <div class="gcfg-iwrap"><input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>
       ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
     </div>`;
+  const phoneField=(id,label,val,hint)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${label}</label>
+      <div class="gcfg-iwrap"><input id="${id}" class="tm-input" type="tel" inputmode="tel" value="${_esc(val||'')}" placeholder="+1 (555) 000-0000" autocomplete="off" spellcheck="false" oninput="validatePhone('${id}')" onblur="validatePhone('${id}')"></div>
+      ${hint?`<span class="gcfg-hint">${hint}</span>`:''}
+      <span class="gcfg-err" id="${id}_err"></span>
+    </div>`;
   const bldgIc='<svg viewBox="0 0 24 24"><path d="M3 21V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v16"/><path d="M16 8h3a2 2 0 0 1 2 2v11"/><path d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01"/></svg>';
   const licIc='<svg viewBox="0 0 24 24"><path d="M12 3v3M6 7l6-3 6 3M4 7l-2 5a3 3 0 0 0 6 0L6 7M18 7l-2 5a3 3 0 0 0 6 0l-2-5M12 6v13M8 21h8"/></svg>';
   const LICENSES=['AGPL-3.0','Apache-2.0','MIT','BSL-1.1'];
   const SUPPORT_TIERS=['Community (no contract)','Standard Support','Business Support','Enterprise Support','Enterprise Plus Support'];
   const supportCard=`
-    <div class="gcfg-card">
+    <div class="gcfg-card" id="acctSupportCard">
       <div class="gcfg-chead">
         <span class="gcfg-cic">${licIc}</span>
         <div class="gcfg-ctext"><h3>${TX('License & Support')}</h3><p>${TX('Guardare is open source — self-host it freely. Commercial support is provided to your organization under contract.')}</p></div>
@@ -8749,17 +8847,14 @@ function renderAccount(){
       <div class="gcfg-chead">
         <span class="gcfg-cic">${bldgIc}</span>
         <div class="gcfg-ctext"><h3>${TX(MSP_DEPLOYMENT==='single'?'Enterprise Organization Details':'MSP Organization Details')}</h3><p>${TX('The company that owns and operates this Guardare console.')}</p></div>
-        <span class="cfg-scope-pill">${TX('Owner account')}</span>
+        <span class="cfg-scope-pill">${TX('MSP operator')}</span>
       </div>
       <div class="gcfg-grid">
         ${field('acct_name',TX('Organization name'),o.name,TX('Shown in the sidebar and on exported reports.'))}
         ${field('acct_legal',TX('Legal entity name'),o.legal)}
         ${field('acct_domain',TX('Primary domain'),o.domain,TX('Used for SSO and email verification.'))}
         ${field('acct_email',TX('Operations email'),o.email,TX('Where platform-level notices are sent.'))}
-        <div class="gcfg-field">
-          <label for="acct_region">${TX('Home region')}</label>
-          <select id="acct_region" class="tm-input">${['us-east-1','us-west-2','eu-central-1','ap-southeast-2'].map(r=>`<option ${r===o.region?'selected':''}>${r}</option>`).join('')}</select>
-        </div>
+        ${phoneField('acct_phone',TX('Cell phone'),o.phone,TX('Mobile number for urgent platform contact.'))}
       </div>
       <div class="gcfg-actions" style="padding:0 18px 18px">
         <button class="btn" onclick="renderAccount()">${TX('Reset')}</button>
@@ -8771,9 +8866,54 @@ function renderAccount(){
       <div class="gcfg-chead">
         <span class="gcfg-cic">${ic}</span>
         <div class="gcfg-ctext"><h3>${title}</h3></div>
-        <span class="cfg-scope-pill">${TX('Owner account')}</span>
+        <span class="cfg-scope-pill">${TX('MSP operator')}</span>
       </div>
       <div class="gcfg-placeholder"><span class="gcfg-ph-ic">${ic}</span><b>${TX('Coming next')}</b><span>${note}</span></div>
+    </div>`;
+  const ssoCard=`
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${ssoIc}</span>
+        <div class="gcfg-ctext"><h3>${TX('Authentication & SSO')}</h3><p>Single sign-on, session policy and API token management for operator accounts.</p></div>
+        <span class="cfg-scope-pill">${TX('MSP operator')}</span>
+      </div>
+      <div style="padding:14px 18px 2px">
+        <div class="sso-rec"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+          <div><b>Recommended &mdash; OIDC via your identity provider</b><span>Use OpenID Connect (Authorization Code + PKCE) against your IdP (Microsoft Entra ID, Okta, Google Workspace). Enforce SSO for every operator, provision and de-provision with SCIM, and keep a single break-glass local admin. MFA is enforced at the IdP; Guardare only holds short-lived tokens with refresh rotation.</span></div>
+        </div>
+      </div>
+      <div class="gcfg-grid">
+        <div class="gcfg-field">
+          <label for="sso_provider">Identity provider</label>
+          <select id="sso_provider" class="tm-input intg-select">
+            <option>None &mdash; local accounts</option>
+            <option selected>OIDC (recommended)</option>
+            <option>SAML 2.0</option>
+          </select>
+        </div>
+        <div class="gcfg-field">
+          <label for="sso_issuer">Issuer / discovery URL</label>
+          <div class="gcfg-iwrap"><input id="sso_issuer" class="tm-input mono" value="https://login.microsoftonline.com/&lt;tenant&gt;/v2.0" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="gcfg-field">
+          <label for="sso_client">Client ID</label>
+          <div class="gcfg-iwrap"><input id="sso_client" class="tm-input mono" value="guardare-console" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="gcfg-field">
+          <label for="sso_secret">Client secret</label>
+          <div class="gcfg-iwrap"><input id="sso_secret" class="tm-input mono" type="password" value="placeholder-secret-rotate-me" autocomplete="off"></div>
+        </div>
+        <div class="gcfg-field span2">
+          <label>Session policy</label>
+          <label class="ucfg-toggle" style="margin-top:4px"><input type="checkbox" checked><span class="ucfg-sw-inline"></span> Enforce SSO for all operators (keep one break-glass local admin)</label>
+          <label class="ucfg-toggle" style="margin-top:11px"><input type="checkbox" checked><span class="ucfg-sw-inline"></span> SCIM provisioning &amp; de-provisioning</label>
+        </div>
+      </div>
+      <div class="gcfg-soon" style="margin:2px 18px 18px">
+        <span class="gcfg-cic">${ssoIc}</span>
+        <div class="gcfg-soon-tx"><b>Rough-in only</b><span>Wired to the IdP in the production Xojo build &mdash; the fields above are a configuration preview.</span></div>
+        <span class="soon-tag">Coming next</span>
+      </div>
     </div>`;
   el.innerHTML=`
     <div class="page-head"><div>
@@ -8786,7 +8926,7 @@ function renderAccount(){
       ${MSP_DEPLOYMENT==='single' ? '' : tcfgBody()}
       ${orgCard}
       ${supportCard}
-      ${ph(ssoIc,TX('Authentication & SSO'),TX('SAML / OIDC single sign-on, session policy and API token management will live here.'))}
+      ${ssoCard}
     </div>`;
 }
 function acctSave(){
