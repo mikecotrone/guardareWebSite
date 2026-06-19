@@ -1395,7 +1395,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.153.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.154.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5105,6 +5105,7 @@ snmp_field_mapping:
 let lang='en';
 const I18N={
  it:{
+  'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Collega Guardare ai tuoi strumenti di ticketing, reperibilità, monitoraggio e documentazione.',
   'Cell phone':'Cellulare',
   'Mobile number for urgent platform contact.':'Numero di cellulare per contatti urgenti della piattaforma.',
   'MSP operator':'Operatore MSP',
@@ -5437,6 +5438,7 @@ const I18N={
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{
+  'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Connectez Guardare à vos outils de ticketing, d\'astreinte, de supervision et de documentation.',
   'Cell phone':'Téléphone portable',
   'Mobile number for urgent platform contact.':'Numéro de portable pour les contacts urgents de la plateforme.',
   'MSP operator':'Opérateur MSP',
@@ -5769,6 +5771,7 @@ const I18N={
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{
+  'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Conecta Guardare a tus herramientas de tickets, guardias, monitorización y documentación.',
   'Cell phone':'Teléfono móvil',
   'Mobile number for urgent platform contact.':'Número de móvil para contacto urgente de la plataforma.',
   'MSP operator':'Operador MSP',
@@ -6101,6 +6104,7 @@ const I18N={
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{
+  'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Ligue o Guardare às suas ferramentas de tickets, escalas, monitorização e documentação.',
   'Cell phone':'Telemóvel',
   'Mobile number for urgent platform contact.':'Número de telemóvel para contacto urgente da plataforma.',
   'MSP operator':'Operador MSP',
@@ -6434,6 +6438,7 @@ const I18N={
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{
+  'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Guardareをチケット管理、オンコール、監視、ドキュメントの各ツールに接続します。',
   'Cell phone':'携帯電話',
   'Mobile number for urgent platform contact.':'緊急のプラットフォーム連絡用の携帯番号。',
   'MSP operator':'MSPオペレーター',
@@ -7612,9 +7617,15 @@ function tIntg(tenant,id){ return (TENANT_INTG[tenant]||{})[id]||null; }
 function tenantConnCount(id){ return Object.keys(TENANT_INTG).filter(t=>{const s=tIntg(t,id);return s&&s.connected;}).length; }
 function setIntgField(id,idx,val){ const it=INTEGRATIONS.find(i=>i.id===id); if(it&&it.fields[idx]){ it.fields[idx][2]=val; toast(it.name+' · '+TX('model set to')+' '+val); } }
 function intgCard(it, scope){
+  const ENT = (typeof MSP_DEPLOYMENT!=='undefined' && MSP_DEPLOYMENT==='single');
   const isAll = scope==='all';
   let connected, endpoint, mode, rollN=0;
-  if(it.scope==='platform'){
+  if(ENT){
+    /* single-org deployment: no tenants, no inheritance — every connector is a plain editable card */
+    connected=it.connected;
+    endpoint=it.scope==='tenant' ? it.endpoint.replace('yourorg',(ORG_ACCOUNT.domain||'yourorg').split('.')[0]) : it.endpoint;
+    mode='edit';
+  } else if(it.scope==='platform'){
     connected=it.connected; endpoint=it.endpoint;
     mode = isAll ? 'edit' : 'inherited';
   } else {
@@ -7638,7 +7649,7 @@ function intgCard(it, scope){
   let actions;
   if(mode==='inherited') actions=`<span class="intg-note-inline">${TX('Managed at platform level')}</span><button class="btn ${connected?'danger':'primary'}" onclick="intgOp('${it.id}',${connected?'false':'true'})">${connected?TX('Disconnect'):TX('Connect')}</button>`;
   else if(mode==='rollup') actions=`<span class="intg-note-inline">${rollN} ${TX('of')} ${TENANT_INTG_TOTAL} ${TX('tenants connected')}</span><button class="btn" onclick="toast('${TX('Pick a tenant from the switcher to configure')}')">${TX('Configure per tenant')}</button>`;
-  else { const ctxName = it.scope==='tenant' ? (tenantName[scope]||scope) : TX('platform');
+  else { const ctxName = (ENT || it.scope!=='tenant') ? TX('platform') : (tenantName[scope]||scope);
     actions=`<label class="intg-toggle"><input type="checkbox" ${connected?'checked':''} onchange="toast('${it.name} — ${ctxName} ' + (this.checked?'${TX('enabled')}':'${TX('disabled')}'))"><span>${TX('Enabled')}</span></label>
              <button class="btn ${connected?'danger':'primary'}" onclick="intgOp('${it.id}',${connected?'false':'true'})">${connected?TX('Disconnect'):TX('Connect')}</button>`; }
   return `
@@ -7689,15 +7700,20 @@ function uptimeRobotConfig(it,scope){
 
 function renderIntegrations(){
   const scope=tenantScope(), isAll=scope==='all';
+  const ENT = (typeof MSP_DEPLOYMENT!=='undefined' && MSP_DEPLOYMENT==='single');
   const titleOf={}; INTG_GROUPS.forEach(([k,t])=>titleOf[k]=t);
-  const order = isAll ? ['gitops','ai','servicedesk','alerting','monitoring','docs'] : ['servicedesk','alerting','monitoring','docs','gitops','ai'];
+  const order = (ENT||isAll) ? ['gitops','ai','servicedesk','alerting','monitoring','docs'] : ['servicedesk','alerting','monitoring','docs','gitops','ai'];
   const firstKey=order.find(k=>INTEGRATIONS.some(i=>i.group===k));
   const sections=order.map(key=>{
     const items=INTEGRATIONS.filter(i=>i.group===key);
     if(!items.length) return '';
     const gscope=items[0].scope;
     let scopePill, meta;
-    if(gscope==='platform'){
+    if(ENT){
+      scopePill='';
+      const c=items.filter(i=>i.connected).length;
+      meta=`${c} ${TX('connected')}`;
+    } else if(gscope==='platform'){
       scopePill=`<span class="intg-scope plat">${TX('Platform')}</span>`;
       const c=items.filter(i=>i.connected).length;
       meta = isAll ? `${c} ${TX('connected')}` : TX('Inherited from platform');
@@ -7722,9 +7738,11 @@ function renderIntegrations(){
   const platformConn=INTEGRATIONS.filter(i=>i.scope==='platform'&&i.connected).length;
   const tenantConnectors=INTEGRATIONS.filter(i=>i.scope==='tenant').length;
   const tenantConn=isAll?0:INTEGRATIONS.filter(i=>{const s=tIntg(scope,i.id);return s&&s.connected;}).length;
-  const sub = isAll
-    ? TX('Platform connectors are shared across every tenant · ticketing and on-call route per tenant.')
-    : `${tenantName[scope]||scope} · ${TX('alert routing to their service desk and on-call · platform connectors are inherited.')}`;
+  const sub = ENT
+    ? TX('Connect Guardare to your ticketing, on-call, monitoring and documentation tools.')
+    : (isAll
+        ? TX('Platform connectors are shared across every tenant · ticketing and on-call route per tenant.')
+        : `${tenantName[scope]||scope} · ${TX('alert routing to their service desk and on-call · platform connectors are inherited.')}`);
   document.getElementById('screen-integrations').innerHTML=`
     <div class="page-head">
       <div>
@@ -8592,7 +8610,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.153.alpha';
+const APP_VERSION='v2026.02.154.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
