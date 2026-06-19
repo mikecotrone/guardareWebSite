@@ -1395,7 +1395,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.154.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.155.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5105,6 +5105,8 @@ snmp_field_mapping:
 let lang='en';
 const I18N={
  it:{
+  'for this deployment':'per questo deployment',
+  'Document Asset Management':'Gestione asset documentali',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Collega Guardare ai tuoi strumenti di ticketing, reperibilità, monitoraggio e documentazione.',
   'Cell phone':'Cellulare',
   'Mobile number for urgent platform contact.':'Numero di cellulare per contatti urgenti della piattaforma.',
@@ -5438,6 +5440,8 @@ const I18N={
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{
+  'for this deployment':'pour ce déploiement',
+  'Document Asset Management':'Gestion des actifs documentaires',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Connectez Guardare à vos outils de ticketing, d\'astreinte, de supervision et de documentation.',
   'Cell phone':'Téléphone portable',
   'Mobile number for urgent platform contact.':'Numéro de portable pour les contacts urgents de la plateforme.',
@@ -5771,6 +5775,8 @@ const I18N={
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{
+  'for this deployment':'para esta implementación',
+  'Document Asset Management':'Gestión de activos documentales',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Conecta Guardare a tus herramientas de tickets, guardias, monitorización y documentación.',
   'Cell phone':'Teléfono móvil',
   'Mobile number for urgent platform contact.':'Número de móvil para contacto urgente de la plataforma.',
@@ -6104,6 +6110,8 @@ const I18N={
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{
+  'for this deployment':'para esta implementação',
+  'Document Asset Management':'Gestão de ativos documentais',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Ligue o Guardare às suas ferramentas de tickets, escalas, monitorização e documentação.',
   'Cell phone':'Telemóvel',
   'Mobile number for urgent platform contact.':'Número de telemóvel para contacto urgente da plataforma.',
@@ -6438,6 +6446,8 @@ const I18N={
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{
+  'for this deployment':'このデプロイメント用',
+  'Document Asset Management':'ドキュメント資産管理',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Guardareをチケット管理、オンコール、監視、ドキュメントの各ツールに接続します。',
   'Cell phone':'携帯電話',
   'Mobile number for urgent platform contact.':'緊急のプラットフォーム連絡用の携帯番号。',
@@ -7543,6 +7553,12 @@ const CLAUDE_MODELS=[
   ['claude-haiku-4-5-20251001','Claude Haiku 4.5 · fastest'],
   ['claude-fable-5','Claude Fable 5 · Mythos-class'],
 ];
+const PPLX_MODELS=[
+  ['sonar-pro','Sonar Pro · grounded search'],
+  ['sonar','Sonar · fast search'],
+  ['sonar-reasoning-pro','Sonar Reasoning Pro'],
+  ['sonar-reasoning','Sonar Reasoning'],
+];
 const INTEGRATIONS=[
   {id:'jitbit',name:'JitBit',cat:'Ticketing / Helpdesk',group:'servicedesk',scope:'tenant',c:'#2E9BE6',
    desc:'Open and sync help-desk tickets from Guardare alerts, with two-way status updates.',
@@ -7591,12 +7607,16 @@ const INTEGRATIONS=[
    desc:'Summarize alert storms, explain collector anomalies, and draft remediation runbooks with Claude — powering Guardare AI triage.',
    connected:true, endpoint:'https://api.anthropic.com/v1/messages',
    fields:[['API key (x-api-key)','password','sk-ant-••••••••••••'],['Model','select','claude-sonnet-4-6',CLAUDE_MODELS],['anthropic-version','text','2023-06-01']]},
+  {id:'perplexity',name:'Perplexity',cat:'AI / Live research',group:'ai',scope:'platform',c:'#20808D',
+   desc:'Real-time, source-cited web research — enrich Guardare AI triage with live context on CVEs, vendor advisories and provider outages.',
+   connected:false, endpoint:'https://api.perplexity.ai/chat/completions',
+   fields:[['API key (Bearer)','password',''],['Model','select','sonar-pro',PPLX_MODELS]]},
 ];
 const INTG_GROUPS=[
   ['servicedesk','Service desk & ITSM'],
   ['alerting','Alerting & on-call'],
   ['monitoring','Status & uptime'],
-  ['docs','Documentation & assets'],
+  ['docs','Document Asset Management'],
   ['gitops','GitOps & configuration'],
   ['ai','AI & automation'],
 ];
@@ -8610,7 +8630,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.154.alpha';
+const APP_VERSION='v2026.02.155.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
@@ -9794,7 +9814,8 @@ function intgOp(id, connect){
   const ic=document.getElementById('intgConfirmIc'); ic.className='modal-ic '+(connect?'info':'warn'); ic.innerHTML=connect?INTG_LINK:INTG_UNLINK;
   const pic=document.getElementById('intgProgIc'); pic.className='modal-ic '+(connect?'info':'warn'); pic.innerHTML=connect?INTG_LINK:INTG_UNLINK;
   document.getElementById('intgTitle').textContent=(connect?TX('Connect'):TX('Disconnect'))+' '+it.name+'?';
-  const where = it.scope==='platform' ? TX('for the platform — every tenant inherits it') : (TX('for')+' '+(tenantName[scope]||scope));
+  const ENT = (typeof MSP_DEPLOYMENT!=='undefined' && MSP_DEPLOYMENT==='single');
+  const where = ENT ? TX('for this deployment') : (it.scope==='platform' ? TX('for the platform — every tenant inherits it') : (TX('for')+' '+(tenantName[scope]||scope)));
   document.getElementById('intgText').innerHTML = connect
     ? TX('Guardare will connect to')+' <b>'+it.name+'</b> '+where+'. '+TX('A test event is sent to verify the endpoint and credentials before routing goes live.')
     : TX('Guardare will disconnect')+' <b>'+it.name+'</b> '+where+'. '+TX('Alert routing through this connector stops until you reconnect.');
