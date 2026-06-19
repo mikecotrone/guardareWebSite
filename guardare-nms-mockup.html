@@ -675,6 +675,12 @@
   .tcfg-modelnote{font-size:12px;color:var(--mute);margin-top:10px;line-height:1.5}
   .acct-modelwarn{display:flex;gap:9px;margin-top:14px;padding:11px 13px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:9px;background:rgba(246,181,63,.06);color:var(--dim);font-size:12px;line-height:1.45}
   .acct-modelwarn svg{width:16px;height:16px;stroke:var(--amber);fill:none;stroke-width:1.8;flex:none;margin-top:1px}
+  .git-arr{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:3px 0 1px}
+  .git-arr-item{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11.5px;color:var(--text);background:var(--raise);border:1px solid var(--line);border-radius:7px;padding:5px 9px}
+  .git-arr-empty{font-size:12px;color:var(--mute);font-style:italic}
+  .git-arr-add{font:inherit;font-size:11.5px;font-weight:600;color:var(--teal);background:none;border:1px dashed var(--teal-deep);border-radius:7px;padding:5px 10px;cursor:pointer;transition:.14s}
+  .git-arr-add:hover{background:var(--teal-ghost)}
+  .git-arr-tag{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:9.5px;color:var(--mute);font-weight:600;margin-left:6px;letter-spacing:.02em;text-transform:none}
   .tcfg-pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:18px}
   .tcfg-pick{display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--bg-2);cursor:pointer;text-align:left;transition:.14s;color:var(--text)}
   .tcfg-pick:hover{border-color:var(--teal-deep);background:var(--raise)}
@@ -1321,6 +1327,7 @@
         <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global Settings">Global Settings</span></button>
         <button class="nav-subitem" data-sub="ubuntu" onclick="goCfgSub('ubuntu')"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
         <button class="nav-subitem" data-sub="databases" onclick="goCfgSub('databases')"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
+        <button class="nav-subitem" data-sub="gitops" onclick="goCfgSub('gitops')"><span class="sub-lead"></span><span data-i18n="GitOps Repos">GitOps Repos</span></button>
       </div>
     </div>
     <button class="nav-item" data-screen="config">
@@ -5319,7 +5326,27 @@ const I18N={
   "keys are stored as Docker secrets, never in config files.":"le chiavi sono salvate come Docker secrets, mai nei file di configurazione.",
   "manufacturer manifests — one normalization profile per polled manufacturer.":"manifest produttore — un profilo di normalizzazione per ogni produttore interrogato.",
   "net.core.wmem_default — one-write size for most payloads.":"net.core.wmem_default — dimensione di scrittura singola per la maggior parte dei payload.",
-  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — mantiene i colori ANSI nei log del collector."
+  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — mantiene i colori ANSI nei log del collector.",
+  "GitOps Repos":"Repo GitOps",
+  "Access token":"Token di accesso",
+  "Docker secret":"Docker secret",
+  "+ New Docker secret…":"+ Nuovo Docker secret…",
+  "Resolved from a Docker secret at runtime — never written to the config file.":"Risolto da un Docker secret a runtime — mai scritto nel file di configurazione.",
+  "GitHub config repository this microservice polls.":"Repository di configurazione GitHub interrogato da questo microservizio.",
+  "Repo config URI":"URI config repo",
+  "Config file name":"Nome file di configurazione",
+  "API manifests":"Manifest API",
+  "SNMP manifest":"Manifest SNMP",
+  "CLI manifest":"Manifest CLI",
+  "Poll interval":"Intervallo di polling",
+  "How often this service pulls its rule set from GitHub.":"Con quale frequenza questo servizio scarica il set di regole da GitHub.",
+  "One API config file per polled manufacturer at this site.":"Un file di configurazione API per ogni produttore interrogato in questa sede.",
+  "Add":"Aggiungi",
+  "Add manufacturer manifest":"Aggiungi manifest produttore",
+  "none":"nessuno",
+  "wired in the next build":"disponibile nella prossima build",
+  "GitOps repository settings saved":"Impostazioni repository GitOps salvate",
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connessione GitHub condivisa (URL base, versione API, organizzazione owner) si imposta una volta in Integrazioni API → GitHub ed è ereditata qui. Ogni servizio sotto scarica il proprio file di configurazione con un token conservato come Docker secret — mai nello YAML."
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -5597,7 +5624,27 @@ const I18N={
   "keys are stored as Docker secrets, never in config files.":"les clés sont stockées comme Docker secrets, jamais dans les fichiers de config.",
   "manufacturer manifests — one normalization profile per polled manufacturer.":"manifestes fabricant — un profil de normalisation par fabricant interrogé.",
   "net.core.wmem_default — one-write size for most payloads.":"net.core.wmem_default — taille d'écriture unique pour la plupart des charges.",
-  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — conserve les couleurs ANSI dans les journaux du collecteur."
+  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — conserve les couleurs ANSI dans les journaux du collecteur.",
+  "GitOps Repos":"Dépôts GitOps",
+  "Access token":"Jeton d'accès",
+  "Docker secret":"Secret Docker",
+  "+ New Docker secret…":"+ Nouveau secret Docker…",
+  "Resolved from a Docker secret at runtime — never written to the config file.":"Résolu depuis un secret Docker à l'exécution — jamais écrit dans le fichier de config.",
+  "GitHub config repository this microservice polls.":"Dépôt de configuration GitHub interrogé par ce microservice.",
+  "Repo config URI":"URI de config du dépôt",
+  "Config file name":"Nom du fichier de config",
+  "API manifests":"Manifestes API",
+  "SNMP manifest":"Manifeste SNMP",
+  "CLI manifest":"Manifeste CLI",
+  "Poll interval":"Intervalle de sondage",
+  "How often this service pulls its rule set from GitHub.":"Fréquence à laquelle ce service récupère son jeu de règles depuis GitHub.",
+  "One API config file per polled manufacturer at this site.":"Un fichier de config API par fabricant interrogé sur ce site.",
+  "Add":"Ajouter",
+  "Add manufacturer manifest":"Ajouter un manifeste fabricant",
+  "none":"aucun",
+  "wired in the next build":"disponible dans la prochaine build",
+  "GitOps repository settings saved":"Paramètres du dépôt GitOps enregistrés",
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connexion GitHub partagée (URL de base, version d'API, organisation propriétaire) se définit une fois dans Intégrations API → GitHub et est héritée ici. Chaque service ci-dessous récupère son propre fichier de config avec un jeton conservé comme secret Docker — jamais dans le YAML."
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -5875,7 +5922,27 @@ const I18N={
   "keys are stored as Docker secrets, never in config files.":"las claves se almacenan como Docker secrets, nunca en archivos de configuración.",
   "manufacturer manifests — one normalization profile per polled manufacturer.":"manifiestos de fabricante — un perfil de normalización por cada fabricante sondeado.",
   "net.core.wmem_default — one-write size for most payloads.":"net.core.wmem_default — tamaño de escritura única para la mayoría de las cargas.",
-  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — mantiene el color ANSI en los registros del recopilador."
+  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — mantiene el color ANSI en los registros del recopilador.",
+  "GitOps Repos":"Repos GitOps",
+  "Access token":"Token de acceso",
+  "Docker secret":"Secret de Docker",
+  "+ New Docker secret…":"+ Nuevo secret de Docker…",
+  "Resolved from a Docker secret at runtime — never written to the config file.":"Se resuelve desde un secret de Docker en tiempo de ejecución — nunca se escribe en el archivo de configuración.",
+  "GitHub config repository this microservice polls.":"Repositorio de configuración de GitHub que sondea este microservicio.",
+  "Repo config URI":"URI de config del repo",
+  "Config file name":"Nombre del archivo de configuración",
+  "API manifests":"Manifiestos de API",
+  "SNMP manifest":"Manifiesto SNMP",
+  "CLI manifest":"Manifiesto CLI",
+  "Poll interval":"Intervalo de sondeo",
+  "How often this service pulls its rule set from GitHub.":"Con qué frecuencia este servicio descarga su conjunto de reglas desde GitHub.",
+  "One API config file per polled manufacturer at this site.":"Un archivo de config de API por cada fabricante sondeado en este sitio.",
+  "Add":"Agregar",
+  "Add manufacturer manifest":"Agregar manifiesto de fabricante",
+  "none":"ninguno",
+  "wired in the next build":"disponible en la próxima compilación",
+  "GitOps repository settings saved":"Configuración del repositorio GitOps guardada",
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La conexión compartida de GitHub (URL base, versión de API, organización propietaria) se define una vez en Integraciones API → GitHub y se hereda aquí. Cada servicio de abajo descarga su propio archivo de config con un token guardado como secret de Docker — nunca en el YAML."
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -6154,7 +6221,27 @@ const I18N={
   "keys are stored as Docker secrets, never in config files.":"as chaves são armazenadas como Docker secrets, nunca em arquivos de configuração.",
   "manufacturer manifests — one normalization profile per polled manufacturer.":"manifestos de fabricante — um perfil de normalização por fabricante consultado.",
   "net.core.wmem_default — one-write size for most payloads.":"net.core.wmem_default — tamanho de escrita única para a maioria das cargas.",
-  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — mantém a cor ANSI nos logs do coletor."
+  "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — mantém a cor ANSI nos logs do coletor.",
+  "GitOps Repos":"Repos GitOps",
+  "Access token":"Token de acesso",
+  "Docker secret":"Docker secret",
+  "+ New Docker secret…":"+ Novo Docker secret…",
+  "Resolved from a Docker secret at runtime — never written to the config file.":"Resolvido a partir de um Docker secret em tempo de execução — nunca escrito no arquivo de configuração.",
+  "GitHub config repository this microservice polls.":"Repositório de configuração do GitHub que este microsserviço consulta.",
+  "Repo config URI":"URI de config do repo",
+  "Config file name":"Nome do arquivo de configuração",
+  "API manifests":"Manifestos de API",
+  "SNMP manifest":"Manifesto SNMP",
+  "CLI manifest":"Manifesto CLI",
+  "Poll interval":"Intervalo de polling",
+  "How often this service pulls its rule set from GitHub.":"Com que frequência este serviço obtém o conjunto de regras do GitHub.",
+  "One API config file per polled manufacturer at this site.":"Um arquivo de config de API por fabricante consultado neste local.",
+  "Add":"Adicionar",
+  "Add manufacturer manifest":"Adicionar manifesto de fabricante",
+  "none":"nenhum",
+  "wired in the next build":"disponível na próxima build",
+  "GitOps repository settings saved":"Configurações do repositório GitOps salvas",
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"A conexão partilhada do GitHub (URL base, versão da API, organização proprietária) é definida uma vez em Integrações de API → GitHub e herdada aqui. Cada serviço abaixo obtém o seu próprio arquivo de config com um token guardado como Docker secret — nunca no YAML."
  },
  ja:{
   "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
@@ -6431,7 +6518,27 @@ const I18N={
   "rsyslog $EscapeControlCharactersOnReceive off — keeps ANSI color in collector logs.":"rsyslog $EscapeControlCharactersOnReceive off — コレクターログのANSIカラーを保持します。",
   "▲ 2 new in last hour":"▲ 直近1時間で2件の新規",
   "▲ 6.2% vs 1h ago":"▲ 1時間前比 6.2%",
-  "▲ site-07 offline · buffering":"▲ site-07 オフライン · バッファリング中"
+  "▲ site-07 offline · buffering":"▲ site-07 オフライン · バッファリング中",
+  "GitOps Repos":"GitOpsリポジトリ",
+  "Access token":"アクセストークン",
+  "Docker secret":"Docker secret",
+  "+ New Docker secret…":"+ 新しいDocker secret…",
+  "Resolved from a Docker secret at runtime — never written to the config file.":"実行時に Docker secret から解決されます — 設定ファイルには書き込まれません。",
+  "GitHub config repository this microservice polls.":"このマイクロサービスがポーリングする GitHub 設定リポジトリ。",
+  "Repo config URI":"リポジトリ設定URI",
+  "Config file name":"設定ファイル名",
+  "API manifests":"APIマニフェスト",
+  "SNMP manifest":"SNMPマニフェスト",
+  "CLI manifest":"CLIマニフェスト",
+  "Poll interval":"ポーリング間隔",
+  "How often this service pulls its rule set from GitHub.":"このサービスが GitHub からルールセットを取得する頻度。",
+  "One API config file per polled manufacturer at this site.":"この拠点でポーリングするメーカーごとに1つのAPI設定ファイル。",
+  "Add":"追加",
+  "Add manufacturer manifest":"メーカーマニフェストを追加",
+  "none":"なし",
+  "wired in the next build":"次のビルドで対応",
+  "GitOps repository settings saved":"GitOpsリポジトリ設定を保存しました",
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"共有の GitHub 接続（ベースURL・APIバージョン・所有組織）は API連携 → GitHub で一度設定され、ここに継承されます。下の各サービスは、Docker secret として保持されたトークンを使って自分の設定ファイルを取得します — YAML には決して書きません。"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -7218,8 +7325,15 @@ const INTEGRATIONS=[
    desc:'Raise incidents and service requests in Freshservice from Guardare alerts, map collectors to CMDB assets, and sync ticket status both ways.',
    connected:false, endpoint:'https://yourorg.freshservice.com/api/v2/tickets', fields:[['API key','password',''],['Domain','text','yourorg.freshservice.com']]},
   {id:'github',name:'GitHub',cat:'GitOps / Config',group:'gitops',scope:'platform',c:'#8B95A7',
-   desc:'Pull collector microservice configs and commit changes back to the source repo.',
-   connected:true, endpoint:'https://api.github.com', fields:[['Personal access token','password','ghp_••••••••••••']]},
+   desc:'Shared GitHub API connection profile — base URL, version and owner org. Inherited by every collector; per-service tokens live in Collector Config as Docker secrets.',
+   connected:true, endpoint:'https://api.github.com', fields:[
+     ['Repo API service name','text','github'],
+     ['API base URL','text','api.github.com/'],
+     ['Repository URI','text','repos/'],
+     ['API version','text','2022-11-28'],
+     ['User agent','text','Guardare'],
+     ['Owner / org URI','text','vistaTechGuardare/']
+   ]},
   {id:'pagerduty',name:'PagerDuty',cat:'Alerting / On-call',group:'alerting',scope:'tenant',c:'#41D98A',
    desc:'Route critical and warning alerts to the right on-call schedules and escalation policies.',
    connected:false, endpoint:'https://events.pagerduty.com/v2/enqueue', fields:[['Integration key','password','']]},
@@ -7348,9 +7462,6 @@ function renderIntegrations(){
   const sub = isAll
     ? TX('Platform connectors are shared across every tenant · ticketing and on-call route per tenant.')
     : `${tenantName[scope]||scope} · ${TX('alert routing to their service desk and on-call · platform connectors are inherited.')}`;
-  const note = isAll
-    ? `${platformConn} ${TX('platform connectors active')} · ${TX('per-tenant routing configured separately')} · ${TX('keys are stored as Docker secrets, never in config files.')}`
-    : `${tenantConn} ${TX('of')} ${tenantConnectors} ${TX('connectors active for')} ${tenantName[scope]||scope} · ${TX('keys are stored as Docker secrets, never in config files.')}`;
   document.getElementById('screen-integrations').innerHTML=`
     <div class="page-head">
       <div>
@@ -7362,8 +7473,6 @@ function renderIntegrations(){
         <button class="btn" onclick="toast('${TX('Browse integration catalog')} — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add integration')}</button>
       </div>
     </div>
-    <div class="cfg-note"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7"/></svg>
-      ${note}</div>
     <div class="intg-accordion">${sections}</div>`;
 }
 
@@ -7650,6 +7759,7 @@ const CFG_CATS=[
   {cat:'base',name:'Global Settings',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, location and the unique IDs that bind each microservice to this box.'},
   {cat:'ubuntu',name:'Ubuntu OS',dot:'#E95420',scope:'On-box',blurb:'Host-level tuning applied by the provisioning script — file-descriptor limits, kernel send buffers, per-service systemd safety nets and base OS settings.'},
   {cat:'databases',name:'Databases',dot:'var(--violet)',scope:'On-box',blurb:'Local collector MariaDB buffer and queue settings — plus the cloud database connection used by the Guardare NMS.'},
+  {cat:'gitops',name:'GitOps Repos',dot:'#8B95A7',scope:'Per-collector',blurb:'Per-microservice GitHub repository settings — which config file each service pulls, its repo path, poll interval and the Docker secret that holds its access token. Tokens are never written to config files.'},
   {cat:'vcollector',name:'vCollector',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
   {cat:'normalizer',name:'Normalizer',dot:'var(--green)',scope:'Per-collector',blurb:'Per-manufacturer manifests that map raw device data into the unified Guardare schema — one profile per manufacturer this collector polls.'},
   {cat:'events',name:'Events Director',dot:'var(--amber)',scope:'Per-collector',blurb:'Rule sets that turn normalized telemetry into alerts and route them to the right notification channels.'},
@@ -8479,6 +8589,59 @@ function updateBrand(){
   if(m){ const mode=(MSP_DEPLOYMENT==='single')?'Enterprise':'MSP'; m.textContent=mode; m.classList.toggle('long', mode.length>4); }
 }
 
+function cfgGitOpsForm(coll){
+  const repoIc='<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M6 9v6"/><circle cx="18" cy="9" r="3"/><path d="M18 12c0 4-6 2-6 6"/></svg>';
+  const keyIc='<svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15 19 4l2 2-2 2 2 2-3 3-2-2"/></svg>';
+  const SECRETS=['${VCOLLECTOR_REPO_TOKEN}','${NORMALIZER_REPO_TOKEN}','${EVENTSDIRECTOR_REPO_TOKEN}','${HUDUSYNC_REPO_TOKEN}'];
+  const tokField=(id,sel)=>`
+    <div class="gcfg-field">
+      <label for="${id}">${TX('Access token')}<span class="gcfg-locktag">${keyIc}${TX('Docker secret')}</span></label>
+      <select id="${id}" class="tm-input mono">
+        ${SECRETS.map(s=>`<option ${s===sel?'selected':''}>${s}</option>`).join('')}
+        <option value="__new">${TX('+ New Docker secret…')}</option>
+      </select>
+      <span class="gcfg-hint">${TX('Resolved from a Docker secret at runtime — never written to the config file.')}</span>
+    </div>`;
+  const field=(id,label,val,hint)=>`<div class="gcfg-field"><label for="${id}">${label}</label><div class="gcfg-iwrap"><input id="${id}" class="tm-input mono" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>${hint?`<span class="gcfg-hint">${hint}</span>`:''}</div>`;
+  const card=(name,pill,inner)=>`
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic">${repoIc}</span>
+        <div class="gcfg-ctext"><h3>${name}</h3><p>${TX('GitHub config repository this microservice polls.')}</p></div>
+        <span class="cfg-scope-pill">${pill}</span>
+      </div>
+      <div class="gcfg-grid">${inner}</div>
+    </div>`;
+
+  const vcol = card('vCollector','vcollector',
+    tokField('git_vc_tok','${VCOLLECTOR_REPO_TOKEN}')+
+    field('git_vc_uri',TX('Repo config URI'),'vCollectorCFG/')+
+    field('git_vc_file',TX('Config file name'),'_vCollectorCfg.yaml'));
+
+  const API_KEYS=['unifi','meraki','azure','arista'];
+  const mans=(typeof collManifests==='function'?collManifests(coll):['unifi']);
+  const apiMans=mans.filter(k=>API_KEYS.indexOf(k)>=0);
+  const apiItems=apiMans.length
+    ? apiMans.map(k=>`<span class="git-arr-item">${NORM_MAP[k]?NORM_MAP[k].file:k}</span>`).join('')
+    : '<span class="git-arr-empty">'+TX('none')+'</span>';
+  const norm = card('Normalizer','Normalizer',
+    tokField('git_nm_tok','${NORMALIZER_REPO_TOKEN}')+
+    field('git_nm_uri',TX('Repo config URI'),'normalizerCFG/')+
+    `<div class="gcfg-field span2"><label>${TX('API manifests')} <span class="git-arr-tag">normalizerApiCfgArray</span></label><div class="git-arr">${apiItems}<button class="git-arr-add" onclick="toast('${TX('Add manufacturer manifest')} — ${TX('wired in the next build')}')">+ ${TX('Add')}</button></div><span class="gcfg-hint">${TX('One API config file per polled manufacturer at this site.')}</span></div>`+
+    field('git_nm_snmp',`${TX('SNMP manifest')} <span class="git-arr-tag">normalizerSnmpCfgArray</span>`,'_normalizerSnmpCfg.yaml')+
+    field('git_nm_cli',`${TX('CLI manifest')} <span class="git-arr-tag">normalizerCliCfgArray</span>`,'_normalizerCliCfg.yaml'));
+
+  const ev = card('Events Director','eventsDirector',
+    tokField('git_ev_tok','${EVENTSDIRECTOR_REPO_TOKEN}')+
+    field('git_ev_uri',TX('Repo config URI'),'eventsDirectorCFG/')+
+    field('git_ev_file',TX('Config file name'),'_eventsDirector_RuleSetConfig.yaml')+
+    `<div class="gcfg-field"><label for="git_ev_poll">${TX('Poll interval')} <span class="git-arr-tag">seconds</span></label><div class="gcfg-iwrap"><input id="git_ev_poll" class="tm-input mono" value="30"></div><span class="gcfg-hint">${TX('How often this service pulls its rule set from GitHub.')}</span></div>`);
+
+  const note=`<div class="cfg-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>${TX('The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.')}</div>`;
+  const actions=`<div class="gcfg-actions" style="padding:2px 2px 6px"><button class="btn" onclick="renderCfgMgr()">${TX('Reset')}</button><button class="btn primary" onclick="toast('${TX('GitOps repository settings saved')}')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button></div>`;
+  return `<div class="gcfg">${note}${vcol}${norm}${ev}${actions}</div>`;
+}
+
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
   const scope=tenantScope(), isAll=scope==='all';
@@ -8511,6 +8674,8 @@ function renderCfgMgr(){
     body=cfgUbuntuForm(cfgMgrColl);
   } else if(cfgSubPage==='databases'){
     body=cfgDbForm(cfgMgrColl);
+  } else if(cfgSubPage==='gitops'){
+    body=cfgGitOpsForm(cfgMgrColl);
   } else if(cfgSubPage==='normalizer'){
     const mans=files.filter(f=>f.cat==='normalizer');
     const cards=mans.map(f=>cfgManCard(f,cfgMgrColl)).join('');
