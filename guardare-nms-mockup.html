@@ -5394,7 +5394,9 @@ const I18N={
   "HuduSync":"HuduSync",
   "Events Director":"Events Director",
   "How often this service pulls its config from GitHub.":"Con quale frequenza questo servizio scarica la configurazione da GitHub.",
-  "All customers":"Tutti i clienti"
+  "All customers":"Tutti i clienti",
+  "Select a Tenant Customer":"Seleziona un cliente tenant",
+  "MSP Organization Details":"Dettagli organizzazione MSP"
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -5715,7 +5717,9 @@ const I18N={
   "HuduSync":"HuduSync",
   "Events Director":"Events Director",
   "How often this service pulls its config from GitHub.":"Fréquence à laquelle ce service récupère sa config depuis GitHub.",
-  "All customers":"Tous les clients"
+  "All customers":"Tous les clients",
+  "Select a Tenant Customer":"Sélectionner un client tenant",
+  "MSP Organization Details":"Détails de l'organisation MSP"
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -6036,7 +6040,9 @@ const I18N={
   "HuduSync":"HuduSync",
   "Events Director":"Events Director",
   "How often this service pulls its config from GitHub.":"Con qué frecuencia este servicio descarga su configuración desde GitHub.",
-  "All customers":"Todos los clientes"
+  "All customers":"Todos los clientes",
+  "Select a Tenant Customer":"Selecciona un cliente tenant",
+  "MSP Organization Details":"Detalles de la organización MSP"
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -6358,7 +6364,9 @@ const I18N={
   "HuduSync":"HuduSync",
   "Events Director":"Events Director",
   "How often this service pulls its config from GitHub.":"Com que frequência este serviço obtém a sua config do GitHub.",
-  "All customers":"Todos os clientes"
+  "All customers":"Todos os clientes",
+  "Select a Tenant Customer":"Selecione um cliente tenant",
+  "MSP Organization Details":"Detalhes da organização MSP"
  },
  ja:{
   "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
@@ -6678,7 +6686,9 @@ const I18N={
   "HuduSync":"HuduSync",
   "Events Director":"Events Director",
   "How often this service pulls its config from GitHub.":"このサービスが GitHub から設定を取得する頻度。",
-  "All customers":"すべての顧客"
+  "All customers":"すべての顧客",
+  "Select a Tenant Customer":"テナント顧客を選択",
+  "MSP Organization Details":"MSP組織の詳細"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -8633,7 +8643,7 @@ function tcfgBody(){
     return `<div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic">${'<svg viewBox=\"0 0 24 24\"><path d=\"M3 21V8l9-5 9 5v13\"/><path d=\"M9 21v-6h6v6\"/></svg>'}</span>
-        <div class="gcfg-ctext"><h3>${TX('Select a customer')}</h3><p>${TX('Pick a customer to view and edit its configuration — or use the tenant switcher in the top bar.')}</p></div>
+        <div class="gcfg-ctext"><h3>${TX('Select a Tenant Customer')}</h3><p>${TX('Pick a customer to view and edit its configuration — or use the tenant switcher in the top bar.')}</p></div>
       </div>
       <div class="tcfg-pickgrid">${chips}</div>
     </div>`;
@@ -8680,7 +8690,6 @@ function accountModelCard(){
         </div>
         <div class="tcfg-modelnote">${single?TX('All collectors belong to one customer record. Tenant scoping is hidden across the console.')
           :TX('Each customer is a tenant with its own collectors, users and dashboards.')}</div>
-        <div class="acct-modelwarn">${warnIc}<span>${TX('Switching this remodels the console — navigation labels, tenant scoping and available screens all adapt to the selected mode.')}</span></div>
       </div>
     </div>`;
 }
@@ -8734,7 +8743,7 @@ function renderAccount(){
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic">${bldgIc}</span>
-        <div class="gcfg-ctext"><h3>${TX('Organization')}</h3><p>${TX('The company that owns and operates this Guardare console.')}</p></div>
+        <div class="gcfg-ctext"><h3>${TX('MSP Organization Details')}</h3><p>${TX('The company that owns and operates this Guardare console.')}</p></div>
         <span class="cfg-scope-pill">${TX('Owner account')}</span>
       </div>
       <div class="gcfg-grid">
