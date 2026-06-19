@@ -5396,7 +5396,8 @@ const I18N={
   "How often this service pulls its config from GitHub.":"Con quale frequenza questo servizio scarica la configurazione da GitHub.",
   "All customers":"Tutti i clienti",
   "Select a Tenant Customer":"Seleziona un cliente tenant",
-  "MSP Organization Details":"Dettagli organizzazione MSP"
+  "MSP Organization Details":"Dettagli organizzazione MSP",
+  "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -5719,7 +5720,8 @@ const I18N={
   "How often this service pulls its config from GitHub.":"Fréquence à laquelle ce service récupère sa config depuis GitHub.",
   "All customers":"Tous les clients",
   "Select a Tenant Customer":"Sélectionner un client tenant",
-  "MSP Organization Details":"Détails de l'organisation MSP"
+  "MSP Organization Details":"Détails de l'organisation MSP",
+  "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -6042,7 +6044,8 @@ const I18N={
   "How often this service pulls its config from GitHub.":"Con qué frecuencia este servicio descarga su configuración desde GitHub.",
   "All customers":"Todos los clientes",
   "Select a Tenant Customer":"Selecciona un cliente tenant",
-  "MSP Organization Details":"Detalles de la organización MSP"
+  "MSP Organization Details":"Detalles de la organización MSP",
+  "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -6366,7 +6369,8 @@ const I18N={
   "How often this service pulls its config from GitHub.":"Com que frequência este serviço obtém a sua config do GitHub.",
   "All customers":"Todos os clientes",
   "Select a Tenant Customer":"Selecione um cliente tenant",
-  "MSP Organization Details":"Detalhes da organização MSP"
+  "MSP Organization Details":"Detalhes da organização MSP",
+  "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{
   "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
@@ -6688,7 +6692,8 @@ const I18N={
   "How often this service pulls its config from GitHub.":"このサービスが GitHub から設定を取得する頻度。",
   "All customers":"すべての顧客",
   "Select a Tenant Customer":"テナント顧客を選択",
-  "MSP Organization Details":"MSP組織の詳細"
+  "MSP Organization Details":"MSP組織の詳細",
+  "Enterprise Organization Details":"エンタープライズ組織の詳細"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -8743,7 +8748,7 @@ function renderAccount(){
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic">${bldgIc}</span>
-        <div class="gcfg-ctext"><h3>${TX('MSP Organization Details')}</h3><p>${TX('The company that owns and operates this Guardare console.')}</p></div>
+        <div class="gcfg-ctext"><h3>${TX(MSP_DEPLOYMENT==='single'?'Enterprise Organization Details':'MSP Organization Details')}</h3><p>${TX('The company that owns and operates this Guardare console.')}</p></div>
         <span class="cfg-scope-pill">${TX('Owner account')}</span>
       </div>
       <div class="gcfg-grid">
