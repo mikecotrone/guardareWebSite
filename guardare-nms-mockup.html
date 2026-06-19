@@ -83,6 +83,14 @@
   .tenant-switch .dot{width:7px;height:7px;border-radius:99px;background:var(--teal);box-shadow:0 0 9px var(--teal)}
   .tenant-switch svg{opacity:.5}
   .tenant-switch small{color:var(--mute);font-size:11px}
+  /* ----- resizable table columns ----- */
+  table.resizable{table-layout:fixed}
+  table.resizable th{position:relative}
+  table.resizable td{overflow:hidden;text-overflow:ellipsis}
+  .col-resize{position:absolute;top:0;right:-4px;width:9px;height:100%;cursor:col-resize;z-index:3;touch-action:none}
+  .col-resize::after{content:"";position:absolute;top:24%;right:4px;height:52%;width:2px;background:var(--line);border-radius:2px;opacity:0;transition:.15s}
+  .col-resize:hover::after,.col-resize.drag::after{opacity:1;background:var(--teal)}
+  body.col-resizing,body.col-resizing *{cursor:col-resize!important;user-select:none!important}
   /* ----- Platform / Estate plane switcher ----- */
   .plane-switch{display:flex;align-items:stretch;background:var(--bg-2);border:1px solid var(--line);border-radius:11px;padding:3px;margin-left:2px;flex:none}
   .plane-seg{display:flex;align-items:center;gap:8px;padding:5px 12px;border:0;background:transparent;border-radius:8px;cursor:pointer;color:var(--dim);font-family:inherit;transition:.15s;white-space:nowrap}
@@ -1434,7 +1442,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.158.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.159.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -1518,7 +1526,7 @@
               <g class="region-layer" id="blips-na-A"><g class="blip" data-site="New York" data-coll="site-01" data-tenant="acme-corp" data-status="online"><circle cx="238.1" cy="143.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="238.1" cy="143.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Toronto" data-coll="site-02" data-tenant="acme-corp" data-status="online"><circle cx="218.3" cy="136.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="218.3" cy="136.1" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Chicago" data-coll="site-03" data-tenant="acme-corp" data-status="online"><circle cx="195.3" cy="150.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="195.3" cy="150.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Boston" data-coll="site-05" data-tenant="acme-corp" data-status="online"><circle cx="243.5" cy="132.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="243.5" cy="132.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Atlanta" data-coll="site-06" data-tenant="acme-corp" data-status="online"><circle cx="212.8" cy="185.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="212.8" cy="185.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Denver" data-coll="site-08" data-tenant="acme-corp" data-status="online"><circle cx="138.6" cy="163.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="138.6" cy="163.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Seattle" data-coll="site-10" data-tenant="acme-corp" data-status="online"><circle cx="95.2" cy="115.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="95.2" cy="115.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dallas" data-coll="site-04" data-tenant="acme-corp" data-status="warn"><circle cx="167.3" cy="196.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="167.3" cy="196.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Phoenix" data-coll="site-09" data-tenant="acme-corp" data-status="crit"><circle cx="110.4" cy="188.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="110.4" cy="188.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Miami" data-coll="site-07" data-tenant="acme-corp" data-status="offline"><circle cx="234.8" cy="215.5" r="6" fill="#54707688"/><circle cx="234.8" cy="215.5" r="3" fill="#547076"/></g></g>
               <g class="region-layer" id="blips-eu-A" style="opacity:0"><g class="blip" data-site="London" data-coll="eu-01" data-tenant="acme-corp" data-status="online"><circle cx="127.3" cy="121.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="127.3" cy="121.0" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Manchester" data-coll="eu-02" data-tenant="acme-corp" data-status="online"><circle cx="115.5" cy="98.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="115.5" cy="98.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dublin" data-coll="eu-03" data-tenant="acme-corp" data-status="online"><circle cx="89.7" cy="96.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="89.7" cy="96.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Paris" data-coll="eu-04" data-tenant="acme-corp" data-status="online"><circle cx="142.7" cy="150.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="142.7" cy="150.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Amsterdam" data-coll="eu-05" data-tenant="acme-corp" data-status="online"><circle cx="161.4" cy="113.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="161.4" cy="113.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Frankfurt" data-coll="eu-06" data-tenant="acme-corp" data-status="warn"><circle cx="187.3" cy="137.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="187.3" cy="137.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Milan" data-coll="eu-07" data-tenant="acme-corp" data-status="online"><circle cx="192.8" cy="186.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="192.8" cy="186.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Madrid" data-coll="eu-08" data-tenant="acme-corp" data-status="crit"><circle cx="89.6" cy="235.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="89.6" cy="235.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Warsaw" data-coll="eu-09" data-tenant="acme-corp" data-status="offline"><circle cx="246.8" cy="108.7" r="6" fill="#54707688"/><circle cx="246.8" cy="108.7" r="3" fill="#547076"/></g></g>
               <g class="region-layer" id="blips-nc-A" style="opacity:0"><g class="blip" data-site="Charlotte" data-coll="clt-01" data-tenant="piedmont" data-status="online"><circle cx="144.0" cy="162.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="144.0" cy="162.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Raleigh" data-coll="ral-01" data-tenant="piedmont" data-status="online"><circle cx="197.4" cy="145.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="197.4" cy="145.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Greensboro" data-coll="gso-01" data-tenant="piedmont" data-status="online"><circle cx="169.4" cy="137.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="169.4" cy="137.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Asheville" data-coll="avl-01" data-tenant="piedmont" data-status="warn"><circle cx="102.6" cy="151.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="102.6" cy="151.1" r="4" fill="#F6B53F"/></g></g>
-                          <g class="region-layer" id="blips-sa-A" style="opacity:0"><g class="blip" data-site="São Paulo" data-coll="sao-01" data-tenant="atlantico" data-status="online"><circle cx="198.0" cy="209.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="198.0" cy="209.4" r="3.5" fill="#41D98A"/></g></g>
+                          <g class="region-layer" id="blips-sa-A" style="opacity:0"><g class="blip" data-site="São Paulo" data-coll="sao-01" data-tenant="atlantico" data-status="online"><circle cx="198.0" cy="209.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="198.0" cy="209.4" r="3.5" fill="#41D98A"/></g></g><g class="region-layer" id="blips-rome-A" style="opacity:0"><g class="blip" data-site="DC01 · Roma" data-coll="dc01" data-tenant="roma" data-status="online"><circle cx="145.8" cy="133.7" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="145.8" cy="133.7" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="DC02 · Fiumicino" data-coll="dc02" data-tenant="roma" data-status="online"><circle cx="113.5" cy="155.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="113.5" cy="155.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Tivoli" data-coll="" data-tenant="roma" data-status="site"><circle cx="183.6" cy="124.1" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="183.6" cy="124.1" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Frascati" data-coll="" data-tenant="roma" data-status="site"><circle cx="168.4" cy="149.6" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="168.4" cy="149.6" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Guidonia Montecelio" data-coll="" data-tenant="roma" data-status="site"><circle cx="174.3" cy="118.5" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="174.3" cy="118.5" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Pomezia" data-coll="" data-tenant="roma" data-status="site"><circle cx="146.4" cy="173.0" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="146.4" cy="173.0" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Velletri" data-coll="" data-tenant="roma" data-status="site"><circle cx="181.1" cy="170.0" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="181.1" cy="170.0" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Civitavecchia" data-coll="" data-tenant="roma" data-status="site"><circle cx="58.0" cy="101.8" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="58.0" cy="101.8" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Anzio" data-coll="" data-tenant="roma" data-status="site"><circle cx="162.4" cy="210.3" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="162.4" cy="210.3" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Albano Laziale" data-coll="" data-tenant="roma" data-status="site"><circle cx="166.4" cy="163.1" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="166.4" cy="163.1" r="2.6" fill="#94A2FF"/></g></g>
             </svg>
           </div>
           <div class="radar-caption">
@@ -5145,6 +5153,8 @@ snmp_field_mapping:
 let lang='en';
 const I18N={
  it:{
+  'Site ID':'ID sito',
+  'collector sites and Vista monitoring sites':'siti dei collector e siti di monitoraggio Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Questo è Guardare Vista — l\'osservabilità a livello di dispositivo per questo ambiente arriverà in una versione futura.',
   'The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.':'Il Collector Guardare gira come questi quattro microservizi — il livello Guardare Vista dipende da essi.',
   'Central tenant store used by Guardare Core.':'Archivio centrale dei tenant usato da Guardare Core.',
@@ -5487,6 +5497,8 @@ const I18N={
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{
+  'Site ID':'ID du site',
+  'collector sites and Vista monitoring sites':'sites des collecteurs et sites de supervision Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Ceci est Guardare Vista — l\'observabilité au niveau des appareils pour ce parc arrivera dans une version ultérieure.',
   'The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.':'Le collecteur Guardare s\'exécute sous forme de ces quatre microservices — la couche Guardare Vista en dépend.',
   'Central tenant store used by Guardare Core.':'Magasin central des tenants utilisé par Guardare Core.',
@@ -5829,6 +5841,8 @@ const I18N={
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{
+  'Site ID':'ID del sitio',
+  'collector sites and Vista monitoring sites':'sitios de colectores y sitios de monitorización Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Esto es Guardare Vista — la observabilidad a nivel de dispositivo para este entorno llegará en una versión posterior.',
   'The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.':'El recopilador Guardare se ejecuta como estos cuatro microservicios — la capa Guardare Vista depende de ellos.',
   'Central tenant store used by Guardare Core.':'Almacén central de inquilinos usado por Guardare Core.',
@@ -6171,6 +6185,8 @@ const I18N={
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{
+  'Site ID':'ID do site',
+  'collector sites and Vista monitoring sites':'sites de coletores e sites de monitorização Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Isto é o Guardare Vista — a observabilidade ao nível do dispositivo para este ambiente chegará numa versão futura.',
   'The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.':'O coletor Guardare é executado como estes quatro microsserviços — a camada Guardare Vista depende deles.',
   'Central tenant store used by Guardare Core.':'Repositório central de inquilinos usado pelo Guardare Core.',
@@ -6514,6 +6530,8 @@ const I18N={
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{
+  'Site ID':'サイトID',
+  'collector sites and Vista monitoring sites':'コレクターサイトと Vista 監視サイト',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'これは Guardare Vista です — この環境のデバイスレベルのオブザーバビリティは今後のビルドで対応します。',
   'The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.':'Guardare コレクターはこれら4つのマイクロサービスとして動作します — Guardare Vista レイヤーはこれらに依存します。',
   'Central tenant store used by Guardare Core.':'Guardare Core が使用するテナント中央ストア。',
@@ -6912,7 +6930,7 @@ const tenantName = {
 };
 function tnInit(s){return s.slice(0,2).toUpperCase();}
 
-const statusLabel={online:'Online',warn:'Degraded',crit:'Critical',offline:'Offline'};
+const statusLabel={online:'Online',warn:'Degraded',crit:'Critical',offline:'Offline',site:'Vista site'};
 const statusClass={online:'s-online',warn:'s-warn',crit:'s-crit',offline:'s-offline'};
 
 const acmeNodes = [
@@ -6933,10 +6951,6 @@ const atlanticoNodes = [
 ];
 const romaNodes = [
   ['dc01','roma','online',24,477],['dc02','roma','online',15,775],
-  ['tivoli-01','roma','online',55,446],['frascati-01','roma','online',33,322],
-  ['guidonia-01','roma','offline',0,0],['pomezia-01','roma','online',11,315],
-  ['velletri-01','roma','online',14,748],['civitavecchia-01','roma','online',30,437],
-  ['anzio-01','roma','online',34,828],['albano-01','roma','online',10,795],
 ];
 
 /* per-tenant context: regions drive the radar, locations drive the pins */
@@ -6959,6 +6973,19 @@ const TENANTS = {
   'atlantico':{ name:'Atlântico Telecom', sites:1, regions:['sa'], nodes:atlanticoNodes, consoleSite:'atlantico:sao-01',
     locations:[
       ['São Paulo NOC','sao-01','São Paulo, BR',-23.5505,-46.6333,'online'],
+    ]},
+  'roma':{ name:'La città di Roma', sites:10, regions:['rome'], nodes:romaNodes, consoleSite:'roma:dc01',
+    locations:[
+      ['DC01 — Primary','dc01','Roma, RM',41.9028,12.4964,'online'],
+      ['DC02 — Secondary','dc02','Fiumicino, RM',41.7714,12.2389,'online'],
+      ['Tivoli','tivoli-01','Tivoli, RM',41.95972,12.79806,'site'],
+      ['Frascati','frascati-01','Frascati, RM',41.8085,12.6761,'site'],
+      ['Guidonia Montecelio','guidonia-01','Guidonia Montecelio, RM',41.9931,12.7236,'site'],
+      ['Pomezia','pomezia-01','Pomezia, RM',41.6692,12.5012,'site'],
+      ['Velletri','velletri-01','Velletri, RM',41.6869,12.7775,'site'],
+      ['Civitavecchia','civitavecchia-01','Civitavecchia, RM',42.0925,11.7958,'site'],
+      ['Anzio','anzio-01','Anzio, RM',41.4475,12.6283,'site'],
+      ['Albano Laziale','albano-01','Albano Laziale, RM',41.7283,12.6608,'site'],
     ]},
 };
 let currentTenant='all';
@@ -6983,9 +7010,6 @@ const fleetRows = [
   ['sao-01','atlantico','online','1s ago',44,851,'d5a1f08'],
   ['dc01','roma','online','1s ago',24,477,'e1c47a9'],
   ['dc02','roma','online','5s ago',15,775,'e1c47a9'],
-  ['tivoli-01','roma','online','4s ago',55,446,'e1c47a9'],
-  ['civitavecchia-01','roma','online','3s ago',30,437,'e1c47a9'],
-  ['frascati-01','roma','online','2s ago',33,322,'e1c47a9'],
 ];
 
 const alerts = [
@@ -7170,7 +7194,7 @@ const TENANT_DIR = [
   {slug:'betacorp',  plan:'Growth',     status:'active', col:7,  online:7,  max:15, sites:7,  regions:['NA'],      mrr:1900, since:'Aug 2024'},
   {slug:'piedmont',  plan:'Growth',     status:'active', col:4,  online:4,  max:10, sites:4,  regions:['NC'],      mrr:1600, since:'Nov 2024'},
   {slug:'atlantico', plan:'Starter',    status:'trial',  col:1,  online:1,  max:5,  sites:1,  regions:['SA'],      mrr:0,    since:'May 2026'},
-  {slug:'roma',      plan:'Enterprise', status:'active', col:10, online:9, max:20, sites:10, regions:['EU'],      mrr:7400, since:'Jun 2026'},
+  {slug:'roma',      plan:'Enterprise', status:'active', col:2,  online:2, max:20, sites:10, regions:['rome'],    mrr:7400, since:'Jun 2026'},
 ];
 const tntStatusLabel={active:'Active',trial:'Trial',suspended:'Suspended'};
 function tntMoney(n){ return '$'+n.toLocaleString('en-US'); }
@@ -7347,10 +7371,36 @@ function tenantLocations(slug){
 }
 /* locations for the Locations screen, scoped to the selected tenant (or every tenant when 'all') */
 function locationRows(){
+  /* global site registry for Core (collectors) and Vista — decoupled from live collectors */
   const scope=currentTenantCtx||currentTenant, out=[];
-  const add=slug=>collectorsForTenant(slug).forEach(c=>{ const m=siteOf(slug,c.id); out.push({tenant:slug,coll:c.id,status:c.status,name:m.name,city:m.city,lat:m.lat,lng:m.lng}); });
-  if(scope==='all') TENANT_DIR.forEach(t=>add(t.slug)); else add(scope);
+  Object.keys(COLLECTOR_SITES).forEach(k=>{
+    const i=k.indexOf(':'), t=k.slice(0,i), id=k.slice(i+1);
+    if(scope!=='all' && t!==scope) return;
+    const m=COLLECTOR_SITES[k];
+    out.push({tenant:t,id,name:m.name,city:m.city,lat:m.lat,lng:m.lng});
+  });
   return out;
+}
+function makeColsResizable(table){
+  if(!table) return;
+  const ths=[...table.querySelectorAll('thead th')];
+  if(!ths.length) return;
+  const w=ths.map(th=>th.offsetWidth);
+  table.style.tableLayout='fixed';
+  ths.forEach((th,i)=>{ th.style.width=w[i]+'px'; });
+  ths.forEach((th,i)=>{
+    if(i===ths.length-1) return;
+    const grip=document.createElement('span'); grip.className='col-resize';
+    grip.addEventListener('mousedown', e=>{
+      e.preventDefault(); e.stopPropagation();
+      const sx=e.clientX, sw=th.offsetWidth;
+      grip.classList.add('drag'); document.body.classList.add('col-resizing');
+      const move=ev=>{ th.style.width=Math.max(56, sw+(ev.clientX-sx))+'px'; };
+      const up=()=>{ document.removeEventListener('mousemove',move); document.removeEventListener('mouseup',up); grip.classList.remove('drag'); document.body.classList.remove('col-resizing'); };
+      document.addEventListener('mousemove',move); document.addEventListener('mouseup',up);
+    });
+    th.appendChild(grip);
+  });
 }
 /* deterministic hardware / virtual-server inventory per collector (stable across renders) */
 function hwInventory(slug,coll){
@@ -8037,17 +8087,14 @@ function renderAudit(){
 function renderConfig(){
   const list=locationRows();
   const oneTenant=(currentTenantCtx||currentTenant)!=='all';
-  const stMap={online:['s-online','Online'],warn:['s-warn','Degraded'],degraded:['s-warn','Degraded'],crit:['s-crit','Critical'],offline:['s-offline','Offline']};
   const rows=list.map(l=>{
-    const [sc,sl]=stMap[l.status]||stMap.online;
-    return `<tr data-loc="${l.tenant}:${l.coll}">
+    return `<tr data-loc="${l.tenant}:${l.id}">
       ${oneTenant?'':`<td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[l.tenant]||'var(--teal)'}">${tnInit(tenantName[l.tenant]||l.tenant)}</span>${tenantName[l.tenant]||l.tenant}</span></td>`}
       <td><input class="loc-input" value="${l.name}"></td>
-      <td class="cell-id">${l.coll}</td>
-      <td><input class="loc-input loc-addr-input" value="${_esc(l.city)}" autocomplete="off" spellcheck="false" placeholder="${TX('Search address…')}" oninput="locAddrInput('${l.tenant}:${l.coll}',this.value)" onfocus="locAddrInput('${l.tenant}:${l.coll}',this.value)" onblur="locAddrBlur()" onkeydown="if(event.key==='Escape')locAddrClose()"></td>
+      <td class="cell-id">${l.id}</td>
+      <td><input class="loc-input loc-addr-input" value="${_esc(l.city)}" autocomplete="off" spellcheck="false" placeholder="${TX('Search address…')}" oninput="locAddrInput('${l.tenant}:${l.id}',this.value)" onfocus="locAddrInput('${l.tenant}:${l.id}',this.value)" onblur="locAddrBlur()" onkeydown="if(event.key==='Escape')locAddrClose()"></td>
       <td class="r"><input class="loc-input loc-coord" value="${l.lat}"></td>
       <td class="r"><input class="loc-input loc-coord" value="${l.lng}"></td>
-      <td><span class="td-status ${sc}"><i></i>${TX(sl)}</span></td>
       <td class="r"><button class="loc-del" title="Remove" onclick="toast('Remove location — confirm in the next build')">&times;</button></td>
     </tr>`;
   }).join('');
@@ -8056,7 +8103,7 @@ function renderConfig(){
       <div>
         <div class="page-eyebrow">${TX('Configuration')}</div>
         <h1 class="page-title">${TX('Locations')}</h1>
-        <p class="page-sub">${list.length} ${TX('locations')} · ${TX('top-level sites plotted on the Fleet Radar')}</p>
+        <p class="page-sub">${list.length} ${TX('locations')} · ${TX('collector sites and Vista monitoring sites')}</p>
       </div>
       <div class="head-actions">
         <button class="btn" onclick="toast('Add location row — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add location')}</button>
@@ -8064,12 +8111,13 @@ function renderConfig(){
       </div>
     </div>
     <div class="panel" style="overflow-x:auto">
-      <table>
-        <thead><tr>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Location name')}</th><th>${TX('Collector')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th>${TX('Status')}</th><th></th></tr></thead>
+      <table id="locTable" class="resizable">
+        <thead><tr>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Location name')}</th><th>${TX('Site ID')}</th><th>${TX('City / Region')}</th><th class="r">${TX('Latitude')}</th><th class="r">${TX('Longitude')}</th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
     <div class="gcfg-addr-menu loc-addr-menu" id="locAddrMenu"></div>`;
+  makeColsResizable(document.getElementById('locTable'));
 }
 
 /* ---- Locations: address → lat/long via OpenStreetMap (Photon), offline fallback ---- */
@@ -8728,7 +8776,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.158.alpha';
+const APP_VERSION='v2026.02.159.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
@@ -10056,6 +10104,7 @@ const REGIONS={
   eu:{label:'Europe',online:6,total:9,cap:'collectors reporting across Europe · 1 critical · 1 degraded'},
   nc:{label:'North Carolina, USA',online:3,total:4,cap:'collectors reporting across North Carolina, USA · 1 degraded'},
   sa:{label:'São Paulo, Brazil',online:1,total:1,cap:'1 collector reporting from São Paulo, Brazil'},
+  rome:{label:'Roma',online:2,total:2,cap:'2 collectors reporting from the City of Rome'},
 };
 function _set(id,t){const e=document.getElementById(id);if(e)e.textContent=t;}
 /* collectors for the 4 tenants that lack baked radar blips — positioned by their real lat/lng,
@@ -10107,7 +10156,7 @@ function filterBlipsByTenant(){
   });
 }
 function applyRegion(S, rid){
-  ['na','eu','nc','sa'].forEach(r=>{
+  ['na','eu','nc','sa','rome'].forEach(r=>{
     const op=r===rid?'1':'0';
     const m=document.getElementById('map-'+r+'-'+S); if(m)m.style.opacity=op;
     const b=document.getElementById('blips-'+r+'-'+S); if(b){b.style.opacity=op; b.style.pointerEvents=(op==='1')?'auto':'none';}
@@ -10124,7 +10173,8 @@ function applyRegion(S, rid){
   let total=0, online=0, crit=0, degr=0, off=0;
   if(layer) layer.querySelectorAll('.blip').forEach(b=>{
     if(b.dataset.tenant!==scope) return;
-    total++; const st=b.dataset.status;
+    const st=b.dataset.status; if(st==='site') return;
+    total++;
     if(st==='online') online++; else if(st==='crit') crit++; else if(st==='warn') degr++; else if(st==='offline') off++;
   });
   _set('onlineCount-'+S,online); _set('totalCount-'+S,'/ '+total);
@@ -10159,7 +10209,7 @@ _mq.addEventListener('change',setupRadars);                  /* re-flow between 
 /* ---------- radar blip hover tooltips ---------- */
 (function(){
   const tip=document.getElementById('radarTip');
-  const stCol={online:'#41D98A',warn:'#F6B53F',crit:'#FF5D5D',offline:'#547076'};
+  const stCol={online:'#41D98A',warn:'#F6B53F',crit:'#FF5D5D',offline:'#547076',site:'#94A2FF'};
   /* only blips on the currently-active (non-faded, visible) region layer respond — a faded
      layer's blips can sit on top of another region's dots and report the wrong site/tenant */
   function blipActive(b){
@@ -10171,7 +10221,7 @@ _mq.addEventListener('change',setupRadars);                  /* re-flow between 
   function show(b){
     const st=b.dataset.status;
     tip.innerHTML=`<div class="rt-site">${b.dataset.site}</div>
-      <div class="rt-meta"><span class="rt-dot" style="background:${stCol[st]}"></span>${TX(statusLabel[st])} · <code>${b.dataset.coll}</code></div>
+      <div class="rt-meta"><span class="rt-dot" style="background:${stCol[st]}"></span>${TX(statusLabel[st]||'')}${b.dataset.coll?' · <code>'+b.dataset.coll+'</code>':''}</div>
       <div class="rt-ten"><span class="tn-avatar" style="background:${tenantColors[b.dataset.tenant]}">${tnInit(b.dataset.tenant)}</span>${tenantName[b.dataset.tenant]}</div>`;
     tip.classList.add('show');
     radarHover=true;                                   // freeze region rotation while inspecting
