@@ -94,6 +94,8 @@
   body.col-resizing,body.col-resizing *{cursor:col-resize!important;user-select:none!important}
   /* ----- Platform / Estate plane switcher ----- */
   .plane-switch{display:flex;align-items:stretch;background:var(--bg-2);border:1px solid var(--line);border-radius:11px;padding:3px;margin-left:2px;flex:none}
+  .sidebar .plane-switch{flex-direction:column;margin:0 0 16px;padding:4px;gap:3px}
+  .sidebar .plane-seg{width:100%;justify-content:flex-start}
   .plane-seg{display:flex;align-items:center;gap:8px;padding:5px 12px;border:0;background:transparent;border-radius:8px;cursor:pointer;color:var(--dim);font-family:inherit;transition:.15s;white-space:nowrap}
   .plane-seg svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none;opacity:.8}
   .plane-seg .ps-l{display:flex;flex-direction:column;line-height:1.04;text-align:left}
@@ -918,7 +920,7 @@
   .tnt-status{flex:0 0 auto;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
     padding:4px 9px 4px 8px;border-radius:99px;display:inline-flex;align-items:center;gap:6px}
   .tnt-status::before{content:"";width:6px;height:6px;border-radius:99px;background:currentColor;box-shadow:0 0 7px currentColor}
-  .st-active{color:var(--green);background:#0e2a1c} .st-trial{color:var(--amber);background:#2c2410} .st-suspended{color:var(--red);background:#2c1414}
+  .st-active{color:var(--green);background:#0e2a1c} .st-trial{color:var(--amber);background:#2c2410} .st-suspended{color:var(--amber);background:#2c2410}
   .tnt-planrow{display:flex;align-items:center;justify-content:space-between}
   .tnt-plan{font-size:10.5px;font-weight:600;letter-spacing:.03em;padding:3px 9px;border-radius:6px;border:1px solid}
   .plan-Enterprise{color:var(--violet);border-color:#2b3270;background:#161b39}
@@ -930,7 +932,9 @@
   .tnt-usage-top b{color:var(--text);font-weight:600}
   .tnt-bar{height:6px;border-radius:99px;background:#0a1a1f;overflow:hidden}
   .tnt-bar i{display:block;height:100%;border-radius:99px;transition:width .4s ease}
-  .tnt-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--line-soft);padding-top:13px}
+  .tnt-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 10px;border-top:1px solid var(--line-soft);padding-top:13px}
+  .tnt-stat-link{cursor:pointer;border-radius:7px;margin:-4px;padding:4px;transition:.13s}
+  .tnt-stat-link:hover{background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
   .tnt-stats>div{display:flex;flex-direction:column;gap:4px}
   .tnt-stats .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
   .tnt-stats .v{font-family:"Open Sans";font-size:16px;font-weight:600;line-height:1}
@@ -1317,17 +1321,6 @@
       <span class="brand-org"><span id="brandOrg">VISTATECH</span><b id="brandMode">MSP</b></span>
     </div>
 
-    <div class="plane-switch" role="tablist" aria-label="System context">
-      <button class="plane-seg active" data-plane="platform" role="tab" onclick="setSysPlane('platform')" title="Guardare Core — manage and monitor the Guardare platform itself">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        <span class="ps-l"><b data-i18n="Platform">Platform</b><i>Guardare Core</i></span>
-      </button>
-      <button class="plane-seg" data-plane="estate" role="tab" onclick="setSysPlane('estate')" title="Guardare Vista — observe the customer network &amp; systems estate">
-        <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="ps-l"><b data-i18n="Estate">Estate</b><i>Guardare Vista</i></span>
-      </button>
-    </div>
-
     <div class="tenant-wrap">
       <button class="tenant-switch" id="tenantBtn">
         <span class="dot"></span>
@@ -1389,6 +1382,16 @@
 
   <!-- SIDEBAR -->
   <nav class="sidebar">
+    <div class="plane-switch" role="tablist" aria-label="System context">
+      <button class="plane-seg active" data-plane="platform" role="tab" onclick="setSysPlane('platform')" title="Guardare Core — manage and monitor the Guardare platform itself">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span class="ps-l"><b data-i18n="Platform">Platform</b><i>Guardare Core</i></span>
+      </button>
+      <button class="plane-seg" data-plane="estate" role="tab" onclick="setSysPlane('estate')" title="Guardare Vista — observe the customer network &amp; systems estate">
+        <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="ps-l"><b data-i18n="Estate">Estate</b><i>Guardare Vista</i></span>
+      </button>
+    </div>
     <div class="nav-group" data-i18n="Operations">Operations</div>
     <button class="nav-item active" data-screen="dashboard">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
@@ -1443,7 +1446,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.160.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.161.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5044,6 +5047,17 @@ snmp_field_mapping:
   </div>
 </div>
 
+<div class="modal-backdrop" id="suspendModal" onclick="if(event.target.id==='suspendModal')closeSuspendModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="suspendTitle">
+    <div class="modal-ic warn"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+    <h3 class="modal-title" id="suspendTitle" data-i18n="Suspend this tenant?">Suspend this tenant?</h3>
+    <p class="modal-text">You're about to suspend <b class="mono" id="suspendTarget">tenant</b>. Collectors stay deployed and keep buffering locally, but the tenant is marked <b>Suspended</b> and excluded from active billing until you reactivate it.</p>
+    <div class="modal-acts">
+      <button class="btn" onclick="closeSuspendModal()" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn danger" onclick="confirmSuspend()"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span data-i18n="Yes, suspend">Yes, suspend</span></button>
+    </div>
+  </div>
+</div>
 <div class="modal-backdrop" id="diagModal" onclick="diagBackdrop(event)">
   <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="diagTitle">
     <div class="modal-ic info"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
@@ -5154,6 +5168,14 @@ snmp_field_mapping:
 let lang='en';
 const I18N={
  it:{
+  'suspended':'sospeso',
+  'reactivated':'riattivato',
+  'Suspend tenant':'Sospendi tenant',
+  'Reactivate tenant':'Riattiva tenant',
+  'Suspend this tenant?':'Sospendere questo tenant?',
+  'Yes, suspend':'Sì, sospendi',
+  'Open location configuration':'Apri configurazione sedi',
+  'Open Fleet Management':'Apri Gestione flotta',
   'Site ID':'ID sito',
   'collector sites and Vista monitoring sites':'siti dei collector e siti di monitoraggio Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Questo è Guardare Vista — l\'osservabilità a livello di dispositivo per questo ambiente arriverà in una versione futura.',
@@ -5498,6 +5520,14 @@ const I18N={
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{
+  'suspended':'suspendu',
+  'reactivated':'réactivé',
+  'Suspend tenant':'Suspendre le locataire',
+  'Reactivate tenant':'Réactiver le locataire',
+  'Suspend this tenant?':'Suspendre ce locataire ?',
+  'Yes, suspend':'Oui, suspendre',
+  'Open location configuration':'Ouvrir la configuration des sites',
+  'Open Fleet Management':'Ouvrir la gestion de flotte',
   'Site ID':'ID du site',
   'collector sites and Vista monitoring sites':'sites des collecteurs et sites de supervision Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Ceci est Guardare Vista — l\'observabilité au niveau des appareils pour ce parc arrivera dans une version ultérieure.',
@@ -5842,6 +5872,14 @@ const I18N={
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{
+  'suspended':'suspendido',
+  'reactivated':'reactivado',
+  'Suspend tenant':'Suspender inquilino',
+  'Reactivate tenant':'Reactivar inquilino',
+  'Suspend this tenant?':'¿Suspender este inquilino?',
+  'Yes, suspend':'Sí, suspender',
+  'Open location configuration':'Abrir configuración de ubicaciones',
+  'Open Fleet Management':'Abrir gestión de flota',
   'Site ID':'ID del sitio',
   'collector sites and Vista monitoring sites':'sitios de colectores y sitios de monitorización Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Esto es Guardare Vista — la observabilidad a nivel de dispositivo para este entorno llegará en una versión posterior.',
@@ -6186,6 +6224,14 @@ const I18N={
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{
+  'suspended':'suspenso',
+  'reactivated':'reativado',
+  'Suspend tenant':'Suspender inquilino',
+  'Reactivate tenant':'Reativar inquilino',
+  'Suspend this tenant?':'Suspender este inquilino?',
+  'Yes, suspend':'Sim, suspender',
+  'Open location configuration':'Abrir configuração de locais',
+  'Open Fleet Management':'Abrir gestão de frota',
   'Site ID':'ID do site',
   'collector sites and Vista monitoring sites':'sites de coletores e sites de monitorização Vista',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'Isto é o Guardare Vista — a observabilidade ao nível do dispositivo para este ambiente chegará numa versão futura.',
@@ -6531,6 +6577,14 @@ const I18N={
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{
+  'suspended':'停止中',
+  'reactivated':'再有効化',
+  'Suspend tenant':'テナントを停止',
+  'Reactivate tenant':'テナントを再有効化',
+  'Suspend this tenant?':'このテナントを停止しますか？',
+  'Yes, suspend':'はい、停止します',
+  'Open location configuration':'ロケーション設定を開く',
+  'Open Fleet Management':'フリート管理を開く',
   'Site ID':'サイトID',
   'collector sites and Vista monitoring sites':'コレクターサイトと Vista 監視サイト',
   'This is Guardare Vista — device-level observability for this estate is coming in a later build.':'これは Guardare Vista です — この環境のデバイスレベルのオブザーバビリティは今後のビルドで対応します。',
@@ -7217,11 +7271,6 @@ function renderTenants(){
         <h1 class="page-title" data-i18n="Tenant Management">${TX('Tenant Management')}</h1>
         <p class="page-sub" data-i18n="Create, suspend, and configure customer organizations.">${TX('Create, suspend, and configure customer organizations.')}</p>
       </div>
-      <div class="head-actions">
-        <button class="btn primary" onclick="toast('${TX('Add a tenant')} — wired in the next build pass')">
-          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="Add a tenant">${TX('Add a tenant')}</span>
-        </button>
-      </div>
     </div>
 
     <div class="stat-grid stat-strip">
@@ -7283,7 +7332,8 @@ function tntCard(t){
         <div class="tnt-bar"><i style="width:${usage}%;background:${usageColor}"></i></div>
       </div>
       <div class="tnt-stats">
-        <div><span class="k">Sites</span><span class="v">${t.sites}</span></div>
+        <div class="tnt-stat-link" title="${TX('Open location configuration')}" onclick="event.stopPropagation();openTenantLocations('${t.slug}')"><span class="k">Locations</span><span class="v">${tenantLocCount(t.slug)}</span></div>
+        <div class="tnt-stat-link" title="${TX('Open Fleet Management')}" onclick="event.stopPropagation();openTenantFleet('${t.slug}')"><span class="k">Collectors</span><span class="v">${t.col}</span></div>
         <div><span class="k">Online</span><span class="v">${onPct}%</span></div>
         <div><span class="k">Alerts</span><span class="v ${alClass}">${al}</span></div>
       </div>
@@ -8781,7 +8831,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.160.alpha';
+const APP_VERSION='v2026.02.161.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -8835,8 +8885,17 @@ function applyDeploymentMode(){
   if(single && (navHighlight==='tenants'||navHighlight==='tenantcfg')) go('dashboard');
 }
 function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; MSP_DEPLOYMENT=m; applyDeploymentMode(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Enterprise Customer'):TX('MSP Customer'))); }
-function tcfgPickTenant(slug){ switchTenant(slug); if(typeof renderAccount==='function') renderAccount(); go('account'); }
-function tcfgBackToAll(){ switchTenant('all'); if(typeof renderAccount==='function') renderAccount(); go('account'); }
+let acctTenant=null;
+function tenantLocCount(slug){ const n=Object.keys(COLLECTOR_SITES).filter(k=>k.indexOf(slug+':')===0).length; const d=TENANT_DIR.find(t=>t.slug===slug); return n||(d?d.sites:0); }
+function openTenantLocations(slug){ switchTenant(slug); go('config'); }
+function openTenantFleet(slug){ switchTenant(slug); go('fleet'); }
+let suspendTarget=null;
+function openSuspendModal(slug){ suspendTarget=slug; const e=document.getElementById('suspendTarget'); if(e)e.textContent=(tenantName[slug]||slug); document.getElementById('suspendModal').classList.add('show'); }
+function closeSuspendModal(){ document.getElementById('suspendModal').classList.remove('show'); suspendTarget=null; }
+function confirmSuspend(){ const slug=suspendTarget; const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='suspended'; closeSuspendModal(); if(typeof renderAccount==='function')renderAccount(); if(typeof renderTenants==='function')renderTenants(); toast((tenantName[slug]||slug)+' — '+TX('suspended')); }
+function reactivateTenant(slug){ const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='active'; if(typeof renderAccount==='function')renderAccount(); if(typeof renderTenants==='function')renderTenants(); toast((tenantName[slug]||slug)+' — '+TX('reactivated')); }
+function tcfgPickTenant(slug){ acctTenant=slug; if(typeof renderAccount==='function') renderAccount(); go('account'); }
+function tcfgBackToAll(){ acctTenant=null; if(typeof renderAccount==='function') renderAccount(); go('account'); }
 function tcfgReset(){ if(typeof renderAccount==='function') renderAccount(); }
 function tcfgSave(mode,slug){
   const gv=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
@@ -8860,8 +8919,9 @@ function tcfgCustomerCard(obj,mode,slug){
     </div>`;
   const meta = dir ? `<div class="tcfg-meta tcfg-meta-lg">
       <button class="tcfg-mpill tcfg-mpill-link" onclick="acctJumpSupport()" title="${TX('View support contract')}">${TX('Support Plan')} <b>${dir.plan}</b><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></button>
-      <span class="tcfg-mpill">${TX('Status')} <b>${TX(tntStatusLabel[dir.status]||dir.status)}</b></span>
-      <span class="tcfg-mpill">${TX('Sites')} <b>${dir.sites}</b></span>
+      <span class="tcfg-mpill">${TX('Status')} <b style="color:${dir.status==='active'?'var(--green)':'var(--amber)'}">${TX(tntStatusLabel[dir.status]||dir.status)}</b></span>
+      <span class="tcfg-mpill">${TX('Locations')} <b>${tenantLocCount(slug)}</b></span>
+      <span class="tcfg-mpill">${TX('Collectors')} <b>${dir.col}</b></span>
     </div>` : '';
   return `
     ${mode==='tenant'?`<div class="tcfg-crumb"><button onclick="tcfgBackToAll()"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>${TX('All customers')}</button><span>›</span><b>${_esc(obj.customer_name)}</b></div>`:''}
@@ -8904,6 +8964,7 @@ function tcfgCustomerCard(obj,mode,slug){
         </div>
       </div>
       <div class="gcfg-actions" style="padding:0 18px 18px">
+        ${mode==='tenant'&&dir?`<button class="btn" style="${dir.status==='suspended'?'color:var(--green);border-color:#1d4a34':'color:var(--amber);border-color:#574214'}" onclick="${dir.status==='suspended'?`reactivateTenant('${slug}')`:`openSuspendModal('${slug}')`}">${dir.status==='suspended'?TX('Reactivate tenant'):TX('Suspend tenant')}</button><span style="flex:1"></span>`:''}
         <button class="btn" onclick="tcfgReset()">${TX('Reset')}</button>
         <button class="btn primary" onclick="tcfgSave('${mode}','${slug||''}')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
       </div>
@@ -8911,13 +8972,12 @@ function tcfgCustomerCard(obj,mode,slug){
 }
 function tcfgBody(){
   const single = MSP_DEPLOYMENT==='single';
-  const scope = tenantScope();
   if(single){ return tcfgCustomerCard(SINGLE_CUSTOMER,'single',null); }
-  if(scope==='all'){
+  if(!acctTenant){
     const chips=TENANT_DIR.map(t=>{const nm=tenantName[t.slug]||t.slug;
       return `<button class="tcfg-pick" onclick="tcfgPickTenant('${t.slug}')">
         <span class="tn-avatar" style="background:${tenantColors[t.slug]||'var(--teal)'}">${tnInit(t.slug)}</span>
-        <span class="tcfg-pick-id"><b>${nm}</b><span>${t.plan} · ${t.sites} ${TX('sites')}</span></span>
+        <span class="tcfg-pick-id"><b>${nm}</b><span>${t.plan} · ${tenantLocCount(t.slug)} ${TX('locations')} · ${t.col} ${TX('collectors')}</span></span>
         <span class="tcfg-pick-go">${TX('Configure')}<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></button>`;}).join('');
     return `<div class="gcfg-card">
       <div class="gcfg-chead">
@@ -8927,7 +8987,7 @@ function tcfgBody(){
       <div class="tcfg-pickgrid">${chips}</div>
     </div>`;
   }
-  return tcfgCustomerCard(tcfgFor(scope),'tenant',scope);
+  return tcfgCustomerCard(tcfgFor(acctTenant),'tenant',acctTenant);
 }
 function renderTenantCfg(){
   const el=document.getElementById('screen-tenantcfg'); if(!el) return;
@@ -9131,7 +9191,7 @@ function acctSave(){
   toast(TX('Organization settings saved'));
   renderAccount();
 }
-function openAccount(){ closeAllMenus(); renderAccount(); go('account'); }
+function openAccount(){ acctTenant=null; closeAllMenus(); renderAccount(); go('account'); }
 function toggleOpMenu(e){ e.stopPropagation(); const m=document.getElementById('opMenu'); if(!m) return; const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 function brandBase(n){ return ((n||'Guardare').replace(/\s+(MSP|Enterprise)\s*$/i,'').trim()) || (n||'Guardare'); }
 function updateBrand(){
