@@ -8829,14 +8829,13 @@ function cfgGitOpsForm(coll){
     field('git_ev_file',TX('Config file name'),'_eventsDirector_RuleSetConfig.yaml')+
     `<div class="gcfg-field"><label for="git_ev_poll">${TX('Poll interval')} <span class="git-arr-tag">seconds</span></label><div class="gcfg-iwrap"><input id="git_ev_poll" class="tm-input mono" value="30"></div><span class="gcfg-hint">${TX('How often this service pulls its rule set from GitHub.')}</span></div>`);
 
-  const note=`<div class="cfg-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>${TX('The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.')}</div>`;
   const actions=`<div class="gcfg-actions" style="padding:2px 2px 6px"><button class="btn" onclick="renderCfgMgr()">${TX('Reset')}</button><button class="btn primary" onclick="toast('${TX('GitOps repository settings saved')}')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button></div>`;
   const hudu = card('HuduSync','hudusync',
     tokField('git_hs_tok','${HUDUSYNC_REPO_TOKEN}')+
     field('git_hs_uri',TX('Repo config URI'),'huduSyncCFG/')+
     field('git_hs_file',TX('Config file name'),'_huduSync.yaml')+
     `<div class="gcfg-field"><label for="git_hs_poll">${TX('Poll interval')} <span class="git-arr-tag">seconds</span></label><div class="gcfg-iwrap"><input id="git_hs_poll" class="tm-input mono" value="300"></div><span class="gcfg-hint">${TX('How often this service pulls its config from GitHub.')}</span></div>`);
-  return `<div class="gcfg">${note}${vcol}${norm}${ev}${hudu}${actions}</div>`;
+  return `<div class="gcfg">${vcol}${norm}${ev}${hudu}${actions}</div>`;
 }
 
 function renderCfgMgr(){
