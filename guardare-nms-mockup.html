@@ -84,7 +84,6 @@
   .tenant-switch svg{opacity:.5}
   .tenant-switch small{color:var(--mute);font-size:11px}
   /* ----- resizable table columns ----- */
-  table.resizable{table-layout:fixed}
   table.resizable th,table.resizable td{box-sizing:border-box}
   table.resizable th{position:relative}
   table.resizable td{overflow:hidden;text-overflow:ellipsis}
@@ -935,6 +934,22 @@
   .tnt-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 10px;border-top:1px solid var(--line-soft);padding-top:13px}
   .tnt-stat-link{cursor:pointer;border-radius:7px;margin:-4px;padding:4px;transition:.13s}
   .tnt-stat-link:hover{background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+  .tm-logo-row{display:flex;gap:16px;align-items:center}
+  .tm-logo-prev{width:74px;height:74px;border-radius:14px;border:1px solid var(--line);background:var(--bg-2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
+  .tm-logo-prev img{width:100%;height:100%;object-fit:contain}
+  .tm-logo-side{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+  .tm-logo-side .tm-note{font-size:11px;color:var(--mute);max-width:240px}
+  .tnt-add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:180px;border:1.5px dashed var(--line)!important;background:transparent;color:var(--dim);cursor:pointer;transition:.15s}
+  .tnt-add:hover{border-color:var(--teal)!important;color:var(--teal);background:var(--teal-ghost)}
+  .tnt-add-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line)}
+  .tnt-add:hover .tnt-add-ic{border-color:var(--teal);background:var(--teal-ghost)}
+  .tnt-add-ic svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2}
+  .tnt-add-l{font-size:13px;font-weight:600;letter-spacing:.02em}
+  .modal-form{max-width:460px}
+  .at-form{display:flex;flex-direction:column;gap:13px;text-align:left;margin:6px 0 8px}
+  .at-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .at-field{display:flex;flex-direction:column;gap:6px}
+  .at-field label{font-size:11px;color:var(--dim);font-weight:600}
   .tnt-stats>div{display:flex;flex-direction:column;gap:4px}
   .tnt-stats .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
   .tnt-stats .v{font-family:"Open Sans";font-size:16px;font-weight:600;line-height:1}
@@ -1446,7 +1461,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.161.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.163.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -1527,7 +1542,7 @@
               <circle cx="150" cy="150" r="32" fill="none" stroke="#2EE6C826"/>
               <g class="radar-sweep"><path d="M150 150 L292 150 A142 142 0 0 0 256 53 Z" fill="url(#sweepgA)"/></g>
                             <g class="region-layer" id="map-sa-A" clip-path="url(#globeClipA)" style="opacity:0"><path d="M52.8,275.0L52.8,252.3L52.8,229.5L52.8,206.8L52.8,184.1L52.8,161.4L52.8,138.6L52.8,115.9L52.8,93.2L52.8,70.5L52.8,47.7L52.8,25.0 M114.9,275.0L114.9,252.3L114.9,229.5L114.9,206.8L114.9,184.1L114.9,161.4L114.9,138.6L114.9,115.9L114.9,93.2L114.9,70.5L114.9,47.7L114.9,25.0 M177.1,275.0L177.1,252.3L177.1,229.5L177.1,206.8L177.1,184.1L177.1,161.4L177.1,138.6L177.1,115.9L177.1,93.2L177.1,70.5L177.1,47.7L177.1,25.0 M239.3,275.0L239.3,252.3L239.3,229.5L239.3,206.8L239.3,184.1L239.3,161.4L239.3,138.6L239.3,115.9L239.3,93.2L239.3,70.5L239.3,47.7L239.3,25.0 M28.0,250.8L50.2,250.8L72.3,250.8L94.5,250.8L116.7,250.8L138.9,250.8L161.1,250.8L183.3,250.8L205.5,250.8L227.7,250.8L249.8,250.8L272.0,250.8 M28.0,186.7L50.2,186.7L72.3,186.7L94.5,186.7L116.7,186.7L138.9,186.7L161.1,186.7L183.3,186.7L205.5,186.7L227.7,186.7L249.8,186.7L272.0,186.7 M28.0,122.5L50.2,122.5L72.3,122.5L94.5,122.5L116.7,122.5L138.9,122.5L161.1,122.5L183.3,122.5L205.5,122.5L227.7,122.5L249.8,122.5L272.0,122.5 M28.0,58.4L50.2,58.4L72.3,58.4L94.5,58.4L116.7,58.4L138.9,58.4L161.1,58.4L183.3,58.4L205.5,58.4L227.7,58.4L249.8,58.4L272.0,58.4" fill="none" stroke="#235158" stroke-width="0.7" opacity="0.3"/><path d="M156.1,275.0L154.4,271.4L157.1,268.3L153.5,264.0L133.7,251.5L129.7,252.2L154.4,231.1L154.5,226.0L151.4,222.3L148.3,223.5L150.4,212.5L143.5,212.1L141.1,201.8L127.8,200.1L126.3,187.8L130.5,175.0L125.6,169.2L125.9,162.9L113.9,162.7L111.8,146.7L88.1,138.3L81.3,132.6L81.7,121.0L73.6,122.1L63.5,129.0L49.3,129.0L49.8,119.2L44.7,123.0L39.2,122.9L36.8,119.4L32.7,119.1L34.0,116.3L28.0,106.6L33.4,100.9L34.8,92.2L47.8,85.6L53.4,85.9L56.4,65.6L52.7,54.9L57.4,54.5L57.6,52.0L54.0,51.4L53.9,47.4L66.0,47.5L68.1,45.3L71.0,51.1L80.4,53.3L94.0,44.2L88.4,42.3L87.8,34.0L85.0,32.3L95.7,34.2L108.9,29.3L110.4,25.0L115.0,26.2L114.2,29.0L117.8,33.0L115.1,40.7L117.1,46.9L121.0,49.9L131.5,45.9L139.8,46.7L140.0,42.3L158.8,44.7L168.9,31.4L173.9,46.2L177.3,47.2L177.4,51.7L172.8,56.9L174.7,58.9L185.7,59.9L185.9,66.3L190.6,62.1L208.8,68.3L211.8,72.1L210.8,75.6L218.0,73.7L239.4,76.8L256.5,89.3L266.6,91.4L272.0,105.5L269.6,116.1L247.5,142.1L243.8,173.0L233.4,199.1L228.4,201.9L226.9,205.7L210.4,208.2L191.7,218.0L186.5,224.4L184.0,242.3L156.1,275.0Z" fill="#2EE6C8" fill-opacity="0.14" stroke="#2EE6C8" stroke-opacity="0.7" stroke-width="1.1" stroke-linejoin="round"/></g>
-              <g class="region-layer" id="map-rome-A" clip-path="url(#globeClipA)" style="opacity:0"><path d="M58.0,101.8L65.1,111.8L92.7,124.9L108.3,141.4L112.7,155.8L118.3,162.6L136.2,181.8L162.4,210.3L166.7,208.7L166.7,330L-40,330L-40,-40Z" fill="#10384a" fill-opacity="0.20" stroke="none"/><path d="M58.0,101.8L65.1,111.8L92.7,124.9L108.3,141.4L112.7,155.8L118.3,162.6L136.2,181.8L162.4,210.3L166.7,208.7" fill="none" stroke="#2EE6C8" stroke-opacity="0.5" stroke-width="1" stroke-linejoin="round"/><circle cx="58.0" cy="101.8" r="1.4" fill="#2EE6C8" opacity="0.4"/></g><g class="region-layer" id="blips-na-A"><g class="blip" data-site="New York" data-coll="site-01" data-tenant="acme-corp" data-status="online"><circle cx="238.1" cy="143.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="238.1" cy="143.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Toronto" data-coll="site-02" data-tenant="acme-corp" data-status="online"><circle cx="218.3" cy="136.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="218.3" cy="136.1" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Chicago" data-coll="site-03" data-tenant="acme-corp" data-status="online"><circle cx="195.3" cy="150.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="195.3" cy="150.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Boston" data-coll="site-05" data-tenant="acme-corp" data-status="online"><circle cx="243.5" cy="132.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="243.5" cy="132.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Atlanta" data-coll="site-06" data-tenant="acme-corp" data-status="online"><circle cx="212.8" cy="185.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="212.8" cy="185.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Denver" data-coll="site-08" data-tenant="acme-corp" data-status="online"><circle cx="138.6" cy="163.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="138.6" cy="163.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Seattle" data-coll="site-10" data-tenant="acme-corp" data-status="online"><circle cx="95.2" cy="115.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="95.2" cy="115.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dallas" data-coll="site-04" data-tenant="acme-corp" data-status="warn"><circle cx="167.3" cy="196.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="167.3" cy="196.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Phoenix" data-coll="site-09" data-tenant="acme-corp" data-status="crit"><circle cx="110.4" cy="188.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="110.4" cy="188.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Miami" data-coll="site-07" data-tenant="acme-corp" data-status="offline"><circle cx="234.8" cy="215.5" r="6" fill="#54707688"/><circle cx="234.8" cy="215.5" r="3" fill="#547076"/></g></g>
+              <g class="region-layer" id="map-rome-A" clip-path="url(#globeClipA)" style="opacity:0"><path d="M57.3,100.5L62.3,107.3L68.5,114.0L77.3,119.1L89.9,124.1L99.9,130.8L107.4,139.2L111.2,147.6L112.4,156.1L117.4,162.8L125.0,169.5L133.7,176.2L141.3,184.6L150.0,193.1L158.8,203.2L162.6,209.9L167.6,213.2L167.6,340L-60,340L-60,-60Z" fill="#1c6486" fill-opacity="0.7" stroke="none"/><ellipse cx="112.4" cy="100.5" rx="8.4" ry="6.7" fill="#123f54" fill-opacity="0.55" stroke="#4aa0b4" stroke-opacity="0.4" stroke-width="0.7"/><path d="M57.3,100.5L62.3,107.3L68.5,114.0L77.3,119.1L89.9,124.1L99.9,130.8L107.4,139.2L111.2,147.6L112.4,156.1L117.4,162.8L125.0,169.5L133.7,176.2L141.3,184.6L150.0,193.1L158.8,203.2L162.6,209.9L167.6,213.2" fill="none" stroke="#7fd8ea" stroke-opacity="0.85" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M166.3,117.4L158.8,122.4L152.5,127.5L146.3,132.5L143.8,135.9L138.8,140.9L133.7,146.0L126.2,151.0L118.7,156.1L113.7,159.4L112.4,161.1" fill="none" stroke="#39a8cc" stroke-opacity="0.55" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="145.3" cy="135.8" r="18.2" fill="none" stroke="#2EE6C8" stroke-opacity="0.28" stroke-width="0.9" stroke-dasharray="3 3"/></g><g class="region-layer" id="blips-na-A"><g class="blip" data-site="New York" data-coll="site-01" data-tenant="acme-corp" data-status="online"><circle cx="238.1" cy="143.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="238.1" cy="143.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Toronto" data-coll="site-02" data-tenant="acme-corp" data-status="online"><circle cx="218.3" cy="136.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="218.3" cy="136.1" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Chicago" data-coll="site-03" data-tenant="acme-corp" data-status="online"><circle cx="195.3" cy="150.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="195.3" cy="150.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Boston" data-coll="site-05" data-tenant="acme-corp" data-status="online"><circle cx="243.5" cy="132.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="243.5" cy="132.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Atlanta" data-coll="site-06" data-tenant="acme-corp" data-status="online"><circle cx="212.8" cy="185.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="212.8" cy="185.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Denver" data-coll="site-08" data-tenant="acme-corp" data-status="online"><circle cx="138.6" cy="163.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="138.6" cy="163.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Seattle" data-coll="site-10" data-tenant="acme-corp" data-status="online"><circle cx="95.2" cy="115.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="95.2" cy="115.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dallas" data-coll="site-04" data-tenant="acme-corp" data-status="warn"><circle cx="167.3" cy="196.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="167.3" cy="196.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Phoenix" data-coll="site-09" data-tenant="acme-corp" data-status="crit"><circle cx="110.4" cy="188.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="110.4" cy="188.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Miami" data-coll="site-07" data-tenant="acme-corp" data-status="offline"><circle cx="234.8" cy="215.5" r="6" fill="#54707688"/><circle cx="234.8" cy="215.5" r="3" fill="#547076"/></g></g>
               <g class="region-layer" id="blips-eu-A" style="opacity:0"><g class="blip" data-site="London" data-coll="eu-01" data-tenant="acme-corp" data-status="online"><circle cx="127.3" cy="121.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="127.3" cy="121.0" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Manchester" data-coll="eu-02" data-tenant="acme-corp" data-status="online"><circle cx="115.5" cy="98.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="115.5" cy="98.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dublin" data-coll="eu-03" data-tenant="acme-corp" data-status="online"><circle cx="89.7" cy="96.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="89.7" cy="96.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Paris" data-coll="eu-04" data-tenant="acme-corp" data-status="online"><circle cx="142.7" cy="150.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="142.7" cy="150.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Amsterdam" data-coll="eu-05" data-tenant="acme-corp" data-status="online"><circle cx="161.4" cy="113.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="161.4" cy="113.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Frankfurt" data-coll="eu-06" data-tenant="acme-corp" data-status="warn"><circle cx="187.3" cy="137.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="187.3" cy="137.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Milan" data-coll="eu-07" data-tenant="acme-corp" data-status="online"><circle cx="192.8" cy="186.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="192.8" cy="186.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Madrid" data-coll="eu-08" data-tenant="acme-corp" data-status="crit"><circle cx="89.6" cy="235.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="89.6" cy="235.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Warsaw" data-coll="eu-09" data-tenant="acme-corp" data-status="offline"><circle cx="246.8" cy="108.7" r="6" fill="#54707688"/><circle cx="246.8" cy="108.7" r="3" fill="#547076"/></g></g>
               <g class="region-layer" id="blips-nc-A" style="opacity:0"><g class="blip" data-site="Charlotte" data-coll="clt-01" data-tenant="piedmont" data-status="online"><circle cx="144.0" cy="162.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="144.0" cy="162.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Raleigh" data-coll="ral-01" data-tenant="piedmont" data-status="online"><circle cx="197.4" cy="145.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="197.4" cy="145.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Greensboro" data-coll="gso-01" data-tenant="piedmont" data-status="online"><circle cx="169.4" cy="137.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="169.4" cy="137.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Asheville" data-coll="avl-01" data-tenant="piedmont" data-status="warn"><circle cx="102.6" cy="151.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="102.6" cy="151.1" r="4" fill="#F6B53F"/></g></g>
                           <g class="region-layer" id="blips-sa-A" style="opacity:0"><g class="blip" data-site="São Paulo" data-coll="sao-01" data-tenant="atlantico" data-status="online"><circle cx="198.0" cy="209.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="198.0" cy="209.4" r="3.5" fill="#41D98A"/></g></g><g class="region-layer" id="blips-rome-A" style="opacity:0"><g class="blip" data-site="DC01 · Roma" data-coll="dc01" data-tenant="roma" data-status="online"><circle cx="145.8" cy="133.7" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="145.8" cy="133.7" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="DC02 · Fiumicino" data-coll="dc02" data-tenant="roma" data-status="online"><circle cx="113.5" cy="155.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="113.5" cy="155.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Tivoli POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="183.6" cy="124.1" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="183.6" cy="124.1" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Frascati POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="168.4" cy="149.6" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="168.4" cy="149.6" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Guidonia Montecelio POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="174.3" cy="118.5" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="174.3" cy="118.5" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Pomezia POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="146.4" cy="173.0" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="146.4" cy="173.0" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Velletri POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="181.1" cy="170.0" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="181.1" cy="170.0" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Civitavecchia POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="58.0" cy="101.8" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="58.0" cy="101.8" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Anzio POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="162.4" cy="210.3" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="162.4" cy="210.3" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Albano Laziale POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="166.4" cy="163.1" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="166.4" cy="163.1" r="2.6" fill="#94A2FF"/></g></g>
@@ -1579,7 +1594,7 @@
               <circle cx="150" cy="150" r="32" fill="none" stroke="#2EE6C826"/>
               <g class="radar-sweep"><path d="M150 150 L292 150 A142 142 0 0 0 256 53 Z" fill="url(#sweepgB)"/></g>
                             <g class="region-layer" id="map-sa-B" clip-path="url(#globeClipB)" style="opacity:0"><path d="M52.8,275.0L52.8,252.3L52.8,229.5L52.8,206.8L52.8,184.1L52.8,161.4L52.8,138.6L52.8,115.9L52.8,93.2L52.8,70.5L52.8,47.7L52.8,25.0 M114.9,275.0L114.9,252.3L114.9,229.5L114.9,206.8L114.9,184.1L114.9,161.4L114.9,138.6L114.9,115.9L114.9,93.2L114.9,70.5L114.9,47.7L114.9,25.0 M177.1,275.0L177.1,252.3L177.1,229.5L177.1,206.8L177.1,184.1L177.1,161.4L177.1,138.6L177.1,115.9L177.1,93.2L177.1,70.5L177.1,47.7L177.1,25.0 M239.3,275.0L239.3,252.3L239.3,229.5L239.3,206.8L239.3,184.1L239.3,161.4L239.3,138.6L239.3,115.9L239.3,93.2L239.3,70.5L239.3,47.7L239.3,25.0 M28.0,250.8L50.2,250.8L72.3,250.8L94.5,250.8L116.7,250.8L138.9,250.8L161.1,250.8L183.3,250.8L205.5,250.8L227.7,250.8L249.8,250.8L272.0,250.8 M28.0,186.7L50.2,186.7L72.3,186.7L94.5,186.7L116.7,186.7L138.9,186.7L161.1,186.7L183.3,186.7L205.5,186.7L227.7,186.7L249.8,186.7L272.0,186.7 M28.0,122.5L50.2,122.5L72.3,122.5L94.5,122.5L116.7,122.5L138.9,122.5L161.1,122.5L183.3,122.5L205.5,122.5L227.7,122.5L249.8,122.5L272.0,122.5 M28.0,58.4L50.2,58.4L72.3,58.4L94.5,58.4L116.7,58.4L138.9,58.4L161.1,58.4L183.3,58.4L205.5,58.4L227.7,58.4L249.8,58.4L272.0,58.4" fill="none" stroke="#235158" stroke-width="0.7" opacity="0.3"/><path d="M156.1,275.0L154.4,271.4L157.1,268.3L153.5,264.0L133.7,251.5L129.7,252.2L154.4,231.1L154.5,226.0L151.4,222.3L148.3,223.5L150.4,212.5L143.5,212.1L141.1,201.8L127.8,200.1L126.3,187.8L130.5,175.0L125.6,169.2L125.9,162.9L113.9,162.7L111.8,146.7L88.1,138.3L81.3,132.6L81.7,121.0L73.6,122.1L63.5,129.0L49.3,129.0L49.8,119.2L44.7,123.0L39.2,122.9L36.8,119.4L32.7,119.1L34.0,116.3L28.0,106.6L33.4,100.9L34.8,92.2L47.8,85.6L53.4,85.9L56.4,65.6L52.7,54.9L57.4,54.5L57.6,52.0L54.0,51.4L53.9,47.4L66.0,47.5L68.1,45.3L71.0,51.1L80.4,53.3L94.0,44.2L88.4,42.3L87.8,34.0L85.0,32.3L95.7,34.2L108.9,29.3L110.4,25.0L115.0,26.2L114.2,29.0L117.8,33.0L115.1,40.7L117.1,46.9L121.0,49.9L131.5,45.9L139.8,46.7L140.0,42.3L158.8,44.7L168.9,31.4L173.9,46.2L177.3,47.2L177.4,51.7L172.8,56.9L174.7,58.9L185.7,59.9L185.9,66.3L190.6,62.1L208.8,68.3L211.8,72.1L210.8,75.6L218.0,73.7L239.4,76.8L256.5,89.3L266.6,91.4L272.0,105.5L269.6,116.1L247.5,142.1L243.8,173.0L233.4,199.1L228.4,201.9L226.9,205.7L210.4,208.2L191.7,218.0L186.5,224.4L184.0,242.3L156.1,275.0Z" fill="#2EE6C8" fill-opacity="0.14" stroke="#2EE6C8" stroke-opacity="0.7" stroke-width="1.1" stroke-linejoin="round"/></g>
-              <g class="region-layer" id="map-rome-B" clip-path="url(#globeClipB)" style="opacity:0"><path d="M58.0,101.8L65.1,111.8L92.7,124.9L108.3,141.4L112.7,155.8L118.3,162.6L136.2,181.8L162.4,210.3L166.7,208.7L166.7,330L-40,330L-40,-40Z" fill="#10384a" fill-opacity="0.20" stroke="none"/><path d="M58.0,101.8L65.1,111.8L92.7,124.9L108.3,141.4L112.7,155.8L118.3,162.6L136.2,181.8L162.4,210.3L166.7,208.7" fill="none" stroke="#2EE6C8" stroke-opacity="0.5" stroke-width="1" stroke-linejoin="round"/><circle cx="58.0" cy="101.8" r="1.4" fill="#2EE6C8" opacity="0.4"/></g><g class="region-layer" id="blips-na-B"><g class="blip" data-site="New York" data-coll="site-01" data-tenant="acme-corp" data-status="online"><circle cx="238.1" cy="143.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="238.1" cy="143.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Toronto" data-coll="site-02" data-tenant="acme-corp" data-status="online"><circle cx="218.3" cy="136.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="218.3" cy="136.1" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Chicago" data-coll="site-03" data-tenant="acme-corp" data-status="online"><circle cx="195.3" cy="150.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="195.3" cy="150.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Boston" data-coll="site-05" data-tenant="acme-corp" data-status="online"><circle cx="243.5" cy="132.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="243.5" cy="132.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Atlanta" data-coll="site-06" data-tenant="acme-corp" data-status="online"><circle cx="212.8" cy="185.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="212.8" cy="185.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Denver" data-coll="site-08" data-tenant="acme-corp" data-status="online"><circle cx="138.6" cy="163.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="138.6" cy="163.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Seattle" data-coll="site-10" data-tenant="acme-corp" data-status="online"><circle cx="95.2" cy="115.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="95.2" cy="115.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dallas" data-coll="site-04" data-tenant="acme-corp" data-status="warn"><circle cx="167.3" cy="196.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="167.3" cy="196.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Phoenix" data-coll="site-09" data-tenant="acme-corp" data-status="crit"><circle cx="110.4" cy="188.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="110.4" cy="188.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Miami" data-coll="site-07" data-tenant="acme-corp" data-status="offline"><circle cx="234.8" cy="215.5" r="6" fill="#54707688"/><circle cx="234.8" cy="215.5" r="3" fill="#547076"/></g></g>
+              <g class="region-layer" id="map-rome-B" clip-path="url(#globeClipB)" style="opacity:0"><path d="M57.3,100.5L62.3,107.3L68.5,114.0L77.3,119.1L89.9,124.1L99.9,130.8L107.4,139.2L111.2,147.6L112.4,156.1L117.4,162.8L125.0,169.5L133.7,176.2L141.3,184.6L150.0,193.1L158.8,203.2L162.6,209.9L167.6,213.2L167.6,340L-60,340L-60,-60Z" fill="#1c6486" fill-opacity="0.7" stroke="none"/><ellipse cx="112.4" cy="100.5" rx="8.4" ry="6.7" fill="#123f54" fill-opacity="0.55" stroke="#4aa0b4" stroke-opacity="0.4" stroke-width="0.7"/><path d="M57.3,100.5L62.3,107.3L68.5,114.0L77.3,119.1L89.9,124.1L99.9,130.8L107.4,139.2L111.2,147.6L112.4,156.1L117.4,162.8L125.0,169.5L133.7,176.2L141.3,184.6L150.0,193.1L158.8,203.2L162.6,209.9L167.6,213.2" fill="none" stroke="#7fd8ea" stroke-opacity="0.85" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M166.3,117.4L158.8,122.4L152.5,127.5L146.3,132.5L143.8,135.9L138.8,140.9L133.7,146.0L126.2,151.0L118.7,156.1L113.7,159.4L112.4,161.1" fill="none" stroke="#39a8cc" stroke-opacity="0.55" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="145.3" cy="135.8" r="18.2" fill="none" stroke="#2EE6C8" stroke-opacity="0.28" stroke-width="0.9" stroke-dasharray="3 3"/></g><g class="region-layer" id="blips-na-B"><g class="blip" data-site="New York" data-coll="site-01" data-tenant="acme-corp" data-status="online"><circle cx="238.1" cy="143.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="238.1" cy="143.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Toronto" data-coll="site-02" data-tenant="acme-corp" data-status="online"><circle cx="218.3" cy="136.1" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="218.3" cy="136.1" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Chicago" data-coll="site-03" data-tenant="acme-corp" data-status="online"><circle cx="195.3" cy="150.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="195.3" cy="150.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Boston" data-coll="site-05" data-tenant="acme-corp" data-status="online"><circle cx="243.5" cy="132.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="243.5" cy="132.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Atlanta" data-coll="site-06" data-tenant="acme-corp" data-status="online"><circle cx="212.8" cy="185.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="212.8" cy="185.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Denver" data-coll="site-08" data-tenant="acme-corp" data-status="online"><circle cx="138.6" cy="163.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="138.6" cy="163.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Seattle" data-coll="site-10" data-tenant="acme-corp" data-status="online"><circle cx="95.2" cy="115.3" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="95.2" cy="115.3" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dallas" data-coll="site-04" data-tenant="acme-corp" data-status="warn"><circle cx="167.3" cy="196.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="167.3" cy="196.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Phoenix" data-coll="site-09" data-tenant="acme-corp" data-status="crit"><circle cx="110.4" cy="188.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="110.4" cy="188.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Miami" data-coll="site-07" data-tenant="acme-corp" data-status="offline"><circle cx="234.8" cy="215.5" r="6" fill="#54707688"/><circle cx="234.8" cy="215.5" r="3" fill="#547076"/></g></g>
               <g class="region-layer" id="blips-eu-B" style="opacity:0"><g class="blip" data-site="London" data-coll="eu-01" data-tenant="acme-corp" data-status="online"><circle cx="127.3" cy="121.0" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="127.3" cy="121.0" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Manchester" data-coll="eu-02" data-tenant="acme-corp" data-status="online"><circle cx="115.5" cy="98.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="115.5" cy="98.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Dublin" data-coll="eu-03" data-tenant="acme-corp" data-status="online"><circle cx="89.7" cy="96.9" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="89.7" cy="96.9" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Paris" data-coll="eu-04" data-tenant="acme-corp" data-status="online"><circle cx="142.7" cy="150.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="142.7" cy="150.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Amsterdam" data-coll="eu-05" data-tenant="acme-corp" data-status="online"><circle cx="161.4" cy="113.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="161.4" cy="113.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Frankfurt" data-coll="eu-06" data-tenant="acme-corp" data-status="warn"><circle cx="187.3" cy="137.0" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="187.3" cy="137.0" r="4" fill="#F6B53F"/></g><g class="blip" data-site="Milan" data-coll="eu-07" data-tenant="acme-corp" data-status="online"><circle cx="192.8" cy="186.2" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="192.8" cy="186.2" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Madrid" data-coll="eu-08" data-tenant="acme-corp" data-status="crit"><circle cx="89.6" cy="235.3" r="13" fill="#FF5D5D" opacity="0.16"/><circle class="blip-core" cx="89.6" cy="235.3" r="4.5" fill="#FF5D5D"/></g><g class="blip" data-site="Warsaw" data-coll="eu-09" data-tenant="acme-corp" data-status="offline"><circle cx="246.8" cy="108.7" r="6" fill="#54707688"/><circle cx="246.8" cy="108.7" r="3" fill="#547076"/></g></g>
               <g class="region-layer" id="blips-nc-B" style="opacity:0"><g class="blip" data-site="Charlotte" data-coll="clt-01" data-tenant="piedmont" data-status="online"><circle cx="144.0" cy="162.6" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="144.0" cy="162.6" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Raleigh" data-coll="ral-01" data-tenant="piedmont" data-status="online"><circle cx="197.4" cy="145.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="197.4" cy="145.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Greensboro" data-coll="gso-01" data-tenant="piedmont" data-status="online"><circle cx="169.4" cy="137.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="169.4" cy="137.4" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Asheville" data-coll="avl-01" data-tenant="piedmont" data-status="warn"><circle cx="102.6" cy="151.1" r="11" fill="#F6B53F" opacity="0.14"/><circle class="blip-core" cx="102.6" cy="151.1" r="4" fill="#F6B53F"/></g></g>
                           <g class="region-layer" id="blips-sa-B" style="opacity:0"><g class="blip" data-site="São Paulo" data-coll="sao-01" data-tenant="atlantico" data-status="online"><circle cx="198.0" cy="209.4" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="198.0" cy="209.4" r="3.5" fill="#41D98A"/></g></g><g class="region-layer" id="blips-rome-B" style="opacity:0"><g class="blip" data-site="DC01 · Roma" data-coll="dc01" data-tenant="roma" data-status="online"><circle cx="145.8" cy="133.7" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="145.8" cy="133.7" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="DC02 · Fiumicino" data-coll="dc02" data-tenant="roma" data-status="online"><circle cx="113.5" cy="155.8" r="9" fill="#41D98A" opacity="0.12"/><circle class="blip-core" cx="113.5" cy="155.8" r="3.5" fill="#41D98A"/></g><g class="blip" data-site="Tivoli POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="183.6" cy="124.1" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="183.6" cy="124.1" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Frascati POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="168.4" cy="149.6" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="168.4" cy="149.6" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Guidonia Montecelio POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="174.3" cy="118.5" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="174.3" cy="118.5" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Pomezia POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="146.4" cy="173.0" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="146.4" cy="173.0" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Velletri POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="181.1" cy="170.0" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="181.1" cy="170.0" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Civitavecchia POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="58.0" cy="101.8" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="58.0" cy="101.8" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Anzio POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="162.4" cy="210.3" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="162.4" cy="210.3" r="2.6" fill="#94A2FF"/></g><g class="blip" data-site="Albano Laziale POP" data-coll="" data-tenant="roma" data-status="site"><circle cx="166.4" cy="163.1" r="8" fill="none" stroke="#94A2FF" stroke-width="1.4" opacity="0.55"/><circle class="blip-core" cx="166.4" cy="163.1" r="2.6" fill="#94A2FF"/></g></g>
@@ -5058,6 +5073,36 @@ snmp_field_mapping:
     </div>
   </div>
 </div>
+<div class="modal-backdrop" id="delTenantModal" onclick="if(event.target.id==='delTenantModal')closeDeleteTenantModal()">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-ic warn"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></svg></div>
+    <h3 class="modal-title" data-i18n="Delete this tenant?">Delete this tenant?</h3>
+    <p class="modal-text">This permanently removes <b class="mono" id="delTenantTarget">tenant</b> from Guardare — its directory record, configuration and branding. Deployed collectors are not touched, but they will no longer report into this tenant. This can't be undone.</p>
+    <div class="modal-acts">
+      <button class="btn" onclick="closeDeleteTenantModal()" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn danger" onclick="confirmDeleteTenant()"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg><span data-i18n="Yes, delete">Yes, delete</span></button>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop" id="addTenantModal" onclick="if(event.target.id==='addTenantModal')closeAddTenantModal()">
+  <div class="modal modal-form" role="dialog" aria-modal="true">
+    <div class="modal-ic"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
+    <h3 class="modal-title" data-i18n="New tenant">New tenant</h3>
+    <p class="modal-text" data-i18n="Create a customer organization. You can complete the rest of its configuration afterward.">Create a customer organization. You can complete the rest of its configuration afterward.</p>
+    <div class="at-form">
+      <div class="at-field"><label data-i18n="Customer name">Customer name</label><input id="atName" class="tm-input" oninput="atSlugFrom()" placeholder="Acme Industries" autocomplete="off"></div>
+      <div class="at-row">
+        <div class="at-field"><label data-i18n="Tenant slug">Tenant slug</label><input id="atSlug" class="tm-input mono" oninput="this.dataset.touched='1'" placeholder="acme-industries" autocomplete="off"></div>
+        <div class="at-field"><label data-i18n="Plan">Plan</label><select id="atPlan" class="tm-input"><option>Enterprise</option><option selected>Growth</option><option>Starter</option></select></div>
+      </div>
+      <div class="at-field"><label data-i18n="Primary region">Primary region</label><select id="atRegion" class="tm-input"><option>NA</option><option selected>EU</option><option>UK</option><option>SA</option><option>APAC</option><option>NC</option></select></div>
+    </div>
+    <div class="modal-acts">
+      <button class="btn" onclick="closeAddTenantModal()" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn primary" onclick="confirmAddTenant()"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="Create tenant">Create tenant</span></button>
+    </div>
+  </div>
+</div>
 <div class="modal-backdrop" id="diagModal" onclick="diagBackdrop(event)">
   <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="diagTitle">
     <div class="modal-ic info"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
@@ -5168,6 +5213,21 @@ snmp_field_mapping:
 let lang='en';
 const I18N={
  it:{
+  'Remove':'Rimuovi',
+  'Branding':'Marchio',
+  'Upload logo':'Carica logo',
+  'PNG, JPG or SVG — shown across Guardare for this tenant.':'PNG, JPG o SVG — mostrato in Guardare per questo tenant.',
+  'logo updated':'logo aggiornato',
+  'New tenant':'Nuovo tenant',
+  'Reactivate':'Riattiva',
+  'deleted':'eliminato',
+  'tenant created':'tenant creato',
+  'Enter a tenant name':'Inserisci un nome tenant',
+  'That slug is already in use':'Questo slug è già in uso',
+  'Delete this tenant?':'Eliminare questo tenant?',
+  'Yes, delete':'Sì, elimina',
+  'Create a customer organization. You can complete the rest of its configuration afterward.':'Crea un\'organizzazione cliente. Potrai completare il resto della configurazione in seguito.',
+  'Create tenant':'Crea tenant',
   'suspended':'sospeso',
   'reactivated':'riattivato',
   'Suspend tenant':'Sospendi tenant',
@@ -5520,6 +5580,21 @@ const I18N={
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{
+  'Remove':'Retirer',
+  'Branding':'Image de marque',
+  'Upload logo':'Importer le logo',
+  'PNG, JPG or SVG — shown across Guardare for this tenant.':'PNG, JPG ou SVG — affiché dans Guardare pour ce locataire.',
+  'logo updated':'logo mis à jour',
+  'New tenant':'Nouveau locataire',
+  'Reactivate':'Réactiver',
+  'deleted':'supprimé',
+  'tenant created':'locataire créé',
+  'Enter a tenant name':'Saisissez un nom de locataire',
+  'That slug is already in use':'Ce slug est déjà utilisé',
+  'Delete this tenant?':'Supprimer ce locataire ?',
+  'Yes, delete':'Oui, supprimer',
+  'Create a customer organization. You can complete the rest of its configuration afterward.':'Créez une organisation cliente. Vous pourrez compléter le reste de sa configuration ensuite.',
+  'Create tenant':'Créer le locataire',
   'suspended':'suspendu',
   'reactivated':'réactivé',
   'Suspend tenant':'Suspendre le locataire',
@@ -5872,6 +5947,21 @@ const I18N={
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{
+  'Remove':'Quitar',
+  'Branding':'Marca',
+  'Upload logo':'Subir logotipo',
+  'PNG, JPG or SVG — shown across Guardare for this tenant.':'PNG, JPG o SVG — se muestra en Guardare para este inquilino.',
+  'logo updated':'logotipo actualizado',
+  'New tenant':'Nuevo inquilino',
+  'Reactivate':'Reactivar',
+  'deleted':'eliminado',
+  'tenant created':'inquilino creado',
+  'Enter a tenant name':'Introduce un nombre de inquilino',
+  'That slug is already in use':'Ese slug ya está en uso',
+  'Delete this tenant?':'¿Eliminar este inquilino?',
+  'Yes, delete':'Sí, eliminar',
+  'Create a customer organization. You can complete the rest of its configuration afterward.':'Crea una organización de cliente. Podrás completar el resto de su configuración después.',
+  'Create tenant':'Crear inquilino',
   'suspended':'suspendido',
   'reactivated':'reactivado',
   'Suspend tenant':'Suspender inquilino',
@@ -6224,6 +6314,21 @@ const I18N={
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{
+  'Remove':'Remover',
+  'Branding':'Marca',
+  'Upload logo':'Carregar logótipo',
+  'PNG, JPG or SVG — shown across Guardare for this tenant.':'PNG, JPG ou SVG — exibido no Guardare para este inquilino.',
+  'logo updated':'logótipo atualizado',
+  'New tenant':'Novo inquilino',
+  'Reactivate':'Reativar',
+  'deleted':'excluído',
+  'tenant created':'inquilino criado',
+  'Enter a tenant name':'Insira um nome de inquilino',
+  'That slug is already in use':'Esse slug já está em uso',
+  'Delete this tenant?':'Excluir este inquilino?',
+  'Yes, delete':'Sim, excluir',
+  'Create a customer organization. You can complete the rest of its configuration afterward.':'Crie uma organização de cliente. Você pode completar o resto da configuração depois.',
+  'Create tenant':'Criar inquilino',
   'suspended':'suspenso',
   'reactivated':'reativado',
   'Suspend tenant':'Suspender inquilino',
@@ -6577,6 +6682,21 @@ const I18N={
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{
+  'Remove':'削除',
+  'Branding':'ブランディング',
+  'Upload logo':'ロゴをアップロード',
+  'PNG, JPG or SVG — shown across Guardare for this tenant.':'PNG、JPG、SVG — このテナントの Guardare 全体で表示されます。',
+  'logo updated':'ロゴを更新しました',
+  'New tenant':'新規テナント',
+  'Reactivate':'再有効化',
+  'deleted':'削除しました',
+  'tenant created':'テナントを作成しました',
+  'Enter a tenant name':'テナント名を入力してください',
+  'That slug is already in use':'そのスラッグは既に使用されています',
+  'Delete this tenant?':'このテナントを削除しますか？',
+  'Yes, delete':'はい、削除します',
+  'Create a customer organization. You can complete the rest of its configuration afterward.':'顧客組織を作成します。残りの設定は後で完了できます。',
+  'Create tenant':'テナントを作成',
   'suspended':'停止中',
   'reactivated':'再有効化',
   'Suspend tenant':'テナントを停止',
@@ -7296,6 +7416,7 @@ function renderTenants(){
 
     <div class="tnt-grid">
       ${TENANT_DIR.map(tntCard).join('')}
+      <button class="tnt-card tnt-add" onclick="openAddTenantModal()"><span class="tnt-add-ic"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="tnt-add-l">${TX('New tenant')}</span></button>
     </div>`;
 }
 
@@ -7436,21 +7557,29 @@ function makeColsResizable(table){
   if(!table) return;
   const ths=[...table.querySelectorAll('thead th')];
   if(!ths.length) return;
-  /* border-box makes style.width === rendered width, so the first grab no longer jumps */
-  const w=ths.map(th=>Math.round(th.getBoundingClientRect().width));
-  table.style.tableLayout='fixed';
-  table.style.width=w.reduce((a,b)=>a+b,0)+'px';
-  ths.forEach((th,i)=>{ th.style.width=w[i]+'px'; });
+  /* IMPORTANT: stay in normal auto-layout on render (table fills its container, columns
+     size to content). Only lock to fixed px widths the moment a drag starts — by then the
+     table is guaranteed visible, so we never lock the zero/near-zero widths that a hidden
+     render would measure (that was the cause of the crushed columns). */
+  let locked=false;
   const cw=th=>parseFloat(th.style.width)||Math.round(th.getBoundingClientRect().width);
-  const syncW=()=>{ table.style.width=ths.reduce((a,th)=>a+cw(th),0)+'px'; };
+  const lock=()=>{
+    const w=ths.map(th=>Math.round(th.getBoundingClientRect().width));
+    if(w.some(x=>x<=1)) return false;        // table not laid out yet — abort
+    table.style.tableLayout='fixed';
+    table.style.width=w.reduce((a,b)=>a+b,0)+'px';
+    ths.forEach((th,i)=>{ th.style.width=w[i]+'px'; });
+    locked=true; return true;
+  };
   ths.forEach((th,i)=>{
     if(i===ths.length-1) return;
     const grip=document.createElement('span'); grip.className='col-resize';
     grip.addEventListener('mousedown', e=>{
       e.preventDefault(); e.stopPropagation();
+      if(!locked && lock()===false) return;
       const sx=e.clientX, sw=cw(th);
       grip.classList.add('drag'); document.body.classList.add('col-resizing');
-      const move=ev=>{ th.style.width=Math.max(56, Math.round(sw+(ev.clientX-sx)))+'px'; syncW(); };
+      const move=ev=>{ th.style.width=Math.max(56, Math.round(sw+(ev.clientX-sx)))+'px'; table.style.width=ths.reduce((a,t)=>a+cw(t),0)+'px'; };
       const up=()=>{ document.removeEventListener('mousemove',move); document.removeEventListener('mouseup',up); grip.classList.remove('drag'); document.body.classList.remove('col-resizing'); };
       document.addEventListener('mousemove',move); document.addEventListener('mouseup',up);
     });
@@ -7566,6 +7695,17 @@ function renderTenantManage(slug){
         </div>
       </div>
       <div class="panel tm-card">
+        <h3 class="tm-h">${TX('Branding')}</h3>
+        <div class="tm-logo-row">
+          <div class="tm-logo-prev">${TENANT_LOGOS[slug]?`<img src="${TENANT_LOGOS[slug]}" alt="logo">`:`<span class="tn-avatar" style="background:${tenantColors[slug]||'var(--teal)'};width:54px;height:54px;font-size:19px">${tnInit(name)}</span>`}</div>
+          <div class="tm-logo-side">
+            <label class="btn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>${TX('Upload logo')}</span><input type="file" accept="image/png,image/jpeg,image/svg+xml" style="display:none" onchange="tenantLogoUpload('${slug}',this)"></label>
+            ${TENANT_LOGOS[slug]?`<button class="btn" onclick="tenantLogoClear('${slug}')">${TX('Remove')}</button>`:''}
+            <span class="tm-note">${TX('PNG, JPG or SVG — shown across Guardare for this tenant.')}</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel tm-card">
         <h3 class="tm-h">${TX('Overview')}</h3>
         <div class="tm-stats">
           <div class="tm-stat"><b>${cols.length}<small>/${dir.max}</small></b><span>${TX('Collectors')}</span></div>
@@ -7576,8 +7716,8 @@ function renderTenantManage(slug){
         <div class="tm-danger">
           <div><b>${TX('Danger zone')}</b><span>${TX('Suspend stops collection; delete is permanent.')}</span></div>
           <div class="tm-danger-btns">
-            <button class="btn" onclick="toast('${name} — ${TX('suspend requested')}')">${TX('Suspend')}</button>
-            <button class="btn tm-del" onclick="toast('${name} — ${TX('delete requested')}')">${TX('Delete')}</button>
+            ${dir.status==='suspended'?`<button class="btn" style="color:var(--green);border-color:#1d4a34" onclick="reactivateTenant('${slug}')">${TX('Reactivate')}</button>`:`<button class="btn" style="color:var(--amber);border-color:#574214" onclick="openSuspendModal('${slug}')">${TX('Suspend')}</button>`}
+            <button class="btn tm-del" onclick="openDeleteTenantModal('${slug}')">${TX('Delete')}</button>
           </div>
         </div>
       </div>
@@ -8831,7 +8971,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.161.alpha';
+const APP_VERSION='v2026.02.163.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -8892,8 +9032,20 @@ function openTenantFleet(slug){ switchTenant(slug); go('fleet'); }
 let suspendTarget=null;
 function openSuspendModal(slug){ suspendTarget=slug; const e=document.getElementById('suspendTarget'); if(e)e.textContent=(tenantName[slug]||slug); document.getElementById('suspendModal').classList.add('show'); }
 function closeSuspendModal(){ document.getElementById('suspendModal').classList.remove('show'); suspendTarget=null; }
-function confirmSuspend(){ const slug=suspendTarget; const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='suspended'; closeSuspendModal(); if(typeof renderAccount==='function')renderAccount(); if(typeof renderTenants==='function')renderTenants(); toast((tenantName[slug]||slug)+' — '+TX('suspended')); }
-function reactivateTenant(slug){ const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='active'; if(typeof renderAccount==='function')renderAccount(); if(typeof renderTenants==='function')renderTenants(); toast((tenantName[slug]||slug)+' — '+TX('reactivated')); }
+function confirmSuspend(){ const slug=suspendTarget; const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='suspended'; closeSuspendModal(); _refreshTenantScreens(slug); toast((tenantName[slug]||slug)+' — '+TX('suspended')); }
+function _refreshTenantScreens(slug){ if(typeof renderAccount==='function')renderAccount(); if(typeof renderTenants==='function')renderTenants(); const sm=document.getElementById('screen-tenant-manage'); if(sm&&sm.classList.contains('show')&&TENANT_DIR.some(t=>t.slug===slug))renderTenantManage(slug); }
+function reactivateTenant(slug){ const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='active'; _refreshTenantScreens(slug); toast((tenantName[slug]||slug)+' — '+TX('reactivated')); }
+const TENANT_LOGOS={};
+function tenantLogoUpload(slug,input){ const file=input&&input.files&&input.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=>{ TENANT_LOGOS[slug]=r.result; renderTenantManage(slug); toast((tenantName[slug]||slug)+' — '+TX('logo updated')); }; r.readAsDataURL(file); }
+function tenantLogoClear(slug){ delete TENANT_LOGOS[slug]; renderTenantManage(slug); }
+let delTarget=null;
+function openDeleteTenantModal(slug){ delTarget=slug; const e=document.getElementById('delTenantTarget'); if(e)e.textContent=(tenantName[slug]||slug); document.getElementById('delTenantModal').classList.add('show'); }
+function closeDeleteTenantModal(){ document.getElementById('delTenantModal').classList.remove('show'); delTarget=null; }
+function confirmDeleteTenant(){ const slug=delTarget; const i=TENANT_DIR.findIndex(t=>t.slug===slug); if(i>=0)TENANT_DIR.splice(i,1); if(currentTenant===slug)currentTenant='all'; if(currentTenantCtx===slug)currentTenantCtx=null; delete TENANT_LOGOS[slug]; closeDeleteTenantModal(); renderTenants(); go('tenants'); toast((tenantName[slug]||slug)+' — '+TX('deleted')); }
+function openAddTenantModal(){ ['atName','atSlug'].forEach(id=>{const e=document.getElementById(id); if(e){e.value='';e.removeAttribute('data-touched');}}); document.getElementById('addTenantModal').classList.add('show'); setTimeout(()=>{const e=document.getElementById('atName'); if(e)e.focus();},40); }
+function closeAddTenantModal(){ document.getElementById('addTenantModal').classList.remove('show'); }
+function atSlugFrom(){ const n=document.getElementById('atName'), s=document.getElementById('atSlug'); if(n&&s&&!s.dataset.touched){ s.value=n.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,24); } }
+function confirmAddTenant(){ const name=(document.getElementById('atName').value||'').trim(); let slug=(document.getElementById('atSlug').value||'').trim().toLowerCase().replace(/[^a-z0-9-]/g,''); const plan=document.getElementById('atPlan').value, region=document.getElementById('atRegion').value; if(!name){toast(TX('Enter a tenant name'));return;} if(!slug)slug=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); if(TENANT_DIR.some(t=>t.slug===slug)){toast(TX('That slug is already in use'));return;} const palette=['#2EE6C8','#94A2FF','#F6B53F','#FF8A5B','#5BC8FF','#C98BFF','#56D364']; TENANT_DIR.push({slug,plan,status:'active',col:0,online:0,max:10,sites:0,regions:[region],mrr:0,since:(new Date().toLocaleString('en-US',{month:'short',year:'numeric'}))}); tenantName[slug]=name; tenantColors[slug]=palette[TENANT_DIR.length%palette.length]; closeAddTenantModal(); renderTenants(); manageTenant(slug); toast(name+' — '+TX('tenant created')); }
 function tcfgPickTenant(slug){ acctTenant=slug; if(typeof renderAccount==='function') renderAccount(); go('account'); }
 function tcfgBackToAll(){ acctTenant=null; if(typeof renderAccount==='function') renderAccount(); go('account'); }
 function tcfgReset(){ if(typeof renderAccount==='function') renderAccount(); }
@@ -9175,7 +9327,7 @@ function renderAccount(){
     </div></div>
     <div class="gcfg">
       ${accountModelCard()}
-      ${MSP_DEPLOYMENT==='single' ? '' : tcfgBody()}
+      ${MSP_DEPLOYMENT==='single' ? tcfgBody() : ''}
       ${orgCard}
       ${supportCard}
       ${ssoCard}
