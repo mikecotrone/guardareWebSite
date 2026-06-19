@@ -681,6 +681,25 @@
   .git-arr-add{font:inherit;font-size:11.5px;font-weight:600;color:var(--teal);background:none;border:1px dashed var(--teal-deep);border-radius:7px;padding:5px 10px;cursor:pointer;transition:.14s}
   .git-arr-add:hover{background:var(--teal-ghost)}
   .git-arr-tag{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:9.5px;color:var(--mute);font-weight:600;margin-left:6px;letter-spacing:.02em;text-transform:none}
+  .intg-rich{margin:4px 0 2px;border-top:1px solid var(--line);padding-top:11px}
+  .intg-rich-lbl{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:9px}
+  .gcfg-subhead{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 11px;padding-top:14px;border-top:1px solid var(--line)}
+  .urm-row{display:grid;grid-template-columns:auto 1fr 1.4fr auto;gap:11px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+  .urm-row:last-child{border-bottom:0}
+  .urm-row.off{opacity:.55}
+  .urm-tog{position:relative;display:inline-flex;cursor:pointer}
+  .urm-tog input{position:absolute;opacity:0;width:0;height:0}
+  .urm-sw{width:34px;height:19px;border-radius:99px;background:var(--raise);border:1px solid var(--line);position:relative;transition:.18s}
+  .urm-sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:99px;background:var(--mute);transition:.18s}
+  .urm-tog input:checked+.urm-sw{background:var(--teal-deep);border-color:var(--teal-deep)}
+  .urm-tog input:checked+.urm-sw::after{transform:translateX(15px);background:#fff}
+  .urm-id{min-width:0}
+  .urm-id b{display:block;font-size:12.5px;color:var(--text)}
+  .urm-id span{display:block;font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .urm-int{display:flex;align-items:center;gap:6px}
+  .urm-int input{width:56px;text-align:right}
+  .urm-sfx{font-size:11px;color:var(--mute)}
+  @media(max-width:760px){.urm-row{grid-template-columns:auto 1fr;gap:8px}.urm-url,.urm-int{grid-column:1/-1}}
   .tcfg-pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:18px}
   .tcfg-pick{display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--bg-2);cursor:pointer;text-align:left;transition:.14s;color:var(--text)}
   .tcfg-pick:hover{border-color:var(--teal-deep);background:var(--raise)}
@@ -5346,7 +5365,29 @@ const I18N={
   "none":"nessuno",
   "wired in the next build":"disponibile nella prossima build",
   "GitOps repository settings saved":"Impostazioni repository GitOps salvate",
-  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connessione GitHub condivisa (URL base, versione API, organizzazione owner) si imposta una volta in Integrazioni API → GitHub ed è ereditata qui. Ogni servizio sotto scarica il proprio file di configurazione con un token conservato come Docker secret — mai nello YAML."
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connessione GitHub condivisa (URL base, versione API, organizzazione owner) si imposta una volta in Integrazioni API → GitHub ed è ereditata qui. Ogni servizio sotto scarica il proprio file di configurazione con un token conservato come Docker secret — mai nello YAML.",
+  "CLI Worker Pool":"Pool di worker CLI",
+  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"Pool di worker shell che il collector usa per eseguire sonde CLI e SSH sui dispositivi.",
+  "Shell instances":"Istanze shell",
+  "Job timeout (sec)":"Timeout job (sec)",
+  "Per-shell queue max":"Coda max per shell",
+  "Concurrent shell workers — cli_worker_pool.shell_instances.":"Worker shell concorrenti — cli_worker_pool.shell_instances.",
+  "Seconds before a CLI job is killed — job_timeout_seconds.":"Secondi prima che un job CLI venga terminato — job_timeout_seconds.",
+  "Max queued jobs per shell worker — per_shell_queue_max.":"Job max in coda per worker shell — per_shell_queue_max.",
+  "Per-microservice status monitors":"Monitor di stato per microservizio",
+  "Heartbeat probe URL — paste from UptimeRobot":"URL sonda heartbeat — incolla da UptimeRobot",
+  "sec":"sec",
+  "Host":"Host",
+  "Port":"Porta",
+  "Username":"Nome utente",
+  "Password":"Password",
+  "Database names":"Nomi dei database",
+  "Normalized":"Normalizzato",
+  "Collector ops":"Operazioni collector",
+  "Rules-fired state":"Stato regole attivate",
+  "HuduSync":"HuduSync",
+  "Events Director":"Events Director",
+  "How often this service pulls its config from GitHub.":"Con quale frequenza questo servizio scarica la configurazione da GitHub."
  },
  fr:{
   "Operations":"Opérations","MSP Management":"Gestion MSP","Configuration":"Configuration",
@@ -5644,7 +5685,29 @@ const I18N={
   "none":"aucun",
   "wired in the next build":"disponible dans la prochaine build",
   "GitOps repository settings saved":"Paramètres du dépôt GitOps enregistrés",
-  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connexion GitHub partagée (URL de base, version d'API, organisation propriétaire) se définit une fois dans Intégrations API → GitHub et est héritée ici. Chaque service ci-dessous récupère son propre fichier de config avec un jeton conservé comme secret Docker — jamais dans le YAML."
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connexion GitHub partagée (URL de base, version d'API, organisation propriétaire) se définit une fois dans Intégrations API → GitHub et est héritée ici. Chaque service ci-dessous récupère son propre fichier de config avec un jeton conservé comme secret Docker — jamais dans le YAML.",
+  "CLI Worker Pool":"Pool de workers CLI",
+  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"Pool de workers shell que le collecteur utilise pour exécuter les sondes CLI et SSH des équipements.",
+  "Shell instances":"Instances shell",
+  "Job timeout (sec)":"Délai du job (s)",
+  "Per-shell queue max":"File max par shell",
+  "Concurrent shell workers — cli_worker_pool.shell_instances.":"Workers shell simultanés — cli_worker_pool.shell_instances.",
+  "Seconds before a CLI job is killed — job_timeout_seconds.":"Secondes avant qu'un job CLI soit tué — job_timeout_seconds.",
+  "Max queued jobs per shell worker — per_shell_queue_max.":"Jobs max en file par worker shell — per_shell_queue_max.",
+  "Per-microservice status monitors":"Moniteurs d'état par microservice",
+  "Heartbeat probe URL — paste from UptimeRobot":"URL de sonde heartbeat — coller depuis UptimeRobot",
+  "sec":"s",
+  "Host":"Hôte",
+  "Port":"Port",
+  "Username":"Nom d'utilisateur",
+  "Password":"Mot de passe",
+  "Database names":"Noms des bases de données",
+  "Normalized":"Normalisé",
+  "Collector ops":"Ops du collecteur",
+  "Rules-fired state":"État des règles déclenchées",
+  "HuduSync":"HuduSync",
+  "Events Director":"Events Director",
+  "How often this service pulls its config from GitHub.":"Fréquence à laquelle ce service récupère sa config depuis GitHub."
  },
  es:{
   "Operations":"Operaciones","MSP Management":"Gestión MSP","Configuration":"Configuración",
@@ -5942,7 +6005,29 @@ const I18N={
   "none":"ninguno",
   "wired in the next build":"disponible en la próxima compilación",
   "GitOps repository settings saved":"Configuración del repositorio GitOps guardada",
-  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La conexión compartida de GitHub (URL base, versión de API, organización propietaria) se define una vez en Integraciones API → GitHub y se hereda aquí. Cada servicio de abajo descarga su propio archivo de config con un token guardado como secret de Docker — nunca en el YAML."
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La conexión compartida de GitHub (URL base, versión de API, organización propietaria) se define una vez en Integraciones API → GitHub y se hereda aquí. Cada servicio de abajo descarga su propio archivo de config con un token guardado como secret de Docker — nunca en el YAML.",
+  "CLI Worker Pool":"Pool de workers CLI",
+  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"Pool de workers de shell que el collector usa para ejecutar sondas CLI y SSH de dispositivos.",
+  "Shell instances":"Instancias de shell",
+  "Job timeout (sec)":"Tiempo de espera del job (s)",
+  "Per-shell queue max":"Cola máx. por shell",
+  "Concurrent shell workers — cli_worker_pool.shell_instances.":"Workers de shell concurrentes — cli_worker_pool.shell_instances.",
+  "Seconds before a CLI job is killed — job_timeout_seconds.":"Segundos antes de matar un job CLI — job_timeout_seconds.",
+  "Max queued jobs per shell worker — per_shell_queue_max.":"Máx. de jobs en cola por worker de shell — per_shell_queue_max.",
+  "Per-microservice status monitors":"Monitores de estado por microservicio",
+  "Heartbeat probe URL — paste from UptimeRobot":"URL de sonda heartbeat — pega desde UptimeRobot",
+  "sec":"s",
+  "Host":"Host",
+  "Port":"Puerto",
+  "Username":"Nombre de usuario",
+  "Password":"Contraseña",
+  "Database names":"Nombres de bases de datos",
+  "Normalized":"Normalizado",
+  "Collector ops":"Operaciones del collector",
+  "Rules-fired state":"Estado de reglas disparadas",
+  "HuduSync":"HuduSync",
+  "Events Director":"Events Director",
+  "How often this service pulls its config from GitHub.":"Con qué frecuencia este servicio descarga su configuración desde GitHub."
  },
  pt:{
   "Operations":"Operações","MSP Management":"Gestão MSP","Configuration":"Configuração",
@@ -6241,7 +6326,29 @@ const I18N={
   "none":"nenhum",
   "wired in the next build":"disponível na próxima build",
   "GitOps repository settings saved":"Configurações do repositório GitOps salvas",
-  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"A conexão partilhada do GitHub (URL base, versão da API, organização proprietária) é definida uma vez em Integrações de API → GitHub e herdada aqui. Cada serviço abaixo obtém o seu próprio arquivo de config com um token guardado como Docker secret — nunca no YAML."
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"A conexão partilhada do GitHub (URL base, versão da API, organização proprietária) é definida uma vez em Integrações de API → GitHub e herdada aqui. Cada serviço abaixo obtém o seu próprio arquivo de config com um token guardado como Docker secret — nunca no YAML.",
+  "CLI Worker Pool":"Pool de workers CLI",
+  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"O collector usa este pool de workers de shell para executar sondas CLI e SSH em dispositivos.",
+  "Shell instances":"Instâncias de shell",
+  "Job timeout (sec)":"Timeout do job (s)",
+  "Per-shell queue max":"Fila máx. por shell",
+  "Concurrent shell workers — cli_worker_pool.shell_instances.":"Workers de shell simultâneos — cli_worker_pool.shell_instances.",
+  "Seconds before a CLI job is killed — job_timeout_seconds.":"Segundos antes de um job CLI ser encerrado — job_timeout_seconds.",
+  "Max queued jobs per shell worker — per_shell_queue_max.":"Máx. de jobs em fila por worker de shell — per_shell_queue_max.",
+  "Per-microservice status monitors":"Monitores de estado por microsserviço",
+  "Heartbeat probe URL — paste from UptimeRobot":"URL da sonda heartbeat — cole do UptimeRobot",
+  "sec":"s",
+  "Host":"Host",
+  "Port":"Porta",
+  "Username":"Nome de utilizador",
+  "Password":"Palavra-passe",
+  "Database names":"Nomes das bases de dados",
+  "Normalized":"Normalizado",
+  "Collector ops":"Operações do collector",
+  "Rules-fired state":"Estado de regras disparadas",
+  "HuduSync":"HuduSync",
+  "Events Director":"Events Director",
+  "How often this service pulls its config from GitHub.":"Com que frequência este serviço obtém a sua config do GitHub."
  },
  ja:{
   "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
@@ -6538,7 +6645,29 @@ const I18N={
   "none":"なし",
   "wired in the next build":"次のビルドで対応",
   "GitOps repository settings saved":"GitOpsリポジトリ設定を保存しました",
-  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"共有の GitHub 接続（ベースURL・APIバージョン・所有組織）は API連携 → GitHub で一度設定され、ここに継承されます。下の各サービスは、Docker secret として保持されたトークンを使って自分の設定ファイルを取得します — YAML には決して書きません。"
+  "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"共有の GitHub 接続（ベースURL・APIバージョン・所有組織）は API連携 → GitHub で一度設定され、ここに継承されます。下の各サービスは、Docker secret として保持されたトークンを使って自分の設定ファイルを取得します — YAML には決して書きません。",
+  "CLI Worker Pool":"CLIワーカープール",
+  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"コレクターが CLI/SSH デバイスプローブの実行に使うシェルワーカープール。",
+  "Shell instances":"シェルインスタンス",
+  "Job timeout (sec)":"ジョブタイムアウト（秒）",
+  "Per-shell queue max":"シェルごとの最大キュー",
+  "Concurrent shell workers — cli_worker_pool.shell_instances.":"同時実行シェルワーカー — cli_worker_pool.shell_instances。",
+  "Seconds before a CLI job is killed — job_timeout_seconds.":"CLI ジョブが強制終了されるまでの秒数 — job_timeout_seconds。",
+  "Max queued jobs per shell worker — per_shell_queue_max.":"シェルワーカーごとの最大キュー済みジョブ数 — per_shell_queue_max。",
+  "Per-microservice status monitors":"マイクロサービスごとのステータスモニター",
+  "Heartbeat probe URL — paste from UptimeRobot":"ハートビートプローブURL — UptimeRobotから貼り付け",
+  "sec":"秒",
+  "Host":"ホスト",
+  "Port":"ポート",
+  "Username":"ユーザー名",
+  "Password":"パスワード",
+  "Database names":"データベース名",
+  "Normalized":"正規化",
+  "Collector ops":"コレクター運用",
+  "Rules-fired state":"発火ルール状態",
+  "HuduSync":"HuduSync",
+  "Events Director":"Events Director",
+  "How often this service pulls its config from GitHub.":"このサービスが GitHub から設定を取得する頻度。"
  }
 };
 function TX(k){ if(lang==='en') return k; const m=I18N[lang]; return (m&&m[k])||k; }
@@ -7336,10 +7465,28 @@ const INTEGRATIONS=[
    ]},
   {id:'pagerduty',name:'PagerDuty',cat:'Alerting / On-call',group:'alerting',scope:'tenant',c:'#41D98A',
    desc:'Route critical and warning alerts to the right on-call schedules and escalation policies.',
-   connected:false, endpoint:'https://events.pagerduty.com/v2/enqueue', fields:[['Integration key','password','']]},
+   connected:false, endpoint:'https://events.pagerduty.com/v2/enqueue', fields:[
+     ['ITSM service name','text','pagerDuty'],
+     ['API token','password','••••••••••••'],
+     ['From email','text','mikec@vistatechgso.com'],
+     ['Maint-window check (sec)','text','300'],
+     ['Incident-status check (sec)','text','60'],
+     ['Absence prune timeout (sec)','text','3600'],
+     ['Max prune per cycle','text','10']
+   ]},
   {id:'incidentio',name:'incident.io',cat:'Alerting / On-call',group:'alerting',scope:'tenant',c:'#6359FF',
    desc:'Open and resolve incidents in incident.io from Guardare alerts, with on-call routing, escalation policies and status-page sync.',
    connected:false, endpoint:'https://api.incident.io/v2/alert_events/http/', fields:[['Bearer token','password',''],['Alert source ID','text','']]},
+  {id:'uptimerobot',name:'UptimeRobot',cat:'Status & uptime',group:'monitoring',scope:'platform',c:'#3BD671',
+   desc:'Heartbeat monitors that report each collector microservice\u2019s liveness to a public status page.',
+   connected:true, endpoint:'https://heartbeat.uptimerobot.com', fields:[['Default send interval (sec)','text','60']], richFn:'uptimeRobotConfig'},
+  {id:'hudu',name:'Hudu',cat:'IT Documentation',group:'docs',scope:'platform',c:'#7C6CF6',
+   desc:'Sync discovered devices and assets into Hudu IT documentation. Keys are held as Docker secrets, never in config files.',
+   connected:true, endpoint:'https://vistatech.huducloud.com/api/v1', fields:[
+     ['Enabled','select','true',[['true','Enabled'],['false','Disabled']]],
+     ['API key','password','••••••••••••'],
+     ['Admin API key','password','••••••••••••']
+   ]},
   {id:'anthropic',name:'Anthropic',cat:'AI / Ops Assistant',group:'ai',scope:'platform',c:'#D97757',
    desc:'Summarize alert storms, explain collector anomalies, and draft remediation runbooks with Claude — powering Guardare AI triage.',
    connected:true, endpoint:'https://api.anthropic.com/v1/messages',
@@ -7348,6 +7495,8 @@ const INTEGRATIONS=[
 const INTG_GROUPS=[
   ['servicedesk','Service desk & ITSM'],
   ['alerting','Alerting & on-call'],
+  ['monitoring','Status & uptime'],
+  ['docs','Documentation & assets'],
   ['gitops','GitOps & configuration'],
   ['ai','AI & automation'],
 ];
@@ -7390,6 +7539,7 @@ function intgCard(it, scope){
         </select></div>`
     : `<div class="intg-field"><label>${f[0]}</label>
         <input class="tm-input" type="${f[1]}" value="${f[2]||''}" ${f[1]==='password'?'placeholder="••••••••"':'placeholder="'+TX('Not set')+'"'} onchange="toast('${it.name} — ${TX('unsaved change')}')"></div>`).join('');
+  const richHtml = (!readOnly && it.richFn && typeof window[it.richFn]==='function') ? window[it.richFn](it,scope) : '';
   let actions;
   if(mode==='inherited') actions=`<span class="intg-note-inline">${TX('Managed at platform level')}</span><button class="btn ${connected?'danger':'primary'}" onclick="intgOp('${it.id}',${connected?'false':'true'})">${connected?TX('Disconnect'):TX('Connect')}</button>`;
   else if(mode==='rollup') actions=`<span class="intg-note-inline">${rollN} ${TX('of')} ${TENANT_INTG_TOTAL} ${TX('tenants connected')}</span><button class="btn" onclick="toast('${TX('Pick a tenant from the switcher to configure')}')">${TX('Configure per tenant')}</button>`;
@@ -7406,6 +7556,7 @@ function intgCard(it, scope){
       <p class="intg-desc">${it.desc}</p>
       ${epField}
       ${fieldsHtml}
+      ${richHtml}
       <div class="intg-actions">${actions}</div>
     </div>`;
 }
@@ -7420,14 +7571,31 @@ function toggleIntgAcc(btn){
 }
 function _intgDefaultOpen(){
   const isAll=tenantScope()==='all';
-  const order = isAll ? ['gitops','ai','servicedesk','alerting'] : ['servicedesk','alerting','gitops','ai'];
+  const order = isAll ? ['gitops','ai','servicedesk','alerting','monitoring','docs'] : ['servicedesk','alerting','monitoring','docs','gitops','ai'];
   const first=order.find(k=>INTEGRATIONS.some(i=>i.group===k));
   return first?[first]:[];
 }
+function uptimeRobotConfig(it,scope){
+  const mons=[
+    ['vCollector','Status Page Monitor for vCollector Microservice',true,'https://heartbeat.uptimerobot.com/m798708860-••••••••••••••••••••',60],
+    ['normalizer','Status Page Monitor for Normalizer Microservice',true,'https://heartbeat.uptimerobot.com/m••••••••-••••••••••••••••••••',60],
+    ['eventsDirector','Status Page Monitor for Events Director Microservice',true,'https://heartbeat.uptimerobot.com/m••••••••-••••••••••••••••••••',60],
+    ['hudusync','Status Page Monitor for HuduSync Microservice',false,'',60]
+  ];
+  const rows=mons.map(([name,desc,on,url,sec])=>`
+    <div class="urm-row${on?'':' off'}">
+      <label class="urm-tog"><input type="checkbox" ${on?'checked':''} onchange="toast('UptimeRobot · ${name} ' + (this.checked?'${TX('enabled')}':'${TX('disabled')}'))"><span class="urm-sw"></span></label>
+      <div class="urm-id"><b>${name}</b><span>${desc}</span></div>
+      <div class="urm-url"><input class="tm-input mono" value="${url}" placeholder="${TX('Heartbeat probe URL — paste from UptimeRobot')}" autocomplete="off" spellcheck="false"></div>
+      <div class="urm-int"><input class="tm-input mono" value="${sec}"><span class="urm-sfx">${TX('sec')}</span></div>
+    </div>`).join('');
+  return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Per-microservice status monitors')} <span class="git-arr-tag">statusPageMonitoringIntegration</span></div>${rows}</div>`;
+}
+
 function renderIntegrations(){
   const scope=tenantScope(), isAll=scope==='all';
   const titleOf={}; INTG_GROUPS.forEach(([k,t])=>titleOf[k]=t);
-  const order = isAll ? ['gitops','ai','servicedesk','alerting'] : ['servicedesk','alerting','gitops','ai'];
+  const order = isAll ? ['gitops','ai','servicedesk','alerting','monitoring','docs'] : ['servicedesk','alerting','monitoring','docs','gitops','ai'];
   const firstKey=order.find(k=>INTEGRATIONS.some(i=>i.group===k));
   const sections=order.map(key=>{
     const items=INTEGRATIONS.filter(i=>i.group===key);
@@ -8024,6 +8192,18 @@ function cfgBaseForm(coll){
         </div>
       </div>
     </div>
+    <div class="gcfg-card">
+      <div class="gcfg-chead">
+        <span class="gcfg-cic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></span>
+        <div class="gcfg-ctext"><h3>${TX('CLI Worker Pool')}</h3><p>${TX('Shell-out worker pool the collector uses to run CLI and SSH device probes.')}</p></div>
+        <span class="cfg-scope-pill local">${TX('On-box')}</span>
+      </div>
+      <div class="gcfg-grid">
+        ${field('gcfg_cli_shell',TX('Shell instances'),'6',TX('Concurrent shell workers — cli_worker_pool.shell_instances.'))}
+        ${field('gcfg_cli_timeout',TX('Job timeout (sec)'),'15',TX('Seconds before a CLI job is killed — job_timeout_seconds.'))}
+        ${field('gcfg_cli_queue',TX('Per-shell queue max'),'100',TX('Max queued jobs per shell worker — per_shell_queue_max.'))}
+      </div>
+    </div>
     <div class="gcfg-actions">
       <button class="btn" onclick="cfgBaseReset()">${TX('Reset')}</button>
       <button class="btn primary" onclick="cfgBaseSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
@@ -8130,6 +8310,9 @@ function ucfgToggleSvc(k){
 function cfgDbForm(coll){
   const dbIcon='<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>';
   const cloudIcon='<svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a3.5 3.5 0 0 1-.5 8.5z"/></svg>';
+  const keyIc='<svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15 19 4l2 2-2 2 2 2-3 3-2-2"/></svg>';
+  const f=(id,label,val,hint,span)=>`<div class="gcfg-field${span?' span2':''}"><label for="${id}">${label}</label><div class="gcfg-iwrap"><input id="${id}" class="tm-input mono" value="${_esc(val)}" autocomplete="off" spellcheck="false"></div>${hint?`<span class="gcfg-hint">${hint}</span>`:''}</div>`;
+  const pw=(id,label,hint)=>`<div class="gcfg-field"><label for="${id}">${label}<span class="gcfg-locktag">${keyIc}${TX('Docker secret')}</span></label><div class="gcfg-iwrap"><input id="${id}" class="tm-input mono" type="password" value="" placeholder="••••••••••••"></div>${hint?`<span class="gcfg-hint">${hint}</span>`:''}</div>`;
   return `
   <div class="gcfg">
     <div class="gcfg-card">
@@ -8139,10 +8322,19 @@ function cfgDbForm(coll){
           <p>${TX('Distributed to each collector — a local MariaDB that runs on the on-site appliance itself, behind the customer firewall.')}</p></div>
         <span class="cfg-scope-pill local">${TX('On-box')}</span>
       </div>
-      <div class="gcfg-placeholder">
-        <span class="gcfg-ph-ic">${dbIcon}</span>
-        <b>${TX('Collector MariaDB options coming next')}</b>
-        <span>${TX('Every collector ships with its own MariaDB out at the customer site to buffer telemetry and drive the outbound message queue — one instance per appliance, separate from the central server that hosts this console. Connection, buffer retention, queue drain and partition policy will be configured here.')}</span>
+      <div class="gcfg-grid">
+        ${f('db_host',TX('Host'),'localhost')}
+        ${f('db_port',TX('Port'),'3306')}
+        ${f('db_user',TX('Username'),'<db-username>')}
+        ${pw('db_pass',TX('Password'),TX('Resolved from a Docker secret at runtime — never written to the config file.'))}
+      </div>
+      <div class="gcfg-subhead">${TX('Database names')} <span class="git-arr-tag">databases</span></div>
+      <div class="gcfg-grid">
+        ${f('db_normalized',TX('Normalized'),'normalizedDb')}
+        ${f('db_collectorops',TX('Collector ops'),'collectorOpsDb')}
+        ${f('db_rulesfired',TX('Rules-fired state'),'rulesFiredStateDb')}
+        ${f('db_hudusync',TX('HuduSync'),'huduSyncDb')}
+        ${f('db_eventsdir',TX('Events Director'),'eventsDirectorDb')}
       </div>
     </div>
     <div class="gcfg-card">
@@ -8639,7 +8831,12 @@ function cfgGitOpsForm(coll){
 
   const note=`<div class="cfg-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>${TX('The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.')}</div>`;
   const actions=`<div class="gcfg-actions" style="padding:2px 2px 6px"><button class="btn" onclick="renderCfgMgr()">${TX('Reset')}</button><button class="btn primary" onclick="toast('${TX('GitOps repository settings saved')}')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button></div>`;
-  return `<div class="gcfg">${note}${vcol}${norm}${ev}${actions}</div>`;
+  const hudu = card('HuduSync','hudusync',
+    tokField('git_hs_tok','${HUDUSYNC_REPO_TOKEN}')+
+    field('git_hs_uri',TX('Repo config URI'),'huduSyncCFG/')+
+    field('git_hs_file',TX('Config file name'),'_huduSync.yaml')+
+    `<div class="gcfg-field"><label for="git_hs_poll">${TX('Poll interval')} <span class="git-arr-tag">seconds</span></label><div class="gcfg-iwrap"><input id="git_hs_poll" class="tm-input mono" value="300"></div><span class="gcfg-hint">${TX('How often this service pulls its config from GitHub.')}</span></div>`);
+  return `<div class="gcfg">${note}${vcol}${norm}${ev}${hudu}${actions}</div>`;
 }
 
 function renderCfgMgr(){
