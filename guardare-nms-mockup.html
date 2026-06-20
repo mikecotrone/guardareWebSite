@@ -1465,7 +1465,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.180.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.181.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5217,7 +5217,7 @@ snmp_field_mapping:
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
 const I18N={
- it:{'All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
+ it:{'Tenant Dashboard':'Dashboard clienti','All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
   'Remove':'Rimuovi',
   'Branding':'Marchio',
   'Upload logo':'Carica logo',
@@ -5584,7 +5584,7 @@ const I18N={
   "MSP Organization Details":"Dettagli organizzazione MSP",
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
- fr:{'All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
+ fr:{'Tenant Dashboard':'Tableau de bord clients','All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
   'Remove':'Retirer',
   'Branding':'Image de marque',
   'Upload logo':'Importer le logo',
@@ -5951,7 +5951,7 @@ const I18N={
   "MSP Organization Details":"Détails de l'organisation MSP",
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
- es:{'All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
+ es:{'Tenant Dashboard':'Panel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
   'Remove':'Quitar',
   'Branding':'Marca',
   'Upload logo':'Subir logotipo',
@@ -6318,7 +6318,7 @@ const I18N={
   "MSP Organization Details":"Detalles de la organización MSP",
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
- pt:{'All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
+ pt:{'Tenant Dashboard':'Painel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
   'Remove':'Remover',
   'Branding':'Marca',
   'Upload logo':'Carregar logótipo',
@@ -6686,7 +6686,7 @@ const I18N={
   "MSP Organization Details":"Detalhes da organização MSP",
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
- ja:{'All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
+ ja:{'Tenant Dashboard':'テナントダッシュボード','All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
   'Remove':'削除',
   'Branding':'ブランディング',
   'Upload logo':'ロゴをアップロード',
@@ -7471,7 +7471,7 @@ function renderTenants(){
     <div class="page-head">
       <div>
         <div class="page-eyebrow">${TX('Operations')}</div>
-        <h1 class="page-title" data-i18n="Tenant Management">${TX('Tenant Management')}</h1>
+        <h1 class="page-title" data-i18n="Tenant Dashboard">${TX('Tenant Dashboard')}</h1>
         <p class="page-sub" data-i18n="Create, suspend, and configure customer organizations.">${TX('Create, suspend, and configure customer organizations.')}</p>
       </div>
     </div>
@@ -9065,7 +9065,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.180.alpha';
+const APP_VERSION='v2026.02.181.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9136,7 +9136,29 @@ function tenantLogoClear(slug){ delete TENANT_LOGOS[slug]; _saveTenantLogos(); r
 let delTarget=null;
 function openDeleteTenantModal(slug){ delTarget=slug; const e=document.getElementById('delTenantTarget'); if(e)e.textContent=(tenantName[slug]||slug); document.getElementById('delTenantModal').classList.add('show'); }
 function closeDeleteTenantModal(){ document.getElementById('delTenantModal').classList.remove('show'); delTarget=null; }
-function confirmDeleteTenant(){ const slug=delTarget; const i=TENANT_DIR.findIndex(t=>t.slug===slug); if(i>=0)TENANT_DIR.splice(i,1); if(currentTenant===slug)currentTenant='all'; if(currentTenantCtx===slug)currentTenantCtx=null; delete TENANT_LOGOS[slug]; _saveTenantLogos(); closeDeleteTenantModal(); renderTenants(); go('tenants'); toast((tenantName[slug]||slug)+' — '+TX('deleted')); }
+function _suppressTenantData(slug){
+  /* remove every dynamic record linked to a deleted tenant (mutate const arrays/objects in place) */
+  for(let i=fleetRows.length-1;i>=0;i--) if(fleetRows[i][1]===slug) fleetRows.splice(i,1);
+  for(let i=alerts.length-1;i>=0;i--) if(alerts[i][3]===slug) alerts.splice(i,1);
+  for(let i=AUDIT_LOG.length-1;i>=0;i--) if(AUDIT_LOG[i].tenant===slug) AUDIT_LOG.splice(i,1);
+  Object.keys(COLLECTOR_SITES).forEach(k=>{ if(k.indexOf(slug+':')===0) delete COLLECTOR_SITES[k]; });
+  if(typeof TENANTS!=='undefined') delete TENANTS[slug];
+  Object.keys(REGION_TENANT).forEach(rid=>{ if(REGION_TENANT[rid]===slug){ delete REGION_TENANT[rid]; const ix=ALL_REGIONS.indexOf(rid); if(ix>=0) ALL_REGIONS.splice(ix,1); } });
+  try{ document.querySelectorAll('.blip[data-tenant="'+slug+'"]').forEach(n=>n.remove()); }catch(e){}
+}
+function confirmDeleteTenant(){
+  const slug=delTarget;
+  const i=TENANT_DIR.findIndex(t=>t.slug===slug); if(i>=0)TENANT_DIR.splice(i,1);
+  if(currentTenant===slug)currentTenant='all'; if(currentTenantCtx===slug)currentTenantCtx=null;
+  delete TENANT_LOGOS[slug]; _saveTenantLogos();
+  _suppressTenantData(slug);
+  closeDeleteTenantModal();
+  if(typeof refreshDashboard==='function')refreshDashboard();
+  if(typeof setupRadars==='function')setupRadars();
+  if(typeof renderTenantMenu==='function')renderTenantMenu();
+  renderTenants(); go('tenants');
+  toast((tenantName[slug]||slug)+' — '+TX('deleted'));
+}
 function openAddTenantModal(){ ['atName','atSlug'].forEach(id=>{const e=document.getElementById(id); if(e){e.value='';e.removeAttribute('data-touched');}}); document.getElementById('addTenantModal').classList.add('show'); setTimeout(()=>{const e=document.getElementById('atName'); if(e)e.focus();},40); }
 function closeAddTenantModal(){ document.getElementById('addTenantModal').classList.remove('show'); }
 function atSlugFrom(){ const n=document.getElementById('atName'), s=document.getElementById('atSlug'); if(n&&s&&!s.dataset.touched){ s.value=n.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,24); } }
