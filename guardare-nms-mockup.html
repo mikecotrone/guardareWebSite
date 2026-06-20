@@ -1465,7 +1465,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.179.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.180.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9065,7 +9065,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.179.alpha';
+const APP_VERSION='v2026.02.180.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9129,13 +9129,14 @@ function closeSuspendModal(){ document.getElementById('suspendModal').classList.
 function confirmSuspend(){ const slug=suspendTarget; const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='suspended'; closeSuspendModal(); _refreshTenantScreens(slug); toast((tenantName[slug]||slug)+' — '+TX('suspended')); }
 function _refreshTenantScreens(slug){ if(typeof renderAccount==='function')renderAccount(); if(typeof renderTenants==='function')renderTenants(); const sm=document.getElementById('screen-tenant-manage'); if(sm&&sm.classList.contains('show')&&TENANT_DIR.some(t=>t.slug===slug))renderTenantManage(slug); }
 function reactivateTenant(slug){ const d=TENANT_DIR.find(t=>t.slug===slug); if(d)d.status='active'; _refreshTenantScreens(slug); toast((tenantName[slug]||slug)+' — '+TX('reactivated')); }
-const TENANT_LOGOS={};
-function tenantLogoUpload(slug,input){ const file=input&&input.files&&input.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=>{ TENANT_LOGOS[slug]=r.result; renderTenantManage(slug); toast((tenantName[slug]||slug)+' — '+TX('logo updated')); }; r.readAsDataURL(file); }
-function tenantLogoClear(slug){ delete TENANT_LOGOS[slug]; renderTenantManage(slug); }
+const TENANT_LOGOS=(function(){ try{ const s=localStorage.getItem('guardare_tenant_logos'); return s?(JSON.parse(s)||{}):{}; }catch(e){ return {}; } })();
+function _saveTenantLogos(){ try{ localStorage.setItem('guardare_tenant_logos', JSON.stringify(TENANT_LOGOS)); }catch(e){} }
+function tenantLogoUpload(slug,input){ const file=input&&input.files&&input.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=>{ TENANT_LOGOS[slug]=r.result; _saveTenantLogos(); renderTenantManage(slug); toast((tenantName[slug]||slug)+' — '+TX('logo updated')); }; r.readAsDataURL(file); }
+function tenantLogoClear(slug){ delete TENANT_LOGOS[slug]; _saveTenantLogos(); renderTenantManage(slug); }
 let delTarget=null;
 function openDeleteTenantModal(slug){ delTarget=slug; const e=document.getElementById('delTenantTarget'); if(e)e.textContent=(tenantName[slug]||slug); document.getElementById('delTenantModal').classList.add('show'); }
 function closeDeleteTenantModal(){ document.getElementById('delTenantModal').classList.remove('show'); delTarget=null; }
-function confirmDeleteTenant(){ const slug=delTarget; const i=TENANT_DIR.findIndex(t=>t.slug===slug); if(i>=0)TENANT_DIR.splice(i,1); if(currentTenant===slug)currentTenant='all'; if(currentTenantCtx===slug)currentTenantCtx=null; delete TENANT_LOGOS[slug]; closeDeleteTenantModal(); renderTenants(); go('tenants'); toast((tenantName[slug]||slug)+' — '+TX('deleted')); }
+function confirmDeleteTenant(){ const slug=delTarget; const i=TENANT_DIR.findIndex(t=>t.slug===slug); if(i>=0)TENANT_DIR.splice(i,1); if(currentTenant===slug)currentTenant='all'; if(currentTenantCtx===slug)currentTenantCtx=null; delete TENANT_LOGOS[slug]; _saveTenantLogos(); closeDeleteTenantModal(); renderTenants(); go('tenants'); toast((tenantName[slug]||slug)+' — '+TX('deleted')); }
 function openAddTenantModal(){ ['atName','atSlug'].forEach(id=>{const e=document.getElementById(id); if(e){e.value='';e.removeAttribute('data-touched');}}); document.getElementById('addTenantModal').classList.add('show'); setTimeout(()=>{const e=document.getElementById('atName'); if(e)e.focus();},40); }
 function closeAddTenantModal(){ document.getElementById('addTenantModal').classList.remove('show'); }
 function atSlugFrom(){ const n=document.getElementById('atName'), s=document.getElementById('atSlug'); if(n&&s&&!s.dataset.touched){ s.value=n.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,24); } }
