@@ -939,8 +939,9 @@
   .tnt-stat-link{cursor:pointer;border-radius:7px;margin:-4px;padding:4px;transition:.13s}
   .tnt-stat-link:hover{background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
   .tm-logo-row{display:flex;gap:16px;align-items:center}
-  .tm-logo-prev{width:74px;height:74px;border-radius:14px;border:1px solid var(--line);background:var(--bg-2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
-  .tm-logo-prev img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+  .tm-logo-prev{width:74px;height:74px;border-radius:14px;border:1px solid var(--line);background:var(--bg-2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;position:relative}
+  .tm-logo-prev .tm-logo-bg{position:absolute;top:-20%;left:-20%;width:140%;height:140%;object-fit:cover;filter:blur(10px) saturate(1.15);transform:scale(1.04);z-index:0}
+  .tm-logo-prev .tm-logo-fg{position:relative;z-index:1;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
   .tm-logo-side{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
   .tm-logo-side .tm-note{font-size:11px;color:var(--mute);max-width:240px}
   .tnt-add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:180px;border:1.5px dashed var(--line)!important;background:transparent;color:var(--dim);cursor:pointer;transition:.15s}
@@ -1465,7 +1466,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.182.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.183.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -7780,7 +7781,7 @@ function renderTenantManage(slug){
       <div class="panel tm-card">
         <h3 class="tm-h">${TX('Branding')}</h3>
         <div class="tm-logo-row">
-          <div class="tm-logo-prev">${TENANT_LOGOS[slug]?`<img src="${TENANT_LOGOS[slug]}" alt="logo">`:`<span class="tn-avatar" style="background:${tenantColors[slug]||'var(--teal)'};width:54px;height:54px;font-size:19px">${tnInit(name)}</span>`}</div>
+          <div class="tm-logo-prev">${TENANT_LOGOS[slug]?`<img class="tm-logo-bg" src="${TENANT_LOGOS[slug]}" alt=""><img class="tm-logo-fg" src="${TENANT_LOGOS[slug]}" alt="logo">`:`<span class="tn-avatar" style="background:${tenantColors[slug]||'var(--teal)'};width:54px;height:54px;font-size:19px">${tnInit(name)}</span>`}</div>
           <div class="tm-logo-side">
             <label class="btn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>${TX('Upload logo')}</span><input type="file" accept="image/png,image/jpeg,image/svg+xml" style="display:none" onchange="tenantLogoUpload('${slug}',this)"></label>
             ${TENANT_LOGOS[slug]?`<button class="btn" onclick="tenantLogoClear('${slug}')">${TX('Remove')}</button>`:''}
@@ -9065,7 +9066,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.182.alpha';
+const APP_VERSION='v2026.02.183.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
