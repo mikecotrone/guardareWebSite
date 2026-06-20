@@ -1408,7 +1408,7 @@
       </button>
       <button class="plane-seg" data-plane="estate" role="tab" onclick="setSysPlane('estate')" title="Guardare Vista — observe the customer network &amp; systems estate">
         <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="ps-l"><b data-i18n="Estate">Estate</b><i>Guardare Vista</i></span>
+        <span class="ps-l"><b data-i18n="Observability">Observability</b><i>Guardare Vista</i></span>
       </button>
     </div>
     <div class="nav-group" data-i18n="Operations">Operations</div>
@@ -1465,7 +1465,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.176.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.178.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5216,7 +5216,7 @@ snmp_field_mapping:
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
 const I18N={
- it:{
+ it:{'Observability':'Osservabilità',
   'Remove':'Rimuovi',
   'Branding':'Marchio',
   'Upload logo':'Carica logo',
@@ -5583,7 +5583,7 @@ const I18N={
   "MSP Organization Details":"Dettagli organizzazione MSP",
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
- fr:{
+ fr:{'Observability':'Observabilité',
   'Remove':'Retirer',
   'Branding':'Image de marque',
   'Upload logo':'Importer le logo',
@@ -5950,7 +5950,7 @@ const I18N={
   "MSP Organization Details":"Détails de l'organisation MSP",
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
- es:{
+ es:{'Observability':'Observabilidad',
   'Remove':'Quitar',
   'Branding':'Marca',
   'Upload logo':'Subir logotipo',
@@ -6317,7 +6317,7 @@ const I18N={
   "MSP Organization Details":"Detalles de la organización MSP",
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
- pt:{
+ pt:{'Observability':'Observabilidade',
   'Remove':'Remover',
   'Branding':'Marca',
   'Upload logo':'Carregar logótipo',
@@ -6685,7 +6685,7 @@ const I18N={
   "MSP Organization Details":"Detalhes da organização MSP",
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
- ja:{
+ ja:{'Observability':'可観測性',
   'Remove':'削除',
   'Branding':'ブランディング',
   'Upload logo':'ロゴをアップロード',
@@ -8225,7 +8225,7 @@ function pickTenant(slug){
   currentTenantCtx=slug;
   currentTenant=slug;                 /* keep the dashboard context in sync with the topbar */
   refreshDashboard();                 /* radar, fleet grid, mini-alerts, ticker, console all follow */
-  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations'];
+  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations','account','tenantcfg'];
   let cur=SCREENS.find(s=>{const e=document.getElementById('screen-'+s); return e&&e.classList.contains('show');});
   if(!cur) cur='fleet';   /* from a collector view → land on Fleet Management (scoped), not a specific collector */
   if(cur==='tenants') renderTenants();
@@ -8235,6 +8235,8 @@ function pickTenant(slug){
   else if(cur==='audit') renderAudit();
   else if(cur==='cfgmgr') renderCfgMgr();
   else if(cur==='integrations') renderIntegrations();
+  else if(cur==='account'){ acctTenant=slug; renderAccount(); }
+  else if(cur==='tenantcfg') renderTenantCfg();
   toast('Switched to '+(tenantName[slug]||slug));   /* announce every tenant change, same as All Tenants */
   go(cur);
 }
@@ -8242,13 +8244,15 @@ function pickAllTenants(){
   currentTenantCtx=null;
   /* if managing a specific tenant, All Tenants returns to the tenants list */
   if(document.getElementById('screen-tenant-manage').classList.contains('show')){ switchTenant('all'); renderTenants(); go('tenants'); return; }
-  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations'];
+  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations','account','tenantcfg'];
   let cur=SCREENS.find(s=>{const e=document.getElementById('screen-'+s); return e&&e.classList.contains('show');}) || 'dashboard';
   switchTenant('all');                 /* refreshes dashboard, fleet, alerts, config + announces the switch */
   if(cur==='tenants') renderTenants();
   else if(cur==='audit') renderAudit();
   else if(cur==='cfgmgr') renderCfgMgr();
   else if(cur==='integrations') renderIntegrations();
+  else if(cur==='account'){ acctTenant=null; renderAccount(); }
+  else if(cur==='tenantcfg') renderTenantCfg();
   updateAlertCounts();
   go(cur);                             /* stay on the screen you were on */
 }
@@ -9053,7 +9057,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.176.alpha';
+const APP_VERSION='v2026.02.178.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9495,7 +9499,9 @@ function cfgGitOpsForm(coll){
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
   const scope=tenantScope(), isAll=scope==='all';
-  const rows=locationRows();
+  /* picklist mirrors the live fleet (status + scope), not the static site registry */
+  const rows=fleetRows.filter(r=>isAll||r[1]===scope)
+    .map(r=>({tenant:r[1],coll:r[0],status:r[2],name:siteOf(r[1],r[0]).name}));
   if(!rows.length){ el.innerHTML=cfgHead(cfgCatFor(cfgSubPage))+'<div class="cfg-empty">'+TX('No collectors in scope.')+'</div>'; syncNormNav(); return; }
   if(!cfgMgrColl || !rows.find(r=>r.tenant+':'+r.coll===cfgMgrColl)) cfgMgrColl=rows[0].tenant+':'+rows[0].coll;
   const files=cfgFilesFor(cfgMgrColl);
