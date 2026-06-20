@@ -442,15 +442,15 @@
   .ticker-lab{flex:0 0 auto;padding:11px 16px;background:#2a1010;color:var(--red);font-size:11px;font-weight:700;
     letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-right:1px solid var(--line)}
   .ticker-lab .dot{width:7px;height:7px;border-radius:99px;background:var(--red);box-shadow:0 0 9px var(--red);animation:pulse 1.4s infinite}
-  .ticker-track{flex:1;overflow:hidden;position:relative;height:42px}
+  .ticker-track{flex:1;overflow:hidden;position:relative;height:50px}
   .ticker-move{position:absolute;display:flex;align-items:center;gap:40px;white-space:nowrap;height:100%;animation:roll 38s linear infinite}
   .ticker-move:hover{animation-play-state:paused}
   @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  .ticker-item{display:flex;align-items:center;gap:10px;font-size:12.5px}
-  .ticker-item .sev{font-family:"Open Sans";font-size:10px;font-weight:600;padding:1px 7px;border-radius:4px}
+  .ticker-item{display:flex;align-items:center;gap:10px;font-size:15px}
+  .ticker-item .sev{font-family:"Open Sans";font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px}
   .sev.critical{background:#3a1414;color:var(--red)} .sev.warning{background:#3a2c10;color:var(--amber)} .sev.info{background:#10283a;color:var(--violet)}
-  .ticker-item code{font-family:"Open Sans";color:var(--teal);font-size:11.5px}
-  .ticker-item time{color:var(--mute);font-size:11px;font-family:"Open Sans"}
+  .ticker-item code{font-family:"Open Sans";color:var(--teal);font-size:13.5px}
+  .ticker-item time{color:var(--mute);font-size:13px;font-family:"Open Sans"}
 
   /* fleet grid */
   .dash-low{display:grid;grid-template-columns:1fr 360px;gap:18px}
@@ -1465,7 +1465,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.178.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.179.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -1952,6 +1952,7 @@
 
       <div class="alert-tabs-row">
         <div class="alert-tabs">
+          <button class="alert-tab" data-atab="all" onclick="setAlertTab('all')"><span data-i18n="All">All</span> <span class="ct" id="ctAll">0</span></button>
           <button class="alert-tab active" data-atab="active" onclick="setAlertTab('active')"><span data-i18n="Active">Active</span> <span class="ct" id="ctActive">0</span></button>
           <button class="alert-tab" data-atab="acked" onclick="setAlertTab('acked')"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct" id="ctAcked">0</span></button>
           <button class="alert-tab" data-atab="resolved" onclick="setAlertTab('resolved')"><span data-i18n="Resolved">Resolved</span> <span class="ct" id="ctResolved">0</span></button>
@@ -5216,7 +5217,7 @@ snmp_field_mapping:
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
 const I18N={
- it:{'Observability':'Osservabilità',
+ it:{'All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
   'Remove':'Rimuovi',
   'Branding':'Marchio',
   'Upload logo':'Carica logo',
@@ -5583,7 +5584,7 @@ const I18N={
   "MSP Organization Details":"Dettagli organizzazione MSP",
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
- fr:{'Observability':'Observabilité',
+ fr:{'All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
   'Remove':'Retirer',
   'Branding':'Image de marque',
   'Upload logo':'Importer le logo',
@@ -5950,7 +5951,7 @@ const I18N={
   "MSP Organization Details":"Détails de l'organisation MSP",
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
- es:{'Observability':'Observabilidad',
+ es:{'All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
   'Remove':'Quitar',
   'Branding':'Marca',
   'Upload logo':'Subir logotipo',
@@ -6317,7 +6318,7 @@ const I18N={
   "MSP Organization Details":"Detalles de la organización MSP",
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
- pt:{'Observability':'Observabilidade',
+ pt:{'All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
   'Remove':'Remover',
   'Branding':'Marca',
   'Upload logo':'Carregar logótipo',
@@ -6685,7 +6686,7 @@ const I18N={
   "MSP Organization Details":"Detalhes da organização MSP",
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
- ja:{'Observability':'可観測性',
+ ja:{'All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
   'Remove':'削除',
   'Branding':'ブランディング',
   'Upload logo':'ロゴをアップロード',
@@ -7396,8 +7397,8 @@ function renderAlertsFull(){
   const sc=tenantScope();
   const scoped=alerts.map((a,i)=>({a,i})).filter(x=> sc==='all' || x.a[3]===sc);
   const cnt=s=>scoped.filter(x=>x.a[7]===s).length;
-  _set('ctActive',String(cnt('active'))); _set('ctAcked',String(cnt('acked'))); _set('ctResolved',String(cnt('resolved')));
-  const items=scoped.filter(x=>x.a[7]===alertTab);
+  _set('ctActive',String(cnt('active'))); _set('ctAcked',String(cnt('acked'))); _set('ctResolved',String(cnt('resolved'))); _set('ctAll',String(scoped.length));
+  const items=alertTab==='all'?scoped:scoped.filter(x=>x.a[7]===alertTab);
   document.getElementById('alertFull').innerHTML = items.map(({a,i})=>`
     <div class="afull-row${sc==='all'?' has-tenant':''}" id="af${i}">
       <div class="afull-sev ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg></div>
@@ -8294,6 +8295,13 @@ function auditCatColor(c){ return {security:'#2EE6C8',provisioning:'#94A2FF',ale
 function auditRoleLabel(r){ return {msp_superadmin:'MSP Super Admin',msp_operator:'MSP Operator',tenant_admin:'Tenant Admin',tenant_user:'Tenant User',system:'System'}[r]||r; }
 function auditCatLabel(c){ return c.charAt(0).toUpperCase()+c.slice(1); }
 const AUDIT_LOG=[
+  {t:'3m ago',      actor:'Marco Rossi',     role:'tenant_admin',   tenant:'roma', cat:'alerts',       action:'Acknowledged alert',        target:'roma:dc01 · CPU sustained', ip:'151.38.7.22'},
+  {t:'18m ago',     actor:'Guardare System', role:'system',         tenant:'roma', cat:'config',       action:'Pushed config via GitOps',  target:'roma:dc02 · serviceConfig.yaml', ip:'—'},
+  {t:'47m ago',     actor:'Giulia Bianchi',  role:'tenant_user',    tenant:'roma', cat:'collector',    action:'Rebooted collector',        target:'roma:dc01', ip:'151.38.7.22'},
+  {t:'1h ago',      actor:'Sam Okafor',      role:'msp_operator',   tenant:'roma', cat:'provisioning', action:'Provisioned collector',     target:'roma:dc02', ip:'10.4.2.11'},
+  {t:'2h ago',      actor:'Guardare System', role:'system',         tenant:'roma', cat:'collector',    action:'Collector auto-registered', target:'roma:dc01', ip:'—'},
+  {t:'Today 08:31', actor:'Marco Rossi',     role:'tenant_admin',   tenant:'roma', cat:'config',       action:'Updated alert rule',        target:'roma · GRA latency > 200ms', ip:'151.38.7.22'},
+  {t:'Yesterday 17:12', actor:'Mike Chen',   role:'msp_superadmin', tenant:'roma', cat:'tenants',      action:'Created tenant',            target:'La città di Roma (Enterprise)', ip:'73.42.18.9'},
   {t:'2m ago',     actor:'Dana Ruiz',        role:'msp_operator',   tenant:'acme-corp', cat:'alerts',       action:'Acknowledged alert',        target:'acme-corp:site-09 · CPU critical', ip:'73.42.18.9'},
   {t:'9m ago',     actor:'Guardare System',  role:'system',         tenant:'northwind', cat:'config',       action:'Config hot-reloaded',       target:'northwind:dc-east · processing.yaml', ip:'—'},
   {t:'17m ago',    actor:'Mike Chen',        role:'msp_superadmin', tenant:'piedmont',  cat:'provisioning', action:'Provisioned collector',     target:'piedmont:avl-01', ip:'73.42.18.9'},
@@ -9057,7 +9065,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.178.alpha';
+const APP_VERSION='v2026.02.179.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
