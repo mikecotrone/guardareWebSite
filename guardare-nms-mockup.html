@@ -1481,7 +1481,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.188.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.189.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9002,7 +9002,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.188.alpha';
+const APP_VERSION='v2026.02.189.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9786,9 +9786,29 @@ function genLinux(){
       acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'Nginx · reload sent'},{tip:'Start',icon:SVC_ICONS.start,toast:'nginx · service started'},{tip:'Stop',icon:SVC_ICONS.stop,toast:'nginx · service stopped'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'host · nginx restart queued'}]}
   ];
 }
+/* shared "configuring collector" selector for the Serviceability screens (reuses cfgMgrColl) */
+function svcCollRows(){ return fleetRows.map(function(r){return {tenant:r[1],coll:r[0],status:r[2],name:(typeof siteOf==='function'?siteOf(r[1],r[0]).name:r[0])};}); }
+function svcCurrentColl(){ var rows=svcCollRows(); if(typeof cfgMgrColl==='undefined'||!cfgMgrColl||!rows.find(function(r){return r.tenant+':'+r.coll===cfgMgrColl;})) return rows.length?rows[0].tenant+':'+rows[0].coll:'acme-corp:site-04'; return cfgMgrColl; }
+function toggleSvcColl(e,menuId){ e.stopPropagation(); var m=document.getElementById(menuId); var open=m&&m.classList.contains('open'); closeAllMenus(); if(m&&!open) m.classList.add('open'); }
+function selectSvcColl(id){ cfgMgrColl=id; closeAllMenus(); if(typeof renderMicrosvc==='function')renderMicrosvc(); if(typeof renderCollMgmt==='function')renderCollMgmt(); var cs=document.getElementById('screen-cfgmgr'); if(cs&&cs.classList.contains('show')&&typeof renderCfgMgr==='function')renderCfgMgr(); }
+function svcCollBar(menuId){
+  var rows=svcCollRows(), cur=svcCurrentColl();
+  var curRow=rows.find(function(r){return r.tenant+':'+r.coll===cur;})||rows[0]||{coll:'collector',name:'\u2014',status:'online'};
+  var curC=cur.split(':')[1];
+  var btn=function(r){var id=r.tenant+':'+r.coll;return '<button data-coll="'+id+'" onclick="selectSvcColl(\''+id+'\')"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
+  var byT={}; rows.forEach(function(r){(byT[r.tenant]=byT[r.tenant]||[]).push(r);});
+  var menu=''; Object.keys(byT).forEach(function(t){ menu+='<div class="ms-grouplbl"><span class="tn-avatar xs" style="background:'+(tenantColors[t]||'var(--teal)')+'">'+tnInit(t)+'</span>'+(tenantName[t]||t)+'</div>'; byT[t].forEach(function(r){menu+=btn(r);}); });
+  return '<div class="cfgmgr-bar">'+
+    '<span class="cfg-collname"><span class="cdotm" style="background:'+stColor(curRow.status)+'"></span><b>'+curC+'</b>'+
+      '<div class="yaml-pick"><button class="yaml-pick-btn cfg-switch" onclick="toggleSvcColl(event,\''+menuId+'\')" title="'+TX('Switch collector')+'"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><div class="yaml-pick-menu" id="'+menuId+'">'+menu+'</div></div>'+
+    '</span>'+
+    '<span class="cfg-coll-site">'+TX('Site')+' \u00b7 <b>'+(curRow.name||'\u2014')+'</b></span>'+
+  '</div>';
+}
+
 function renderMicrosvc(){
   const el=document.getElementById('screen-microsvc'); if(!el) return;
-  const id=(typeof currentDetailId!=='undefined'&&currentDetailId)||'acme-corp:site-04';
+  const id=svcCurrentColl();
   const S=genServices(id);
   const micro=[
     svcCard({name:'vCollector',role:'Ingests device data',status:S.vcollector.status,
@@ -9819,6 +9839,7 @@ function renderMicrosvc(){
       <h1 class="page-title">${TX('Platform Microservices')}</h1>
     </div>
     <span class="td-status ${sumCls}" style="font-size:11.5px"><i></i>${sumTxt}</span></div>
+    ${svcCollBar('svcCollMenuM')}
     <div class="panel mb18">
       <div class="panel-head"><h3>Platform Microservice Management</h3></div>
       <div class="svc-note">${note}<span>${TX('The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.')}</span></div>
@@ -9832,7 +9853,7 @@ function renderMicrosvc(){
 }
 function renderCollMgmt(){
   const el=document.getElementById('screen-collmgmt'); if(!el) return;
-  const r=svcSeed('coll-host-os'), ri=(a,b)=>Math.floor(r()*(b-a+1))+a;
+  const id=svcCurrentColl(), host=id.split(':')[1]; const r=svcSeed('coll-host-os|'+id), ri=(a,b)=>Math.floor(r()*(b-a+1))+a;
   const upD=ri(3,120), upH=ri(0,23), la=()=>(ri(2,180)/100).toFixed(2);
   const disks=[['/ (root)',ri(28,62)],['/var/lib/mysql',ri(40,84)],['/var/log',ri(12,48)]];
   const diskBar=d=>`<div style="margin:9px 0">
@@ -9861,16 +9882,17 @@ function renderCollMgmt(){
       <div class="page-eyebrow">${TX('Serviceability')}</div>
       <h1 class="page-title">${TX('Collector Management')}</h1>
     </div></div>
+    ${svcCollBar('svcCollMenuC')}
     <div class="panel mb18">
       <div class="panel-head"><h3>Host</h3><span class="td-status s-online" style="font-size:11.5px"><i></i>online</span></div>
       <div class="svc-metrics" style="flex-wrap:wrap;gap:22px">
-        <div class="svc-m"><div class="n" style="font-size:15px">gso-collector-01</div><div class="l">Hostname</div></div>
+        <div class="svc-m"><div class="n" style="font-size:15px">gso-${host}</div><div class="l">Hostname</div></div>
         <div class="svc-m"><div class="n" style="font-size:15px">Ubuntu 24.04 LTS</div><div class="l">OS · kernel 6.8</div></div>
         <div class="svc-m"><div class="n">${upD}d ${upH}h</div><div class="l">Uptime</div></div>
         <div class="svc-m"><div class="n">${la()} ${la()} ${la()}</div><div class="l">Load avg</div></div>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
-        <button class="btn" onclick="toast('Reboot host queued — gso-collector-01')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg><span>Reboot host</span></button>
+        <button class="btn" onclick="toast('Reboot host queued — gso-'+host)"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg><span>Reboot host</span></button>
         <button class="btn" onclick="toast('guardare-agent restarted')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span>Restart agent</span></button>
         <button class="btn" onclick="toast('systemd-resolved cache flushed')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg><span>Flush DNS</span></button>
         <button class="btn" onclick="toast('apt update &amp;&amp; upgrade started')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>Run updates</span></button>
