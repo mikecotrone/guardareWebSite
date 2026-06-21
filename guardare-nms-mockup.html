@@ -1071,6 +1071,11 @@
     text-transform:uppercase;padding:3px 9px;border-radius:99px;line-height:1.3}
   .intg-scope.plat{color:var(--violet);background:#94a2ff14;border:1px solid #94a2ff44}
   .intg-scope.perten{color:var(--teal);background:var(--teal-ghost);border:1px solid #2ee6c844;text-transform:none;letter-spacing:.02em}
+  .tn-avatar.tn-logo{background:transparent;overflow:hidden;padding:0}
+  .tn-avatar.tn-logo img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+  .tm-head-id{display:flex;align-items:center;gap:15px}
+  .tm-head-logo{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--bg-2);border:1px solid var(--line);padding:5px}
+  .tm-head-logo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
   .tn-avatar.xs{width:16px;height:16px;font-size:9px;border-radius:5px;flex:0 0 16px}
   .title-chip{display:inline-flex;align-items:center;gap:6px;vertical-align:middle;margin-left:10px;font-size:12.5px;
     font-weight:600;color:var(--text);padding:3px 10px 3px 4px;border-radius:99px;background:var(--bg-2);border:1px solid var(--line)}
@@ -1516,7 +1521,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.192.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.193.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -7083,6 +7088,7 @@ const tenantName = {
   'meridian':'Meridian Health','cascade':'Cascade Retail','piedmont':'Piedmont Regional Health','atlantico':'Atlântico Telecom','roma':'La città di Roma'
 };
 function tnInit(s){return s.slice(0,2).toUpperCase();}
+function tnBadge(slug,cls){cls=cls?(" "+cls):"";var lg=TENANT_LOGOS[slug];if(lg)return '<span class="tn-avatar tn-logo'+cls+'"><img src="'+lg+'" alt=""></span>';return '<span class="tn-avatar'+cls+'" style="background:'+(tenantColors[slug]||"var(--teal)")+'">'+tnInit(tenantName[slug]||slug)+'</span>';}
 
 const statusLabel={online:'Online',warn:'Degraded',crit:'Critical',offline:'Offline',site:'Vista site',running:'Running',stopped:'Stopped'};
 const statusClass={online:'s-online',warn:'s-warn',crit:'s-crit',offline:'s-offline',running:'s-online',stopped:'s-crit'};
@@ -7319,7 +7325,7 @@ function renderFleetTable(){
   }
   document.getElementById('fleetTable').innerHTML = rows.map(r=>`
     <tr onclick="openDetail('${r[1]}:${r[0]}')">
-      <td class="col-tenant"><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[r[1]]}">${tnInit(r[1])}</span>${tenantName[r[1]]}</span></td>
+      <td class="col-tenant"><span class="cell-tenant">${tnBadge(r[1])}${tenantName[r[1]]}</span></td>
       <td class="cell-id">${r[0]}</td>
       <td><span class="td-status ${statusClass[r[2]]}"><i></i>${TX(statusLabel[r[2]])}</span></td>
       <td class="cell-mut">${r[3]}</td>
@@ -7374,7 +7380,7 @@ function renderAlertsFull(){
   document.getElementById('alertFull').innerHTML = items.map(({a,i})=>`
     <div class="afull-row${sc==='all'?' has-tenant':''}" id="af${i}">
       <div class="afull-sev ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg></div>
-      ${sc==='all'?`<div class="afull-tenant"><span class="tn-avatar" style="background:${tenantColors[a[3]]||'var(--teal)'}">${tnInit(tenantName[a[3]]||a[3])}</span><span class="afull-tname">${tenantName[a[3]]||a[3]}</span></div>`:''}
+      ${sc==='all'?`<div class="afull-tenant">${tnBadge(a[3])}<span class="afull-tname">${tenantName[a[3]]||a[3]}</span></div>`:''}
       <div class="afull-main">
         <div class="t">${TX(a[1])}</div>
         <div class="m"><code>${a[2]}</code><span>${TX(a[4])}</span></div>
@@ -7722,16 +7728,30 @@ function renderTenantManage(slug){
   const sv=`onchange="toast('${name} — ${TX('unsaved change')}')"`;
   document.getElementById('screen-tenant-manage').innerHTML=`
     <div class="page-head">
-      <div>
+      <div class="tm-head-id">
+        ${TENANT_LOGOS[slug]?`<span class="tm-head-logo"><img src="${TENANT_LOGOS[slug]}" alt=""></span>`:`<span class="tn-avatar" style="background:${tenantColors[slug]||'var(--teal)'};width:48px;height:48px;font-size:18px;border-radius:12px">${tnInit(name)}</span>`}
+        <div>
         <div class="page-eyebrow"><button onclick="go('tenants')" style="color:var(--teal);cursor:pointer">← ${TX('Tenants')}</button> / ${name}</div>
         <h1 class="page-title">${name}</h1>
         <p class="page-sub"><span class="tnt-status st-${dir.status}">${tntStatusLabel[dir.status]}</span> · ${dir.plan} · ${TX('since')} ${dir.since}</p>
+        </div>
       </div>
       <div class="head-actions">
         <button class="btn" onclick="enterTenant('${slug}')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/></svg><span>${TX('Open collector workspace')}</span></button>
         <button class="btn primary" onclick="toast('${name} — ${TX('changes saved')}')"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span>${TX('Save changes')}</span></button>
       </div>
     </div>
+          <div class="panel tm-card tm-wide mb18">
+        <h3 class="tm-h">${TX('Tickets & SLA')} <span class="tm-note">${TX('last 30 days')}</span></h3>
+        <div class="tm-tix">
+          <div class="tm-stat"><b class="${tix.open?'warn':''}">${tix.open}</b><span>${TX('Open tickets')}</span></div>
+          <div class="tm-stat"><b>${tix.closed}</b><span>${TX('Closed (30d)')}</span></div>
+          <div class="tm-stat" title="Mean time to acknowledge"><b>${tix.mtta}<small>min</small></b><span>MTTA</span></div>
+          <div class="tm-stat" title="Mean time to resolve"><b>${tix.mttr}<small>h</small></b><span>MTTR</span></div>
+          <div class="tm-stat"><b>${tix.sla}<small>%</small></b><span>${TX('SLA met')}</span></div>
+          <div class="tm-stat"><b class="${tix.breached?'warn':''}">${tix.breached}</b><span>${TX('SLA breached')}</span></div>
+        </div>
+      </div>
     <div class="tm-grid">
       <div class="panel tm-card">
         <h3 class="tm-h">${TX('Tenant details')}</h3>
@@ -7774,17 +7794,6 @@ function renderTenantManage(slug){
             ${dir.status==='suspended'?`<button class="btn" style="color:var(--green);border-color:#1d4a34" onclick="reactivateTenant('${slug}')">${TX('Reactivate')}</button>`:`<button class="btn" style="color:var(--amber);border-color:#574214" onclick="openSuspendModal('${slug}')">${TX('Suspend')}</button>`}
             <button class="btn tm-del" onclick="openDeleteTenantModal('${slug}')">${TX('Delete')}</button>
           </div>
-        </div>
-      </div>
-      <div class="panel tm-card tm-wide">
-        <h3 class="tm-h">${TX('Tickets & SLA')} <span class="tm-note">${TX('last 30 days')}</span></h3>
-        <div class="tm-tix">
-          <div class="tm-stat"><b class="${tix.open?'warn':''}">${tix.open}</b><span>${TX('Open tickets')}</span></div>
-          <div class="tm-stat"><b>${tix.closed}</b><span>${TX('Closed (30d)')}</span></div>
-          <div class="tm-stat" title="Mean time to acknowledge"><b>${tix.mtta}<small>min</small></b><span>MTTA</span></div>
-          <div class="tm-stat" title="Mean time to resolve"><b>${tix.mttr}<small>h</small></b><span>MTTR</span></div>
-          <div class="tm-stat"><b>${tix.sla}<small>%</small></b><span>${TX('SLA met')}</span></div>
-          <div class="tm-stat"><b class="${tix.breached?'warn':''}">${tix.breached}</b><span>${TX('SLA breached')}</span></div>
         </div>
       </div>
       <div class="panel tm-card tm-loc-card">
@@ -8315,7 +8324,7 @@ function renderAudit(){
     const col=auditCatColor(e.cat);
     const ten = e.tenant==='platform'
       ? `<span class="aud-plat">${TX('Platform')}</span>`
-      : `<span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[e.tenant]||'var(--teal)'}">${tnInit(tenantName[e.tenant]||e.tenant)}</span>${tenantName[e.tenant]||e.tenant}</span>`;
+      : `<span class="cell-tenant">${tnBadge(e.tenant)}${tenantName[e.tenant]||e.tenant}</span>`;
     return `<tr>
       <td class="aud-when">${e.t}</td>
       ${oneTenant?'':`<td>${ten}</td>`}
@@ -8350,7 +8359,7 @@ function renderConfig(){
   const oneTenant=(currentTenantCtx||currentTenant)!=='all';
   const rows=list.map(l=>{
     return `<tr data-loc="${l.tenant}:${l.id}">
-      ${oneTenant?'':`<td><span class="cell-tenant"><span class="tn-avatar" style="background:${tenantColors[l.tenant]||'var(--teal)'}">${tnInit(tenantName[l.tenant]||l.tenant)}</span>${tenantName[l.tenant]||l.tenant}</span></td>`}
+      ${oneTenant?'':`<td><span class="cell-tenant">${tnBadge(l.tenant)}${tenantName[l.tenant]||l.tenant}</span></td>`}
       <td><input class="loc-input" value="${l.name}"></td>
       <td class="cell-id">${l.id}</td>
       <td><input class="loc-input loc-addr-input" value="${_esc(l.city)}" autocomplete="off" spellcheck="false" placeholder="${TX('Search address…')}" oninput="locAddrInput('${l.tenant}:${l.id}',this.value)" onfocus="locAddrInput('${l.tenant}:${l.id}',this.value)" onblur="locAddrBlur()" onkeydown="if(event.key==='Escape')locAddrClose()"></td>
@@ -9037,7 +9046,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.192.alpha';
+const APP_VERSION='v2026.02.193.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9262,7 +9271,7 @@ function tcfgBody(){
   if(!acctTenant){
     const chips=TENANT_DIR.map(t=>{const nm=tenantName[t.slug]||t.slug;
       return `<button class="tcfg-pick" onclick="tcfgPickTenant('${t.slug}')">
-        <span class="tn-avatar" style="background:${tenantColors[t.slug]||'var(--teal)'}">${tnInit(t.slug)}</span>
+        ${tnBadge(t.slug)}
         <span class="tcfg-pick-id"><b>${nm}</b><span>${t.plan} · ${tenantLocCount(t.slug)} ${TX('locations')} · ${t.col} ${TX('collectors')}</span></span>
         <span class="tcfg-pick-go">${TX('Configure')}<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></button>`;}).join('');
     return `<div class="gcfg-card">
@@ -9561,7 +9570,7 @@ function renderCfgMgr(){
   let menu='';
   const btn=r=>{const id=r.tenant+':'+r.coll;return '<button data-coll="'+id+'" onclick="selectCfgMgrColl(\''+id+'\')"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
   if(isAll){ const byT={}; rows.forEach(r=>{(byT[r.tenant]=byT[r.tenant]||[]).push(r);});
-    Object.keys(byT).forEach(t=>{ menu+='<div class="ms-grouplbl"><span class="tn-avatar xs" style="background:'+(tenantColors[t]||'var(--teal)')+'">'+tnInit(t)+'</span>'+(tenantName[t]||t)+'</div>'; byT[t].forEach(r=>menu+=btn(r)); });
+    Object.keys(byT).forEach(t=>{ menu+='<div class="ms-grouplbl">'+tnBadge(t,'xs')+(tenantName[t]||t)+'</div>'; byT[t].forEach(r=>menu+=btn(r)); });
   } else rows.forEach(r=>menu+=btn(r));
   const bar='<div class="cfgmgr-bar">'+
       '<span class="cfg-collname"><span class="cdotm" style="background:'+stColor(curRow.status)+'"></span><b>'+curC+'</b>'+
@@ -9852,7 +9861,7 @@ function svcCollBar(menuId){
   var curC=cur.split(':')[1];
   var btn=function(r){var id=r.tenant+':'+r.coll;return '<button data-coll="'+id+'" onclick="selectSvcColl(\''+id+'\')"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
   var byT={}; rows.forEach(function(r){(byT[r.tenant]=byT[r.tenant]||[]).push(r);});
-  var menu=''; Object.keys(byT).forEach(function(t){ menu+='<div class="ms-grouplbl"><span class="tn-avatar xs" style="background:'+(tenantColors[t]||'var(--teal)')+'">'+tnInit(t)+'</span>'+(tenantName[t]||t)+'</div>'; byT[t].forEach(function(r){menu+=btn(r);}); });
+  var menu=''; Object.keys(byT).forEach(function(t){ menu+='<div class="ms-grouplbl">'+tnBadge(t,'xs')+(tenantName[t]||t)+'</div>'; byT[t].forEach(function(r){menu+=btn(r);}); });
   return '<div class="cfgmgr-bar">'+
     '<span class="cfg-collname"><span class="cdotm" style="background:'+stColor(curRow.status)+'"></span><b>'+curC+'</b>'+
       '<div class="yaml-pick"><button class="yaml-pick-btn cfg-switch" onclick="toggleSvcColl(event,\''+menuId+'\')" title="'+TX('Switch collector')+'"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><div class="yaml-pick-menu" id="'+menuId+'">'+menu+'</div></div>'+
@@ -10789,7 +10798,7 @@ _mq.addEventListener('change',setupRadars);                  /* re-flow between 
     const st=b.dataset.status;
     tip.innerHTML=`<div class="rt-site">${b.dataset.site}</div>
       <div class="rt-meta"><span class="rt-dot" style="background:${stCol[st]}"></span>${TX(statusLabel[st]||'')}${b.dataset.coll?' · <code>'+b.dataset.coll+'</code>':''}</div>
-      <div class="rt-ten"><span class="tn-avatar" style="background:${tenantColors[b.dataset.tenant]}">${tnInit(b.dataset.tenant)}</span>${tenantName[b.dataset.tenant]}</div>`;
+      <div class="rt-ten">${tnBadge(b.dataset.tenant)}${tenantName[b.dataset.tenant]}</div>`;
     tip.classList.add('show');
     radarHover=true;                                   // freeze region rotation while inspecting
     const dr=document.querySelector('.dash-radars'); if(dr) dr.classList.add('paused');
