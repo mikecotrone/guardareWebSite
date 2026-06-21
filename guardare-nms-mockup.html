@@ -16,7 +16,7 @@
     --raise:#123036; --line:#1B3A41; --line-soft:#16323880;
     --text:#E9F3F1; --dim:#8BA7AC; --mute:#5C797F;
     --teal:#2EE6C8; --teal-deep:#159C8A; --teal-ghost:#2ee6c81a;
-    --green:#41D98A; --amber:#F6B53F; --red:#FF5D5D; --violet:#94A2FF; --gray:#54707655;
+    --green:#41D98A; --amber:#F6B53F; --red:#FF5D5D; --violet:#94A2FF; --gray:#54707655; --tron:#28E0FF; --tron-deep:#1f9fc4;
     --r:12px; --r-sm:8px;
     --sb:248px;
     --shadow:0 18px 40px -22px rgba(0,0,0,.8);
@@ -104,21 +104,26 @@
   .plane-seg.active{color:var(--teal)}
   .plane-seg[data-plane="platform"].active{background:var(--teal-ghost);box-shadow:inset 0 0 0 1px var(--teal-deep)}
   .plane-seg[data-plane="platform"].active .ps-l i{color:var(--teal-deep)}
-  .plane-seg[data-plane="estate"].active{background:#94a2ff1a;color:var(--violet);box-shadow:inset 0 0 0 1px #5b6bd0}
-  .plane-seg[data-plane="estate"].active .ps-l i{color:#7d8be0}
+  .plane-seg[data-plane="estate"].active{background:#28e0ff1a;color:var(--tron);box-shadow:inset 0 0 0 1px var(--tron-deep)}
+  .plane-seg[data-plane="estate"].active .ps-l i{color:var(--tron)}
   .plane-seg.active svg{opacity:1}
   /* dim platform nav while viewing the Estate plane (click any item to return) */
-  body.plane-estate .nav-item,body.plane-estate .nav-disc,body.plane-estate .nav-subitem{opacity:.4;transition:.18s}
-  body.plane-estate .nav-item:hover,body.plane-estate .nav-disc:hover{opacity:1}
+  #estateNav{display:none}
+  body.plane-estate #platformNav{display:none}
+  body.plane-estate #estateNav{display:block}
+  #estateNav .nav-group{color:var(--tron);opacity:.9}
+  #estateNav .nav-item:hover{color:var(--tron);background:var(--panel)}
+  #estateNav .nav-item.active{background:linear-gradient(90deg,#28e0ff1f,transparent);color:var(--text)}
+  #estateNav .nav-item.active::before{background:var(--tron);box-shadow:0 0 12px var(--tron)}
   /* Estate (Guardare Vista) landing */
   .estate-hero{max-width:780px;margin:10px auto 0;text-align:center;padding:42px 30px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(120% 90% at 50% 0,#94a2ff14,transparent 62%),var(--panel)}
-  .estate-ic{display:inline-flex;width:64px;height:64px;align-items:center;justify-content:center;border-radius:18px;background:#94a2ff1a;border:1px solid #5b6bd0;margin-bottom:18px}
-  .estate-ic svg{width:30px;height:30px;stroke:var(--violet);fill:none;stroke-width:1.6}
+  .estate-ic{display:inline-flex;width:64px;height:64px;align-items:center;justify-content:center;border-radius:18px;background:#28e0ff14;border:1px solid var(--tron-deep);box-shadow:0 0 22px #28e0ff33;margin-bottom:18px}
+  .estate-ic svg{width:30px;height:30px;stroke:var(--tron);fill:none;stroke-width:1.6}
   .estate-hero h2{font-size:18px;color:var(--text);margin:0 0 12px;font-weight:700;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
-  .estate-soon{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--violet);background:#94a2ff1a;border:1px solid #5b6bd0;border-radius:99px;padding:3px 10px}
+  .estate-soon{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--tron);background:#28e0ff1a;border:1px solid var(--tron-deep);border-radius:99px;padding:3px 10px}
   .estate-hero p{font-size:13.5px;color:var(--dim);line-height:1.7;margin:0 auto 22px;max-width:640px}
   .estate-chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
-  .estate-chip{font-size:12px;color:var(--violet);background:#94a2ff14;border:1px solid #2b3566;border-radius:99px;padding:6px 13px;letter-spacing:.02em}
+  .estate-chip{font-size:12px;color:var(--tron);background:#28e0ff12;border:1px solid #1a5a6e;border-radius:99px;padding:6px 13px;letter-spacing:.02em}
   @media(max-width:1215px){ .plane-seg .ps-l i{display:none} }
   @media(max-width:1024px){ .plane-seg .ps-l{display:none} .plane-seg{padding:6px 9px} }
 
@@ -1418,6 +1423,7 @@
         <span class="ps-l"><b data-i18n="Observability">Observability</b><i>Guardare Vista</i></span>
       </button>
     </div>
+    <div id="platformNav">
     <div class="nav-group" data-i18n="Operations">Operations</div>
     <button class="nav-item active" data-screen="dashboard">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
@@ -1477,11 +1483,40 @@
       <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
       <span data-i18n="Integrations">Integrations</span>
     </button>
+    </div>
+
+    <div id="estateNav">
+    <div class="nav-group" data-i18n="Observability">Observability</div>
+    <button class="nav-item" data-estate="monitoring" onclick="goEstate('monitoring')">
+      <svg viewBox="0 0 24 24"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+      <span>Monitoring</span>
+    </button>
+    <button class="nav-item" data-estate="analysis" onclick="goEstate('analysis')">
+      <svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16v-4M12 16V8M16 16v-7"/></svg>
+      <span>Analysis</span>
+    </button>
+    <button class="nav-item" data-estate="reporting" onclick="goEstate('reporting')">
+      <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+      <span>Reporting</span>
+    </button>
+    <button class="nav-item" data-estate="topology" onclick="goEstate('topology')">
+      <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><path d="M7.6 7.6l3 8.4M16.4 7.6l-3 8.4M8.2 6h7.6"/></svg>
+      <span>Topology</span>
+    </button>
+    <button class="nav-item" data-estate="flows" onclick="goEstate('flows')">
+      <svg viewBox="0 0 24 24"><path d="M4 8h12l-3-3M20 16H8l3 3"/></svg>
+      <span>Traffic & Flows</span>
+    </button>
+    <button class="nav-item" data-estate="alerting" onclick="goEstate('alerting')">
+      <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+      <span>Alert Correlation</span>
+    </button>
+    </div>
 
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.190.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.191.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9002,7 +9037,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.190.alpha';
+const APP_VERSION='v2026.02.191.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9621,22 +9656,42 @@ function setSysPlane(p){
     go(lastPlatformScreen||'dashboard');
   }
 }
+const ESTATE_SECTIONS={
+  monitoring:{t:'Monitoring',blurb:'Live device, interface and link health across the estate you operate.',chips:['Network topology','Device & interface health','Link utilization','Uptime & availability']},
+  analysis:{t:'Analysis',blurb:'Traffic, flows and anomaly detection over your monitored network.',chips:['Traffic & flows','Anomaly detection','Capacity trends','Root-cause timelines']},
+  reporting:{t:'Reporting',blurb:'Scheduled SLA, uptime and performance reports for every customer.',chips:['SLA reports','Uptime summaries','Executive dashboards','Scheduled exports']},
+  topology:{t:'Topology',blurb:'Auto-discovered Layer-2 and Layer-3 maps of the estate.',chips:['L2 / L3 maps','VLAN & subnet view','Path tracing','Dependency graph']},
+  flows:{t:'Traffic & Flows',blurb:'NetFlow, sFlow and IPFIX collection with top-talker analysis.',chips:['NetFlow / IPFIX','Top talkers','Application mix','Bandwidth heatmaps']},
+  alerting:{t:'Alert Correlation',blurb:'Correlated alerting and service assurance across the estate.',chips:['Alert correlation','Service assurance','Synthetic probes','Noise reduction']}
+};
+let estateSection='monitoring';
+function goEstate(key){
+  if(ESTATE_SECTIONS[key]) estateSection=key;
+  if(GUARDARE_PLANE!=='estate'){ setSysPlane('estate'); }
+  else {
+    renderEstate();
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
+    document.getElementById('screen-estate').classList.add('show');
+    const m=document.getElementById('main'); if(m) m.scrollTop=0;
+  }
+}
 function renderEstate(){
   const el=document.getElementById('screen-estate'); if(!el) return;
-  const eye='<svg viewBox=\"0 0 24 24\"><path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>';
-  const chips=['Network topology','Devices & interfaces','Traffic & flows','Service health & SLAs','Synthetic probes','Alert correlation'];
+  const sec=ESTATE_SECTIONS[estateSection]||ESTATE_SECTIONS.monitoring;
+  const eye='<svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
   el.innerHTML=`
-    <div class=\"page-head\"><div>
-      <div class=\"page-eyebrow\">${TX('Estate observability')}</div>
-      <h1 class=\"page-title\">Guardare Vista</h1>
-      <p class=\"page-sub\">${TX('The live view into your monitored network and systems.')}</p>
+    <div class="page-head"><div>
+      <div class="page-eyebrow">${TX('Estate observability')}</div>
+      <h1 class="page-title">Guardare Vista · ${sec.t}</h1>
+      <p class="page-sub">${TX('The live view into your monitored network and systems.')}</p>
     </div></div>
-    <div class=\"estate-hero\">
-      <span class=\"estate-ic\">${eye}</span>
-      <h2>${TX('Estate observability')} <span class=\"estate-soon\">${TX('Coming next')}</span></h2>
-      <p>${TX('Streaming telemetry from your Guardare collectors lands here — topology, interfaces, flows, device health and service assurance for the environment you operate. This is the second plane: Guardare Core manages the platform, Guardare Vista watches the estate.')}</p>
-      <div class=\"estate-chips\">${chips.map(c=>`<span class=\"estate-chip\">${c}</span>`).join('')}</div>
+    <div class="estate-hero">
+      <span class="estate-ic">${eye}</span>
+      <h2>${sec.t} <span class="estate-soon">${TX('Coming next')}</span></h2>
+      <p>${sec.blurb}</p>
+      <div class="estate-chips">${sec.chips.map(c=>`<span class="estate-chip">${c}</span>`).join('')}</div>
     </div>`;
+  document.querySelectorAll('#estateNav .nav-item').forEach(n=>n.classList.toggle('active', n.dataset.estate===estateSection));
 }
 function go(screen){
   const target=document.getElementById('screen-'+screen);
