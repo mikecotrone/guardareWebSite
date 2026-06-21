@@ -1445,6 +1445,16 @@
       <span data-i18n="Provision Collector">Provision Collector</span>
     </button>
 
+    <div class="nav-group" data-i18n="Serviceability">Serviceability</div>
+    <button class="nav-item" data-screen="collmgmt">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M9 16v4M15 16v4"/></svg>
+      <span data-i18n="Collector Management">Collector Management</span>
+    </button>
+    <button class="nav-item" data-screen="microsvc">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span data-i18n="Platform Microservices">Platform Microservices</span>
+    </button>
+
     <div class="nav-group" data-i18n="Configuration">Configuration</div>
     <div class="nav-parent">
       <button class="nav-item nav-disc" data-disc="cfgmgr" onclick="toggleNavDisc('cfgmgr')">
@@ -1468,20 +1478,10 @@
       <span data-i18n="Integrations">Integrations</span>
     </button>
 
-    <div class="nav-group" data-i18n="Serviceability">Serviceability</div>
-    <button class="nav-item" data-screen="collmgmt">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M9 16v4M15 16v4"/></svg>
-      <span data-i18n="Collector Management">Collector Management</span>
-    </button>
-    <button class="nav-item" data-screen="microsvc">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      <span data-i18n="Platform Microservices">Platform Microservices</span>
-    </button>
-
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.187.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.188.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5154,7 +5154,7 @@ snmp_field_mapping:
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
 const I18N={
- it:{'Switch to MSP mode?':'Passare alla modalità MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Tutti i dati di questo cliente Enterprise verranno migrati in un nuovo record cliente MSP. Questo ridisegna l’intera console e non può essere annullato.','Yes, switch to MSP':'Sì, passa a MSP','Serviceability':'Manutenzione','Collector Management':'Gestione collector','Platform Microservices':'Microservizi della piattaforma','Fleet Monitoring':'Monitoraggio flotta','← Fleet Monitoring':'← Monitoraggio flotta','Open Fleet Monitoring':'Apri monitoraggio flotta','Running':'In esecuzione','Stopped':'Arrestato','Tenant Dashboard':'Dashboard clienti','All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
+ it:{'Start':'Avvia','Stop':'Arresta','Switch to MSP mode?':'Passare alla modalità MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Tutti i dati di questo cliente Enterprise verranno migrati in un nuovo record cliente MSP. Questo ridisegna l’intera console e non può essere annullato.','Yes, switch to MSP':'Sì, passa a MSP','Serviceability':'Manutenzione','Collector Management':'Gestione collector','Platform Microservices':'Microservizi della piattaforma','Fleet Monitoring':'Monitoraggio flotta','← Fleet Monitoring':'← Monitoraggio flotta','Open Fleet Monitoring':'Apri monitoraggio flotta','Running':'In esecuzione','Stopped':'Arrestato','Tenant Dashboard':'Dashboard clienti','All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
   'Remove':'Rimuovi',
   'Branding':'Marchio',
   'Upload logo':'Carica logo',
@@ -5521,7 +5521,7 @@ const I18N={
   "MSP Organization Details":"Dettagli organizzazione MSP",
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
- fr:{'Switch to MSP mode?':'Passer en mode MSP ?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Toutes les données de ce client Enterprise seront migrées vers un nouvel enregistrement client MSP. Cela remodèle toute la console et est irréversible.','Yes, switch to MSP':'Oui, passer à MSP','Serviceability':'Maintenance','Collector Management':'Gestion des collecteurs','Platform Microservices':'Microservices de la plateforme','Fleet Monitoring':'Surveillance de la flotte','← Fleet Monitoring':'← Surveillance de la flotte','Open Fleet Monitoring':'Ouvrir la surveillance de la flotte','Running':'En cours','Stopped':'Arrêté','Tenant Dashboard':'Tableau de bord clients','All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
+ fr:{'Start':'Démarrer','Stop':'Arrêter','Switch to MSP mode?':'Passer en mode MSP ?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Toutes les données de ce client Enterprise seront migrées vers un nouvel enregistrement client MSP. Cela remodèle toute la console et est irréversible.','Yes, switch to MSP':'Oui, passer à MSP','Serviceability':'Maintenance','Collector Management':'Gestion des collecteurs','Platform Microservices':'Microservices de la plateforme','Fleet Monitoring':'Surveillance de la flotte','← Fleet Monitoring':'← Surveillance de la flotte','Open Fleet Monitoring':'Ouvrir la surveillance de la flotte','Running':'En cours','Stopped':'Arrêté','Tenant Dashboard':'Tableau de bord clients','All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
   'Remove':'Retirer',
   'Branding':'Image de marque',
   'Upload logo':'Importer le logo',
@@ -5888,7 +5888,7 @@ const I18N={
   "MSP Organization Details":"Détails de l'organisation MSP",
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
- es:{'Switch to MSP mode?':'¿Cambiar al modo MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Todos los datos de este cliente Enterprise se migrarán a un nuevo registro de cliente MSP. Esto rediseña toda la consola y no se puede deshacer.','Yes, switch to MSP':'Sí, cambiar a MSP','Serviceability':'Mantenimiento','Collector Management':'Gestión de collectors','Platform Microservices':'Microservicios de la plataforma','Fleet Monitoring':'Monitoreo de la flota','← Fleet Monitoring':'← Monitoreo de la flota','Open Fleet Monitoring':'Abrir monitoreo de la flota','Running':'En ejecución','Stopped':'Detenido','Tenant Dashboard':'Panel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
+ es:{'Start':'Iniciar','Stop':'Detener','Switch to MSP mode?':'¿Cambiar al modo MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Todos los datos de este cliente Enterprise se migrarán a un nuevo registro de cliente MSP. Esto rediseña toda la consola y no se puede deshacer.','Yes, switch to MSP':'Sí, cambiar a MSP','Serviceability':'Mantenimiento','Collector Management':'Gestión de collectors','Platform Microservices':'Microservicios de la plataforma','Fleet Monitoring':'Monitoreo de la flota','← Fleet Monitoring':'← Monitoreo de la flota','Open Fleet Monitoring':'Abrir monitoreo de la flota','Running':'En ejecución','Stopped':'Detenido','Tenant Dashboard':'Panel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
   'Remove':'Quitar',
   'Branding':'Marca',
   'Upload logo':'Subir logotipo',
@@ -6255,7 +6255,7 @@ const I18N={
   "MSP Organization Details":"Detalles de la organización MSP",
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
- pt:{'Switch to MSP mode?':'Mudar para o modo MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Todos os dados deste cliente Enterprise serão migrados para um novo registo de cliente MSP. Isto remodela toda a consola e não pode ser anulado.','Yes, switch to MSP':'Sim, mudar para MSP','Serviceability':'Manutenção','Collector Management':'Gestão de collectors','Platform Microservices':'Microsserviços da plataforma','Fleet Monitoring':'Monitorização da frota','← Fleet Monitoring':'← Monitorização da frota','Open Fleet Monitoring':'Abrir monitorização da frota','Running':'Em execução','Stopped':'Parado','Tenant Dashboard':'Painel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
+ pt:{'Start':'Iniciar','Stop':'Parar','Switch to MSP mode?':'Mudar para o modo MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Todos os dados deste cliente Enterprise serão migrados para um novo registo de cliente MSP. Isto remodela toda a consola e não pode ser anulado.','Yes, switch to MSP':'Sim, mudar para MSP','Serviceability':'Manutenção','Collector Management':'Gestão de collectors','Platform Microservices':'Microsserviços da plataforma','Fleet Monitoring':'Monitorização da frota','← Fleet Monitoring':'← Monitorização da frota','Open Fleet Monitoring':'Abrir monitorização da frota','Running':'Em execução','Stopped':'Parado','Tenant Dashboard':'Painel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
   'Remove':'Remover',
   'Branding':'Marca',
   'Upload logo':'Carregar logótipo',
@@ -6623,7 +6623,7 @@ const I18N={
   "MSP Organization Details":"Detalhes da organização MSP",
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
- ja:{'Switch to MSP mode?':'MSP モードに切り替えますか？','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'このエンタープライズ顧客のすべてのデータが新しい MSP 顧客レコードに移行されます。コンソール全体が再構成され、元に戻せません。','Yes, switch to MSP':'はい、MSP に切り替える','Serviceability':'保守','Collector Management':'コレクター管理','Platform Microservices':'プラットフォームのマイクロサービス','Fleet Monitoring':'フリート監視','← Fleet Monitoring':'← フリート監視','Open Fleet Monitoring':'フリート監視を開く','Running':'実行中','Stopped':'停止','Tenant Dashboard':'テナントダッシュボード','All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
+ ja:{'Start':'開始','Stop':'停止','Switch to MSP mode?':'MSP モードに切り替えますか？','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'このエンタープライズ顧客のすべてのデータが新しい MSP 顧客レコードに移行されます。コンソール全体が再構成され、元に戻せません。','Yes, switch to MSP':'はい、MSP に切り替える','Serviceability':'保守','Collector Management':'コレクター管理','Platform Microservices':'プラットフォームのマイクロサービス','Fleet Monitoring':'フリート監視','← Fleet Monitoring':'← フリート監視','Open Fleet Monitoring':'フリート監視を開く','Running':'実行中','Stopped':'停止','Tenant Dashboard':'テナントダッシュボード','All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
   'Remove':'削除',
   'Branding':'ブランディング',
   'Upload logo':'ロゴをアップロード',
@@ -9002,7 +9002,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.187.alpha';
+const APP_VERSION='v2026.02.188.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9663,6 +9663,8 @@ function go(screen){
   document.getElementById('main').scrollTop=0;
 }
 const SVC_ICONS={
+  start:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
+  stop:'<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
   reload:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg>',
   flush:'<svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>',
   restart:'<svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg>',
@@ -9769,19 +9771,19 @@ function genLinux(){
     {name:'MariaDB',role:'Pooled tenant database',status:'running',
       metrics:[{n:ri(40,180),l:'Connections'},{n:ri(2,40)+'k',l:'Queries/s'},{n:ri(6,42)+' GB',l:'Data size'}],
       ver:'v11.4.'+ri(0,9),
-      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'MariaDB · reload config sent'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'MariaDB · restart queued'}]},
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'MariaDB · reload config sent'},{tip:'Start',icon:SVC_ICONS.start,toast:'MariaDB · service started'},{tip:'Stop',icon:SVC_ICONS.stop,toast:'MariaDB · service stopped'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'MariaDB · restart queued'}]},
     {name:'Centrifugo',role:'WebSocket broker',status:'running',
       metrics:[{n:ri(120,900),l:'Channels'},{n:ri(60,480),l:'Clients'},{n:ri(1,18)+'k',l:'Msg/s'}],
       ver:'v5.4.'+ri(0,9),
-      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'Centrifugo · reload config sent'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Centrifugo · restart queued'}]},
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'Centrifugo · reload config sent'},{tip:'Start',icon:SVC_ICONS.start,toast:'Centrifugo · service started'},{tip:'Stop',icon:SVC_ICONS.stop,toast:'Centrifugo · service stopped'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Centrifugo · restart queued'}]},
     {name:'Redis',role:'Cache & queues',status:'running',
       metrics:[{n:ri(20,260)+'k',l:'Keys'},{n:ri(95,99)+'%',l:'Hit rate'},{n:ri(120,900)+' MB',l:'Memory'}],
       ver:'v7.4.'+ri(0,9),
-      acts:[{tip:'Flush queue',icon:SVC_ICONS.flush,toast:'Redis · flush requested'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Redis · restart queued'}]},
+      acts:[{tip:'Flush queue',icon:SVC_ICONS.flush,toast:'Redis · flush requested'},{tip:'Start',icon:SVC_ICONS.start,toast:'Redis · service started'},{tip:'Stop',icon:SVC_ICONS.stop,toast:'Redis · service stopped'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Redis · restart queued'}]},
     {name:'Nginx + host',role:'Reverse proxy & host',status:'running',
       metrics:[{n:ri(200,1800),unit:'req/s',l:'Requests'},{n:ri(8,46)+'%',l:'CPU'},{n:ri(38,72)+'%',l:'Disk'}],
       ver:'v1.27 · Ubuntu 24.04',
-      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'Nginx · reload sent'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'host · nginx restart queued'}]}
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'Nginx · reload sent'},{tip:'Start',icon:SVC_ICONS.start,toast:'nginx · service started'},{tip:'Stop',icon:SVC_ICONS.stop,toast:'nginx · service stopped'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'host · nginx restart queued'}]}
   ];
 }
 function renderMicrosvc(){
