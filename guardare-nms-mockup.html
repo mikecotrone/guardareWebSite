@@ -643,6 +643,12 @@
   .os-lts{font-size:10.5px;font-weight:700;letter-spacing:.5px;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
   .os-kvs{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px}
   .os-kv{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--dim)}
+  .os-card.theme-teal::before{background:linear-gradient(var(--teal),#159e8a)}
+  .os-card.theme-teal .os-logo{background:radial-gradient(circle at 50% 42%,#2EE6C826,transparent 70%)}
+  .os-card.theme-teal .os-codename{color:var(--teal);background:#2EE6C818;border-color:#2EE6C840}
+  .os-card.theme-maria::before{background:linear-gradient(#C0765C,#8a4b38)}
+  .os-card.theme-maria .os-logo{background:radial-gradient(circle at 50% 42%,#C0765C26,transparent 70%)}
+  .os-card.theme-maria .os-codename{color:#C0765C;background:#C0765C18;border-color:#C0765C40}
   .os-kv svg{width:14px;height:14px;stroke:var(--mute);fill:none;stroke-width:1.7}
   .os-kv b{color:var(--text);font-weight:600}
   .os-term{flex:none;display:flex;align-items:center;gap:7px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;background:#06101296;border:1px solid var(--line);border-radius:8px;padding:7px 11px;color:var(--dim)}
@@ -1459,7 +1465,7 @@
     </button>
     <button class="nav-item" data-screen="integrations">
       <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
-      <span data-i18n="API Integrations">API Integrations</span>
+      <span data-i18n="Integrations">Integrations</span>
     </button>
 
     <div class="nav-group" data-i18n="Serviceability">Serviceability</div>
@@ -1475,7 +1481,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.186.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.187.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -4987,6 +4993,17 @@ snmp_field_mapping:
   </div>
 </div>
 
+<div class="modal-backdrop" id="mspSwitchModal" onclick="if(event.target.id==='mspSwitchModal')closeMspSwitchModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mspSwitchTitle">
+    <div class="modal-ic warn"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+    <h3 class="modal-title" id="mspSwitchTitle" data-i18n="Switch to MSP mode?">Switch to MSP mode?</h3>
+    <p class="modal-text" data-i18n="All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can't be undone.">All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can't be undone.</p>
+    <div class="modal-acts">
+      <button class="btn" onclick="closeMspSwitchModal()" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn danger" onclick="confirmMspSwitch()"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg><span data-i18n="Yes, switch to MSP">Yes, switch to MSP</span></button>
+    </div>
+  </div>
+</div>
 <div class="modal-backdrop" id="suspendModal" onclick="if(event.target.id==='suspendModal')closeSuspendModal()">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="suspendTitle">
     <div class="modal-ic warn"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
@@ -5137,7 +5154,7 @@ snmp_field_mapping:
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
 const I18N={
- it:{'Serviceability':'Manutenzione','Collector Management':'Gestione collector','Platform Microservices':'Microservizi della piattaforma','Fleet Monitoring':'Monitoraggio flotta','← Fleet Monitoring':'← Monitoraggio flotta','Open Fleet Monitoring':'Apri monitoraggio flotta','Running':'In esecuzione','Stopped':'Arrestato','Tenant Dashboard':'Dashboard clienti','All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
+ it:{'Switch to MSP mode?':'Passare alla modalità MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Tutti i dati di questo cliente Enterprise verranno migrati in un nuovo record cliente MSP. Questo ridisegna l’intera console e non può essere annullato.','Yes, switch to MSP':'Sì, passa a MSP','Serviceability':'Manutenzione','Collector Management':'Gestione collector','Platform Microservices':'Microservizi della piattaforma','Fleet Monitoring':'Monitoraggio flotta','← Fleet Monitoring':'← Monitoraggio flotta','Open Fleet Monitoring':'Apri monitoraggio flotta','Running':'In esecuzione','Stopped':'Arrestato','Tenant Dashboard':'Dashboard clienti','All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
   'Remove':'Rimuovi',
   'Branding':'Marchio',
   'Upload logo':'Carica logo',
@@ -5478,7 +5495,7 @@ const I18N={
   "GitOps repository settings saved":"Impostazioni repository GitOps salvate",
   "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connessione GitHub condivisa (URL base, versione API, organizzazione owner) si imposta una volta in Integrazioni API → GitHub ed è ereditata qui. Ogni servizio sotto scarica il proprio file di configurazione con un token conservato come Docker secret — mai nello YAML.",
   "CLI Worker Pool":"Pool di worker CLI",
-  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"Pool di worker shell che il collector usa per eseguire sonde CLI e SSH sui dispositivi.",
+  "Shell-out worker pool the collector uses to run CLI based probes.":"Pool di worker shell che il collector usa per eseguire sonde basate su CLI.",
   "Shell instances":"Istanze shell",
   "Job timeout (sec)":"Timeout job (sec)",
   "Per-shell queue max":"Coda max per shell",
@@ -5504,7 +5521,7 @@ const I18N={
   "MSP Organization Details":"Dettagli organizzazione MSP",
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
- fr:{'Serviceability':'Maintenance','Collector Management':'Gestion des collecteurs','Platform Microservices':'Microservices de la plateforme','Fleet Monitoring':'Surveillance de la flotte','← Fleet Monitoring':'← Surveillance de la flotte','Open Fleet Monitoring':'Ouvrir la surveillance de la flotte','Running':'En cours','Stopped':'Arrêté','Tenant Dashboard':'Tableau de bord clients','All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
+ fr:{'Switch to MSP mode?':'Passer en mode MSP ?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Toutes les données de ce client Enterprise seront migrées vers un nouvel enregistrement client MSP. Cela remodèle toute la console et est irréversible.','Yes, switch to MSP':'Oui, passer à MSP','Serviceability':'Maintenance','Collector Management':'Gestion des collecteurs','Platform Microservices':'Microservices de la plateforme','Fleet Monitoring':'Surveillance de la flotte','← Fleet Monitoring':'← Surveillance de la flotte','Open Fleet Monitoring':'Ouvrir la surveillance de la flotte','Running':'En cours','Stopped':'Arrêté','Tenant Dashboard':'Tableau de bord clients','All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
   'Remove':'Retirer',
   'Branding':'Image de marque',
   'Upload logo':'Importer le logo',
@@ -5845,7 +5862,7 @@ const I18N={
   "GitOps repository settings saved":"Paramètres du dépôt GitOps enregistrés",
   "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La connexion GitHub partagée (URL de base, version d'API, organisation propriétaire) se définit une fois dans Intégrations API → GitHub et est héritée ici. Chaque service ci-dessous récupère son propre fichier de config avec un jeton conservé comme secret Docker — jamais dans le YAML.",
   "CLI Worker Pool":"Pool de workers CLI",
-  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"Pool de workers shell que le collecteur utilise pour exécuter les sondes CLI et SSH des équipements.",
+  "Shell-out worker pool the collector uses to run CLI based probes.":"Pool de workers shell que le collecteur utilise pour exécuter les sondes basées sur CLI.",
   "Shell instances":"Instances shell",
   "Job timeout (sec)":"Délai du job (s)",
   "Per-shell queue max":"File max par shell",
@@ -5871,7 +5888,7 @@ const I18N={
   "MSP Organization Details":"Détails de l'organisation MSP",
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
- es:{'Serviceability':'Mantenimiento','Collector Management':'Gestión de collectors','Platform Microservices':'Microservicios de la plataforma','Fleet Monitoring':'Monitoreo de la flota','← Fleet Monitoring':'← Monitoreo de la flota','Open Fleet Monitoring':'Abrir monitoreo de la flota','Running':'En ejecución','Stopped':'Detenido','Tenant Dashboard':'Panel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
+ es:{'Switch to MSP mode?':'¿Cambiar al modo MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Todos los datos de este cliente Enterprise se migrarán a un nuevo registro de cliente MSP. Esto rediseña toda la consola y no se puede deshacer.','Yes, switch to MSP':'Sí, cambiar a MSP','Serviceability':'Mantenimiento','Collector Management':'Gestión de collectors','Platform Microservices':'Microservicios de la plataforma','Fleet Monitoring':'Monitoreo de la flota','← Fleet Monitoring':'← Monitoreo de la flota','Open Fleet Monitoring':'Abrir monitoreo de la flota','Running':'En ejecución','Stopped':'Detenido','Tenant Dashboard':'Panel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
   'Remove':'Quitar',
   'Branding':'Marca',
   'Upload logo':'Subir logotipo',
@@ -6212,7 +6229,7 @@ const I18N={
   "GitOps repository settings saved":"Configuración del repositorio GitOps guardada",
   "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"La conexión compartida de GitHub (URL base, versión de API, organización propietaria) se define una vez en Integraciones API → GitHub y se hereda aquí. Cada servicio de abajo descarga su propio archivo de config con un token guardado como secret de Docker — nunca en el YAML.",
   "CLI Worker Pool":"Pool de workers CLI",
-  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"Pool de workers de shell que el collector usa para ejecutar sondas CLI y SSH de dispositivos.",
+  "Shell-out worker pool the collector uses to run CLI based probes.":"Pool de workers de shell que el collector usa para ejecutar sondas basadas en CLI.",
   "Shell instances":"Instancias de shell",
   "Job timeout (sec)":"Tiempo de espera del job (s)",
   "Per-shell queue max":"Cola máx. por shell",
@@ -6238,7 +6255,7 @@ const I18N={
   "MSP Organization Details":"Detalles de la organización MSP",
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
- pt:{'Serviceability':'Manutenção','Collector Management':'Gestão de collectors','Platform Microservices':'Microsserviços da plataforma','Fleet Monitoring':'Monitorização da frota','← Fleet Monitoring':'← Monitorização da frota','Open Fleet Monitoring':'Abrir monitorização da frota','Running':'Em execução','Stopped':'Parado','Tenant Dashboard':'Painel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
+ pt:{'Switch to MSP mode?':'Mudar para o modo MSP?','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'Todos os dados deste cliente Enterprise serão migrados para um novo registo de cliente MSP. Isto remodela toda a consola e não pode ser anulado.','Yes, switch to MSP':'Sim, mudar para MSP','Serviceability':'Manutenção','Collector Management':'Gestão de collectors','Platform Microservices':'Microsserviços da plataforma','Fleet Monitoring':'Monitorização da frota','← Fleet Monitoring':'← Monitorização da frota','Open Fleet Monitoring':'Abrir monitorização da frota','Running':'Em execução','Stopped':'Parado','Tenant Dashboard':'Painel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
   'Remove':'Remover',
   'Branding':'Marca',
   'Upload logo':'Carregar logótipo',
@@ -6580,7 +6597,7 @@ const I18N={
   "GitOps repository settings saved":"Configurações do repositório GitOps salvas",
   "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"A conexão partilhada do GitHub (URL base, versão da API, organização proprietária) é definida uma vez em Integrações de API → GitHub e herdada aqui. Cada serviço abaixo obtém o seu próprio arquivo de config com um token guardado como Docker secret — nunca no YAML.",
   "CLI Worker Pool":"Pool de workers CLI",
-  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"O collector usa este pool de workers de shell para executar sondas CLI e SSH em dispositivos.",
+  "Shell-out worker pool the collector uses to run CLI based probes.":"O collector usa este pool de workers de shell para executar sondas baseadas em CLI.",
   "Shell instances":"Instâncias de shell",
   "Job timeout (sec)":"Timeout do job (s)",
   "Per-shell queue max":"Fila máx. por shell",
@@ -6606,7 +6623,7 @@ const I18N={
   "MSP Organization Details":"Detalhes da organização MSP",
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
- ja:{'Serviceability':'保守','Collector Management':'コレクター管理','Platform Microservices':'プラットフォームのマイクロサービス','Fleet Monitoring':'フリート監視','← Fleet Monitoring':'← フリート監視','Open Fleet Monitoring':'フリート監視を開く','Running':'実行中','Stopped':'停止','Tenant Dashboard':'テナントダッシュボード','All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
+ ja:{'Switch to MSP mode?':'MSP モードに切り替えますか？','All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can\'t be undone.':'このエンタープライズ顧客のすべてのデータが新しい MSP 顧客レコードに移行されます。コンソール全体が再構成され、元に戻せません。','Yes, switch to MSP':'はい、MSP に切り替える','Serviceability':'保守','Collector Management':'コレクター管理','Platform Microservices':'プラットフォームのマイクロサービス','Fleet Monitoring':'フリート監視','← Fleet Monitoring':'← フリート監視','Open Fleet Monitoring':'フリート監視を開く','Running':'実行中','Stopped':'停止','Tenant Dashboard':'テナントダッシュボード','All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
   'Remove':'削除',
   'Branding':'ブランディング',
   'Upload logo':'ロゴをアップロード',
@@ -6946,7 +6963,7 @@ const I18N={
   "GitOps repository settings saved":"GitOpsリポジトリ設定を保存しました",
   "The shared GitHub connection (base URL, API version, owner org) is set once under API Integrations → GitHub and inherited here. Each service below pulls its own config file with a token held as a Docker secret — never in the YAML.":"共有の GitHub 接続（ベースURL・APIバージョン・所有組織）は API連携 → GitHub で一度設定され、ここに継承されます。下の各サービスは、Docker secret として保持されたトークンを使って自分の設定ファイルを取得します — YAML には決して書きません。",
   "CLI Worker Pool":"CLIワーカープール",
-  "Shell-out worker pool the collector uses to run CLI and SSH device probes.":"コレクターが CLI/SSH デバイスプローブの実行に使うシェルワーカープール。",
+  "Shell-out worker pool the collector uses to run CLI based probes.":"コレクターが CLI ベースのプローブの実行に使うシェルワーカープール。",
   "Shell instances":"シェルインスタンス",
   "Job timeout (sec)":"ジョブタイムアウト（秒）",
   "Per-shell queue max":"シェルごとの最大キュー",
@@ -8113,7 +8130,7 @@ function renderIntegrations(){
     <div class="page-head">
       <div>
         <div class="page-eyebrow">${TX('Configuration')}</div>
-        <h1 class="page-title">${TX('API Integrations')}</h1>
+        <h1 class="page-title">${TX('Integrations')}</h1>
         <p class="page-sub">${sub}</p>
       </div>
       <div class="head-actions">
@@ -8681,7 +8698,7 @@ function cfgBaseForm(coll){
     <div class="gcfg-card">
       <div class="gcfg-chead">
         <span class="gcfg-cic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></span>
-        <div class="gcfg-ctext"><h3>${TX('CLI Worker Pool')}</h3><p>${TX('Shell-out worker pool the collector uses to run CLI and SSH device probes.')}</p></div>
+        <div class="gcfg-ctext"><h3>${TX('CLI Worker Pool')}</h3><p>${TX('Shell-out worker pool the collector uses to run CLI based probes.')}</p></div>
         <span class="cfg-scope-pill local">${TX('On-box')}</span>
       </div>
       <div class="gcfg-grid">
@@ -8985,7 +9002,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.186.alpha';
+const APP_VERSION='v2026.02.187.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9038,7 +9055,52 @@ function applyDeploymentMode(){
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active', o.dataset.tenant===currentTenant));
   if(single && (navHighlight==='tenants'||navHighlight==='tenantcfg')) go('dashboard');
 }
-function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; MSP_DEPLOYMENT=m; applyDeploymentMode(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Enterprise Customer'):TX('MSP Customer'))); }
+/* themed config hero banners (Guardare + MariaDB), styled like the Ubuntu OS card */
+function cfgGuardareCard(){
+  const kv=(svg,k,v)=>'<span class="os-kv">'+svg+k+' <b>'+v+'</b></span>';
+  const i_id='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>';
+  const i_ch='<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  const i_file='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+  const i_tag='<svg viewBox="0 0 24 24"><path d="M4 4h7l9 9-7 7-9-9V4z"/><circle cx="8" cy="8" r="1.4"/></svg>';
+  const G_SVG='<svg viewBox="0 0 48 48" aria-label="Guardare"><circle cx="24" cy="24" r="15" fill="none" stroke="#2EE6C8" stroke-width="3"/><circle cx="24" cy="24" r="6.5" fill="none" stroke="#2EE6C8" stroke-width="3"/><circle cx="24" cy="24" r="2.4" fill="#2EE6C8"/></svg>';
+  const coll=(typeof cfgMgrColl!=='undefined'&&cfgMgrColl)?cfgMgrColl.split(':')[1]:'collector';
+  return '<div class="os-card theme-teal">'+
+    '<div class="os-logo">'+G_SVG+'</div>'+
+    '<div class="os-body">'+
+      '<div class="os-titlerow"><span class="os-name">Guardare <b>Collector Agent</b></span><span class="os-codename">v2026.2</span><span class="os-lts">stable</span></div>'+
+      '<div class="os-kvs">'+
+        kv(i_id,'Service ID','svc-'+coll)+
+        kv(i_ch,'Channel','telemetry')+
+        kv(i_file,'Config','serviceConfig.yaml')+
+        kv(i_tag,'Build','gso-stable')+
+      '</div>'+
+    '</div></div>';
+}
+function cfgMariaCard(){
+  const kv=(svg,k,v)=>'<span class="os-kv">'+svg+k+' <b>'+v+'</b></span>';
+  const i_eng='<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>';
+  const i_pool='<svg viewBox="0 0 24 24"><path d="M4 12h16M4 6h16M4 18h16"/></svg>';
+  const i_char='<svg viewBox="0 0 24 24"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>';
+  const i_cloud='<svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a3.5 3.5 0 0 1-.5 8.5z"/></svg>';
+  const M_SVG='<svg viewBox="0 0 48 48" aria-label="MariaDB"><ellipse cx="24" cy="13" rx="14" ry="5" fill="none" stroke="#C0765C" stroke-width="3"/><path d="M10 13v22c0 2.8 6.3 5 14 5s14-2.2 14-5V13" fill="none" stroke="#C0765C" stroke-width="3"/><path d="M10 24c0 2.8 6.3 5 14 5s14-2.2 14-5" fill="none" stroke="#C0765C" stroke-width="3"/></svg>';
+  return '<div class="os-card theme-maria">'+
+    '<div class="os-logo">'+M_SVG+'</div>'+
+    '<div class="os-body">'+
+      '<div class="os-titlerow"><span class="os-name">MariaDB <b>11.4 LTS</b></span><span class="os-codename">noble</span><span class="os-lts">InnoDB</span></div>'+
+      '<div class="os-kvs">'+
+        kv(i_eng,'Engine','InnoDB')+
+        kv(i_pool,'Buffer pool','512 MB')+
+        kv(i_char,'Charset','utf8mb4')+
+        kv(i_cloud,'Cloud DB','healthy')+
+      '</div>'+
+    '</div></div>';
+}
+/* deployment-model switch confirmation (Enterprise -> MSP migrates all data) */
+function openMspSwitchModal(){ const m=document.getElementById('mspSwitchModal'); if(m) m.classList.add('show'); }
+function closeMspSwitchModal(){ const m=document.getElementById('mspSwitchModal'); if(m) m.classList.remove('show'); }
+function confirmMspSwitch(){ closeMspSwitchModal(); MSP_DEPLOYMENT='msp'; applyDeploymentMode(); toast(TX('Deployment model')+' · '+TX('MSP Customer')); }
+
+function tcfgSetModel(m){ if(MSP_DEPLOYMENT===m) return; if(m==='msp' && MSP_DEPLOYMENT==='single'){ openMspSwitchModal(); return; } MSP_DEPLOYMENT=m; applyDeploymentMode(); toast(TX('Deployment model')+' · '+(m==='single'?TX('Enterprise Customer'):TX('MSP Customer'))); }
 let acctTenant=null;
 function tenantLocCount(slug){ const n=Object.keys(COLLECTOR_SITES).filter(k=>k.indexOf(slug+':')===0).length; const d=TENANT_DIR.find(t=>t.slug===slug); return n||(d?d.sites:0); }
 function openTenantLocations(slug){ switchTenant(slug); go('config'); }
@@ -9365,7 +9427,6 @@ function renderAccount(){
     </div></div>
     <div class="gcfg">
       ${accountModelCard()}
-      ${MSP_DEPLOYMENT==='single' ? tcfgBody() : ''}
       ${orgCard}
       ${supportCard}
       ${ssoCard}
@@ -9476,11 +9537,11 @@ function renderCfgMgr(){
   let body;
   if(cfgSubPage==='base'){
     const f=files.find(x=>x.key==='base')||files[0];
-    body=cfgBaseForm(cfgMgrColl)+cfgSourcePeek(f,cfgMgrColl);
+    body=cfgGuardareCard()+cfgBaseForm(cfgMgrColl)+cfgSourcePeek(f,cfgMgrColl);
   } else if(cfgSubPage==='ubuntu'){
     body=cfgUbuntuForm(cfgMgrColl);
   } else if(cfgSubPage==='databases'){
-    body=cfgDbForm(cfgMgrColl);
+    body=cfgMariaCard()+cfgDbForm(cfgMgrColl);
   } else if(cfgSubPage==='gitops'){
     body=cfgGitOpsForm(cfgMgrColl);
   } else if(cfgSubPage==='normalizer'){
