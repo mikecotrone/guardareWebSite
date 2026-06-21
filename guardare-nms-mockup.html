@@ -1190,6 +1190,37 @@
   .tk-textarea{min-height:88px;resize:vertical;line-height:1.5}
   .tk-acts{justify-content:flex-end;margin-top:4px}
   .tk-acts .btn{flex:0 0 auto}
+  .tk-prov{display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:9px 12px;margin-bottom:16px;font-size:12px}
+  .tk-prov-dot{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 6px currentColor}
+  .tk-prov-name{font-weight:700;color:var(--pc,var(--teal))}
+  .tk-prov-cat{color:var(--mute)}
+  .tk-prov-ep{color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:11px;margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px}
+  .tk-prog{height:6px;background:var(--bg-2);border-radius:99px;overflow:hidden;margin:4px 0 18px}
+  .tk-prog-bar{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--green));border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+  .tk-steps{display:flex;flex-direction:column;gap:11px}
+  .tk-step{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--dim);transition:color .2s}
+  .tk-step.active,.tk-step.done{color:var(--text)}
+  .tk-step-mark{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--bg-2);border:1px solid var(--line)}
+  .tk-step.active .tk-step-mark{border-color:var(--teal)}
+  .tk-step.done .tk-step-mark{background:#10342b;border-color:var(--green)}
+  .tk-step.pending .tk-step-mark::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--mute)}
+  .tk-spin{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--teal);animation:tkspin .7s linear infinite;display:none}
+  .tk-step.active .tk-spin{display:block}
+  .tk-check{width:13px;height:13px;fill:none;stroke:var(--green);stroke-width:2.4;display:none}
+  .tk-step.done .tk-check{display:block}
+  @keyframes tkspin{to{transform:rotate(360deg)}}
+  .tk-done-top{text-align:center;margin-bottom:16px}
+  .tk-done-ic{width:54px;height:54px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#10342b;color:var(--green);margin-bottom:12px}
+  .tk-done-ic svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4}
+  .tk-ticketcard{background:var(--bg-2);border:1px solid var(--line);border-radius:11px;padding:15px 16px;margin-bottom:18px;text-align:left}
+  .tk-tc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
+  .tk-tc-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:var(--pc,var(--teal))}
+  .tk-tc-subj{font-size:14px;font-weight:600;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .tk-tc-row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;font-size:12.5px}
+  .tk-tc-k{color:var(--mute)}
+  .tk-tc-v{color:var(--text);font-weight:500;text-align:right}
+  .tk-tc-link{display:inline-flex;align-items:center;gap:6px;margin-top:13px;color:var(--teal);font-size:12.5px;font-weight:600;cursor:pointer;background:none;border:0;padding:0;font-family:inherit}
+  .tk-tc-link:hover{text-decoration:underline}
   .reboot-ring-wrap{position:relative;width:124px;height:124px;margin:4px auto 18px}
   .reboot-ring-svg{width:124px;height:124px;transform:rotate(-90deg)}
   .reboot-ring-svg .ring-bg{fill:none;stroke:var(--line);stroke-width:8}
@@ -1535,7 +1566,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.197.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.198.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5060,29 +5091,45 @@ snmp_field_mapping:
 </div>
 <div class="modal-backdrop" id="ticketModal" onclick="if(event.target.id==='ticketModal')closeTicketModal()">
   <div class="modal modal-form" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
-    <div class="tk-head">
-      <div class="tk-head-l">
-        <span class="tk-ic"><svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z"/><path d="M14 5v14"/></svg></span>
-        <div>
-          <h3 class="modal-title" id="ticketTitle" data-i18n="Draft ticket">Draft ticket</h3>
-          <p class="tk-sub">New support ticket &middot; <span id="ticketTenant">&mdash;</span></p>
+    <div id="tkCompose">
+      <div class="tk-head">
+        <div class="tk-head-l">
+          <span class="tk-ic"><svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z"/><path d="M14 5v14"/></svg></span>
+          <div>
+            <h3 class="modal-title" id="ticketTitle" data-i18n="Draft ticket">Draft ticket</h3>
+            <p class="tk-sub">New support ticket &middot; <span id="ticketTenant">&mdash;</span></p>
+          </div>
         </div>
+        <span class="tk-draft-badge">Draft</span>
       </div>
-      <span class="tk-draft-badge">Draft</span>
+      <div class="tk-prov" id="tkProvBar"></div>
+      <div class="tm-field"><label>Subject</label><input class="tm-input" id="tkSubject" placeholder="Short summary of the issue"></div>
+      <div class="tm-row">
+        <div class="tm-field"><label>Priority</label><select class="tm-input" id="tkPriority"><option>Low</option><option selected>Normal</option><option>High</option><option>Urgent</option></select></div>
+        <div class="tm-field"><label>Type</label><select class="tm-input" id="tkType"><option selected>Incident</option><option>Service request</option><option>Change</option><option>Problem</option></select></div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-field"><label>Assignee</label><select class="tm-input" id="tkAssignee"><option selected>Unassigned</option><option>Mike Chen</option><option>NOC &mdash; Tier 1</option><option>NOC &mdash; Tier 2</option></select></div>
+        <div class="tm-field"><label>Linked collector</label><select class="tm-input" id="tkColl"><option selected>None</option></select></div>
+      </div>
+      <div class="tm-field"><label>Description</label><textarea class="tm-input tk-textarea" id="tkDesc" placeholder="What is happening? Steps, impact, affected devices&hellip;"></textarea></div>
+      <div class="modal-acts tk-acts">
+        <button class="btn" onclick="closeTicketModal()">Cancel</button>
+        <button class="btn primary" id="tkSubmitBtn" onclick="submitTicket()"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="tkSubmitLbl">Submit ticket</span></button>
+      </div>
     </div>
-    <div class="tm-field"><label>Subject</label><input class="tm-input" id="tkSubject" placeholder="Short summary of the issue"></div>
-    <div class="tm-row">
-      <div class="tm-field"><label>Priority</label><select class="tm-input"><option>Low</option><option selected>Normal</option><option>High</option><option>Urgent</option></select></div>
-      <div class="tm-field"><label>Type</label><select class="tm-input"><option selected>Incident</option><option>Service request</option><option>Change</option><option>Problem</option></select></div>
+    <div id="tkSubmitting" style="display:none">
+      <div class="tk-head"><div class="tk-head-l"><span class="tk-ic"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></span><div><h3 class="modal-title">Submitting ticket</h3><p class="tk-sub" id="tkSubmitProv">via provider</p></div></div></div>
+      <div class="tk-prog"><div class="tk-prog-bar" id="tkProgBar"></div></div>
+      <div class="tk-steps" id="tkSteps"></div>
     </div>
-    <div class="tm-row">
-      <div class="tm-field"><label>Assignee</label><select class="tm-input"><option selected>Unassigned</option><option>Mike Chen</option><option>NOC &mdash; Tier 1</option><option>NOC &mdash; Tier 2</option></select></div>
-      <div class="tm-field"><label>Linked collector</label><select class="tm-input" id="tkColl"><option selected>None</option></select></div>
-    </div>
-    <div class="tm-field"><label>Description</label><textarea class="tm-input tk-textarea" id="tkDesc" placeholder="What is happening? Steps, impact, affected devices&hellip;"></textarea></div>
-    <div class="modal-acts tk-acts">
-      <button class="btn" onclick="closeTicketModal()">Cancel</button>
-      <button class="btn primary" onclick="saveTicketDraft()"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg><span>Save draft</span></button>
+    <div id="tkDone" style="display:none">
+      <div class="tk-done-top"><span class="tk-done-ic"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><h3 class="modal-title">Ticket created</h3><p class="tk-sub" id="tkDoneProv"></p></div>
+      <div class="tk-ticketcard" id="tkTicketCard"></div>
+      <div class="modal-acts tk-acts">
+        <button class="btn" onclick="tkCreateAnother()">Create another</button>
+        <button class="btn primary" onclick="closeTicketModal()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span>Done</span></button>
+      </div>
     </div>
   </div>
 </div>
@@ -9088,7 +9135,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.197.alpha';
+const APP_VERSION='v2026.02.198.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9184,25 +9231,101 @@ function cfgMariaCard(){
 /* deployment-model switch confirmation (Enterprise -> MSP migrates all data) */
 function openMspSwitchModal(){ const m=document.getElementById('mspSwitchModal'); if(m) m.classList.add('show'); }
 function closeMspSwitchModal(){ const m=document.getElementById('mspSwitchModal'); if(m) m.classList.remove('show'); }
-let ticketTenantSlug=null;
+function ticketProvider(){
+  try{
+    var g=INTEGRATIONS.filter(function(i){return i.group==='servicedesk';});
+    return g.filter(function(i){return i.connected;})[0] || g[0] || {name:'Helpdesk',cat:'Ticketing',c:'#2E9BE6',endpoint:''};
+  }catch(e){ return {name:'Helpdesk',cat:'Ticketing',c:'#2E9BE6',endpoint:''}; }
+}
+var ticketTenantSlug=null, TK_DATA=null, tkTimers=[];
+function _tkClearTimers(){ tkTimers.forEach(function(t){clearTimeout(t);}); tkTimers=[]; }
+function tkShowPhase(ph){
+  ['compose','submitting','done'].forEach(function(k){
+    var e=document.getElementById('tk'+k.charAt(0).toUpperCase()+k.slice(1));
+    if(e) e.style.display=(k===ph)?'':'none';
+  });
+}
 function openTicketModal(slug){
+  _tkClearTimers();
   ticketTenantSlug=slug||(typeof currentTenantCtx!=='undefined'&&currentTenantCtx)||(TENANT_DIR[0]&&TENANT_DIR[0].slug)||null;
-  const nm=tenantName[ticketTenantSlug]||ticketTenantSlug||'—';
-  const te=document.getElementById('ticketTenant'); if(te) te.textContent=nm;
-  const sel=document.getElementById('tkColl');
-  if(sel){ let o='<option selected>None</option>'; try{ (collectorsForTenant(ticketTenantSlug)||[]).forEach(function(c){ o+='<option>'+c.id+'</option>'; }); }catch(e){} sel.innerHTML=o; }
-  const s=document.getElementById('tkSubject'); if(s) s.value='';
-  const d=document.getElementById('tkDesc'); if(d) d.value='';
-  const m=document.getElementById('ticketModal'); if(m) m.classList.add('show');
+  var nm=tenantName[ticketTenantSlug]||ticketTenantSlug||'—';
+  var te=document.getElementById('ticketTenant'); if(te) te.textContent=nm;
+  var sel=document.getElementById('tkColl');
+  if(sel){ var o='<option selected>None</option>'; try{ (collectorsForTenant(ticketTenantSlug)||[]).forEach(function(c){ o+='<option>'+c.id+'</option>'; }); }catch(e){} sel.innerHTML=o; }
+  var s=document.getElementById('tkSubject'); if(s) s.value='';
+  var d=document.getElementById('tkDesc'); if(d) d.value='';
+  var p=ticketProvider();
+  var bar=document.getElementById('tkProvBar');
+  if(bar) bar.innerHTML='<span class="tk-prov-dot" style="background:'+(p.connected!==false?'var(--green)':'var(--mute)')+'"></span>'
+    +'<span class="tk-prov-name" style="--pc:'+(p.c||'var(--teal)')+'">'+p.name+'</span>'
+    +'<span class="tk-prov-cat">'+(p.cat||'')+'</span>'
+    +'<span class="tk-prov-ep">'+(p.endpoint||'')+'</span>';
+  var lbl=document.getElementById('tkSubmitLbl'); if(lbl) lbl.textContent='Submit to '+p.name;
+  tkShowPhase('compose');
+  var m=document.getElementById('ticketModal'); if(m) m.classList.add('show');
   if(s) setTimeout(function(){ try{ s.focus(); }catch(e){} },60);
 }
-function closeTicketModal(){ const m=document.getElementById('ticketModal'); if(m) m.classList.remove('show'); }
-function saveTicketDraft(){
-  const subj=((document.getElementById('tkSubject')||{}).value||'').trim();
-  const nm=tenantName[ticketTenantSlug]||ticketTenantSlug||'';
-  closeTicketModal();
-  const lbl=subj?('"'+(subj.length>40?subj.slice(0,40)+'…':subj)+'" — '):'';
-  toast(lbl+'draft ticket saved'+(nm?(' · '+nm):''));
+function closeTicketModal(){ _tkClearTimers(); var m=document.getElementById('ticketModal'); if(m) m.classList.remove('show'); }
+function submitTicket(){
+  var get=function(id){ var e=document.getElementById(id); return e?e.value:''; };
+  var p=ticketProvider();
+  var prefix=(p.name||'TK').replace(/[^A-Za-z]/g,'').slice(0,3).toUpperCase()||'TK';
+  TK_DATA={
+    subject:(get('tkSubject')||'').trim()||'Untitled ticket',
+    priority:get('tkPriority')||'Normal',
+    type:get('tkType')||'Incident',
+    assignee:get('tkAssignee')||'Unassigned',
+    coll:get('tkColl')||'None',
+    tenant:tenantName[ticketTenantSlug]||ticketTenantSlug||'—',
+    provider:p,
+    num:prefix+'-'+(40000+Math.floor(Math.random()*9999)),
+    created:new Date()
+  };
+  tkShowPhase('submitting');
+  var sp=document.getElementById('tkSubmitProv'); if(sp) sp.textContent='via '+p.name+' · '+(p.endpoint||p.cat||'');
+  var steps=[
+    'Connecting to '+p.name,
+    'Authenticating API token',
+    'Creating '+TK_DATA.type.toLowerCase()+' record',
+    'Assigning ticket number '+TK_DATA.num,
+    'Setting priority — '+TK_DATA.priority,
+    'Routing to '+TK_DATA.assignee,
+    'Linking '+(TK_DATA.coll!=='None'?TK_DATA.coll:TK_DATA.tenant)+' to ticket',
+    'Confirming two-way status sync'
+  ];
+  var box=document.getElementById('tkSteps');
+  if(box) box.innerHTML=steps.map(function(st,i){ return '<div class="tk-step pending" id="tkStep'+i+'"><span class="tk-step-mark"><span class="tk-spin"></span><svg class="tk-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><span class="tk-step-lbl">'+st+'</span></div>'; }).join('');
+  var prog=document.getElementById('tkProgBar'); if(prog) prog.style.width='0%';
+  var n=steps.length, STEP=560;
+  steps.forEach(function(st,i){
+    tkTimers.push(setTimeout(function(){ var el=document.getElementById('tkStep'+i); if(el) el.className='tk-step active'; }, i*STEP));
+    tkTimers.push(setTimeout(function(){ var el=document.getElementById('tkStep'+i); if(el) el.className='tk-step done'; if(prog) prog.style.width=Math.round((i+1)/n*100)+'%'; }, i*STEP+STEP-90));
+  });
+  tkTimers.push(setTimeout(function(){ tkRenderDone(); tkShowPhase('done'); }, n*STEP+360));
+}
+function tkRenderDone(){
+  var d=TK_DATA; if(!d) return; var p=d.provider;
+  var dp=document.getElementById('tkDoneProv'); if(dp) dp.textContent='Created in '+p.name+' · '+(p.cat||'');
+  var row=function(k,v){ return '<div class="tk-tc-row"><span class="tk-tc-k">'+k+'</span><span class="tk-tc-v">'+v+'</span></div>'; };
+  var card=document.getElementById('tkTicketCard');
+  if(card) card.innerHTML=
+    '<div class="tk-tc-head"><span class="tk-tc-num" style="--pc:'+(p.c||'var(--teal)')+'">'+d.num+'</span><span class="td-status s-online" style="font-size:11px"><i></i>Open</span></div>'
+    +'<div class="tk-tc-subj">'+d.subject+'</div>'
+    +row('Provider', p.name)
+    +row('Priority', d.priority)
+    +row('Type', d.type)
+    +row('Assignee', d.assignee)
+    +row('Tenant', d.tenant)
+    +row('Linked collector', d.coll)
+    +row('Created', d.created.toLocaleString())
+    +'<button class="tk-tc-link" onclick="tkViewInProvider()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>View '+d.num+' in '+p.name+'</button>';
+}
+function tkViewInProvider(){ if(TK_DATA) toast('Opening '+TK_DATA.num+' in '+TK_DATA.provider.name+'…'); }
+function tkCreateAnother(){
+  var s=document.getElementById('tkSubject'); if(s) s.value='';
+  var d=document.getElementById('tkDesc'); if(d) d.value='';
+  tkShowPhase('compose');
+  if(s) setTimeout(function(){ try{ s.focus(); }catch(e){} },60);
 }
 function confirmMspSwitch(){ closeMspSwitchModal(); MSP_DEPLOYMENT='msp'; applyDeploymentMode(); toast(TX('Deployment model')+' · '+TX('MSP Customer')); }
 
