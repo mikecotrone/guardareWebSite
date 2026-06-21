@@ -1423,7 +1423,7 @@
     </button>
     <button class="nav-item" data-screen="fleet">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
-      <span data-i18n="Fleet Management">Fleet Management</span>
+      <span data-i18n="Fleet Monitoring">Fleet Monitoring</span>
     </button>
     <button class="nav-item" data-screen="alerts">
       <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
@@ -1462,10 +1462,20 @@
       <span data-i18n="API Integrations">API Integrations</span>
     </button>
 
+    <div class="nav-group" data-i18n="Serviceability">Serviceability</div>
+    <button class="nav-item" data-screen="collmgmt">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M9 16v4M15 16v4"/></svg>
+      <span data-i18n="Collector Management">Collector Management</span>
+    </button>
+    <button class="nav-item" data-screen="microsvc">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span data-i18n="Platform Microservices">Platform Microservices</span>
+    </button>
+
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.184.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.186.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -1687,7 +1697,7 @@
       <div class="page-head">
         <div>
           <div class="page-eyebrow" data-i18n="Operations">Operations</div>
-          <h1 class="page-title" data-i18n="Fleet Management">Fleet Management</h1>
+          <h1 class="page-title" data-i18n="Fleet Monitoring">Fleet Monitoring</h1>
           <p class="page-sub" id="fleetSub">Every collector across every customer</p>
         </div>
         <div class="head-actions">
@@ -1720,7 +1730,7 @@
     <section class="screen" id="screen-detail">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Fleet Management">← Fleet Management</button> / Acme Corp</div>
+          <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Fleet Monitoring">← Fleet Monitoring</button> / Acme Corp</div>
           <div class="detail-title">
             <h1 class="page-title" style="font-size:24px" id="detailId">Collector</h1>
             <span class="detail-addr" id="detailAddr" role="button" tabindex="0" title="View in Locations" onclick="gotoLocationFromDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gotoLocationFromDetail();}"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="detailAddrTxt">—</span></span>
@@ -1781,98 +1791,6 @@
           <div class="lab" data-i18n="WS latency">WS latency</div>
           <div class="v"><span id="vitLatV">9</span><small>ms</small></div>
           <svg class="sp" viewBox="0 0 120 24" preserveAspectRatio="none" style="width:100%;height:22px"><path id="vitLatSpark" d="M0 22 L120 22" fill="none" stroke="#41D98A" stroke-width="1.5"/></svg>
-        </div>
-      </div>
-
-      <div class="panel mb18">
-        <div class="panel-head">
-          <h3 data-i18n="Platform Microservice Management">Platform Microservice Management</h3>
-          <span class="td-status s-warn" id="svcSummary" style="font-size:11.5px"><i></i><span id="svcSummaryTxt">1 service degraded</span></span>
-        </div>
-        <div class="svc-note">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          <span data-i18n="The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.">The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.</span>
-        </div>
-        <div class="svc-grid" id="svcGrid">
-
-          <div class="svc-card">
-            <div class="svc-top">
-              <div><div class="svc-name">vCollector</div><div class="svc-role" data-i18n="Ingests device data">Ingests device data</div></div>
-              <span class="td-status s-online"><i></i><span data-i18n="Online">Online</span></span>
-            </div>
-            <div class="svc-metrics">
-              <div class="svc-m"><div class="n">612<small>msg/s</small></div><div class="l" data-i18n="Throughput">Throughput</div></div>
-              <div class="svc-m"><div class="n">48</div><div class="l" data-i18n="API targets">API targets</div></div>
-            </div>
-            <div class="svc-foot">
-              <span class="svc-ver">v3.2.1</span>
-              <div class="svc-acts">
-                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="svcOp('vcoll.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Flush queue" aria-label="Flush queue" onclick="svcOp('vcoll.flush')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('vcoll.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="svc-card">
-            <div class="svc-top">
-              <div><div class="svc-name">Normalizer</div><div class="svc-role" data-i18n="Standardizes telemetry">Standardizes telemetry</div></div>
-              <span class="td-status s-online"><i></i><span data-i18n="Online">Online</span></span>
-            </div>
-            <div class="svc-metrics">
-              <div class="svc-m"><div class="n" title="Meraki, Arista, UniFi, Fortinet, Cisco IOS, Palo Alto…">14</div><div class="l" data-i18n="Profiles">Profiles</div></div>
-              <div class="svc-m"><div class="n">0</div><div class="l" data-i18n="Errors">Errors</div></div>
-              <div class="svc-m"><div class="n">182,400</div><div class="l" data-i18n="DB items">DB items</div></div>
-            </div>
-            <div class="svc-foot">
-              <span class="svc-ver">v2.8.0</span>
-              <div class="svc-acts">
-                <button class="svc-act" data-tip="Reload profiles" aria-label="Reload profiles" onclick="svcOp('norm.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('norm.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="svc-card deg">
-            <div class="svc-top">
-              <div><div class="svc-name">Events Director</div><div class="svc-role" data-i18n="Events &amp; alerting">Events &amp; alerting</div></div>
-              <span class="td-status s-warn"><i></i><span data-i18n="Degraded">Degraded</span></span>
-            </div>
-            <div class="svc-metrics">
-              <div class="svc-m"><div class="n">126</div><div class="l" data-i18n="Rules">Rules</div></div>
-              <div class="svc-m"><div class="n">480<small>ms</small></div><div class="l" data-i18n="Dispatch">Dispatch</div></div>
-              <div class="svc-m"><div class="n">37</div><div class="l" data-i18n="Alerts">Alerts</div></div>
-            </div>
-            <div class="svc-impact"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span data-i18n="Alerting delayed">Alerting delayed</span></div>
-            <div class="svc-foot">
-              <span class="svc-ver">v1.9.4</span>
-              <div class="svc-acts">
-                <button class="svc-act" data-tip="Reload rules" aria-label="Reload rules" onclick="svcOp('events.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Maintenance" aria-label="Maintenance" onclick="svcOp('events.maint')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M3 3l18 18"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('events.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="svc-card">
-            <div class="svc-top">
-              <div><div class="svc-name">HuduSync</div><div class="svc-role" data-i18n="Docs &amp; asset sync">Docs &amp; asset sync</div></div>
-              <span class="td-status s-online"><i></i><span data-i18n="Online">Online</span></span>
-            </div>
-            <div class="svc-metrics">
-              <div class="svc-m"><div class="n">9</div><div class="l" data-i18n="Categories">Categories</div></div>
-              <div class="svc-m"><div class="n">1,204</div><div class="l" data-i18n="Assets">Assets</div></div>
-            </div>
-            <div class="svc-foot">
-              <span class="svc-ver">v0.7.2 · synced 2m ago</span>
-              <div class="svc-acts">
-                <button class="svc-act" data-tip="Resync" aria-label="Resync" onclick="svcOp('hudu.resync')"><svg viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0-15.5-2"/><path d="M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2"/><path d="M20 19v-4h-4"/></svg></button>
-                <button class="svc-act" data-tip="Reload config" aria-label="Reload config" onclick="svcOp('hudu.reload')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
-                <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="svcOp('hudu.restart')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg></button>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
 
@@ -1972,6 +1890,8 @@
     <section class="screen" id="screen-provision"></section>
     <section class="screen" id="screen-audit"></section>
     <section class="screen" id="screen-config"></section>
+    <section class="screen" id="screen-collmgmt"></section>
+    <section class="screen" id="screen-microsvc"></section>
     <section class="screen" id="screen-estate"></section>
     <section class="screen" id="screen-tenantcfg"></section>
     <section class="screen" id="screen-cfgmgr"></section>
@@ -5217,7 +5137,7 @@ snmp_field_mapping:
 /* ---------- i18n (English-as-key) ---------- */
 let lang='en';
 const I18N={
- it:{'Tenant Dashboard':'Dashboard clienti','All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
+ it:{'Serviceability':'Manutenzione','Collector Management':'Gestione collector','Platform Microservices':'Microservizi della piattaforma','Fleet Monitoring':'Monitoraggio flotta','← Fleet Monitoring':'← Monitoraggio flotta','Open Fleet Monitoring':'Apri monitoraggio flotta','Running':'In esecuzione','Stopped':'Arrestato','Tenant Dashboard':'Dashboard clienti','All':'Tutti','Acknowledged alert':'Avviso confermato','Pushed config via GitOps':'Config inviata via GitOps','Rebooted collector':'Collector riavviato','Provisioned collector':'Collector provisionato','Collector auto-registered':'Collector auto-registrato','Updated alert rule':'Regola di avviso aggiornata','Created tenant':'Tenant creato','Observability':'Osservabilità',
   'Remove':'Rimuovi',
   'Branding':'Marchio',
   'Upload logo':'Carica logo',
@@ -5584,7 +5504,7 @@ const I18N={
   "MSP Organization Details":"Dettagli organizzazione MSP",
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
- fr:{'Tenant Dashboard':'Tableau de bord clients','All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
+ fr:{'Serviceability':'Maintenance','Collector Management':'Gestion des collecteurs','Platform Microservices':'Microservices de la plateforme','Fleet Monitoring':'Surveillance de la flotte','← Fleet Monitoring':'← Surveillance de la flotte','Open Fleet Monitoring':'Ouvrir la surveillance de la flotte','Running':'En cours','Stopped':'Arrêté','Tenant Dashboard':'Tableau de bord clients','All':'Tous','Acknowledged alert':'Alerte acquittée','Pushed config via GitOps':'Config poussée via GitOps','Rebooted collector':'Collecteur redémarré','Provisioned collector':'Collecteur provisionné','Collector auto-registered':'Collecteur auto-enregistré','Updated alert rule':'Règle d\'alerte mise à jour','Created tenant':'Client créé','Observability':'Observabilité',
   'Remove':'Retirer',
   'Branding':'Image de marque',
   'Upload logo':'Importer le logo',
@@ -5951,7 +5871,7 @@ const I18N={
   "MSP Organization Details":"Détails de l'organisation MSP",
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
- es:{'Tenant Dashboard':'Panel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
+ es:{'Serviceability':'Mantenimiento','Collector Management':'Gestión de collectors','Platform Microservices':'Microservicios de la plataforma','Fleet Monitoring':'Monitoreo de la flota','← Fleet Monitoring':'← Monitoreo de la flota','Open Fleet Monitoring':'Abrir monitoreo de la flota','Running':'En ejecución','Stopped':'Detenido','Tenant Dashboard':'Panel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmada','Pushed config via GitOps':'Config enviada vía GitOps','Rebooted collector':'Colector reiniciado','Provisioned collector':'Colector aprovisionado','Collector auto-registered':'Colector autorregistrado','Updated alert rule':'Regla de alerta actualizada','Created tenant':'Cliente creado','Observability':'Observabilidad',
   'Remove':'Quitar',
   'Branding':'Marca',
   'Upload logo':'Subir logotipo',
@@ -6318,7 +6238,7 @@ const I18N={
   "MSP Organization Details":"Detalles de la organización MSP",
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
- pt:{'Tenant Dashboard':'Painel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
+ pt:{'Serviceability':'Manutenção','Collector Management':'Gestão de collectors','Platform Microservices':'Microsserviços da plataforma','Fleet Monitoring':'Monitorização da frota','← Fleet Monitoring':'← Monitorização da frota','Open Fleet Monitoring':'Abrir monitorização da frota','Running':'Em execução','Stopped':'Parado','Tenant Dashboard':'Painel de clientes','All':'Todos','Acknowledged alert':'Alerta confirmado','Pushed config via GitOps':'Config enviada via GitOps','Rebooted collector':'Coletor reiniciado','Provisioned collector':'Coletor aprovisionado','Collector auto-registered':'Coletor autorregistado','Updated alert rule':'Regra de alerta atualizada','Created tenant':'Cliente criado','Observability':'Observabilidade',
   'Remove':'Remover',
   'Branding':'Marca',
   'Upload logo':'Carregar logótipo',
@@ -6686,7 +6606,7 @@ const I18N={
   "MSP Organization Details":"Detalhes da organização MSP",
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
- ja:{'Tenant Dashboard':'テナントダッシュボード','All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
+ ja:{'Serviceability':'保守','Collector Management':'コレクター管理','Platform Microservices':'プラットフォームのマイクロサービス','Fleet Monitoring':'フリート監視','← Fleet Monitoring':'← フリート監視','Open Fleet Monitoring':'フリート監視を開く','Running':'実行中','Stopped':'停止','Tenant Dashboard':'テナントダッシュボード','All':'すべて','Acknowledged alert':'アラートを確認','Pushed config via GitOps':'GitOps 経由で設定を反映','Rebooted collector':'コレクターを再起動','Provisioned collector':'コレクターをプロビジョニング','Collector auto-registered':'コレクターが自動登録','Updated alert rule':'アラートルールを更新','Created tenant':'テナントを作成','Observability':'可観測性',
   'Remove':'削除',
   'Branding':'ブランディング',
   'Upload logo':'ロゴをアップロード',
@@ -7090,7 +7010,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=TX(el.getAttribute('data-i18n')); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
   updateChrome();
-  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderCfgMgr();renderAudit();renderDetail();
+  renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderCfgMgr();renderAudit();renderDetail();if(typeof renderMicrosvc==='function')renderMicrosvc();if(typeof renderCollMgmt==='function')renderCollMgmt();
   if(typeof renderTenantCfg==='function') renderTenantCfg();
   if(typeof renderAccount==='function' && document.getElementById('screen-account') && document.getElementById('screen-account').innerHTML.trim()) renderAccount();
   renderTenants(); renderTenantMenu(); if(currentTenantCtx){ buildCtxBar(); renderTenantNMS(); }
@@ -7112,8 +7032,8 @@ const tenantName = {
 };
 function tnInit(s){return s.slice(0,2).toUpperCase();}
 
-const statusLabel={online:'Online',warn:'Degraded',crit:'Critical',offline:'Offline',site:'Vista site'};
-const statusClass={online:'s-online',warn:'s-warn',crit:'s-crit',offline:'s-offline'};
+const statusLabel={online:'Online',warn:'Degraded',crit:'Critical',offline:'Offline',site:'Vista site',running:'Running',stopped:'Stopped'};
+const statusClass={online:'s-online',warn:'s-warn',crit:'s-crit',offline:'s-offline',running:'s-online',stopped:'s-crit'};
 
 const acmeNodes = [
   ['site-01','acme-corp','online',30,400],['site-02','acme-corp','online',34,672],
@@ -7537,7 +7457,7 @@ function tntCard(t){
       </div>
       <div class="tnt-stats">
         <div class="tnt-stat-link" title="${TX('Open location configuration')}" onclick="event.stopPropagation();openTenantLocations('${t.slug}')"><span class="k">Locations</span><span class="v">${tenantLocCount(t.slug)}</span></div>
-        <div class="tnt-stat-link" title="${TX('Open Fleet Management')}" onclick="event.stopPropagation();openTenantFleet('${t.slug}')"><span class="k">Collectors</span><span class="v">${t.col}</span></div>
+        <div class="tnt-stat-link" title="${TX('Open Fleet Monitoring')}" onclick="event.stopPropagation();openTenantFleet('${t.slug}')"><span class="k">Collectors</span><span class="v">${t.col}</span></div>
         <div><span class="k">Online</span><span class="v">${onPct}%</span></div>
         <div><span class="k">Alerts</span><span class="v ${alClass}">${al}</span></div>
       </div>
@@ -9065,7 +8985,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.184.alpha';
+const APP_VERSION='v2026.02.186.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9692,23 +9612,23 @@ const SVC_WARN='<svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 1
 const PROTO_COLOR={snmp:'var(--teal)',api:'var(--violet)',cli:'var(--amber)'};
 const PROTO_LABEL={snmp:'SNMP',api:'API',cli:'CLI'};
 const PROTO_TIP={snmp:'SNMP polling targets',api:'API polling targets',cli:'CLI polling targets'};
-const PROTO_OVERRIDE={'atlantico:sao-01':{api:22,cli:9}};
+const PROTO_OVERRIDE={'atlantico:sao-01':{api:22,cli:9,snmp:31}};
 function svcSeed(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=(h<<13)|(h>>>19);}return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);return ((h^=h>>>16)>>>0)/4294967296;};}
 function genServices(id){
   const r=svcSeed(id), ri=(a,b)=>Math.floor(r()*(b-a+1))+a, pick=a=>a[Math.floor(r()*a.length)];
   // some collectors only poll SNMP or only API; others mix
   const modes=[['snmp'],['snmp'],['api'],['snmp','api'],['snmp','api'],['snmp','api','cli'],['snmp','cli'],['api','cli']];
   const ranges={snmp:[8,64],api:[6,40],cli:[2,16]}, protos={};
-  pick(modes).forEach(p=>{protos[p]=ri(ranges[p][0],ranges[p][1]);});
+  ['api','snmp','cli'].forEach(p=>{protos[p]=ri(ranges[p][0],ranges[p][1]);});  /* vCollector polls all three target types */
   if(PROTO_OVERRIDE[id]){Object.keys(protos).forEach(k=>delete protos[k]);Object.assign(protos,PROTO_OVERRIDE[id]);}
   const total=Object.values(protos).reduce((a,b)=>a+b,0);
   const nErr=r()<0.82?0:ri(1,12), dispatch=ri(35,620);
   const dbItems=ri(12,480)*1000+ri(0,999), alertsFired=ri(0,58);
   return {
-    vcollector:{throughput:Math.round(total*ri(9,17)),total,protos,ver:`v3.${ri(0,9)}.${ri(0,9)}`,status:'online'},
-    normalizer:{profiles:ri(6,20),errors:nErr,dbItems,ver:`v2.${ri(0,9)}.${ri(0,9)}`,status:nErr>0?'warn':'online'},
-    events:{rules:ri(45,320),dispatch,alerts:alertsFired,ver:`v1.${ri(0,9)}.${ri(0,9)}`,status:dispatch>320?'warn':'online'},
-    hudusync:{cats:ri(4,16),assets:ri(180,3400),synced:ri(1,18),ver:`v0.${ri(1,9)}.${ri(0,9)}`,status:'online'}
+    vcollector:{throughput:Math.round(total*ri(9,17)),total,protos,ver:`v3.${ri(0,9)}.${ri(0,9)}`,status:'running'},
+    normalizer:{profiles:ri(6,20),errors:nErr,dbItems,ver:`v2.${ri(0,9)}.${ri(0,9)}`,status:r()<0.15?'stopped':'running'},
+    events:{rules:ri(45,320),dispatch,alerts:alertsFired,ver:`v1.${ri(0,9)}.${ri(0,9)}`,status:r()<0.12?'stopped':'running'},
+    hudusync:{cats:ri(4,16),assets:ri(180,3400),synced:ri(1,18),ver:`v0.${ri(1,9)}.${ri(0,9)}`,status:'running'}
   };
 }
 function protoChips(p){return `<div class="svc-protos">`+Object.keys(p).map(k=>`<span class="proto" data-tip="${TX(PROTO_TIP[k])}" aria-label="${TX(PROTO_TIP[k])}"><i style="background:${PROTO_COLOR[k]}"></i>${PROTO_LABEL[k]} <b>${p[k]}</b></span>`).join('')+`</div>`;}
@@ -9725,7 +9645,7 @@ function svcCard(o){
 let currentDetailId='acme-corp:site-04';
 /* breadcrumb label + return target, keyed by the section the collector was opened from */
 const CRUMB_ORIGIN={
-  fleet:{s:'fleet',k:'Fleet Management'},
+  fleet:{s:'fleet',k:'Fleet Monitoring'},
   tenants:{s:'tenants',k:'Tenant Management'},
   dashboard:{s:'dashboard',k:'Dashboard'},
   alerts:{s:'alerts',k:'Alerts'},
@@ -9750,14 +9670,14 @@ function renderDetail(){
       acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:`vCollector · reload config sent → ${coll}`},
             {tip:'Flush queue',icon:SVC_ICONS.flush,toast:`vCollector · flush queue → ${coll}`},
             {tip:'Restart',icon:SVC_ICONS.restart,toast:`vCollector · restart queued`}]}),
-    svcCard({name:'Normalizer',role:'Standardizes telemetry',status:S.normalizer.status,deg:S.normalizer.status!=='online',
+    svcCard({name:'Normalizer',role:'Standardizes telemetry',status:S.normalizer.status,deg:S.normalizer.status==='stopped',
       metrics:[{n:S.normalizer.profiles,l:'Profiles'},{n:S.normalizer.errors,l:'Errors'},{n:S.normalizer.dbItems.toLocaleString(),l:'DB items'}],
-      impact:S.normalizer.status!=='online'?'Normalization errors':null,ver:S.normalizer.ver,
+      impact:S.normalizer.status==='stopped'?'Normalizer stopped — telemetry not standardized':null,ver:S.normalizer.ver,
       acts:[{tip:'Reload profiles',icon:SVC_ICONS.reload,toast:`Normalizer · reload profiles sent → ${coll}`},
             {tip:'Restart',icon:SVC_ICONS.restart,toast:`Normalizer · restart queued`}]}),
-    svcCard({name:'Events Director',role:'Events & alerting',status:S.events.status,deg:S.events.status!=='online',
+    svcCard({name:'Events Director',role:'Events & alerting',status:S.events.status,deg:S.events.status==='stopped',
       metrics:[{n:S.events.rules,l:'Rules'},{n:S.events.dispatch,unit:'ms',l:'Dispatch'},{n:S.events.alerts,l:'Alerts'}],
-      impact:S.events.status!=='online'?'Alerting delayed':null,ver:S.events.ver,
+      impact:S.events.status==='stopped'?'Events Director stopped — alerting halted':null,ver:S.events.ver,
       acts:[{tip:'Reload rules',icon:SVC_ICONS.reload,toast:`Events Director · reload rules sent → ${coll}`},
             {tip:'Maintenance',icon:SVC_ICONS.maint,toast:`Events Director · maintenance ON → alerts suppressed`},
             {tip:'Restart',icon:SVC_ICONS.restart,toast:`Events Director · restart queued`}]}),
@@ -9769,18 +9689,148 @@ function renderDetail(){
             {tip:'Restart',icon:SVC_ICONS.restart,toast:`HuduSync · restart queued`}]})
   ].join('');
   const grid=document.getElementById('svcGrid'); if(grid) grid.innerHTML=cards;
-  const deg=[S.vcollector,S.normalizer,S.events,S.hudusync].filter(x=>x.status!=='online').length;
+  const stopped=[S.vcollector,S.normalizer,S.events,S.hudusync].filter(x=>x.status==='stopped').length;
   const sum=document.getElementById('svcSummary'), sumT=document.getElementById('svcSummaryTxt');
-  if(sum){sum.className='td-status '+(deg?'s-warn':'s-online'); sum.style.fontSize='11.5px';}
-  if(sumT) sumT.textContent = deg ? (deg+' '+(deg>1?'services':'service')+' degraded') : 'All services healthy';
+  if(sum){sum.className='td-status '+(stopped?'s-crit':'s-online'); sum.style.fontSize='11.5px';}
+  if(sumT) sumT.textContent = stopped ? (stopped+' '+(stopped>1?'services':'service')+' stopped') : 'All services running';
   const ds=document.getElementById('detailStatus'), dsT=document.getElementById('detailStatusTxt');
-  if(ds){ds.className='td-status '+(deg?'s-warn':'s-online'); ds.style.display='inline-flex';}
-  if(dsT) dsT.textContent=TX(statusLabel[deg?'warn':'online']);
+  if(ds){ds.className='td-status '+(stopped?'s-warn':'s-online'); ds.style.display='inline-flex';}
+  if(dsT) dsT.textContent=TX(statusLabel[stopped?'warn':'online']);
   const _vs=VIT[coll];
   if(_vs){bigThrHist=Array(48).fill(_vs.thr);bigCpuHist=Array(48).fill((_vs.core0+_vs.core1)/2);bigLatHist=Array(48).fill(_vs.lat);}
   if(typeof updateDetailVitals==='function') updateDetailVitals();
   if(typeof renderCfgViewer==='function') renderCfgViewer();
 }
+/* ===== Serviceability: platform Linux services + OS/host controls ===== */
+function genLinux(){
+  const r=svcSeed('guardare-platform-host'), ri=(a,b)=>Math.floor(r()*(b-a+1))+a;
+  return [
+    {name:'MariaDB',role:'Pooled tenant database',status:'running',
+      metrics:[{n:ri(40,180),l:'Connections'},{n:ri(2,40)+'k',l:'Queries/s'},{n:ri(6,42)+' GB',l:'Data size'}],
+      ver:'v11.4.'+ri(0,9),
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'MariaDB · reload config sent'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'MariaDB · restart queued'}]},
+    {name:'Centrifugo',role:'WebSocket broker',status:'running',
+      metrics:[{n:ri(120,900),l:'Channels'},{n:ri(60,480),l:'Clients'},{n:ri(1,18)+'k',l:'Msg/s'}],
+      ver:'v5.4.'+ri(0,9),
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'Centrifugo · reload config sent'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Centrifugo · restart queued'}]},
+    {name:'Redis',role:'Cache & queues',status:'running',
+      metrics:[{n:ri(20,260)+'k',l:'Keys'},{n:ri(95,99)+'%',l:'Hit rate'},{n:ri(120,900)+' MB',l:'Memory'}],
+      ver:'v7.4.'+ri(0,9),
+      acts:[{tip:'Flush queue',icon:SVC_ICONS.flush,toast:'Redis · flush requested'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Redis · restart queued'}]},
+    {name:'Nginx + host',role:'Reverse proxy & host',status:'running',
+      metrics:[{n:ri(200,1800),unit:'req/s',l:'Requests'},{n:ri(8,46)+'%',l:'CPU'},{n:ri(38,72)+'%',l:'Disk'}],
+      ver:'v1.27 · Ubuntu 24.04',
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'Nginx · reload sent'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'host · nginx restart queued'}]}
+  ];
+}
+function renderMicrosvc(){
+  const el=document.getElementById('screen-microsvc'); if(!el) return;
+  const id=(typeof currentDetailId!=='undefined'&&currentDetailId)||'acme-corp:site-04';
+  const S=genServices(id);
+  const micro=[
+    svcCard({name:'vCollector',role:'Ingests device data',status:S.vcollector.status,
+      metrics:[{n:S.vcollector.throughput,unit:'msg/s',l:'Throughput'},{n:S.vcollector.total,l:'Targets'}],
+      protos:protoChips(S.vcollector.protos),ver:S.vcollector.ver,
+      acts:[{tip:'Reload config',icon:SVC_ICONS.reload,toast:'vCollector · reload config sent'},{tip:'Flush queue',icon:SVC_ICONS.flush,toast:'vCollector · flush queue'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'vCollector · restart queued'}]}),
+    svcCard({name:'Normalizer',role:'Standardizes telemetry',status:S.normalizer.status,deg:S.normalizer.status==='stopped',
+      metrics:[{n:S.normalizer.profiles,l:'Profiles'},{n:S.normalizer.errors,l:'Errors'},{n:S.normalizer.dbItems.toLocaleString(),l:'DB items'}],
+      impact:S.normalizer.status==='stopped'?'Normalizer stopped — telemetry not standardized':null,ver:S.normalizer.ver,
+      acts:[{tip:'Reload profiles',icon:SVC_ICONS.reload,toast:'Normalizer · reload profiles'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Normalizer · restart queued'}]}),
+    svcCard({name:'Events Director',role:'Events & alerting',status:S.events.status,deg:S.events.status==='stopped',
+      metrics:[{n:S.events.rules,l:'Rules'},{n:S.events.dispatch,unit:'ms',l:'Dispatch'},{n:S.events.alerts,l:'Alerts'}],
+      impact:S.events.status==='stopped'?'Events Director stopped — alerting halted':null,ver:S.events.ver,
+      acts:[{tip:'Reload rules',icon:SVC_ICONS.reload,toast:'Events Director · reload rules'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'Events Director · restart queued'}]}),
+    svcCard({name:'HuduSync',role:'Docs & asset sync',status:S.hudusync.status,
+      metrics:[{n:S.hudusync.cats,l:'Categories'},{n:S.hudusync.assets.toLocaleString(),l:'Assets'}],
+      ver:S.hudusync.ver,verExtra:` · synced ${S.hudusync.synced}m ago`,
+      acts:[{tip:'Resync',icon:SVC_ICONS.resync,toast:'HuduSync · resync started'},{tip:'Restart',icon:SVC_ICONS.restart,toast:'HuduSync · restart queued'}]})
+  ];
+  const L=genLinux(), linux=L.map(svcCard);
+  const stopped=[S.vcollector,S.normalizer,S.events,S.hudusync].concat(L).filter(x=>x.status==='stopped').length;
+  const sumCls=stopped?'s-crit':'s-online';
+  const sumTxt=stopped?(stopped+' '+(stopped>1?'services':'service')+' stopped'):'All services running';
+  const note='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>';
+  el.innerHTML=`
+    <div class="page-head"><div>
+      <div class="page-eyebrow">${TX('Serviceability')}</div>
+      <h1 class="page-title">${TX('Platform Microservices')}</h1>
+    </div>
+    <span class="td-status ${sumCls}" style="font-size:11.5px"><i></i>${sumTxt}</span></div>
+    <div class="panel mb18">
+      <div class="panel-head"><h3>Platform Microservice Management</h3></div>
+      <div class="svc-note">${note}<span>${TX('The Guardare Collector runs as these four microservices — the Guardare Vista layer depends on them.')}</span></div>
+      <div class="svc-grid">${micro.join('')}</div>
+    </div>
+    <div class="panel mb18">
+      <div class="panel-head"><h3>Host &amp; platform services</h3></div>
+      <div class="svc-note">${note}<span>Linux services running on the Guardare platform host — start, stop and restart from here.</span></div>
+      <div class="svc-grid">${linux.join('')}</div>
+    </div>`;
+}
+function renderCollMgmt(){
+  const el=document.getElementById('screen-collmgmt'); if(!el) return;
+  const r=svcSeed('coll-host-os'), ri=(a,b)=>Math.floor(r()*(b-a+1))+a;
+  const upD=ri(3,120), upH=ri(0,23), la=()=>(ri(2,180)/100).toFixed(2);
+  const disks=[['/ (root)',ri(28,62)],['/var/lib/mysql',ri(40,84)],['/var/log',ri(12,48)]];
+  const diskBar=d=>`<div style="margin:9px 0">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:4px"><span>${d[0]}</span><span>${d[1]}%</span></div>
+      <div style="height:8px;border-radius:5px;background:var(--bg-2);overflow:hidden"><div style="height:100%;width:${d[1]}%;border-radius:5px;background:${d[1]>80?'var(--red)':d[1]>65?'var(--amber)':'var(--teal)'}"></div></div>
+    </div>`;
+  const units=[['vcollector.service',1],['normalizer.service',1],['events-director.service',1],['hudusync.service',1],['mariadb.service',1],['centrifugo.service',1],['redis.service',1],['nginx.service',1],['guardare-agent.service',1]];
+  const svcRow=u=>`<tr style="border-top:1px solid var(--line)">
+      <td style="padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12.5px">${u[0]}</td>
+      <td style="padding:9px 10px"><span class="td-status s-online" style="font-size:11px"><i></i>active (running)</span></td>
+      <td style="padding:9px 10px;text-align:right;white-space:nowrap">
+        <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('systemctl restart ${u[0]}')">${SVC_ICONS.restart}</button>
+        <button class="svc-act" data-tip="Stop" aria-label="Stop" onclick="toast('systemctl stop ${u[0]}')"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button>
+      </td></tr>`;
+  const logLines=[
+    'systemd[1]: Started Guardare vCollector microservice.',
+    'vcollector[8421]: WSS link to Centrifugo established (4ms RTT).',
+    'normalizer[8460]: profile cache warmed — 14 vendor profiles loaded.',
+    'events-director[8501]: rule engine reloaded · 126 active rules.',
+    'mariadbd[1203]: connection pool at '+ri(40,180)+' / 512.',
+    'nginx[990]: reopening log files after rotation.',
+    'guardare-agent[8600]: GitOps poll complete — configs in sync.'
+  ];
+  el.innerHTML=`
+    <div class="page-head"><div>
+      <div class="page-eyebrow">${TX('Serviceability')}</div>
+      <h1 class="page-title">${TX('Collector Management')}</h1>
+    </div></div>
+    <div class="panel mb18">
+      <div class="panel-head"><h3>Host</h3><span class="td-status s-online" style="font-size:11.5px"><i></i>online</span></div>
+      <div class="svc-metrics" style="flex-wrap:wrap;gap:22px">
+        <div class="svc-m"><div class="n" style="font-size:15px">gso-collector-01</div><div class="l">Hostname</div></div>
+        <div class="svc-m"><div class="n" style="font-size:15px">Ubuntu 24.04 LTS</div><div class="l">OS · kernel 6.8</div></div>
+        <div class="svc-m"><div class="n">${upD}d ${upH}h</div><div class="l">Uptime</div></div>
+        <div class="svc-m"><div class="n">${la()} ${la()} ${la()}</div><div class="l">Load avg</div></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
+        <button class="btn" onclick="toast('Reboot host queued — gso-collector-01')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg><span>Reboot host</span></button>
+        <button class="btn" onclick="toast('guardare-agent restarted')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span>Restart agent</span></button>
+        <button class="btn" onclick="toast('systemd-resolved cache flushed')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg><span>Flush DNS</span></button>
+        <button class="btn" onclick="toast('apt update &amp;&amp; upgrade started')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>Run updates</span></button>
+      </div>
+    </div>
+    <div class="panel mb18">
+      <div class="panel-head"><h3>Disk usage</h3></div>
+      ${disks.map(diskBar).join('')}
+    </div>
+    <div class="panel mb18">
+      <div class="panel-head"><h3>Services · systemctl</h3></div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr style="color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.06em;text-align:left">
+          <th style="padding:0 10px 8px">Unit</th><th style="padding:0 10px 8px">State</th><th style="padding:0 10px 8px;text-align:right">Actions</th></tr></thead>
+        <tbody>${units.map(svcRow).join('')}</tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Recent logs · journalctl</h3></div>
+      <pre style="margin:0;padding:12px 14px;background:#0b1418;border:1px solid var(--line);border-radius:8px;overflow:auto;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#9fb4ad">${logLines.map(l=>'<span style="color:#5b6f78">'+new Date(Date.now()-ri(1,90)*60000).toTimeString().slice(0,8)+'</span>  '+l).join('\n')}</pre>
+    </div>`;
+}
+
 /* ---------- tenant workspace (UniFi-style scoped context) ---------- */
 let currentTenantCtx=null, currentPlane='control';
 function collectorsForTenant(slug){
@@ -9866,6 +9916,8 @@ document.querySelectorAll('.nav-item').forEach(n=>{
     else if(s==='fleet') renderFleetTable();
     else if(s==='alerts') renderAlertsFull();
     else if(s==='audit') renderAudit();
+    else if(s==='microsvc') renderMicrosvc();
+    else if(s==='collmgmt') renderCollMgmt();
     else if(placeholders[s]) renderPlaceholder(s);
     go(s);
     toggleNav(false);
