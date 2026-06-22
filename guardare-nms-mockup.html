@@ -1235,6 +1235,7 @@
   @media(max-width:820px){ .oss-grid{grid-template-columns:1fr} }
   .oss-card{min-height:210px}
   .oss-cardsub{font-size:12px;color:var(--mute);margin:-8px 0 16px}
+  .oss-svc-grouplbl{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);margin:0 0 12px}
   .rc-wrap{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
   .rc-ring{position:relative;width:118px;height:118px;flex:none}
   .rc-ring-svg{width:118px;height:118px;display:block}
@@ -1618,7 +1619,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.203.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.204.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9190,7 +9191,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.203.alpha';
+const APP_VERSION='v2026.02.204.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10189,6 +10190,22 @@ function renderCollMgmt(){
 
   // ---- service control cards (the action cards) ----
   const linux=genLinux().map(svcCard).join('');
+  const S=genServices(id);
+  const A=(name,extra)=>[{tip:'Reload config',icon:SVC_ICONS.reload,toast:name+' · reload config sent'},{tip:'Start',icon:SVC_ICONS.start,toast:name+' · started'},{tip:'Stop',icon:SVC_ICONS.stop,toast:name+' · stopped'},{tip:'Restart',icon:SVC_ICONS.restart,toast:name+' · restart queued'}];
+  const micro=[
+    svcCard({name:'vCollector',role:'Ingests device data',status:S.vcollector.status,
+      metrics:[{n:S.vcollector.throughput,unit:'msg/s',l:'Throughput'},{n:S.vcollector.total,l:'Targets'}],
+      protos:protoChips(S.vcollector.protos),ver:S.vcollector.ver,acts:A('vCollector')}),
+    svcCard({name:'Normalizer',role:'Standardizes telemetry',status:S.normalizer.status,deg:S.normalizer.status==='stopped',
+      metrics:[{n:S.normalizer.profiles,l:'Profiles'},{n:S.normalizer.errors,l:'Errors'},{n:S.normalizer.dbItems.toLocaleString(),l:'DB items'}],
+      impact:S.normalizer.status==='stopped'?'Normalizer stopped — telemetry not standardized':null,ver:S.normalizer.ver,acts:A('Normalizer')}),
+    svcCard({name:'Events Director',role:'Events & alerting',status:S.events.status,deg:S.events.status==='stopped',
+      metrics:[{n:S.events.rules,l:'Rules'},{n:S.events.dispatch,unit:'ms',l:'Dispatch'},{n:S.events.alerts,l:'Alerts'}],
+      impact:S.events.status==='stopped'?'Events Director stopped — alerting halted':null,ver:S.events.ver,acts:A('Events Director')}),
+    svcCard({name:'HuduSync',role:'Docs & asset sync',status:S.hudusync.status,
+      metrics:[{n:S.hudusync.cats,l:'Categories'},{n:S.hudusync.assets.toLocaleString(),l:'Assets'}],
+      ver:S.hudusync.ver,verExtra:` · synced ${S.hudusync.synced}m ago`,acts:A('HuduSync')})
+  ].join('');
 
   // ---- read-only friendly services list ----
   const units=[['vCollector','Collects device data'],['Normalizer','Standardizes telemetry'],['Events Director','Runs alerting rules'],['HuduSync','Syncs docs & assets'],['MariaDB','Local database'],['Centrifugo','Realtime messaging'],['Redis','Cache & queues'],['Nginx','Web / reverse proxy'],['Guardare Agent','Host management']];
@@ -10258,7 +10275,10 @@ function renderCollMgmt(){
     </div>
     <div class="panel tm-card mb18">
       <h3 class="tm-h">Service controls</h3>
-      <p class="oss-cardsub">Start, stop, restart or reload the host &amp; platform services.</p>
+      <p class="oss-cardsub">Start, stop, restart or reload the services on this collector.</p>
+      <div class="oss-svc-grouplbl">Guardare microservices</div>
+      <div class="svc-grid">${micro}</div>
+      <div class="oss-svc-grouplbl" style="margin-top:20px">Host &amp; platform services</div>
       <div class="svc-grid">${linux}</div>
     </div>
     <div class="panel tm-card mb18">
