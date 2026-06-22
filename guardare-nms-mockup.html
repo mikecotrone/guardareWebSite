@@ -928,8 +928,8 @@
   .tnt-ava{flex:0 0 auto;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
     font-family:"Open Sans";font-weight:700;font-size:14.5px;color:#06201b;letter-spacing:.02em;
     background:linear-gradient(140deg,var(--c),rgba(0,0,0,.42))}
-  .tnt-ava.tnt-ava-logo{background:transparent;padding:0;overflow:hidden}
-  .tnt-ava.tnt-ava-logo img{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px}
+  .tnt-ava.tnt-ava-logo{background:var(--bg-2);border:1px solid var(--line);padding:4px;overflow:hidden;box-sizing:border-box;isolation:isolate}
+  .tnt-ava.tnt-ava-logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:7px}
   .tnt-id{flex:1;min-width:0}
   .tnt-name{font-family:"Open Sans";font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .tnt-slug{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;color:var(--mute);margin-top:3px}
@@ -1074,11 +1074,11 @@
     text-transform:uppercase;padding:3px 9px;border-radius:99px;line-height:1.3}
   .intg-scope.plat{color:var(--violet);background:#94a2ff14;border:1px solid #94a2ff44}
   .intg-scope.perten{color:var(--teal);background:var(--teal-ghost);border:1px solid #2ee6c844;text-transform:none;letter-spacing:.02em}
-  .tn-avatar.tn-logo{background:transparent;overflow:hidden;padding:0}
-  .tn-avatar.tn-logo img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+  .tn-avatar.tn-logo{background:var(--bg-2);border:1px solid var(--line);overflow:hidden;padding:0;box-sizing:border-box;isolation:isolate}
+  .tn-avatar.tn-logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:inherit}
   .tm-head-id{display:flex;align-items:center;gap:15px}
-  .tm-head-logo{flex:none;width:52px;height:52px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:transparent;border:0;padding:0}
-  .tm-head-logo img{width:100%;height:100%;object-fit:cover;display:block}
+  .tm-head-logo{flex:none;width:52px;height:52px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--bg-2);border:1px solid var(--line);padding:6px;box-sizing:border-box;isolation:isolate}
+  .tm-head-logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:6px}
   .tn-avatar.xs{width:16px;height:16px;font-size:9px;border-radius:5px;flex:0 0 16px}
   .title-chip{display:inline-flex;align-items:center;gap:6px;vertical-align:middle;margin-left:10px;font-size:12.5px;
     font-weight:600;color:var(--text);padding:3px 10px 3px 4px;border-radius:99px;background:var(--bg-2);border:1px solid var(--line)}
@@ -1566,7 +1566,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.198.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.199.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9135,7 +9135,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.198.alpha';
+const APP_VERSION='v2026.02.199.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
