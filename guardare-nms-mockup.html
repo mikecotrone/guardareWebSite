@@ -989,8 +989,8 @@
   .tnt-ctx-banner .sp{flex:1 1 40px}
   .tnt-ctx-banner .btn{padding:6px 12px;font-size:12px}
   /* per-tenant management page */
-  .tm-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;align-items:start}
-  .tm-loc-card{grid-column:1 / -1}
+  .tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  .tm-loc-card{min-width:0}
   .tm-wide{grid-column:1 / -1}
   .tm-note{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin-left:2px}
   .tm-tix{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
@@ -1018,6 +1018,11 @@
   .tm-color-field{max-width:130px}
   .tm-color{height:38px;padding:3px;cursor:pointer}
   .tm-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .tm-stats.tm-stats-wide{grid-template-columns:repeat(4,1fr);margin-bottom:0}
+  @media(max-width:760px){ .tm-stats.tm-stats-wide{grid-template-columns:1fr 1fr} }
+  .tm-brand-row{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+  .tm-subh{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;font-weight:700}
+  .tm-dz-card .tm-danger{border:0;background:transparent;padding:0}
   .tm-stat{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:10px;padding:13px}
   .tm-stat b{display:block;font-size:23px;font-weight:700;color:var(--text);line-height:1}
   .tm-stat b small{font-size:12px;color:var(--mute);font-weight:600}
@@ -1566,7 +1571,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.200.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.201.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -7830,7 +7835,7 @@ function renderTenantManage(slug){
         <button class="btn primary" onclick="toast('${name} — ${TX('changes saved')}')"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span>${TX('Save changes')}</span></button>
       </div>
     </div>
-          <div class="panel tm-card tm-wide mb18">
+    <div class="panel tm-card tm-wide mb18">
         <div class="tm-tix-head"><h3 class="tm-h" style="margin:0">${TX('Tickets & SLA')} <span class="tm-note">${TX('last 30 days')}</span></h3><button class="btn" onclick="openTicketModal('${slug}')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>${TX('Draft ticket')}</span></button></div>
         <div class="tm-tix">
           <div class="tm-stat"><b class="${tix.open?'warn':''}">${tix.open}</b><span>${TX('Open tickets')}</span></div>
@@ -7841,6 +7846,15 @@ function renderTenantManage(slug){
           <div class="tm-stat"><b class="${tix.breached?'warn':''}">${tix.breached}</b><span>${TX('SLA breached')}</span></div>
         </div>
       </div>
+    <div class="panel tm-card tm-wide mb18">
+      <h3 class="tm-h">${TX('Overview')}</h3>
+      <div class="tm-stats tm-stats-wide">
+          <div class="tm-stat"><b>${cols.length}<small>/${dir.max}</small></b><span>${TX('Collectors')}</span></div>
+          <div class="tm-stat"><b>${onPct}%</b><span>${TX('Online')}</span></div>
+          <div class="tm-stat"><b class="${al?'warn':''}">${al}</b><span>${TX('Open alerts')}</span></div>
+          <div class="tm-stat"><b>$${(dir.mrr/1000).toFixed(1)}k</b><span>MRR</span></div>
+        </div>
+    </div>
     <div class="tm-grid">
       <div class="panel tm-card">
         <h3 class="tm-h">${TX('Tenant details')}</h3>
@@ -7857,10 +7871,10 @@ function renderTenantManage(slug){
           <div class="tm-field"><label>${TX('Tenant slug')}</label><input class="tm-input mono" value="${dir.slug}" disabled></div>
           <div class="tm-field tm-color-field"><label>${TX('Accent color')}</label><input class="tm-input tm-color" type="color" value="${tenantColors[slug]||'#2EE6C8'}" ${sv}></div>
         </div>
-      </div>
-      <div class="panel tm-card">
-        <h3 class="tm-h">${TX('Branding')}</h3>
-        <div class="tm-logo-row">
+      
+        <div class="tm-brand-row">
+          <h4 class="tm-subh">${TX('Branding')}</h4>
+          <div class="tm-logo-row">
           <div class="tm-logo-prev">${TENANT_LOGOS[slug]?`<img class="tm-logo-bg" src="${TENANT_LOGOS[slug]}" alt=""><img class="tm-logo-fg" src="${TENANT_LOGOS[slug]}" alt="logo">`:`<span class="tn-avatar" style="background:${tenantColors[slug]||'var(--teal)'};width:54px;height:54px;font-size:19px">${tnInit(name)}</span>`}</div>
           <div class="tm-logo-side">
             <label class="btn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>${TX('Upload logo')}</span><input type="file" accept="image/png,image/jpeg,image/svg+xml" style="display:none" onchange="tenantLogoUpload('${slug}',this)"></label>
@@ -7868,21 +7882,6 @@ function renderTenantManage(slug){
             <span class="tm-note">${TX('PNG, JPG or SVG — shown across Guardare for this tenant.')}</span>
           </div>
         </div>
-      </div>
-      <div class="panel tm-card">
-        <h3 class="tm-h">${TX('Overview')}</h3>
-        <div class="tm-stats">
-          <div class="tm-stat"><b>${cols.length}<small>/${dir.max}</small></b><span>${TX('Collectors')}</span></div>
-          <div class="tm-stat"><b>${onPct}%</b><span>${TX('Online')}</span></div>
-          <div class="tm-stat"><b class="${al?'warn':''}">${al}</b><span>${TX('Open alerts')}</span></div>
-          <div class="tm-stat"><b>$${(dir.mrr/1000).toFixed(1)}k</b><span>MRR</span></div>
-        </div>
-        <div class="tm-danger">
-          <div><b>${TX('Danger zone')}</b><span>${TX('Suspend stops collection; delete is permanent.')}</span></div>
-          <div class="tm-danger-btns">
-            ${dir.status==='suspended'?`<button class="btn" style="color:var(--green);border-color:#1d4a34" onclick="reactivateTenant('${slug}')">${TX('Reactivate')}</button>`:`<button class="btn" style="color:var(--amber);border-color:#574214" onclick="openSuspendModal('${slug}')">${TX('Suspend')}</button>`}
-            <button class="btn tm-del" onclick="openDeleteTenantModal('${slug}')">${TX('Delete')}</button>
-          </div>
         </div>
       </div>
       <div class="panel tm-card tm-loc-card">
@@ -7897,6 +7896,15 @@ function renderTenantManage(slug){
             </div>`).join('')}
         </div>
       </div>
+    </div>
+    <div class="panel tm-card tm-wide tm-dz-card mb18" style="margin-top:4px">
+      <div class="tm-danger">
+          <div><b>${TX('Danger zone')}</b><span>${TX('Suspend stops collection; delete is permanent.')}</span></div>
+          <div class="tm-danger-btns">
+            ${dir.status==='suspended'?`<button class="btn" style="color:var(--green);border-color:#1d4a34" onclick="reactivateTenant('${slug}')">${TX('Reactivate')}</button>`:`<button class="btn" style="color:var(--amber);border-color:#574214" onclick="openSuspendModal('${slug}')">${TX('Suspend')}</button>`}
+            <button class="btn tm-del" onclick="openDeleteTenantModal('${slug}')">${TX('Delete')}</button>
+          </div>
+        </div>
     </div>`;
 }
 
@@ -9135,7 +9143,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.200.alpha';
+const APP_VERSION='v2026.02.201.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
