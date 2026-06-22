@@ -1226,6 +1226,50 @@
   .tk-tc-v{color:var(--text);font-weight:500;text-align:right}
   .tk-tc-link{display:inline-flex;align-items:center;gap:6px;margin-top:13px;color:var(--teal);font-size:12.5px;font-weight:600;cursor:pointer;background:none;border:0;padding:0;font-family:inherit}
   .tk-tc-link:hover{text-decoration:underline}
+  .oss-sec{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:24px 0 14px;display:flex;align-items:center;gap:12px}
+  .oss-sec::after{content:"";flex:1;height:1px;background:var(--line)}
+  .oss-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;align-items:start}
+  @media(max-width:820px){ .oss-grid{grid-template-columns:1fr} }
+  .oss-card{min-height:210px}
+  .oss-cardsub{font-size:12px;color:var(--mute);margin:-8px 0 16px}
+  .rc-wrap{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  .rc-ring{position:relative;width:118px;height:118px;flex:none}
+  .rc-ring-svg{width:118px;height:118px;display:block}
+  .rc-ring-bg{fill:none;stroke:var(--bg-2);stroke-width:9}
+  .rc-ring-fg{fill:none;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .6s}
+  .rc-ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .rc-ring-c b{font-size:25px;font-weight:800;line-height:1}
+  .rc-ring-c span{font-size:10px;color:var(--mute);text-transform:uppercase;letter-spacing:.1em;margin-top:3px}
+  .rc-coreblock{flex:none;text-align:center}
+  .rc-cores{display:flex;gap:4px;align-items:flex-end;height:66px}
+  .rc-core{width:9px;height:100%;background:var(--bg-2);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden}
+  .rc-core-fill{width:100%;border-radius:3px;transition:height .5s}
+  .rc-coreslbl{font-size:10.5px;color:var(--mute);margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+  .rc-bars{flex:1;min-width:190px;display:flex;flex-direction:column;gap:15px}
+  .rc-bar-top{display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px}
+  .rc-bar-top b{color:var(--text)}
+  .rc-bar-track{height:9px;background:var(--bg-2);border-radius:99px;overflow:hidden}
+  .rc-bar-fill{height:100%;border-radius:99px;transition:width .5s}
+  .rc-meta{display:flex;gap:26px;font-size:12px;color:var(--mute);margin-top:2px}
+  .rc-meta b{color:var(--text)}
+  .btn.b-go{color:var(--teal);border-color:#1d4a44}
+  .btn.b-warn{color:var(--amber);border-color:#574214}
+  .btn.b-stop{color:var(--red);border-color:#5a2530}
+  .btn.b-start{color:var(--green);border-color:#1d4a34}
+  .btn.b-go:hover,.btn.b-warn:hover,.btn.b-stop:hover,.btn.b-start:hover{filter:brightness(1.14)}
+  .svc-act[data-tip="Start"]{color:var(--green)}
+  .svc-act[data-tip="Stop"]{color:var(--red)}
+  .svc-act[data-tip="Restart"]{color:var(--amber)}
+  .svc-act[data-tip^="Reload"],.svc-act[data-tip^="Flush"]{color:var(--teal)}
+  .oss-svc-list{display:flex;flex-direction:column}
+  .oss-svc{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+  .oss-svc:first-child{border-top:0;padding-top:2px}
+  .oss-svc-name{font-weight:600;font-size:13px}
+  .oss-svc-desc{font-size:12px;color:var(--mute);margin-top:1px}
+  .oss-log{background:#0b1418;border:1px solid var(--line);border-radius:9px;padding:6px 0;font-family:'JetBrains Mono',monospace;font-size:12px}
+  .oss-log-line{padding:6px 14px;color:#9fb4ad;border-top:1px solid #11202622}
+  .oss-log-line:first-child{border-top:0}
+  .oss-log-t{color:#5b6f78;margin-right:12px}
   .reboot-ring-wrap{position:relative;width:124px;height:124px;margin:4px auto 18px}
   .reboot-ring-svg{width:124px;height:124px;transform:rotate(-90deg)}
   .reboot-ring-svg .ring-bg{fill:none;stroke:var(--line);stroke-width:8}
@@ -1571,7 +1615,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.201.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.202.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5251,7 +5295,7 @@ snmp_field_mapping:
     <div class="ai-result" id="aiResult" style="display:none"></div>
     <div class="modal-acts" id="aiActs" style="display:none">
       <button class="btn" onclick="closeAi()" data-i18n="Close">Close</button>
-      <button class="btn primary" onclick="toast(TX('Draft ticket created in JitBit'))"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3z"/></svg><span data-i18n="Draft ticket">Draft ticket</span></button>
+      <button class="btn primary" onclick="draftTicketFromAlert()"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3z"/></svg><span data-i18n="Draft ticket">Draft ticket</span></button>
     </div>
     <div class="ai-foot"><span class="ai-dot"></span><span data-i18n="Powered by Claude · Anthropic">Powered by Claude · Anthropic</span></div>
   </div>
@@ -9143,7 +9187,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.201.alpha';
+const APP_VERSION='v2026.02.202.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10104,91 +10148,121 @@ function renderCollMgmt(){
   const id=svcCurrentColl(), host=id.split(':')[1];
   const r=svcSeed('coll-host-os|'+id), ri=(a,b)=>Math.floor(r()*(b-a+1))+a;
   const upD=ri(3,160), upH=ri(0,23), la=()=>(ri(2,180)/100).toFixed(2);
-  const kv=(k,v,strong)=>'<div class="svc-m"><div class="n" style="font-size:'+(strong?'14.5px':'14px')+'">'+v+'</div><div class="l">'+k+'</div></div>';
-  // OS info
-  const os=[kv('Distribution','Ubuntu 24.04.4 LTS',1),kv('Codename','noble numbat'),kv('Kernel','6.8.0-'+ri(31,52)+'-generic'),kv('Architecture','x86_64'),kv('Uptime',upD+'d '+upH+'h'),kv('Packages',ri(640,920)+' · '+ri(0,28)+' upgradable'),kv('Security updates',ri(0,9)+' pending'),kv('Timezone','UTC')].join('');
-  // MariaDB detail
+  const esc=v=>String(v).replace(/<[^>]+>/g,'');
+  const kv=(k,v,tip)=>'<div class="svc-m" title="'+(tip||k)+': '+esc(v)+'"><div class="n" style="font-size:14px">'+v+'</div><div class="l">'+k+'</div></div>';
+  const sitename=((typeof siteOf==='function')?(siteOf(id.split(':')[0],host)||{}).name||host:host);
+
+  // ---- OS info ----
+  const os=[kv('Distribution','Ubuntu 24.04.4 LTS','Linux distribution'),kv('Codename','noble numbat'),kv('Kernel','6.8.0-'+ri(31,52)+'-generic'),kv('Architecture','x86_64'),kv('Uptime',upD+'d '+upH+'h','System uptime'),kv('Packages',ri(640,920)+' · '+ri(0,28)+' upgradable','Installed packages'),kv('Security updates',ri(0,9)+' pending'),kv('Timezone','UTC')].join('');
+  // ---- MariaDB ----
   const mHit=(ri(960,999)/10).toFixed(1);
-  const maria=[kv('Version','11.4.'+ri(0,9),1),kv('Uptime',ri(2,90)+'d'),kv('Threads connected',ri(20,180)),kv('Queries/s',ri(2,40)+'k'),kv('Buffer pool hit',mHit+'%'),kv('Slow queries',ri(0,14)),kv('Data size',ri(6,42)+' GB'),kv('Replication','— standalone')].join('');
-  // memory & cpu
-  const ramT=[16,32,64][ri(0,2)], ramU=(ramT*(ri(28,82)/100)).toFixed(1);
-  const mem=[kv('CPU',ri(4,16)+' vCPU · x86_64',1),kv('Load avg',la()+' '+la()+' '+la()),kv('Memory',ramU+' / '+ramT+' GB'),kv('Swap',(ri(0,18)/10).toFixed(1)+' / 4.0 GB')].join('');
-  // LED disk bars — differing colours per mount
-  const ledBar=(label,pct,color)=>{ const segs=22,lit=Math.round(pct/100*segs); let c=''; for(let i=0;i<segs;i++)c+='<span style="flex:1;height:11px;border-radius:2px;background:'+(i<lit?color:'var(--bg-2)')+';opacity:'+(i<lit?'1':'.4')+';box-shadow:'+(i<lit?'0 0 5px '+color+'66':'none')+'"></span>'; return '<div style="margin:12px 0"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px"><span>'+label+'</span><span style="color:'+color+';font-weight:700">'+pct+'%</span></div><div style="display:flex;gap:2px">'+c+'</div></div>'; };
+  const maria=[kv('Version','11.4.'+ri(0,9),'MariaDB version'),kv('Uptime',ri(2,90)+'d','Database uptime'),kv('Threads connected',ri(20,180)),kv('Queries / sec',ri(2,40)+'k'),kv('Buffer pool hit',mHit+'%','Buffer pool hit ratio'),kv('Slow queries',ri(0,14)),kv('Data size',ri(6,42)+' GB','On-disk data size'),kv('Replication','standalone')].join('');
+
+  // ---- Resources visual (CPU ring + per-core + memory/swap bars) ----
+  const cpuPct=ri(16,84), cores=[4,8,16][ri(0,2)];
+  const cpuColor=cpuPct>85?'var(--red)':cpuPct>65?'var(--amber)':'var(--teal)';
+  const ramT=[16,32,64][ri(0,2)], ramU=+(ramT*(ri(34,82)/100)).toFixed(1), ramPct=Math.round(ramU/ramT*100);
+  const swapT=4, swapU=+(ri(0,18)/10).toFixed(1), swapPct=Math.round(swapU/swapT*100);
+  const R=46, C=2*Math.PI*R, off=(C*(1-cpuPct/100)).toFixed(1);
+  const ring='<div class="rc-ring"><svg viewBox="0 0 110 110" class="rc-ring-svg"><circle cx="55" cy="55" r="'+R+'" class="rc-ring-bg"/><circle cx="55" cy="55" r="'+R+'" class="rc-ring-fg" stroke="'+cpuColor+'" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off+'" transform="rotate(-90 55 55)"/></svg><div class="rc-ring-c"><b>'+cpuPct+'%</b><span>CPU</span></div></div>';
+  let coreBars='';
+  for(let i=0;i<cores;i++){ const c=ri(6,96); const col=c>85?'var(--red)':c>65?'var(--amber)':'var(--teal)'; coreBars+='<div class="rc-core" title="Core '+i+': '+c+'%"><div class="rc-core-fill" style="height:'+c+'%;background:'+col+'"></div></div>'; }
+  const ramColor=ramPct>85?'var(--red)':ramPct>70?'var(--amber)':'var(--teal)';
+  const bars='<div class="rc-bars">'
+    +'<div><div class="rc-bar-top"><span>Memory</span><span><b>'+ramU+'</b> / '+ramT+' GB</span></div><div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+ramPct+'%;background:'+ramColor+'"></div></div></div>'
+    +'<div><div class="rc-bar-top"><span>Swap</span><span><b>'+swapU+'</b> / '+swapT+'.0 GB</span></div><div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+swapPct+'%;background:var(--violet)"></div></div></div>'
+    +'<div class="rc-meta"><span>Cores <b>'+cores+'</b></span><span>Load <b>'+la()+' '+la()+' '+la()+'</b></span></div>'
+    +'</div>';
+  const resources='<div class="rc-wrap">'+ring+'<div class="rc-coreblock"><div class="rc-cores">'+coreBars+'</div><div class="rc-coreslbl">'+cores+' cores</div></div>'+bars+'</div>';
+
+  // ---- Storage LED bars ----
+  const ledBar=(label,pct,color)=>{ const segs=22,lit=Math.round(pct/100*segs); let c=''; for(let i=0;i<segs;i++)c+='<span style="flex:1;height:11px;border-radius:2px;background:'+(i<lit?color:'var(--bg-2)')+';opacity:'+(i<lit?'1':'.4')+';box-shadow:'+(i<lit?'0 0 5px '+color+'66':'none')+'"></span>'; return '<div style="margin:12px 0" title="'+label+': '+pct+'% used"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px"><span>'+label+'</span><span style="color:'+color+';font-weight:700">'+pct+'%</span></div><div style="display:flex;gap:2px">'+c+'</div></div>'; };
   const disks=[['/ (root)',ri(28,60),'var(--teal)'],['/var/lib/mysql',ri(46,86),'var(--violet)'],['/var/log',ri(12,46),'var(--amber)'],['/boot',ri(18,52),'#4F86C6'],['/var/lib/centrifugo',ri(20,58),'var(--green)']];
-  // host & platform Linux service cards
-  const L=genLinux(), linux=L.map(svcCard).join('');
-  // systemctl
-  const units=[['vcollector.service'],['normalizer.service'],['events-director.service'],['hudusync.service'],['mariadb.service'],['centrifugo.service'],['redis.service'],['nginx.service'],['guardare-agent.service']];
-  const svcRow=u=>`<tr style="border-top:1px solid var(--line)">
-      <td style="padding:9px 10px;font-family:'JetBrains Mono',monospace;font-size:12.5px">${u[0]}</td>
-      <td style="padding:9px 10px"><span class="td-status s-online" style="font-size:11px"><i></i>active (running)</span></td>
-      <td style="padding:9px 10px;text-align:right;white-space:nowrap">
-        <button class="svc-act" data-tip="Start" aria-label="Start" onclick="toast('systemctl start ${u[0]}')">${SVC_ICONS.start}</button>
-        <button class="svc-act" data-tip="Stop" aria-label="Stop" onclick="toast('systemctl stop ${u[0]}')">${SVC_ICONS.stop}</button>
-        <button class="svc-act" data-tip="Restart" aria-label="Restart" onclick="toast('systemctl restart ${u[0]}')">${SVC_ICONS.restart}</button>
-      </td></tr>`;
+  const disksHtml=disks.map(d=>ledBar(d[0],d[1],d[2])).join('');
+
+  // ---- service control cards (the action cards) ----
+  const linux=genLinux().map(svcCard).join('');
+
+  // ---- read-only friendly services list ----
+  const units=[['vCollector','Collects device data'],['Normalizer','Standardizes telemetry'],['Events Director','Runs alerting rules'],['HuduSync','Syncs docs & assets'],['MariaDB','Local database'],['Centrifugo','Realtime messaging'],['Redis','Cache & queues'],['Nginx','Web / reverse proxy'],['Guardare Agent','Host management']];
+  const svcList=units.map(u=>'<div class="oss-svc"><div><div class="oss-svc-name">'+u[0]+'</div><div class="oss-svc-desc">'+u[1]+'</div></div><span class="td-status s-online" style="font-size:11px"><i></i>Running</span></div>').join('');
+
+  // ---- recent activity log ----
   const logLines=[
-    'systemd[1]: Started Guardare vCollector microservice.',
-    'mariadbd[1203]: connection pool at '+ri(40,180)+' / 512.',
-    'normalizer[8460]: profile cache warmed — '+ri(8,20)+' vendor profiles loaded.',
-    'events-director[8501]: rule engine reloaded · '+ri(45,320)+' active rules.',
-    'centrifugo[990]: '+ri(120,900)+' active channels · '+ri(60,480)+' clients.',
-    'kernel: EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro.',
-    'guardare-agent[8600]: GitOps poll complete — configs in sync.'
+    'Started Guardare vCollector service.',
+    'MariaDB connection pool at '+ri(40,180)+' / 512.',
+    'Normalizer profile cache warmed — '+ri(8,20)+' vendor profiles loaded.',
+    'Events Director rule engine reloaded · '+ri(45,320)+' active rules.',
+    'Centrifugo '+ri(120,900)+' active channels · '+ri(60,480)+' clients.',
+    'Filesystem re-mounted read-write after check.',
+    'Guardare Agent GitOps poll complete — configs in sync.'
   ];
-  const noteIc='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>';
+  const logHtml=logLines.map(l=>'<div class="oss-log-line"><span class="oss-log-t">'+new Date(Date.now()-ri(1,90)*60000).toTimeString().slice(0,8)+'</span>'+l+'</div>').join('');
+
   el.innerHTML=`
     <div class="page-head"><div>
       <div class="page-eyebrow">${TX('Serviceability')}</div>
       <h1 class="page-title">${TX('OS Services')}</h1>
+      <p class="page-sub">Live health and controls for the Linux host running this collector.</p>
     </div></div>
     ${svcCollBar('svcCollMenuC')}
-    <div class="panel mb18">
-      <div class="panel-head"><h3>Host</h3><span class="td-status s-online" style="font-size:11.5px"><i></i>online</span></div>
-      <div class="svc-metrics" style="flex-wrap:wrap;gap:22px">
-        ${kv('Hostname','gso-'+host,1)}${kv('Site',((typeof siteOf==='function')?siteOf(id.split(':')[0],host).name:host))}${kv('Uptime',upD+'d '+upH+'h')}${kv('Load avg',la()+' '+la()+' '+la())}
+
+    <div class="oss-sec">Host &amp; system status</div>
+    <div class="oss-grid">
+      <div class="panel tm-card oss-card">
+        <h3 class="tm-h">Collector host</h3>
+        <p class="oss-cardsub">The Ubuntu server this collector runs on.</p>
+        <div class="svc-metrics" style="flex-wrap:wrap;gap:20px 26px">
+          ${kv('Hostname','gso-'+host,'Host name')}${kv('Site',sitename)}${kv('Status','<span style=&quot;color:var(--green)&quot;>Online</span>','Host status')}${kv('Uptime',upD+'d '+upH+'h','System uptime')}${kv('Load average',la()+' '+la()+' '+la(),'1 / 5 / 15 min load')}
+        </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
-        <button class="btn" onclick="toast('Reboot host queued — gso-'+host.replace(/'/g,''))"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg><span>Reboot host</span></button>
-        <button class="btn" onclick="toast('guardare-agent restarted')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span>Restart agent</span></button>
-        <button class="btn" onclick="toast('systemd-resolved cache flushed')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg><span>Flush DNS</span></button>
-        <button class="btn" onclick="toast('apt update &amp;&amp; upgrade started')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>Run updates</span></button>
+      <div class="panel tm-card oss-card">
+        <h3 class="tm-h">Compute resources</h3>
+        <p class="oss-cardsub">CPU, per-core load, memory and swap.</p>
+        ${resources}
+      </div>
+      <div class="panel tm-card oss-card">
+        <h3 class="tm-h">Operating system</h3>
+        <p class="oss-cardsub">Distribution, kernel and patch status.</p>
+        <div class="svc-metrics" style="flex-wrap:wrap;gap:18px 26px">${os}</div>
+      </div>
+      <div class="panel tm-card oss-card">
+        <h3 class="tm-h">Database <span class="tm-note">MariaDB</span></h3>
+        <p class="oss-cardsub">Local collector datastore &amp; buffer.</p>
+        <div class="svc-metrics" style="flex-wrap:wrap;gap:18px 26px">${maria}</div>
       </div>
     </div>
-    <div class="panel mb18">
-      <div class="panel-head"><span class="gcfg-cic" style="margin-right:8px"><svg viewBox="0 0 24 24"><circle cx="24" cy="24" r="0"/><path d="M4 6h16M4 12h16M4 18h10"/></svg></span><h3>Operating System</h3><span class="td-status s-online" style="font-size:11px"><i></i>Ubuntu 24.04 LTS</span></div>
-      <div class="svc-metrics" style="flex-wrap:wrap;gap:20px 28px">${os}</div>
+    <div class="panel tm-card oss-card mb18">
+      <h3 class="tm-h">Storage</h3>
+      <p class="oss-cardsub">Disk usage by mount point.</p>
+      ${disksHtml}
     </div>
-    <div class="panel mb18">
-      <div class="panel-head"><h3 style="color:#C0765C">MariaDB</h3><span class="td-status s-online" style="font-size:11px"><i></i>active (running)</span></div>
-      <div class="svc-note">${noteIc}<span>Local collector database — buffers, queues and the pooled multi-tenant schema.</span></div>
-      <div class="svc-metrics" style="flex-wrap:wrap;gap:20px 28px">${maria}</div>
+
+    <div class="oss-sec">Controls &amp; services</div>
+    <div class="panel tm-card mb18">
+      <h3 class="tm-h">Host controls</h3>
+      <p class="oss-cardsub">Maintenance actions for the whole host.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="btn b-warn" onclick="toast('Reboot host queued — gso-${host}')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg><span>Reboot host</span></button>
+        <button class="btn b-go" onclick="toast('Guardare Agent restarted')"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span>Restart agent</span></button>
+        <button class="btn b-go" onclick="toast('DNS resolver cache flushed')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg><span>Flush DNS</span></button>
+        <button class="btn b-start" onclick="toast('System updates started')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>Run updates</span></button>
+      </div>
     </div>
-    <div class="panel mb18">
-      <div class="panel-head"><h3>Memory &amp; CPU</h3></div>
-      <div class="svc-metrics" style="flex-wrap:wrap;gap:20px 28px">${mem}</div>
-    </div>
-    <div class="panel mb18">
-      <div class="panel-head"><h3>Disk usage</h3></div>
-      ${disks.map(d=>ledBar(d[0],d[1],d[2])).join('')}
-    </div>
-    <div class="panel mb18">
-      <div class="panel-head"><h3>Host &amp; platform services</h3></div>
-      <div class="svc-note">${noteIc}<span>Linux services running on the host — start, stop and restart from here.</span></div>
+    <div class="panel tm-card mb18">
+      <h3 class="tm-h">Service controls</h3>
+      <p class="oss-cardsub">Start, stop, restart or reload the host &amp; platform services.</p>
       <div class="svc-grid">${linux}</div>
     </div>
-    <div class="panel mb18">
-      <div class="panel-head"><h3>Services · systemctl</h3></div>
-      <table style="width:100%;border-collapse:collapse">
-        <thead><tr style="color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.06em;text-align:left">
-          <th style="padding:0 10px 8px">Unit</th><th style="padding:0 10px 8px">State</th><th style="padding:0 10px 8px;text-align:right">Actions</th></tr></thead>
-        <tbody>${units.map(svcRow).join('')}</tbody>
-      </table>
+    <div class="panel tm-card mb18">
+      <h3 class="tm-h">All services</h3>
+      <p class="oss-cardsub">Everything running on this host, at a glance.</p>
+      <div class="oss-svc-list">${svcList}</div>
     </div>
-    <div class="panel">
-      <div class="panel-head"><h3>Recent logs · journalctl</h3></div>
-      <pre style="margin:0;padding:12px 14px;background:#0b1418;border:1px solid var(--line);border-radius:8px;overflow:auto;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#9fb4ad">${logLines.map(l=>'<span style="color:#5b6f78">'+new Date(Date.now()-ri(1,90)*60000).toTimeString().slice(0,8)+'</span>  '+l).join('\n')}</pre>
+    <div class="panel tm-card">
+      <h3 class="tm-h">Recent activity</h3>
+      <p class="oss-cardsub">Latest events from the host and its services.</p>
+      <div class="oss-log">${logHtml}</div>
     </div>`;
 }
 /* ---------- tenant workspace (UniFi-style scoped context) ---------- */
@@ -10417,8 +10491,10 @@ function aiGeneric(a){ return {conf:'Medium',
   actions:['Open the collector\'s live logs and confirm the condition is still present.','Run Diagnostics to rule out network, DNS, datastore, and microservice faults.','Acknowledge once mitigated so it drops out of the active queue.'],
   signals:[a[4]], impact:'Scoped to '+a[2]+' until the underlying signal clears.'}; }
 let aiTimer=null;
+let aiCurrentAlert=null;
 function explainAlert(i){
   const a=alerts[i]; if(!a) return;
+  aiCurrentAlert=a;
   const modal=document.getElementById('aiModal');
   if(!aiEnabled()){ toast(TX('Connect Anthropic to enable AI triage')); go('integrations'); renderIntegrations(); return; }
   document.getElementById('aiTitle').textContent=TX('Alert triage');
@@ -10444,6 +10520,16 @@ function renderAiResult(a){
     <div class="ai-impact"><b>${TX('Estimated impact')}:</b> ${TX(kb.impact)} <span class="ai-conf-inline">· ${TX('Confidence')}: ${TX(kb.conf)}</span></div>`;
 }
 function closeAi(){ document.getElementById('aiModal').classList.remove('show'); if(aiTimer){clearTimeout(aiTimer);aiTimer=null;} }
+function draftTicketFromAlert(){
+  const a=aiCurrentAlert; if(typeof closeAi==='function') closeAi();
+  openTicketModal(a?a[3]:null);
+  if(a){
+    const s=document.getElementById('tkSubject'); if(s) s.value=(a[0]?a[0].toUpperCase()+': ':'')+TX(a[1])+' — '+a[3]+':'+a[2];
+    const pr=document.getElementById('tkPriority'); if(pr){ const m={crit:'Urgent',critical:'Urgent',warn:'High',warning:'High',info:'Normal'}; pr.value=m[a[0]]||'Normal'; }
+    const tp=document.getElementById('tkType'); if(tp) tp.value='Incident';
+    const tc=document.getElementById('tkColl'); if(tc){ const want=a[3]+':'+a[2]; for(const o of tc.options){ if(o.value===want){ tc.value=want; break; } } }
+  }
+}
 function aiBackdrop(e){ if(e.target.id==='aiModal') closeAi(); }
 
 function collStatus(ten,coll){
