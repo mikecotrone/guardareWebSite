@@ -989,7 +989,7 @@
   .tnt-ctx-banner .sp{flex:1 1 40px}
   .tnt-ctx-banner .btn{padding:6px 12px;font-size:12px}
   /* per-tenant management page */
-  .tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  .tm-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
   .tm-loc-card{min-width:0}
   .tm-wide{grid-column:1 / -1}
   .tm-note{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin-left:2px}
@@ -1022,7 +1022,10 @@
   @media(max-width:760px){ .tm-stats.tm-stats-wide{grid-template-columns:1fr 1fr} }
   .tm-brand-row{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
   .tm-subh{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;font-weight:700}
+  .tm-dz-card{border:1px solid #ff5d5d;background:linear-gradient(180deg,#2a1016 0%,var(--panel) 55%);animation:dzGlow 2.8s ease-in-out infinite}
   .tm-dz-card .tm-danger{border:0;background:transparent;padding:0}
+  .tm-dz-card .tm-danger b{color:#ff8a8a}
+  @keyframes dzGlow{0%,100%{box-shadow:0 0 0 1px #ff5d5d33,0 0 14px #ff5d5d2e}50%{box-shadow:0 0 0 1px #ff5d5d99,0 0 26px #ff5d5d66}}
   .tm-stat{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:10px;padding:13px}
   .tm-stat b{display:block;font-size:23px;font-weight:700;color:var(--text);line-height:1}
   .tm-stat b small{font-size:12px;color:var(--mute);font-weight:600}
@@ -1615,7 +1618,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.202.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.203.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -8108,7 +8111,7 @@ const PPLX_MODELS=[
   ['sonar-reasoning','Sonar Reasoning'],
 ];
 const INTEGRATIONS=[
-  {id:'jitbit',name:'JitBit',cat:'Ticketing / Helpdesk',group:'servicedesk',scope:'tenant',c:'#2E9BE6',
+  {id:'jitbit',name:'JitBit',cat:'Ticketing / Helpdesk',group:'servicedesk',scope:'tenant',c:'#2E9BE6',enabled:true,
    desc:'Open and sync help-desk tickets from Guardare alerts, with two-way status updates.',
    connected:true, endpoint:'https://yourorg.jitbit.com/helpdesk/api', fields:[['API token','password','jb_live_••••••••••••']]},
   {id:'teamdynamix',name:'TeamDynamix',cat:'ITSM / PSA',group:'servicedesk',scope:'tenant',c:'#7C5CFF',
@@ -9187,7 +9190,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.202.alpha';
+const APP_VERSION='v2026.02.203.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -9283,10 +9286,14 @@ function cfgMariaCard(){
 /* deployment-model switch confirmation (Enterprise -> MSP migrates all data) */
 function openMspSwitchModal(){ const m=document.getElementById('mspSwitchModal'); if(m) m.classList.add('show'); }
 function closeMspSwitchModal(){ const m=document.getElementById('mspSwitchModal'); if(m) m.classList.remove('show'); }
-function ticketProvider(){
+function ticketProvider(slug){
   try{
     var g=INTEGRATIONS.filter(function(i){return i.group==='servicedesk';});
-    return g.filter(function(i){return i.connected;})[0] || g[0] || {name:'Helpdesk',cat:'Ticketing',c:'#2E9BE6',endpoint:''};
+    var isOn=function(it){
+      if(it.scope==='tenant' && slug && typeof tIntg==='function'){ var st=tIntg(slug,it.id); return st?!!st.connected:!!it.connected; }
+      return !!it.connected;
+    };
+    return g.filter(isOn)[0] || g.filter(function(i){return !!i.connected;})[0] || g[0] || {name:'Helpdesk',cat:'Ticketing',c:'#2E9BE6',endpoint:''};
   }catch(e){ return {name:'Helpdesk',cat:'Ticketing',c:'#2E9BE6',endpoint:''}; }
 }
 var ticketTenantSlug=null, TK_DATA=null, tkTimers=[];
@@ -9306,7 +9313,7 @@ function openTicketModal(slug){
   if(sel){ var o='<option selected>None</option>'; try{ (collectorsForTenant(ticketTenantSlug)||[]).forEach(function(c){ o+='<option>'+c.id+'</option>'; }); }catch(e){} sel.innerHTML=o; }
   var s=document.getElementById('tkSubject'); if(s) s.value='';
   var d=document.getElementById('tkDesc'); if(d) d.value='';
-  var p=ticketProvider();
+  var p=ticketProvider(ticketTenantSlug);
   var bar=document.getElementById('tkProvBar');
   if(bar) bar.innerHTML='<span class="tk-prov-dot" style="background:'+(p.connected!==false?'var(--green)':'var(--mute)')+'"></span>'
     +'<span class="tk-prov-name" style="--pc:'+(p.c||'var(--teal)')+'">'+p.name+'</span>'
@@ -9320,7 +9327,7 @@ function openTicketModal(slug){
 function closeTicketModal(){ _tkClearTimers(); var m=document.getElementById('ticketModal'); if(m) m.classList.remove('show'); }
 function submitTicket(){
   var get=function(id){ var e=document.getElementById(id); return e?e.value:''; };
-  var p=ticketProvider();
+  var p=ticketProvider(ticketTenantSlug);
   var prefix=(p.name||'TK').replace(/[^A-Za-z]/g,'').slice(0,3).toUpperCase()||'TK';
   TK_DATA={
     subject:(get('tkSubject')||'').trim()||'Untitled ticket',
