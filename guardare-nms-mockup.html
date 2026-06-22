@@ -633,6 +633,14 @@
   .dbm-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal-deep),var(--teal));transition:width .6s}
   .db-kv{display:flex;flex-wrap:wrap;gap:14px 24px}
   .db-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--teal);background:var(--teal-ghost);border:1px solid var(--teal-deep);padding:2px 9px;border-radius:6px}
+  /* merged full-width resources card + equal-height row */
+  .oss-grid-2{align-items:stretch}
+  .rescard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .rescard-body{display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;margin-top:2px}
+  .rescard-l{flex:1 1 260px;min-width:240px}
+  .rescard-r{flex:1.7 1 360px;min-width:300px;border-left:1px solid var(--line);padding-left:30px}
+  .rescard-subh{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);margin:0 0 16px}
+  @media(max-width:880px){.rescard-r{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:20px}}
   .svc-m .n{font-family:"Open Sans";font-size:17px;font-weight:700;letter-spacing:-.01em}
   .svc-m .n small{font-size:10.5px;color:var(--dim);font-weight:500;margin-left:1px}
   .svc-m .l{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:3px}
@@ -1687,7 +1695,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.209.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.210.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9259,7 +9267,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.209.alpha';
+const APP_VERSION='v2026.02.210.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10259,10 +10267,10 @@ function renderCollMgmt(){
   const _svgCheck='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l4 4 10-11"/></svg>';
   const _svgWarn='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
   const laG=(lbl,val)=>{ var ratio=val/cores, pct=Math.max(4,Math.min(100,Math.round(ratio*100))), col=ratio>=1?'var(--red)':ratio>=0.7?'var(--amber)':'var(--teal)'; return '<div class="la-g"><span class="la-lbl">'+lbl+'</span><div class="la-track"><div class="la-fill" style="width:'+pct+'%;background:'+col+';box-shadow:0 0 6px '+col+'88"></div></div><span class="la-val">'+val.toFixed(2)+'</span></div>'; };
-  const hostCard='<div class="host-id"><span class="host-badge">'+_svgServer+'</span>'
-    +'<div class="host-id-main"><b>gso-'+host+'</b><span>'+sitename+'</span></div>'
-    +'<span class="host-pill"><i></i>Online</span></div>'
-    +'<div class="host-statrow">'
+  const onlinePill='<span class="host-pill"><i></i>Online</span>';
+  const hostIdentity='<div class="host-id"><span class="host-badge">'+_svgServer+'</span>'
+    +'<div class="host-id-main"><b>gso-'+host+'</b><span>'+sitename+'</span></div></div>';
+  const hostStat='<div class="host-statrow">'
     +'<div class="host-uptime"><div class="hu-val">'+upD+'<small>d</small> '+upH+'<small>h</small></div><div class="hu-lbl">'+TX('Uptime')+'</div></div>'
     +'<div class="host-load"><div class="hl-head"><span>'+TX('Load average')+'</span><span class="hl-cores">'+cores+' '+TX('Cores').toLowerCase()+'</span></div>'+laG('1m',la1)+laG('5m',la5)+laG('15m',la15)+'</div></div>';
 
@@ -10338,17 +10346,24 @@ function renderCollMgmt(){
     ${svcCollBar('svcCollMenuC')}
 
     <div class="oss-sec">${TX('Host & system status')}</div>
-    <div class="oss-grid">
-      <div class="panel tm-card oss-card">
-        <h3 class="tm-h">${TX('Collector host')}</h3>
-        <p class="oss-cardsub">${TX('The Ubuntu server this collector runs on.')}</p>
-        ${hostCard}
+    <div class="panel tm-card oss-card rescard mb18">
+      <div class="rescard-head">
+        <div>
+          <h3 class="tm-h">${TX('Collector host')}</h3>
+          <p class="oss-cardsub">${TX('The Ubuntu server this collector runs on.')}</p>
+        </div>
+        ${onlinePill}
       </div>
-      <div class="panel tm-card oss-card">
-        <h3 class="tm-h">${TX('Compute resources')}</h3>
-        <p class="oss-cardsub">${TX('CPU, per-core load, memory and swap.')}</p>
-        ${resources}
+      ${hostIdentity}
+      <div class="rescard-body">
+        <div class="rescard-l">${hostStat}</div>
+        <div class="rescard-r">
+          <div class="rescard-subh">${TX('Compute resources')}</div>
+          ${resources}
+        </div>
       </div>
+    </div>
+    <div class="oss-grid oss-grid-2">
       <div class="panel tm-card oss-card">
         <h3 class="tm-h">${TX('Operating system')}</h3>
         <p class="oss-cardsub">${TX('Distribution, kernel and patch status.')}</p>
