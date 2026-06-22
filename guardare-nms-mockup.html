@@ -565,6 +565,74 @@
   .svc-name{font-size:13.5px;font-weight:700;letter-spacing:.01em}
   .svc-role{font-size:10.5px;color:var(--mute);margin-top:2px}
   .svc-metrics{display:flex;gap:18px}
+  /* OS Services — rich host cards */
+  .host-id{display:flex;align-items:center;gap:13px;margin-bottom:18px}
+  .host-badge{width:46px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;color:var(--teal);background:var(--teal-ghost);border:1px solid var(--teal-deep)}
+  .host-badge svg{width:24px;height:24px}
+  .host-id-main{flex:1;min-width:0}
+  .host-id-main b{display:block;font-size:17px;font-weight:700;letter-spacing:-.01em}
+  .host-id-main span{font-size:12px;color:var(--mute)}
+  .host-pill{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--green);background:#41D98A1a;border:1px solid #41D98A40;padding:5px 11px;border-radius:99px;text-transform:uppercase}
+  .host-pill i{width:7px;height:7px;border-radius:50%;background:var(--green);animation:hpPulse 2s infinite}
+  @keyframes hpPulse{0%{box-shadow:0 0 0 0 #41D98A66}70%{box-shadow:0 0 0 7px #41D98A00}100%{box-shadow:0 0 0 0 #41D98A00}}
+  .host-statrow{display:flex;gap:22px;align-items:stretch}
+  .host-uptime{flex:none;min-width:108px;padding:12px 16px;border-radius:12px;background:var(--bg-2);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+  .hu-val{font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .hu-val small{font-size:13px;font-weight:600;color:var(--mute)}
+  .hu-lbl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:4px}
+  .host-load{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .hl-head{display:flex;justify-content:space-between;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);font-weight:600;margin-bottom:9px}
+  .hl-cores{color:#7FA0A6}
+  .la-g{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .la-lbl{width:26px;font-size:11px;color:var(--mute);font-weight:600}
+  .la-track{flex:1;height:7px;border-radius:99px;background:var(--bg-2);overflow:hidden}
+  .la-fill{height:100%;border-radius:99px;transition:width .6s}
+  .la-val{width:42px;text-align:right;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+  /* OS card */
+  .os-id{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+  .os-logo{width:46px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;color:var(--amber);background:#F6B53F14;border:1px solid #F6B53F3d}
+  .os-logo svg{width:26px;height:26px}
+  .os-id-main b{display:block;font-size:16px;font-weight:700}
+  .os-id-main span{font-size:12px;color:var(--mute)}
+  .os-meters{display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+  .os-patch{flex:none;display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:12px;border:1px solid var(--line);background:var(--bg-2)}
+  .op-ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center}
+  .os-patch.ok .op-ico{color:var(--green);background:#41D98A18}
+  .os-patch.warn .op-ico{color:var(--amber);background:#F6B53F1c}
+  .op-ico svg{width:17px;height:17px}
+  .op-tx b{display:block;font-size:18px;font-weight:800;line-height:1}
+  .os-patch.ok .op-tx b{color:var(--green)}
+  .os-patch.warn .op-tx b{color:var(--amber)}
+  .op-tx i{font-style:normal;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:3px;display:block}
+  .os-pkg{flex:1;min-width:160px;display:flex;flex-direction:column;justify-content:center}
+  .opk-top{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:600;margin-bottom:8px}
+  .opk-up{text-transform:none;letter-spacing:0;font-size:12px}
+  .opk-up b{color:var(--amber);font-weight:700}
+  .opk-track{height:8px;border-radius:99px;background:var(--bg-2);overflow:hidden}
+  .opk-fresh{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--green));box-shadow:0 0 7px #2EE6C855}
+  .os-kv{display:flex;flex-wrap:wrap;gap:14px 26px}
+  /* DB card */
+  .db-top{display:flex;gap:20px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  .db-gauge{position:relative;width:106px;height:106px;flex:none}
+  .db-gauge svg{width:100%;height:100%}
+  .dbg-bg{fill:none;stroke:var(--bg-2);stroke-width:8}
+  .dbg-fg{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .6s}
+  .dbg-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .dbg-c b{font-size:21px;font-weight:800;letter-spacing:-.02em}
+  .dbg-c b small{font-size:12px;font-weight:600;color:var(--mute)}
+  .dbg-c span{font-size:9px;letter-spacing:.14em;color:var(--mute);font-weight:700;margin-top:1px}
+  .db-side{flex:1;min-width:200px;display:flex;flex-direction:column;gap:14px}
+  .db-spark-top{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:600;margin-bottom:5px}
+  .db-spark-top b{font-size:15px;color:#E6EFF2;font-weight:800;text-transform:none}
+  .db-spark{width:100%;height:42px;display:block}
+  .dbs-area{fill:var(--teal);opacity:.13}
+  .dbs-line{fill:none;stroke:var(--teal);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 3px #2EE6C888)}
+  .dbm-top{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:600;margin-bottom:6px}
+  .dbm-top b{font-size:13px;color:#E6EFF2;text-transform:none}
+  .dbm-track{height:7px;border-radius:99px;background:var(--bg-2);overflow:hidden}
+  .dbm-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal-deep),var(--teal));transition:width .6s}
+  .db-kv{display:flex;flex-wrap:wrap;gap:14px 24px}
+  .db-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--teal);background:var(--teal-ghost);border:1px solid var(--teal-deep);padding:2px 9px;border-radius:6px}
   .svc-m .n{font-family:"Open Sans";font-size:17px;font-weight:700;letter-spacing:-.01em}
   .svc-m .n small{font-size:10.5px;color:var(--dim);font-weight:500;margin-left:1px}
   .svc-m .l{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:3px}
@@ -1619,7 +1687,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.208.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.209.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9191,7 +9259,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.208.alpha';
+const APP_VERSION='v2026.02.209.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10160,28 +10228,66 @@ function renderCollMgmt(){
   const kv=(k,v,tip)=>'<div class="svc-m" title="'+(tip||k)+': '+esc(v)+'"><div class="n" style="font-size:14px">'+v+'</div><div class="l">'+TX(k)+'</div></div>';
   const sitename=((typeof siteOf==='function')?(siteOf(id.split(':')[0],host)||{}).name||host:host);
 
-  // ---- OS info ----
-  const os=[kv('Distribution','Ubuntu 24.04.4 LTS','Linux distribution'),kv('Codename','noble numbat'),kv('Kernel','6.8.0-'+ri(31,52)+'-generic'),kv('Architecture','x86_64'),kv('Uptime',upD+'d '+upH+'h','System uptime'),kv('Packages',ri(640,920)+' · '+ri(0,28)+' upgradable','Installed packages'),kv('Security updates',ri(0,9)+' pending'),kv('Timezone','UTC')].join('');
-  // ---- MariaDB ----
-  const mHit=(ri(960,999)/10).toFixed(1);
-  const maria=[kv('Version','11.4.'+ri(0,9),'MariaDB version'),kv('Uptime',ri(2,90)+'d','Database uptime'),kv('Threads connected',ri(20,180)),kv('Queries / sec',ri(2,40)+'k'),kv('Buffer pool hit',mHit+'%','Buffer pool hit ratio'),kv('Slow queries',ri(0,14)),kv('Data size',ri(6,42)+' GB','On-disk data size'),kv('Replication','standalone')].join('');
+  // (Collector-host, OS and MariaDB rich cards are built after the compute block below)
 
   // ---- Resources visual (CPU ring + per-core + memory/swap bars) ----
-  const cpuPct=ri(16,84), cores=[4,8,16][ri(0,2)];
+  const cpuPct=ri(16,84), cores=[16,16,8,32][ri(0,3)];
   const cpuColor=cpuPct>85?'var(--red)':cpuPct>65?'var(--amber)':'var(--teal)';
+  const la1=+((ri(8,90)/100)*cores).toFixed(2), la5=+((ri(8,90)/100)*cores).toFixed(2), la15=+((ri(8,90)/100)*cores).toFixed(2);
   const ramT=[16,32,64][ri(0,2)], ramU=+(ramT*(ri(34,82)/100)).toFixed(1), ramPct=Math.round(ramU/ramT*100);
   const swapT=4, swapU=+(ri(0,18)/10).toFixed(1), swapPct=Math.round(swapU/swapT*100);
   const R=46, C=2*Math.PI*R, off=(C*(1-cpuPct/100)).toFixed(1);
-  const ring='<div class="rc-ring"><svg viewBox="0 0 110 110" class="rc-ring-svg"><circle cx="55" cy="55" r="'+R+'" class="rc-ring-bg"/><circle cx="55" cy="55" r="'+R+'" class="rc-ring-fg" stroke="'+cpuColor+'" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off+'" transform="rotate(-90 55 55)"/></svg><div class="rc-ring-c"><b>'+cpuPct+'%</b><span>CPU</span></div></div>';
+  const ring='<div class="rc-ring"><svg viewBox="0 0 110 110" class="rc-ring-svg">'
+    +'<defs><linearGradient id="cpuG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+cpuColor+'"/><stop offset="1" stop-color="'+cpuColor+'" stop-opacity=".5"/></linearGradient>'
+    +'<filter id="cpuGlow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="0" stdDeviation="2.4" flood-color="'+cpuColor+'" flood-opacity=".6"/></filter></defs>'
+    +'<circle cx="55" cy="55" r="'+R+'" class="rc-ring-bg"/>'
+    +'<circle cx="55" cy="55" r="'+R+'" class="rc-ring-fg" stroke="url(#cpuG)" filter="url(#cpuGlow)" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off+'" transform="rotate(-90 55 55)"/></svg>'
+    +'<div class="rc-ring-c"><b>'+cpuPct+'%</b><span>CPU</span></div></div>';
   let coreBars='';
-  for(let i=0;i<cores;i++){ const c=ri(6,96); const col=c>85?'var(--red)':c>65?'var(--amber)':'var(--teal)'; coreBars+='<div class="rc-core" title="Core '+i+': '+c+'%"><div class="rc-core-fill" style="height:'+c+'%;background:'+col+'"></div></div>'; }
+  for(let i=0;i<cores;i++){ const c=ri(6,96); const col=c>85?'var(--red)':c>65?'var(--amber)':'var(--teal)'; coreBars+='<div class="rc-core" title="Core '+i+': '+c+'%"><div class="rc-core-fill" style="height:'+c+'%;background:'+col+';box-shadow:0 -1px 6px '+col+'55"></div></div>'; }
   const ramColor=ramPct>85?'var(--red)':ramPct>70?'var(--amber)':'var(--teal)';
   const bars='<div class="rc-bars">'
-    +'<div><div class="rc-bar-top"><span>Memory</span><span><b>'+ramU+'</b> / '+ramT+' GB</span></div><div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+ramPct+'%;background:'+ramColor+'"></div></div></div>'
-    +'<div><div class="rc-bar-top"><span>Swap</span><span><b>'+swapU+'</b> / '+swapT+'.0 GB</span></div><div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+swapPct+'%;background:var(--violet)"></div></div></div>'
-    +'<div class="rc-meta"><span>Cores <b>'+cores+'</b></span><span>Load <b>'+la()+' '+la()+' '+la()+'</b></span></div>'
+    +'<div><div class="rc-bar-top"><span>'+TX('Memory')+'</span><span><b>'+ramU+'</b> / '+ramT+' GB</span></div><div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+ramPct+'%;background:linear-gradient(90deg,'+ramColor+'bb,'+ramColor+')"></div></div></div>'
+    +'<div><div class="rc-bar-top"><span>'+TX('Swap')+'</span><span><b>'+swapU+'</b> / '+swapT+'.0 GB</span></div><div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+swapPct+'%;background:linear-gradient(90deg,#94A2FFbb,var(--violet))"></div></div></div>'
+    +'<div class="rc-meta"><span>'+TX('Cores')+' <b>'+cores+'</b></span><span>'+TX('Load')+' <b>'+la1.toFixed(2)+' '+la5.toFixed(2)+' '+la15.toFixed(2)+'</b></span></div>'
     +'</div>';
   const resources='<div class="rc-wrap">'+ring+'<div class="rc-coreblock"><div class="rc-cores">'+coreBars+'</div><div class="rc-coreslbl">'+cores+' cores</div></div>'+bars+'</div>';
+  // ---- Rich host / OS / DB cards ----
+  const kernel='6.8.0-'+ri(31,52)+'-generic';
+  const _svgServer='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>';
+  const _svgDistro='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.1"/><path d="M12 3v3.4M12 17.6V21M3 12h3.4M17.6 12H21"/></svg>';
+  const _svgCheck='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l4 4 10-11"/></svg>';
+  const _svgWarn='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
+  const laG=(lbl,val)=>{ var ratio=val/cores, pct=Math.max(4,Math.min(100,Math.round(ratio*100))), col=ratio>=1?'var(--red)':ratio>=0.7?'var(--amber)':'var(--teal)'; return '<div class="la-g"><span class="la-lbl">'+lbl+'</span><div class="la-track"><div class="la-fill" style="width:'+pct+'%;background:'+col+';box-shadow:0 0 6px '+col+'88"></div></div><span class="la-val">'+val.toFixed(2)+'</span></div>'; };
+  const hostCard='<div class="host-id"><span class="host-badge">'+_svgServer+'</span>'
+    +'<div class="host-id-main"><b>gso-'+host+'</b><span>'+sitename+'</span></div>'
+    +'<span class="host-pill"><i></i>Online</span></div>'
+    +'<div class="host-statrow">'
+    +'<div class="host-uptime"><div class="hu-val">'+upD+'<small>d</small> '+upH+'<small>h</small></div><div class="hu-lbl">'+TX('Uptime')+'</div></div>'
+    +'<div class="host-load"><div class="hl-head"><span>'+TX('Load average')+'</span><span class="hl-cores">'+cores+' '+TX('Cores').toLowerCase()+'</span></div>'+laG('1m',la1)+laG('5m',la5)+laG('15m',la15)+'</div></div>';
+
+  const secU=ri(0,6), pkgInst=ri(760,940), pkgUp=ri(0,9), patchOk=secU===0;
+  const freshPct=Math.max(72,Math.round((pkgInst-pkgUp)/pkgInst*100));
+  const osCard='<div class="os-id"><span class="os-logo">'+_svgDistro+'</span><div class="os-id-main"><b>Ubuntu 24.04.4 LTS</b><span>noble numbat · x86_64</span></div></div>'
+    +'<div class="os-meters"><div class="os-patch '+(patchOk?'ok':'warn')+'"><span class="op-ico">'+(patchOk?_svgCheck:_svgWarn)+'</span><span class="op-tx"><b>'+secU+'</b><i>'+TX('Security updates')+'</i></span></div>'
+    +'<div class="os-pkg"><div class="opk-top"><span>'+TX('Packages')+'</span><span class="opk-up">'+pkgInst+' · <b>'+pkgUp+'</b> upgradable</span></div><div class="opk-track"><div class="opk-fresh" style="width:'+freshPct+'%"></div></div></div></div>'
+    +'<div class="os-kv">'+kv('Kernel',kernel)+kv('Architecture','x86_64')+kv('Uptime',upD+'d '+upH+'h')+kv('Timezone','UTC')+'</div>';
+
+  const mHit=(ri(940,999)/10).toFixed(1), hitNum=parseFloat(mHit);
+  const hitCol=hitNum>=95?'var(--green)':hitNum>=85?'var(--amber)':'var(--red)';
+  const R2=42, C2=2*Math.PI*R2, off2=(C2*(1-hitNum/100)).toFixed(1);
+  const dbRing='<div class="db-gauge"><svg viewBox="0 0 100 100"><defs><filter id="dbGlow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="'+hitCol+'" flood-opacity=".55"/></filter></defs><circle cx="50" cy="50" r="42" class="dbg-bg"/><circle cx="50" cy="50" r="42" class="dbg-fg" stroke="'+hitCol+'" filter="url(#dbGlow)" stroke-dasharray="'+C2.toFixed(1)+'" stroke-dashoffset="'+off2+'" transform="rotate(-90 50 50)"/></svg><div class="dbg-c"><b>'+mHit+'<small>%</small></b><span>HIT</span></div></div>';
+  const qps=ri(4,38), threads=ri(20,180), slow=ri(0,11), dataGB=ri(6,42), dbVer='11.4.'+ri(0,9), dbUp=ri(2,90);
+  var _pts=[]; for(var _i=0;_i<16;_i++) _pts.push(ri(24,100));
+  var _spW=160,_spH=42,_mx=Math.max.apply(null,_pts);
+  var _poly=_pts.map(function(v,i){return (i/15*_spW).toFixed(1)+','+(_spH-v/_mx*(_spH-6)-3).toFixed(1);}).join(' ');
+  var _spark='<svg class="db-spark" viewBox="0 0 '+_spW+' '+_spH+'" preserveAspectRatio="none"><polygon points="0,'+_spH+' '+_poly+' '+_spW+','+_spH+'" class="dbs-area"/><polyline points="'+_poly+'" class="dbs-line"/></svg>';
+  var threadPct=Math.min(100,Math.round(threads/256*100)), slowCol=slow>0?'var(--amber)':'var(--green)';
+  const dbCard='<div class="db-top">'+dbRing+'<div class="db-side">'
+    +'<div class="db-spark-wrap"><div class="db-spark-top"><span>'+TX('Queries / sec')+'</span><b>'+qps+'k</b></div>'+_spark+'</div>'
+    +'<div class="db-mini"><div class="dbm-top"><span>'+TX('Threads connected')+'</span><b>'+threads+'</b></div><div class="dbm-track"><div class="dbm-fill" style="width:'+threadPct+'%"></div></div></div>'
+    +'</div></div>'
+    +'<div class="db-kv">'+kv('Version',dbVer)+kv('Uptime',dbUp+'d')+'<div class="svc-m"><div class="n" style="font-size:14px;color:'+slowCol+';font-weight:700">'+slow+'</div><div class="l">'+TX('Slow queries')+'</div></div>'+kv('Data size',dataGB+' GB')+'<div class="svc-m"><div class="n" style="font-size:14px"><span class="db-badge">standalone</span></div><div class="l">'+TX('Replication')+'</div></div>'+'</div>';
 
   // ---- Storage LED bars ----
   const ledBar=(label,pct,color)=>{ const segs=22,lit=Math.round(pct/100*segs); let c=''; for(let i=0;i<segs;i++)c+='<span style="flex:1;height:11px;border-radius:2px;background:'+(i<lit?color:'var(--bg-2)')+';opacity:'+(i<lit?'1':'.4')+';box-shadow:'+(i<lit?'0 0 5px '+color+'66':'none')+'"></span>'; return '<div style="margin:12px 0" title="'+label+': '+pct+'% used"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px"><span>'+label+'</span><span style="color:'+color+';font-weight:700">'+pct+'%</span></div><div style="display:flex;gap:2px">'+c+'</div></div>'; };
@@ -10236,9 +10342,7 @@ function renderCollMgmt(){
       <div class="panel tm-card oss-card">
         <h3 class="tm-h">${TX('Collector host')}</h3>
         <p class="oss-cardsub">${TX('The Ubuntu server this collector runs on.')}</p>
-        <div class="svc-metrics" style="flex-wrap:wrap;gap:20px 26px">
-          ${kv('Hostname','gso-'+host,'Host name')}${kv('Site',sitename)}${kv('Status','<span style=&quot;color:var(--green)&quot;>Online</span>','Host status')}${kv('Uptime',upD+'d '+upH+'h','System uptime')}${kv('Load average',la()+' '+la()+' '+la(),'1 / 5 / 15 min load')}
-        </div>
+        ${hostCard}
       </div>
       <div class="panel tm-card oss-card">
         <h3 class="tm-h">${TX('Compute resources')}</h3>
@@ -10248,12 +10352,12 @@ function renderCollMgmt(){
       <div class="panel tm-card oss-card">
         <h3 class="tm-h">${TX('Operating system')}</h3>
         <p class="oss-cardsub">${TX('Distribution, kernel and patch status.')}</p>
-        <div class="svc-metrics" style="flex-wrap:wrap;gap:18px 26px">${os}</div>
+        ${osCard}
       </div>
       <div class="panel tm-card oss-card">
         <h3 class="tm-h">${TX('Database')} <span class="tm-note">MariaDB</span></h3>
         <p class="oss-cardsub">${TX('Local collector datastore & buffer.')}</p>
-        <div class="svc-metrics" style="flex-wrap:wrap;gap:18px 26px">${maria}</div>
+        ${dbCard}
       </div>
     </div>
     <div class="panel tm-card oss-card mb18">
