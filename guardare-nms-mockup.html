@@ -1517,13 +1517,13 @@
   <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="plane-switch" role="tablist" aria-label="System context">
-      <button class="plane-seg active" data-plane="platform" role="tab" onclick="setSysPlane('platform')" title="Guardare Core — manage and monitor the Guardare platform itself">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        <span class="ps-l"><b data-i18n="Platform">Platform</b><i>Guardare Core</i></span>
-      </button>
       <button class="plane-seg" data-plane="estate" role="tab" onclick="setSysPlane('estate')" title="Guardare Vista — observe the customer network &amp; systems estate">
         <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
         <span class="ps-l"><b data-i18n="Observability">Observability</b><i>Guardare Vista</i></span>
+      </button>
+      <button class="plane-seg active" data-plane="platform" role="tab" onclick="setSysPlane('platform')" title="Guardare Core — manage and monitor the Guardare platform itself">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span class="ps-l"><b data-i18n="Platform">Platform</b><i>Guardare Core</i></span>
       </button>
     </div>
     <div id="platformNav">
@@ -1619,7 +1619,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.207.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.208.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9191,7 +9191,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.207.alpha';
+const APP_VERSION='v2026.02.208.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
