@@ -1741,7 +1741,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.218.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.219.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9321,7 +9321,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.218.alpha';
+const APP_VERSION='v2026.02.219.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10331,6 +10331,8 @@ var OSLIVE={timer:null,ready:false};
 function _ri2(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 function _cI(v,lo,hi){return v<lo?lo:(v>hi?hi:v);}
 function osColor(p){return p>85?'var(--red)':(p>65?'var(--amber)':'var(--teal)');}
+function osFmtMB(mb){ return mb>=1024?(mb/1024).toFixed(1)+' GB':Math.round(mb)+' MB'; }
+function osProcRow(id,label,c,pct,val,sub){ return '<div class="proc-row"><span class="proc-dot" style="background:'+c+'"></span><span class="proc-name">'+label+'</span><div class="proc-meter"><div class="proc-fill" id="'+id+'f" style="width:'+pct+'%;background:linear-gradient(90deg,'+c+'66,'+c+'cc)"></div></div><span class="proc-val" id="'+id+'v">'+val+(sub?'<small>'+sub+'</small>':'')+'</span></div>'; }
 function osSpark(){
   var L=OSLIVE,W=160,H=42,n=L.spark.length; if(!n)return;
   var mx=Math.max.apply(null,L.spark)||1;
@@ -10385,6 +10387,27 @@ function osLiveTick(){
   setA('dbRingFg','stroke-dashoffset',(L.C2*(1-L.hit/100)).toFixed(1));
   setA('dbRingFg','stroke',hcol);
   setA('dbRing','data-pop','Buffer pool hit '+L.hit.toFixed(1)+'%');
+  /* per-service CPU rows */
+  if(L.cpuP){ var csl=L.cpuScale||1;
+    for(var a=0;a<L.cpuP.length;a++){ var pp=L.cpuP[a];
+      pp.v=Math.max(1,Math.min(pp.base*1.9, pp.v+(Math.random()*2-1)*Math.max(1.2,pp.base*0.18)));
+      var cf=document.getElementById('cp'+a+'f'); if(cf) cf.style.width=Math.min(100,Math.round(pp.v/csl*100))+'%';
+      var cv=document.getElementById('cp'+a+'v'); if(cv) cv.textContent=Math.round(pp.v)+'%';
+    }
+  }
+  /* per-service memory rows + live memory map */
+  if(L.memP){ var msl=L.memScale||1, umb=Math.max(1,Math.round(L.ramU*1024)), rtmb=L.ramTmb||1, sum=0;
+    for(var b=0;b<L.memP.length;b++){ var mp=L.memP[b];
+      mp.v=Math.max(20,Math.min(mp.base*1.5, mp.v+(Math.random()*2-1)*Math.max(8,mp.base*0.05)));
+      sum+=mp.v;
+      var mf=document.getElementById('mp'+b+'f'); if(mf) mf.style.width=Math.min(100,Math.round(mp.v/msl*100))+'%';
+      var mv=document.getElementById('mp'+b+'v'); if(mv) mv.innerHTML=osFmtMB(mp.v)+'<small>'+Math.round(mp.v/umb*100)+'%</small>';
+      var sg=document.getElementById('mseg'+b); if(sg) sg.style.width=(mp.v/rtmb*100).toFixed(2)+'%';
+    }
+    var cMB=Math.max(256,umb-sum), fMB=Math.max(0,rtmb-umb);
+    var sC=document.getElementById('msegC'); if(sC) sC.style.width=(cMB/rtmb*100).toFixed(2)+'%';
+    var sF=document.getElementById('msegF'); if(sF) sF.style.width=(fMB/rtmb*100).toFixed(2)+'%';
+  }
 }
 function renderCollMgmt(){
   const el=document.getElementById('screen-collmgmt'); if(!el) return;
@@ -10466,24 +10489,22 @@ function renderCollMgmt(){
   const disksHtml=disks.map(d=>ledBar(d[0],d[1],d[2])).join('');
 
   // ---- per-service CPU / memory (htop-style) ----
-  const PROCS=[{k:'normalizer',l:'Normalizer',c:'#2EE6C8'},{k:'mariadb',l:'MariaDB',c:'#F6B53F'},{k:'vcollector',l:'vCollector',c:'#41D98A'},{k:'eventsd',l:'Events Director',c:'#94A2FF'},{k:'centrifugo',l:'Centrifugo',c:'#4F86C6'},{k:'redis',l:'Redis',c:'#FF7A7A'},{k:'hudusync',l:'HuduSync',c:'#2E9BE6'},{k:'nginx',l:'Nginx',c:'#B98CFF'}];
-  const _procMeter=(label,c,pct,val,sub)=>'<div class="proc-row"><span class="proc-dot" style="background:'+c+'"></span><span class="proc-name">'+label+'</span><div class="proc-meter"><div class="proc-fill" style="width:'+pct+'%;background:linear-gradient(90deg,'+c+'88,'+c+')"></div></div><span class="proc-val">'+val+(sub?'<small>'+sub+'</small>':'')+'</span></div>';
+  const PROCS=[{k:'normalizer',l:'Normalizer',c:'#4FB6A8'},{k:'mariadb',l:'MariaDB',c:'#C2A24F'},{k:'vcollector',l:'vCollector',c:'#5FAE86'},{k:'eventsd',l:'Events Director',c:'#7E8AC0'},{k:'centrifugo',l:'Centrifugo',c:'#5A86B0'},{k:'redis',l:'Redis',c:'#C28080'},{k:'hudusync',l:'HuduSync',c:'#5298B5'},{k:'nginx',l:'Nginx',c:'#9385C0'}];
   const _cpuOf={normalizer:ri(16,52),mariadb:ri(8,34),vcollector:ri(6,28),eventsd:ri(3,18),centrifugo:ri(2,14),redis:ri(1,12),hudusync:ri(1,9),nginx:ri(1,7)};
   const cpuProcs=PROCS.map(o=>({l:o.l,c:o.c,v:_cpuOf[o.k]})).sort((a,b)=>b.v-a.v);
   const _cpuMax=Math.max.apply(null,cpuProcs.map(o=>o.v))||1;
-  const cpuProcHtml=cpuProcs.map(o=>_procMeter(o.l,o.c,Math.round(o.v/_cpuMax*100),o.v+'%')).join('');
+  const cpuProcHtml=cpuProcs.map((o,ix)=>osProcRow('cp'+ix,o.l,o.c,Math.round(o.v/_cpuMax*100),o.v+'%')).join('');
   const _memOf={mariadb:ri(2600,6800),normalizer:ri(420,1100),redis:ri(280,1400),vcollector:ri(180,520),eventsd:ri(140,420),centrifugo:ri(110,340),hudusync:ri(80,260),nginx:ri(40,140)};
   const memProcs=PROCS.map(o=>({l:o.l,c:o.c,v:_memOf[o.k]})).sort((a,b)=>b.v-a.v);
   const _procTotMB=memProcs.reduce((s,o)=>s+o.v,0);
   const _ramTmb=ramT*1024, _usedMB=Math.round(ramU*1024);
   const _cacheMB=Math.max(256,_usedMB-_procTotMB), _freeMB=Math.max(0,_ramTmb-_usedMB);
   const _memMax=memProcs[0].v||1;
-  const _fmtMB=mb=>mb>=1024?(mb/1024).toFixed(1)+' GB':Math.round(mb)+' MB';
-  const memProcHtml=memProcs.map(o=>_procMeter(o.l,o.c,Math.round(o.v/_memMax*100),_fmtMB(o.v),Math.round(o.v/_usedMB*100)+'%')).join('');
-  const _compSegs=memProcs.map(o=>'<span class="mcmp-seg" style="width:'+(o.v/_ramTmb*100).toFixed(2)+'%;background:'+o.c+'" title="'+o.l+' '+_fmtMB(o.v)+'"></span>').join('')
-    +'<span class="mcmp-seg" style="width:'+(_cacheMB/_ramTmb*100).toFixed(2)+'%;background:#37535e" title="Cache &amp; buffers '+_fmtMB(_cacheMB)+'"></span>'
-    +'<span class="mcmp-seg" style="width:'+(_freeMB/_ramTmb*100).toFixed(2)+'%;background:#16242a" title="Free '+_fmtMB(_freeMB)+'"></span>';
-  const _compLegend='<span class="mcl"><i style="background:#37535e"></i>Cache &amp; buffers <b>'+_fmtMB(_cacheMB)+'</b></span><span class="mcl"><i style="background:#16242a;border:1px solid var(--line)"></i>Free <b>'+_fmtMB(_freeMB)+'</b></span>';
+  const memProcHtml=memProcs.map((o,ix)=>osProcRow('mp'+ix,o.l,o.c,Math.round(o.v/_memMax*100),osFmtMB(o.v),Math.round(o.v/_usedMB*100)+'%')).join('');
+  const _compSegs=memProcs.map((o,ix)=>'<span class="mcmp-seg" id="mseg'+ix+'" style="width:'+(o.v/_ramTmb*100).toFixed(2)+'%;background:'+o.c+'" title="'+o.l+' '+osFmtMB(o.v)+'"></span>').join('')
+    +'<span class="mcmp-seg" id="msegC" style="width:'+(_cacheMB/_ramTmb*100).toFixed(2)+'%;background:#37535e" title="Cache &amp; buffers '+osFmtMB(_cacheMB)+'"></span>'
+    +'<span class="mcmp-seg" id="msegF" style="width:'+(_freeMB/_ramTmb*100).toFixed(2)+'%;background:#16242a" title="Free '+osFmtMB(_freeMB)+'"></span>';
+  const _compLegend='<span class="mcl"><i style="background:#37535e"></i>Cache &amp; buffers <b>'+osFmtMB(_cacheMB)+'</b></span><span class="mcl"><i style="background:#16242a;border:1px solid var(--line)"></i>Free <b>'+osFmtMB(_freeMB)+'</b></span>';
 
   el.innerHTML=`
     <div class="page-head"><div>
@@ -10548,6 +10569,8 @@ function renderCollMgmt(){
   OSLIVE.C=C; OSLIVE.C2=C2; OSLIVE.ncore=cores; OSLIVE.cores=coreVals.slice();
   OSLIVE.cpu=cpuPct; OSLIVE.ramU=ramU; OSLIVE.ramT=ramT; OSLIVE.swapU=swapU; OSLIVE.swapT=swapT;
   OSLIVE.la=[la1,la5,la15]; OSLIVE.qps=qps; OSLIVE.threads=threads; OSLIVE.hit=hitNum; OSLIVE.spark=_pts.slice();
+  OSLIVE.cpuP=cpuProcs.map(o=>({v:o.v,base:o.v})); OSLIVE.cpuScale=_cpuMax;
+  OSLIVE.memP=memProcs.map(o=>({v:o.v,base:o.v})); OSLIVE.memScale=_memMax; OSLIVE.ramTmb=_ramTmb;
   OSLIVE.ready=true;
   if(OSLIVE.timer) clearInterval(OSLIVE.timer);
   OSLIVE.timer=setInterval(osLiveTick,2000);
