@@ -678,6 +678,9 @@
   .svc-acts{display:flex;gap:6px}
   .svc-act{position:relative;width:28px;height:28px;border-radius:7px;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);color:var(--dim);transition:.14s}
   .svc-act:hover{border-color:var(--teal-deep);color:var(--teal)}
+  .svc-act.os-warn{color:var(--amber)}
+  .svc-act.os-warn:hover{border-color:#f6b53f;color:var(--amber);background:#f6b53f14}
+  .ostask-badge{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--amber);background:#f6b53f1a;border:1px solid #f6b53f55;padding:3px 8px;border-radius:99px;flex:0 0 auto;text-transform:uppercase}
   .svc-act svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}
   .svc-act::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(3px);background:var(--raise);color:var(--text);border:1px solid var(--line);font-size:11px;font-weight:500;line-height:1;white-space:nowrap;padding:6px 9px;border-radius:7px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .14s,transform .14s;z-index:60}
   .svc-act::before{content:"";position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--raise);opacity:0;pointer-events:none;transition:opacity .14s;z-index:60}
@@ -1715,7 +1718,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.216.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.217.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -1980,7 +1983,6 @@
         <div class="head-actions">
           <button class="btn" onclick="openLiveLogs()"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
           <button class="btn" onclick="openDiagnostics()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
-          <button class="btn primary" onclick="openRebootModal()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Reboot collector">Reboot collector</span></button>
         </div>
       </div>
 
@@ -2005,7 +2007,6 @@
           <span class="hw-badge hw-phys" id="hwTypeBadge">Physical server</span>
         </div>
         <div class="id-grid" id="hwGrid"></div>
-        <div class="hw-res" id="hwRes"></div>
       </div>
 
       <div class="metric-cards">
@@ -5337,6 +5338,19 @@ snmp_field_mapping:
   </div>
 </div>
 
+<div class="modal-backdrop" id="osMaintModal" onclick="osMaintBackdrop(event)">
+  <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="osmTitle">
+    <div class="modal-ic info" id="osmIcon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></div>
+    <h3 class="modal-title" id="osmTitle">—</h3>
+    <p class="modal-text"><span data-i18n="Operating System">Operating System</span> · <b class="mono" id="osmTarget">gso-host</b></p>
+    <div class="diag-list" id="osmList"></div>
+    <div class="svc-done" id="osmDone" style="display:none"></div>
+    <div class="modal-acts" id="osmActs" style="display:none">
+      <button class="btn primary" onclick="closeOsMaint()" data-i18n="Close">Close</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="svcModal" onclick="svcBackdrop(event)">
   <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="svcTitle">
     <div id="svcConfirm">
@@ -7927,9 +7941,6 @@ function renderHwInventory(ten,coll){
     row('Network',hw.nic),
     row('Load avg',hw.load.toFixed(2))
   ].join('');
-  const bar=(k,pct,col)=>`<div class="hw-bar"><div class="hw-bar-top"><span>${TX(k)}</span><b>${pct}%</b></div><div class="hw-track"><span style="width:${pct}%;background:${pct>85?'var(--red)':col}"></span></div></div>`;
-  const r=document.getElementById('hwRes');
-  if(r) r.innerHTML=bar('Memory used',hw.ramUsed,'var(--teal)')+bar('Storage used',hw.diskUsed,'var(--violet)');
 }
 /* deterministic, health-aware ticket/SLA stats per tenant (stable across renders) */
 function tenantTickets(slug){
@@ -9287,7 +9298,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.216.alpha';
+const APP_VERSION='v2026.02.217.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10211,6 +10222,18 @@ function svcCollBar(menuId){
   '</div>';
 }
 
+function osTaskCard(t,host){
+  const ICN={
+    updates:'<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 4v11"/></svg>',
+    dns:'<svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>',
+    reboot:'<svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg>'
+  };
+  return '<div class="svc-card ostask">'
+    +'<div class="svc-top"><div><div class="svc-name">'+TX(t.name)+'</div><div class="svc-role">'+TX(t.role)+'</div></div>'
+    +'<span class="ostask-badge"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>OS</span></div>'
+    +'<div class="svc-foot"><span class="svc-ver">gso-'+host+'</span>'
+    +'<div class="svc-acts"><button class="svc-act '+(t.btncls||'')+'" data-tip="'+TX(t.name)+'" aria-label="'+TX(t.name)+'" onclick="osMaint(\''+t.act+'\',\''+host+'\')">'+ICN[t.act]+'</button></div></div></div>';
+}
 function renderMicrosvc(){
   const el=document.getElementById('screen-microsvc'); if(!el) return;
   const id=svcCurrentColl();
@@ -10249,26 +10272,23 @@ function renderMicrosvc(){
     'GitOps config poll complete — collector in sync.'
   ];
   const logHtml=logLines.map(l=>'<div class="oss-log-line"><span class="oss-log-t">'+new Date(Date.now()-ri(1,90)*60000).toTimeString().slice(0,8)+'</span>'+l+'</div>').join('');
+  const osTasks=[
+    {name:'Run updates',role:'apt update & upgrade',act:'updates',btncls:''},
+    {name:'Flush DNS',role:'Clear resolver cache',act:'dns',btncls:''},
+    {name:'Reboot host',role:'Restart the Ubuntu host',act:'reboot',btncls:'os-warn'}
+  ].map(t=>osTaskCard(t,host)).join('');
   el.innerHTML=`
     <div class="page-head"><div>
       <div class="page-eyebrow">${TX('Serviceability')}</div>
       <h1 class="page-title">${TX('Service Management')}</h1>
-    </div>
-    <span class="td-status ${sumCls}" style="font-size:11.5px"><i></i>${sumTxt}</span></div>
+    </div></div>
     ${svcCollBar('svcCollMenuM')}
-    <div class="panel tm-card mb18">
-      <h3 class="tm-h">${TX('Operating System Maintenance')}</h3>
-      <p class="oss-cardsub">${TX('Maintenance actions for the whole host.')}</p>
-      <div style="display:flex;flex-wrap:wrap;gap:10px">
-        <button class="btn b-warn" onclick="toast('Reboot host queued — gso-${host}')"><svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg><span>${TX('Reboot host')}</span></button>
-        <button class="btn b-go" onclick="toast('DNS resolver cache flushed')"><svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg><span>${TX('Flush DNS')}</span></button>
-        <button class="btn b-start" onclick="toast('System updates started')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>${TX('Run updates')}</span></button>
-      </div>
-    </div>
     <div class="panel tm-card mb18">
       <h3 class="tm-h">${TX('Service Controls')}</h3>
       <p class="oss-cardsub">${TX('Start, stop, restart or reload the services on this collector.')}</p>
-      <div class="oss-svc-grouplbl">${TX('Guardare microservices')}</div>
+      <div class="oss-svc-grouplbl">${TX('Operating System')}</div>
+      <div class="svc-grid">${osTasks}</div>
+      <div class="oss-svc-grouplbl" style="margin-top:20px">${TX('Guardare microservices')}</div>
       <div class="svc-grid">${micro.join('')}</div>
       <div class="oss-svc-grouplbl" style="margin-top:20px">${TX('Host & platform services')}</div>
       <div class="svc-grid">${linux}</div>
@@ -10860,6 +10880,51 @@ let diagTimer=null;
 function openDiagnostics(){ document.getElementById('diagModal').classList.add('show'); runDiagnostics(); }
 function closeDiag(){ document.getElementById('diagModal').classList.remove('show'); if(diagTimer){clearTimeout(diagTimer);diagTimer=null;} }
 function diagBackdrop(e){ if(e.target.id==='diagModal') closeDiag(); }
+var osmTimer=null;
+function osMaintBackdrop(e){ if(e.target.id==='osMaintModal') closeOsMaint(); }
+function closeOsMaint(){ var m=document.getElementById('osMaintModal'); if(m) m.classList.remove('show'); if(osmTimer){clearTimeout(osmTimer);osmTimer=null;} }
+function osMaint(action,host){
+  if(osmTimer){clearTimeout(osmTimer);osmTimer=null;}
+  host=host||'host';
+  var mb=Math.floor(Math.random()*170)+60, npkg=Math.floor(Math.random()*9)+3;
+  var CFG={
+    reboot:{title:'Reboot host', ic:'warn',
+      icon:'<svg viewBox="0 0 24 24"><path d="M7 6a7.75 7.75 0 1 0 10 0"/><path d="M12 4v8"/></svg>',
+      steps:['Sending reboot command to gso-'+host+'\u2026','Stopping Guardare microservices\u2026','Flushing MariaDB buffer to disk\u2026','Unmounting filesystems \u00b7 syncing\u2026','Ubuntu host going down for reboot\u2026','POST \u00b7 loading kernel 6.8.0-generic\u2026','Starting systemd \u00b7 mounting volumes\u2026','Bringing microservices back online\u2026','Re-establishing wss:// connection\u2026'],
+      done:'Reboot complete \u00b7 gso-'+host+' back online'},
+    dns:{title:'Flush DNS', ic:'info',
+      icon:'<svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>',
+      steps:['Connecting to gso-'+host+'\u2026','Flushing systemd-resolved cache\u2026','Resetting resolver statistics\u2026','Re-reading /etc/resolv.conf\u2026','Verifying upstream resolvers (1.1.1.1, 8.8.8.8)\u2026'],
+      done:'DNS resolver cache flushed'},
+    updates:{title:'Run updates', ic:'info',
+      icon:'<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 4v11"/></svg>',
+      steps:['Connecting to gso-'+host+'\u2026','apt-get update \u00b7 refreshing package lists\u2026','Resolving dependencies\u2026','Downloading packages ('+mb+' MB)\u2026','Unpacking & configuring\u2026','Applying '+npkg+' security updates\u2026','Cleaning up \u00b7 apt autoremove\u2026'],
+      done:'System updated \u00b7 '+npkg+' packages upgraded'}
+  };
+  var cfg=CFG[action]; if(!cfg) return;
+  var tEl=document.getElementById('osmTitle'); if(tEl) tEl.textContent=TX(cfg.title);
+  var tg=document.getElementById('osmTarget'); if(tg) tg.textContent='gso-'+host;
+  var ico=document.getElementById('osmIcon'); if(ico){ ico.className='modal-ic '+cfg.ic; ico.innerHTML=cfg.icon; }
+  var dn=document.getElementById('osmDone'); if(dn) dn.style.display='none';
+  var ac=document.getElementById('osmActs'); if(ac) ac.style.display='none';
+  var list=document.getElementById('osmList');
+  if(list) list.innerHTML=cfg.steps.map(function(s,idx){return '<div class="diag-row" id="osm-'+idx+'"><span class="diag-ic running"><span class="diag-spin"></span></span><span class="diag-main"><b>'+s+'</b></span></div>';}).join('');
+  var m=document.getElementById('osMaintModal'); if(m) m.classList.add('show');
+  var CHK='<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>';
+  var i=0, delay=(action==='reboot'?640:470);
+  var step=function(){
+    if(i>=cfg.steps.length){
+      if(dn){ dn.textContent=cfg.done; dn.style.display='block'; }
+      if(ac) ac.style.display='flex';
+      if(typeof toast==='function') toast(cfg.done);
+      osmTimer=null; return;
+    }
+    var row=document.getElementById('osm-'+i);
+    if(row){ var ic=row.querySelector('.diag-ic'); if(ic){ ic.className='diag-ic ok'; ic.innerHTML=CHK; } }
+    i++; osmTimer=setTimeout(step, delay);
+  };
+  osmTimer=setTimeout(step, 480);
+}
 function runDiagnostics(){
   if(diagTimer){clearTimeout(diagTimer);diagTimer=null;}
   const target=currentDetailId;
