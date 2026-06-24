@@ -443,7 +443,7 @@
 
   /* alert ticker */
   .ticker{display:flex;align-items:center;gap:0;background:var(--bg-2);border:1px solid var(--line);
-    border-radius:var(--r);overflow:hidden;margin-bottom:18px;cursor:pointer}
+    border-radius:var(--r);overflow:hidden;margin-bottom:18px}
   .ticker-lab{flex:0 0 auto;padding:11px 16px;background:#2a1010;color:var(--red);font-size:11px;font-weight:700;
     letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-right:1px solid var(--line)}
   .ticker-lab .dot{width:7px;height:7px;border-radius:99px;background:var(--red);box-shadow:0 0 9px var(--red);animation:pulse 1.4s infinite}
@@ -451,6 +451,7 @@
   .ticker-move{position:absolute;display:flex;align-items:center;gap:40px;white-space:nowrap;height:100%;animation:roll 38s linear infinite}
   .ticker-move.tk-paused{animation-play-state:paused}
   @media (hover:hover){ .ticker-move:hover{animation-play-state:paused} }
+  @media (hover:none){ .ticker{cursor:pointer} }
   @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .ticker-item{display:flex;align-items:center;gap:10px;font-size:15px}
   .ticker-item .sev{font-family:"Open Sans";font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px}
@@ -1767,7 +1768,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.226.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.227.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9300,7 +9301,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.226.alpha';
+const APP_VERSION='v2026.02.227.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -11378,7 +11379,7 @@ function pushLog(level,src,msg,ts){
  ["OK","gitops","config sha a3f9c2e verified"],
  ["INFO","telemetry","streaming · 612 msg/s"],
  ["OK","heartbeat","presence ok"]].forEach(l=>pushLog(l[0],l[1],l[2]));
-function toggleTicker(){ const m=document.getElementById('ticker'); if(m) m.classList.toggle('tk-paused'); }
+function toggleTicker(){ if(window.matchMedia && window.matchMedia('(hover:hover)').matches) return; const m=document.getElementById('ticker'); if(m) m.classList.toggle('tk-paused'); }
 function tickLog(){const p=logPool[Math.floor(Math.random()*logPool.length)];pushLog(p[0],p[1],p[2]);}
 
 /* ---------- radar regions (tenant-aware): desktop shows the tenant's regions, mobile rotates ---------- */
