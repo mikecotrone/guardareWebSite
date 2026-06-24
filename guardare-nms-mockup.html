@@ -2143,7 +2143,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.284.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.285.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10229,7 +10229,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.284.alpha';
+const APP_VERSION='v2026.02.285.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11082,6 +11082,7 @@ function go(screen){
   if(navHighlight==='cloudcfg'||navHighlight==='cloudmon'){ const _cch=document.getElementById('navChildren-cloudcfg'); if(_cch)_cch.classList.add('open'); const _cdc=document.querySelector('.nav-disc[data-disc="cloudcfg"]'); if(_cdc)_cdc.classList.add('expanded'); }
   syncTopbarTenant();
   if(screen==='fleet' && typeof initFleetResize==='function') initFleetResize();
+  if(screen==='dashboard' && typeof refreshDashboard==='function') refreshDashboard();   /* re-scope radars/fleet/ticker to the current tenant context and clear any stale rotation timer */
   document.getElementById('main').scrollTop=0;
 }
 const SVC_ICONS={
