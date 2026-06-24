@@ -907,6 +907,29 @@
   .dwx-off .dwx-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px;padding:20px 16px 24px}
   .dwx-logo{width:62px;height:62px;fill:none;stroke:var(--teal);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.82}
   .dwx-emptxt{font-size:13.5px;color:var(--dim);max-width:330px;line-height:1.5}
+  /* ---- Collector Inventory detail: larger type across the page ---- */
+  #screen-detail .page-eyebrow{font-size:13px}
+  #screen-detail .page-sub{font-size:15px}
+  #screen-detail .detail-addr{font-size:16px}
+  #screen-detail .hw-badge{font-size:12.5px}
+  #screen-detail .panel-head h3{font-size:17.5px}
+  #screen-detail .id-item .k{font-size:11.5px}
+  #screen-detail .id-item .vv{font-size:16px}
+  #screen-detail .ai-head h3{font-size:18px}
+  #screen-detail .ai-body{font-size:16px;line-height:1.62}
+  #screen-detail .ai-conf{font-size:12.5px}
+  #screen-detail .ai-next{font-size:15px}
+  #screen-detail .ai-next-k{font-size:12px}
+  #screen-detail .ai-foot{font-size:12.5px}
+  #screen-detail .dwx-temp{font-size:40px}
+  #screen-detail .dwx-cond{font-size:16px}
+  #screen-detail .dwx-feels{font-size:13.5px}
+  #screen-detail .dwx-meta b{font-size:16.5px}
+  #screen-detail .dwx-meta span{font-size:11.5px}
+  #screen-detail .dwx-hl{font-size:14px}
+  #screen-detail .dwx-wd{font-size:12px}
+  #screen-detail .vcoll-meta .vm{font-size:13px}
+  #screen-detail .td-status{font-size:13.5px}
   /* merged full-width resources card + equal-height row */
   .oss-grid.oss-grid-2{align-items:stretch}
   .os-host-card{display:flex;flex-direction:column}
@@ -1756,27 +1779,27 @@
   @keyframes panelFlash{0%{box-shadow:0 0 0 1px var(--teal),0 0 22px var(--teal-ghost)}100%{box-shadow:none}}
   .panel-flash{animation:panelFlash 1.6s ease-out}
   /* ---- AI / Anthropic surfaces ---- */
-  .ai-card{position:relative;border:1px solid #d9775733;background:linear-gradient(180deg,#1a14110d,transparent),var(--panel);overflow:hidden;padding:17px 20px 17px 23px}
-  .ai-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#D97757}
+  .ai-card{position:relative;border:1px solid #41d98a33;background:linear-gradient(180deg,#0f2a1d0d,transparent),var(--panel);overflow:hidden;padding:17px 20px 17px 23px}
+  .ai-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#41D98A}
   .ai-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
   .ai-head h3{font-family:"Open Sans";font-size:15px;font-weight:600;flex:1}
-  .ai-spark{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#d9775720;color:#E0926F;flex:0 0 auto}
+  .ai-spark{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#41d98a20;color:#5FE0A8;flex:0 0 auto}
   .ai-spark svg{width:17px;height:17px;fill:currentColor;stroke:none}
   .ai-spark.lg{width:38px;height:38px;border-radius:10px}.ai-spark.lg svg{width:21px;height:21px}
-  .ai-conf{font-size:11px;font-weight:700;letter-spacing:.03em;color:#E0926F;background:#d9775714;border:1px solid #d9775740;border-radius:99px;padding:3px 10px;white-space:nowrap}
+  .ai-conf{font-size:11px;font-weight:700;letter-spacing:.03em;color:#5FE0A8;background:#41d98a14;border:1px solid #41d98a40;border-radius:99px;padding:3px 10px;white-space:nowrap}
   .ai-refresh{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center}
-  .ai-refresh:hover{color:#E0926F;border-color:#d9775755}
+  .ai-refresh:hover{color:#5FE0A8;border-color:#41d98a55}
   .ai-refresh svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
   .ai-body{font-size:13.5px;line-height:1.62;color:var(--text)}
   .ai-typing{animation:aiTyping .9s ease-out}
   @keyframes aiTyping{from{opacity:.25;filter:blur(2px)}to{opacity:1;filter:none}}
   .ai-next{display:flex;gap:10px;align-items:baseline;margin-top:13px;padding-top:13px;border-top:1px solid var(--line-soft);font-size:13px;color:var(--dim);line-height:1.5}
-  .ai-next-k{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#E0926F;white-space:nowrap;flex:0 0 auto}
+  .ai-next-k{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5FE0A8;white-space:nowrap;flex:0 0 auto}
   .ai-foot{display:flex;align-items:center;gap:7px;margin-top:13px;font-size:11px;color:var(--mute)}
-  .ai-dot{width:6px;height:6px;border-radius:50%;background:#D97757;box-shadow:0 0 7px #d97757aa}
+  .ai-dot{width:6px;height:6px;border-radius:50%;background:#41D98A;box-shadow:0 0 7px #41d98aaa}
   .ai-card.ai-off{border-color:var(--line)}.ai-card.ai-off::before{background:var(--mute)}
-  .ai-explain{color:#E0926F!important;border-color:#d9775740!important;background:#d9775712!important}
-  .ai-explain:hover{border-color:#d9775588!important;background:#d9775722!important}
+  .ai-explain{color:#5FE0A8!important;border-color:#41d98a40!important;background:#41d98a12!important}
+  .ai-explain:hover{border-color:#41d98a88!important;background:#41d98a22!important}
   .ai-explain svg{fill:currentColor;stroke:none;width:13px;height:13px}
   .afull-act{display:flex;align-items:center;gap:8px}
   /* AI modal */
@@ -1789,13 +1812,13 @@
   .ai-result{font-size:13px}
   .ai-lead{font-size:14px;line-height:1.6;color:var(--text);margin-bottom:16px}
   .ai-block{margin-bottom:15px}
-  .ai-block h4{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#E0926F;margin-bottom:7px}
+  .ai-block h4{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#5FE0A8;margin-bottom:7px}
   .ai-block p{font-size:13px;line-height:1.6;color:var(--dim)}
   .ai-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
   .ai-steps li{font-size:13px;line-height:1.55;color:var(--text)}
   .ai-sigs{display:flex;flex-wrap:wrap;gap:7px}
   .ai-sigs span{font-size:11.5px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:99px;padding:4px 11px;font-family:"Open Sans"}
-  .ai-impact{font-size:12.5px;color:var(--dim);background:#d9775710;border:1px solid #d9775733;border-radius:var(--r-sm);padding:11px 13px;line-height:1.55}
+  .ai-impact{font-size:12.5px;color:var(--dim);background:#41d98a10;border:1px solid #41d98a33;border-radius:var(--r-sm);padding:11px 13px;line-height:1.55}
   .ai-impact b{color:var(--text)}
   .ai-conf-inline{color:var(--mute)}
   .ai-modal .ai-foot{justify-content:center;margin-top:16px}
@@ -2113,7 +2136,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.279.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.280.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2371,7 +2394,7 @@
         <div>
           <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Inventory">← Collector Inventory</button> / Acme Corp</div>
           <div class="detail-title">
-            <h1 class="page-title" style="font-size:24px" id="detailId">Collector</h1>
+            <h1 class="page-title" style="font-size:31px" id="detailId">Collector</h1>
             <span class="detail-addr" id="detailAddr" role="button" tabindex="0" title="View in Locations" onclick="gotoLocationFromDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gotoLocationFromDetail();}"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="detailAddrTxt">—</span></span>
           </div>
           <p class="page-sub"><span class="td-status s-warn" id="detailStatus" style="display:inline-flex"><i></i><span id="detailStatusTxt">Degraded</span></span></p>
@@ -2385,6 +2408,8 @@
       <div id="detailCollBar" class="detail-collbar"></div>
 
       <div class="panel ai-card mb18" id="aiSummaryCard"></div>
+
+      <div id="detailWxCard" class="mb18"></div>
 
       <div class="panel mb18">
         <div class="panel-head"><h3 data-i18n="Guardare Collector Identity">Guardare Collector Identity</h3></div>
@@ -2408,41 +2433,6 @@
         <div class="id-grid" id="hwGrid"></div>
       </div>
 
-      <div id="detailWxCard" class="mb18"></div>
-
-
-
-          <div class="panel">
-            <div class="panel-head">
-              <h3 data-i18n="Active running configuration">Active running configuration</h3>
-              <div class="cfg-pickrow">
-                <div class="yaml-pick" id="normSubPick" style="display:none">
-                  <button class="yaml-pick-btn" onclick="toggleNormSub(event)"><span id="normSubLabel">SNMP</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
-                  <div class="yaml-pick-menu" id="normSubMenu">
-                    <button data-sub="snmp"   onclick="selectNormSub('snmp')">SNMP manifest</button>
-                    <button data-sub="arista" onclick="selectNormSub('arista')">Arista EOS manifest</button>
-                    <button data-sub="azure"  onclick="selectNormSub('azure')">Azure manifest</button>
-                    <button data-sub="meraki" onclick="selectNormSub('meraki')">Meraki manifest</button>
-                    <button data-sub="unifi"  onclick="selectNormSub('unifi')">UniFi manifest</button>
-                    <button data-sub="cli"    onclick="selectNormSub('cli')">CLI manifest</button>
-                  </div>
-                </div>
-                <div class="yaml-pick" id="svcPick">
-                  <button class="yaml-pick-btn primary" onclick="toggleSvcPick(event)"><span class="svc-dot" id="cfgSvcDot"></span><span id="svcPickLabel">vCollector</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
-                  <div class="yaml-pick-menu" id="svcPickMenu">
-                    <button data-svc="base" onclick="selectCfgSvc('base')"><span class="svc-dot basedot"></span>Collector base <span class="pl">YAML</span></button>
-                    <button data-svc="vcollector" onclick="selectCfgSvc('vcollector')"><span class="svc-dot tealdot"></span>vCollector <span class="pl">YAML</span></button>
-                    <button data-svc="normalizer" onclick="selectCfgSvc('normalizer')"><span class="svc-dot greendot"></span>Normalizer <span class="pl">YAML</span></button>
-                    <button data-svc="events"     onclick="selectCfgSvc('events')"><span class="svc-dot amberdot"></span>Events Director <span class="pl">JSON</span></button>
-                    <button data-svc="hudusync"   onclick="selectCfgSvc('hudusync')"><span class="svc-dot violetdot"></span>HuduSync <span class="pl">YAML</span></button>
-                  </div>
-                </div>
-                <span class="cfg" id="cfgSha">a3f9c2e</span>
-              </div>
-            </div>
-            <div class="yaml-fileline" id="cfgFileLine"># yourorg/guardare-configs/sites/acme-prod-04 · vcollector.yaml</div>
-            <pre class="yaml-view" id="yamlView"></pre>
-          </div>
     </section>
 
     <!-- ===== ALERTS ===== -->
@@ -10180,7 +10170,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.279.alpha';
+const APP_VERSION='v2026.02.280.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
