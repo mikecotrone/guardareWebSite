@@ -2158,7 +2158,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.292.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.293.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10310,7 +10310,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.292.alpha';
+const APP_VERSION='v2026.02.293.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11947,14 +11947,23 @@ function ctopoPlaceBadges(){
 function ctopoLayout(name){
   if(!ctopoCy) return; ctopoCurLayout=name;
   if(name==='path'){
+    ctopoCy.nodes().removeClass('lbl-top');
     ctopoCy.nodes().forEach(function(n){ var p=ctopoPreset[n.id()]; if(p){ n.position({x:p.x,y:p.y}); } });
     ctopoPlaceBadges(); ctopoCy.animate({fit:{padding:46}},{duration:420}); return;
   }
+  ctopoCy.nodes().not('.cloudbox').addClass('lbl-top');
+  if(name==='radial'){
+    var colls=ctopoCy.nodes('.coll'); var n=Math.max(colls.length,1);
+    var Rf=480, Rc=Math.max(720,28*n);
+    var put=function(id,x,y){ var nd=ctopoCy.getElementById(id); if(nd&&nd.length) nd.position({x:x,y:y}); };
+    put('net',0,0); put('nginx',0,92); put('centri',-92,184); put('admin',92,184); put('maria',-92,276); put('redis',92,276);
+    colls.forEach(function(c){ var idx=parseInt(c.id().slice(1),10); var a=(-Math.PI/2)+(idx/n)*2*Math.PI; c.position({x:Rc*Math.cos(a),y:Rc*Math.sin(a)}); var fw=ctopoCy.getElementById('f'+idx); if(fw&&fw.length) fw.position({x:Rf*Math.cos(a),y:Rf*Math.sin(a)}); });
+    ctopoPlaceBadges(); ctopoCy.animate({fit:{padding:64}},{duration:520}); return;
+  }
   var nonBadge=ctopoCy.elements().difference(ctopoCy.nodes('.tenantbadge'));
   var L;
-  if(name==='radial'){ L={name:'concentric',concentric:function(n){ if(n.hasClass('svc')||n.hasClass('cloudbox'))return 5; if(n.hasClass('net'))return 4; if(n.hasClass('fw'))return 3; if(n.hasClass('coll'))return 2; return 1; },levelWidth:function(){return 1;},minNodeSpacing:38,animate:true,animationDuration:500,fit:true,padding:56}; }
-  else if(name==='tree'){ L={name:'breadthfirst',directed:true,roots:'.coll',spacingFactor:1.15,animate:true,animationDuration:500,fit:true,padding:48}; }
-  else if(name==='organic'){ L={name:'cose',animate:true,animationDuration:600,fit:true,padding:56,nodeRepulsion:function(){return 12000;},idealEdgeLength:function(){return 95;},nestingFactor:1.1}; }
+  if(name==='tree'){ L={name:'breadthfirst',directed:true,roots:'.coll',spacingFactor:1.55,nodeDimensionsIncludeLabels:true,animate:true,animationDuration:520,fit:true,padding:62}; }
+  else if(name==='organic'){ L={name:'cose',animate:true,animationDuration:640,fit:true,padding:64,nodeDimensionsIncludeLabels:true,nodeRepulsion:function(){return 52000;},idealEdgeLength:function(){return 165;},nestingFactor:1.2,gravity:0.15}; }
   else return;
   var lo=nonBadge.layout(L); lo.one('layoutstop',ctopoPlaceBadges); lo.run();
 }
@@ -11971,17 +11980,17 @@ function renderCollTopo(){
   const T={green:'#41D98A',amber:'#F6B53F',red:'#FF5D5D',mute:'#6f8b91',teal:'#2EE6C8',violet:'#94A2FF',line:'#1B3A41',raise:'#123036',panel:'#0F262C',text:'#E9F3F1',dim:'#8BA7AC'};
   const stCol=function(s){ return s==='online'?T.green:(s==='warn'||s==='degraded')?T.amber:s==='crit'?T.red:T.mute; };
   const isUp=function(s){ return s==='online'||s==='warn'||s==='degraded'; };
-  const GAP=Math.max(78,Math.min(116,940/colls.length));
-  const X={badge:-62,coll:0,fw:270,net:560,nginx:850,svc:1110,data:1450};
+  const GAP=Math.max(96,Math.min(148,1280/colls.length));
+  const X={badge:-72,coll:0,fw:330,net:660,nginx:980,svc:1310,data:1700};
   const midY=(colls.length-1)*GAP/2;
   const els=[];
   els.push({data:{id:'cloud',label:'Guardare Cloud Stack'},classes:'cloudbox'});
   const svc=function(id,label,role,kind,x,y,extra){ els.push({data:{id:id,label:label+'\n'+role,icon:ctopoIcon(kind),parent:'cloud'},position:{x:x,y:y},classes:'svc'+(extra?' '+extra:'')}); };
   svc('nginx','Nginx','TLS \u00b7 reverse proxy','nginx',X.nginx,midY);
-  svc('centri','Centrifugo','WebSocket broker','broker',X.svc,midY-80);
-  svc('admin','Guardare Admin','web application','admin',X.svc,midY+80);
-  svc('maria','MariaDB','tenant datastore','db',X.data,midY-80,'dataend');
-  svc('redis','Redis','presence \u00b7 cache','db',X.data,midY+80,'dataend');
+  svc('centri','Centrifugo','WebSocket broker','broker',X.svc,midY-100);
+  svc('admin','Guardare Admin','web application','admin',X.svc,midY+100);
+  svc('maria','MariaDB','tenant datastore','db',X.data,midY-100,'dataend');
+  svc('redis','Redis','presence \u00b7 cache','db',X.data,midY+100,'dataend');
   els.push({data:{id:'net',label:'Internet\npublic transit',icon:ctopoIcon('internet')},position:{x:X.net,y:midY},classes:'net'});
   const ce=function(s,t,id,extra){ var d={id:id,source:s,target:t}; if(extra){ for(var k in extra) d[k]=extra[k]; } els.push({data:d,classes:'cloudedge'}); };
   ce('net','nginx','e0',{label:'wss://:443',main:1});
@@ -12014,6 +12023,7 @@ function renderCollTopo(){
       {selector:'node.dataend',style:{'text-halign':'left','text-margin-x':-11}},
       {selector:'node.tenantbadge',style:{'background-opacity':0,'border-width':0,'width':34,'height':34,'background-width':'100%','background-height':'100%','text-margin-y':0}},
       {selector:'node.tenantbadge.tlogo',style:{'background-opacity':1,'background-color':'#0c1c20','border-width':1,'border-color':T.line,'background-fit':'contain','background-width':'78%','background-height':'78%','background-clip':'node'}},
+      {selector:'node.lbl-top',style:{'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':-9,'text-max-width':'118px'}},
       {selector:'node.cloudbox',style:{'label':'data(label)','shape':'round-rectangle','background-color':'#0e2a30','background-opacity':0.4,'background-image':'none','border-width':1.3,'border-color':T.teal,'border-style':'dashed','border-opacity':0.7,'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':-12,'color':T.teal,'font-size':'12.5px','font-weight':700,'padding':'40px'}},
       {selector:'edge',style:{'width':1.5,'line-color':T.line,'target-arrow-color':T.line,'target-arrow-shape':'triangle','arrow-scale':0.85,'curve-style':'bezier'}},
       {selector:'edge.cloudedge',style:{'line-color':T.teal,'target-arrow-color':T.teal,'opacity':0.6,'width':1.8,'line-style':'dashed','line-dash-pattern':[9,8]}},
