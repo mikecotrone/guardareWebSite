@@ -851,6 +851,10 @@
   .wx-chip svg{width:15px;height:15px;fill:none;stroke:var(--amber);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
   .wx-chip.wx-live svg{stroke:var(--teal)}
   .wx-chip b{font-weight:700}
+  .wx-chip.wx-loading,.wx-chip.wx-err{color:var(--mute)}
+  .wx-chip.wx-err{border-style:dashed}
+  .wx-spin{width:13px;height:13px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--teal);display:inline-block;animation:wxspin .7s linear infinite}
+  @keyframes wxspin{to{transform:rotate(360deg)}}
   .wx-off-note{font-size:11.5px;color:var(--mute)}
   .wx-bar{display:inline-flex;align-items:center;gap:7px;margin-top:8px;font-size:12px;padding:4px 10px;border-radius:7px;border:1px solid var(--line);background:var(--raise);color:var(--dim)}
   .wx-bar svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;flex:none}
@@ -1869,7 +1873,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.260.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.261.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -8495,7 +8499,16 @@ const TENANT_INTG={
 const TENANT_INTG_TOTAL=Object.keys(TENANT_INTG).length;
 function tIntg(tenant,id){ return (TENANT_INTG[tenant]||{})[id]||null; }
 function tenantConnCount(id){ return Object.keys(TENANT_INTG).filter(t=>{const s=tIntg(t,id);return s&&s.connected;}).length; }
-function setIntgField(id,idx,val){ const it=INTEGRATIONS.find(i=>i.id===id); if(it&&it.fields[idx]){ it.fields[idx][2]=val; toast(it.name+' · '+TX('model set to')+' '+val); } }
+function setIntgField(id,idx,val){ const it=INTEGRATIONS.find(i=>i.id===id); if(!it||!it.fields[idx]) return; it.fields[idx][2]=val;
+  if((id==='open-meteo'||id==='openweathermap') && it.fields[idx][0]==='Units'){
+    ['open-meteo','openweathermap'].forEach(function(w){ var W=INTEGRATIONS.find(function(i){return i.id===w;}); var uf=W&&W.fields.find(function(f){return f[0]==='Units';}); if(uf) uf[2]=val; });
+    _wxUnitsPersist(val); WX_CACHE={};
+    toast('Units saved · '+(val==='imperial'?'°F':'°C'));
+    if(typeof renderIntegrations==='function') renderIntegrations();
+    if(document.getElementById('screen-config')) renderConfig();
+    return;
+  }
+  toast(it.name+' · '+TX('model set to')+' '+val); }
 function intgCard(it, scope){
   const ENT = (typeof MSP_DEPLOYMENT!=='undefined' && MSP_DEPLOYMENT==='single');
   const isAll = scope==='all';
@@ -8821,24 +8834,35 @@ function renderAudit(){
     </div>`;
 }
 let LOC_ID_OVERRIDE=(function(){ try{ return JSON.parse(localStorage.getItem('guardare_loc_ids')||'{}')||{}; }catch(e){ return {}; } })();
+let LOC_ADDR_OVERRIDE=(function(){ try{ return JSON.parse(localStorage.getItem('guardare_loc_addr')||'{}')||{}; }catch(e){ return {}; } })();
+function _locAddrPersist(){ try{ localStorage.setItem('guardare_loc_addr', JSON.stringify(LOC_ADDR_OVERRIDE)); }catch(e){} }
+function effLoc(l){ const ov=LOC_ADDR_OVERRIDE[l.tenant+':'+l.id]; if(!ov) return l; return {tenant:l.tenant,id:l.id,name:l.name,city:(ov.addr!=null&&ov.addr!==''?ov.addr:l.city),lat:(ov.lat!=null&&ov.lat!==''?ov.lat:l.lat),lng:(ov.lng!=null&&ov.lng!==''?ov.lng:l.lng)}; }
 function locSave(){
   document.querySelectorAll('#locTable tr[data-loc]').forEach(function(tr){
     var key=tr.getAttribute('data-loc'); var inp=tr.querySelector('.loc-id-input');
     if(inp){ var v=inp.value.trim(); if(v) LOC_ID_OVERRIDE[key]=v; }
+    var addrInp=tr.querySelector('.loc-addr-input'); var coords=tr.querySelectorAll('.loc-coord');
+    var ov=LOC_ADDR_OVERRIDE[key]||{};
+    if(addrInp) ov.addr=addrInp.value.trim();
+    if(coords[0]) ov.lat=coords[0].value.trim();
+    if(coords[1]) ov.lng=coords[1].value.trim();
+    LOC_ADDR_OVERRIDE[key]=ov; delete WX_CACHE[key];
   });
   try{ localStorage.setItem('guardare_loc_ids', JSON.stringify(LOC_ID_OVERRIDE)); }catch(e){}
-  toast('Locations saved · radar pins will update');
+  _locAddrPersist();
+  toast('Locations saved · addresses, coordinates and weather updated');
   renderConfig();
 }
-/* ---------- per-site weather (Open-Meteo live, deterministic mock fallback) ---------- */
+/* ---------- per-site weather (Open-Meteo live data only — no synthetic values) ---------- */
 let WEATHER_SITES=(function(){ try{ const s=localStorage.getItem('guardare_weather_sites'); if(s) return new Set(JSON.parse(s)); }catch(e){} return new Set(['piedmont:clt-01','acme-corp:site-04','roma:dc01','atlantico:sao-01']); })();
 let WX_CACHE={}, WX_PENDING={};
 function _wxPersist(){ try{ localStorage.setItem('guardare_weather_sites', JSON.stringify([...WEATHER_SITES])); }catch(e){} }
 function wxIntg(){ const oms=INTEGRATIONS.find(x=>x.id==='open-meteo'); if(oms&&oms.connected) return oms; const owm=INTEGRATIONS.find(x=>x.id==='openweathermap'); if(owm&&owm.connected) return owm; return null; }
 function wxConnected(){ const i=wxIntg(); return !!(i&&i.connected); }
-function wxUnits(){ const i=wxIntg(); const u=i&&(i.fields.find(f=>f[0]==='Units')||[])[2]; return u||'metric'; }
+function _wxUnitsPersist(v){ try{ localStorage.setItem('guardare_weather_units', v); }catch(e){} }
+function wxUnits(){ try{ const s=localStorage.getItem('guardare_weather_units'); if(s) return s; }catch(e){} const i=wxIntg(); const u=i&&(i.fields.find(f=>f[0]==='Units')||[])[2]; return u||'metric'; }
+(function(){ try{ var s=localStorage.getItem('guardare_weather_units'); if(s){ ['open-meteo','openweathermap'].forEach(function(id){ var w=INTEGRATIONS.find(function(i){return i.id===id;}); var uf=w&&w.fields.find(function(f){return f[0]==='Units';}); if(uf) uf[2]=s; }); } }catch(e){} })();
 function toggleSiteWeather(key){ if(WEATHER_SITES.has(key)) WEATHER_SITES.delete(key); else WEATHER_SITES.add(key); _wxPersist(); renderConfig(); }
-const WX_CONDS=[['Clear','clear'],['Sunny','clear'],['Partly cloudy','partly'],['Cloudy','cloudy'],['Overcast','cloudy'],['Light rain','rain'],['Showers','rain'],['Thunderstorms','storm']];
 const WX_ICONS={
   clear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"/></svg>',
   partly:'<svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3.2"/><path d="M8 1.8v1.4M1.8 8h1.4M3.5 3.5l1 1M12.5 3.5l-1 1"/><path d="M17.5 13.5a3.5 3.5 0 0 0-6.8-1.2A3 3 0 1 0 10 18h7.5a2.5 2.5 0 0 0 0-4.5z"/></svg>',
@@ -8846,13 +8870,12 @@ const WX_ICONS={
   rain:'<svg viewBox="0 0 24 24"><path d="M17 9a5 5 0 0 0-9.6-1.6A4 4 0 1 0 7 15h10a3 3 0 0 0 0-6z"/><path d="M8 18l-1 2.5M12 18l-1 2.5M16 18l-1 2.5"/></svg>',
   storm:'<svg viewBox="0 0 24 24"><path d="M17 9a5 5 0 0 0-9.6-1.6A4 4 0 1 0 7 15h10a3 3 0 0 0 0-6z"/><path d="M13 13l-3 4h3l-3 4"/></svg>'
 };
-function siteWx(lat,lng){
-  const la=parseFloat(lat)||0, ln=parseFloat(lng)||0;
-  const seed=Math.abs(Math.round(la*73 + ln*131));
-  const cond=WX_CONDS[seed%WX_CONDS.length];
-  let tC=Math.round(27 - Math.abs(la)*0.45 + (seed%11) - 5); tC=Math.max(-15,Math.min(43,tC));
-  const metric=wxUnits()!=='imperial';
-  return {t:(metric? tC+'\u00b0C' : Math.round(tC*9/5+32)+'\u00b0F'), label:cond[0], icon:cond[1], live:false};
+function _wxPaint(key){
+  const el=document.querySelector('.wx-chip[data-wxkey="'+key+'"]'); if(!el) return;
+  const c=WX_CACHE[key];
+  if(!c){ el.className='wx-chip wx-loading'; el.title='Loading…'; el.innerHTML='<span class="wx-spin"></span>'; return; }
+  if(c.err){ el.className='wx-chip wx-err'; el.title=c.msg||'Unavailable'; el.innerHTML='<b>—</b>'; return; }
+  el.className='wx-chip wx-live'; el.title=c.label+' · live'; el.innerHTML=WX_ICONS[c.icon]+'<b>'+c.t+'</b>';
 }
 function wxCodeMap(c){
   if(c===0) return ['Clear','clear'];
@@ -8866,28 +8889,31 @@ function wxCodeMap(c){
   return ['Storm','storm'];
 }
 function wxMaybeFetch(key,lat,lng){
-  const i=wxIntg(); if(!i||i.provider!=='open-meteo') return;
-  const c=WX_CACHE[key]; if(c && (Date.now()-c.ts)<600000) return;
+  const i=wxIntg(); if(!i) return;
+  if(i.provider!=='open-meteo'){ WX_CACHE[key]={err:true,msg:'OpenWeatherMap needs an API key',ts:Date.now()}; _wxPaint(key); return; }
+  const c=WX_CACHE[key]; if(c && !c.err && (Date.now()-c.ts)<600000) return;
   if(WX_PENDING[key]) return; WX_PENDING[key]=1;
   const metric=wxUnits()!=='imperial';
   const url='https://api.open-meteo.com/v1/forecast?latitude='+encodeURIComponent(lat)+'&longitude='+encodeURIComponent(lng)+'&current=temperature_2m,weather_code'+(metric?'':'&temperature_unit=fahrenheit');
-  fetch(url).then(function(r){return r.json();}).then(function(d){
-    WX_PENDING[key]=0; if(!d||!d.current) return;
+  fetch(url).then(function(r){ if(!r.ok) throw new Error('http'); return r.json(); }).then(function(d){
+    WX_PENDING[key]=0;
+    if(!d||!d.current||d.current.temperature_2m==null){ WX_CACHE[key]={err:true,msg:'No data for this location',ts:Date.now()}; _wxPaint(key); return; }
     const m=wxCodeMap(d.current.weather_code);
-    WX_CACHE[key]={t:Math.round(d.current.temperature_2m)+(metric?'\u00b0C':'\u00b0F'),label:m[0],icon:m[1],live:true,ts:Date.now()};
-    const el=document.querySelector('.wx-chip[data-wxkey="'+key+'"]');
-    if(el){ el.innerHTML=WX_ICONS[m[1]]+'<b>'+WX_CACHE[key].t+'</b>'; el.title=m[0]+' \u00b7 live'; el.classList.add('wx-live'); }
-  }).catch(function(){ WX_PENDING[key]=0; });
+    WX_CACHE[key]={t:Math.round(d.current.temperature_2m)+(metric?'°C':'°F'),label:m[0],icon:m[1],live:true,ts:Date.now()};
+    _wxPaint(key);
+  }).catch(function(){ WX_PENDING[key]=0; WX_CACHE[key]={err:true,msg:'Weather service unreachable',ts:Date.now()}; _wxPaint(key); });
 }
-function wxKick(){ if(!wxConnected()) return; locationRows().forEach(function(l){ const key=l.tenant+':'+l.id; if(WEATHER_SITES.has(key)) wxMaybeFetch(key,l.lat,l.lng); }); }
+function wxKick(){ if(!wxConnected()) return; locationRows().forEach(function(l0){ const l=effLoc(l0); const key=l.tenant+':'+l.id; if(WEATHER_SITES.has(key)){ _wxPaint(key); wxMaybeFetch(key,l.lat,l.lng); } }); }
 function wxCell(l){
   const key=l.tenant+':'+l.id;
   if(!wxConnected()) return '<span class="wx-off-note">'+TX('Connect provider')+'</span>';
   const on=WEATHER_SITES.has(key);
   const tog='<label class="wx-tog"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleSiteWeather(\''+key+'\')"><span class="wx-sw"></span></label>';
   if(!on) return tog;
-  const c=WX_CACHE[key]||siteWx(l.lat,l.lng);
-  const chip='<span class="wx-chip'+(c.live?' wx-live':'')+'" data-wxkey="'+key+'" title="'+c.label+(c.live?' \u00b7 live':'')+'">'+WX_ICONS[c.icon]+'<b>'+c.t+'</b></span>';
+  const c=WX_CACHE[key]; let chip;
+  if(!c) chip='<span class="wx-chip wx-loading" data-wxkey="'+key+'" title="Loading…"><span class="wx-spin"></span></span>';
+  else if(c.err) chip='<span class="wx-chip wx-err" data-wxkey="'+key+'" title="'+(c.msg||'Unavailable')+'"><b>—</b></span>';
+  else chip='<span class="wx-chip wx-live" data-wxkey="'+key+'" title="'+c.label+' · live">'+WX_ICONS[c.icon]+'<b>'+c.t+'</b></span>';
   return tog+chip;
 }
 function wxStatusBar(){
@@ -8900,7 +8926,8 @@ function wxStatusBar(){
 function renderConfig(){
   const list=locationRows();
   const oneTenant=(currentTenantCtx||currentTenant)!=='all';
-  const rows=list.map(l=>{
+  const rows=list.map(l0=>{
+    const l=effLoc(l0);
     const sid=LOC_ID_OVERRIDE[l.tenant+':'+l.id]||l.id;
     return `<tr data-loc="${l.tenant}:${l.id}">
       ${oneTenant?'':`<td><span class="cell-tenant">${tnBadge(l.tenant)}${tenantName[l.tenant]||l.tenant}</span></td>`}
@@ -8988,15 +9015,24 @@ function locAddrRender(list,offline){
 }
 function locAddrPick(i){
   const a=LOC_ADDR.list[i]; if(!a) return;
-  const tr=document.querySelector('#screen-config tr[data-loc="'+LOC_ADDR.row+'"]');
+  const key=LOC_ADDR.row;
+  const addr=a.label||a.city||'';
+  const lat=(a.lat!=null)?Number(a.lat).toFixed(5):null;
+  const lng=(a.lng!=null)?Number(a.lng).toFixed(5):null;
+  const tr=document.querySelector('#screen-config tr[data-loc="'+key+'"]');
   if(tr){
-    const cityInp=tr.querySelector('.loc-addr-input'); if(cityInp) cityInp.value=a.city||a.label;
+    const cityInp=tr.querySelector('.loc-addr-input'); if(cityInp) cityInp.value=addr;
     const coords=tr.querySelectorAll('.loc-coord');
-    if(coords[0]&&a.lat!=null) coords[0].value=Number(a.lat).toFixed(5);
-    if(coords[1]&&a.lng!=null) coords[1].value=Number(a.lng).toFixed(5);
-    if(typeof toast==='function') toast(TX('Coordinates filled from address'));
+    if(coords[0]&&lat!=null) coords[0].value=lat;
+    if(coords[1]&&lng!=null) coords[1].value=lng;
   }
+  const ov=LOC_ADDR_OVERRIDE[key]||{};
+  ov.addr=addr; if(lat!=null) ov.lat=lat; if(lng!=null) ov.lng=lng;
+  LOC_ADDR_OVERRIDE[key]=ov; _locAddrPersist();
+  delete WX_CACHE[key];
+  if(typeof toast==='function') toast('Address saved · coordinates filled');
   locAddrClose();
+  if(WEATHER_SITES.has(key) && wxConnected() && lat!=null && lng!=null){ _wxPaint(key); wxMaybeFetch(key,lat,lng); }
 }
 function locAddrBlur(){ setTimeout(locAddrClose,160); }
 function locAddrClose(){ const menu=document.getElementById('locAddrMenu'); if(menu){ menu.classList.remove('open'); menu.innerHTML=''; } LOC_ADDR.seq++; }
@@ -9592,7 +9628,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.260.alpha';
+const APP_VERSION='v2026.02.261.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
