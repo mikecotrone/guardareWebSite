@@ -2143,7 +2143,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.283.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.284.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9056,6 +9056,7 @@ function gotoLocationFromDetail(){
   const p=(currentDetailId||'').split(':'); gotoLocation(p[0], p[1]||currentDetailId);
 }
 function gotoLocationFromColl(id){ var p=(id||'').split(':'); if(typeof gotoLocation==='function') gotoLocation(p[0], p[1]||id); }
+function enableWxFromColl(key){ var p=(key||'').split(':'); if(typeof gotoLocation==='function') gotoLocation(p[0], p[1]||key); if(typeof openLocationCard==='function') openLocationCard(key); }
 function fmtServiceDate(d){ if(!d) return '\u2014'; try{ var loc=(typeof WX_LOCALE!=='undefined'&&WX_LOCALE[lang])||'en-US'; return new Date(d+'T00:00').toLocaleDateString(loc,{year:'numeric',month:'short',day:'numeric'}); }catch(e){ return d; } }
 function _seedServiceDate(r){ var y=2023+Math.floor(r()*3), m=1+Math.floor(r()*12), d=1+Math.floor(r()*28); return y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'); }
 function gcfgSetInService(v){ var c=(typeof svcCurrentColl==='function')?svcCurrentColl():null; if(c){ var g=(typeof gcfgFor==='function')?gcfgFor(c):null; if(g) g.in_service_date=v; } if(typeof toast==='function') toast('In-service date set'); }
@@ -9118,7 +9119,7 @@ function detailWxCard(key){
   }
   var cloud='<svg viewBox="0 0 24 24" class="dwx-logo"><path d="M7 18.5a4.5 4.5 0 0 1-.5-8.97 6 6 0 0 1 11.5 1.2A3.8 3.8 0 0 1 17.5 18.5z"/><path d="M8.5 21l1-2M12 21l1-2M15.5 21l1-2"/></svg>';
   var msg=conn? TX('Weather not enabled for this location.') : TX('Connect a weather provider in Integrations.');
-  var act=conn? '<button class="btn" onclick="gotoLocationFromColl(\''+key+'\')"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>'+TX('Enable in Locations')+'</button>'
+  var act=conn? '<button class="btn" onclick="enableWxFromColl(\''+key+'\')"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>'+TX('Enable in Locations')+'</button>'
             : '<button class="btn" onclick="if(typeof renderIntegrations===\'function\')renderIntegrations();go(\'integrations\')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>'+TX('Open Integrations')+'</button>';
   return '<div class="panel dwx dwx-off">'+head+'<div class="dwx-empty">'+cloud+'<div class="dwx-emptxt">'+msg+'</div>'+act+'</div></div>';
 }
@@ -9232,6 +9233,7 @@ const WX_ICONS={
   storm:'<svg viewBox="0 0 24 24"><path d="M17 9a5 5 0 0 0-9.6-1.6A4 4 0 1 0 7 15h10a3 3 0 0 0 0-6z"/><path d="M13 13l-3 4h3l-3 4"/></svg>'
 };
 function _wxPaint(key){
+  if(typeof paintRadarWx==='function') paintRadarWx();
   if(LOC_MODAL_KEY===key){ var fc=document.getElementById('lmForecast'); if(fc) fc.innerHTML=_lmWxInner(key); }
   if(typeof currentDetailId!=='undefined' && currentDetailId===key){ var dfc=document.getElementById('detailWxFc'); if(dfc) dfc.innerHTML=_lmForecastDetail(key); }
   const el=document.querySelector('.wx-chip[data-wxkey="'+key+'"]'); if(!el) return;
@@ -9269,7 +9271,7 @@ function wxMaybeFetch(key,lat,lng){
     const dy=d.daily, days=[];
     if(dy&&dy.time){ for(var j=0;j<dy.time.length;j++){ days.push({d:dy.time[j],icon:wxCodeMap(dy.weather_code[j])[1],hi:Math.round(dy.temperature_2m_max[j]),lo:Math.round(dy.temperature_2m_min[j])}); } }
     WX_CACHE[key]={
-      t:Math.round(cu.temperature_2m)+uT, label:m[0], icon:m[1],
+      t:Math.round(cu.temperature_2m)+uT, label:m[0], icon:m[1], code:cu.weather_code,
       feels:(cu.apparent_temperature!=null?Math.round(cu.apparent_temperature)+uT:null),
       hum:(cu.relative_humidity_2m!=null?cu.relative_humidity_2m+'%':null),
       wind:(cu.wind_speed_10m!=null?Math.round(cu.wind_speed_10m)+uW:null),
@@ -10227,7 +10229,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.283.alpha';
+const APP_VERSION='v2026.02.284.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12671,6 +12673,7 @@ function setupRadars(){
     if(regs.length>n){ rotTimer=setInterval(()=>{ if(radarHover) return; rotI++; draw(); }, 7000); }
   }
   filterBlipsByTenant();
+  if(typeof radarWxKick==='function') radarWxKick();
   if(typeof paintRadarWx==='function') paintRadarWx();
 }
 _mq.addEventListener('change',setupRadars);                  /* re-flow between desktop grid and mobile stack */
@@ -12719,28 +12722,72 @@ function radarWxOn(b){
   var key=(b.dataset.tenant||'')+':'+coll;
   return (typeof WEATHER_SITES!=='undefined') && WEATHER_SITES.has(key);             /* only locations with weather enabled */
 }
+function wxCodeToGlyph(code){
+  var c=+code;
+  if(c===0) return {g:'clear',sev:0};
+  if(c===1||c===2) return {g:'partly',sev:0};
+  if(c===3) return {g:'cloudy',sev:0};
+  if(c===45||c===48) return {g:'fog',sev:0};
+  if(c>=51&&c<=57) return {g:'rain',sev:1};
+  if(c===61||c===63||c===80||c===81) return {g:'rain',sev:1};
+  if(c===65||c===82||c===66||c===67) return {g:'heavyrain',sev:2};
+  if(c>=71&&c<=77) return {g:'snow',sev:(c===75?2:1)};
+  if(c===85||c===86) return {g:'snow',sev:(c===86?2:1)};
+  if(c===95||c===96||c===99) return {g:'storm',sev:3};
+  return {g:'cloudy',sev:0};
+}
+function radarWxLive(b){
+  if(!radarWxOn(b)) return null;
+  var key=(b.dataset.tenant||'')+':'+(b.dataset.coll||'');
+  var c=(typeof WX_CACHE!=='undefined')?WX_CACHE[key]:null;
+  if(!c || c.err || !c.live) return null;                 /* only show once real Open-Meteo data has loaded */
+  var gm=wxCodeToGlyph(c.code);
+  var sev=gm.sev;
+  var cell = gm.g==='storm' ? '#94A2FF' : (gm.g==='snow' ? '#AFC9D9' : '#4F86C6');
+  var wn=parseInt(String(c.wind||'').replace(/[^0-9.]/g,''),10);
+  var mph=String(c.wind||'').indexOf('mph')>=0;
+  if(!isNaN(wn) && ((mph && wn>=25) || (!mph && wn>=40))){ sev=Math.max(sev,2); if(gm.g!=='storm') cell='#F6B53F'; }
+  return {glyph:gm.g, sev:sev, label:c.label, t:c.t, wind:c.wind, hum:c.hum, cell:cell};
+}
 function radarWxRow(b){
-  if(!radarWxOn(b)) return '';
-  var w=radarWx(b.dataset.site||'');
-  var flag=w.sev>=2?'<span class="rt-wx-flag" style="--wc:'+wxCellColor(w.code)+'">'+TX('Weather event')+'</span>':'';
-  return '<div class="rt-wx"><div class="rt-wx-row"><svg class="rt-wx-ic" viewBox="-8 -8 16 16">'+wxGlyph(w.code)+'</svg><span class="rt-wx-main">'+TX(w.label)+' \u00b7 <b>'+w.temp+'\u00b0C</b></span>'+flag+'</div><div class="rt-wx-sub">'+TX('Wind')+' '+w.wind+' km/h \u00b7 '+TX('Humidity')+' '+w.hum+'%</div></div>';
+  var w=radarWxLive(b); if(!w) return '';
+  var flag=w.sev>=2?'<span class="rt-wx-flag" style="--wc:'+w.cell+'">'+TX('Weather event')+'</span>':'';
+  var bits=[]; if(w.wind) bits.push(TX('Wind')+' '+w.wind); if(w.hum) bits.push(TX('Humidity')+' '+w.hum);
+  var sub=bits.length?'<div class="rt-wx-sub">'+bits.join(' · ')+'</div>':'';
+  return '<div class="rt-wx"><div class="rt-wx-row"><svg class="rt-wx-ic" viewBox="-8 -8 16 16">'+wxGlyph(w.glyph)+'</svg><span class="rt-wx-main">'+TX(w.label)+' · <b>'+w.t+'</b></span>'+flag+'</div>'+sub+'</div>';
+}
+function radarWxKick(){
+  if(typeof wxConnected==='function' && !wxConnected()) return;
+  if(typeof wxMaybeFetch!=='function') return;
+  var seen={};
+  document.querySelectorAll('.blip').forEach(function(b){
+    var coll=b.dataset.coll||''; if(!coll) return;
+    var key=(b.dataset.tenant||'')+':'+coll; if(seen[key]) return; seen[key]=1;
+    if(typeof WEATHER_SITES==='undefined' || !WEATHER_SITES.has(key)) return;
+    var lat, lng, site=(typeof siteOf==='function')?siteOf(b.dataset.tenant,coll):null;
+    if(site){ lat=site.lat; lng=site.lng; }
+    if(lat===''||lat==null||lng===''||lng==null){
+      var l0=(typeof locationRows==='function')?locationRows().find(function(x){return x.tenant+':'+x.id===key;}):null;
+      if(l0 && typeof effLoc==='function'){ var l=effLoc(l0); lat=l.lat; lng=l.lng; }
+    }
+    if(lat!==''&&lat!=null&&lng!==''&&lng!=null) wxMaybeFetch(key,lat,lng);
+  });
 }
 function paintRadarWx(){
   var NS='http://www.w3.org/2000/svg';
   document.querySelectorAll('.blip').forEach(function(b){
-    b.querySelectorAll('.blip-wx').forEach(function(n){ n.remove(); });               /* reconcile each paint so weather toggles take effect */
-    if(!radarWxOn(b)) return;                                                          /* paint only where weather forecasting is enabled */
+    b.querySelectorAll('.blip-wx').forEach(function(n){ n.remove(); });
+    var w=radarWxLive(b); if(!w) return;
     var core=b.querySelector('.blip-core')||b.querySelector('circle'); if(!core) return;
     var cx=parseFloat(core.getAttribute('cx')), cy=parseFloat(core.getAttribute('cy'));
     if(isNaN(cx)||isNaN(cy)) return;
-    var w=radarWx(b.dataset.site||'');
     if(w.sev>=2){
       var cg=document.createElementNS(NS,'g'); cg.setAttribute('class','blip-wx blip-wx-cell'); cg.setAttribute('pointer-events','none');
-      cg.innerHTML='<circle class="wx-cell" cx="'+cx+'" cy="'+cy+'" r="12" fill="'+wxCellColor(w.code)+'"/>';
+      cg.innerHTML='<circle class="wx-cell" cx="'+cx+'" cy="'+cy+'" r="12" fill="'+w.cell+'"/>';
       b.insertBefore(cg,b.firstChild);
     }
     var gg=document.createElementNS(NS,'g'); gg.setAttribute('class','blip-wx'); gg.setAttribute('pointer-events','none');
-    gg.innerHTML='<g transform="translate('+(cx+8.5)+','+(cy-8.5)+')">'+wxGlyph(w.code)+'</g>';
+    gg.innerHTML='<g transform="translate('+(cx+8.5)+','+(cy-8.5)+')">'+wxGlyph(w.glyph)+'</g>';
     b.appendChild(gg);
   });
 }
