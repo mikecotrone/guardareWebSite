@@ -257,6 +257,13 @@
   .nav-group:first-child{padding-top:2px}
   #cloudNav .nav-group{padding-top:14px;color:var(--violet)}
   #collectorNav .nav-group{padding-top:14px}
+  #opsNav .nav-group{color:var(--tron)}
+  #opsNav .nav-item svg{stroke:var(--tron);opacity:.9}
+  #opsNav .nav-item:hover{color:var(--tron);background:var(--panel)}
+  #opsNav .nav-item:hover svg{opacity:1}
+  #opsNav .nav-item.active{background:linear-gradient(90deg,#28e0ff1f,transparent);color:var(--text)}
+  #opsNav .nav-item.active svg{stroke:var(--tron);opacity:1}
+  #opsNav .nav-item.active::before{background:var(--tron);box-shadow:0 0 12px var(--tron)}
   #cloudNav .nav-item svg{color:var(--violet)}
   #cloudNav .nav-item:hover{color:var(--violet)}
   #cloudNav .nav-item:hover svg{color:var(--violet)}
@@ -710,14 +717,38 @@
   .loc-card-sid{font-family:"Open Sans";font-size:11px;color:var(--teal);background:var(--teal-ghost);border:1px solid var(--teal-deep);border-radius:6px;padding:2px 8px;white-space:nowrap;margin-left:auto}
   .loc-card-name{font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
   .loc-card-addr{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:var(--dim);line-height:1.35}
-  .loc-card-addr .loc-pin{width:14px;height:14px;flex:none;fill:none;stroke:var(--mute);stroke-width:1.7;margin-top:1px}
+  .loc-card-addr .loc-pin{width:16px;height:16px;flex:none;fill:none;stroke:var(--teal-deep);stroke-width:1.7;margin-top:1px}
   .loc-card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:9px;border-top:1px solid var(--line-soft)}
   .loc-card-co{font-family:"Open Sans";font-size:10.5px;color:var(--mute)}
-  .loc-card-mng{font-size:11.5px;color:var(--mute);font-weight:600}
+  .loc-card-mng{font-size:12px;color:var(--teal-deep);font-weight:700;letter-spacing:.01em}
   .loc-card:hover .loc-card-mng{color:var(--teal)}
   .loc-card-wx .wx-chip{margin-left:0}
+  .loc-card-sid-sub{font-family:"Open Sans";font-size:12px;color:var(--teal);margin-top:-4px;letter-spacing:.02em}
+  .loc-card-foot{justify-content:space-between}
+  .loc-card-wx-off{flex:1}
+  .loc-card-wx .wx-chip.wx-live{background:var(--teal-ghost);border:1px solid var(--teal-deep);border-radius:99px;padding:3px 11px 3px 8px;gap:7px}
+  .loc-card-wx .wx-chip.wx-live svg{width:19px;height:19px}
+  .loc-card-wx .wx-chip.wx-live b{font-size:14px;font-weight:700}
+  /* Locations: view chooser */
+  .loc-viewseg{display:inline-flex;gap:2px;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:3px}
+  .loc-viewseg button{display:inline-grid;place-items:center;width:34px;height:30px;border:0;background:none;border-radius:7px;color:var(--mute);cursor:pointer;transition:.14s}
+  .loc-viewseg button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9}
+  .loc-viewseg button:hover{color:var(--text)}
+  .loc-viewseg button.active{background:var(--panel);color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal-deep)}
+  /* Locations: list view */
+  .loc-list-panel{padding:0;overflow:auto}
+  .loc-table{width:100%;border-collapse:collapse;font-size:13px}
+  .loc-table thead th{position:sticky;top:0;background:var(--panel);text-align:left;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);font-weight:700;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .loc-table tbody td{padding:10px 14px;border-bottom:1px solid var(--line-soft);color:var(--dim);vertical-align:middle}
+  .loc-table tbody tr{cursor:pointer;transition:background .12s}
+  .loc-table tbody tr:hover{background:var(--raise)}
+  .loc-table tbody tr:hover td{color:var(--text)}
+  .loc-row-tn{display:inline-flex;align-items:center;gap:7px}
+  .loc-row-sid{color:var(--teal)}
+  .loc-row-mng{color:var(--teal-deep);font-weight:700}
+  .loc-table tbody tr:hover .loc-row-mng{color:var(--teal)}
   /* ---- Location detail modal ---- */
-  .loc-modal{width:min(720px,95vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
+  .loc-modal{position:relative;width:min(860px,96vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
   .lm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 22px 16px;border-bottom:1px solid var(--line)}
   .lm-tnref{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);font-weight:600;margin-bottom:7px}
   .lm-title{font-size:20px;font-weight:700;letter-spacing:-.01em}
@@ -750,7 +781,17 @@
   .lm-fc-day svg{width:24px;height:24px;fill:none;stroke:var(--teal);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .lm-fc-hl{font-size:11.5px;color:var(--dim)}
   .lm-fc-hl b{color:var(--text);font-weight:700}
-  .lm-acts{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;border-top:1px solid var(--line);background:var(--panel)}
+  .lm-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px;border-top:1px solid var(--line);background:var(--panel)}
+  .lm-acts-r{display:flex;gap:10px}
+  .lm-acts-sp{flex:1}
+  .lm-tn-static{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg-2);color:var(--text);font-size:13px;font-weight:600}
+  .lm-confirm{position:absolute;inset:0;background:rgba(7,15,17,.74);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px;z-index:5}
+  .lm-confirm-card{width:min(390px,100%);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 22px;text-align:center;box-shadow:var(--shadow)}
+  .lm-confirm-ic{width:48px;height:48px;margin:0 auto 14px;display:grid;place-items:center;border-radius:13px;background:#ff5d5d1a;border:1px solid #ff5d5d55}
+  .lm-confirm-ic svg{width:25px;height:25px;fill:none;stroke:var(--red);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .lm-confirm-h{font-size:16px;font-weight:700;color:var(--text);margin-bottom:9px}
+  .lm-confirm-b{font-size:13px;color:var(--dim);line-height:1.55;margin-bottom:20px}
+  .lm-confirm-acts{display:flex;gap:10px;justify-content:center}
   #locModal .loc-addr-menu{z-index:200}
   @media(max-width:720px){ .lm-grid{grid-template-columns:1fr} .lm-form{grid-template-columns:1fr} .lm-fc{border-left:none;border-top:1px solid var(--line)} }
   /* ---- Collector Inventory (detail) ---- */
@@ -1845,6 +1886,7 @@
       </button>
     </div>
     <div id="platformNav">
+    <div id="opsNav">
     <div class="nav-group" data-i18n="Operations">Operations</div>
     <button class="nav-item active" data-screen="dashboard">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
@@ -1863,6 +1905,7 @@
       <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
       <span data-i18n="Audit Log">Audit Log</span>
     </button>
+    </div><!--/opsNav-->
 
     <div id="collectorNav">
     <div class="nav-group" data-i18n="Collector Serviceability">Collector Serviceability</div>
@@ -1912,7 +1955,7 @@
     </div>
     <button class="nav-item" data-screen="config">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
-      <span data-i18n="Locations">Locations</span>
+      <span data-i18n="Location Management">Location Management</span>
     </button>
     <button class="nav-item" data-screen="integrations">
       <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
@@ -1952,7 +1995,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.264.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.265.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5639,6 +5682,7 @@ snmp_field_mapping:
 let lang='en';
 const I18N={
  it:{'Untitled ticket':'Ticket senza titolo','Monitoring':'Monitoraggio','Analysis':'Analisi','Reporting':'Reportistica','Topology':'Topologia','Traffic & Flows':'Traffico e flussi','Alert Correlation':'Correlazione avvisi','Live device, interface and link health across the estate you operate.':'Stato in tempo reale di dispositivi, interfacce e collegamenti nell\'intera rete che gestisci.','Traffic, flows and anomaly detection over your monitored network.':'Traffico, flussi e rilevamento anomalie sulla rete monitorata.','Scheduled SLA, uptime and performance reports for every customer.':'Report pianificati su SLA, uptime e prestazioni per ogni cliente.','Auto-discovered Layer-2 and Layer-3 maps of the estate.':'Mappe Layer-2 e Layer-3 rilevate automaticamente dell\'intera rete.','NetFlow, sFlow and IPFIX collection with top-talker analysis.':'Raccolta NetFlow, sFlow e IPFIX con analisi dei top talker.','Correlated alerting and service assurance across the estate.':'Avvisi correlati e service assurance sull\'intera rete.','Network topology':'Topologia di rete','Device & interface health':'Stato dispositivi e interfacce','Link utilization':'Utilizzo collegamenti','Uptime & availability':'Uptime e disponibilità','Traffic & flows':'Traffico e flussi','Anomaly detection':'Rilevamento anomalie','Capacity trends':'Tendenze di capacità','Root-cause timelines':'Cronologie cause radice','SLA reports':'Report SLA','Uptime summaries':'Riepiloghi uptime','Executive dashboards':'Dashboard direzionali','Scheduled exports':'Esportazioni pianificate','L2 / L3 maps':'Mappe L2 / L3','VLAN & subnet view':'Vista VLAN e subnet','Path tracing':'Tracciamento percorso','Dependency graph':'Grafo delle dipendenze','NetFlow / IPFIX':'NetFlow / IPFIX','Top talkers':'Top talker','Application mix':'Mix applicazioni','Bandwidth heatmaps':'Heatmap di banda','Alert correlation':'Correlazione avvisi','Service assurance':'Service assurance','Synthetic probes':'Probe sintetici','Noise reduction':'Riduzione del rumore','Draft':'Bozza','New support ticket':'Nuovo ticket di assistenza','Subject':'Oggetto','Priority':'Priorità','Low':'Bassa','Normal':'Normale','High':'Alta','Urgent':'Urgente','Type':'Tipo','Incident':'Incidente','Service request':'Richiesta di servizio','Change':'Modifica','Problem':'Problema','Assignee':'Assegnatario','Unassigned':'Non assegnato','NOC — Tier 1':'NOC — Livello 1','NOC — Tier 2':'NOC — Livello 2','Linked collector':'Collector collegato','None':'Nessuno','Description':'Descrizione','Cancel':'Annulla','Submit ticket':'Invia ticket','Submitting ticket':'Invio ticket in corso','Ticket created':'Ticket creato','Create another':'Crea un altro','Done':'Fatto','Short summary of the issue':'Breve riepilogo del problema','What is happening? Steps, impact, affected devices…':'Cosa sta succedendo? Passaggi, impatto, dispositivi interessati…','Connecting to':'Connessione a','Authenticating API token':'Autenticazione token API','Creating ticket record':'Creazione del record del ticket','Assigning ticket number':'Assegnazione del numero ticket','Setting priority':'Impostazione priorità','Routing to':'Instradamento a','Linking asset to ticket':'Collegamento dell\'asset al ticket','Confirming two-way status sync':'Conferma sincronizzazione stato bidirezionale','via':'tramite','Created in':'Creato in','Provider':'Provider','Tenant':'Tenant','Created':'Creato','Open':'Aperto','View':'Visualizza','Submit to':'Invia a','Live health and controls for the Linux host running this collector.':'Stato in tempo reale e controlli per l\'host Linux che esegue questo collector.','Host & system status':'Stato host e sistema','Collector Host':'Host del collector','The Ubuntu server this collector runs on.':'Il server Ubuntu su cui gira questo collector.','Compute Resources':'Risorse di calcolo','CPU & Load Utilization':'Utilizzo CPU e carico','Per-core load and the processes driving it.':'Carico per core e i processi che lo generano.','Top CPU consumers':'Processi che consumano più CPU','Memory Utilization':'Utilizzo della memoria','Resident memory by service, buffers and cache.':'Memoria residente per servizio, buffer e cache.','Memory map':'Mappa della memoria','Top memory consumers':'Processi che consumano più memoria','CPU, per-core load, memory and swap.':'CPU, carico per core, memoria e swap.','Operating System':'Sistema operativo','Distribution, kernel and patch status.':'Distribuzione, kernel e stato delle patch.','Database':'Database','Local collector datastore & buffer.':'Datastore e buffer locale del collector.','Storage':'Archiviazione','Disk usage by mount point.':'Utilizzo disco per punto di mount.','Controls & services':'Controlli e servizi','Operating System Maintenance':'Manutenzione del sistema operativo','Maintenance actions for the whole host.':'Azioni di manutenzione per l\'intero host.','Reboot host':'Riavvia host','Flush DNS':'Svuota DNS','Run updates':'Esegui aggiornamenti','Service Controls':'Controlli dei servizi','Start, stop, restart or reload the services on this collector.':'Avvia, arresta, riavvia o ricarica i servizi su questo collector.','Guardare microservices':'Microservizi Guardare','Host & platform services':'Servizi host e piattaforma','All Services':'Tutti i servizi','Everything running on this host, at a glance.':'Tutto ciò che gira su questo host, a colpo d\'occhio.','Recent Activity':'Attività recente','Latest events from the host and its services.':'Ultimi eventi dall\'host e dai suoi servizi.','Distribution':'Distribuzione','Codename':'Nome in codice','Kernel':'Kernel','Architecture':'Architettura','Uptime':'Uptime','Packages':'Pacchetti','Security updates':'Aggiornamenti di sicurezza','Timezone':'Fuso orario','Version':'Versione','Threads connected':'Thread connessi','Tasks':'Processi','Threads':'Thread','Total':'Totale','Availability':'Disponibilità','Starting':'Avvio in corso','Stopping':'Arresto in corso','No mapped sites':'Nessun sito sulla mappa','Last boot':'Ultimo avvio','Queries / sec':'Query / sec','Buffer pool hit':'Hit buffer pool','Slow queries':'Query lente','Data size':'Dimensione dati','Replication':'Replica','Hostname':'Nome host','Site':'Sede','Status':'Stato','Load average':'Carico medio','Swap':'Swap','Cores':'Core','Load':'Carico','Collects device data':'Raccoglie dati dei dispositivi','Standardizes telemetry':'Standardizza la telemetria','Runs alerting rules':'Esegue le regole di avviso','Syncs docs & assets':'Sincronizza documenti e asset','Local database':'Database locale','Realtime messaging':'Messaggistica in tempo reale','Cache & queues':'Cache e code','Web / reverse proxy':'Web / reverse proxy','Draft ticket':'Bozza ticket','OS Monitoring':'Monitoraggio OS',
+  'Location Management':'Gestione sedi','Card view':'Vista a schede','List view':'Vista elenco','Enable Weather Forecasting':'Attiva previsioni meteo','Guardare Core and Vista deployments across {n} locations':'Deployment Guardare Core e Vista in {n} sedi','New location':'Nuova sede','Delete this location?':'Eliminare questa sede?','This permanently removes the location from the console and cannot be undone.':'Questo rimuove definitivamente la sede dalla console e non può essere annullato.',
   'Weather Forecast':'Previsioni meteo','In service':'In servizio','Date placed in service':'Data di messa in servizio','Shown on the Collector Inventory page.':'Mostrata nella pagina Inventario collector.','Enable in Locations':'Attiva in Sedi','View in Locations':'Apri in Sedi','Open Integrations':'Apri Integrazioni','Weather not enabled for this location.':'Meteo non attivo per questa sede.','Connect a weather provider in Integrations.':'Collega un provider meteo in Integrazioni.',
   'Forecast':'Previsioni','Loading forecast':'Caricamento previsioni','Enable weather to see the forecast':'Attiva il meteo per vedere le previsioni','Manage':'Gestisci',
   'Clear':'Sereno','Partly cloudy':'Parz. nuvoloso','Overcast':'Coperto','Fog':'Nebbia','Rain':'Pioggia','Snow':'Neve','Showers':'Rovesci','Storm':'Temporale','Feels like':'Percepita','Humidity':'Umidità','Wind':'Vento','Today':'Oggi','Monthly recurring':'Ricavo mensile','Tenants':'Tenant','Active collectors':'Collector attivi','Open alerts':'Avvisi aperti','active':'attivi','trial':'in prova','online across fleet':'online nella flotta','tenants':'tenant','need attention':'richiedono attenzione','all clear':'tutto ok',
@@ -6016,6 +6060,7 @@ const I18N={
   "Enterprise Organization Details":"Dettagli organizzazione Enterprise"
  },
  fr:{'Untitled ticket':'Ticket sans titre','Monitoring':'Surveillance','Analysis':'Analyse','Reporting':'Rapports','Topology':'Topologie','Traffic & Flows':'Trafic et flux','Alert Correlation':'Corrélation d\'alertes','Live device, interface and link health across the estate you operate.':'État en direct des équipements, interfaces et liens de tout le parc que vous gérez.','Traffic, flows and anomaly detection over your monitored network.':'Trafic, flux et détection d\'anomalies sur votre réseau surveillé.','Scheduled SLA, uptime and performance reports for every customer.':'Rapports planifiés de SLA, disponibilité et performances pour chaque client.','Auto-discovered Layer-2 and Layer-3 maps of the estate.':'Cartes Layer-2 et Layer-3 du parc, découvertes automatiquement.','NetFlow, sFlow and IPFIX collection with top-talker analysis.':'Collecte NetFlow, sFlow et IPFIX avec analyse des top talkers.','Correlated alerting and service assurance across the estate.':'Alertes corrélées et assurance de service sur tout le parc.','Network topology':'Topologie réseau','Device & interface health':'État équipements et interfaces','Link utilization':'Utilisation des liens','Uptime & availability':'Disponibilité','Traffic & flows':'Trafic et flux','Anomaly detection':'Détection d\'anomalies','Capacity trends':'Tendances de capacité','Root-cause timelines':'Chronologies des causes racines','SLA reports':'Rapports SLA','Uptime summaries':'Résumés de disponibilité','Executive dashboards':'Tableaux de bord exécutifs','Scheduled exports':'Exports planifiés','L2 / L3 maps':'Cartes L2 / L3','VLAN & subnet view':'Vue VLAN et sous-réseaux','Path tracing':'Traçage de chemin','Dependency graph':'Graphe de dépendances','NetFlow / IPFIX':'NetFlow / IPFIX','Top talkers':'Top talkers','Application mix':'Répartition des applications','Bandwidth heatmaps':'Cartes de chaleur de bande passante','Alert correlation':'Corrélation d\'alertes','Service assurance':'Assurance de service','Synthetic probes':'Sondes synthétiques','Noise reduction':'Réduction du bruit','Draft':'Brouillon','New support ticket':'Nouveau ticket de support','Subject':'Objet','Priority':'Priorité','Low':'Basse','Normal':'Normale','High':'Haute','Urgent':'Urgent','Type':'Type','Incident':'Incident','Service request':'Demande de service','Change':'Changement','Problem':'Problème','Assignee':'Assigné','Unassigned':'Non assigné','NOC — Tier 1':'NOC — Niveau 1','NOC — Tier 2':'NOC — Niveau 2','Linked collector':'Collecteur lié','None':'Aucun','Description':'Description','Cancel':'Annuler','Submit ticket':'Envoyer le ticket','Submitting ticket':'Envoi du ticket','Ticket created':'Ticket créé','Create another':'En créer un autre','Done':'Terminé','Short summary of the issue':'Bref résumé du problème','What is happening? Steps, impact, affected devices…':'Que se passe-t-il ? Étapes, impact, équipements concernés…','Connecting to':'Connexion à','Authenticating API token':'Authentification du jeton API','Creating ticket record':'Création de l\'enregistrement du ticket','Assigning ticket number':'Attribution du numéro de ticket','Setting priority':'Définition de la priorité','Routing to':'Acheminement vers','Linking asset to ticket':'Liaison de l\'actif au ticket','Confirming two-way status sync':'Confirmation de la synchro d\'état bidirectionnelle','via':'via','Created in':'Créé dans','Provider':'Fournisseur','Tenant':'Locataire','Created':'Créé','Open':'Ouvert','View':'Voir','Submit to':'Envoyer à','Live health and controls for the Linux host running this collector.':'État en direct et contrôles de l\'hôte Linux qui exécute ce collecteur.','Host & system status':'État de l\'hôte et du système','Collector Host':'Hôte du collecteur','The Ubuntu server this collector runs on.':'Le serveur Ubuntu sur lequel s\'exécute ce collecteur.','Compute Resources':'Ressources de calcul','CPU & Load Utilization':'Utilisation CPU et charge','Per-core load and the processes driving it.':'Charge par cœur et les processus qui la génèrent.','Top CPU consumers':'Principaux consommateurs de CPU','Memory Utilization':'Utilisation de la mémoire','Resident memory by service, buffers and cache.':'Mémoire résidente par service, buffers et cache.','Memory map':'Carte mémoire','Top memory consumers':'Principaux consommateurs de mémoire','CPU, per-core load, memory and swap.':'CPU, charge par cœur, mémoire et swap.','Operating System':'Système d\'exploitation','Distribution, kernel and patch status.':'Distribution, noyau et état des correctifs.','Database':'Base de données','Local collector datastore & buffer.':'Datastore et buffer local du collecteur.','Storage':'Stockage','Disk usage by mount point.':'Utilisation disque par point de montage.','Controls & services':'Contrôles et services','Operating System Maintenance':'Maintenance du système d\'exploitation','Maintenance actions for the whole host.':'Actions de maintenance pour tout l\'hôte.','Reboot host':'Redémarrer l\'hôte','Flush DNS':'Vider le DNS','Run updates':'Lancer les mises à jour','Service Controls':'Contrôles des services','Start, stop, restart or reload the services on this collector.':'Démarrer, arrêter, redémarrer ou recharger les services de ce collecteur.','Guardare microservices':'Microservices Guardare','Host & platform services':'Services hôte et plateforme','All Services':'Tous les services','Everything running on this host, at a glance.':'Tout ce qui s\'exécute sur cet hôte, en un coup d\'œil.','Recent Activity':'Activité récente','Latest events from the host and its services.':'Derniers événements de l\'hôte et de ses services.','Distribution':'Distribution','Codename':'Nom de code','Kernel':'Noyau','Architecture':'Architecture','Uptime':'Disponibilité','Packages':'Paquets','Security updates':'Mises à jour de sécurité','Timezone':'Fuseau horaire','Version':'Version','Threads connected':'Threads connectés','Tasks':'Tâches','Threads':'Threads','Total':'Total','Availability':'Disponibilité','Starting':'Démarrage','Stopping':'Arrêt','No mapped sites':'Aucun site sur la carte','Last boot':'Dernier démarrage','Queries / sec':'Requêtes / s','Buffer pool hit':'Taux de hit du buffer pool','Slow queries':'Requêtes lentes','Data size':'Taille des données','Replication':'Réplication','Hostname':'Nom d\'hôte','Site':'Site','Status':'Statut','Load average':'Charge moyenne','Swap':'Swap','Cores':'Cœurs','Load':'Charge','Collects device data':'Collecte les données des équipements','Standardizes telemetry':'Standardise la télémétrie','Runs alerting rules':'Exécute les règles d\'alerte','Syncs docs & assets':'Synchronise docs et actifs','Local database':'Base de données locale','Realtime messaging':'Messagerie en temps réel','Cache & queues':'Cache et files','Web / reverse proxy':'Web / reverse proxy','Draft ticket':'Brouillon de ticket','OS Monitoring':'Supervision OS',
+  'Location Management':'Gestion des emplacements','Card view':'Vue en cartes','List view':'Vue en liste','Enable Weather Forecasting':'Activer les prévisions météo','Guardare Core and Vista deployments across {n} locations':'Déploiements Guardare Core et Vista sur {n} emplacements','New location':'Nouvel emplacement','Delete this location?':'Supprimer cet emplacement ?','This permanently removes the location from the console and cannot be undone.':'Cela supprime définitivement l’emplacement de la console et est irréversible.',
   'Weather Forecast':'Prévisions météo','In service':'En service','Date placed in service':'Date de mise en service','Shown on the Collector Inventory page.':'Affichée sur la page Inventaire des collecteurs.','Enable in Locations':'Activer dans Emplacements','View in Locations':'Voir dans Emplacements','Open Integrations':'Ouvrir Intégrations','Weather not enabled for this location.':'Météo non activée pour cet emplacement.','Connect a weather provider in Integrations.':'Connectez un fournisseur météo dans Intégrations.',
   'Forecast':'Prévisions','Loading forecast':'Chargement des prévisions','Enable weather to see the forecast':'Activez la météo pour voir les prévisions','Manage':'Gérer',
   'Clear':'Dégagé','Partly cloudy':'Partiellement nuageux','Overcast':'Couvert','Fog':'Brouillard','Rain':'Pluie','Snow':'Neige','Showers':'Averses','Storm':'Orage','Feels like':'Ressenti','Humidity':'Humidité','Wind':'Vent','Today':'Aujourd\'hui','Monthly recurring':'Revenu mensuel','Tenants':'Tenants','Active collectors':'Collecteurs actifs','Open alerts':'Alertes ouvertes','active':'actifs','trial':'à l\'essai','online across fleet':'en ligne sur la flotte','tenants':'tenants','need attention':'à surveiller','all clear':'tout va bien',
@@ -6393,6 +6438,7 @@ const I18N={
   "Enterprise Organization Details":"Détails de l'organisation Enterprise"
  },
  es:{'Untitled ticket':'Ticket sin título','Monitoring':'Monitorización','Analysis':'Análisis','Reporting':'Informes','Topology':'Topología','Traffic & Flows':'Tráfico y flujos','Alert Correlation':'Correlación de alertas','Live device, interface and link health across the estate you operate.':'Estado en vivo de dispositivos, interfaces y enlaces en toda la red que gestionas.','Traffic, flows and anomaly detection over your monitored network.':'Tráfico, flujos y detección de anomalías en la red monitorizada.','Scheduled SLA, uptime and performance reports for every customer.':'Informes programados de SLA, disponibilidad y rendimiento para cada cliente.','Auto-discovered Layer-2 and Layer-3 maps of the estate.':'Mapas de Capa-2 y Capa-3 detectados automáticamente de la red.','NetFlow, sFlow and IPFIX collection with top-talker analysis.':'Recopilación NetFlow, sFlow e IPFIX con análisis de top talkers.','Correlated alerting and service assurance across the estate.':'Alertas correlacionadas y aseguramiento del servicio en toda la red.','Network topology':'Topología de red','Device & interface health':'Estado de dispositivos e interfaces','Link utilization':'Uso de enlaces','Uptime & availability':'Tiempo activo y disponibilidad','Traffic & flows':'Tráfico y flujos','Anomaly detection':'Detección de anomalías','Capacity trends':'Tendencias de capacidad','Root-cause timelines':'Líneas de tiempo de causa raíz','SLA reports':'Informes de SLA','Uptime summaries':'Resúmenes de tiempo activo','Executive dashboards':'Paneles ejecutivos','Scheduled exports':'Exportaciones programadas','L2 / L3 maps':'Mapas L2 / L3','VLAN & subnet view':'Vista de VLAN y subredes','Path tracing':'Trazado de rutas','Dependency graph':'Grafo de dependencias','NetFlow / IPFIX':'NetFlow / IPFIX','Top talkers':'Top talkers','Application mix':'Mezcla de aplicaciones','Bandwidth heatmaps':'Mapas de calor de ancho de banda','Alert correlation':'Correlación de alertas','Service assurance':'Aseguramiento del servicio','Synthetic probes':'Sondas sintéticas','Noise reduction':'Reducción de ruido','Draft':'Borrador','New support ticket':'Nuevo ticket de soporte','Subject':'Asunto','Priority':'Prioridad','Low':'Baja','Normal':'Normal','High':'Alta','Urgent':'Urgente','Type':'Tipo','Incident':'Incidente','Service request':'Solicitud de servicio','Change':'Cambio','Problem':'Problema','Assignee':'Asignado','Unassigned':'Sin asignar','NOC — Tier 1':'NOC — Nivel 1','NOC — Tier 2':'NOC — Nivel 2','Linked collector':'Collector vinculado','None':'Ninguno','Description':'Descripción','Cancel':'Cancelar','Submit ticket':'Enviar ticket','Submitting ticket':'Enviando ticket','Ticket created':'Ticket creado','Create another':'Crear otro','Done':'Listo','Short summary of the issue':'Breve resumen del problema','What is happening? Steps, impact, affected devices…':'¿Qué está ocurriendo? Pasos, impacto, dispositivos afectados…','Connecting to':'Conectando a','Authenticating API token':'Autenticando token de API','Creating ticket record':'Creando el registro del ticket','Assigning ticket number':'Asignando número de ticket','Setting priority':'Estableciendo prioridad','Routing to':'Enrutando a','Linking asset to ticket':'Vinculando el activo al ticket','Confirming two-way status sync':'Confirmando sincronización de estado bidireccional','via':'vía','Created in':'Creado en','Provider':'Proveedor','Tenant':'Inquilino','Created':'Creado','Open':'Abierto','View':'Ver','Submit to':'Enviar a','Live health and controls for the Linux host running this collector.':'Estado en vivo y controles del host Linux que ejecuta este collector.','Host & system status':'Estado del host y del sistema','Collector Host':'Host del collector','The Ubuntu server this collector runs on.':'El servidor Ubuntu en el que se ejecuta este collector.','Compute Resources':'Recursos de cómputo','CPU & Load Utilization':'Uso de CPU y carga','Per-core load and the processes driving it.':'Carga por núcleo y los procesos que la generan.','Top CPU consumers':'Procesos que más CPU consumen','Memory Utilization':'Uso de memoria','Resident memory by service, buffers and cache.':'Memoria residente por servicio, búferes y caché.','Memory map':'Mapa de memoria','Top memory consumers':'Procesos que más memoria consumen','CPU, per-core load, memory and swap.':'CPU, carga por núcleo, memoria y swap.','Operating System':'Sistema operativo','Distribution, kernel and patch status.':'Distribución, kernel y estado de parches.','Database':'Base de datos','Local collector datastore & buffer.':'Almacén de datos y búfer local del collector.','Storage':'Almacenamiento','Disk usage by mount point.':'Uso de disco por punto de montaje.','Controls & services':'Controles y servicios','Operating System Maintenance':'Mantenimiento del sistema operativo','Maintenance actions for the whole host.':'Acciones de mantenimiento para todo el host.','Reboot host':'Reiniciar host','Flush DNS':'Vaciar DNS','Run updates':'Ejecutar actualizaciones','Service Controls':'Controles de servicios','Start, stop, restart or reload the services on this collector.':'Inicia, detén, reinicia o recarga los servicios de este collector.','Guardare microservices':'Microservicios Guardare','Host & platform services':'Servicios de host y plataforma','All Services':'Todos los servicios','Everything running on this host, at a glance.':'Todo lo que se ejecuta en este host, de un vistazo.','Recent Activity':'Actividad reciente','Latest events from the host and its services.':'Últimos eventos del host y sus servicios.','Distribution':'Distribución','Codename':'Nombre en código','Kernel':'Kernel','Architecture':'Arquitectura','Uptime':'Tiempo activo','Packages':'Paquetes','Security updates':'Actualizaciones de seguridad','Timezone':'Zona horaria','Version':'Versión','Threads connected':'Hilos conectados','Tasks':'Tareas','Threads':'Hilos','Total':'Total','Availability':'Disponibilidad','Starting':'Iniciando','Stopping':'Deteniendo','No mapped sites':'Sin sitios en el mapa','Last boot':'Último arranque','Queries / sec':'Consultas / s','Buffer pool hit':'Aciertos del buffer pool','Slow queries':'Consultas lentas','Data size':'Tamaño de datos','Replication':'Replicación','Hostname':'Nombre de host','Site':'Sitio','Status':'Estado','Load average':'Carga media','Swap':'Swap','Cores':'Núcleos','Load':'Carga','Collects device data':'Recopila datos de dispositivos','Standardizes telemetry':'Estandariza la telemetría','Runs alerting rules':'Ejecuta reglas de alerta','Syncs docs & assets':'Sincroniza documentos y activos','Local database':'Base de datos local','Realtime messaging':'Mensajería en tiempo real','Cache & queues':'Caché y colas','Web / reverse proxy':'Web / proxy inverso','Draft ticket':'Borrador de ticket','OS Monitoring':'Monitorización del SO',
+  'Location Management':'Gestión de ubicaciones','Card view':'Vista de tarjetas','List view':'Vista de lista','Enable Weather Forecasting':'Activar pronóstico del tiempo','Guardare Core and Vista deployments across {n} locations':'Despliegues de Guardare Core y Vista en {n} ubicaciones','New location':'Nueva ubicación','Delete this location?':'¿Eliminar esta ubicación?','This permanently removes the location from the console and cannot be undone.':'Esto elimina la ubicación de la consola de forma permanente y no se puede deshacer.',
   'Weather Forecast':'Pronóstico del tiempo','In service':'En servicio','Date placed in service':'Fecha de puesta en servicio','Shown on the Collector Inventory page.':'Se muestra en la página Inventario de collectors.','Enable in Locations':'Activar en Ubicaciones','View in Locations':'Ver en Ubicaciones','Open Integrations':'Abrir Integraciones','Weather not enabled for this location.':'Clima no activado para esta ubicación.','Connect a weather provider in Integrations.':'Conecta un proveedor de clima en Integraciones.',
   'Forecast':'Pronóstico','Loading forecast':'Cargando pronóstico','Enable weather to see the forecast':'Activa el clima para ver el pronóstico','Manage':'Gestionar',
   'Clear':'Despejado','Partly cloudy':'Parc. nublado','Overcast':'Cubierto','Fog':'Niebla','Rain':'Lluvia','Snow':'Nieve','Showers':'Chubascos','Storm':'Tormenta','Feels like':'Sensación','Humidity':'Humedad','Wind':'Viento','Today':'Hoy','Monthly recurring':'Ingreso mensual','Tenants':'Inquilinos','Active collectors':'Recolectores activos','Open alerts':'Alertas abiertas','active':'activos','trial':'en prueba','online across fleet':'en línea en la flota','tenants':'inquilinos','need attention':'requieren atención','all clear':'todo en orden',
@@ -6770,6 +6816,7 @@ const I18N={
   "Enterprise Organization Details":"Detalles de la organización Enterprise"
  },
  pt:{'Untitled ticket':'Ticket sem título','Monitoring':'Monitorização','Analysis':'Análise','Reporting':'Relatórios','Topology':'Topologia','Traffic & Flows':'Tráfego e fluxos','Alert Correlation':'Correlação de alertas','Live device, interface and link health across the estate you operate.':'Estado em tempo real de dispositivos, interfaces e ligações em toda a rede que gere.','Traffic, flows and anomaly detection over your monitored network.':'Tráfego, fluxos e deteção de anomalias na rede monitorizada.','Scheduled SLA, uptime and performance reports for every customer.':'Relatórios agendados de SLA, disponibilidade e desempenho para cada cliente.','Auto-discovered Layer-2 and Layer-3 maps of the estate.':'Mapas Layer-2 e Layer-3 descobertos automaticamente da rede.','NetFlow, sFlow and IPFIX collection with top-talker analysis.':'Recolha de NetFlow, sFlow e IPFIX com análise de top talkers.','Correlated alerting and service assurance across the estate.':'Alertas correlacionados e garantia de serviço em toda a rede.','Network topology':'Topologia de rede','Device & interface health':'Estado de dispositivos e interfaces','Link utilization':'Utilização de ligações','Uptime & availability':'Tempo ativo e disponibilidade','Traffic & flows':'Tráfego e fluxos','Anomaly detection':'Deteção de anomalias','Capacity trends':'Tendências de capacidade','Root-cause timelines':'Cronologias de causa raiz','SLA reports':'Relatórios de SLA','Uptime summaries':'Resumos de tempo ativo','Executive dashboards':'Painéis executivos','Scheduled exports':'Exportações agendadas','L2 / L3 maps':'Mapas L2 / L3','VLAN & subnet view':'Vista de VLAN e sub-redes','Path tracing':'Rastreio de caminho','Dependency graph':'Grafo de dependências','NetFlow / IPFIX':'NetFlow / IPFIX','Top talkers':'Top talkers','Application mix':'Mix de aplicações','Bandwidth heatmaps':'Mapas de calor de largura de banda','Alert correlation':'Correlação de alertas','Service assurance':'Garantia de serviço','Synthetic probes':'Sondas sintéticas','Noise reduction':'Redução de ruído','Draft':'Rascunho','New support ticket':'Novo ticket de suporte','Subject':'Assunto','Priority':'Prioridade','Low':'Baixa','Normal':'Normal','High':'Alta','Urgent':'Urgente','Type':'Tipo','Incident':'Incidente','Service request':'Pedido de serviço','Change':'Alteração','Problem':'Problema','Assignee':'Responsável','Unassigned':'Não atribuído','NOC — Tier 1':'NOC — Nível 1','NOC — Tier 2':'NOC — Nível 2','Linked collector':'Collector associado','None':'Nenhum','Description':'Descrição','Cancel':'Cancelar','Submit ticket':'Enviar ticket','Submitting ticket':'A enviar ticket','Ticket created':'Ticket criado','Create another':'Criar outro','Done':'Concluído','Short summary of the issue':'Breve resumo do problema','What is happening? Steps, impact, affected devices…':'O que está a acontecer? Passos, impacto, dispositivos afetados…','Connecting to':'A ligar a','Authenticating API token':'A autenticar token de API','Creating ticket record':'A criar o registo do ticket','Assigning ticket number':'A atribuir número do ticket','Setting priority':'A definir prioridade','Routing to':'A encaminhar para','Linking asset to ticket':'A associar o ativo ao ticket','Confirming two-way status sync':'A confirmar sincronização de estado bidirecional','via':'via','Created in':'Criado em','Provider':'Fornecedor','Tenant':'Inquilino','Created':'Criado','Open':'Aberto','View':'Ver','Submit to':'Enviar para','Live health and controls for the Linux host running this collector.':'Estado em tempo real e controlos do host Linux que executa este collector.','Host & system status':'Estado do host e do sistema','Collector Host':'Host do collector','The Ubuntu server this collector runs on.':'O servidor Ubuntu onde este collector é executado.','Compute Resources':'Recursos de computação','CPU & Load Utilization':'Utilização de CPU e carga','Per-core load and the processes driving it.':'Carga por núcleo e os processos que a geram.','Top CPU consumers':'Processos que mais consomem CPU','Memory Utilization':'Utilização de memória','Resident memory by service, buffers and cache.':'Memória residente por serviço, buffers e cache.','Memory map':'Mapa de memória','Top memory consumers':'Processos que mais consomem memória','CPU, per-core load, memory and swap.':'CPU, carga por núcleo, memória e swap.','Operating System':'Sistema operativo','Distribution, kernel and patch status.':'Distribuição, kernel e estado de patches.','Database':'Base de dados','Local collector datastore & buffer.':'Datastore e buffer local do collector.','Storage':'Armazenamento','Disk usage by mount point.':'Utilização de disco por ponto de montagem.','Controls & services':'Controlos e serviços','Operating System Maintenance':'Manutenção do sistema operativo','Maintenance actions for the whole host.':'Ações de manutenção para todo o host.','Reboot host':'Reiniciar host','Flush DNS':'Limpar DNS','Run updates':'Executar atualizações','Service Controls':'Controlos de serviços','Start, stop, restart or reload the services on this collector.':'Inicie, pare, reinicie ou recarregue os serviços deste collector.','Guardare microservices':'Microsserviços Guardare','Host & platform services':'Serviços de host e plataforma','All Services':'Todos os serviços','Everything running on this host, at a glance.':'Tudo o que está a correr neste host, num relance.','Recent Activity':'Atividade recente','Latest events from the host and its services.':'Últimos eventos do host e dos seus serviços.','Distribution':'Distribuição','Codename':'Nome de código','Kernel':'Kernel','Architecture':'Arquitetura','Uptime':'Tempo ativo','Packages':'Pacotes','Security updates':'Atualizações de segurança','Timezone':'Fuso horário','Version':'Versão','Threads connected':'Threads conectados','Tasks':'Tarefas','Threads':'Threads','Total':'Total','Availability':'Disponibilidade','Starting':'Iniciando','Stopping':'Parando','No mapped sites':'Nenhum site no mapa','Last boot':'Último arranque','Queries / sec':'Consultas / s','Buffer pool hit':'Hit do buffer pool','Slow queries':'Consultas lentas','Data size':'Tamanho dos dados','Replication':'Replicação','Hostname':'Nome do host','Site':'Site','Status':'Estado','Load average':'Carga média','Swap':'Swap','Cores':'Núcleos','Load':'Carga','Collects device data':'Recolhe dados dos dispositivos','Standardizes telemetry':'Padroniza a telemetria','Runs alerting rules':'Executa regras de alerta','Syncs docs & assets':'Sincroniza documentos e ativos','Local database':'Base de dados local','Realtime messaging':'Mensagens em tempo real','Cache & queues':'Cache e filas','Web / reverse proxy':'Web / proxy reverso','Draft ticket':'Rascunho de ticket','OS Monitoring':'Monitorização do SO',
+  'Location Management':'Gestão de localizações','Card view':'Vista de cartões','List view':'Vista de lista','Enable Weather Forecasting':'Ativar previsão meteorológica','Guardare Core and Vista deployments across {n} locations':'Implementações Guardare Core e Vista em {n} localizações','New location':'Nova localização','Delete this location?':'Eliminar esta localização?','This permanently removes the location from the console and cannot be undone.':'Isto remove a localização da consola permanentemente e não pode ser anulado.',
   'Weather Forecast':'Previsão meteorológica','In service':'Em serviço','Date placed in service':'Data de entrada em serviço','Shown on the Collector Inventory page.':'Apresentada na página Inventário de coletores.','Enable in Locations':'Ativar em Localizações','View in Locations':'Ver em Localizações','Open Integrations':'Abrir Integrações','Weather not enabled for this location.':'Meteorologia não ativada para esta localização.','Connect a weather provider in Integrations.':'Ligue um fornecedor meteorológico em Integrações.',
   'Forecast':'Previsão','Loading forecast':'A carregar previsão','Enable weather to see the forecast':'Ative a meteorologia para ver a previsão','Manage':'Gerir',
   'Clear':'Limpo','Partly cloudy':'Parc. nublado','Overcast':'Encoberto','Fog':'Nevoeiro','Rain':'Chuva','Snow':'Neve','Showers':'Aguaceiros','Storm':'Tempestade','Feels like':'Sensação','Humidity':'Humidade','Wind':'Vento','Today':'Hoje','Monthly recurring':'Receita mensal','Tenants':'Inquilinos','Active collectors':'Coletores ativos','Open alerts':'Alertas abertos','active':'ativos','trial':'em teste','online across fleet':'online na frota','tenants':'inquilinos','need attention':'requerem atenção','all clear':'tudo certo',
@@ -7148,6 +7195,7 @@ const I18N={
   "Enterprise Organization Details":"Detalhes da organização Enterprise"
  },
  ja:{'Untitled ticket':'無題のチケット','Monitoring':'モニタリング','Analysis':'分析','Reporting':'レポート','Topology':'トポロジー','Traffic & Flows':'トラフィックとフロー','Alert Correlation':'アラート相関','Live device, interface and link health across the estate you operate.':'運用するネットワーク全体のデバイス・インターフェース・リンクのライブ状態。','Traffic, flows and anomaly detection over your monitored network.':'監視対象ネットワークのトラフィック、フロー、異常検出。','Scheduled SLA, uptime and performance reports for every customer.':'顧客ごとの SLA・稼働率・パフォーマンスの定期レポート。','Auto-discovered Layer-2 and Layer-3 maps of the estate.':'自動検出された Layer-2 / Layer-3 のネットワークマップ。','NetFlow, sFlow and IPFIX collection with top-talker analysis.':'NetFlow・sFlow・IPFIX 収集とトップトーカー分析。','Correlated alerting and service assurance across the estate.':'ネットワーク全体の相関アラートとサービス保証。','Network topology':'ネットワークトポロジー','Device & interface health':'デバイスとインターフェースの状態','Link utilization':'リンク使用率','Uptime & availability':'稼働時間と可用性','Traffic & flows':'トラフィックとフロー','Anomaly detection':'異常検出','Capacity trends':'キャパシティ傾向','Root-cause timelines':'根本原因タイムライン','SLA reports':'SLA レポート','Uptime summaries':'稼働率サマリー','Executive dashboards':'エグゼクティブダッシュボード','Scheduled exports':'定期エクスポート','L2 / L3 maps':'L2 / L3 マップ','VLAN & subnet view':'VLAN とサブネット表示','Path tracing':'パストレーシング','Dependency graph':'依存関係グラフ','NetFlow / IPFIX':'NetFlow / IPFIX','Top talkers':'トップトーカー','Application mix':'アプリケーション構成','Bandwidth heatmaps':'帯域ヒートマップ','Alert correlation':'アラート相関','Service assurance':'サービス保証','Synthetic probes':'合成プローブ','Noise reduction':'ノイズ低減','Draft':'下書き','New support ticket':'新しいサポートチケット','Subject':'件名','Priority':'優先度','Low':'低','Normal':'通常','High':'高','Urgent':'緊急','Type':'種類','Incident':'インシデント','Service request':'サービス要求','Change':'変更','Problem':'問題','Assignee':'担当者','Unassigned':'未割り当て','NOC — Tier 1':'NOC — レベル1','NOC — Tier 2':'NOC — レベル2','Linked collector':'関連コレクター','None':'なし','Description':'説明','Cancel':'キャンセル','Submit ticket':'チケットを送信','Submitting ticket':'チケットを送信中','Ticket created':'チケットを作成しました','Create another':'別のチケットを作成','Done':'完了','Short summary of the issue':'問題の簡単な要約','What is happening? Steps, impact, affected devices…':'何が起きていますか？手順、影響、対象デバイス…','Connecting to':'接続中:','Authenticating API token':'API トークンを認証中','Creating ticket record':'チケットレコードを作成中','Assigning ticket number':'チケット番号を割り当て中','Setting priority':'優先度を設定中','Routing to':'振り分け先:','Linking asset to ticket':'資産をチケットに関連付け中','Confirming two-way status sync':'双方向ステータス同期を確認中','via':'経由:','Created in':'作成先:','Provider':'プロバイダー','Tenant':'テナント','Created':'作成日時','Open':'オープン','View':'表示','Submit to':'送信先:','Live health and controls for the Linux host running this collector.':'このコレクターを実行する Linux ホストのライブ状態と操作。','Host & system status':'ホストとシステムの状態','Collector Host':'コレクターホスト','The Ubuntu server this collector runs on.':'このコレクターが稼働する Ubuntu サーバー。','Compute Resources':'コンピューティングリソース','CPU & Load Utilization':'CPU と負荷の使用状況','Per-core load and the processes driving it.':'コア別の負荷とその要因となるプロセス。','Top CPU consumers':'CPU使用率の高いプロセス','Memory Utilization':'メモリ使用状況','Resident memory by service, buffers and cache.':'サービス・バッファ・キャッシュ別の常駐メモリ。','Memory map':'メモリマップ','Top memory consumers':'メモリ使用量の高いプロセス','CPU, per-core load, memory and swap.':'CPU、コア別負荷、メモリ、スワップ。','Operating System':'オペレーティングシステム','Distribution, kernel and patch status.':'ディストリビューション、カーネル、パッチ状況。','Database':'データベース','Local collector datastore & buffer.':'コレクターのローカルデータストアとバッファ。','Storage':'ストレージ','Disk usage by mount point.':'マウントポイント別のディスク使用量。','Controls & services':'コントロールとサービス','Operating System Maintenance':'オペレーティングシステムのメンテナンス','Maintenance actions for the whole host.':'ホスト全体のメンテナンス操作。','Reboot host':'ホストを再起動','Flush DNS':'DNS をフラッシュ','Run updates':'更新を実行','Service Controls':'サービス操作','Start, stop, restart or reload the services on this collector.':'このコレクターのサービスを開始・停止・再起動・リロードします。','Guardare microservices':'Guardare マイクロサービス','Host & platform services':'ホストとプラットフォームのサービス','All Services':'すべてのサービス','Everything running on this host, at a glance.':'このホストで実行中のすべてを一目で。','Recent Activity':'最近のアクティビティ','Latest events from the host and its services.':'ホストとそのサービスの最新イベント。','Distribution':'ディストリビューション','Codename':'コードネーム','Kernel':'カーネル','Architecture':'アーキテクチャ','Uptime':'稼働時間','Packages':'パッケージ','Security updates':'セキュリティ更新','Timezone':'タイムゾーン','Version':'バージョン','Threads connected':'接続スレッド数','Tasks':'タスク','Threads':'スレッド','Total':'合計','Availability':'可用性','Starting':'起動中','Stopping':'停止中','No mapped sites':'マップ上にサイトなし','Last boot':'最終起動','Queries / sec':'クエリ/秒','Buffer pool hit':'バッファプールヒット率','Slow queries':'低速クエリ','Data size':'データサイズ','Replication':'レプリケーション','Hostname':'ホスト名','Site':'サイト','Status':'状態','Load average':'平均負荷','Swap':'スワップ','Cores':'コア','Load':'負荷','Collects device data':'デバイスデータを収集','Standardizes telemetry':'テレメトリを標準化','Runs alerting rules':'アラートルールを実行','Syncs docs & assets':'ドキュメントと資産を同期','Local database':'ローカルデータベース','Realtime messaging':'リアルタイムメッセージング','Cache & queues':'キャッシュとキュー','Web / reverse proxy':'Web / リバースプロキシ','Draft ticket':'チケットの下書き','OS Monitoring':'OS モニタリング',
+  'Location Management':'所在地管理','Card view':'カード表示','List view':'リスト表示','Enable Weather Forecasting':'天気予報を有効化','Guardare Core and Vista deployments across {n} locations':'{n} か所の Guardare Core および Vista デプロイメント','New location':'新しい所在地','Delete this location?':'この所在地を削除しますか？','This permanently removes the location from the console and cannot be undone.':'この操作は所在地をコンソールから完全に削除し、元に戻せません。',
   'Weather Forecast':'天気予報','In service':'稼働開始','Date placed in service':'稼働開始日','Shown on the Collector Inventory page.':'コレクターインベントリページに表示されます。','Enable in Locations':'所在地で有効化','View in Locations':'所在地で表示','Open Integrations':'統合を開く','Weather not enabled for this location.':'この所在地では天気が有効になっていません。','Connect a weather provider in Integrations.':'統合で天気プロバイダーを接続してください。',
   'Forecast':'予報','Loading forecast':'予報を読み込み中','Enable weather to see the forecast':'予報を表示するには天気を有効にしてください','Manage':'管理',
   'Clear':'快晴','Partly cloudy':'一部曇り','Overcast':'曇り','Fog':'霧','Rain':'雨','Snow':'雪','Showers':'にわか雨','Storm':'雷雨','Feels like':'体感','Humidity':'湿度','Wind':'風','Today':'今日','Monthly recurring':'月次収益','Tenants':'テナント','Active collectors':'アクティブコレクター','Open alerts':'未対応アラート','active':'アクティブ','trial':'トライアル','online across fleet':'稼働中（フリート全体）','tenants':'テナント','need attention':'要対応','all clear':'異常なし',
@@ -9052,39 +9100,76 @@ function buildWxTip(key){
   }
   return head+meta+days;
 }
-function renderConfig(){
-  const list=locationRows();
-  const oneTenant=(currentTenantCtx||currentTenant)!=='all';
-  const cards=list.map(l0=>{
-    const l=effLoc(l0);
-    const key=l.tenant+':'+l.id;
-    const sid=LOC_ID_OVERRIDE[key]||l.id;
+/* ---- Locations: added/hidden stores (page-only, do not affect collector pickers) ---- */
+let LOC_NEW=(function(){ try{ return JSON.parse(localStorage.getItem('guardare_loc_new')||'[]')||[]; }catch(e){ return []; } })();
+let LOC_HIDDEN=(function(){ try{ const s=localStorage.getItem('guardare_loc_hidden'); if(s) return new Set(JSON.parse(s)); }catch(e){} return new Set(); })();
+function _locNewPersist(){ try{ localStorage.setItem('guardare_loc_new', JSON.stringify(LOC_NEW)); }catch(e){} }
+function _locHiddenPersist(){ try{ localStorage.setItem('guardare_loc_hidden', JSON.stringify([...LOC_HIDDEN])); }catch(e){} }
+function locPageRows(){
+  const scope=currentTenantCtx||currentTenant;
+  let rows=locationRows().slice();
+  LOC_NEW.forEach(function(n){ if(scope==='all'||n.tenant===scope) rows.push({tenant:n.tenant,id:n.id,name:n.name,city:n.city,lat:n.lat,lng:n.lng,_new:true}); });
+  return rows.filter(function(r){ return !LOC_HIDDEN.has(r.tenant+':'+r.id); });
+}
+function locFind(key){ return locPageRows().find(function(x){return x.tenant+':'+x.id===key;}); }
+let LOC_VIEW=(function(){ try{ return localStorage.getItem('guardare_loc_view')||'card'; }catch(e){ return 'card'; } })();
+function setLocView(v){ LOC_VIEW=v; try{ localStorage.setItem('guardare_loc_view',v); }catch(e){} renderConfig(); }
+function locCardHTML(l0,oneTenant){
+  const l=effLoc(l0);
+  const key=l.tenant+':'+l.id;
+  const sid=LOC_ID_OVERRIDE[key]||l.id;
+  const wxOn=WEATHER_SITES.has(key)&&wxConnected();
+  return '<button class="loc-card" data-loc="'+key+'" onclick="openLocationCard(\''+key+'\')">'
+    + (oneTenant?'':'<div class="loc-card-top"><span class="loc-card-tn">'+tnBadge(l.tenant)+'<span>'+(tenantName[l.tenant]||l.tenant)+'</span></span></div>')
+    + '<div class="loc-card-name">'+_esc(l.name)+'</div>'
+    + '<div class="loc-card-sid-sub"><span class="mono">'+_esc(sid)+'</span></div>'
+    + '<div class="loc-card-addr"><svg viewBox="0 0 24 24" class="loc-pin"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg><span>'+_esc(l.city||'\u2014')+'</span></div>'
+    + '<div class="loc-card-foot">'
+      + (wxOn?'<span class="loc-card-wx">'+_locWxMini(key)+'</span>':'<span class="loc-card-wx-off"></span>')
+      + '<span class="loc-card-mng">'+TX('Manage')+' \u203a</span>'
+    + '</div></button>';
+}
+function locListHTML(list,oneTenant){
+  const head='<tr>'
+    + (oneTenant?'':'<th>'+TX('Tenant')+'</th>')
+    + '<th>'+TX('Site ID')+'</th><th>'+TX('Location name')+'</th><th>'+TX('Location')+'</th>'
+    + '<th>'+TX('Latitude')+'</th><th>'+TX('Longitude')+'</th><th>'+TX('Weather')+'</th></tr>';
+  const rows=list.map(function(l0){
+    const l=effLoc(l0); const key=l.tenant+':'+l.id; const sid=LOC_ID_OVERRIDE[key]||l.id;
     const wxOn=WEATHER_SITES.has(key)&&wxConnected();
-    return `<button class="loc-card" data-loc="${key}" onclick="openLocationCard('${key}')">
-      <div class="loc-card-top">
-        ${oneTenant?'':`<span class="loc-card-tn">${tnBadge(l.tenant)}<span>${tenantName[l.tenant]||l.tenant}</span></span>`}
-        <span class="loc-card-sid">${_esc(sid)}</span>
-      </div>
-      <div class="loc-card-name">${_esc(l.name)}</div>
-      <div class="loc-card-addr"><svg viewBox="0 0 24 24" class="loc-pin"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg><span>${_esc(l.city||'—')}</span></div>
-      <div class="loc-card-foot">
-        <span class="loc-card-co">${l.lat}, ${l.lng}</span>
-        ${wxOn?`<span class="loc-card-wx">${_locWxMini(key)}</span>`:`<span class="loc-card-mng">${TX('Manage')} ›</span>`}
-      </div>
-    </button>`;
+    return '<tr class="loc-row" data-loc="'+key+'" onclick="openLocationCard(\''+key+'\')">'
+      + (oneTenant?'':'<td><span class="loc-row-tn">'+tnBadge(l.tenant,'xs')+(tenantName[l.tenant]||l.tenant)+'</span></td>')
+      + '<td class="mono loc-row-sid">'+_esc(sid)+'</td>'
+      + '<td><b>'+_esc(l.name)+'</b></td>'
+      + '<td>'+_esc(l.city||'\u2014')+'</td>'
+      + '<td class="mono">'+_esc(l.lat)+'</td><td class="mono">'+_esc(l.lng)+'</td>'
+      + '<td>'+(wxOn?_locWxMini(key):'<span class="loc-row-mng">'+TX('Manage')+' \u203a</span>')+'</td>'
+      + '</tr>';
   }).join('');
-  document.getElementById('screen-config').innerHTML=`
-    <div class="page-head">
-      <div>
-        <h1 class="page-title">${TX('Locations')}</h1>
-        <p class="page-sub">${list.length} ${TX('locations')} · ${TX('collector sites and Vista monitoring sites')}</p>
-        ${wxStatusBar()}
-      </div>
-      <div class="head-actions">
-        <button class="btn" onclick="openLocationCard('')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add location')}</button>
-      </div>
-    </div>
-    <div class="loc-grid">${cards}</div>`;
+  return '<div class="panel loc-list-panel"><table class="loc-table" id="locTable"><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div>';
+}
+function renderConfig(){
+  const list=locPageRows();
+  const scope=currentTenantCtx||currentTenant;
+  const oneTenant=scope!=='all';
+  const tenName=oneTenant?(tenantName[scope]||scope):TX('All Tenants');
+  const gridIcon='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>';
+  const listIcon='<svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>';
+  const seg='<div class="loc-viewseg" role="tablist">'
+    +'<button class="'+(LOC_VIEW==='card'?'active':'')+'" onclick="setLocView(\'card\')" title="'+TX('Card view')+'" aria-label="'+TX('Card view')+'">'+gridIcon+'</button>'
+    +'<button class="'+(LOC_VIEW==='list'?'active':'')+'" onclick="setLocView(\'list\')" title="'+TX('List view')+'" aria-label="'+TX('List view')+'">'+listIcon+'</button>'
+    +'</div>';
+  const body=(LOC_VIEW==='list')?locListHTML(list,oneTenant):('<div class="loc-grid">'+list.map(function(l0){return locCardHTML(l0,oneTenant);}).join('')+'</div>');
+  const sub=TX('Guardare Core and Vista deployments across {n} locations').replace('{n}',list.length);
+  document.getElementById('screen-config').innerHTML=
+    '<div class="page-head"><div>'
+    +'<div class="page-eyebrow">'+_esc(tenName)+'</div>'
+    +'<h1 class="page-title">'+TX('Location Management')+'</h1>'
+    +'<p class="page-sub">'+sub+'</p>'
+    +'</div><div class="head-actions">'+seg
+    +'<button class="btn primary" onclick="openLocationCard(\'\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add location')+'</button>'
+    +'</div></div>'+body;
+  if(LOC_VIEW==='list' && typeof makeColsResizable==='function'){ var _t=document.getElementById('locTable'); if(_t) makeColsResizable(_t); }
   wxKick();
 }
 function _locWxMini(key){
@@ -9113,56 +9198,99 @@ function _lmForecast(key){
   return '<div class="lm-fc-h">'+TX('Forecast')+'</div>'+now+meta+days;
 }
 function openLocationCard(key){
-  if(!key){ toast('Add location — wired in the next build'); return; }
-  const l0=locationRows().find(function(x){return x.tenant+':'+x.id===key;});
-  if(!l0) return;
-  const l=effLoc(l0);
-  const sid=LOC_ID_OVERRIDE[key]||l.id;
-  const oneTenant=(currentTenantCtx||currentTenant)!=='all';
-  const wxOn=WEATHER_SITES.has(key);
-  LOC_MODAL_KEY=key;
-  const tnRef = oneTenant?'':'<div class="lm-tnref">'+tnBadge(l.tenant)+'<span>'+(tenantName[l.tenant]||l.tenant)+'</span></div>';
+  const isAdd=!key;
+  const scope=currentTenantCtx||currentTenant;
+  const oneTenant=scope!=='all';
+  let l, sid, tnSlug;
+  if(isAdd){
+    tnSlug=oneTenant?scope:Object.keys(tenantName)[0];
+    l={tenant:tnSlug,id:'',name:'',city:'',lat:'',lng:''}; sid=''; LOC_MODAL_KEY='__new__';
+  } else {
+    const l0=locFind(key); if(!l0) return;
+    l=effLoc(l0); sid=LOC_ID_OVERRIDE[key]||l.id; tnSlug=l.tenant; LOC_MODAL_KEY=key;
+  }
+  const mk=LOC_MODAL_KEY;
+  const wxOn=!isAdd&&WEATHER_SITES.has(key);
+  let tenantField;
+  if(isAdd && !oneTenant){
+    const opts=Object.keys(tenantName).map(function(s){return '<option value="'+s+'"'+(s===tnSlug?' selected':'')+'>'+_esc(tenantName[s])+'</option>';}).join('');
+    tenantField='<div class="lm-field"><label>'+TX('Tenant')+'</label><select id="lmTenant" class="tm-input">'+opts+'</select></div>';
+  } else {
+    tenantField='<div class="lm-field"><label>'+TX('Tenant')+'</label><div class="lm-tn-static" data-slug="'+_esc(tnSlug)+'">'+tnBadge(tnSlug,'xs')+'<span>'+_esc(tenantName[tnSlug]||tnSlug)+'</span></div></div>';
+  }
+  const subt=isAdd?TX('New location'):(_esc(l.name||key)+' \u00b7 <span class="mono">'+_esc(key)+'</span>');
   document.getElementById('locModalBody').innerHTML=
-    '<div class="lm-head"><div>'+tnRef+'<h3 class="lm-title">'+_esc(l.name)+'</h3><div class="lm-sub">'+TX('Location')+' · <span class="mono">'+_esc(key)+'</span></div></div>'+
+    '<div class="lm-head"><div><h3 class="lm-title">'+TX('Location Management')+'</h3><div class="lm-sub">'+subt+'</div></div>'+
     '<button class="lm-x" onclick="closeLocationCard()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="lm-grid"><div class="lm-form">'+
-      '<div class="lm-field"><label>'+TX('Site ID')+'</label><input id="lmSiteId" class="tm-input mono" value="'+_esc(sid)+'" autocomplete="off" spellcheck="false"></div>'+
-      '<div class="lm-field"><label>'+TX('Location name')+'</label><input id="lmName" class="tm-input" value="'+_esc(l.name)+'"></div>'+
-      '<div class="lm-field lm-field-wide"><label>'+TX('Address')+'</label><input id="lmAddr" class="tm-input loc-addr-input" value="'+_esc(l.city)+'" autocomplete="off" spellcheck="false" placeholder="'+TX('Search address…')+'" oninput="locAddrInput(\''+key+'\',this.value)" onfocus="locAddrInput(\''+key+'\',this.value)" onblur="locAddrBlur()" onkeydown="if(event.key===\'Escape\')locAddrClose()"><div class="gcfg-addr-menu loc-addr-menu" id="locAddrMenu"></div></div>'+
-      '<div class="lm-field"><label>'+TX('Latitude')+'</label><input id="lmLat" class="tm-input mono" value="'+l.lat+'"></div>'+
-      '<div class="lm-field"><label>'+TX('Longitude')+'</label><input id="lmLng" class="tm-input mono" value="'+l.lng+'"></div>'+
-      '<div class="lm-field lm-field-wide lm-wxrow"><label class="lm-wxlabel">'+TX('Weather')+'</label><label class="wx-tog"><input type="checkbox" id="lmWx" '+(wxOn?'checked':'')+' onchange="lmToggleWx()"><span class="wx-sw"></span></label></div>'+
-    '</div><div class="lm-fc" id="lmForecast">'+_lmForecast(key)+'</div></div>'+
-    '<div class="lm-acts"><button class="btn" onclick="closeLocationCard()">'+TX('Cancel')+'</button><button class="btn primary" onclick="saveLocationCard()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>'+TX('Save changes')+'</button></div>';
+      '<div class="lm-field"><label>'+TX('Site ID')+'</label><input id="lmSiteId" class="tm-input mono" value="'+_esc(sid)+'" autocomplete="off" spellcheck="false" placeholder="NC03"></div>'+
+      tenantField+
+      '<div class="lm-field lm-field-wide"><label>'+TX('Location name')+'</label><input id="lmName" class="tm-input" value="'+_esc(l.name)+'" placeholder="'+TX('Location name')+'"></div>'+
+      '<div class="lm-field lm-field-wide"><label>'+TX('Address')+'</label><input id="lmAddr" class="tm-input loc-addr-input" value="'+_esc(l.city)+'" autocomplete="off" spellcheck="false" placeholder="'+TX('Search address…')+'" oninput="locAddrInput(\''+mk+'\',this.value)" onfocus="locAddrInput(\''+mk+'\',this.value)" onblur="locAddrBlur()" onkeydown="if(event.key===\'Escape\')locAddrClose()"><div class="gcfg-addr-menu loc-addr-menu" id="locAddrMenu"></div></div>'+
+      '<div class="lm-field"><label>'+TX('Latitude')+'</label><input id="lmLat" class="tm-input mono" value="'+_esc(l.lat)+'"></div>'+
+      '<div class="lm-field"><label>'+TX('Longitude')+'</label><input id="lmLng" class="tm-input mono" value="'+_esc(l.lng)+'"></div>'+
+      '<div class="lm-field lm-field-wide lm-wxrow"><label class="lm-wxlabel">'+TX('Enable Weather Forecasting')+'</label><label class="wx-tog"><input type="checkbox" id="lmWx" '+(wxOn?'checked':'')+' onchange="lmToggleWx()"><span class="wx-sw"></span></label></div>'+
+    '</div><div class="lm-fc" id="lmForecast">'+_lmForecast(mk)+'</div></div>'+
+    '<div class="lm-acts">'+
+      (isAdd?'<span class="lm-acts-sp"></span>':'<button class="btn danger lm-del" onclick="lmAskDelete()"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>'+TX('Delete')+'</button>')+
+      '<div class="lm-acts-r"><button class="btn" onclick="closeLocationCard()">'+TX('Cancel')+'</button><button class="btn primary" onclick="saveLocationCard()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>'+TX('Save changes')+'</button></div>'+
+    '</div>';
   document.getElementById('locModal').classList.add('show');
-  if(WEATHER_SITES.has(key) && wxConnected()){ wxMaybeFetch(key, l.lat, l.lng); }
+  if(!isAdd && WEATHER_SITES.has(key) && wxConnected()){ wxMaybeFetch(key, l.lat, l.lng); }
 }
 function closeLocationCard(){ const m=document.getElementById('locModal'); if(m) m.classList.remove('show'); LOC_MODAL_KEY=null; locAddrClose(); }
 function lmToggleWx(){
   const key=LOC_MODAL_KEY; if(!key) return;
+  if(key==='__new__') return;
   if(WEATHER_SITES.has(key)) WEATHER_SITES.delete(key); else WEATHER_SITES.add(key);
   _wxPersist();
-  const l0=locationRows().find(function(x){return x.tenant+':'+x.id===key;}); const l=l0?effLoc(l0):null;
+  const l0=locFind(key); const l=l0?effLoc(l0):null;
   if(WEATHER_SITES.has(key) && wxConnected() && l){ wxMaybeFetch(key,l.lat,l.lng); }
   const fc=document.getElementById('lmForecast'); if(fc) fc.innerHTML=_lmForecast(key);
 }
 function saveLocationCard(){
   const key=LOC_MODAL_KEY; if(!key) return;
   const g=function(id){ var e=document.getElementById(id); return e?e.value:null; };
-  const sid=g('lmSiteId'), name=g('lmName'), addr=g('lmAddr'), lat=g('lmLat'), lng=g('lmLng');
-  if(sid!=null && sid.trim()) LOC_ID_OVERRIDE[key]=sid.trim();
+  const sidv=(g('lmSiteId')||'').trim(), name=(g('lmName')||'').trim(), addr=(g('lmAddr')||'').trim(), lat=(g('lmLat')||'').trim(), lng=(g('lmLng')||'').trim();
+  if(key==='__new__'){
+    if(!sidv){ toast('Site ID is required'); return; }
+    const tsel=document.getElementById('lmTenant');
+    var tslug; if(tsel && tsel.tagName==='SELECT'){ tslug=tsel.value; } else { var ts=document.querySelector('#locModalBody .lm-tn-static'); tslug=ts?ts.getAttribute('data-slug'):(currentTenantCtx||currentTenant); }
+    const nk=tslug+':'+sidv;
+    if(locFind(nk)){ toast('That Site ID already exists for this tenant'); return; }
+    LOC_NEW.push({tenant:tslug,id:sidv,name:name||sidv,city:addr,lat:lat,lng:lng}); _locNewPersist();
+    const wxc=document.getElementById('lmWx'); if(wxc && wxc.checked){ WEATHER_SITES.add(nk); _wxPersist(); }
+    toast('Location added'); closeLocationCard(); renderConfig(); return;
+  }
+  if(sidv) LOC_ID_OVERRIDE[key]=sidv;
   const ov=LOC_ADDR_OVERRIDE[key]||{};
-  if(name!=null) ov.name=name.trim();
-  if(addr!=null) ov.addr=addr.trim();
-  if(lat!=null) ov.lat=lat.trim();
-  if(lng!=null) ov.lng=lng.trim();
+  ov.name=name; ov.addr=addr; ov.lat=lat; ov.lng=lng;
   LOC_ADDR_OVERRIDE[key]=ov;
   try{ localStorage.setItem('guardare_loc_ids', JSON.stringify(LOC_ID_OVERRIDE)); }catch(e){}
   _locAddrPersist();
   delete WX_CACHE[key];
-  toast('Location saved');
-  closeLocationCard();
-  renderConfig();
+  toast('Location saved'); closeLocationCard(); renderConfig();
+}
+function lmAskDelete(){
+  if(LOC_MODAL_KEY==='__new__'){ closeLocationCard(); return; }
+  var box=document.querySelector('#locModal .loc-modal'); if(!box) return;
+  if(document.getElementById('lmConfirm')) return;
+  var ov=document.createElement('div'); ov.className='lm-confirm'; ov.id='lmConfirm';
+  ov.innerHTML='<div class="lm-confirm-card"><div class="lm-confirm-ic"><svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h18.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div>'+
+    '<div class="lm-confirm-h">'+TX('Delete this location?')+'</div>'+
+    '<div class="lm-confirm-b">'+TX('This permanently removes the location from the console and cannot be undone.')+'</div>'+
+    '<div class="lm-confirm-acts"><button class="btn" onclick="lmCancelDelete()">'+TX('Cancel')+'</button><button class="btn danger" onclick="lmConfirmDelete()"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>'+TX('Delete')+'</button></div></div>';
+  box.appendChild(ov);
+}
+function lmCancelDelete(){ var c=document.getElementById('lmConfirm'); if(c) c.remove(); }
+function lmConfirmDelete(){
+  var key=LOC_MODAL_KEY; if(!key||key==='__new__'){ closeLocationCard(); return; }
+  var ni=LOC_NEW.findIndex(function(n){return n.tenant+':'+n.id===key;});
+  if(ni>=0){ LOC_NEW.splice(ni,1); _locNewPersist(); }
+  else { LOC_HIDDEN.add(key); _locHiddenPersist(); }
+  if(WEATHER_SITES.has(key)){ WEATHER_SITES.delete(key); _wxPersist(); }
+  delete WX_CACHE[key];
+  toast('Location deleted'); closeLocationCard(); renderConfig();
 }
 
 /* ---- Locations: address → lat/long via OpenStreetMap (Photon), offline fallback ---- */
@@ -9826,7 +9954,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.264.alpha';
+const APP_VERSION='v2026.02.265.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
