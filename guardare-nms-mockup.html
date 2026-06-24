@@ -2158,7 +2158,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.291.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.292.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10310,7 +10310,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.291.alpha';
+const APP_VERSION='v2026.02.292.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11916,18 +11916,21 @@ document.querySelectorAll('.nav-item').forEach(n=>{
 
 /* ===== Collector Topology (Cytoscape.js) ===== */
 let ctopoCy=null, ctopoAnim=null, ctopoPreset={}, ctopoCurLayout='path';
-const TBADGE={'acme-corp':{t:'AC',c:'#5BC8FF'},'piedmont':{t:'PD',c:'#9D8BFF'},'atlantico':{t:'AT',c:'#4FD9A0'},'roma':{t:'RM',c:'#E0A95C'}};
+function ctopoTenantHasLogo(slug){ return !!(typeof TENANT_LOGOS!=='undefined' && TENANT_LOGOS[slug]); }
 function ctopoLan(slug,i){ const t={'acme-corp':10,'piedmont':20,'atlantico':30,'roma':40}[slug]||50; return '10.'+t+'.'+(i+1)+'.10/24'; }
 function ctopoCollIcon(color){
   return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6.5" rx="1.5"/><rect x="3" y="13.5" width="18" height="6.5" rx="1.5"/><path d="M7 7.2h.01M7 16.8h.01"/></svg>');
 }
-function ctopoTenantBadge(code,color){
-  return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="'+color+'" fill-opacity="0.15" stroke="'+color+'" stroke-width="1.3"/><text x="12" y="12.6" text-anchor="middle" dominant-baseline="central" font-family="Open Sans, system-ui, sans-serif" font-size="9.5" font-weight="700" fill="'+color+'">'+code+'</text></svg>');
+function ctopoTenantBadge(slug){
+  if(typeof TENANT_LOGOS!=='undefined' && TENANT_LOGOS[slug]) return TENANT_LOGOS[slug];
+  var col=(typeof tenantColors!=='undefined' && tenantColors[slug])||'#2EE6C8';
+  var init=(typeof tnInit==='function')?tnInit((typeof tenantName!=='undefined'&&tenantName[slug])||slug):(slug||'?').slice(0,2).toUpperCase();
+  return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5.5" fill="'+col+'"/><text x="12" y="12.7" text-anchor="middle" dominant-baseline="central" font-family="Open Sans, system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#04201b">'+init+'</text></svg>');
 }
 function ctopoIcon(kind){
   const P={
     firewall:'<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9.33h18M3 14.67h18M9 4v5.33M15 4v5.33M6 9.33v5.34M12 9.33v5.34M18 9.33v5.34M9 14.67V20M15 14.67V20"/>',
-    internet:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+    internet:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>',
     nginx:'<path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M9 16V9l6 6V9"/>',
     broker:'<circle cx="12" cy="12" r="2.3"/><path d="M7.6 7.6a6 6 0 0 0 0 8.8M16.4 7.6a6 6 0 0 1 0 8.8M4.8 4.8a10 10 0 0 0 0 14.4M19.2 4.8a10 10 0 0 1 0 14.4"/>',
     admin:'<rect x="3" y="3" width="8" height="6" rx="1"/><rect x="13" y="3" width="8" height="6" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/>',
@@ -11988,8 +11991,8 @@ function renderCollTopo(){
     var site=(typeof siteOf==='function')?siteOf(c.slug,c.id):{name:c.id};
     var y=i*GAP, col=stCol(c.status), up=isUp(c.status);
     var nm=all?(site.name+'  \u00b7  '+((typeof tenantName!=='undefined'&&tenantName[c.slug])||c.slug)):site.name;
-    var tb=TBADGE[c.slug]||{t:(c.slug||'?').slice(0,2).toUpperCase(),c:T.teal};
-    els.push({data:{id:'b'+i,label:'',icon:ctopoTenantBadge(tb.t,tb.c),'for':'c'+i},position:{x:X.badge,y:y},classes:'tenantbadge'});
+    var hasLogo=ctopoTenantHasLogo(c.slug);
+    els.push({data:{id:'b'+i,label:'',icon:ctopoTenantBadge(c.slug),'for':'c'+i},position:{x:X.badge,y:y},classes:'tenantbadge'+(hasLogo?' tlogo':'')});
     els.push({data:{id:'c'+i,label:nm+'\n'+ctopoLan(c.slug,i),icon:ctopoCollIcon(col),scol:col},position:{x:X.coll,y:y},classes:'coll'});
     els.push({data:{id:'f'+i,label:'Firewall\nNAT \u00b7 stateful',icon:ctopoIcon('firewall')},position:{x:X.fw,y:y},classes:'fw'});
     els.push({data:{id:'uc'+i,source:'c'+i,target:'f'+i,ecol:col,flow:(up?1:0)},classes:'uplink'});
@@ -12010,6 +12013,7 @@ function renderCollTopo(){
       {selector:'node.svc',style:{'border-color':T.teal,'background-color':T.raise,'width':48,'height':48}},
       {selector:'node.dataend',style:{'text-halign':'left','text-margin-x':-11}},
       {selector:'node.tenantbadge',style:{'background-opacity':0,'border-width':0,'width':34,'height':34,'background-width':'100%','background-height':'100%','text-margin-y':0}},
+      {selector:'node.tenantbadge.tlogo',style:{'background-opacity':1,'background-color':'#0c1c20','border-width':1,'border-color':T.line,'background-fit':'contain','background-width':'78%','background-height':'78%','background-clip':'node'}},
       {selector:'node.cloudbox',style:{'label':'data(label)','shape':'round-rectangle','background-color':'#0e2a30','background-opacity':0.4,'background-image':'none','border-width':1.3,'border-color':T.teal,'border-style':'dashed','border-opacity':0.7,'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':-12,'color':T.teal,'font-size':'12.5px','font-weight':700,'padding':'40px'}},
       {selector:'edge',style:{'width':1.5,'line-color':T.line,'target-arrow-color':T.line,'target-arrow-shape':'triangle','arrow-scale':0.85,'curve-style':'bezier'}},
       {selector:'edge.cloudedge',style:{'line-color':T.teal,'target-arrow-color':T.teal,'opacity':0.6,'width':1.8,'line-style':'dashed','line-dash-pattern':[9,8]}},
