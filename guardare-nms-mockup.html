@@ -257,13 +257,13 @@
   .nav-group:first-child{padding-top:2px}
   #cloudNav .nav-group{padding-top:14px;color:var(--violet)}
   #collectorNav .nav-group{padding-top:14px}
-  #opsNav .nav-group,#svcNav .nav-group{color:var(--teal)}
-  #opsNav .nav-item svg,#svcNav .nav-item svg{stroke:var(--teal);opacity:.9}
-  #opsNav .nav-item:hover,#svcNav .nav-item:hover{color:var(--teal);background:var(--panel)}
-  #opsNav .nav-item:hover svg,#svcNav .nav-item:hover svg{opacity:1}
-  #opsNav .nav-item.active,#svcNav .nav-item.active{background:linear-gradient(90deg,#2ee6c81f,transparent);color:var(--text)}
-  #opsNav .nav-item.active svg,#svcNav .nav-item.active svg{stroke:var(--teal);opacity:1}
-  #opsNav .nav-item.active::before,#svcNav .nav-item.active::before{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+  #opsNav .nav-group,#svcNav .nav-group,#cfgNav .nav-group{color:var(--teal)}
+  #opsNav .nav-item svg,#svcNav .nav-item svg,#cfgNav .nav-item svg{stroke:var(--teal);opacity:.9}
+  #opsNav .nav-item:hover,#svcNav .nav-item:hover,#cfgNav .nav-item:hover{color:var(--teal);background:var(--panel)}
+  #opsNav .nav-item:hover svg,#svcNav .nav-item:hover svg,#cfgNav .nav-item:hover svg{opacity:1}
+  #opsNav .nav-item.active,#svcNav .nav-item.active,#cfgNav .nav-item.active{background:linear-gradient(90deg,#2ee6c81f,transparent);color:var(--text)}
+  #opsNav .nav-item.active svg,#svcNav .nav-item.active svg,#cfgNav .nav-item.active svg{stroke:var(--teal);opacity:1}
+  #opsNav .nav-item.active::before,#svcNav .nav-item.active::before,#cfgNav .nav-item.active::before{background:var(--teal);box-shadow:0 0 12px var(--teal)}
   #cloudNav .nav-item svg{color:var(--violet)}
   #cloudNav .nav-item:hover{color:var(--violet)}
   #cloudNav .nav-item:hover svg{color:var(--violet)}
@@ -419,6 +419,8 @@
   .acct-lic-link:hover{border-color:var(--teal-deep);background:var(--raise)}
   .acct-lic-ext{color:var(--dim);font-size:12px;font-weight:500}
   .radar-tenant{font-weight:700;margin-right:6px}
+  .radar-panel .panel-head .tag{font-size:13px;font-weight:700;color:var(--text);letter-spacing:.03em}
+  .radar-panel .panel-head .radar-tenant{color:var(--teal)}
 
   /* console log stream */
   .console{padding:0;margin-top:18px}
@@ -765,7 +767,7 @@
   .loc-row-mng{color:var(--teal-deep);font-weight:700}
   .loc-table tbody tr:hover .loc-row-mng{color:var(--teal)}
   /* ---- Location detail modal ---- */
-  .loc-modal{position:relative;width:min(620px,94vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
+  .loc-modal{position:relative;width:min(820px,94vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
   .lm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 22px 16px;border-bottom:1px solid var(--line)}
   .lm-tnref{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);font-weight:600;margin-bottom:7px}
   .lm-title{font-size:20px;font-weight:700;letter-spacing:-.01em}
@@ -2002,6 +2004,7 @@
     </button>
     </div><!--/svcNav-->
 
+    <div id="cfgNav">
     <div class="nav-group" data-i18n="Collector Configuration">Collector Configuration</div>
     <div class="nav-parent">
       <button class="nav-item nav-disc" data-disc="cfgmgr" onclick="toggleNavDisc('cfgmgr')">
@@ -2016,6 +2019,7 @@
         <button class="nav-subitem" data-sub="gitops" onclick="goCfgSub('gitops')"><span class="sub-lead"></span><span data-i18n="GitOps Repos">GitOps Repos</span></button>
       </div>
     </div>
+    </div><!--/cfgNav-->
     </div><!--/collectorNav-->
     <div id="cloudNav">
     <div class="nav-group" data-i18n="Global Platform">Global Platform</div>
@@ -2076,7 +2080,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.270.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.272.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10113,7 +10117,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.270.alpha';
+const APP_VERSION='v2026.02.272.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
