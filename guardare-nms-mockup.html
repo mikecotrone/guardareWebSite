@@ -257,13 +257,13 @@
   .nav-group:first-child{padding-top:2px}
   #cloudNav .nav-group{padding-top:14px;color:var(--violet)}
   #collectorNav .nav-group{padding-top:14px}
-  #opsNav .nav-group{color:var(--teal)}
-  #opsNav .nav-item svg{stroke:var(--teal);opacity:.9}
-  #opsNav .nav-item:hover{color:var(--teal);background:var(--panel)}
-  #opsNav .nav-item:hover svg{opacity:1}
-  #opsNav .nav-item.active{background:linear-gradient(90deg,#2ee6c81f,transparent);color:var(--text)}
-  #opsNav .nav-item.active svg{stroke:var(--teal);opacity:1}
-  #opsNav .nav-item.active::before{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+  #opsNav .nav-group,#svcNav .nav-group{color:var(--teal)}
+  #opsNav .nav-item svg,#svcNav .nav-item svg{stroke:var(--teal);opacity:.9}
+  #opsNav .nav-item:hover,#svcNav .nav-item:hover{color:var(--teal);background:var(--panel)}
+  #opsNav .nav-item:hover svg,#svcNav .nav-item:hover svg{opacity:1}
+  #opsNav .nav-item.active,#svcNav .nav-item.active{background:linear-gradient(90deg,#2ee6c81f,transparent);color:var(--text)}
+  #opsNav .nav-item.active svg,#svcNav .nav-item.active svg{stroke:var(--teal);opacity:1}
+  #opsNav .nav-item.active::before,#svcNav .nav-item.active::before{background:var(--teal);box-shadow:0 0 12px var(--teal)}
   #cloudNav .nav-item svg{color:var(--violet)}
   #cloudNav .nav-item:hover{color:var(--violet)}
   #cloudNav .nav-item:hover svg{color:var(--violet)}
@@ -773,8 +773,10 @@
   .lm-x{flex:none;width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:none;color:var(--dim);cursor:pointer}
   .lm-x:hover{color:var(--text);background:var(--raise)}
   .lm-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
-  .lm-grid{display:grid;grid-template-columns:1.12fr .88fr;overflow:auto}
-  .lm-form{padding:22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;align-content:start}
+  .lm-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(284px,300px);overflow:auto}
+  .lm-form{padding:24px 26px;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;align-content:start}
+  .lm-form .tm-input{padding:10px 12px}
+  .lm-field>label{text-align:left}
   .lm-field{display:flex;flex-direction:column;gap:5px;min-width:0}
   .lm-field-wide{grid-column:1/-1}
   .lm-field>label{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);font-weight:600}
@@ -801,7 +803,7 @@
   .lm-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px;border-top:1px solid var(--line);background:var(--panel)}
   .lm-acts-r{display:flex;gap:10px}
   .lm-acts-sp{flex:1}
-  .lm-tn-static{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg-2);color:var(--text);font-size:13px;font-weight:600;min-width:0;overflow:hidden}
+  .lm-tn-static{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg-2);color:var(--text);font-size:13px;font-weight:600;min-width:0;overflow:hidden}
   .lm-tn-static>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   .lm-tn-static .tn-avatar{flex:none}
   .lm-confirm{position:absolute;inset:0;background:rgba(7,15,17,.74);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px;z-index:5}
@@ -812,7 +814,7 @@
   .lm-confirm-b{font-size:13px;color:var(--dim);line-height:1.55;margin-bottom:20px}
   .lm-confirm-acts{display:flex;gap:10px;justify-content:center}
   #locModal .loc-addr-menu{z-index:200}
-  @media(max-width:720px){ .lm-grid{grid-template-columns:1fr} .lm-form{grid-template-columns:1fr} .lm-fc{border-left:none;border-top:1px solid var(--line)} }
+  @media(max-width:860px){ .lm-grid{grid-template-columns:1fr} .lm-form{grid-template-columns:1fr} .lm-fc{border-left:none;border-top:1px solid var(--line)} }
   /* ---- Collector Inventory (detail) ---- */
   .detail-collbar{margin:0 0 18px}
   .detail-collbar .vcoll{margin:0}
@@ -1962,6 +1964,7 @@
     </div><!--/opsNav-->
 
     <div id="collectorNav">
+    <div id="svcNav">
     <div class="nav-group" data-i18n="Collector Serviceability">Collector Serviceability</div>
     <button class="nav-item" data-screen="collmgmt">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M9 16v4M15 16v4"/></svg>
@@ -1975,6 +1978,7 @@
       <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
       <span data-i18n="Provision Collector">Provision Collector</span>
     </button>
+    </div><!--/svcNav-->
 
     <div class="nav-group" data-i18n="Collector Configuration">Collector Configuration</div>
     <div class="nav-parent">
@@ -2050,7 +2054,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.267.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.269.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10068,7 +10072,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.267.alpha';
+const APP_VERSION='v2026.02.269.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
