@@ -262,6 +262,9 @@
   #cloudNav .nav-item:hover svg{color:var(--violet)}
   #cloudNav .nav-item.active{background:linear-gradient(90deg,#94a2ff1f,transparent)}
   #cloudNav .nav-item.active::before{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+  #cloudNav .nav-subitem:hover{color:var(--violet)}
+  #cloudNav .nav-subitem.active{background:linear-gradient(90deg,#94a2ff1f,transparent)}
+  #cloudNav .nav-subitem.active .sub-lead{background:var(--violet);box-shadow:0 0 8px var(--violet)}
   .nav-item,.nav-disc{
     display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--r-sm);
     font-size:13.5px;font-weight:500;color:var(--dim);transition:.15s;position:relative;text-align:left;width:100%;
@@ -340,6 +343,7 @@
 
   .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}
   .page-eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:7px}
+  #dashEyebrow{font-size:15px;letter-spacing:.12em;margin-bottom:5px}
   .page-title{font-family:"Open Sans";font-size:27px;font-weight:600;letter-spacing:-.01em}
   .detail-title{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .detail-addr{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--dim);cursor:pointer;border-radius:6px;padding:2px 6px;margin:-2px -6px;transition:color .15s,background .15s}
@@ -1829,7 +1833,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.250.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.251.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9424,7 +9428,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.250.alpha';
+const APP_VERSION='v2026.02.251.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
