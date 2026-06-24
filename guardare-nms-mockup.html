@@ -563,6 +563,8 @@
   .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:14px 18px 18px}
   .svc-card{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:11px;min-height:150px}
   .svc-card.deg{border-color:#5a481f;background:#13201d}
+  .svc-card.cs-stopped{border-color:var(--red);background:#1b1214}
+  .svc-card.cs-starting{border-color:var(--amber);background:#1b1710}
   .svc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
   .svc-name{font-size:13.5px;font-weight:700;letter-spacing:.01em}
   .svc-role{font-size:10.5px;color:var(--mute);margin-top:2px}
@@ -1783,7 +1785,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.231.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.232.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9323,7 +9325,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.231.alpha';
+const APP_VERSION='v2026.02.232.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10137,10 +10139,11 @@ function genServices(id){
   };
 }
 function protoChips(p){return `<div class="svc-protos">`+Object.keys(p).map(k=>`<span class="proto" data-tip="${TX(PROTO_TIP[k])}" aria-label="${TX(PROTO_TIP[k])}"><i style="background:${PROTO_COLOR[k]}"></i>${PROTO_LABEL[k]} <b>${p[k]}</b></span>`).join('')+`</div>`;}
+function svcBorderCls(st){ return st==='stopped'?'cs-stopped':(st==='starting'||st==='stopping')?'cs-starting':''; }
 function svcCard(o){
   const metrics=o.metrics.map(m=>`<div class="svc-m"><div class="n">${m.n}${m.unit?`<small>${m.unit}</small>`:''}</div><div class="l">${TX(m.l)}</div></div>`).join('');
   const acts=o.acts.map(a=>`<button class="svc-act" data-tip="${TX(a.tip)}" aria-label="${TX(a.tip)}" onclick="${a.act&&o.skey?`svcAct('${o.skey}','${a.act}')`:`toast('${a.toast}')`}">${a.icon}</button>`).join('');
-  return `<div class="svc-card ${o.deg?'deg':''}">
+  return `<div class="svc-card ${o.deg?'deg':''} ${svcBorderCls(o.status)}">
     <div class="svc-top"><div><div class="svc-name">${o.name}</div><div class="svc-role">${TX(o.role)}</div></div>
       <span class="td-status ${statusClass[o.status]}"${o.skey?` id="scpill-${o.skey}"`:''}><i></i><span class="lbl">${TX(statusLabel[o.status])}</span></span></div>
     <div class="svc-metrics">${metrics}</div>${o.protos||''}${o.impact?`<div class="svc-impact">${SVC_WARN}<span>${TX(o.impact)}</span></div>`:''}
@@ -11179,7 +11182,8 @@ function refreshSvcState(){
     ['scpill-','aspill-'].forEach(function(pfx){
       var el=document.getElementById(pfx+k);
       if(el){ el.className='td-status '+(statusClass[st]||'s-warn')+(pfx==='aspill-'?'':''); el.style.fontSize=(pfx==='aspill-'?'11px':'');
-        var lbl=el.querySelector('.lbl'); if(lbl) lbl.textContent=TX(statusLabel[st]||st); }
+        var lbl=el.querySelector('.lbl'); if(lbl) lbl.textContent=TX(statusLabel[st]||st);
+        if(pfx==='scpill-'){ var card=el.closest&&el.closest('.svc-card'); if(card){ card.classList.remove('cs-stopped','cs-starting','deg'); var bc=svcBorderCls(st); if(bc) card.classList.add(bc); } } }
     });
   });
   var sm=document.getElementById('svcSummary');
