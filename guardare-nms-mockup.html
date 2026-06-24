@@ -664,7 +664,10 @@
   .gpop:hover::after{opacity:1;transform:translate(-50%,0)}
   .gpop:hover::before{opacity:1}
   /* merged full-width resources card + equal-height row */
-  .oss-grid.oss-grid-2{align-items:start}
+  .oss-grid.oss-grid-2{align-items:stretch}
+  .os-host-card{display:flex;flex-direction:column}
+  .os-foot{display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--mute);line-height:1.5}
+  .os-foot b{color:var(--dim);font-weight:700}
   .rescard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
   .rescard-body{display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;margin-top:2px}
   .rescard-l{flex:1 1 230px;min-width:210px;max-width:320px}
@@ -1780,7 +1783,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.229.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.230.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9320,7 +9323,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.229.alpha';
+const APP_VERSION='v2026.02.230.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10475,7 +10478,7 @@ function renderCollMgmt(){
   const osCard='<div class="os-id"><span class="os-logo">'+_svgDistro+'</span><div class="os-id-main"><b>Ubuntu 24.04.4 LTS</b><span>noble numbat · x86_64</span></div></div>'
     +'<div class="os-meters"><div class="os-patch '+(patchOk?'ok':'warn')+'"><span class="op-ico">'+(patchOk?_svgCheck:_svgWarn)+'</span><span class="op-tx"><b>'+secU+'</b><i>'+TX('Security updates')+'</i></span></div>'
     +'<div class="os-pkg gpop" data-pop="'+pkgInst+' packages · '+pkgUp+' upgradable"><div class="opk-top"><span>'+TX('Packages')+'</span><span class="opk-up">'+pkgInst+' · <b>'+pkgUp+'</b> upgradable</span></div><div class="opk-track"><div class="opk-fresh" style="width:'+freshPct+'%"></div></div></div></div>'
-    +'<div class="os-kv" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 22px;margin-top:4px">'+kv('Hostname','gso-'+host)+kv('Kernel',kernel)+kv('Architecture','x86_64')+kv('Cores',cores)+kv('Uptime',upD+'d '+upH+'h')+kv('Timezone',hostTz)+'</div>';
+    +'<div class="os-kv" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 22px;margin-top:4px">'+kv('Hostname','gso-'+host)+kv('Kernel',kernel)+kv('Architecture','x86_64')+kv('Cores',cores)+kv('Uptime',upD+'d '+upH+'h')+kv('Timezone',hostTz)+'</div>'+'<div class="os-foot"><span><b>systemd</b> 255.4</span><span><b>locale</b> en_US.UTF-8</span><span><b>EOL</b> Apr 2029</span></div>';
 
   const mHit=(ri(940,999)/10).toFixed(1), hitNum=parseFloat(mHit);
   const hitCol=hitNum>=95?'var(--green)':hitNum>=85?'var(--amber)':'var(--red)';
@@ -10534,7 +10537,7 @@ function renderCollMgmt(){
 
     <div class="oss-sec">${TX('Host & system status')}</div>
     <div class="oss-grid oss-grid-2">
-      <div class="panel tm-card oss-card">
+      <div class="panel tm-card oss-card os-host-card">
         <h3 class="tm-h">${TX('Operating System')}</h3>
         <p class="oss-cardsub">${TX('Distribution, kernel and patch status.')}</p>
         ${osCard}
