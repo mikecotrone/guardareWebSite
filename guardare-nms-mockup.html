@@ -424,7 +424,8 @@
   /* ---------- DASHBOARD GRID ---------- */
   .dash-top{display:grid;grid-template-columns:340px 1fr;gap:18px;margin-bottom:18px}
   .dash-radars{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
-  .dash-radars.single,.dash-radars.r1{grid-template-columns:minmax(0,480px);justify-content:center}
+  .dash-radars.single,.dash-radars.r1{grid-template-columns:minmax(0,560px);justify-content:center}
+  .dash-radars.single .radar-wrap,.dash-radars.r1 .radar-wrap{max-width:460px}
   .dash-radars.r2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dash-radars.r3{grid-template-columns:repeat(3,minmax(0,1fr))}
   .dash-radars.r4{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -432,7 +433,7 @@
 
   /* radar watch */
   .radar-panel{padding:20px;position:relative;overflow:hidden}
-  .radar-wrap{position:relative;width:100%;aspect-ratio:1;max-width:300px;margin:6px auto 2px}
+  .radar-wrap{position:relative;width:100%;aspect-ratio:1;max-width:400px;margin:10px auto 4px}
   .radar-svg{width:100%;height:100%;display:block}
   .radar-sweep{transform-origin:150px 150px;animation:sweep 4s linear infinite}
   @keyframes sweep{to{transform:rotate(360deg)}}
@@ -1915,7 +1916,7 @@
     .head-actions{width:100%}
     .head-actions .btn{flex:1;justify-content:center}
     .dash-top{gap:14px}
-    .radar-wrap{max-width:248px}
+    .radar-wrap{max-width:330px}
     .afull-row{grid-template-columns:auto 1fr auto;gap:12px}
     .afull-row.has-tenant{grid-template-columns:auto auto 1fr auto}
     .afull-tname{display:none}
@@ -2136,7 +2137,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.280.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.281.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10170,7 +10171,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.280.alpha';
+const APP_VERSION='v2026.02.281.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
