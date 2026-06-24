@@ -1789,7 +1789,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.236.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.237.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9329,7 +9329,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.236.alpha';
+const APP_VERSION='v2026.02.237.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10350,21 +10350,25 @@ function osSpark(){
   var L=OSLIVE,W=160,H=42,n=L.spark.length; if(!n)return;
   var mx=Math.max.apply(null,L.spark)||1;
   var poly=L.spark.map(function(v,i){return (i/(n-1)*W).toFixed(1)+','+(H-v/mx*(H-6)-3).toFixed(1);}).join(' ');
-  var ln=document.getElementById('dbsLine'); if(ln) ln.setAttribute('points',poly);
-  var ar=document.getElementById('dbsArea'); if(ar) ar.setAttribute('points','0,'+H+' '+poly+' '+W+','+H);
+  var ln=osGet('dbsLine'); if(ln) ln.setAttribute('points',poly);
+  var ar=osGet('dbsArea'); if(ar) ar.setAttribute('points','0,'+H+' '+poly+' '+W+','+H);
 }
+/* per-render DOM ref cache for OS Monitoring live tick: re-fetches only after a re-render (validated via isConnected) */
+var _osRefId={}, _osRefSel={};
+function osGet(id){ var e=_osRefId[id]; if(e&&e.isConnected) return e; e=document.getElementById(id); _osRefId[id]=e; return e; }
+function osQ(root,sel){ var a=_osRefSel[sel]; if(a&&a.length&&a[0].isConnected) return a; a=Array.prototype.slice.call((root||document).querySelectorAll(sel)); _osRefSel[sel]=a; return a; }
 function osLiveTick(){
   var L=OSLIVE; if(!L.ready) return;
   var sc=document.getElementById('screen-collmgmt'); if(!sc||sc.offsetParent===null) return;
-  var set=function(id,t){var e=document.getElementById(id);if(e)e.textContent=t;};
-  var setH=function(id,t){var e=document.getElementById(id);if(e)e.innerHTML=t;};
-  var setA=function(id,a,v){var e=document.getElementById(id);if(e)e.setAttribute(a,v);};
+  var set=function(id,t){var e=osGet(id);if(e)e.textContent=t;};
+  var setH=function(id,t){var e=osGet(id);if(e)e.innerHTML=t;};
+  var setA=function(id,a,v){var e=osGet(id);if(e)e.setAttribute(a,v);};
   L.cpu=_cI(L.cpu+_ri2(-7,7),5,96); var cc=osColor(L.cpu);
   set('cpuRingPct',L.cpu+'%');
-  var gs=sc.querySelectorAll('#cpuG stop'); for(var z=0;z<gs.length;z++) gs[z].setAttribute('stop-color',cc);
+  var gs=osQ(sc,'#cpuG stop'); for(var z=0;z<gs.length;z++) gs[z].setAttribute('stop-color',cc);
   setA('cpuRingFg','stroke-dashoffset',(L.C*(1-L.cpu/100)).toFixed(1));
   setA('cpuRing','data-pop','CPU '+L.cpu+'%');
-  var fills=sc.querySelectorAll('.rc-plot .rc-core-fill');
+  var fills=osQ(sc,'.rc-plot .rc-core-fill');
   for(var i=0;i<fills.length;i++){
     L.cores[i]=_cI((L.cores[i]||30)+_ri2(-14,14),5,98);
     fills[i].style.height=L.cores[i]+'%';
@@ -10380,7 +10384,7 @@ function osLiveTick(){
   osLedUpdate('swapLed',sp,'var(--violet)');
   setH('swapLedv','<b>'+L.swapU.toFixed(1)+'</b> / '+L.swapT+'.0 GB');
   setA('swapLed','data-pop','Swap '+L.swapU.toFixed(1)+' / '+L.swapT+'.0 GB ('+sp+'%)');
-  var lf=sc.querySelectorAll('.la-fill'), lv=sc.querySelectorAll('.la-val'), lg=sc.querySelectorAll('.la-g'), lab=['1m','5m','15m'];
+  var lf=osQ(sc,'.la-fill'), lv=osQ(sc,'.la-val'), lg=osQ(sc,'.la-g'), lab=['1m','5m','15m'];
   for(var m=0;m<lf.length;m++){
     L.la[m]=Math.round(_cI(L.la[m]+(Math.random()*2-1)*0.5,0.05,L.ncore*1.25)*100)/100;
     var ratio=L.la[m]/L.ncore, pct=Math.max(4,Math.min(100,Math.round(ratio*100))), lcol=ratio>=1?'var(--red)':(ratio>=0.7?'var(--amber)':'var(--teal)');
@@ -10391,7 +10395,7 @@ function osLiveTick(){
   L.qps=_cI(L.qps+_ri2(-3,3),2,44); set('qpsVal',L.qps+'k');
   L.spark.push(_ri2(24,100)); if(L.spark.length>16) L.spark.shift(); osSpark();
   L.threads=_cI(L.threads+_ri2(-12,12),12,240); var tp=Math.min(100,Math.round(L.threads/256*100));
-  var tf=document.getElementById('thrFill'); if(tf) tf.style.width=tp+'%';
+  var tf=osGet('thrFill'); if(tf) tf.style.width=tp+'%';
   set('thrVal',L.threads);
   setA('thrRow','data-pop','Threads connected '+L.threads+' / 256');
   L.hit=Math.round(_cI(L.hit+(Math.random()*2-1)*0.4,82,99.9)*10)/10;
@@ -10404,26 +10408,26 @@ function osLiveTick(){
   if(L.cpuP){ var csl=L.cpuScale||1, csum=0;
     for(var a=0;a<L.cpuP.length;a++){ var pp=L.cpuP[a];
       pp.v=Math.max(1,Math.min(pp.base*1.9, pp.v+(Math.random()*2-1)*Math.max(1.2,pp.base*0.18)));
-      var cf=document.getElementById('cp'+a+'f'); if(cf) cf.style.width=Math.min(100,Math.round(pp.v/csl*100))+'%';
-      var cv=document.getElementById('cp'+a+'v'); if(cv) cv.textContent=Math.round(pp.v)+'%';
-      var cr=document.getElementById('cp'+a+'r'); if(cr) cr.setAttribute('data-pop',(pp.l||'')+' · '+Math.round(pp.v)+'% CPU');
+      var cf=osGet('cp'+a+'f'); if(cf) cf.style.width=Math.min(100,Math.round(pp.v/csl*100))+'%';
+      var cv=osGet('cp'+a+'v'); if(cv) cv.textContent=Math.round(pp.v)+'%';
+      var cr=osGet('cp'+a+'r'); if(cr) cr.setAttribute('data-pop',(pp.l||'')+' · '+Math.round(pp.v)+'% CPU');
       csum+=pp.v;
     }
-    var ct=document.getElementById('cpuTotal'); if(ct) ct.textContent=Math.round(csum)+'%';
+    var ct=osGet('cpuTotal'); if(ct) ct.textContent=Math.round(csum)+'%';
   }
   /* per-service memory rows + live memory map */
   if(L.memP){ var msl=L.memScale||1, umb=Math.max(1,Math.round(L.ramU*1024)), rtmb=L.ramTmb||1, sum=0;
     for(var b=0;b<L.memP.length;b++){ var mp=L.memP[b];
       mp.v=Math.max(20,Math.min(mp.base*1.5, mp.v+(Math.random()*2-1)*Math.max(8,mp.base*0.05)));
       sum+=mp.v;
-      var mf=document.getElementById('mp'+b+'f'); if(mf) mf.style.width=Math.min(100,Math.round(mp.v/msl*100))+'%';
-      var mv=document.getElementById('mp'+b+'v'); if(mv) mv.innerHTML=osFmtMB(mp.v)+'<small>'+Math.round(mp.v/umb*100)+'%</small>';
-      var mr=document.getElementById('mp'+b+'r'); if(mr) mr.setAttribute('data-pop',(mp.l||'')+' · '+osFmtMB(mp.v)+' · '+Math.round(mp.v/umb*100)+'% of used');
-      var sg=document.getElementById('mseg'+b); if(sg){ sg.style.width=(mp.v/rtmb*100).toFixed(2)+'%'; sg.setAttribute('data-pop',(mp.l||'')+' \u00b7 '+osFmtMB(mp.v)+' \u00b7 '+Math.round(mp.v/umb*100)+'% of used'); }
+      var mf=osGet('mp'+b+'f'); if(mf) mf.style.width=Math.min(100,Math.round(mp.v/msl*100))+'%';
+      var mv=osGet('mp'+b+'v'); if(mv) mv.innerHTML=osFmtMB(mp.v)+'<small>'+Math.round(mp.v/umb*100)+'%</small>';
+      var mr=osGet('mp'+b+'r'); if(mr) mr.setAttribute('data-pop',(mp.l||'')+' · '+osFmtMB(mp.v)+' · '+Math.round(mp.v/umb*100)+'% of used');
+      var sg=osGet('mseg'+b); if(sg){ sg.style.width=(mp.v/rtmb*100).toFixed(2)+'%'; sg.setAttribute('data-pop',(mp.l||'')+' \u00b7 '+osFmtMB(mp.v)+' \u00b7 '+Math.round(mp.v/umb*100)+'% of used'); }
     }
     var cMB=Math.max(256,umb-sum), fMB=Math.max(0,rtmb-umb);
-    var sC=document.getElementById('msegC'); if(sC){ sC.style.width=(cMB/rtmb*100).toFixed(2)+'%'; sC.setAttribute('data-pop','Cache & buffers \u00b7 '+osFmtMB(cMB)); }
-    var sF=document.getElementById('msegF'); if(sF){ sF.style.width=(fMB/rtmb*100).toFixed(2)+'%'; sF.setAttribute('data-pop','Free \u00b7 '+osFmtMB(fMB)); }
+    var sC=osGet('msegC'); if(sC){ sC.style.width=(cMB/rtmb*100).toFixed(2)+'%'; sC.setAttribute('data-pop','Cache & buffers \u00b7 '+osFmtMB(cMB)); }
+    var sF=osGet('msegF'); if(sF){ sF.style.width=(fMB/rtmb*100).toFixed(2)+'%'; sF.setAttribute('data-pop','Free \u00b7 '+osFmtMB(fMB)); }
   }
 }
 function renderCollMgmt(){
