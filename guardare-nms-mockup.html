@@ -1869,7 +1869,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.259.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.260.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5639,7 +5639,7 @@ const I18N={
   'The live view into your monitored network and systems.':'La vista in tempo reale su rete e sistemi monitorati.',
   'Streaming telemetry from your Guardare collectors lands here — topology, interfaces, flows, device health and service assurance for the environment you operate. This is the second plane: Guardare Core manages the platform, Guardare Vista watches the estate.':'I dati di telemetria in streaming dai collector Guardare arrivano qui — topologia, interfacce, flussi, stato dei dispositivi e service assurance per l\'ambiente che gestisci. Questo è il secondo piano: Guardare Core gestisce la piattaforma, Guardare Vista osserva l\'ambiente.',
   'for this deployment':'per questo deployment',
-  'Document Asset Management':'Gestione asset documentali',
+  'Professional Services Automation (PSA)':'Automazione dei servizi professionali (PSA)',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Collega Guardare ai tuoi strumenti di ticketing, reperibilità, monitoraggio e documentazione.',
   'Cell phone':'Cellulare',
   'Mobile number for urgent platform contact.':'Numero di cellulare per contatti urgenti della piattaforma.',
@@ -6013,7 +6013,7 @@ const I18N={
   'The live view into your monitored network and systems.':'La vue en temps réel sur votre réseau et vos systèmes supervisés.',
   'Streaming telemetry from your Guardare collectors lands here — topology, interfaces, flows, device health and service assurance for the environment you operate. This is the second plane: Guardare Core manages the platform, Guardare Vista watches the estate.':'La télémétrie en streaming de vos collecteurs Guardare arrive ici — topologie, interfaces, flux, état des équipements et assurance de service pour le parc que vous exploitez. C\'est le second plan : Guardare Core gère la plateforme, Guardare Vista observe le parc.',
   'for this deployment':'pour ce déploiement',
-  'Document Asset Management':'Gestion des actifs documentaires',
+  'Professional Services Automation (PSA)':'Automatisation des services professionnels (PSA)',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Connectez Guardare à vos outils de ticketing, d\'astreinte, de supervision et de documentation.',
   'Cell phone':'Téléphone portable',
   'Mobile number for urgent platform contact.':'Numéro de portable pour les contacts urgents de la plateforme.',
@@ -6387,7 +6387,7 @@ const I18N={
   'The live view into your monitored network and systems.':'La vista en tiempo real de la red y los sistemas monitorizados.',
   'Streaming telemetry from your Guardare collectors lands here — topology, interfaces, flows, device health and service assurance for the environment you operate. This is the second plane: Guardare Core manages the platform, Guardare Vista watches the estate.':'La telemetría en streaming de tus colectores Guardare llega aquí — topología, interfaces, flujos, estado de los dispositivos y aseguramiento del servicio para el entorno que operas. Este es el segundo plano: Guardare Core gestiona la plataforma, Guardare Vista observa el entorno.',
   'for this deployment':'para esta implementación',
-  'Document Asset Management':'Gestión de activos documentales',
+  'Professional Services Automation (PSA)':'Automatización de servicios profesionales (PSA)',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Conecta Guardare a tus herramientas de tickets, guardias, monitorización y documentación.',
   'Cell phone':'Teléfono móvil',
   'Mobile number for urgent platform contact.':'Número de móvil para contacto urgente de la plataforma.',
@@ -6761,7 +6761,7 @@ const I18N={
   'The live view into your monitored network and systems.':'A vista em tempo real da rede e dos sistemas monitorizados.',
   'Streaming telemetry from your Guardare collectors lands here — topology, interfaces, flows, device health and service assurance for the environment you operate. This is the second plane: Guardare Core manages the platform, Guardare Vista watches the estate.':'A telemetria em streaming dos seus coletores Guardare chega aqui — topologia, interfaces, fluxos, estado dos dispositivos e garantia de serviço para o ambiente que opera. Este é o segundo plano: o Guardare Core gere a plataforma, o Guardare Vista observa o ambiente.',
   'for this deployment':'para esta implementação',
-  'Document Asset Management':'Gestão de ativos documentais',
+  'Professional Services Automation (PSA)':'Automação de serviços profissionais (PSA)',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Ligue o Guardare às suas ferramentas de tickets, escalas, monitorização e documentação.',
   'Cell phone':'Telemóvel',
   'Mobile number for urgent platform contact.':'Número de telemóvel para contacto urgente da plataforma.',
@@ -7136,7 +7136,7 @@ const I18N={
   'The live view into your monitored network and systems.':'監視対象のネットワークとシステムをリアルタイムに表示します。',
   'Streaming telemetry from your Guardare collectors lands here — topology, interfaces, flows, device health and service assurance for the environment you operate. This is the second plane: Guardare Core manages the platform, Guardare Vista watches the estate.':'Guardareコレクターからのストリーミングテレメトリーがここに集約されます — トポロジー、インターフェース、フロー、デバイス状態、運用環境のサービスアシュアランス。これが2つ目のプレーンです。Guardare Coreがプラットフォームを管理し、Guardare Vistaが環境を監視します。',
   'for this deployment':'このデプロイメント用',
-  'Document Asset Management':'ドキュメント資産管理',
+  'Professional Services Automation (PSA)':'プロフェッショナルサービス自動化 (PSA)',
   'Connect Guardare to your ticketing, on-call, monitoring and documentation tools.':'Guardareをチケット管理、オンコール、監視、ドキュメントの各ツールに接続します。',
   'Cell phone':'携帯電話',
   'Mobile number for urgent platform contact.':'緊急のプラットフォーム連絡用の携帯番号。',
@@ -8462,10 +8462,17 @@ const INTEGRATIONS=[
    desc:'Real-time, source-cited web research — enrich Guardare AI triage with live context on CVEs, vendor advisories and provider outages.',
    connected:false, endpoint:'https://api.perplexity.ai/chat/completions',
    fields:[['API key (Bearer)','password',''],['Model','select','sonar-pro',PPLX_MODELS]]},
-  {id:'weather',name:'Weather data',cat:'Environment · site correlation',group:'weather',scope:'platform',c:'#3FA9E0',
-   desc:'Pull current conditions and forecasts for every collector site so outages and latency spikes can be correlated with storms, heat and power-impacting weather.',
+  {id:'open-meteo',name:'Open-Meteo',cat:'Weather · keyless',group:'weather',scope:'platform',c:'#3FA9E0',
+   desc:'Keyless current conditions and forecasts for every collector site — correlate outages and latency spikes with storms, heat and power-impacting weather.',
    connected:true, provider:'open-meteo', endpoint:'https://api.open-meteo.com/v1/forecast',
    fields:[['Units','select','metric',[['metric','Metric · °C, m/s'],['imperial','Imperial · °F, mph']]],
+           ['Refresh','select','30m',[['15m','Every 15 min'],['30m','Every 30 min'],['1h','Hourly']]]],
+   richFn:'weatherIntgRich'},
+  {id:'openweathermap',name:'OpenWeatherMap',cat:'Weather · API key',group:'weather',scope:'platform',c:'#EB6E4B',
+   desc:'Current weather, 5-day forecast and air quality per collector site via your OpenWeatherMap key — correlate outages and latency with severe weather.',
+   connected:false, provider:'openweathermap', endpoint:'https://api.openweathermap.org/data/2.5',
+   fields:[['API key','password',''],
+           ['Units','select','metric',[['metric','Metric · °C, m/s'],['imperial','Imperial · °F, mph']]],
            ['Refresh','select','30m',[['15m','Every 15 min'],['30m','Every 30 min'],['1h','Hourly']]]],
    richFn:'weatherIntgRich'},
 ];
@@ -8474,7 +8481,7 @@ const INTG_GROUPS=[
   ['alerting','Alerting & on-call'],
   ['monitoring','Status & uptime'],
   ['weather','Weather & environment'],
-  ['docs','Document Asset Management'],
+  ['docs','Professional Services Automation (PSA)'],
   ['gitops','GitOps & configuration'],
   ['ai','AI & automation'],
 ];
@@ -8571,33 +8578,19 @@ function uptimeRobotConfig(it,scope){
   return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Per-microservice status monitors')} <span class="git-arr-tag">statusPageMonitoringIntegration</span></div>${rows}</div>`;
 }
 
-function setWeatherProvider(id,key){
-  const it=INTEGRATIONS.find(i=>i.id===id); if(!it) return;
-  it.provider=key;
-  it.endpoint=(key==='openweathermap')?'https://api.openweathermap.org/data/2.5':'https://api.open-meteo.com/v1/forecast';
-  renderIntegrations();
-}
 function weatherIntgRich(it,scope){
-  const prov=it.provider||'open-meteo';
-  const P=[
-    ['open-meteo','Open-Meteo','api.open-meteo.com','Keyless','Free up to 10,000 calls/day for non-commercial use — no key, no sign-up, no card. Attribution required (CC BY 4.0). Open-source, sourced from national weather services.'],
-    ['openweathermap','OpenWeatherMap','api.openweathermap.org','API key','Free access tier: 60 calls/min and 1,000,000 calls/month, no credit card — current weather, 5-day forecast, air quality and geocoding. One Call 3.0 is a separate paid product.']
-  ];
-  const rows=P.map(pp=>`
-      <label class="wx-prov${prov===pp[0]?' on':''}">
-        <input type="radio" name="wxprov" ${prov===pp[0]?'checked':''} onchange="setWeatherProvider('${it.id}','${pp[0]}')">
-        <span class="wx-prov-main"><b>${pp[1]}</b><span class="wx-prov-auth">${pp[3]}</span></span>
-        <span class="wx-prov-host">${pp[2]}</span>
-        <span class="wx-prov-note">${pp[4]}</span>
-      </label>`).join('');
-  const keyField = (prov==='openweathermap')
-    ? `<div class="intg-field"><label>OpenWeatherMap API key</label><input class="tm-input" type="password" placeholder="••••••••••••" autocomplete="off"></div>`
-    : `<div class="wx-keyless">✓ No API key required for Open-Meteo.</div>`;
-  const A = (prov==='openweathermap')
+  const owm = it.id==='openweathermap';
+  const host = owm ? 'api.openweathermap.org' : 'api.open-meteo.com';
+  const facts = owm
+    ? 'Free access tier: 60 calls/min and 1,000,000 calls/month, no credit card — current weather, 5-day forecast, air quality and geocoding. One Call 3.0 is a separate paid product.'
+    : 'Free up to 10,000 calls/day for non-commercial use — no key, no sign-up, no card. Open-source, sourced from national weather services.';
+  const tier = `<div class="wx-prov on"><span class="wx-prov-main"><b>${owm?'OpenWeatherMap':'Open-Meteo'}</b><span class="wx-prov-auth">${owm?'API key':'Keyless'}</span></span><span class="wx-prov-host">${host}</span><span class="wx-prov-note">${facts}</span></div>`;
+  const keyless = owm ? '' : `<div class="wx-keyless">✓ No API key required for Open-Meteo.</div>`;
+  const A = owm
     ? ['OpenWeather','https://openweathermap.org/','ODbL','Credit OpenWeather (logo + link) on every screen where weather appears — obligatory on all plans below Enterprise.']
     : ['Open-Meteo','https://open-meteo.com/','CC BY 4.0','Show a credit link to Open-Meteo next to any location where weather is displayed — required for free / non-commercial use.'];
   const attr=`<div class="wx-attr"><div class="wx-attr-h"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Attribution required<span class="wx-lic">${A[2]}</span></div><div class="wx-attr-credit">Weather data by <a href="${A[1]}" target="_blank" rel="noopener">${A[0]}</a></div><p class="wx-attr-note">${A[3]}</p></div>`;
-  return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Weather provider')} <span class="git-arr-tag">weatherIntegration</span></div>${rows}${keyField}${attr}<p class="wx-hint">Conditions and forecasts are fetched per collector site (lat/long from Locations), so outages and latency can be correlated with storms, heat and severe weather — surfaced on the dashboard radar and Collector detail.</p></div>`;
+  return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Weather provider')} <span class="git-arr-tag">weatherIntegration</span></div>${tier}${keyless}${attr}<p class="wx-hint">Conditions and forecasts are fetched per collector site (lat/long from Locations), so outages and latency can be correlated with storms, heat and severe weather — surfaced on the dashboard radar and Collector detail.</p></div>`;
 }
 
 function renderIntegrations(){
@@ -8841,7 +8834,7 @@ function locSave(){
 let WEATHER_SITES=(function(){ try{ const s=localStorage.getItem('guardare_weather_sites'); if(s) return new Set(JSON.parse(s)); }catch(e){} return new Set(['piedmont:clt-01','acme-corp:site-04','roma:dc01','atlantico:sao-01']); })();
 let WX_CACHE={}, WX_PENDING={};
 function _wxPersist(){ try{ localStorage.setItem('guardare_weather_sites', JSON.stringify([...WEATHER_SITES])); }catch(e){} }
-function wxIntg(){ return INTEGRATIONS.find(x=>x.id==='weather'); }
+function wxIntg(){ const oms=INTEGRATIONS.find(x=>x.id==='open-meteo'); if(oms&&oms.connected) return oms; const owm=INTEGRATIONS.find(x=>x.id==='openweathermap'); if(owm&&owm.connected) return owm; return null; }
 function wxConnected(){ const i=wxIntg(); return !!(i&&i.connected); }
 function wxUnits(){ const i=wxIntg(); const u=i&&(i.fields.find(f=>f[0]==='Units')||[])[2]; return u||'metric'; }
 function toggleSiteWeather(key){ if(WEATHER_SITES.has(key)) WEATHER_SITES.delete(key); else WEATHER_SITES.add(key); _wxPersist(); renderConfig(); }
@@ -9599,7 +9592,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.259.alpha';
+const APP_VERSION='v2026.02.260.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
