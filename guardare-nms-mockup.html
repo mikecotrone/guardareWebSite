@@ -1783,7 +1783,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.230.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.231.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -7949,22 +7949,22 @@ function hwInventory(slug,coll){
   const rnd=()=>{ s^=s<<13; s>>>=0; s^=s>>>17; s^=s<<5; s>>>=0; return s/4294967296; };
   const pick=a=>a[Math.floor(rnd()*a.length)];
   const hex=n=>{ let o=''; for(let i=0;i<n;i++) o+='0123456789ABCDEF'[Math.floor(rnd()*16)]; return o; };
-  const virtual=rnd()<0.45;
-  const arch=(!virtual&&rnd()<0.3)?'Linux ARM64':'Linux x86-64';
-  const cpu=arch==='Linux ARM64'?'Ampere Altra (8C) ARM64':pick(['Intel Xeon E-2378G (8C/16T)','Intel Xeon E-2336 (6C/12T)','AMD EPYC 4344P (8C/16T)','Intel Xeon Silver 4410Y (12C/24T)']);
+  const virtual=false;
+  const arch='Linux x86-64';
+  const cpu='Intel Celeron N5095A (4C/4T) @ 2.0GHz';
   return {
     virtual, arch, cpu,
-    model: virtual?pick(['VMware ESXi 8.0','Proxmox VE 8.2','Microsoft Hyper-V 2022','KVM / libvirt']):pick(['Dell PowerEdge R350','HPE ProLiant DL20 Gen11','Lenovo ThinkSystem SR250 V3','Supermicro SYS-510T-MR']),
-    serial: virtual?('vm-'+hex(8).toLowerCase()):hex(7),
-    host: virtual?('esx-'+slug.slice(0,3)+'-0'+(1+Math.floor(rnd()*6))):null,
-    formFactor: virtual?'VM':pick(['1U rack','Tower','2U rack']),
-    ramGB: pick([16,32,32,64,64,128]),
-    diskGB: pick([256,512,512,960,1920]),
-    diskType: pick(['NVMe SSD','SATA SSD','NVMe SSD']),
-    nic: pick(['2× 1GbE','1× 10GbE','2× 10GbE']),
-    load: +(0.2+rnd()*2.4).toFixed(2),
-    ramUsed: Math.round(28+rnd()*55),
-    diskUsed: Math.round(22+rnd()*60)
+    model:'Fanless appliance \u00b7 Intel Jasper Lake',
+    serial:hex(7),
+    host:null,
+    formFactor:'Mini-PC',
+    ramGB:16,
+    diskGB:960,
+    diskType:'NVMe SSD',
+    nic:'1\u00d7 2.5GbE (RTL8125)',
+    load:+(1.6+rnd()*0.9).toFixed(2),
+    ramUsed:Math.round(26+rnd()*9),
+    diskUsed:Math.round(30+rnd()*34)
   };
 }
 function renderHwInventory(ten,coll){
@@ -9323,7 +9323,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.230.alpha';
+const APP_VERSION='v2026.02.231.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10433,11 +10433,11 @@ function renderCollMgmt(){
   // (Collector-host, OS and MariaDB rich cards are built after the compute block below)
 
   // ---- Resources visual (CPU ring + per-core + memory/swap bars) ----
-  const cpuPct=ri(16,84), cores=[16,16,8,32][ri(0,3)];
+  const cpuPct=ri(40,60), cores=4;
   const cpuColor=cpuPct>85?'var(--red)':cpuPct>65?'var(--amber)':'var(--teal)';
-  const la1=+((ri(8,90)/100)*cores).toFixed(2), la5=+((ri(8,90)/100)*cores).toFixed(2), la15=+((ri(8,90)/100)*cores).toFixed(2);
-  const ramT=[16,32,64][ri(0,2)], ramU=+(ramT*(ri(34,82)/100)).toFixed(1), ramPct=Math.round(ramU/ramT*100);
-  const swapT=4, swapU=+(ri(0,18)/10).toFixed(1), swapPct=Math.round(swapU/swapT*100);
+  const la1=+(ri(178,224)/100).toFixed(2), la5=+(ri(186,216)/100).toFixed(2), la15=+(ri(190,212)/100).toFixed(2);
+  const ramT=16, ramU=+(ri(40,49)/10).toFixed(1), ramPct=Math.round(ramU/ramT*100);
+  const swapT=4, swapU=0, swapPct=0;
   const R=46, C=2*Math.PI*R, off=(C*(1-cpuPct/100)).toFixed(1);
   const ring='<div class="rc-ring gpop" id="cpuRing" data-pop="CPU '+cpuPct+'%"><svg viewBox="0 0 110 110" class="rc-ring-svg">'
     +'<defs><linearGradient id="cpuG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+cpuColor+'"/><stop offset="1" stop-color="'+cpuColor+'" stop-opacity=".5"/></linearGradient>'
@@ -10459,7 +10459,7 @@ function renderCollMgmt(){
     +'<div class="rc-coreslbl">'+cores+' '+TX('Cores').toLowerCase()+'</div></div>';
   const cpuVisual='<div class="rc-wrap">'+ring+coreChart+'</div>';
   // ---- Rich host / OS / DB cards ----
-  const kernel='6.8.0-'+ri(31,52)+'-generic';
+  const kernel='6.8.0-124-generic';
   const _svgServer='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>';
   const _svgDistro='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.1"/><path d="M12 3v3.4M12 17.6V21M3 12h3.4M17.6 12H21"/></svg>';
   const _svgCheck='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l4 4 10-11"/></svg>';
@@ -10504,7 +10504,7 @@ function renderCollMgmt(){
 
   // ---- Storage LED bars ----
   const ledBar=(label,pct,color)=>{ const segs=22,lit=Math.round(pct/100*segs); let c=''; for(let i=0;i<segs;i++)c+='<span style="flex:1;height:11px;border-radius:2px;background:'+(i<lit?color:'var(--bg-2)')+';opacity:'+(i<lit?'1':'.4')+';box-shadow:'+(i<lit?'0 0 5px '+color+'66':'none')+'"></span>'; return '<div class="gpop" data-pop="'+label+' · '+pct+'% used" style="margin:12px 0"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px"><span>'+label+'</span><span style="color:'+color+';font-weight:700">'+pct+'%</span></div><div style="display:flex;gap:2px">'+c+'</div></div>'; };
-  const disks=[['/ (root)',ri(28,60),'var(--teal)'],['/var/lib/mysql',ri(46,86),'var(--violet)'],['/var/log',ri(12,46),'var(--amber)'],['/boot',ri(18,52),'#4F86C6'],['/var/lib/centrifugo',ri(20,58),'var(--green)']];
+  const disks=[['/ (ubuntu-vg) · 929 GB',ri(34,56),'var(--teal)'],['/boot · 2 GB',ri(12,26),'#4F86C6'],['/boot/efi · 1 GB',ri(3,9),'var(--amber)']];
   const disksHtml=disks.map((d,ix)=>ledBar(d[0],d[1],OSPAL[ix%OSPAL.length])).join('');
 
   // ---- per-service CPU / memory (htop-style) ----
@@ -10514,7 +10514,7 @@ function renderCollMgmt(){
   const _cpuMax=Math.max.apply(null,cpuProcs.map(o=>o.v))||1;
   const cpuProcHtml=cpuProcs.map((o,ix)=>osProcRow('cp'+ix,o.l,o.c,Math.round(o.v/_cpuMax*100),o.v+'%',null,o.l+' · '+o.v+'% CPU')).join('');
   const _cpuSum=Math.round(cpuProcs.reduce((s,o)=>s+o.v,0));
-  const _memOf={mariadb:ri(2600,6800),normalizer:ri(420,1100),redis:ri(280,1400),vcollector:ri(180,520),eventsd:ri(140,420),centrifugo:ri(110,340),hudusync:ri(80,260),nginx:ri(40,140)};
+  const _memOf={mariadb:ri(1400,2000),normalizer:ri(480,760),redis:ri(220,380),vcollector:ri(200,320),eventsd:ri(160,260),centrifugo:ri(130,230),hudusync:ri(110,190),nginx:ri(40,100)};
   const memProcs=PROCS.map(o=>({l:o.l,c:o.c,v:_memOf[o.k]})).sort((a,b)=>b.v-a.v);
   const _procTotMB=memProcs.reduce((s,o)=>s+o.v,0);
   const _ramTmb=ramT*1024, _usedMB=Math.round(ramU*1024);
@@ -10551,7 +10551,7 @@ function renderCollMgmt(){
     <div class="panel tm-card oss-card rescard mb18">
       <div class="rescard-head">
         <div class="rescard-head-l">
-          <h3 class="tm-h">${TX('CPU & Load Utilization')}</h3>
+          <h3 class="tm-h">${TX('CPU & Load Utilization')} <span class="tm-note">Intel Celeron N5095A \u00b7 4C</span></h3>
           <p class="oss-cardsub">${TX('Per-core load and the processes driving it.')}</p>
           ${hostIdentity}
         </div>
