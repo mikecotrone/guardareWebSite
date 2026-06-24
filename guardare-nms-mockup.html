@@ -63,7 +63,7 @@
     background:linear-gradient(180deg,#0d2228,#0a181d);
     position:relative;z-index:30;
   }
-  .brand{display:flex;align-items:center;gap:11px;width:calc(var(--sb) - 20px)}
+  .brand{display:flex;align-items:center;gap:11px;width:auto;min-width:0}
   .brand-mark{width:34px;height:34px;flex:0 0 34px;position:relative}
   .brand-name{font-family:"Open Sans";font-weight:700;letter-spacing:.16em;font-size:15px}
   .brand-name b{color:var(--teal)}
@@ -182,7 +182,9 @@
   .radar-tip .rt-wx-flag{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--wc,#94A2FF);border:1px solid var(--wc,#94A2FF);border-radius:6px;padding:2px 6px;opacity:.92}
 
   /* tenant dropdown */
-  .tenant-wrap{position:relative;margin-left:24px}
+  .tenant-wrap{position:relative;margin-left:0}
+  .tenantbar{display:flex;align-items:center;padding:16px 28px 0}
+  @media(max-width:1024px){ .tenantbar{padding:12px 16px 0} }
   body.mode-enterprise .nav-item[data-screen="tenants"]{display:none}
   body.mode-enterprise .tenant-wrap{display:none}
   .tenant-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:264px;background:var(--panel);border:1px solid var(--line);
@@ -1957,14 +1959,6 @@
       <span class="brand-org"><span id="brandOrg">VISTATECH</span><b id="brandMode">MSP</b></span>
     </div>
 
-    <div class="tenant-wrap">
-      <button class="tenant-switch" id="tenantBtn">
-        <span class="dot"></span>
-        <span id="tenantName">Acme Corp</span> <small id="tenantSites">/ 14 sites</small>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-      </button>
-      <div class="tenant-menu" id="tenantMenu"></div>
-    </div>
 
     <div class="topbar-spacer" style="flex:1"></div>
 
@@ -2143,13 +2137,24 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.286.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.287.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
 
   <!-- MAIN -->
   <main class="main" id="main">
+
+    <div class="tenantbar" id="tenantBar">
+      <div class="tenant-wrap">
+        <button class="tenant-switch" id="tenantBtn">
+          <span class="dot"></span>
+          <span id="tenantName">Acme Corp</span> <small id="tenantSites">/ 14 sites</small>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="tenant-menu" id="tenantMenu"></div>
+      </div>
+    </div>
 
     <!-- ===== TENANT CONTEXT BAR (shown inside a tenant workspace) ===== -->
     <div class="ctxbar" id="ctxBar">
@@ -10230,7 +10235,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.286.alpha';
+const APP_VERSION='v2026.02.287.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
