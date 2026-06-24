@@ -667,7 +667,7 @@
   .gpop:hover::before{opacity:1}
   /* graph tooltips follow the cursor (see gpop-tip JS) */
   .gpop::after,.gpop::before{content:none}
-  .gpop-tip{position:fixed;z-index:300;pointer-events:none;opacity:0;transform:translateY(3px);transition:opacity .12s,transform .12s;background:#08151a;border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:600;padding:6px 9px;border-radius:8px;white-space:nowrap;box-shadow:0 8px 22px #00000088;max-width:300px}
+  .gpop-tip{position:fixed;z-index:300;pointer-events:none;opacity:0;transform:translateY(3px);transition:opacity .12s,transform .12s;background:var(--raise);border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:500;padding:6px 9px;border-radius:7px;white-space:nowrap;box-shadow:var(--shadow);max-width:300px}
   .gpop-tip.show{opacity:1;transform:none}
   /* merged full-width resources card + equal-height row */
   .oss-grid.oss-grid-2{align-items:stretch}
@@ -1789,7 +1789,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.233.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.235.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9329,7 +9329,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.233.alpha';
+const APP_VERSION='v2026.02.235.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10419,11 +10419,11 @@ function osLiveTick(){
       var mf=document.getElementById('mp'+b+'f'); if(mf) mf.style.width=Math.min(100,Math.round(mp.v/msl*100))+'%';
       var mv=document.getElementById('mp'+b+'v'); if(mv) mv.innerHTML=osFmtMB(mp.v)+'<small>'+Math.round(mp.v/umb*100)+'%</small>';
       var mr=document.getElementById('mp'+b+'r'); if(mr) mr.setAttribute('data-pop',(mp.l||'')+' · '+osFmtMB(mp.v)+' · '+Math.round(mp.v/umb*100)+'% of used');
-      var sg=document.getElementById('mseg'+b); if(sg) sg.style.width=(mp.v/rtmb*100).toFixed(2)+'%';
+      var sg=document.getElementById('mseg'+b); if(sg){ sg.style.width=(mp.v/rtmb*100).toFixed(2)+'%'; sg.setAttribute('data-pop',(mp.l||'')+' \u00b7 '+osFmtMB(mp.v)+' \u00b7 '+Math.round(mp.v/umb*100)+'% of used'); }
     }
     var cMB=Math.max(256,umb-sum), fMB=Math.max(0,rtmb-umb);
-    var sC=document.getElementById('msegC'); if(sC) sC.style.width=(cMB/rtmb*100).toFixed(2)+'%';
-    var sF=document.getElementById('msegF'); if(sF) sF.style.width=(fMB/rtmb*100).toFixed(2)+'%';
+    var sC=document.getElementById('msegC'); if(sC){ sC.style.width=(cMB/rtmb*100).toFixed(2)+'%'; sC.setAttribute('data-pop','Cache & buffers \u00b7 '+osFmtMB(cMB)); }
+    var sF=document.getElementById('msegF'); if(sF){ sF.style.width=(fMB/rtmb*100).toFixed(2)+'%'; sF.setAttribute('data-pop','Free \u00b7 '+osFmtMB(fMB)); }
   }
 }
 function renderCollMgmt(){
@@ -10528,9 +10528,9 @@ function renderCollMgmt(){
   const _cacheMB=Math.max(256,_usedMB-_procTotMB), _freeMB=Math.max(0,_ramTmb-_usedMB);
   const _memMax=memProcs[0].v||1;
   const memProcHtml=memProcs.map((o,ix)=>osProcRow('mp'+ix,o.l,o.c,Math.round(o.v/_memMax*100),osFmtMB(o.v),Math.round(o.v/_usedMB*100)+'%',o.l+' · '+osFmtMB(o.v)+' · '+Math.round(o.v/_usedMB*100)+'% of used')).join('');
-  const _compSegs=memProcs.map((o,ix)=>'<span class="mcmp-seg" id="mseg'+ix+'" style="width:'+(o.v/_ramTmb*100).toFixed(2)+'%;background:'+o.c+'" title="'+o.l+' '+osFmtMB(o.v)+'"></span>').join('')
-    +'<span class="mcmp-seg" id="msegC" style="width:'+(_cacheMB/_ramTmb*100).toFixed(2)+'%;background:#37535e" title="Cache &amp; buffers '+osFmtMB(_cacheMB)+'"></span>'
-    +'<span class="mcmp-seg" id="msegF" style="width:'+(_freeMB/_ramTmb*100).toFixed(2)+'%;background:#16242a" title="Free '+osFmtMB(_freeMB)+'"></span>';
+  const _compSegs=memProcs.map((o,ix)=>'<span class="mcmp-seg gpop" id="mseg'+ix+'" style="width:'+(o.v/_ramTmb*100).toFixed(2)+'%;background:'+o.c+'" data-pop="'+o.l+' \u00b7 '+osFmtMB(o.v)+' \u00b7 '+Math.round(o.v/_usedMB*100)+'% of used"></span>').join('')
+    +'<span class="mcmp-seg gpop" id="msegC" style="width:'+(_cacheMB/_ramTmb*100).toFixed(2)+'%;background:#37535e" data-pop="Cache &amp; buffers \u00b7 '+osFmtMB(_cacheMB)+'"></span>'
+    +'<span class="mcmp-seg gpop" id="msegF" style="width:'+(_freeMB/_ramTmb*100).toFixed(2)+'%;background:#16242a" data-pop="Free \u00b7 '+osFmtMB(_freeMB)+'"></span>';
   const _compLegend='<span class="mcl"><i style="background:#37535e"></i>Cache &amp; buffers <b>'+osFmtMB(_cacheMB)+'</b></span><span class="mcl"><i style="background:#16242a;border:1px solid var(--line)"></i>Free <b>'+osFmtMB(_freeMB)+'</b></span>';
   const tasks=ri(120,260), hthreads=ri(420,980), running=ri(1,6);
 
