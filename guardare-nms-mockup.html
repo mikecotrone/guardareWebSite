@@ -664,7 +664,7 @@
   .gpop:hover::after{opacity:1;transform:translate(-50%,0)}
   .gpop:hover::before{opacity:1}
   /* merged full-width resources card + equal-height row */
-  .oss-grid.oss-grid-2{align-items:stretch}
+  .oss-grid.oss-grid-2{align-items:start}
   .rescard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
   .rescard-body{display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;margin-top:2px}
   .rescard-l{flex:1 1 230px;min-width:210px;max-width:320px}
@@ -1780,7 +1780,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.228.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.229.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -7883,6 +7883,13 @@ const COLLECTOR_SITES={
   'atlantico:sao-01':{name:'São Paulo NOC',city:'São Paulo, BR',lat:-23.5505,lng:-46.6333},
 };
 function siteOf(slug,coll){ return COLLECTOR_SITES[slug+':'+coll]||{name:coll,city:'—',lat:'',lng:''}; }
+function tzOfCity(city){ city=city||''; var code=(city.split(',').pop()||'').trim().toUpperCase();
+  var US={NY:'America/New_York',MA:'America/New_York',GA:'America/New_York',FL:'America/New_York',NC:'America/New_York',DC:'America/New_York',VA:'America/New_York',PA:'America/New_York',OH:'America/New_York',MI:'America/New_York',
+    IL:'America/Chicago',TX:'America/Chicago',MN:'America/Chicago',WI:'America/Chicago',MO:'America/Chicago',TN:'America/Chicago',
+    CO:'America/Denver',NM:'America/Denver',UT:'America/Denver',MT:'America/Denver',AZ:'America/Phoenix',
+    WA:'America/Los_Angeles',CA:'America/Los_Angeles',OR:'America/Los_Angeles',NV:'America/Los_Angeles'};
+  var OTHER={ON:'America/Toronto',QC:'America/Toronto',RM:'Europe/Rome',IT:'Europe/Rome',UK:'Europe/London',GB:'Europe/London',IE:'Europe/Dublin',DE:'Europe/Berlin',NL:'Europe/Amsterdam',FR:'Europe/Paris',ES:'Europe/Madrid',PT:'Europe/Lisbon',BR:'America/Sao_Paulo'};
+  return US[code]||OTHER[code]||'UTC'; }
 /* every tenant's locations, derived live from its actual collectors (keyed lookup, never positional) */
 function tenantLocations(slug){
   return collectorsForTenant(slug).map(c=>{ const m=siteOf(slug,c.id); return {coll:c.id,status:c.status,address:m.city,name:m.name}; });
@@ -9313,7 +9320,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.228.alpha';
+const APP_VERSION='v2026.02.229.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 const TCFG={};
 TCFG['roma']={
@@ -10417,6 +10424,8 @@ function renderCollMgmt(){
   const esc=v=>String(v).replace(/<[^>]+>/g,'');
   const kv=(k,v,tip)=>'<div class="svc-m" title="'+(tip||k)+': '+esc(v)+'"><div class="n" style="font-size:14px">'+v+'</div><div class="l">'+TX(k)+'</div></div>';
   const sitename=((typeof siteOf==='function')?(siteOf(id.split(':')[0],host)||{}).name||host:host);
+  const _siteCity=((typeof siteOf==='function')?(siteOf(id.split(':')[0],host)||{}).city:'')||'';
+  const hostTz=(typeof tzOfCity==='function')?tzOfCity(_siteCity):'UTC';
 
   // (Collector-host, OS and MariaDB rich cards are built after the compute block below)
 
@@ -10466,7 +10475,7 @@ function renderCollMgmt(){
   const osCard='<div class="os-id"><span class="os-logo">'+_svgDistro+'</span><div class="os-id-main"><b>Ubuntu 24.04.4 LTS</b><span>noble numbat · x86_64</span></div></div>'
     +'<div class="os-meters"><div class="os-patch '+(patchOk?'ok':'warn')+'"><span class="op-ico">'+(patchOk?_svgCheck:_svgWarn)+'</span><span class="op-tx"><b>'+secU+'</b><i>'+TX('Security updates')+'</i></span></div>'
     +'<div class="os-pkg gpop" data-pop="'+pkgInst+' packages · '+pkgUp+' upgradable"><div class="opk-top"><span>'+TX('Packages')+'</span><span class="opk-up">'+pkgInst+' · <b>'+pkgUp+'</b> upgradable</span></div><div class="opk-track"><div class="opk-fresh" style="width:'+freshPct+'%"></div></div></div></div>'
-    +'<div class="os-kv">'+kv('Kernel',kernel)+kv('Architecture','x86_64')+kv('Uptime',upD+'d '+upH+'h')+kv('Timezone','UTC')+'</div>';
+    +'<div class="os-kv" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 22px;margin-top:4px">'+kv('Hostname','gso-'+host)+kv('Kernel',kernel)+kv('Architecture','x86_64')+kv('Cores',cores)+kv('Uptime',upD+'d '+upH+'h')+kv('Timezone',hostTz)+'</div>';
 
   const mHit=(ri(940,999)/10).toFixed(1), hitNum=parseFloat(mHit);
   const hitCol=hitNum>=95?'var(--green)':hitNum>=85?'var(--amber)':'var(--red)';
@@ -10487,7 +10496,7 @@ function renderCollMgmt(){
     +'</div></div>'
     +'<div class="db-ident"><span>'+TX('Server')+' <b class="mono">guardare01</b></span><span class="mono" style="color:var(--mute)">10.254.1.10</span><span>'+TX('User')+' <b class="mono">guardare@localhost</b></span></div>'
     +'<div class="db-kv">'+kv('Version',dbVer)+kv('Uptime',dbUp+'d')+'<div class="svc-m"><div class="n" style="font-size:14px;color:'+slowCol+';font-weight:700">'+slow+'</div><div class="l">'+TX('Slow queries')+'</div></div>'+kv('Data size',dataGB+' GB')+'<div class="svc-m"><div class="n" style="font-size:14px">200<small style="color:var(--mute);font-weight:600"> /tick \u00b7 50ms</small></div><div class="l">'+TX('Inbound drain')+'</div></div></div>'
-    +'<div class="db-dbs">'+dbRow('normalizedDb','#4FB6A8',TX('Canonical device data'),'47 '+TX('tables'),true)+dbRow('collectorOpsDb','#5FAE86',TX('vCollector state'),'',false)+dbRow('rulesFiredStateDb','#C2A24F',TX('Alert state · fired rules'),'',false)+dbRow('huduSyncDb','#7E8AC0',TX('HuduSync state'),'',false)+'</div>'
+    +'<div class="db-dbs">'+dbRow('normalizedDb','#4FB6A8',TX('Canonical device data'),'47 '+TX('tables'),false)+dbRow('collectorOpsDb','#5FAE86',TX('vCollector state'),'',false)+dbRow('rulesFiredStateDb','#C2A24F',TX('Alert state · fired rules'),'',false)+dbRow('huduSyncDb','#7E8AC0',TX('HuduSync state'),'',false)+'</div>'
     +'<div class="db-foot"><span class="db-vend"><b>'+TX('Vendors active')+'</b> UniFi <i>\u00b7</i> Cisco Meraki <i>\u00b7</i> Microsoft Azure</span><span><b>deviceIdentity</b> \u00b7 '+TX('single source of truth')+'</span><span><b>30</b> SDWAN \u00b7 NC03</span></div>';
 
   // ---- Storage LED bars ----
