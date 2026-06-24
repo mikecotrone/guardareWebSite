@@ -767,7 +767,7 @@
   .loc-row-mng{color:var(--teal-deep);font-weight:700}
   .loc-table tbody tr:hover .loc-row-mng{color:var(--teal)}
   /* ---- Location detail modal ---- */
-  .loc-modal{position:relative;width:min(720px,94vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
+  .modal.loc-modal{position:relative;width:min(720px,94vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
   .lm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:26px 28px 20px;border-bottom:1px solid var(--line)}
   .lm-tnref{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);font-weight:600;margin-bottom:7px}
   .lm-title{font-size:25px;font-weight:700;letter-spacing:-.015em;line-height:1.15}
@@ -802,7 +802,7 @@
   .lm-fc-day svg{width:24px;height:24px;fill:none;stroke:var(--teal);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .lm-fc-hl{font-size:11.5px;color:var(--dim)}
   .lm-fc-hl b{color:var(--text);font-weight:700}
-  .lm-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 28px 22px;border-top:1px solid var(--line);background:var(--panel)}
+  .lm-acts{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;row-gap:12px;padding:20px 28px 22px;border-top:1px solid var(--line);background:var(--panel)}
   .lm-acts .btn{padding:12px 20px;font-size:13.5px}
   .lm-acts-r{gap:12px}
   .lm-acts-r{display:flex;gap:10px}
@@ -831,7 +831,7 @@
   .lm-wxd{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.03em}
   .lm-wxd svg{width:21px;height:21px;fill:none;stroke:var(--teal);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .lm-wxd b{font-size:12.5px;color:var(--text)}
-  @media(max-width:560px){ .lm-form2{grid-template-columns:1fr} .lm-wx-meta{margin-left:0} }
+  @media(max-width:560px){ .lm-form2{grid-template-columns:1fr} .lm-wx-meta{margin-left:0} .lm-acts{flex-direction:column;align-items:stretch} .lm-acts-r{flex-direction:column;width:100%} .lm-acts .btn{width:100%;justify-content:center} }
   .lm-confirm{position:absolute;inset:0;background:rgba(7,15,17,.74);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px;z-index:5}
   .lm-confirm-card{width:min(390px,100%);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 22px;text-align:center;box-shadow:var(--shadow)}
   .lm-confirm-ic{width:48px;height:48px;margin:0 auto 14px;display:grid;place-items:center;border-radius:13px;background:#ff5d5d1a;border:1px solid #ff5d5d55}
@@ -1098,6 +1098,16 @@
   /* ---- Guardare Global Configuration (Collector base) form ---- */
   .gcfg{display:flex;flex-direction:column;gap:16px;margin-bottom:18px}
   .gcfg-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+  .gcfg-locpick{position:relative}
+  .gcfg-locbtn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;color:var(--text);font:inherit;font-size:13px;cursor:pointer;text-align:left}
+  .gcfg-locbtn:hover{border-color:var(--teal-deep)}
+  .gcfg-locbtn>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .gcfg-locbtn .cr{width:16px;height:16px;fill:none;stroke:var(--dim);stroke-width:2;flex:none}
+  #gcfgLocMenu{left:0;right:0;min-width:0;max-height:280px;overflow:auto}
+  .gcfg-locmenu button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:none;color:var(--text);font:inherit;font-size:13px;padding:9px 11px;border-radius:7px;cursor:pointer}
+  .gcfg-locmenu button:hover{background:var(--raise)}
+  .gcfg-locmenu button.sel{color:var(--teal);font-weight:600}
+  .gcfg-locmenu button.sel::after{content:"✓";margin-left:auto;color:var(--teal)}
   .gcfg-chead{display:flex;align-items:center;gap:13px;padding:15px 18px;border-bottom:1px solid var(--line)}
   .gcfg-cic{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--teal-ghost);border:1px solid #2ee6c844}
   .gcfg-cic svg{width:20px;height:20px;stroke:var(--teal);fill:none;stroke-width:1.8}
@@ -2082,7 +2092,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.274.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.277.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9787,9 +9797,7 @@ function cfgBaseForm(coll){
   const locNames=tlocs.map(function(x){return x.name;});
   let gLoc=locNames.indexOf(g.customer_location)>=0?g.customer_location:(locNames.indexOf(ownName)>=0?ownName:(locNames[0]||g.customer_location||''));
   g.customer_location=gLoc;
-  const locOpts=tlocs.length
-    ? tlocs.map(function(x){var lbl=x.name+((x.city&&x.city!==x.name)?' \u00b7 '+x.city:'');return '<option value="'+_esc(x.name)+'"'+(x.name===gLoc?' selected':'')+'>'+_esc(lbl)+'</option>';}).join('')
-    : '<option value="'+_esc(gLoc)+'" selected>'+_esc(gLoc||'\u2014')+'</option>';
+  const locOpts=tlocs.map(function(x){var lbl=x.name+((x.city&&x.city!==x.name)?' \u00b7 '+x.city:'');return '<button type="button" class="'+(x.name===gLoc?'sel':'')+'" data-name="'+_esc(x.name)+'" onclick="gcfgLocPick(this.dataset.name)">'+_esc(lbl)+'</button>';}).join('');
   const lockSvg='<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
   const globeIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>';
   const field=(id,label,val,hint,req)=>`
@@ -9821,7 +9829,11 @@ function cfgBaseForm(coll){
         </div>
         <div class="gcfg-field span2">
           <label for="gcfgLoc">${TX('Collector location')}<span class="req">*</span></label>
-          <div class="gcfg-iwrap"><select id="gcfgLoc" class="tm-input">${locOpts}</select></div>
+          <div class="gcfg-locpick" id="gcfgLocWrap">
+            <button type="button" class="gcfg-locbtn" onclick="gcfgLocToggle(event)"><span id="gcfgLocVal">${_esc(gLoc||'\u2014')}</span><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <input type="hidden" id="gcfgLoc" value="${_esc(gLoc)}">
+            <div class="yaml-pick-menu gcfg-locmenu" id="gcfgLocMenu">${locOpts}</div>
+          </div>
           <span class="gcfg-hint">${TX('Pick from the locations defined for this customer. Manage them on the Location Management page.')}</span>
         </div>
       </div>
@@ -9993,6 +10005,14 @@ function cfgBaseReadForm(){
   if(cfgMgrColl){ const t=cfgMgrColl.split(':')[0]; out.customer_name=(typeof tcfgFor==='function'?(tcfgFor(t).customer_name||''):''); }
   return out;
 }
+function gcfgLocToggle(e){ e.stopPropagation(); var m=document.getElementById('gcfgLocMenu'); if(!m) return; var open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
+function gcfgLocPick(name){
+  var hid=document.getElementById('gcfgLoc'); if(hid) hid.value=name;
+  var val=document.getElementById('gcfgLocVal'); if(val) val.textContent=name;
+  if(cfgMgrColl){ var g=gcfgFor(cfgMgrColl); if(g) g.customer_location=name; }
+  var menu=document.getElementById('gcfgLocMenu'); if(menu) menu.querySelectorAll('button').forEach(function(b){ b.classList.toggle('sel', b.dataset.name===name); });
+  closeAllMenus();
+}
 function ucfgRead(coll){
   const u=ucfgFor(coll), gv=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
   const num=(id,def)=>{const v=parseInt(gv(id),10);return isNaN(v)?def:v;};
@@ -10134,7 +10154,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.274.alpha';
+const APP_VERSION='v2026.02.277.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
