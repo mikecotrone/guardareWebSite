@@ -767,11 +767,11 @@
   .loc-row-mng{color:var(--teal-deep);font-weight:700}
   .loc-table tbody tr:hover .loc-row-mng{color:var(--teal)}
   /* ---- Location detail modal ---- */
-  .loc-modal{position:relative;width:min(820px,94vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
-  .lm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 22px 16px;border-bottom:1px solid var(--line)}
+  .loc-modal{position:relative;width:min(720px,94vw);max-height:92vh;padding:0;text-align:left;overflow:hidden;display:flex;flex-direction:column}
+  .lm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:26px 28px 20px;border-bottom:1px solid var(--line)}
   .lm-tnref{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);font-weight:600;margin-bottom:7px}
-  .lm-title{font-size:20px;font-weight:700;letter-spacing:-.01em}
-  .lm-sub{font-size:12px;color:var(--mute);margin-top:3px}
+  .lm-title{font-size:25px;font-weight:700;letter-spacing:-.015em;line-height:1.15}
+  .lm-sub{font-size:14px;color:var(--dim);margin-top:6px;font-weight:500}
   .lm-x{flex:none;width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:none;color:var(--dim);cursor:pointer}
   .lm-x:hover{color:var(--text);background:var(--raise)}
   .lm-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
@@ -802,18 +802,20 @@
   .lm-fc-day svg{width:24px;height:24px;fill:none;stroke:var(--teal);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .lm-fc-hl{font-size:11.5px;color:var(--dim)}
   .lm-fc-hl b{color:var(--text);font-weight:700}
-  .lm-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px;border-top:1px solid var(--line);background:var(--panel)}
+  .lm-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 28px 22px;border-top:1px solid var(--line);background:var(--panel)}
+  .lm-acts .btn{padding:12px 20px;font-size:13.5px}
+  .lm-acts-r{gap:12px}
   .lm-acts-r{display:flex;gap:10px}
   .lm-acts-sp{flex:1}
   .lm-tn-static{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg-2);color:var(--text);font-size:13px;font-weight:600;min-width:0;overflow:hidden}
   .lm-tn-static>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   .lm-tn-static .tn-avatar{flex:none}
   /* ---- redesigned location modal: top forecast strip + full-width form ---- */
-  .lm-body{flex:1;min-height:0;overflow:auto;padding:20px 24px 22px}
+  .lm-body{flex:1;min-height:0;overflow:auto;padding:22px 28px 26px}
   .lm-form2{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;align-content:start}
   .lm-form2 .tm-input{padding:10px 12px}
   .lm-form2 .lm-field>label{text-align:left}
-  .lm-wx{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:14px 24px 2px;padding:13px 18px;background:var(--bg-2);border:1px solid var(--line);border-radius:13px;min-height:62px}
+  .lm-wx{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:18px 28px 4px;padding:14px 20px;background:var(--bg-2);border:1px solid var(--line);border-radius:13px;min-height:62px}
   .lm-wx-off{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;color:var(--mute);font-size:12.5px;text-align:center}
   .lm-wx-cloud{width:22px;height:22px;fill:none;stroke:var(--teal);stroke-width:1.5;opacity:.8;flex:none}
   .lm-wx-now{display:flex;align-items:center;gap:13px}
@@ -2080,7 +2082,7 @@
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.272.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.273.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10117,7 +10119,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.272.alpha';
+const APP_VERSION='v2026.02.273.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
