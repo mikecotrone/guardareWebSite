@@ -2010,11 +2010,14 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
 <body>
 <style>
 #loginScreen{position:fixed;inset:0;z-index:9000;overflow-y:auto;color:var(--text);font-family:"Open Sans",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;background:
-  radial-gradient(1100px 720px at 22% 16%, rgba(46,230,200,.10), transparent 60%),
-  radial-gradient(900px 620px at 84% 90%, rgba(148,162,255,.10), transparent 60%),
+  radial-gradient(1100px 720px at 22% 16%, rgba(46,230,200,.12), transparent 62%),
+  radial-gradient(900px 620px at 84% 90%, rgba(148,162,255,.12), transparent 62%),
+  radial-gradient(1000px 640px at 50% 48%, rgba(46,230,200,.04), transparent 72%),
+  radial-gradient(145% 135% at 50% 42%, transparent 48%, rgba(0,0,0,.5) 100%),
   linear-gradient(160deg,#081316 0%, #0A1518 55%, #070F11 100%)}
 #loginScreen.login-hide{opacity:0;transform:scale(1.015);pointer-events:none;transition:opacity .55s ease, transform .55s ease}
 #loginScreen .lg-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(46,230,200,.05) 1px, transparent 1px);background-size:30px 30px;-webkit-mask-image:radial-gradient(circle at 50% 38%, #000 0%, transparent 78%);mask-image:radial-gradient(circle at 50% 38%, #000 0%, transparent 78%);pointer-events:none}
+#loginScreen .lg-noise{position:absolute;inset:0;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27220%27%20height%3D%27220%27%3E%3Cfilter%20id%3D%27gn%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.8%27%20numOctaves%3D%272%27%20stitchTiles%3D%27stitch%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27220%27%20height%3D%27220%27%20filter%3D%27url%28%23gn%29%27%2F%3E%3C%2Fsvg%3E");background-size:220px 220px}
 #loginScreen .lg-orb{position:absolute;border-radius:50%;filter:blur(72px);opacity:.5;pointer-events:none}
 #loginScreen .lg-orb.a{width:380px;height:380px;background:rgba(46,230,200,.26);top:-90px;left:-50px;animation:lgFloat 14s ease-in-out infinite}
 #loginScreen .lg-orb.b{width:430px;height:430px;background:rgba(148,162,255,.20);bottom:-130px;right:-80px;animation:lgFloat 18s ease-in-out infinite reverse}
@@ -2031,7 +2034,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
 @keyframes lgCore{0%,100%{box-shadow:0 0 12px 2px rgba(46,230,200,.6)}50%{box-shadow:0 0 22px 5px rgba(46,230,200,.95)}}
 #loginScreen .lg-blip{transform-box:fill-box;transform-origin:center;animation:lgBlip 2.8s ease-in-out infinite}
 @keyframes lgBlip{0%,100%{opacity:.45;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
-#loginScreen .lg-logo{height:30px;width:auto;display:block;margin-bottom:26px;filter:brightness(0) invert(1)}
+#loginScreen .lg-logo{height:44px;width:auto;display:block;margin-bottom:28px;filter:brightness(0) invert(1)}
 #loginScreen .lg-head{font-size:46px;line-height:1.04;font-weight:800;letter-spacing:-.022em;margin:0 0 16px;background:linear-gradient(180deg,#ffffff,#b9e7df);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 #loginScreen .lg-sub{font-size:15.5px;line-height:1.6;color:var(--dim);margin:0 0 30px;max-width:430px}
 #loginScreen .lg-stats{display:flex;gap:30px;margin-bottom:22px}
@@ -2084,7 +2087,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
   #loginScreen .lg-stage{flex-direction:column;gap:28px;padding:34px 20px;justify-content:flex-start}
   #loginScreen .lg-hero{flex:none;max-width:440px;width:100%;text-align:center;margin-top:6px}
   #loginScreen .lg-radar{width:188px;height:188px;margin:0 auto 22px}
-  #loginScreen .lg-logo{margin:0 auto 18px}
+  #loginScreen .lg-logo{height:38px;margin:0 auto 18px}
   #loginScreen .lg-head{font-size:33px}
   #loginScreen .lg-sub{display:none}
   #loginScreen .lg-stats{justify-content:center;gap:26px;margin-bottom:16px}
@@ -2104,6 +2107,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
   <div class="lg-grid"></div>
   <div class="lg-orb a"></div>
   <div class="lg-orb b"></div>
+  <div class="lg-noise"></div>
   <div class="lg-stage">
     <div class="lg-hero">
       <div class="lg-radar">
@@ -2364,7 +2368,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.302.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.303.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10552,7 +10556,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.302.alpha';
+const APP_VERSION='v2026.02.303.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
