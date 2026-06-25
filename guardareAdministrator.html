@@ -453,6 +453,8 @@
   .radar-tenant{font-weight:700;margin-right:6px}
   .radar-panel .panel-head .tag{font-size:13px;font-weight:700;color:var(--text);letter-spacing:.03em}
   .radar-panel .panel-head .radar-tenant{color:var(--teal)}
+  .radar-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--teal);flex:0 0 auto}
+  .radar-who{font-weight:700;letter-spacing:.01em}
 
   /* console log stream */
   .console{padding:0;margin-top:18px}
@@ -2415,7 +2417,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.338.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.339.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2475,8 +2477,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
             <div class="dash-radars">
         <div class="panel radar-panel" id="radarPanel-A">
           <div class="panel-head" style="border:none;padding:0 0 6px">
-            <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2EE6C8" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-3"/></svg> <span data-i18n="Fleet radar">Fleet radar</span></h3>
-            <span class="tag radar-tenant" id="radarTenant-A" style="display:none"></span><span class="tag" id="radarRegion-A">North America</span>
+            <h3><span class="radar-dot" id="radarDot-A"></span><span class="radar-who" id="radarWho-A">Fleet</span></h3>
+            <span class="tag" id="radarRegion-A">North America</span>
           </div>
           <div class="radar-wrap">
             <svg class="radar-svg" viewBox="0 0 300 300">
@@ -2527,8 +2529,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         </div>
         <div class="panel radar-panel" id="radarPanel-B">
           <div class="panel-head" style="border:none;padding:0 0 6px">
-            <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2EE6C8" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-3"/></svg> <span data-i18n="Fleet radar">Fleet radar</span></h3>
-            <span class="tag radar-tenant" id="radarTenant-B" style="display:none"></span><span class="tag" id="radarRegion-B">North America</span>
+            <h3><span class="radar-dot" id="radarDot-B"></span><span class="radar-who" id="radarWho-B">Fleet</span></h3>
+            <span class="tag" id="radarRegion-B">North America</span>
           </div>
           <div class="radar-wrap">
             <svg class="radar-svg" viewBox="0 0 300 300">
@@ -10730,7 +10732,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.338.alpha';
+const APP_VERSION='v2026.02.339.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -13362,11 +13364,11 @@ function tickLog(){const p=logPool[Math.floor(Math.random()*logPool.length)];pus
 
 /* ---------- radar regions (tenant-aware): desktop shows the tenant's regions, mobile rotates ---------- */
 const REGIONS={
-  na:{label:'North America',online:7,total:10,cap:'collectors reporting across North America · 1 critical · 1 degraded'},
-  eu:{label:'Europe',online:6,total:9,cap:'collectors reporting across Europe · 1 critical · 1 degraded'},
-  nc:{label:'North Carolina, USA',online:3,total:4,cap:'collectors reporting across North Carolina, USA · 1 degraded'},
-  sa:{label:'São Paulo, Brazil',online:1,total:1,cap:'1 collector reporting from São Paulo, Brazil'},
-  rome:{label:'Roma',online:2,total:2,cap:'2 collectors reporting from the City of Rome'},
+  na:{label:'North America',loc:'United States · Canada',online:7,total:10,cap:'collectors reporting across North America · 1 critical · 1 degraded'},
+  eu:{label:'Europe',loc:'United Kingdom · EU',online:6,total:9,cap:'collectors reporting across Europe · 1 critical · 1 degraded'},
+  nc:{label:'North Carolina, USA',loc:'North Carolina, USA',online:3,total:4,cap:'collectors reporting across North Carolina, USA · 1 degraded'},
+  sa:{label:'São Paulo, Brazil',loc:'São Paulo, Brazil',online:1,total:1,cap:'1 collector reporting from São Paulo, Brazil'},
+  rome:{label:'Roma',loc:'Rome, Lazio, Italy',online:2,total:2,cap:'2 collectors reporting from the City of Rome'},
 };
 function _set(id,t){const e=document.getElementById(id);if(e)e.textContent=t;}
 /* overlay collectors projected onto the NA map for tenants that have no baked radar blips.
@@ -13425,10 +13427,10 @@ function filterBlipsByTenant(){
   });
 }
 function _setTenantChip(S,scope,rid){
-  const el=document.getElementById('radarTenant-'+S); if(!el) return;
-  if(scope==='all'){ const slug=REGION_TENANT[rid]||''; el.textContent=tenantName[slug]||slug;
-    const c=tenantColors[slug]||'#2EE6C8'; el.style.color=c; el.style.borderColor=c; el.style.background=c+'22'; el.style.display=''; }
-  else { el.style.display='none'; }
+  const slug = scope==='all' ? (REGION_TENANT[rid]||'') : (scope||'');
+  const c=(typeof tenantColors!=='undefined'&&tenantColors[slug])||'#2EE6C8';
+  const who=document.getElementById('radarWho-'+S); if(who) who.textContent=(tenantName[slug]||slug||'Fleet');
+  const dot=document.getElementById('radarDot-'+S); if(dot){ dot.style.background=c; dot.style.boxShadow='0 0 9px '+c+'99'; }
 }
 function applyRegion(S, rid){
   ['na','eu','nc','sa','rome'].forEach(r=>{
@@ -13439,7 +13441,7 @@ function applyRegion(S, rid){
   filterBlipsByTenant();
   const r=REGIONS[rid], scope=tenantScope();
   _setTenantChip(S,scope,rid);
-  _set('radarRegion-'+S,TX(r.label));
+  _set('radarRegion-'+S,TX(r.loc||r.label));
   if(scope==='all'){
     _set('onlineCount-'+S,r.online); _set('totalCount-'+S,'/ '+r.total); _set('radarCaption-'+S,TX(r.cap));
     return;
@@ -13463,8 +13465,9 @@ function applyEmpty(S){
     const m=document.getElementById('map-'+r+'-'+S); if(m)m.style.opacity='0';
     const b=document.getElementById('blips-'+r+'-'+S); if(b){b.style.opacity='0'; b.style.pointerEvents='none';}
   });
-  const tc=document.getElementById('radarTenant-'+S); if(tc) tc.style.display='none';
   const sc=tenantScope();
+  const who=document.getElementById('radarWho-'+S); if(who) who.textContent=(tenantName[sc]||sc||'Fleet');
+  const dot=document.getElementById('radarDot-'+S); if(dot){ dot.style.background='#547076'; dot.style.boxShadow='none'; }
   _set('radarRegion-'+S, TX('No mapped sites'));
   _set('onlineCount-'+S,'0'); _set('totalCount-'+S,'/ 0');
   _set('radarCaption-'+S,(tenantName[sc]||sc)+' · '+TX('No mapped sites'));
