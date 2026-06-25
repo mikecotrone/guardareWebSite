@@ -2417,7 +2417,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.339.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.340.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2737,10 +2737,6 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
           <h1 class="page-title" data-i18n="Alerts">Alerts</h1>
           <p class="page-sub" data-i18n="Triage, acknowledge, and resolve across the fleet">Triage, acknowledge, and resolve across the fleet</p>
         </div>
-        <div class="head-actions">
-          <button class="btn" onclick="toast('Alert rules editor')"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="4"/></svg><span data-i18n="Alert rules">Alert rules</span></button>
-          <button class="btn primary" onclick="ackAll()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Acknowledge all">Acknowledge all</span></button>
-        </div>
       </div>
 
       <div class="alert-tabs-row">
@@ -2749,6 +2745,10 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
           <button class="alert-tab active" data-atab="active" onclick="setAlertTab('active')"><span data-i18n="Active">Active</span> <span class="ct" id="ctActive">0</span></button>
           <button class="alert-tab" data-atab="acked" onclick="setAlertTab('acked')"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct" id="ctAcked">0</span></button>
           <button class="alert-tab" data-atab="resolved" onclick="setAlertTab('resolved')"><span data-i18n="Resolved">Resolved</span> <span class="ct" id="ctResolved">0</span></button>
+        </div>
+        <div class="head-actions">
+          <button class="btn" onclick="toast('Alert rules editor')"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="4"/></svg><span data-i18n="Alert rules">Alert rules</span></button>
+          <button class="btn primary" onclick="ackAll()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Acknowledge all">Acknowledge all</span></button>
         </div>
       </div>
 
@@ -10732,7 +10732,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.339.alpha';
+const APP_VERSION='v2026.02.340.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12617,7 +12617,7 @@ function renderCollTopo(){
       {selector:'node.lbl-rtl',style:{'text-halign':'left','text-margin-x':-11}},
       {selector:'node.dataend.lbl-rtl',style:{'text-halign':'right','text-margin-x':11}},
       {selector:'node.fw',style:{'text-valign':'bottom','text-halign':'center','text-margin-x':0,'text-margin-y':9}},
-      {selector:'node.cloudbox',style:{'label':'data(label)','shape':'round-rectangle','background-color':'#0e2a30','background-opacity':0.5,'background-image':GUARDARE_LOGO_WHITE,'background-fit':'none','background-width':'112px','background-height':'32px','background-position-x':'22px','background-position-y':'18px','background-clip':'none','background-image-opacity':0.9,'border-width':1.6,'border-color':T.teal,'border-opacity':0.55,'text-valign':'top','text-halign':'right-inside','text-margin-x':-24,'text-margin-y':24,'text-background-color':'#0c2228','text-background-opacity':1,'text-background-padding':'7px','text-background-shape':'round-rectangle','color':T.teal,'font-size':'20px','font-weight':700,'text-wrap':'none','padding':'50px'}},
+      {selector:'node.cloudbox',style:{'label':'data(label)','shape':'round-rectangle','background-color':'#0e2a30','background-opacity':0.5,'background-image':GUARDARE_LOGO_WHITE,'background-fit':'none','background-width':'112px','background-height':'32px','background-position-x':'22px','background-position-y':'18px','background-clip':'none','background-image-opacity':0.9,'border-width':1.6,'border-color':T.teal,'border-opacity':0.55,'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':16,'text-background-color':'#0c2228','text-background-opacity':1,'text-background-padding':'7px','text-background-shape':'round-rectangle','color':T.teal,'font-size':'20px','font-weight':700,'text-wrap':'none','padding':'50px'}},
       {selector:'edge',style:{'width':1.5,'line-color':T.line,'target-arrow-color':T.line,'target-arrow-shape':'triangle','arrow-scale':0.85,'curve-style':'bezier'}},
       {selector:'edge.cloudedge',style:{'line-color':T.teal,'target-arrow-color':T.teal,'opacity':0.6,'width':1.8,'line-style':'dashed','line-dash-pattern':[9,8]}},
       {selector:'edge.stackedge',style:{'line-color':T.violet,'target-arrow-color':T.violet,'opacity':0.7}},
