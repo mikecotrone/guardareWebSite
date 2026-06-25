@@ -2419,7 +2419,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.342.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.343.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10733,7 +10733,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.342.alpha';
+const APP_VERSION='v2026.02.343.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12625,6 +12625,7 @@ function renderCollTopo(){
       {selector:'node.tenantbadge.tlogo',style:{'background-opacity':1,'background-color':'#ffffff','border-width':1.6,'border-color':'#c4d3d2','background-fit':'contain','background-width':'82%','background-height':'82%','background-clip':'node'}},
       {selector:'node.lbl-top',style:{'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':-18,'text-max-width':'160px'}},
       {selector:'node.lbl-hover',style:{'font-size':'22px','font-weight':700,'z-index':9999,'text-max-width':'320px','text-wrap':'none','text-background-color':T.panel,'text-background-opacity':0.92,'text-background-padding':'5px','text-background-shape':'round-rectangle'}},
+      {selector:'node.lbl-top.lbl-hover',style:{'text-max-width':'320px','text-wrap':'none'}},
       {selector:'node.lbl-rtl',style:{'text-halign':'left','text-margin-x':-11}},
       {selector:'node.dataend.lbl-rtl',style:{'text-halign':'right','text-margin-x':11}},
       {selector:'node.fw',style:{'text-valign':'bottom','text-halign':'center','text-margin-x':0,'text-margin-y':9,'text-wrap':'none','text-max-width':'280px'}},
