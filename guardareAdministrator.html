@@ -2410,7 +2410,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.334.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.335.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2789,8 +2789,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
               <option value="round-taxi">Lines · round taxi</option>
             </select>
             <div class="ctopo-rep-inline">
-              <label for="ctopoRep">Node Repulsion</label>
-              <input id="ctopoRep" type="range" min="60" max="180" value="100" oninput="ctopoRepulsion(this.value)" onchange="ctopoRepulsionSettle()" aria-label="Node Repulsion">
+              <label for="ctopoRep">Sizing</label>
+              <input id="ctopoRep" type="range" min="60" max="180" value="100" oninput="ctopoRepulsion(this.value)" onchange="ctopoRepulsionSettle()" aria-label="Sizing">
               <span id="ctopoRepVal">100%</span>
             </div>
             <button class="ctopo-btn" onclick="ctopoFit()" data-i18n="Fit to view">Fit to view</button>
@@ -10718,7 +10718,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.334.alpha';
+const APP_VERSION='v2026.02.335.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12470,8 +12470,8 @@ function ctopoEdgeType(val){
   ctopoCurEdge=val; if(!ctopoCy) return;
   var eds=ctopoCy.edges();
   eds.removeStyle('control-point-distances control-point-weights taxi-direction taxi-radius taxi-turn');
-  if(val==='unbundled-bezier'){ eds.style({'curve-style':'unbundled-bezier','control-point-distances':[34],'control-point-weights':[0.5]}); }
-  else if(val==='unbundled-bezier-multi'){ eds.style({'curve-style':'unbundled-bezier','control-point-distances':[40,-40],'control-point-weights':[0.25,0.75]}); }
+  if(val==='unbundled-bezier'){ eds.style({'curve-style':'unbundled-bezier','control-point-distances':[60],'control-point-weights':[0.5]}); }
+  else if(val==='unbundled-bezier-multi'){ eds.style({'curve-style':'unbundled-bezier','control-point-distances':[80,-80],'control-point-weights':[0.25,0.75]}); }
   else if(val==='round-taxi'){ eds.style({'curve-style':'round-taxi','taxi-direction':'auto','taxi-radius':16}); }
   else { eds.style({'curve-style':'straight'}); }
 }
@@ -12603,7 +12603,7 @@ function renderCollTopo(){
       {selector:'edge.uplink',style:{'line-color':'data(ecol)','target-arrow-color':'data(ecol)','width':2.2,'line-style':'dashed','line-dash-pattern':[9,8],'opacity':0.95}},
       {selector:'edge.uplink[flow = 0]',style:{'opacity':0.6,'line-style':'solid'}},
       {selector:'edge[main = 1]',style:{'label':'data(label)','font-family':'Open Sans, system-ui, sans-serif','font-size':'14px','color':T.dim,'text-background-color':T.panel,'text-background-opacity':0.92,'text-background-padding':'4px','text-rotation':'autorotate','opacity':0.9}},
-      {selector:'edge.iplbl',style:{'source-label':'data(label)','source-text-offset':30,'source-text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':T.text,'text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':0.97,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'data(ecol)','text-border-width':1.2,'text-border-opacity':0.6}},
+      {selector:'edge.iplbl',style:{'source-label':'data(label)','source-text-offset':120,'source-text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':T.text,'text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':0.97,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'data(ecol)','text-border-width':1.2,'text-border-opacity':0.6}},
       {selector:'node:selected',style:{'border-color':T.teal,'border-width':2.6}}
     ]
   });
