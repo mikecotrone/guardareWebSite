@@ -190,8 +190,8 @@
 
   /* tenant dropdown */
   .tenant-wrap{position:relative;margin-left:0}
-  .tenantbar{display:flex;align-items:center;padding:16px 28px 0}
-  @media(max-width:1024px){ .tenantbar{padding:12px 16px 0} }
+  .tenantbar{display:flex;align-items:center;padding:10px 28px 0}
+  @media(max-width:1024px){ .tenantbar{padding:8px 16px 0} }
   body.mode-enterprise .nav-item[data-screen="tenants"]{display:none}
   body.mode-enterprise .tenant-wrap{display:none}
   .tenant-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:264px;background:var(--panel);border:1px solid var(--line);
@@ -375,7 +375,7 @@
     radial-gradient(700px 500px at -10% 110%, #0c2127 0%, transparent 55%),
     var(--bg);
     position:relative}
-  .screen{display:none;padding:24px 28px 60px;animation:fade .4s ease}
+  .screen{display:none;padding:10px 28px 60px;animation:fade .4s ease}
   .screen.show{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
@@ -600,7 +600,7 @@
   .alert-time{font-size:10.5px;color:var(--mute);font-family:"Open Sans";white-space:nowrap}
 
   /* ---------- TABLE (fleet overview) ---------- */
-  .filters{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .filters{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
   .chip{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:99px;font-size:12.5px;
     font-weight:500;border:1px solid var(--line);background:var(--panel);color:var(--dim);transition:.15s}
   .chip:hover{color:var(--text);border-color:var(--teal-deep)}
@@ -1618,7 +1618,7 @@
   .intg-scope.plat{color:var(--violet);background:#94a2ff14;border:1px solid #94a2ff44}
   .intg-scope.perten{color:var(--teal);background:var(--teal-ghost);border:1px solid #2ee6c844;text-transform:none;letter-spacing:.02em}
   .tn-avatar.tn-logo{background:#fff;border:1px solid #c4d3d2;overflow:hidden;padding:0;box-sizing:border-box;isolation:isolate}
-  .tn-avatar.tn-logo img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;border-radius:inherit}
+  .tn-avatar.tn-logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:inherit}
   .tm-head-id{display:flex;align-items:center;gap:15px}
   .tm-head-logo{flex:none;width:52px;height:52px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:#fff;border:1px solid #c4d3d2;padding:2px;box-sizing:border-box;isolation:isolate}
   .tm-head-logo img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;border-radius:6px}
@@ -1942,7 +1942,7 @@
     .metric-cards{grid-template-columns:repeat(2,1fr)}
     .svc-grid{grid-template-columns:repeat(2,1fr)}
     .id-grid{grid-template-columns:repeat(2,1fr)}
-    .screen{padding:18px 16px 56px}
+    .screen{padding:8px 16px 56px}
     .page-head{flex-wrap:wrap;gap:14px}
     .panel:has(table){overflow-x:auto}
     table{min-width:560px}
@@ -1974,7 +1974,7 @@
     .afull-time{display:none}
     .console-ctrl{gap:8px}
     .console-site{font-size:10.5px}
-    .screen{padding:18px 14px 112px}
+    .screen{padding:8px 14px 112px}
     .yaml-view{max-height:62vh;margin:10px 4px 14px}
     .cfg-pickrow{flex-wrap:wrap;gap:8px}
   }
@@ -2415,7 +2415,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.337.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.338.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2652,10 +2652,6 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
           <h1 class="page-title" data-i18n="Collector Inventory">Collector Inventory</h1>
           <p class="page-sub" id="fleetSub">Every collector across every customer</p>
         </div>
-        <div class="head-actions">
-          <div class="loc-viewseg" id="fleetViewSeg" role="tablist"></div>
-          <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
-        </div>
       </div>
 
       <div class="filters">
@@ -2664,6 +2660,10 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <button class="chip" data-fs="warn" onclick="setFleetFilter('warn')"><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span> <span class="cell-mut" id="fcWarn">—</span></button>
         <button class="chip" data-fs="crit" onclick="setFleetFilter('crit')"><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span> <span class="cell-mut" id="fcCrit">—</span></button>
         <button class="chip" data-fs="offline" onclick="setFleetFilter('offline')"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span> <span class="cell-mut" id="fcOffline">—</span></button>
+        <div class="head-actions" style="margin-left:auto">
+          <div class="loc-viewseg" id="fleetViewSeg" role="tablist"></div>
+          <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
+        </div>
       </div>
 
       <div class="fleet-cards" id="fleetGridFull"></div>
@@ -2750,7 +2750,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         </div>
       </div>
 
-      <div class="panel">
+      <div class="panel" style="overflow-x:auto">
         <div class="alert-full" id="alertFull"></div>
       </div>
     </section>
@@ -8589,21 +8589,30 @@ function renderAlertsFull(){
   const cnt=s=>scoped.filter(x=>x.a[7]===s).length;
   _set('ctActive',String(cnt('active'))); _set('ctAcked',String(cnt('acked'))); _set('ctResolved',String(cnt('resolved'))); _set('ctAll',String(scoped.length));
   const items=alertTab==='all'?scoped:scoped.filter(x=>x.a[7]===alertTab);
-  document.getElementById('alertFull').innerHTML = items.map(({a,i})=>`
-    <div class="afull-row${sc==='all'?' has-tenant':''}" id="af${i}">
-      <div class="afull-sev ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg></div>
-      ${sc==='all'?`<div class="afull-tenant">${tnBadge(a[3])}<span class="afull-tname">${tenantName[a[3]]||a[3]}</span></div>`:''}
-      <div class="afull-main">
-        <div class="t">${TX(a[1])}</div>
-        <div class="m"><code>${a[2]}</code><span>${TX(a[4])}</span></div>
-      </div>
-      <div class="afull-time"><b>${a[6]}</b>${a[5]}</div>
-      <div class="afull-act">
+  var _hasT = sc==='all';
+  var _sev = function(s){ return ({critical:'Critical',warning:'Warning',info:'Info',crit:'Critical',warn:'Warning'})[s]||(s?s.charAt(0).toUpperCase()+s.slice(1):s); };
+  var _rows = items.map(({a,i})=>`
+    <tr id="af${i}">
+      <td><span class="sev-cell ${a[0]}"><svg viewBox="0 0 24 24" stroke="currentColor">${sevIcon[a[0]]}</svg>${TX(_sev(a[0]))}</span></td>
+      ${_hasT?`<td><span class="cell-tenant">${tnBadge(a[3])}${tenantName[a[3]]||a[3]}</span></td>`:''}
+      <td><b>${TX(a[1])}</b><div class="cell-mut" style="font-size:12px">${TX(a[4])}</div></td>
+      <td><code>${a[2]}</code></td>
+      <td class="cell-mut" style="white-space:nowrap"><b style="color:var(--text)">${a[6]}</b> · ${a[5]}</td>
+      <td>${a[7]==='active'?`<span style="color:#FF5D5D;font-weight:600">${TX('Active')}</span>`:`<span class="cell-mut">${(a[7]==='acked'?TX('Acknowledged'):TX('Resolved'))} ✓</span>`}</td>
+      <td class="aud-act" style="text-align:right;white-space:nowrap">
         <button class="btn ai-explain" onclick="event.stopPropagation();explainAlert(${i})"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg><span data-i18n="Explain">Explain</span></button>
-        ${a[7]==='active'
-        ? `<button class="btn" onclick="event.stopPropagation();ackOne(${i})">${TX('Acknowledge')}</button>`
-        : `<span class="cell-mut" style="font-size:12px">${(a[7]==='acked'?TX('Acknowledged'):TX('Resolved'))} ✓</span>`}</div>
-    </div>`).join('') || `<div class="empty" style="padding:50px"><h3>${TX('No alerts')}</h3><p>${TX('Nothing in this view.')}</p></div>`;
+        ${a[7]==='active'?`<button class="btn" onclick="event.stopPropagation();ackOne(${i})">${TX('Acknowledge')}</button>`:''}
+      </td>
+    </tr>`).join('');
+  var _ah = document.getElementById('alertFull');
+  if(_ah){
+    var _ex=[_hasT?6:5];
+    _ah.innerHTML = _rows
+      ? `<table id="alertsTbl"><thead><tr><th>${TX('Severity')}</th>${_hasT?`<th>${TX('Tenant')}</th>`:''}<th>${TX('Alert')}</th><th>${TX('Source')}</th><th>${TX('When')}</th><th>${TX('Status')}</th><th></th></tr></thead><tbody>${_rows}</tbody></table>`
+      : `<div class="empty" style="padding:50px"><h3>${TX('No alerts')}</h3><p>${TX('Nothing in this view.')}</p></div>`;
+    var _t=document.getElementById('alertsTbl');
+    if(_t){ if(typeof makeSortable==='function') makeSortable(_t,{defaultCol:99,exclude:[99].concat(_ex)}); if(typeof makeColsResizable==='function') makeColsResizable(_t); }
+  }
   updateAlertCounts();
 }
 function updateAlertCounts(){
@@ -9414,7 +9423,7 @@ function renderIntegrations(){
       if(isAll){ meta=TX('Configured per tenant'); }
       else { const c=items.filter(i=>{const s=tIntg(scope,i.id);return s&&s.connected;}).length; meta=`${c} ${TX('connected')}`; }
     }
-    const isOpen = intgAccOpen ? intgAccOpen.has(key) : (key===firstKey);
+    const isOpen = intgAccOpen ? intgAccOpen.has(key) : false;
     return `
       <section class="intg-group${isOpen?' open':''}" data-group="${key}">
         <button class="intg-group-head" type="button" onclick="toggleIntgAcc(this)" aria-expanded="${isOpen}">
@@ -9674,17 +9683,15 @@ function renderAudit(){
         <h1 class="page-title">${TX('Audit Log')}</h1>
         <p class="page-sub">${list.length} ${TX('of')} ${total} ${TX('events')} · ${TX('newest first')}</p>
       </div>
-      <div class="head-actions">
-        <button class="btn" onclick="toast('Audit export (CSV) — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>${TX('Export CSV')}</button>
-      </div>
     </div>
-    <div class="aud-filter">${chips}</div>
+    <div class="aud-filter" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">${chips}<button class="btn" style="margin-left:auto" onclick="toast('Audit export (CSV) — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>${TX('Export CSV')}</button></div>
     <div class="panel" style="overflow-x:auto">
-      <table>
+      <table id="auditTbl">
         <thead><tr><th>${TX('Time')}</th>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Actor')}</th><th>${TX('Action')}</th><th>${TX('Target')}</th><th>${TX('Source IP')}</th></tr></thead>
         <tbody>${rows||`<tr><td colspan="${oneTenant?5:6}" class="aud-empty">${TX('No matching events')}</td></tr>`}</tbody>
       </table>
     </div>`;
+  var _at=document.getElementById('auditTbl'); if(_at){ if(typeof makeSortable==='function') makeSortable(_at,{defaultCol:99,exclude:[99]}); if(typeof makeColsResizable==='function') makeColsResizable(_at); }
 }
 let LOC_ID_OVERRIDE=(function(){ try{ return JSON.parse(localStorage.getItem('guardare_loc_ids')||'{}')||{}; }catch(e){ return {}; } })();
 let LOC_ADDR_OVERRIDE=(function(){ try{ return JSON.parse(localStorage.getItem('guardare_loc_addr')||'{}')||{}; }catch(e){ return {}; } })();
@@ -10723,7 +10730,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.337.alpha';
+const APP_VERSION='v2026.02.338.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12608,14 +12615,14 @@ function renderCollTopo(){
       {selector:'node.lbl-rtl',style:{'text-halign':'left','text-margin-x':-11}},
       {selector:'node.dataend.lbl-rtl',style:{'text-halign':'right','text-margin-x':11}},
       {selector:'node.fw',style:{'text-valign':'bottom','text-halign':'center','text-margin-x':0,'text-margin-y':9}},
-      {selector:'node.cloudbox',style:{'label':'data(label)','shape':'round-rectangle','background-color':'#0e2a30','background-opacity':0.5,'background-image':GUARDARE_LOGO_WHITE,'background-fit':'none','background-width':'112px','background-height':'32px','background-position-x':'22px','background-position-y':'18px','background-clip':'none','background-image-opacity':0.9,'border-width':1.6,'border-color':T.teal,'border-opacity':0.55,'text-valign':'top','text-halign':'right-inside','text-margin-x':-24,'text-margin-y':-12,'color':T.teal,'font-size':'20px','font-weight':700,'text-wrap':'none','padding':'50px'}},
+      {selector:'node.cloudbox',style:{'label':'data(label)','shape':'round-rectangle','background-color':'#0e2a30','background-opacity':0.5,'background-image':GUARDARE_LOGO_WHITE,'background-fit':'none','background-width':'112px','background-height':'32px','background-position-x':'22px','background-position-y':'18px','background-clip':'none','background-image-opacity':0.9,'border-width':1.6,'border-color':T.teal,'border-opacity':0.55,'text-valign':'top','text-halign':'right-inside','text-margin-x':-24,'text-margin-y':24,'text-background-color':'#0c2228','text-background-opacity':1,'text-background-padding':'7px','text-background-shape':'round-rectangle','color':T.teal,'font-size':'20px','font-weight':700,'text-wrap':'none','padding':'50px'}},
       {selector:'edge',style:{'width':1.5,'line-color':T.line,'target-arrow-color':T.line,'target-arrow-shape':'triangle','arrow-scale':0.85,'curve-style':'bezier'}},
       {selector:'edge.cloudedge',style:{'line-color':T.teal,'target-arrow-color':T.teal,'opacity':0.6,'width':1.8,'line-style':'dashed','line-dash-pattern':[9,8]}},
       {selector:'edge.stackedge',style:{'line-color':T.violet,'target-arrow-color':T.violet,'opacity':0.7}},
       {selector:'edge.uplink',style:{'line-color':'data(ecol)','target-arrow-color':'data(ecol)','width':2.2,'line-style':'dashed','line-dash-pattern':[9,8],'opacity':0.95}},
       {selector:'edge.uplink[flow = 0]',style:{'opacity':0.6,'line-style':'solid'}},
       {selector:'edge[main = 1]',style:{'label':'data(label)','font-family':'Open Sans, system-ui, sans-serif','font-size':'14px','font-weight':700,'color':T.violet,'text-background-color':'#171c4a','text-background-opacity':1,'text-background-shape':'round-rectangle','text-background-padding':'7px','text-border-color':T.violet,'text-border-width':1.2,'text-border-opacity':0.85,'text-rotation':'autorotate','opacity':1}},
-      {selector:'edge.iplbl',style:{'source-label':'data(label)','source-text-offset':'data(ipoff)','text-justification':'left','source-text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':T.text,'text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':0.97,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'data(ecol)','text-border-width':1.2,'text-border-opacity':0.6}},
+      {selector:'edge.iplbl',style:{'source-label':'data(label)','source-text-offset':'data(ipoff)','text-justification':'left','source-text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':'#ffffff','text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':1,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'#6a8f98','text-border-width':1.4,'text-border-opacity':1}},
       {selector:'node:selected',style:{'border-color':T.teal,'border-width':2.6}}
     ]
   });
