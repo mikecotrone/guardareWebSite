@@ -2419,7 +2419,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.344.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.346.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9399,7 +9399,7 @@ function weatherIntgRich(it,scope){
   const facts = 'Free up to 10,000 calls/day for non-commercial use — no key, no sign-up, no card. Open-source, sourced from national weather services.';
   const tier = `<div class="wx-prov on"><span class="wx-prov-main"><b>Open-Meteo</b><span class="wx-prov-auth">Keyless</span></span><span class="wx-prov-host">api.open-meteo.com</span><span class="wx-prov-note">${facts}</span></div>`;
   const keyless = `<div class="wx-keyless">✓ No API key required for Open-Meteo.</div>`;
-  return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Weather provider')} <span class="git-arr-tag">weatherIntegration</span></div>${tier}${keyless}<p class="wx-hint">Conditions and forecasts are fetched per collector site (lat/long from Locations), so outages and latency can be correlated with storms, heat and severe weather — surfaced on the dashboard radar and Collector detail.</p></div>`;
+  return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Weather provider')} <span class="git-arr-tag">weatherIntegration</span></div>${tier}${keyless}</div>`;
 }
 
 function renderIntegrations(){
@@ -10733,7 +10733,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.344.alpha';
+const APP_VERSION='v2026.02.346.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12644,8 +12644,18 @@ function renderCollTopo(){
   ctopoRepReset(); ctopoEdgeType(ctopoCurEdge);
   ctopoPlaceBadges();
   ctopoCy.on('tap','node.coll',function(evt){ var i=parseInt(evt.target.id().slice(1),10); var c=colls[i]; if(c&&typeof openDetail==='function'){ openDetail(c.slug+':'+c.id); } });
-  ctopoCy.on('mouseover','node',function(evt){ var n=evt.target; if(!n.hasClass('tenantbadge')&&!n.hasClass('cloudbox')) n.addClass('lbl-hover'); });
-  ctopoCy.on('mouseout','node',function(evt){ evt.target.removeClass('lbl-hover'); });
+  ctopoCy.on('mouseover','node',function(evt){
+    var n=evt.target;
+    if(n.hasClass('tenantbadge')||n.hasClass('cloudbox')) return;
+    var isFw=n.hasClass('fw');
+    n.addClass('lbl-hover');
+    n.style({'text-wrap':'none','text-max-width':'9999px','font-size':isFw?'18px':'22px','font-weight':700});
+  });
+  ctopoCy.on('mouseout','node',function(evt){
+    var n=evt.target;
+    n.removeClass('lbl-hover');
+    n.removeStyle('text-wrap text-max-width font-size font-weight');
+  });
   var off=0, myCy=ctopoCy, flow=myCy.edges('.uplink[flow = 1], .cloudedge');
   (function tick(){
     if(ctopoCy!==myCy){ return; }
