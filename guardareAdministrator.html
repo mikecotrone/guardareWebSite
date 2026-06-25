@@ -1158,13 +1158,6 @@
   .wx-bar.on{color:var(--teal);border-color:var(--teal-deep)}
   .wx-bar.off{color:var(--amber);border-color:var(--amber)}
   .wx-bar-link{background:none;border:none;color:var(--teal);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
-  .wx-attr{margin-top:9px;border:1px solid var(--amber);border-radius:8px;background:#241c0b;padding:9px 11px}
-  .wx-attr-h{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--amber)}
-  .wx-attr-h svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;flex:none}
-  .wx-lic{margin-left:auto;font-size:10px;font-weight:700;color:var(--amber);border:1px solid var(--amber);border-radius:5px;padding:1px 6px;text-transform:none;letter-spacing:.02em}
-  .wx-attr-credit{font-size:13px;color:var(--text);margin-top:6px}
-  .wx-attr-credit a{color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal-deep)}
-  .wx-attr-note{font-size:11.5px;color:var(--dim);margin:5px 0 0;line-height:1.45}
   /* Ubuntu host card */
   .os-card{display:flex;align-items:center;gap:18px;padding:14px 18px;margin:0 0 16px;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--raise),var(--panel));position:relative;overflow:hidden}
   .os-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(#E95420,#c7431a)}
@@ -1333,6 +1326,9 @@
   .sso-rec b{display:block;font-size:13px;color:var(--text);font-weight:700;margin-bottom:3px}
   .sso-rec span{font-size:12px;color:var(--dim);line-height:1.5}
   /* build version in sidebar footer */
+  .wx-credit{margin-top:10px;font-size:10px;color:var(--mute);letter-spacing:.01em}
+  .wx-credit a{color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line)}
+  .wx-credit a:hover{color:var(--teal)}
   .app-ver{margin-top:12px;font-size:10px;letter-spacing:.03em;color:var(--mute);font-family:ui-monospace,Menlo,Consolas,monospace;text-align:left}
   .app-ver b{color:var(--dim);font-weight:600}
   .tcfg-textarea{width:100%;min-height:74px;resize:vertical;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;color:var(--text);font:inherit;font-size:12.5px;padding:10px 12px;line-height:1.5}
@@ -2405,7 +2401,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver"><b>v2026.02.322.alpha</b></div>
+      <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
+      <div class="app-ver"><b>v2026.02.323.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9226,13 +9223,6 @@ const INTEGRATIONS=[
    fields:[['Units','select','metric',[['metric','Metric · °C, m/s'],['imperial','Imperial · °F, mph']]],
            ['Refresh','select','30m',[['15m','Every 15 min'],['30m','Every 30 min'],['1h','Hourly']]]],
    richFn:'weatherIntgRich'},
-  {id:'openweathermap',name:'OpenWeatherMap',cat:'Weather · API key',group:'weather',scope:'platform',c:'#EB6E4B',
-   desc:'Current weather, 5-day forecast and air quality per collector site via your OpenWeatherMap key — correlate outages and latency with severe weather.',
-   connected:false, provider:'openweathermap', endpoint:'https://api.openweathermap.org/data/2.5',
-   fields:[['API key','password',''],
-           ['Units','select','metric',[['metric','Metric · °C, m/s'],['imperial','Imperial · °F, mph']]],
-           ['Refresh','select','30m',[['15m','Every 15 min'],['30m','Every 30 min'],['1h','Hourly']]]],
-   richFn:'weatherIntgRich'},
 ];
 const INTG_GROUPS=[
   ['servicedesk','Service desk & ITSM'],
@@ -9254,7 +9244,7 @@ const TENANT_INTG_TOTAL=Object.keys(TENANT_INTG).length;
 function tIntg(tenant,id){ return (TENANT_INTG[tenant]||{})[id]||null; }
 function tenantConnCount(id){ return Object.keys(TENANT_INTG).filter(t=>{const s=tIntg(t,id);return s&&s.connected;}).length; }
 function setIntgField(id,idx,val){ const it=INTEGRATIONS.find(i=>i.id===id); if(!it||!it.fields[idx]) return; it.fields[idx][2]=val;
-  if((id==='open-meteo'||id==='openweathermap') && it.fields[idx][0]==='Units'){
+  if(id==='open-meteo' && it.fields[idx][0]==='Units'){
     _wxUnitsPersist(id,val); WX_CACHE={};
     toast(it.name+' · Units saved · '+(val==='imperial'?'°F':'°C'));
     if(typeof renderIntegrations==='function') renderIntegrations();
@@ -9346,18 +9336,10 @@ function uptimeRobotConfig(it,scope){
 }
 
 function weatherIntgRich(it,scope){
-  const owm = it.id==='openweathermap';
-  const host = owm ? 'api.openweathermap.org' : 'api.open-meteo.com';
-  const facts = owm
-    ? 'Free access tier: 60 calls/min and 1,000,000 calls/month, no credit card — current weather, 5-day forecast, air quality and geocoding. One Call 3.0 is a separate paid product.'
-    : 'Free up to 10,000 calls/day for non-commercial use — no key, no sign-up, no card. Open-source, sourced from national weather services.';
-  const tier = `<div class="wx-prov on"><span class="wx-prov-main"><b>${owm?'OpenWeatherMap':'Open-Meteo'}</b><span class="wx-prov-auth">${owm?'API key':'Keyless'}</span></span><span class="wx-prov-host">${host}</span><span class="wx-prov-note">${facts}</span></div>`;
-  const keyless = owm ? '' : `<div class="wx-keyless">✓ No API key required for Open-Meteo.</div>`;
-  const A = owm
-    ? ['OpenWeather','https://openweathermap.org/','ODbL','Credit OpenWeather (logo + link) on every screen where weather appears — obligatory on all plans below Enterprise.']
-    : ['Open-Meteo','https://open-meteo.com/','CC BY 4.0','Show a credit link to Open-Meteo next to any location where weather is displayed — required for free / non-commercial use.'];
-  const attr=`<div class="wx-attr"><div class="wx-attr-h"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Attribution required<span class="wx-lic">${A[2]}</span></div><div class="wx-attr-credit">Weather data by <a href="${A[1]}" target="_blank" rel="noopener">${A[0]}</a></div><p class="wx-attr-note">${A[3]}</p></div>`;
-  return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Weather provider')} <span class="git-arr-tag">weatherIntegration</span></div>${tier}${keyless}${attr}<p class="wx-hint">Conditions and forecasts are fetched per collector site (lat/long from Locations), so outages and latency can be correlated with storms, heat and severe weather — surfaced on the dashboard radar and Collector detail.</p></div>`;
+  const facts = 'Free up to 10,000 calls/day for non-commercial use — no key, no sign-up, no card. Open-source, sourced from national weather services.';
+  const tier = `<div class="wx-prov on"><span class="wx-prov-main"><b>Open-Meteo</b><span class="wx-prov-auth">Keyless</span></span><span class="wx-prov-host">api.open-meteo.com</span><span class="wx-prov-note">${facts}</span></div>`;
+  const keyless = `<div class="wx-keyless">✓ No API key required for Open-Meteo.</div>`;
+  return `<div class="intg-rich"><div class="intg-rich-lbl">${TX('Weather provider')} <span class="git-arr-tag">weatherIntegration</span></div>${tier}${keyless}<p class="wx-hint">Conditions and forecasts are fetched per collector site (lat/long from Locations), so outages and latency can be correlated with storms, heat and severe weather — surfaced on the dashboard radar and Collector detail.</p></div>`;
 }
 
 function renderIntegrations(){
@@ -9681,11 +9663,11 @@ function locSave(){
 let WEATHER_SITES=(function(){ try{ const s=localStorage.getItem('guardare_weather_sites'); if(s) return new Set(JSON.parse(s)); }catch(e){} return new Set(['piedmont:clt-01','acme-corp:site-04','roma:dc01','atlantico:sao-01']); })();
 let WX_CACHE={}, WX_PENDING={};
 function _wxPersist(){ try{ localStorage.setItem('guardare_weather_sites', JSON.stringify([...WEATHER_SITES])); }catch(e){} }
-function wxIntg(){ const oms=INTEGRATIONS.find(x=>x.id==='open-meteo'); if(oms&&oms.connected) return oms; const owm=INTEGRATIONS.find(x=>x.id==='openweathermap'); if(owm&&owm.connected) return owm; return null; }
+function wxIntg(){ const oms=INTEGRATIONS.find(x=>x.id==='open-meteo'); if(oms&&oms.connected) return oms; return null; }
 function wxConnected(){ const i=wxIntg(); return !!(i&&i.connected); }
 function _wxUnitsPersist(id,v){ try{ localStorage.setItem('guardare_units_'+id, v); }catch(e){} }
 function wxUnits(){ const i=wxIntg(); const u=i&&(i.fields.find(f=>f[0]==='Units')||[])[2]; return u||'metric'; }
-(function(){ try{ ['open-meteo','openweathermap'].forEach(function(id){ var s=localStorage.getItem('guardare_units_'+id); if(!s) return; var w=INTEGRATIONS.find(function(i){return i.id===id;}); var uf=w&&w.fields.find(function(f){return f[0]==='Units';}); if(uf) uf[2]=s; }); }catch(e){} })();
+(function(){ try{ ['open-meteo'].forEach(function(id){ var s=localStorage.getItem('guardare_units_'+id); if(!s) return; var w=INTEGRATIONS.find(function(i){return i.id===id;}); var uf=w&&w.fields.find(function(f){return f[0]==='Units';}); if(uf) uf[2]=s; }); }catch(e){} })();
 function toggleSiteWeather(key){ if(WEATHER_SITES.has(key)) WEATHER_SITES.delete(key); else WEATHER_SITES.add(key); _wxPersist(); renderConfig(); }
 const WX_ICONS={
   clear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"/></svg>',
@@ -9719,7 +9701,6 @@ function wxCodeMap(c){
 }
 function wxMaybeFetch(key,lat,lng){
   const i=wxIntg(); if(!i) return;
-  if(i.provider!=='open-meteo'){ WX_CACHE[key]={err:true,msg:'OpenWeatherMap needs an API key',ts:Date.now()}; _wxPaint(key); return; }
   const c=WX_CACHE[key]; if(c && !c.err && (Date.now()-c.ts)<600000) return;
   if(WX_PENDING[key]) return; WX_PENDING[key]=1;
   const metric=wxUnits()!=='imperial'; const uT=metric?'°C':'°F'; const uW=metric?' km/h':' mph';
@@ -9760,7 +9741,7 @@ function wxCell(l){
 function wxStatusBar(){
   const i=wxIntg();
   if(!i||!i.connected) return '<div class="wx-bar off"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>'+TX('Weather provider not connected')+' \u00b7 <button class="wx-bar-link" onclick="renderIntegrations();go(\'integrations\')">'+TX('Configure in Integrations')+'</button></div>';
-  const prov = i.provider==='openweathermap'?'OpenWeatherMap':'Open-Meteo';
+  const prov = 'Open-Meteo';
   const n = locationRows().filter(function(l){return WEATHER_SITES.has(l.tenant+':'+l.id);}).length;
   return '<div class="wx-bar on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>'+TX('Weather')+' \u00b7 '+prov+' \u00b7 '+(wxUnits()==='imperial'?'\u00b0F':'\u00b0C')+' \u00b7 '+n+' '+TX('sites enabled')+'</div>';
 }
@@ -10694,7 +10675,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.322.alpha';
+const APP_VERSION='v2026.02.323.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
