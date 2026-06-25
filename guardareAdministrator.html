@@ -530,6 +530,8 @@
   .ticker-item{display:flex;align-items:center;gap:10px;font-size:15px}
   .ticker-item .sev{font-family:"Open Sans";font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px}
   .sev.critical{background:#3a1414;color:var(--red)} .sev.warning{background:#3a2c10;color:var(--amber)} .sev.info{background:#10283a;color:var(--violet)}
+  .sev-cell{font-family:"Open Sans";font-weight:700;font-size:12.5px;letter-spacing:.02em}
+  .sev-cell.critical,.sev-cell.crit{color:var(--red)} .sev-cell.warning,.sev-cell.warn{color:var(--amber)} .sev-cell.info{color:var(--violet)}
   .ticker-item code{font-family:"Open Sans";color:var(--teal);font-size:13.5px}
   .ticker-item time{color:var(--mute);font-size:13px;font-family:"Open Sans"}
 
@@ -593,11 +595,6 @@
   .alert-mini{padding:8px}
   .alert-row{display:flex;gap:11px;padding:11px 12px;border-radius:var(--r-sm);transition:.14s;cursor:pointer;align-items:flex-start}
   .alert-row:hover{background:var(--bg-2)}
-  .sev-cell{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px 3px 8px;border-radius:6px;white-space:nowrap}
-  .sev-cell::before{content:'';width:7px;height:7px;border-radius:50%;flex:0 0 7px;box-shadow:0 0 5px currentColor}
-  .sev-cell.critical{color:var(--red);background:#2a0e0e} .sev-cell.critical::before{background:var(--red)}
-  .sev-cell.warning,.sev-cell.warn{color:var(--amber);background:#2c1e08} .sev-cell.warning::before,.sev-cell.warn::before{background:var(--amber)}
-  .sev-cell.info{color:var(--violet);background:#131a38} .sev-cell.info::before{background:var(--violet)}
   .alert-bar{width:3px;align-self:stretch;border-radius:3px;flex:0 0 3px}
   .alert-bar.critical{background:var(--red)} .alert-bar.warning{background:var(--amber)} .alert-bar.info{background:var(--violet)}
   .alert-body{flex:1;min-width:0}
@@ -1468,10 +1465,10 @@
   .tnt-card.tnt-selected::before{width:4px;background:var(--teal);opacity:1}
   .tnt-top{display:flex;align-items:center;gap:12px}
   .tnt-ava{flex:0 0 auto;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
-    font-family:"Open Sans";font-weight:700;font-size:17px;color:#06201b;letter-spacing:.02em;
+    font-family:"Open Sans";font-weight:700;font-size:14.5px;color:#06201b;letter-spacing:.02em;
     background:linear-gradient(140deg,var(--c),rgba(0,0,0,.42))}
   .tnt-ava.tnt-ava-logo{background:#fff;border:1px solid #c4d3d2;padding:2px;overflow:hidden;box-sizing:border-box;isolation:isolate}
-  .tnt-ava.tnt-ava-logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:8px}
+  .tnt-ava.tnt-ava-logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:7px}
   .tnt-id{flex:1;min-width:0}
   .tnt-name{font-family:"Open Sans";font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .tnt-slug{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;color:var(--mute);margin-top:3px}
@@ -12497,8 +12494,17 @@ function ctopoEdgeType(val){
 window.addEventListener('resize',function(){ if(ctopoCy && ctopoVisible()){ clearTimeout(window._ctopoRz); window._ctopoRz=setTimeout(function(){ try{ ctopoCy.resize(); ctopoCy.fit(undefined,46); }catch(e){} },160); } });
 function ctopoPlaceBadges(){
   if(!ctopoCy) return;
-  var isHier=(ctopoCurLayout==='tree');
-  ctopoCy.nodes('.tenantbadge').forEach(function(b){ var c=ctopoCy.getElementById(b.data('for')); if(c&&c.length){ var p=c.position(); if(isHier){ b.position({x:p.x,y:p.y-72}); } else { var off=(ctopoCurLayout==='rtl')?68:-68; b.position({x:p.x+off,y:p.y}); } } });
+  ctopoCy.nodes('.tenantbadge').forEach(function(b){
+    var c=ctopoCy.getElementById(b.data('for')); if(!c||!c.length) return;
+    var p=c.position();
+    if(ctopoCurLayout==='tree'){
+      var bb=c.boundingBox({includeLabels:true});
+      b.position({x:p.x, y:bb.y1-30});
+    } else {
+      var off=(ctopoCurLayout==='rtl')?68:-68;
+      b.position({x:p.x+off,y:p.y});
+    }
+  });
 }
 function ctopoLayout(name){
   if(!ctopoCy) return; ctopoCurLayout=name; ctopoRepReset();
@@ -12609,7 +12615,7 @@ function renderCollTopo(){
     layout:{name:'preset',fit:true,padding:46},
     minZoom:0.2, maxZoom:2.6, wheelSensitivity:0.2,
     style:[
-      {selector:'node',style:{'label':'data(label)','color':T.text,'font-family':'Open Sans, system-ui, sans-serif','font-size':'16px','font-weight':600,'text-valign':'center','text-halign':'right','text-margin-x':12,'text-margin-y':-28,'text-wrap':'wrap','text-max-width':'210px','line-height':1.3,'background-color':T.raise,'border-width':1.4,'border-color':T.line,'shape':'round-rectangle','width':46,'height':46,'background-image':'data(icon)','background-fit':'contain','background-clip':'none','background-image-opacity':1,'background-width':'60%','background-height':'60%'}},
+      {selector:'node',style:{'label':'data(label)','color':T.text,'font-family':'Open Sans, system-ui, sans-serif','font-size':'16px','font-weight':600,'text-valign':'center','text-halign':'right','text-margin-x':12,'text-margin-y':-21,'text-wrap':'wrap','text-max-width':'210px','line-height':1.3,'background-color':T.raise,'border-width':1.4,'border-color':T.line,'shape':'round-rectangle','width':46,'height':46,'background-image':'data(icon)','background-fit':'contain','background-clip':'none','background-image-opacity':1,'background-width':'60%','background-height':'60%'}},
       {selector:'node.coll',style:{'border-width':2,'border-color':'data(scol)','width':50,'height':50}},
       {selector:'node.fw',style:{'background-opacity':0,'border-width':0,'width':54,'height':54,'background-width':'100%','background-height':'100%','background-fit':'contain'}},
       {selector:'node.net',style:{'border-color':T.violet,'background-color':T.panel,'width':92,'height':92,'background-width':'66%','background-height':'66%'}},
@@ -12618,7 +12624,8 @@ function renderCollTopo(){
       {selector:'node.coll[hcol]',style:{'underlay-color':'data(hcol)','underlay-opacity':0.22,'underlay-padding':10,'underlay-shape':'round-rectangle'}},
       {selector:'node.tenantbadge',style:{'background-opacity':0,'border-width':0,'width':46,'height':46,'background-width':'100%','background-height':'100%','text-margin-y':0}},
       {selector:'node.tenantbadge.tlogo',style:{'background-opacity':1,'background-color':'#ffffff','border-width':1.4,'border-color':'#c4d3d2','background-fit':'contain','background-width':'82%','background-height':'82%','background-clip':'node'}},
-      {selector:'node.lbl-top',style:{'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':-16,'text-max-width':'160px'}},
+      {selector:'node.lbl-top',style:{'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':-18,'text-max-width':'160px'}},
+      {selector:'node.lbl-hover',style:{'font-size':'22px','font-weight':700,'z-index':9999,'text-background-color':T.panel,'text-background-opacity':0.92,'text-background-padding':'5px','text-background-shape':'round-rectangle'}},
       {selector:'node.lbl-rtl',style:{'text-halign':'left','text-margin-x':-11}},
       {selector:'node.dataend.lbl-rtl',style:{'text-halign':'right','text-margin-x':11}},
       {selector:'node.fw',style:{'text-valign':'bottom','text-halign':'center','text-margin-x':0,'text-margin-y':9}},
@@ -12637,8 +12644,8 @@ function renderCollTopo(){
   ctopoRepReset(); ctopoEdgeType(ctopoCurEdge);
   ctopoPlaceBadges();
   ctopoCy.on('tap','node.coll',function(evt){ var i=parseInt(evt.target.id().slice(1),10); var c=colls[i]; if(c&&typeof openDetail==='function'){ openDetail(c.slug+':'+c.id); } });
-  ctopoCy.on('mouseover','node',function(evt){ var n=evt.target; if(!n.hasClass('cloudbox')&&!n.hasClass('tenantbadge')){ n.style({'font-size':'20px','font-weight':700}); } });
-  ctopoCy.on('mouseout','node',function(evt){ var n=evt.target; n.style({'font-size':'16px','font-weight':600}); });
+  ctopoCy.on('mouseover','node',function(evt){ var n=evt.target; if(!n.hasClass('tenantbadge')&&!n.hasClass('cloudbox')) n.addClass('lbl-hover'); });
+  ctopoCy.on('mouseout','node',function(evt){ evt.target.removeClass('lbl-hover'); });
   var off=0, myCy=ctopoCy, flow=myCy.edges('.uplink[flow = 1], .cloudedge');
   (function tick(){
     if(ctopoCy!==myCy){ return; }
