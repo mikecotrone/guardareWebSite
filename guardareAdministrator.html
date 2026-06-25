@@ -534,6 +534,28 @@
   /* fleet grid */
   .dash-low{display:grid;grid-template-columns:1fr 360px;gap:18px}
   .fleet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px;padding:18px}
+  .fleet-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(244px,1fr));gap:14px}
+  .fcard{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 15px 13px;cursor:pointer;transition:.14s;overflow:hidden}
+  .fcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#547076}
+  .fcard.s-online::before{background:var(--green)}
+  .fcard.s-warn::before{background:var(--amber)}
+  .fcard.s-crit::before{background:var(--red)}
+  .fcard.s-offline::before{background:#547076}
+  .fcard:hover{border-color:var(--teal-deep);transform:translateY(-1px);box-shadow:0 8px 22px -12px rgba(0,0,0,.6)}
+  .fcard-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;min-height:20px}
+  .fcard-tn{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--dim);font-weight:600;min-width:0}
+  .fcard-tn>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+  .fcard-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;font-weight:700;color:var(--text)}
+  .fcard-loc{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mute);margin-top:3px}
+  .fcard-pin{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7;flex:none}
+  .fcard-loc span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fcard-m{display:flex;gap:9px;margin-top:12px}
+  .fcard-m>div{flex:1;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0}
+  .fcard-m label{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:700;margin-bottom:2px}
+  .fcard-m b{font-size:14px;color:var(--text);font-weight:700}
+  .fcard-f{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+  .fcard-seen{font-size:11px;color:var(--mute);white-space:nowrap}
+  .fleet-empty{grid-column:1/-1;text-align:center;padding:42px;color:var(--mute);font-size:13px}
   .node{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;
     cursor:pointer;transition:.16s;position:relative;overflow:hidden}
   .node:hover{border-color:var(--teal-deep);transform:translateY(-2px)}
@@ -2232,7 +2254,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="op-menu" id="opMenu">
         <div class="op-menu-head" data-i18n="Signed in as">Signed in as</div>
         <button class="op-menu-item" onclick="openAccount()"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg><span data-i18n="Account & Organization">Account &amp; Organization</span></button>
-        <button class="op-menu-item" onclick="openAccount()"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="My profile">My profile</span></button>
+        <button class="op-menu-item" onclick="openProfile()"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="My profile">My profile</span></button>
         <div class="op-menu-sep"></div>
         <button class="op-menu-item" onclick="guardareLogout()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span data-i18n="Sign out">Sign out</span></button>
       </div>
@@ -2370,7 +2392,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver">Guardare <b>v2026.02.315.alpha</b></div>
+      <div class="app-ver">Guardare <b>v2026.02.317.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2608,6 +2630,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
           <p class="page-sub" id="fleetSub">Every collector across every customer</p>
         </div>
         <div class="head-actions">
+          <div class="loc-viewseg" id="fleetViewSeg" role="tablist"></div>
           <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
         </div>
       </div>
@@ -2620,7 +2643,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <button class="chip" data-fs="offline" onclick="setFleetFilter('offline')"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span> <span class="cell-mut" id="fcOffline">—</span></button>
       </div>
 
-      <div class="panel" style="overflow-x:auto">
+      <div class="fleet-cards" id="fleetGridFull"></div>
+      <div class="panel" id="fleetTblPanel" style="overflow-x:auto">
         <table id="fleetTbl">
           <thead>
             <tr>
@@ -2752,7 +2776,51 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <section class="screen" id="screen-tenantcfg"></section>
     <section class="screen" id="screen-cfgmgr"></section>
     <section class="screen" id="screen-nms"></section>
-    <section class="screen" id="screen-account"></section>
+    <style>
+/* ===== My Profile ===== */
+.prof-wrap{max-width:1060px}
+.prof-hero{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);margin-bottom:16px}
+.prof-cover{height:132px;position:relative;background:radial-gradient(560px 280px at 16% -50%,rgba(46,230,200,.3),transparent 60%),radial-gradient(500px 240px at 90% 150%,rgba(148,162,255,.26),transparent 60%),linear-gradient(120deg,#0c2a30,#0f3038 55%,#101f29);overflow:hidden}
+.prof-cover::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(circle at 28% 10%,#000,transparent 72%);mask-image:radial-gradient(circle at 28% 10%,#000,transparent 72%)}
+.prof-cov-radar{position:absolute;right:-30px;top:-54px;width:250px;height:250px}
+.prof-id{display:flex;align-items:flex-end;gap:20px;padding:0 26px 22px;margin-top:-44px;position:relative;flex-wrap:wrap}
+.prof-avatar{position:relative;width:100px;height:100px;border-radius:24px;background:linear-gradient(135deg,var(--teal),var(--violet));display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#06201c;box-shadow:0 14px 32px -10px rgba(0,0,0,.65);border:4px solid var(--panel);flex:none}
+.prof-status{position:absolute;right:3px;bottom:3px;width:18px;height:18px;border-radius:50%;background:var(--green);border:3px solid var(--panel);box-shadow:0 0 8px var(--green)}
+.prof-idtext{flex:1 1 240px;padding-bottom:3px}
+.prof-idtext h1{font-size:25px;font-weight:700;margin:0 0 7px;letter-spacing:-.01em;color:var(--text)}
+.prof-role{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--teal);background:rgba(46,230,200,.1);border:1px solid rgba(46,230,200,.22);padding:4px 11px;border-radius:8px}
+.prof-role svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.7}
+.prof-meta{margin-top:11px;font-size:12.5px;color:var(--dim);display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.prof-meta .pm-dot{width:3px;height:3px;border-radius:50%;background:var(--mute)}
+.prof-meta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;vertical-align:-2px;margin-right:4px;color:var(--mute)}
+.prof-actions{display:flex;gap:9px;padding-bottom:4px;align-items:center;margin-left:auto}
+.prof-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-bottom:16px}
+.prof-stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;align-items:center;gap:11px;min-width:0}
+.prof-stat .ps-ic{width:34px;height:34px;border-radius:9px;background:var(--raise);display:flex;align-items:center;justify-content:center;flex:none}
+.prof-stat .ps-ic svg{width:17px;height:17px;stroke:var(--teal);fill:none;stroke-width:1.8}
+.prof-stat b{display:block;font-size:14px;color:var(--text);font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prof-stat small{font-size:10.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.prof-tags{display:flex;flex-wrap:wrap;gap:8px;padding:4px 18px 18px}
+.prof-tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--text);background:var(--raise);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+.prof-tag i{width:8px;height:8px;border-radius:50%;flex:none}
+.prof-pwrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 18px;flex-wrap:wrap}
+.prof-pwrow .ppw-text b{font-size:13.5px;color:var(--text);font-weight:600}
+.prof-pwrow .ppw-text span{font-size:12px;color:var(--mute);display:block;margin-top:3px}
+.prof-sessions{padding:4px 18px 18px;display:flex;flex-direction:column;gap:9px}
+.prof-session{display:flex;align-items:center;gap:13px;padding:11px 14px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.02)}
+.prof-session .pss-ic{width:36px;height:36px;border-radius:9px;background:var(--raise);display:flex;align-items:center;justify-content:center;flex:none}
+.prof-session .pss-ic svg{width:18px;height:18px;stroke:var(--dim);fill:none;stroke-width:1.7}
+.prof-session .pss-main{flex:1;min-width:0}
+.prof-session .pss-main b{font-size:13.5px;color:var(--text);font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.prof-session .pss-main span{font-size:12px;color:var(--mute);display:block;margin-top:3px}
+.pss-current{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--green);background:rgba(65,217,138,.12);border:1px solid rgba(65,217,138,.25);padding:2px 7px;border-radius:6px}
+.prof-revoke{background:none;border:1px solid var(--line);color:var(--dim);font:inherit;font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.prof-revoke:hover{border-color:var(--red);color:var(--red)}
+@media(max-width:1000px){.prof-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.prof-stats{grid-template-columns:repeat(2,1fr)}.prof-actions{margin-left:0;width:100%}.prof-actions .btn{flex:1}}
+</style>
+        <section class="screen" id="screen-profile"></section>
+        <section class="screen" id="screen-account"></section>
   </main>
 </div>
 
@@ -8355,6 +8423,41 @@ function setFleetFilter(s){
   document.querySelectorAll('.filters .chip').forEach(c=>c.classList.toggle('active', c.dataset.fs===s));
   renderFleetTable();
 }
+let FLEET_VIEW=(function(){ try{ return localStorage.getItem('guardare_fleet_view')||'card'; }catch(e){ return 'card'; } })();
+function setFleetView(v){ FLEET_VIEW=v; try{ localStorage.setItem('guardare_fleet_view',v); }catch(e){} renderFleetTable(); }
+function _fleetRenderCards(rows, sc){
+  var seg=document.getElementById('fleetViewSeg');
+  if(seg){
+    var gi='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>';
+    var li='<svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>';
+    seg.innerHTML='<button class="'+(FLEET_VIEW==='card'?'active':'')+'" data-fv="card" onclick="setFleetView(\'card\')" title="'+TX('Card view')+'" aria-label="'+TX('Card view')+'">'+gi+'</button>'
+      +'<button class="'+(FLEET_VIEW==='list'?'active':'')+'" data-fv="list" onclick="setFleetView(\'list\')" title="'+TX('List view')+'" aria-label="'+TX('List view')+'">'+li+'</button>';
+  }
+  var grid=document.getElementById('fleetGridFull');
+  var panel=document.getElementById('fleetTblPanel');
+  if(grid){
+    var oneScope=sc!=='all';
+    grid.innerHTML=rows.map(function(r){
+      var st=statusClass[r[2]]||'';
+      var city=(typeof siteOf==='function'?((siteOf(r[1],r[0])||{}).city||''):'')||'\u2014';
+      return '<div class="fcard '+st+'" onclick="openDetail(\''+r[1]+':'+r[0]+'\')">'
+        +'<div class="fcard-h">'
+          +(oneScope?'<span></span>':'<span class="fcard-tn">'+tnBadge(r[1])+'<span>'+_esc(tenantName[r[1]]||r[1])+'</span></span>')
+          +'<span class="td-status '+st+'"><i></i>'+TX(statusLabel[r[2]]||r[2])+'</span>'
+        +'</div>'
+        +'<div class="fcard-id">'+_esc(r[0])+'</div>'
+        +'<div class="fcard-loc"><svg viewBox="0 0 24 24" class="fcard-pin"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg><span>'+_esc(city)+'</span></div>'
+        +'<div class="fcard-m">'
+          +'<div><label>'+TX('CPU')+'</label><b>'+(r[2]==='offline'?'\u2014':r[4]+'%')+'</b></div>'
+          +'<div><label>msg/s</label><b>'+(r[2]==='offline'?'\u2014':r[5])+'</b></div>'
+        +'</div>'
+        +'<div class="fcard-f"><span class="cfg">'+_esc(r[6])+'</span><span class="fcard-seen">'+_esc(r[3])+'</span></div>'
+      +'</div>';
+    }).join('') || '<div class="fleet-empty">'+TX('No collectors to show.')+'</div>';
+  }
+  if(grid) grid.style.display=(FLEET_VIEW==='card')?'':'none';
+  if(panel) panel.style.display=(FLEET_VIEW==='list')?'':'none';
+}
 function renderFleetTable(){
   const sc=tenantScope();
   const base = sc==='all' ? fleetRows : fleetRows.filter(r=>r[1]===sc);
@@ -8381,6 +8484,7 @@ function renderFleetTable(){
       <td class="r cell-mut">${r[2]==='offline'?'—':r[5]+' msg/s'}</td>
       <td><span class="cfg">${r[6]}</span></td>
     </tr>`).join('') || `<tr><td colspan="8" style="text-align:center;padding:34px;color:var(--mute)">${TX('No collectors to show.')}</td></tr>`;
+  _fleetRenderCards(rows, sc);
 }
 /* ---------- Fleet Management: resizable columns ---------- */
 let fleetResizeInit=false;
@@ -9708,10 +9812,9 @@ function renderConfig(){
     +'<div class="page-eyebrow">'+_esc(tenName)+'</div>'
     +'<h1 class="page-title">'+TX('Location Management')+'</h1>'
     +'<p class="page-sub">'+sub+'</p>'
-    +'</div></div>'+body
+    +'</div>'+seg+'</div>'+body
     +'<div class="loc-foot">'
     +'<button class="btn primary" onclick="openLocationCard(\'\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add location')+'</button>'
-    +'<div class="loc-foot-r">'+seg+'</div>'
     +'</div>';
   if(LOC_VIEW==='list'){ var _t=document.getElementById('locTable'); if(_t){ if(typeof makeColsResizable==='function') makeColsResizable(_t); if(typeof makeSortable==='function') makeSortable(_t,{exclude:[_t.tHead.rows[0].cells.length-1]}); } }
   wxKick();
@@ -10558,7 +10661,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.315.alpha';
+const APP_VERSION='v2026.02.317.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11114,6 +11217,84 @@ function acctSave(){
   _persistOrgName(ORG_ACCOUNT.name); updateBrand();
   toast(TX('Organization settings saved'));
   renderAccount();
+}
+/* ===== My Profile ===== */
+const PROFILE_USER={name:'Mike Chen',initials:'MC',title:'Network Operations Lead',role:'Guardare Administrator',email:'mikec@vistatechgso.com',phone:'+1 (336) 962-7900',location:'Greensboro, NC',language:'English',member_since:'January 2024',last_login:'Today, 8:14 AM',tenants:4};
+function profSave(){ toast('Profile updated'); }
+function profRevoke(btn){ try{ var r=btn.closest('.prof-session'); if(r) r.remove(); }catch(e){} toast('Signed out of that session'); }
+function profEditFocus(){ var f=document.getElementById('pf_name'); if(f){ try{ f.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} f.focus(); } }
+function openProfile(){ closeAllMenus(); renderProfile(); go('profile'); }
+function renderProfile(){
+  const el=document.getElementById('screen-profile'); if(!el) return;
+  const PU=PROFILE_USER;
+  const icUser='<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+  const icShield='<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>';
+  const icShieldCk='<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>';
+  const icMail='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>';
+  const icPin='<svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+  const icCal='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>';
+  const icClock='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+  const icLayers='<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
+  const icSliders='<svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>';
+  const icKey='<svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="M11 12l8 8M16 17l2 2"/></svg>';
+  const icLaptop='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="11" rx="1.5"/><path d="M2 20h20"/></svg>';
+  const icPhone='<svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>';
+  const icDesktop='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg>';
+  const fld=(id,label,val,extra)=>`<div class="gcfg-field"><label for="${id}">${label}</label><div class="gcfg-iwrap"><input id="${id}" class="tm-input" value="${_esc(val)}" autocomplete="off" spellcheck="false" ${extra||''}></div></div>`;
+  const sel=(id,label,opts,cur)=>`<div class="gcfg-field"><label for="${id}">${label}</label><select id="${id}" class="tm-input">${opts.map(o=>`<option ${o===cur?'selected':''}>${o}</option>`).join('')}</select></div>`;
+  const saveBtns=`<div class="gcfg-actions" style="padding:0 18px 18px"><button class="btn" onclick="renderProfile()">Reset</button><button class="btn primary" onclick="profSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>Save changes</button></div>`;
+  el.innerHTML=`
+    <div class="page-head"><div>
+      <h1 class="page-title">My Profile</h1>
+      <p class="page-sub">Your personal account, preferences, and security for the Guardare console.</p>
+    </div></div>
+    <div class="prof-wrap">
+      <div class="prof-hero">
+        <div class="prof-cover"><svg class="prof-cov-radar" viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="90" stroke="rgba(46,230,200,.4)"/><circle cx="100" cy="100" r="60" stroke="rgba(46,230,200,.28)"/><circle cx="100" cy="100" r="32" stroke="rgba(46,230,200,.22)"/><line x1="100" y1="10" x2="100" y2="190" stroke="rgba(46,230,200,.16)"/><line x1="10" y1="100" x2="190" y2="100" stroke="rgba(46,230,200,.16)"/></svg></div>
+        <div class="prof-id">
+          <div class="prof-avatar">${PU.initials}<span class="prof-status"></span></div>
+          <div class="prof-idtext">
+            <h1>${_esc(PU.name)}</h1>
+            <div class="prof-role">${icShield}${_esc(PU.role)}</div>
+            <div class="prof-meta"><span>${icMail}${_esc(PU.email)}</span><span class="pm-dot"></span><span>${icPin}${_esc(PU.location)}</span><span class="pm-dot"></span><span style="color:var(--green);font-weight:600">Active now</span></div>
+          </div>
+          <div class="prof-actions"><button class="btn" onclick="guardareLogout()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Sign out</button><button class="btn primary" onclick="profEditFocus()"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Edit profile</button></div>
+        </div>
+      </div>
+      <div class="prof-stats">
+        <div class="prof-stat"><span class="ps-ic">${icShield}</span><div><b>Administrator</b><small>Role</small></div></div>
+        <div class="prof-stat"><span class="ps-ic">${icCal}</span><div><b>${PU.member_since}</b><small>Member since</small></div></div>
+        <div class="prof-stat"><span class="ps-ic">${icClock}</span><div><b>${PU.last_login}</b><small>Last sign-in</small></div></div>
+        <div class="prof-stat"><span class="ps-ic">${icLayers}</span><div><b>${PU.tenants} tenants</b><small>Managed</small></div></div>
+        <div class="prof-stat"><span class="ps-ic">${icShieldCk}</span><div><b>Enabled</b><small>Two-factor</small></div></div>
+      </div>
+      <div class="gcfg">
+        <div class="gcfg-card">
+          <div class="gcfg-chead"><span class="gcfg-cic">${icUser}</span><div class="gcfg-ctext"><h3>Personal information</h3><p>Your name and contact details, visible to your team.</p></div></div>
+          <div class="gcfg-grid">${fld('pf_name','Full name',PU.name)}${fld('pf_display','Display name','Mike C.')}${fld('pf_title','Job title',PU.title)}${fld('pf_email','Email address',PU.email)}${fld('pf_phone','Phone',PU.phone)}${fld('pf_location','Location',PU.location)}</div>
+          ${saveBtns}
+        </div>
+        <div class="gcfg-card">
+          <div class="gcfg-chead"><span class="gcfg-cic">${icKey}</span><div class="gcfg-ctext"><h3>Role &amp; access</h3><p>What you can see and manage across the platform.</p></div><span class="cfg-scope-pill">Administrator</span></div>
+          <div class="tcfg-meta" style="padding:14px 18px 0"><span class="tcfg-mpill">Role <b>Administrator</b></span><span class="tcfg-mpill">Scope <b>All tenants</b></span><span class="tcfg-mpill">Sign-in <b>SSO + 2FA</b></span></div>
+          <div style="padding:15px 18px 5px;font-size:11.5px;color:var(--dim);font-weight:700;letter-spacing:.03em">TENANTS YOU OPERATE</div>
+          <div class="prof-tags"><span class="prof-tag"><i style="background:var(--teal)"></i>ACME Corp</span><span class="prof-tag"><i style="background:#5b8cff"></i>Piedmont Regional Health</span><span class="prof-tag"><i style="background:var(--amber)"></i>Atl&acirc;ntico Telecom</span><span class="prof-tag"><i style="background:#e0524d"></i>La Citt&agrave; di Roma</span></div>
+        </div>
+        <div class="gcfg-card">
+          <div class="gcfg-chead"><span class="gcfg-cic">${icSliders}</span><div class="gcfg-ctext"><h3>Preferences</h3><p>How the console looks and behaves for you.</p></div></div>
+          <div class="gcfg-grid">${sel('pf_lang','Language',['English','Italiano','Fran&ccedil;ais','Espa&ntilde;ol','Portugu&ecirc;s','日本語'],PU.language)}${sel('pf_tz','Time zone',['(GMT-05:00) Eastern - New York','(GMT-06:00) Central - Chicago','(GMT-08:00) Pacific - Los Angeles','(GMT+00:00) UTC','(GMT+01:00) Central European - Rome'],'(GMT-05:00) Eastern - New York')}${sel('pf_theme','Theme',['Dark','Light','Match system'],'Dark')}${sel('pf_date','Date format',['MMM D, YYYY','DD/MM/YYYY','YYYY-MM-DD'],'MMM D, YYYY')}${sel('pf_land','Default landing page',['Dashboard','Fleet Radar','Alerts','MSP Dashboard'],'Dashboard')}
+          <div class="gcfg-field span2"><label>Notifications</label><label class="ucfg-toggle" style="margin-top:4px"><input type="checkbox" checked><span class="ucfg-sw-inline"></span> Email me when a critical alert fires</label><label class="ucfg-toggle" style="margin-top:11px"><input type="checkbox" checked><span class="ucfg-sw-inline"></span> Push notifications to my devices</label><label class="ucfg-toggle" style="margin-top:11px"><input type="checkbox"><span class="ucfg-sw-inline"></span> Weekly summary digest</label></div></div>
+          ${saveBtns}
+        </div>
+        <div class="gcfg-card">
+          <div class="gcfg-chead"><span class="gcfg-cic">${icShieldCk}</span><div class="gcfg-ctext"><h3>Security</h3><p>Password, two-factor, and where you are signed in.</p></div></div>
+          <div class="prof-pwrow"><div class="ppw-text"><b>Password</b><span>Last changed 3 months ago</span></div><button class="btn" onclick="toast('Password reset link sent')"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Change password</button></div>
+          <div class="prof-pwrow" style="border-top:1px solid var(--line)"><div class="ppw-text"><b>Two-factor authentication</b><span>Authenticator app &middot; Enabled</span></div><label class="ucfg-toggle"><input type="checkbox" checked><span class="ucfg-sw-inline"></span></label></div>
+          <div style="padding:15px 18px 5px;font-size:11.5px;color:var(--dim);font-weight:700;letter-spacing:.03em;border-top:1px solid var(--line);margin-top:2px">ACTIVE SESSIONS</div>
+          <div class="prof-sessions"><div class="prof-session"><span class="pss-ic">${icLaptop}</span><div class="pss-main"><b>MacBook Pro &middot; Chrome <span class="pss-current">This device</span></b><span>Greensboro, NC &middot; Active now</span></div></div><div class="prof-session"><span class="pss-ic">${icPhone}</span><div class="pss-main"><b>iPhone 15 Pro &middot; Guardare iOS</b><span>Greensboro, NC &middot; 2 hours ago</span></div><button class="prof-revoke" onclick="profRevoke(this)">Sign out</button></div><div class="prof-session"><span class="pss-ic">${icDesktop}</span><div class="pss-main"><b>Windows &middot; Edge</b><span>High Point, NC &middot; Yesterday</span></div><button class="prof-revoke" onclick="profRevoke(this)">Sign out</button></div></div>
+        </div>
+      </div>
+    </div>`;
 }
 function openAccount(){ acctTenant=null; closeAllMenus(); renderAccount(); go('account'); }
 function toggleOpMenu(e){ e.stopPropagation(); const m=document.getElementById('opMenu'); if(!m) return; const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
