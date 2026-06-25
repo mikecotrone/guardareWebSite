@@ -2007,6 +2007,11 @@
 .ctopo-rep-inline #ctopoRepVal{color:var(--teal);font-weight:600;min-width:36px;text-align:right}
 .ctopo-rep-inline input[type=range]{width:118px;accent-color:var(--teal);cursor:pointer;margin:0}
 .ctopo-canvas{width:100%;height:calc(100dvh - 240px);min-height:520px;background-color:var(--bg);background-image:radial-gradient(rgba(46,230,200,.11) 1px,transparent 1.5px),radial-gradient(circle at 28% 16%,rgba(18,48,54,.85) 0%,var(--bg) 70%);background-size:24px 24px,100% 100%;background-position:0 0,0 0}
+.ctopo-canvas-wrap{position:relative}
+.ctopo-tenant-tag{position:absolute;top:14px;left:14px;z-index:6;display:flex;align-items:center;gap:9px;padding:7px 13px 7px 8px;border-radius:13px;background:rgba(9,22,26,.74);border:1px solid rgba(46,230,200,.32);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);box-shadow:0 6px 20px rgba(0,0,0,.35);pointer-events:none;max-width:62%}
+.ctopo-tenant-tag:empty{display:none}
+.ctopo-tag-logo{width:30px;height:30px;border-radius:7px;background:#fff;padding:3px;box-sizing:border-box;object-fit:contain;flex:0 0 auto}
+.ctopo-tag-name{font-weight:700;font-size:15px;color:#E9F3F1;white-space:nowrap;letter-spacing:.2px}
 .ctopo-empty{padding:60px 24px;text-align:center;color:var(--dim);font-size:13px}
 @media(max-width:1024px){.ctopo-canvas{height:calc(100dvh - 210px);min-height:400px}.ctopo-bar{padding:10px 12px}}
 </style>
@@ -2410,7 +2415,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.335.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.337.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2796,7 +2801,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
             <button class="ctopo-btn" onclick="ctopoFit()" data-i18n="Fit to view">Fit to view</button>
           </div>
         </div>
-        <div id="ctopoCanvas" class="ctopo-canvas"></div>
+        <div class="ctopo-canvas-wrap"><div id="ctopoCanvas" class="ctopo-canvas"></div><div id="ctopoTenantTag" class="ctopo-tenant-tag"></div></div>
       </div>
     </section>
     <section class="screen" id="screen-cloudcfg"></section>
@@ -10718,7 +10723,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.335.alpha';
+const APP_VERSION='v2026.02.337.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12542,11 +12547,15 @@ function renderCollTopo(){
   if(typeof cytoscape==='undefined'){ host.innerHTML='<div class="ctopo-empty">The topology view needs its drawing library — open this page at guardare.io or in a desktop browser.</div>'; return; }
   const scope=(typeof tenantScope==='function')?tenantScope():'all';
   const all=(scope==='all'||scope==='cloud');
+  (function(){ var _t=document.getElementById('ctopoTenantTag'); if(!_t) return; if(all){ _t.innerHTML='<span class="ctopo-tag-name">'+((typeof TX==='function')?TX('All Tenants'):'All Tenants')+'</span>'; } else { var _n=(typeof tenantName!=='undefined'&&tenantName[scope])?tenantName[scope]:scope; _t.innerHTML='<img class="ctopo-tag-logo" src="'+ctopoTenantBadge(scope)+'" alt=""><span class="ctopo-tag-name">'+_n+'</span>'; } })();
   let colls=[];
   if(!all){ colls=(typeof collectorsForTenant==='function'?collectorsForTenant(scope):[]).map(function(c){return {slug:scope,id:c.id,status:c.status};}); }
   else { ['acme-corp','piedmont','atlantico','roma'].forEach(function(sl){ (typeof collectorsForTenant==='function'?collectorsForTenant(sl):[]).forEach(function(c){ colls.push({slug:sl,id:c.id,status:c.status}); }); }); }
   if(!colls.length){ host.innerHTML='<div class="ctopo-empty">No collectors in this scope.</div>'; return; }
   const T={green:'#41D98A',amber:'#F6B53F',red:'#FF5D5D',mute:'#6f8b91',teal:'#2EE6C8',violet:'#94A2FF',line:'#1B3A41',raise:'#123036',panel:'#0F262C',text:'#E9F3F1',dim:'#8BA7AC'};
+  const ctopoHealth=function(seed){ var s=2166136261>>>0,str=''+seed,i; for(i=0;i<str.length;i++){ s^=str.charCodeAt(i); s=Math.imul(s,16777619)>>>0; } var cpu=8+(s%80), mem=12+((s>>>7)%78), load=Math.max(cpu,mem); return {cpu:cpu, mem:mem, col: load>=82?T.red:(load>=63?T.amber:T.teal)}; };
+  var _ipc=document.createElement('canvas').getContext('2d'); _ipc.font="600 13px 'Open Sans', system-ui, sans-serif";
+  var ctIpOff=function(s){ var w=(_ipc.measureText(s).width)||(s.length*7); return Math.round(24 + w/2); };
   const stCol=function(s){ return s==='online'?T.green:(s==='warn'||s==='degraded')?T.amber:s==='crit'?T.red:T.mute; };
   const isUp=function(s){ return s==='online'||s==='warn'||s==='degraded'; };
   const GAP=Math.max(132,Math.min(196,1800/colls.length));
@@ -12571,10 +12580,12 @@ function renderCollTopo(){
     var nm=site.name;
     var hasLogo=ctopoTenantHasLogo(c.slug);
     if(all){ els.push({data:{id:'b'+i,label:'',icon:ctopoTenantBadge(c.slug),'for':'c'+i},position:{x:X.badge,y:y},classes:'tenantbadge'+(hasLogo?' tlogo':'')}); }
-    els.push({data:{id:'c'+i,label:nm+'\n'+ctopoLan(c.slug,i),icon:ctopoCollIcon(col),scol:col},position:{x:X.coll,y:y},classes:'coll'});
+    var H=ctopoHealth(c.id||('c'+i));
+    els.push({data:{id:'c'+i,label:nm+'\n'+ctopoLan(c.slug,i),icon:ctopoCollIcon(col),scol:col,hcol:H.col},position:{x:X.coll,y:y},classes:'coll'});
     els.push({data:{id:'f'+i,label:'',icon:CTOPO_FW_ICON},position:{x:X.fw,y:y},classes:'fw'});
     els.push({data:{id:'uc'+i,source:'c'+i,target:'f'+i,ecol:col,flow:(up?1:0)},classes:'uplink'});
-    els.push({data:{id:'uf'+i,source:'f'+i,target:'net',ecol:col,flow:(up?1:0),label:ctopoPubIP(i)},classes:'uplink iplbl'});
+    var pip=ctopoPubIP(i);
+    els.push({data:{id:'uf'+i,source:'f'+i,target:'net',ecol:col,flow:(up?1:0),label:pip,ipoff:ctIpOff(pip)},classes:'uplink iplbl'});
   });
   if(ctopoAnim){ cancelAnimationFrame(ctopoAnim); ctopoAnim=null; }
   if(ctopoCy){ try{ctopoCy.destroy();}catch(e){} ctopoCy=null; }
@@ -12590,6 +12601,7 @@ function renderCollTopo(){
       {selector:'node.net',style:{'border-color':T.violet,'background-color':T.panel,'width':92,'height':92,'background-width':'66%','background-height':'66%'}},
       {selector:'node.svc',style:{'border-color':T.teal,'background-color':T.raise,'width':48,'height':48}},
       {selector:'node.dataend',style:{'text-halign':'left','text-margin-x':-11}},
+      {selector:'node.coll[hcol]',style:{'underlay-color':'data(hcol)','underlay-opacity':0.22,'underlay-padding':10,'underlay-shape':'round-rectangle'}},
       {selector:'node.tenantbadge',style:{'background-opacity':0,'border-width':0,'width':46,'height':46,'background-width':'100%','background-height':'100%','text-margin-y':0}},
       {selector:'node.tenantbadge.tlogo',style:{'background-opacity':1,'background-color':'#ffffff','border-width':1.4,'border-color':'#c4d3d2','background-fit':'contain','background-width':'82%','background-height':'82%','background-clip':'node'}},
       {selector:'node.lbl-top',style:{'text-valign':'top','text-halign':'center','text-margin-x':0,'text-margin-y':-10,'text-max-width':'160px'}},
@@ -12602,8 +12614,8 @@ function renderCollTopo(){
       {selector:'edge.stackedge',style:{'line-color':T.violet,'target-arrow-color':T.violet,'opacity':0.7}},
       {selector:'edge.uplink',style:{'line-color':'data(ecol)','target-arrow-color':'data(ecol)','width':2.2,'line-style':'dashed','line-dash-pattern':[9,8],'opacity':0.95}},
       {selector:'edge.uplink[flow = 0]',style:{'opacity':0.6,'line-style':'solid'}},
-      {selector:'edge[main = 1]',style:{'label':'data(label)','font-family':'Open Sans, system-ui, sans-serif','font-size':'14px','color':T.dim,'text-background-color':T.panel,'text-background-opacity':0.92,'text-background-padding':'4px','text-rotation':'autorotate','opacity':0.9}},
-      {selector:'edge.iplbl',style:{'source-label':'data(label)','source-text-offset':120,'source-text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':T.text,'text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':0.97,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'data(ecol)','text-border-width':1.2,'text-border-opacity':0.6}},
+      {selector:'edge[main = 1]',style:{'label':'data(label)','font-family':'Open Sans, system-ui, sans-serif','font-size':'14px','font-weight':700,'color':T.violet,'text-background-color':'#171c4a','text-background-opacity':1,'text-background-shape':'round-rectangle','text-background-padding':'7px','text-border-color':T.violet,'text-border-width':1.2,'text-border-opacity':0.85,'text-rotation':'autorotate','opacity':1}},
+      {selector:'edge.iplbl',style:{'source-label':'data(label)','source-text-offset':'data(ipoff)','text-justification':'left','source-text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':T.text,'text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':0.97,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'data(ecol)','text-border-width':1.2,'text-border-opacity':0.6}},
       {selector:'node:selected',style:{'border-color':T.teal,'border-width':2.6}}
     ]
   });
