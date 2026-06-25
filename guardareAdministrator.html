@@ -541,7 +541,7 @@
   .fcard.s-warn::before{background:var(--amber)}
   .fcard.s-crit::before{background:var(--red)}
   .fcard.s-offline::before{background:#547076}
-  .fcard:hover{border-color:var(--teal-deep);transform:translateY(-1px);box-shadow:0 8px 22px -12px rgba(0,0,0,.6)}
+
   .fcard-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;min-height:20px}
   .fcard-tn{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--dim);font-weight:600;min-width:0}
   .fcard-tn>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
@@ -2405,7 +2405,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <div class="sidebar-foot">
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
-      <div class="app-ver"><b>v2026.02.320.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.321.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10694,7 +10694,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.320.alpha';
+const APP_VERSION='v2026.02.321.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
