@@ -2528,7 +2528,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.399.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.404.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2859,11 +2859,12 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <section class="screen" id="screen-nms"></section>
     <style>
 /* ===== My Profile ===== */
-.prof-wrap{max-width:1060px}
-.prof-hero{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);margin-bottom:16px}
-.prof-cover{height:132px;position:relative;background:radial-gradient(560px 280px at 16% -50%,rgba(46,230,200,.3),transparent 60%),radial-gradient(500px 240px at 90% 150%,rgba(148,162,255,.26),transparent 60%),linear-gradient(120deg,#0c2a30,#0f3038 55%,#101f29);overflow:hidden}
+.prof-wrap{max-width:none}
+.prof-hero{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:radial-gradient(640px 340px at 14% -18%,rgba(46,230,200,.30),transparent 60%),radial-gradient(680px 420px at 92% 116%,rgba(148,162,255,.26),transparent 62%),linear-gradient(125deg,#0c2a30,#0f3038 55%,#101f29);background-color:#0f262c;margin-bottom:16px}
+html[data-theme="light"] .prof-hero{background:radial-gradient(640px 340px at 14% -18%,rgba(15,168,144,.18),transparent 60%),radial-gradient(680px 420px at 92% 116%,rgba(81,96,208,.14),transparent 62%),linear-gradient(125deg,#e6f4f1,#eef6f4 52%,#e9f1f5);background-color:#fff}
+.prof-cover{height:132px;position:relative;background:transparent;overflow:hidden}
 .prof-cover::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(circle at 28% 10%,#000,transparent 72%);mask-image:radial-gradient(circle at 28% 10%,#000,transparent 72%)}
-.prof-cov-radar{position:absolute;right:-30px;top:-54px;width:250px;height:250px}
+.prof-cov-radar{position:absolute;right:-26px;top:-20px;width:270px;height:270px;pointer-events:none}
 .prof-id{display:flex;align-items:flex-end;gap:20px;padding:0 26px 22px;margin-top:-44px;position:relative;flex-wrap:wrap}
 .prof-avatar{position:relative;width:100px;height:100px;border-radius:24px;background:linear-gradient(135deg,var(--teal),var(--violet));display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#06201c;box-shadow:0 14px 32px -10px rgba(0,0,0,.65);border:4px solid var(--panel);flex:none}
 .prof-status{position:absolute;right:3px;bottom:3px;width:18px;height:18px;border-radius:50%;background:var(--green);border:3px solid var(--panel);box-shadow:0 0 8px var(--green)}
@@ -6026,7 +6027,7 @@ snmp_field_mapping:
         <div class="tm-field"><label data-i18n="Type">Type</label><select class="tm-input" id="tkType"><option selected data-i18n="Incident">Incident</option><option data-i18n="Service request">Service request</option><option data-i18n="Change">Change</option><option data-i18n="Problem">Problem</option></select></div>
       </div>
       <div class="tm-row">
-        <div class="tm-field"><label data-i18n="Assignee">Assignee</label><select class="tm-input" id="tkAssignee"><option selected data-i18n="Unassigned">Unassigned</option><option>Mike Chen</option><option data-i18n="NOC — Tier 1">NOC &mdash; Tier 1</option><option data-i18n="NOC — Tier 2">NOC &mdash; Tier 2</option></select></div>
+        <div class="tm-field"><label data-i18n="Assignee">Assignee</label><select class="tm-input" id="tkAssignee"><option selected data-i18n="Unassigned">Unassigned</option><option>Mike Cotrone</option><option data-i18n="NOC — Tier 1">NOC &mdash; Tier 1</option><option data-i18n="NOC — Tier 2">NOC &mdash; Tier 2</option></select></div>
         <div class="tm-field"><label data-i18n="Linked collector">Linked collector</label><select class="tm-input" id="tkColl"><option value="None" selected data-i18n="None">None</option></select></div>
       </div>
       <div class="tm-field"><label data-i18n="Description">Description</label><textarea class="tm-input tk-textarea" id="tkDesc" data-i18n-ph="What is happening? Steps, impact, affected devices…" placeholder="What is happening? Steps, impact, affected devices&hellip;"></textarea></div>
@@ -9690,22 +9691,22 @@ const AUDIT_LOG=[
   {t:'1h ago',      actor:'Sam Okafor',      role:'msp_operator',   tenant:'roma', cat:'provisioning', action:'Provisioned collector',     target:'roma:dc02', ip:'10.4.2.11'},
   {t:'2h ago',      actor:'Guardare System', role:'system',         tenant:'roma', cat:'collector',    action:'Collector auto-registered', target:'roma:dc01', ip:'—'},
   {t:'Today 08:31', actor:'Marco Rossi',     role:'tenant_admin',   tenant:'roma', cat:'config',       action:'Updated alert rule',        target:'roma · GRA latency > 200ms', ip:'151.38.7.22'},
-  {t:'Yesterday 17:12', actor:'Mike Chen',   role:'msp_superadmin', tenant:'roma', cat:'tenants',      action:'Created tenant',            target:'La città di Roma (Enterprise)', ip:'73.42.18.9'},
+  {t:'Yesterday 17:12', actor:'Mike Cotrone',   role:'msp_superadmin', tenant:'roma', cat:'tenants',      action:'Created tenant',            target:'La città di Roma (Enterprise)', ip:'73.42.18.9'},
   {t:'2m ago',     actor:'Dana Ruiz',        role:'msp_operator',   tenant:'acme-corp', cat:'alerts',       action:'Acknowledged alert',        target:'acme-corp:site-09 · CPU critical', ip:'73.42.18.9'},
-  {t:'17m ago',    actor:'Mike Chen',        role:'msp_superadmin', tenant:'piedmont',  cat:'provisioning', action:'Provisioned collector',     target:'piedmont:avl-01', ip:'73.42.18.9'},
+  {t:'17m ago',    actor:'Mike Cotrone',        role:'msp_superadmin', tenant:'piedmont',  cat:'provisioning', action:'Provisioned collector',     target:'piedmont:avl-01', ip:'73.42.18.9'},
   {t:'24m ago',    actor:'j.weber@acme-corp',role:'tenant_admin',   tenant:'acme-corp', cat:'alerts',       action:'Updated alert rule',        target:'telemetry.cpu > 90%', ip:'98.110.7.55'},
-  {t:'52m ago',    actor:'Mike Chen',        role:'msp_superadmin', tenant:'platform',  cat:'security',     action:'Rotated Centrifugo HMAC secret', target:'centrifugo · jwt_hmac', ip:'73.42.18.9'},
+  {t:'52m ago',    actor:'Mike Cotrone',        role:'msp_superadmin', tenant:'platform',  cat:'security',     action:'Rotated Centrifugo HMAC secret', target:'centrifugo · jwt_hmac', ip:'73.42.18.9'},
   {t:'3h ago',     actor:'Sam Okafor',       role:'msp_operator',   tenant:'acme-corp', cat:'collector',    action:'Rebooted collector',        target:'acme-corp:site-04', ip:'10.4.2.11'},
-  {t:'3h ago',     actor:'Mike Chen',        role:'msp_superadmin', tenant:'atlantico', cat:'security',     action:'Started tenant impersonation', target:'atlantico', ip:'73.42.18.9'},
-  {t:'4h ago',     actor:'Mike Chen',        role:'msp_superadmin', tenant:'atlantico', cat:'security',     action:'Ended impersonation session', target:'atlantico', ip:'73.42.18.9'},
+  {t:'3h ago',     actor:'Mike Cotrone',        role:'msp_superadmin', tenant:'atlantico', cat:'security',     action:'Started tenant impersonation', target:'atlantico', ip:'73.42.18.9'},
+  {t:'4h ago',     actor:'Mike Cotrone',        role:'msp_superadmin', tenant:'atlantico', cat:'security',     action:'Ended impersonation session', target:'atlantico', ip:'73.42.18.9'},
   {t:'Today 09:14',actor:'Dana Ruiz',        role:'msp_operator',   tenant:'platform',  cat:'security',     action:'Signed in (passkey)',       target:'session · web', ip:'73.42.18.9'},
-  {t:'Today 08:52',actor:'Mike Chen',        role:'msp_superadmin', tenant:'platform',  cat:'config',       action:'Connected integration',     target:'GitHub (GitOps)', ip:'73.42.18.9'},
+  {t:'Today 08:52',actor:'Mike Cotrone',        role:'msp_superadmin', tenant:'platform',  cat:'config',       action:'Connected integration',     target:'GitHub (GitOps)', ip:'73.42.18.9'},
   {t:'Yesterday 22:03',actor:'Guardare System',role:'system',       tenant:'acme-corp', cat:'config',       action:'Pushed config via GitOps',  target:'sites/acme-prod-01/alerts.yaml', ip:'—'},
-  {t:'Yesterday 16:12',actor:'Mike Chen',    role:'msp_superadmin', tenant:'atlantico', cat:'tenants',      action:'Created tenant',            target:'atlantico (Starter · trial)', ip:'73.42.18.9'},
-  {t:'Yesterday 15:48',actor:'Mike Chen',    role:'msp_superadmin', tenant:'atlantico', cat:'provisioning', action:'Downloaded onboarding bundle', target:'atlantico:sao-01', ip:'73.42.18.9'},
-  {t:'Jun 14 10:09',actor:'Mike Chen',       role:'msp_superadmin', tenant:'platform',  cat:'config',       action:'Changed retention window',  target:'telemetry · 90d', ip:'73.42.18.9'},
+  {t:'Yesterday 16:12',actor:'Mike Cotrone',    role:'msp_superadmin', tenant:'atlantico', cat:'tenants',      action:'Created tenant',            target:'atlantico (Starter · trial)', ip:'73.42.18.9'},
+  {t:'Yesterday 15:48',actor:'Mike Cotrone',    role:'msp_superadmin', tenant:'atlantico', cat:'provisioning', action:'Downloaded onboarding bundle', target:'atlantico:sao-01', ip:'73.42.18.9'},
+  {t:'Jun 14 10:09',actor:'Mike Cotrone',       role:'msp_superadmin', tenant:'platform',  cat:'config',       action:'Changed retention window',  target:'telemetry · 90d', ip:'73.42.18.9'},
   {t:'Jun 13 19:55',actor:'t.barnes@piedmont',role:'tenant_admin',  tenant:'piedmont',  cat:'tenants',      action:'Changed user role',         target:'l.kemp@piedmont → tenant_user', ip:'71.30.140.7'},
-  {t:'Jun 13 09:18',actor:'Mike Chen',       role:'msp_superadmin', tenant:'platform',  cat:'tenants',      action:'Suspended tenant',          target:'Trailhead Co (demo)', ip:'73.42.18.9'},
+  {t:'Jun 13 09:18',actor:'Mike Cotrone',       role:'msp_superadmin', tenant:'platform',  cat:'tenants',      action:'Suspended tenant',          target:'Trailhead Co (demo)', ip:'73.42.18.9'},
 ];
 function renderAudit(){
   const scope=currentTenantCtx;
@@ -10794,7 +10795,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.399.alpha';
+const APP_VERSION='v2026.02.404.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11353,7 +11354,7 @@ function acctSave(){
   renderAccount();
 }
 /* ===== My Profile ===== */
-const PROFILE_USER={name:'Mike Chen',initials:'MC',title:'Network Operations Lead',role:'Guardare Administrator',email:'mikec@vistatechgso.com',phone:'+1 (336) 962-7900',location:'Greensboro, NC',language:'English',member_since:'January 2024',last_login:'Today, 8:14 AM',tenants:4};
+const PROFILE_USER={name:'Mike Cotrone',initials:'MC',title:'Network Operations Lead',role:'Global Administrator',email:'mikec@vistatechgso.com',phone:'+1 (336) 962-7900',location:'Greensboro, NC',language:'English',member_since:'January 2024',last_login:'Today, 8:14 AM',tenants:4};
 function profSave(){ toast('Profile updated'); }
 function profRevoke(btn){ try{ var r=btn.closest('.prof-session'); if(r) r.remove(); }catch(e){} toast('Signed out of that session'); }
 function profEditFocus(){ var f=document.getElementById('pf_name'); if(f){ try{ f.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} f.focus(); } }
@@ -11384,7 +11385,8 @@ function renderProfile(){
     </div></div>
     <div class="prof-wrap">
       <div class="prof-hero">
-        <div class="prof-cover"><svg class="prof-cov-radar" viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="90" stroke="rgba(46,230,200,.4)"/><circle cx="100" cy="100" r="60" stroke="rgba(46,230,200,.28)"/><circle cx="100" cy="100" r="32" stroke="rgba(46,230,200,.22)"/><line x1="100" y1="10" x2="100" y2="190" stroke="rgba(46,230,200,.16)"/><line x1="10" y1="100" x2="190" y2="100" stroke="rgba(46,230,200,.16)"/></svg></div>
+        <svg class="prof-cov-radar" viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="90" stroke="rgba(46,230,200,.4)"/><circle cx="100" cy="100" r="60" stroke="rgba(46,230,200,.28)"/><circle cx="100" cy="100" r="32" stroke="rgba(46,230,200,.22)"/><line x1="100" y1="10" x2="100" y2="190" stroke="rgba(46,230,200,.16)"/><line x1="10" y1="100" x2="190" y2="100" stroke="rgba(46,230,200,.16)"/></svg>
+        <div class="prof-cover"></div>
         <div class="prof-id">
           <div class="prof-avatar">${PU.initials}<span class="prof-status"></span></div>
           <div class="prof-idtext">
@@ -11392,11 +11394,10 @@ function renderProfile(){
             <div class="prof-role">${icShield}${_esc(PU.role)}</div>
             <div class="prof-meta"><span>${icMail}${_esc(PU.email)}</span><span class="pm-dot"></span><span>${icPin}${_esc(PU.location)}</span><span class="pm-dot"></span><span style="color:var(--green);font-weight:600">Active now</span></div>
           </div>
-          <div class="prof-actions"><button class="btn" onclick="guardareLogout()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Sign out</button><button class="btn primary" onclick="profEditFocus()"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Edit profile</button></div>
         </div>
       </div>
       <div class="prof-stats">
-        <div class="prof-stat"><span class="ps-ic">${icShield}</span><div><b>Administrator</b><small>Role</small></div></div>
+        <div class="prof-stat"><span class="ps-ic">${icShield}</span><div><b>Global Administrator</b><small>Role</small></div></div>
         <div class="prof-stat"><span class="ps-ic">${icCal}</span><div><b>${PU.member_since}</b><small>Member since</small></div></div>
         <div class="prof-stat"><span class="ps-ic">${icClock}</span><div><b>${PU.last_login}</b><small>Last sign-in</small></div></div>
         <div class="prof-stat"><span class="ps-ic">${icLayers}</span><div><b>${PU.tenants} tenants</b><small>Managed</small></div></div>
@@ -11409,8 +11410,8 @@ function renderProfile(){
           ${saveBtns}
         </div>
         <div class="gcfg-card">
-          <div class="gcfg-chead"><span class="gcfg-cic">${icKey}</span><div class="gcfg-ctext"><h3>Role &amp; access</h3><p>What you can see and manage across the platform.</p></div><span class="cfg-scope-pill">Administrator</span></div>
-          <div class="tcfg-meta" style="padding:14px 18px 0"><span class="tcfg-mpill">Role <b>Administrator</b></span><span class="tcfg-mpill">Scope <b>All tenants</b></span><span class="tcfg-mpill">Sign-in <b>SSO + 2FA</b></span></div>
+          <div class="gcfg-chead"><span class="gcfg-cic">${icKey}</span><div class="gcfg-ctext"><h3>Role &amp; access</h3><p>What you can see and manage across the platform.</p></div><span class="cfg-scope-pill">Global Administrator</span></div>
+          <div class="tcfg-meta" style="padding:14px 18px 0"><span class="tcfg-mpill">Role <b>Global Administrator</b></span><span class="tcfg-mpill">Scope <b>All tenants</b></span><span class="tcfg-mpill">Sign-in <b>SSO + 2FA</b></span></div>
           <div style="padding:15px 18px 5px;font-size:11.5px;color:var(--dim);font-weight:700;letter-spacing:.03em">TENANTS YOU OPERATE</div>
           <div class="prof-tags"><span class="prof-tag"><i style="background:var(--teal)"></i>ACME Corp</span><span class="prof-tag"><i style="background:#5b8cff"></i>Piedmont Regional Health</span><span class="prof-tag"><i style="background:var(--amber)"></i>Atl&acirc;ntico Telecom</span><span class="prof-tag"><i style="background:#e0524d"></i>La Citt&agrave; di Roma</span></div>
         </div>
@@ -11425,7 +11426,7 @@ function renderProfile(){
           <div class="prof-pwrow"><div class="ppw-text"><b>Password</b><span>Last changed 3 months ago</span></div><button class="btn" onclick="toast('Password reset link sent')"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Change password</button></div>
           <div class="prof-pwrow" style="border-top:1px solid var(--line)"><div class="ppw-text"><b>Two-factor authentication</b><span>Authenticator app &middot; Enabled</span></div><label class="ucfg-toggle"><input type="checkbox" checked><span class="ucfg-sw-inline"></span></label></div>
           <div style="padding:15px 18px 5px;font-size:11.5px;color:var(--dim);font-weight:700;letter-spacing:.03em;border-top:1px solid var(--line);margin-top:2px">ACTIVE SESSIONS</div>
-          <div class="prof-sessions"><div class="prof-session"><span class="pss-ic">${icLaptop}</span><div class="pss-main"><b>MacBook Pro &middot; Chrome <span class="pss-current">This device</span></b><span>Greensboro, NC &middot; Active now</span></div></div><div class="prof-session"><span class="pss-ic">${icPhone}</span><div class="pss-main"><b>iPhone 15 Pro &middot; Guardare iOS</b><span>Greensboro, NC &middot; 2 hours ago</span></div><button class="prof-revoke" onclick="profRevoke(this)">Sign out</button></div><div class="prof-session"><span class="pss-ic">${icDesktop}</span><div class="pss-main"><b>Windows &middot; Edge</b><span>High Point, NC &middot; Yesterday</span></div><button class="prof-revoke" onclick="profRevoke(this)">Sign out</button></div></div>
+          <div class="prof-sessions"><div class="prof-session"><span class="pss-ic">${icLaptop}</span><div class="pss-main"><b>MacBook Pro &middot; Chrome <span class="pss-current">This device</span></b><span>Greensboro, NC &middot; Active now</span></div></div><div class="prof-session"><span class="pss-ic">${icPhone}</span><div class="pss-main"><b>iPhone 15 Pro Max &middot; iOS</b><span>Greensboro, NC &middot; 2 hours ago</span></div><button class="prof-revoke" onclick="profRevoke(this)">Sign out</button></div><div class="prof-session"><span class="pss-ic">${icDesktop}</span><div class="pss-main"><b>iPad Pro 11" M5 &middot; Chrome</b><span>High Point, NC &middot; Yesterday</span></div><button class="prof-revoke" onclick="profRevoke(this)">Sign out</button></div></div>
         </div>
       </div>
     </div>`;
