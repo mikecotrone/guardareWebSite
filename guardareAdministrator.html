@@ -2463,11 +2463,11 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <div class="nav-parent">
       <button class="nav-item nav-disc" data-disc="cfgmgr" onclick="toggleNavDisc('cfgmgr')">
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><path d="M7 7h.01M7 17h.01"/></svg>
-        <span data-i18n="Collector Config">Collector Config</span>
+        <span data-i18n="Collector Settings">Collector Settings</span>
         <svg class="disc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="nav-children" id="navChildren-cfgmgr">
-        <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global Settings">Global Settings</span></button>
+        <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global">Global</span></button>
         <button class="nav-subitem" data-sub="ubuntu" onclick="goCfgSub('ubuntu')"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
         <button class="nav-subitem" data-sub="databases" onclick="goCfgSub('databases')"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
         <button class="nav-subitem" data-sub="gitops" onclick="goCfgSub('gitops')"><span class="sub-lead"></span><span data-i18n="GitOps Repos">GitOps Repos</span></button>
@@ -2535,7 +2535,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.411.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.416.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -6397,10 +6397,10 @@ const I18N={
   "Primary region":"Regione principale",
   "Primary contact":"Contatto principale",
   "Notes":"Note",
-  "Collector Config":"Configurazione collector",
+  "Collector Settings":"Configurazione collector",
   "Collector Configuration":"Configurazione collector",
   "Collector Global Configuration":"Configurazione globale collector",
-  "Global Settings":"Impostazioni globali",
+  "Global":"Impostazioni globali",
   "General Settings":"Impostazioni generali",
   "Collector site ID":"ID sito collector",
   "Collector location":"Posizione collector",
@@ -6789,10 +6789,10 @@ const I18N={
   "Primary region":"Région principale",
   "Primary contact":"Contact principal",
   "Notes":"Notes",
-  "Collector Config":"Configuration du collecteur",
+  "Collector Settings":"Configuration du collecteur",
   "Collector Configuration":"Configuration du collecteur",
   "Collector Global Configuration":"Configuration globale du collecteur",
-  "Global Settings":"Paramètres globaux",
+  "Global":"Paramètres globaux",
   "General Settings":"Paramètres généraux",
   "Collector site ID":"ID du site du collecteur",
   "Collector location":"Emplacement du collecteur",
@@ -7181,10 +7181,10 @@ const I18N={
   "Primary region":"Región principal",
   "Primary contact":"Contacto principal",
   "Notes":"Notas",
-  "Collector Config":"Configuración del recopilador",
+  "Collector Settings":"Configuración del recopilador",
   "Collector Configuration":"Configuración del recopilador",
   "Collector Global Configuration":"Configuración global del recopilador",
-  "Global Settings":"Configuración global",
+  "Global":"Configuración global",
   "General Settings":"Configuración general",
   "Collector site ID":"ID del sitio del recopilador",
   "Collector location":"Ubicación del recopilador",
@@ -7574,10 +7574,10 @@ const I18N={
   "Primary region":"Região principal",
   "Primary contact":"Contato principal",
   "Notes":"Notas",
-  "Collector Config":"Configuração do coletor",
+  "Collector Settings":"Configuração do coletor",
   "Collector Configuration":"Configuração do coletor",
   "Collector Global Configuration":"Configuração global do coletor",
-  "Global Settings":"Configurações globais",
+  "Global":"Configurações globais",
   "General Settings":"Configurações gerais",
   "Collector site ID":"ID do site do coletor",
   "Collector location":"Localização do coletor",
@@ -7877,7 +7877,7 @@ const I18N={
   "Operations":"運用","Configuration":"設定","MSP Management":"MSP管理",
   "Global Dashboard":"グローバルダッシュボード","MSP Global Dashboard":"グローバルダッシュボード","Fleet Management":"フリート管理","Collector Fleet":"コレクターフリート","Alerts":"アラート",
   "Audit Log":"監査ログ","Tenants":"テナント","Provision Collector":"コレクター展開","Reports & SLA":"レポート & SLA",
-  "Tenant Configuration":"テナント設定","Collector Config":"コレクター設定","Global Settings":"グローバル設定","Ubuntu OS":"Ubuntu OS","Databases":"データベース",
+  "Tenant Configuration":"テナント設定","Collector Settings":"コレクター設定","Global":"グローバル設定","Ubuntu OS":"Ubuntu OS","Databases":"データベース",
   "Locations":"ロケーション","API Integrations":"API連携","Integrations":"連携",
   "Search collectors, alerts, sites…":"コレクター・アラート・拠点を検索…","Guardare Administrator":"Guardare 管理者","Appearance":"外観","Dark":"ダーク","Light":"ライト",
   "Design preview":"デザインプレビュー","— concept UI, not a live product.":"— コンセプトUIであり、実稼働製品ではありません。",
@@ -10212,7 +10212,7 @@ function collManifests(coll){
   return set;
 }
 const CFG_CATS=[
-  {cat:'base',name:'Global Settings',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, location and the unique IDs that bind each microservice to this box.'},
+  {cat:'base',name:'Global',dot:'var(--dim)',scope:'On-box',blurb:'Global service identity written to serviceConfig.yaml on the collector — site, location and the unique IDs that bind each microservice to this box.'},
   {cat:'ubuntu',name:'Ubuntu OS',dot:'#E95420',scope:'On-box',blurb:'Host-level tuning applied by the provisioning script — file-descriptor limits, kernel send buffers, per-service systemd safety nets and base OS settings.'},
   {cat:'databases',name:'Databases',dot:'var(--violet)',scope:'On-box',blurb:'Local collector MariaDB buffer and queue settings — plus the cloud database connection used by Guardare Core.'},
   {cat:'gitops',name:'GitOps Repos',dot:'#8B95A7',scope:'Per-collector',blurb:'Per-microservice GitHub repository settings — which config file each service pulls, its repo path, poll interval and the Docker secret that holds its access token. Tokens are never written to config files.'},
@@ -10223,7 +10223,7 @@ const CFG_CATS=[
 ];
 function cfgFilesFor(coll){
   const files=[
-    {key:'base',cat:'base',label:'Global Settings',pill:'serviceConfig.yaml',el:'cfg-base',lang:'yaml',scope:'local',svc:'serviceConfig.yaml',path:'/usr/bin/com.vistatech.collector/serviceConfig.yaml',poll:null},
+    {key:'base',cat:'base',label:'Global',pill:'serviceConfig.yaml',el:'cfg-base',lang:'yaml',scope:'local',svc:'serviceConfig.yaml',path:'/usr/bin/com.vistatech.collector/serviceConfig.yaml',poll:null},
     {key:'vcollector',cat:'vcollector',label:'vCollector',pill:'_vCollectorCfg.yaml',el:'cfg-vcollector',lang:'yaml',scope:'collector',uri:'vCollectorCFG/',svc:'_vCollectorCfg.yaml',poll:60}
   ];
   collManifests(coll).forEach(k=>{const m=NORM_MAP[k];files.push({key:'norm-'+k,cat:'normalizer',label:'Normalizer · '+m.label,pill:m.label,el:m.el,lang:'yaml',scope:'collector',uri:'normalizerCFG/',svc:m.file,poll:60});});
@@ -10806,7 +10806,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.411.alpha';
+const APP_VERSION='v2026.02.416.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12714,7 +12714,7 @@ function renderCollTopo(){
       {selector:'edge.uplink',style:{'line-color':'data(ecol)','target-arrow-color':'data(ecol)','width':2.2,'line-style':'dashed','line-dash-pattern':[9,8],'opacity':0.95}},
       {selector:'edge.uplink[flow = 0]',style:{'opacity':0.6,'line-style':'solid'}},
       {selector:'edge[main = 1]',style:{'label':'data(label)','font-family':'Open Sans, system-ui, sans-serif','font-size':'14px','font-weight':700,'color':T.violet,'text-background-color':_ctWssLabelBg,'text-background-opacity':1,'text-background-shape':'round-rectangle','text-background-padding':'7px','text-border-color':T.violet,'text-border-width':1.2,'text-border-opacity':0.85,'text-rotation':'autorotate','opacity':1}},
-      {selector:'edge.iplbl',style:{'source-label':'data(label)','source-text-offset':'data(ipoff)','text-justification':'left','source-text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':'#ffffff','text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':1,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'#6a8f98','text-border-width':1.4,'text-border-opacity':1}},
+      {selector:'edge.iplbl',style:{'label':'data(label)','text-rotation':'autorotate','font-family':'Open Sans, system-ui, sans-serif','font-size':'13px','font-weight':600,'color':'#ffffff','text-wrap':'none','text-background-color':'#0a1d22','text-background-opacity':1,'text-background-shape':'round-rectangle','text-background-padding':'6px','text-border-color':'#6a8f98','text-border-width':1.4,'text-border-opacity':1}},
       {selector:'node:selected',style:{'border-color':T.teal,'border-width':2.6}}
     ]
   });
