@@ -2528,7 +2528,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.404.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.405.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2861,7 +2861,11 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
 /* ===== My Profile ===== */
 .prof-wrap{max-width:none}
 .prof-hero{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:radial-gradient(640px 340px at 14% -18%,rgba(46,230,200,.30),transparent 60%),radial-gradient(680px 420px at 92% 116%,rgba(148,162,255,.26),transparent 62%),linear-gradient(125deg,#0c2a30,#0f3038 55%,#101f29);background-color:#0f262c;margin-bottom:16px}
-html[data-theme="light"] .prof-hero{background:radial-gradient(640px 340px at 14% -18%,rgba(15,168,144,.18),transparent 60%),radial-gradient(680px 420px at 92% 116%,rgba(81,96,208,.14),transparent 62%),linear-gradient(125deg,#e6f4f1,#eef6f4 52%,#e9f1f5);background-color:#fff}
+html[data-theme="light"] .prof-hero{background:radial-gradient(640px 340px at 14% -18%,rgba(15,168,144,.34),transparent 60%),radial-gradient(680px 420px at 92% 116%,rgba(81,96,208,.20),transparent 62%),linear-gradient(125deg,#c4e4dc,#d2eae3 52%,#cbe5ea);background-color:#d2eae3}
+html[data-theme="light"] .prof-cov-radar circle:nth-of-type(1){stroke:rgba(10,125,108,.52)}
+html[data-theme="light"] .prof-cov-radar circle:nth-of-type(2){stroke:rgba(10,125,108,.4)}
+html[data-theme="light"] .prof-cov-radar circle:nth-of-type(3){stroke:rgba(10,125,108,.32)}
+html[data-theme="light"] .prof-cov-radar line{stroke:rgba(10,125,108,.24)}
 .prof-cover{height:132px;position:relative;background:transparent;overflow:hidden}
 .prof-cover::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(circle at 28% 10%,#000,transparent 72%);mask-image:radial-gradient(circle at 28% 10%,#000,transparent 72%)}
 .prof-cov-radar{position:absolute;right:-26px;top:-20px;width:270px;height:270px;pointer-events:none}
@@ -10795,7 +10799,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.404.alpha';
+const APP_VERSION='v2026.02.405.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
