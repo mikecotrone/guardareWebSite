@@ -326,6 +326,7 @@
   .theme-toggle .tt-sun{color:var(--mute)}
   .theme-toggle .tt-moon{color:var(--text)}
   html[data-theme="light"] .theme-toggle .tt-sun{color:var(--amber)}
+  html[data-theme="light"] .radar-panel{background:rgba(255,255,255,.2);border-color:rgba(0,0,0,.08)}
   html[data-theme="light"] .theme-toggle .tt-moon{color:var(--mute)}
   .tt-track{position:relative;width:52px;height:28px;border-radius:99px;flex:none;
     background:#28343c;
@@ -380,8 +381,8 @@
   .nav-item.active::before,.nav-disc.active::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--teal);box-shadow:0 0 12px var(--teal)}
   .nav-item svg,.nav-disc svg{width:17px;height:17px;flex:0 0 17px;stroke:currentColor;fill:none;stroke-width:1.7}
   .nav-item .badge{margin-left:auto;font-family:"Open Sans";font-size:10px;font-weight:600;
-    padding:1px 7px;border-radius:99px;background:#3a1414;color:var(--red);border:1px solid #5a1f1f}
-  .nav-item .badge.amber{background:#3a2c10;color:var(--amber);border-color:#574214}
+    padding:1px 7px;border-radius:99px;background:rgba(107,36,36,.2);color:var(--red);border:1px solid rgba(138,53,53,.3)}
+  .nav-item .badge.amber{background:rgba(58,44,16,.2);color:var(--amber);border-color:rgba(87,66,20,.4)}
   .nav-disc{cursor:pointer}
   .nav-disc .disc-caret{margin-left:auto;width:15px;height:15px;opacity:.55;transition:transform .18s}
   .nav-disc.expanded .disc-caret{transform:rotate(90deg)}
@@ -584,8 +585,8 @@
   .tkc-rows{display:flex;flex-direction:column;gap:8px}
   .tkc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2)}
   .tkc-acts{display:flex;justify-content:flex-end;gap:10px;padding:14px 20px;border-top:1px solid var(--line);background:var(--panel)}
-  .ticker-lab{flex:0 0 auto;padding:11px 16px;background:#2a1010;color:var(--red);font-size:11px;font-weight:700;
-    letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-right:1px solid var(--line)}
+  .ticker-lab{flex:0 0 auto;margin-left:4px;padding:11px 16px;background:rgba(90,30,30,.2);color:var(--red);font-size:11px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-right:1px solid var(--line);border-radius:var(--r)}
   .ticker-lab .dot{width:7px;height:7px;border-radius:99px;background:var(--red);box-shadow:0 0 9px var(--red);animation:pulse 1.4s infinite}
   .ticker-track{flex:1;overflow:hidden;position:relative;height:50px}
   .ticker-move{position:absolute;display:flex;align-items:center;gap:40px;white-space:nowrap;height:100%;animation:roll 38s linear infinite}
@@ -595,7 +596,7 @@
   @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .ticker-item{display:flex;align-items:center;gap:10px;font-size:15px}
   .ticker-item .sev{font-family:"Open Sans";font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px}
-  .sev.critical{background:#3a1414;color:var(--red)} .sev.warning{background:#3a2c10;color:var(--amber)} .sev.info{background:#10283a;color:var(--violet)}
+  .sev.critical{background:rgba(58,20,20,.2);color:var(--red)} .sev.warning{background:rgba(58,44,16,.2);color:var(--amber)} .sev.info{background:rgba(16,40,58,.2);color:var(--violet)}
   .sev-cell{font-family:"Open Sans";font-weight:700;font-size:12.5px;letter-spacing:.02em}
   .sev-cell.critical,.sev-cell.crit{color:var(--red)} .sev-cell.warning,.sev-cell.warn{color:var(--amber)} .sev-cell.info{color:var(--violet)}
   .ticker-item code{font-family:"Open Sans";color:var(--teal);font-size:13.5px}
@@ -1897,7 +1898,7 @@
   .reboot-ring-svg .ring-fg{fill:none;stroke:var(--teal);stroke-width:8;stroke-linecap:round}
   .reboot-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;font-family:"Open Sans";color:var(--text)}
   .reboot-status{font-size:13px;color:var(--dim);min-height:18px;letter-spacing:.01em}
-  .modal-ic.info{background:#0e2c33;color:var(--teal)}
+  .modal-ic.info{background:rgba(14,44,51,.2);color:var(--teal)}
   @keyframes panelFlash{0%{box-shadow:0 0 0 1px var(--teal),0 0 22px var(--teal-ghost)}100%{box-shadow:none}}
   .panel-flash{animation:panelFlash 1.6s ease-out}
   /* ---- AI / Anthropic surfaces ---- */
@@ -1981,7 +1982,7 @@
   .diag-ic svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
   .diag-ic.ok{color:var(--green);background:#0e2c1c}
   .diag-ic.warn{color:var(--amber);background:#3a2a10}
-  .diag-ic.fail{color:var(--red);background:#3a1414}
+  .diag-ic.fail{color:var(--red);background:rgba(58,20,20,.2)}
   .diag-ic.running{background:transparent}
   .diag-spin{width:15px;height:15px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--teal);animation:diagspin .7s linear infinite}
   @keyframes diagspin{to{transform:rotate(360deg)}}
