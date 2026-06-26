@@ -2535,7 +2535,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.416.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.417.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10806,7 +10806,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.416.alpha';
+const APP_VERSION='v2026.02.417.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12628,10 +12628,39 @@ function ctopoSeparateLabels(pad,iters){
   }
   ctopoPlaceBadges();
 }
+function ctopoSeparateEdgeLabels(pad,iters){
+  if(!ctopoCy) return;
+  var es=ctopoCy.edges('.iplbl'); if(es.length<2) return;
+  es.style({'text-margin-x':0,'text-margin-y':0});
+  var B=[];
+  es.forEach(function(e){
+    var bb=e.boundingBox({includeNodes:false,includeEdges:false,includeLabels:true,includeMainLabels:true,includeSourceLabels:false,includeTargetLabels:false,includeOverlays:false});
+    if(!bb||!isFinite(bb.w)||bb.w<=0) return;
+    B.push({e:e,cx:(bb.x1+bb.x2)/2,cy:(bb.y1+bb.y2)/2,hw:bb.w/2,hh:bb.h/2,mx:0,my:0});
+  });
+  for(var it=0; it<iters; it++){
+    var moved=false;
+    for(var i=0;i<B.length;i++){ for(var j=i+1;j<B.length;j++){
+      var a=B[i],b=B[j];
+      var dx=(b.cx+b.mx)-(a.cx+a.mx), dy=(b.cy+b.my)-(a.cy+a.my);
+      var ox=(a.hw+b.hw)-Math.abs(dx)+pad, oy=(a.hh+b.hh)-Math.abs(dy)+pad;
+      if(ox>0 && oy>0){
+        if(ox<oy){ var px=ox/2*((dx<0)?-1:1); a.mx-=px; b.mx+=px; }
+        else { var py=oy/2*((dy<0)?-1:1); a.my-=py; b.my+=py; }
+        moved=true;
+      }
+    }}
+    if(!moved) break;
+  }
+  ctopoCy.startBatch();
+  B.forEach(function(o){ o.e.style({'text-margin-x':Math.round(o.mx),'text-margin-y':Math.round(o.my)}); });
+  ctopoCy.endBatch();
+}
 function ctopoRepulsionSettle(){
   if(!ctopoCy) return;
   var pad=Math.round(12+(ctopoSpread-1)*46);
   ctopoSeparateLabels(pad,20);
+  ctopoSeparateEdgeLabels(8,80);
   ctopoCy.fit(undefined,46);
 }
 function renderCollTopo(){
@@ -12730,7 +12759,7 @@ function renderCollTopo(){
     ctopoAnim=requestAnimationFrame(tick);
   })();
   setTimeout(function(){ if(ctopoCy){ ctopoCy.resize(); if(ctopoCurLayout==='path'){ ctopoCy.fit(undefined,46); } } },70);
-  var _cyTok=ctopoCy; setTimeout(function(){ if(ctopoCy===_cyTok){ ctopoSeparateLabels(12,20); ctopoCy.fit(undefined,46); } },600);
+  var _cyTok=ctopoCy; setTimeout(function(){ if(ctopoCy===_cyTok){ ctopoSeparateLabels(12,20); ctopoSeparateEdgeLabels(8,80); ctopoCy.fit(undefined,46); } },600);
   if(ctopoCurLayout!=='path'){ ctopoLayout(ctopoCurLayout); }
 }
 
