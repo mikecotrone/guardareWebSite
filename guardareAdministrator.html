@@ -520,6 +520,8 @@
   .radar-zoom button{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:#0c1d22cc;color:var(--dim);border-radius:8px;cursor:pointer;font:inherit;font-size:18px;line-height:1;-webkit-appearance:none;appearance:none;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);transition:.15s}
   .radar-zoom button:hover{border-color:var(--teal-deep);color:var(--text);background:#123036e6}
   .radar-zoom button:active{transform:scale(.92)}
+  html[data-theme="light"] .radar-zoom button{background:rgba(9,38,44,.72);color:#bdeee5;border-color:rgba(46,230,200,.42)}
+  html[data-theme="light"] .radar-zoom button:hover{background:rgba(15,54,60,.86);color:#eafff9;border-color:var(--teal)}
   .radar-sweep{transform-origin:150px 150px;animation:sweep 4s linear infinite}
   @keyframes sweep{to{transform:rotate(360deg)}}
   .region-layer{transition:opacity 1.1s ease}
@@ -2528,7 +2530,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.405.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.408.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10799,7 +10801,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.405.alpha';
+const APP_VERSION='v2026.02.408.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11421,7 +11423,7 @@ function renderProfile(){
         </div>
         <div class="gcfg-card">
           <div class="gcfg-chead"><span class="gcfg-cic">${icSliders}</span><div class="gcfg-ctext"><h3>Preferences</h3><p>How the console looks and behaves for you.</p></div></div>
-          <div class="gcfg-grid">${sel('pf_lang','Language',['English','Italiano','Fran&ccedil;ais','Espa&ntilde;ol','Portugu&ecirc;s','日本語'],PU.language)}${sel('pf_tz','Time zone',['(GMT-05:00) Eastern - New York','(GMT-06:00) Central - Chicago','(GMT-08:00) Pacific - Los Angeles','(GMT+00:00) UTC','(GMT+01:00) Central European - Rome'],'(GMT-05:00) Eastern - New York')}${sel('pf_theme','Theme',['Dark','Light','Match system'],'Dark')}${sel('pf_date','Date format',['MMM D, YYYY','DD/MM/YYYY','YYYY-MM-DD'],'MMM D, YYYY')}${sel('pf_land','Default landing page',['Dashboard','Fleet Radar','Alerts','MSP Dashboard'],'Dashboard')}
+          <div class="gcfg-grid">${sel('pf_lang','Language',['English','Italiano','Fran&ccedil;ais','Espa&ntilde;ol','Portugu&ecirc;s','日本語'],PU.language)}${sel('pf_tz','Time zone',['(GMT-05:00) Eastern - New York','(GMT-06:00) Central - Chicago','(GMT-08:00) Pacific - Los Angeles','(GMT+00:00) UTC','(GMT+01:00) Central European - Rome'],'(GMT-05:00) Eastern - New York')}${sel('pf_theme','Theme',['TRON Legacy Theme'],'TRON Legacy Theme')}${sel('pf_date','Date format',['MMM D, YYYY','DD/MM/YYYY','YYYY-MM-DD'],'MMM D, YYYY')}${sel('pf_land','Default landing page',['Dashboard','Fleet Radar','Alerts','MSP Dashboard'],'Dashboard')}
           <div class="gcfg-field span2"><label>Notifications</label><label class="ucfg-toggle" style="margin-top:4px"><input type="checkbox" checked><span class="ucfg-sw-inline"></span> Email me when a critical alert fires</label><label class="ucfg-toggle" style="margin-top:11px"><input type="checkbox" checked><span class="ucfg-sw-inline"></span> Push notifications to my devices</label><label class="ucfg-toggle" style="margin-top:11px"><input type="checkbox"><span class="ucfg-sw-inline"></span> Weekly summary digest</label></div></div>
           ${saveBtns}
         </div>
@@ -13739,6 +13741,7 @@ GeoRadar.prototype._draw=function(t){
   if(!this.resize()) return;
   if(this._needFrame) this._frame();
   var ctx=this.ctx, cx=this.W/2, cy=this.H/2, R=this.view.R, vpR=0.5*Math.min(this.W,this.H);
+  var light=document.documentElement.getAttribute('data-theme')==='light';
   ctx.clearRect(0,0,this.W,this.H);
   // ocean disc
   ctx.save();
@@ -13773,8 +13776,13 @@ GeoRadar.prototype._draw=function(t){
   var rings=[0.34,0.67,1.0];
   for(i=0;i<rings.length;i++){ ctx.beginPath(); ctx.arc(cx,cy,vpR*rings[i],0,7); ctx.strokeStyle='rgba(46,230,200,0.12)'; ctx.lineWidth=1; ctx.setLineDash([2,7]); ctx.stroke(); }
   ctx.setLineDash([]); ctx.restore();
-  // rim glow
-  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.strokeStyle='rgba(46,230,200,0.30)'; ctx.lineWidth=1.3; ctx.shadowColor='rgba(46,230,200,0.5)'; ctx.shadowBlur=12; ctx.stroke(); ctx.restore();
+  // rim glow / outline
+  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,7);
+  if(light){ ctx.strokeStyle='rgba(9,82,73,0.62)'; ctx.lineWidth=1.7; ctx.shadowColor='rgba(10,125,108,0.30)'; ctx.shadowBlur=4; }
+  else { ctx.strokeStyle='rgba(46,230,200,0.30)'; ctx.lineWidth=1.3; ctx.shadowColor='rgba(46,230,200,0.5)'; ctx.shadowBlur=12; }
+  ctx.stroke(); ctx.restore();
+  // tron-orange accent ring
+  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R+1.5,0,7); ctx.strokeStyle='rgba(255,122,24,0.62)'; ctx.lineWidth=1.2; ctx.shadowColor='rgba(255,122,24,0.45)'; ctx.shadowBlur=6; ctx.stroke(); ctx.restore();
   // core
   var cg=ctx.createRadialGradient(cx,cy,0,cx,cy,20); cg.addColorStop(0,'rgba(46,230,200,0.85)'); cg.addColorStop(1,'rgba(46,230,200,0)'); ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,20,0,7); ctx.fill();
   // blips
