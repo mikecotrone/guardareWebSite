@@ -1350,6 +1350,10 @@
   .vc-ep-num{font-size:13px;font-weight:700;color:var(--dim);letter-spacing:.2px}
   .vc-ep-sep{color:var(--mute);font-weight:700}
   .vc-ep-name{font-size:13.5px;font-weight:700;color:var(--text)}
+  .vc-ep-proto{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:5px;border:1px solid var(--line);line-height:1.05;white-space:nowrap;flex:0 0 auto}
+  .vc-ep-proto.rest{color:var(--teal-deep);border-color:var(--teal);background:var(--teal-ghost)}
+  .vc-ep-proto.rpc{color:var(--violet);border-color:var(--violet);background:transparent}
+  .vc-ep-proto.wss{color:var(--amber);border-color:var(--amber);background:transparent}
   .vc-ep-edit{display:inline-flex;align-items:center;color:var(--mute)}
   .vc-ep-edit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
   .vc-folder-head{display:flex;align-items:center;gap:13px;padding:16px 18px;cursor:pointer}
@@ -2618,7 +2622,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.432.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.433.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10888,7 +10892,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.432.alpha';
+const APP_VERSION='v2026.02.433.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11627,11 +11631,12 @@ function vcDemoEndpoints(coll){
 }
 function vcEpRow(e,n){
   var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
+  var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
   var chips=e.routes.map(function(r){return '<span class="vc-chip">'+r+'</span>';}).join('');
   if(e.staleness){ chips+='<span class="vc-chip stale" title="staleness filter: drop clients older than 30 min">stale\u00b730m</span>'; }
   return '<div class="vc-ep" onclick="vcEpOpen(\''+_esc(e.site)+'\')">'+
     '<div class="vc-ep-id">'+
-      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span></div>'+
+      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span><span class=\"vc-ep-proto '+pt[0]+'\">'+pt[1]+'</span></div>'+
       '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
       '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+(e.af&&e.af!=='0'?'auth '+e.af+'s \u00b7 ':'')+'poll '+e.rf+'s</span></div>'+
     '</div>'+
