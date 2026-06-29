@@ -1356,6 +1356,7 @@
   .vc-ep-proto.wss{color:var(--amber);border-color:var(--amber);background:transparent}
   .modal.vc-dlg{width:min(560px,94vw);max-height:88vh;display:flex;flex-direction:column;padding:20px}
   .vc-dlg .tk-head{flex:0 0 auto;margin-bottom:14px}
+  .vc-dlg-eyebrow{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:3px}
   .vc-dlg-x{flex:none;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--mute);display:grid;place-items:center;cursor:pointer;padding:0}
   .vc-dlg-x:hover{color:var(--text);background:var(--bg-2)}
   .vc-dlg-x svg{width:16px;height:16px}
@@ -1379,6 +1380,9 @@
   .vc-rt-add{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;font-size:13px;font-weight:700;color:var(--teal);background:transparent;border:1px dashed var(--teal);border-radius:10px;padding:11px 16px;cursor:pointer;transition:.15s;width:100%}
   .vc-rt-add:hover{background:var(--teal-ghost)}
   .vc-rt-add svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2}
+  .vc-cmd{display:flex;align-items:center;gap:9px}
+  .vc-cmd .tm-input{flex:1 1 auto;min-width:0}
+  .vc-cmd .vc-rt-del{flex:0 0 auto}
   .vc-ep-edit{display:inline-flex;align-items:center;color:var(--mute)}
   .vc-ep-edit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
   .vc-folder-head{display:flex;align-items:center;gap:13px;padding:16px 18px;cursor:pointer}
@@ -2647,7 +2651,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.439.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.444.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10917,7 +10921,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.439.alpha';
+const APP_VERSION='v2026.02.444.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11727,10 +11731,8 @@ function vcRouteEntry(r, defUrl){
     '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(r.id)+'</span><span class="vc-rt-idlbl">route_id · auto</span>'+
       '<button class="vc-rt-del" onclick="vcRemoveRoute(this)" aria-label="Remove route">'+VC_IC_TRASH+'</button></div>'+
     '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(desc)+'" placeholder="Describe what this route pulls"></div></div>'+
-    '<div class="vc-rt-row">'+
-      '<div class="gcfg-field vc-rt-method"><label>Method</label><div class="gcfg-iwrap"><select class="tm-input">'+opt('GET')+opt('POST')+'</select></div></div>'+
-      '<div class="gcfg-field vc-rt-url"><label>Base URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(url)+'" placeholder="https://host"></div></div>'+
-    '</div>'+
+    '<div class="gcfg-field"><label>Method</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px">'+opt('GET')+opt('POST')+'</select></div></div>'+
+    '<div class="gcfg-field"><label>Base URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(url)+'" placeholder="https://host"></div></div>'+
     subField+
     '<div class="gcfg-field"><label>URI</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(uri)+'" placeholder="/api/v1/..."></div></div>'+
   '</div>';
@@ -11738,10 +11740,12 @@ function vcRouteEntry(r, defUrl){
 function vcGenRouteId(){ return String(Math.floor(10000+Math.random()*89999)); }
 function vcAddRoute(btn){ var L=document.getElementById('vcRtList'); if(L){ L.insertAdjacentHTML('beforeend', vcRouteEntry({id:vcGenRouteId(),method:'GET'}, '')); } }
 function vcRemoveRoute(btn){ var c=btn.closest('.vc-rt'); if(c) c.remove(); }
+function vcCmdRow(c){ return '<div class="vc-cmd"><input class="tm-input mono" value="'+_esc(c||'')+'" placeholder="show ..."><button class="vc-rt-del" onclick="vcRemoveCmd(this)" aria-label="Remove command">'+VC_IC_TRASH+'</button></div>'; }
+function vcAddCmd(btn){ var L=document.getElementById('vcCmdList'); if(L){ L.insertAdjacentHTML('beforeend', vcCmdRow('')); } }
+function vcRemoveCmd(btn){ var c=btn.closest('.vc-cmd'); if(c) c.remove(); }
 function vcEpModalEl(){ var m=document.getElementById('vcEpModal'); if(!m){ m=document.createElement('div'); m.className='modal-backdrop'; m.id='vcEpModal'; m.addEventListener('click',function(ev){ if(ev.target===m) closeVcEp(); }); document.body.appendChild(m); } return m; }
 function closeVcEp(){ var m=document.getElementById('vcEpModal'); if(m) m.classList.remove('show'); }
 function vcEpSave(){ toast('Endpoint configuration saved'); closeVcEp(); }
-function vcDlgStaleToggle(cb){ var t=document.getElementById('vcDlgStaleThr'); if(t) t.disabled=!cb.checked; }
 function vcEpOpen(site){
   var coll=cfgMgrColl, all=vcDemoEndpoints(coll), e=null;
   for(var i=0;i<all.length;i++){ if(all[i].site===site){ e=all[i]; break; } }
@@ -11754,18 +11758,34 @@ function vcEpOpen(site){
   var auth;
   if(e.type==='meraki'){
     auth='<div class="gcfg-field"><label>API Key</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxxxxxxxxxx"></div><span class="gcfg-hint">Sent as header X-Cisco-Meraki-API-Key</span></div>';
+  } else if(e.type==='arista'){
+    auth='<div class="gcfg-field"><label>Auth URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="https://'+_esc(e.ip)+'"></div></div>'+'<div class="gcfg-field"><label>Auth URI</label><div class="gcfg-iwrap"><input class="tm-input mono" value="/command-api"></div></div>'+'<div class="gcfg-field"><label>Auth method</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px"><option>POST</option><option>GET</option></select></div></div>'+'<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.user)+'"></div></div>'+'<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>';
   } else {
     auth='<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.user)+'"></div></div>'+
       '<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>'+
       (e.af&&e.af!=='0'?'<div class="gcfg-field"><label>Auth refresh (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.af+'"></div></div>':'');
   }
+  if(e.type==='azure'){ auth+='<div class="gcfg-field"><label>Scope</label><div class="gcfg-iwrap"><input class="tm-input mono" value="https://management.azure.com/.default"></div><span class="gcfg-hint">OAuth2 token scope requested when authenticating to Azure Resource Manager</span></div>'; }
   var defUrl='https://'+e.ip;
   var routes=e.routes.map(function(r){ return vcRouteEntry(r, defUrl); }).join('');
-  var stale='<label class="ucfg-toggle"><input type="checkbox" '+(e.staleness?'checked':'')+' onchange="vcDlgStaleToggle(this)"><span class="ucfg-sw-inline"></span><span>Drop clients older than threshold</span></label>'+
-    '<div class="gcfg-field" style="margin-top:12px"><label>Threshold (seconds)</label><div class="gcfg-iwrap"><input id="vcDlgStaleThr" class="tm-input" type="number" value="1800"'+(e.staleness?'':' disabled')+'></div><span class="gcfg-hint">Clients whose last-seen exceeds this are dropped before normalization</span></div>';
+  var rpc='';
+  if(e.type==='arista'){
+    var cmds=['show version','show ip interface brief'];
+    var cmdRows=cmds.map(vcCmdRow).join('');
+    rpc='<div class="gcfg-subhead">JSON-RPC</div>'+
+      '<div class="gcfg-field"><label>API model type</label><div class="gcfg-iwrap"><input class="tm-input mono" value="json_rpc" readonly></div></div>'+
+      '<div class="gcfg-field"><label>JWT profile</label><div class="gcfg-iwrap"><input class="tm-input" value="" placeholder="(none)"></div></div>'+
+      '<div class="gcfg-field"><label>RPC version</label><div class="gcfg-iwrap"><input class="tm-input mono" value="2.0" style="max-width:120px"></div></div>'+
+      '<div class="gcfg-field"><label>RPC method</label><div class="gcfg-iwrap"><input class="tm-input mono" value="runCmds" style="max-width:220px"></div></div>'+
+      '<div class="gcfg-field"><label>Param · Format</label><div class="gcfg-iwrap"><input class="tm-input mono" value="json" style="max-width:160px"></div></div>'+
+      '<div class="gcfg-field"><label>Param · Timestamps</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:160px"><option>false</option><option>true</option></select></div></div>'+
+      '<div class="gcfg-subhead">Commands</div>'+
+      '<div class="vc-rt-list" id="vcCmdList">'+cmdRows+'</div>'+
+      '<button class="vc-rt-add" onclick="vcAddCmd(this)">'+VC_IC_PLUS+'Add command</button>';
+  }
   var html='<div class="modal modal-form vc-dlg">'+
     '<div class="tk-head"><div class="tk-head-l"><div class="tk-ic">'+ic+'</div>'+
-      '<div><div class="modal-title">'+_esc(e.site)+'</div>'+
+      '<div><div class="vc-dlg-eyebrow">vCollector Endpoint Configuration</div><div class="modal-title">'+_esc(e.site)+'</div>'+
       '<p class="tk-sub">'+lblMap[e.type]+' \u00b7 Endpoint #'+n+' \u00b7 <span class="vc-ep-proto '+pt[0]+'">'+pt[1]+'</span></p></div></div>'+
       '<button class="vc-dlg-x" onclick="closeVcEp()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="vc-dlg-body">'+
@@ -11773,12 +11793,11 @@ function vcEpOpen(site){
       '<div class="gcfg-field"><label>Category / Site</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.site)+'"></div></div>'+
       '<div class="gcfg-field"><label>Host</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.host)+'"></div></div>'+
       '<div class="gcfg-field"><label>Gateway IP</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.ip)+'"></div></div>'+
-      '<div class="gcfg-subhead">Authentication</div>'+auth+
+      '<div class="gcfg-subhead">Authentication</div>'+auth+rpc+
       '<div class="gcfg-subhead">Routes <span class="gcfg-subnote">'+e.routes.length+' '+(e.routes.length===1?'route':'routes')+'</span></div>'+
       '<div class="vc-rt-list" id="vcRtList">'+routes+'</div>'+
       '<button class="vc-rt-add" onclick="vcAddRoute(this)">'+VC_IC_PLUS+'Add route</button>'+
-      '<div class="gcfg-subhead">Staleness filter</div>'+stale+
-      '<div class="gcfg-subhead">Polling</div>'+
+      '<div class="gcfg-subhead">Route Polling Interval</div>'+
       '<div class="gcfg-field"><label>Poll interval (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.rf+'"></div></div>'+
     '</div>'+
     '<div class="modal-acts tk-acts"><button class="btn" onclick="closeVcEp()">Cancel</button><button class="btn primary" onclick="vcEpSave()">Save changes</button></div>'+
