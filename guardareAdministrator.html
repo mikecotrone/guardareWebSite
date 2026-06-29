@@ -1352,6 +1352,15 @@
   .vc-ep-name{font-size:13.5px;font-weight:700;color:var(--text)}
   .vc-ep-edit{display:inline-flex;align-items:center;color:var(--mute)}
   .vc-ep-edit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+  .vc-folder-head{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+  .vc-folder-ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--raise);border:1px solid var(--line);flex:0 0 auto}
+  .vc-folder-ic svg{width:22px;height:22px;stroke:var(--teal);fill:none;stroke-width:2}
+  .vc-folder-txt{flex:1 1 auto;min-width:0}
+  .vc-folder-name{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:var(--text);letter-spacing:.2px}
+  .vc-folder-edit{display:inline-flex;align-items:center;color:var(--mute);cursor:pointer;transition:.15s}
+  .vc-folder-edit:hover{color:var(--teal)}
+  .vc-folder-edit svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+  .vc-folder-sub{font-size:12px;color:var(--mute);margin-top:2px}
   .vc-ep-meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:5px;font-size:11.5px;color:var(--mute)}
   .vc-ep-meta b{color:var(--dim);font-weight:600}
   .vc-chips{display:flex;gap:5px;flex-wrap:wrap;align-items:center;flex:0 0 auto}
@@ -2603,7 +2612,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.429.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.430.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10873,7 +10882,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.429.alpha';
+const APP_VERSION='v2026.02.430.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11609,15 +11618,14 @@ function vcDemoEndpoints(coll){
   eps.push({type:'arista',site:home+'01',host:home+'01-EOS-Leaf01',ip:'10.'+lanA+'.'+(4+ri(58)*4)+'.2',user:'svc-monitor',af:'10',rf:'60',routes:['show-ver','show-int'],staleness:false,status:(seed()<0.5?'online':'warn')});
   return eps;
 }
-function vcEpRow(e,n,name,ic){
+function vcEpRow(e,n){
   var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
   var chips=e.routes.map(function(r){return '<span class="vc-chip">'+r+'</span>';}).join('');
   if(e.staleness){ chips+='<span class="vc-chip stale" title="staleness filter: drop clients older than 30 min">stale\u00b730m</span>'; }
   return '<div class="vc-ep" onclick="vcEpOpen(\''+_esc(e.site)+'\')">'+
-    '<span class="vc-ep-vic">'+ic+'</span>'+
     '<div class="vc-ep-id">'+
-      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">API Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(name)+'</span><span class="vc-ep-edit">'+VC_IC_PENCIL+'</span></div>'+
-      '<div class="vc-ep-top"><span class="vc-ep-site">'+_esc(e.site)+'</span><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
+      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span></div>'+
+      '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
       '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+(e.af&&e.af!=='0'?'auth '+e.af+'s \u00b7 ':'')+'poll '+e.rf+'s</span></div>'+
     '</div>'+
     '<div class="vc-chips">'+chips+'</div>'+
@@ -11625,11 +11633,20 @@ function vcEpRow(e,n,name,ic){
   '</div>';
 }
 function vcApiSection(eps){
-  var meta={net:['UniFi Network App',VC_IC_NET],protect:['UNVR Protect',VC_IC_CAM],access:['UniFi Access',VC_IC_DOOR],meraki:['Cisco Meraki',VC_IC_CLOUD],arista:['Arista EOS',VC_IC_SWITCH]};
-  var order=['net','protect','access','meraki','arista'];
-  var ordered=[]; order.forEach(function(t){ eps.filter(function(e){return e.type===t;}).forEach(function(e){ ordered.push(e); }); });
-  var rows=''; ordered.forEach(function(e,i){ var m=meta[e.type]||['Endpoint',VC_IC_NET]; rows+=vcEpRow(e,i+1,m[0],m[1]); });
-  return '<div class="vc-eplist">'+rows+'</div>';
+  var groups=[['net','UniFi Network App',VC_IC_NET],['protect','UNVR Protect',VC_IC_CAM],['access','UniFi Access',VC_IC_DOOR],['meraki','Cisco Meraki',VC_IC_CLOUD],['arista','Arista EOS',VC_IC_SWITCH]];
+  var out='';
+  groups.forEach(function(grp){
+    var list=eps.filter(function(e){return e.type===grp[0];});
+    if(!list.length){ return; }
+    var rows=''; list.forEach(function(e,i){ rows+=vcEpRow(e,i+1); });
+    out+='<div class="gcfg-card">'+
+      '<div class="vc-folder-head"><span class="vc-folder-ic">'+grp[2]+'</span>'+
+        '<div class="vc-folder-txt"><div class="vc-folder-name">'+grp[1]+'<span class="vc-folder-edit" onclick="vcRenameFolder(\''+_esc(grp[1])+'\')">'+VC_IC_PENCIL+'</span></div>'+
+        '<div class="vc-folder-sub">'+list.length+(list.length===1?' endpoint':' endpoints')+'</div></div>'+
+      '</div>'+
+      '<div class="vc-eplist">'+rows+'</div></div>';
+  });
+  return out;
 }
 function vcStub(title,desc){
   return '<div class="vc-stub">'+VC_IC_LAYERS+'<div class="vc-stub-t">'+title+'</div><div class="vc-stub-d">'+desc+'</div></div>';
@@ -11663,6 +11680,7 @@ function cfgVcollectorForm(coll){
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
 function vcEpOpen(site){ toast('Endpoint editor for '+site+' \u2014 coming in slice 2'); }
 function vcAddEndpoint(){ toast('Endpoint configuration dialog \u2014 coming in slice 2'); }
+function vcRenameFolder(name){ toast('Rename '+name+' \u2014 customizable category name (coming in slice 2)'); }
 
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
