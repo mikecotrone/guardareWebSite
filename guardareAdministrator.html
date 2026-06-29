@@ -2651,7 +2651,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.444.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.445.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10921,7 +10921,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.444.alpha';
+const APP_VERSION='v2026.02.445.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11639,28 +11639,42 @@ var VC_IC_SWITCH='<svg viewBox="0 0 24 24"><rect x="2" y="9" width="20" height="
 var VC_IC_AZURE='<svg viewBox="0 0 24 24"><path d="M6.5 18a4.5 4.5 0 0 1 .8-8.93 5 5 0 0 1 9.4-1.07A3.75 3.75 0 0 1 17.5 18z"/><path d="M12 16.5v-4M10 14l2-2 2 2"/></svg>';
 var VC_IC_PENCIL='<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
 function vcDemoEndpoints(coll){
+  var seed=cfgSeed(coll+':vcname');
+  var ri=function(n){return Math.floor(seed()*n);};
+  var pick=function(a){return a[ri(a.length)];};
+  var nn=function(){return ('0'+(1+ri(40))).slice(-2);};
   var R=function(id,desc,method,uri,extra){ var o={id:id,desc:desc,method:method,uri:uri}; if(extra){ for(var k in extra) o[k]=extra[k]; } return o; };
-  var AZ='/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP';
+  var uSite=pick(['NX','MW','PD','GC','RV','BH','LK'])+nn();
+  var uModel=pick(['UDM-Pro','UDM-SE','UDM-Pro-Max','UDM-Pro-SE']);
+  var uIp='10.'+(10+ri(240))+'.'+(4+ri(50))+'.1';
+  var mSite='MX'+nn();
+  var vm=pick(['GCC-FP','GCC-WEB','GCC-APP','GCC-SQL','GCC-DC','GCC-RDS']);
+  var AZ='/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/'+vm;
   var azx={url:'https://management.azure.com',sub:'d3bffc00-eb61-42b5-a008-20579ebb8325'};
+  var aSite=pick(['MYB','CHI','DAL','ATL','SEA','BOS','DEN','PHX'])+nn();
+  var eos='cEOS'+('0'+(1+ri(12))).slice(-2);
+  var aIp='192.168.'+(1+ri(40))+'.'+(50+ri(150));
   return [
-    {type:'net',site:'NX01',host:'NX01-UDMPro',ip:'10.0.10.1',user:'svc-monitor',af:'10',rf:'58',staleness:false,status:'online',routes:[
+    {type:'net',site:uSite,host:uSite+'-'+uModel,ip:uIp,user:'svc-monitor',af:'10',rf:'58',staleness:false,status:'online',routes:[
       R('11111','Core device details','GET','/proxy/network/api/s/default/stat/device'),
       R('2222','Active clients with traffic and UniFi devices (v2 API)','GET','/proxy/network/v2/api/site/default/clients/active?includeTrafficUsage=true&includeUnifiDevices=true')
     ]},
-    {type:'meraki',site:'MX01',host:'Meraki Dashboard',ip:'api.meraki.com',user:'API key',af:'0',rf:'120',staleness:false,status:'online',routes:[
+    {type:'meraki',site:mSite,host:mSite+'-Meraki-Org',ip:'api.meraki.com',user:'API key',af:'0',rf:'120',staleness:false,status:'online',routes:[
       R('60001','Get all organization devices','GET','/api/v1/organizations/578149602163689538/devices',{url:'https://api.meraki.com'}),
       R('60002','Get device statuses','GET','/api/v1/organizations/578149602163689538/devices/statuses',{url:'https://api.meraki.com'})
     ]},
-    {type:'azure',site:'GCC-FP',host:'GCC-FP Virtual Machine',ip:'management.azure.com',user:'azure-sp',af:'0',rf:'60',staleness:false,status:'online',routes:[
-      R('11111','GCC-FP: Get Operational Status for this Virtual Server','GET',AZ+'/instanceView?api-version=2024-07-01',azx),
-      R('111112','GCC-FP: Get vCPU Utilization','GET',AZ+'/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01',azx),
-      R('111113','GCC-FP: Get VM Instance Properties (size, OS, region, disk)','GET',AZ+'?api-version=2024-07-01',azx)
+    {type:'azure',site:vm,host:vm+' Virtual Machine',ip:'management.azure.com',user:'azure-sp',af:'0',rf:'60',staleness:false,status:'online',routes:[
+      R('11111',vm+': Get Operational Status for this Virtual Server','GET',AZ+'/instanceView?api-version=2024-07-01',azx),
+      R('111112',vm+': Get vCPU Utilization','GET',AZ+'/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01',azx),
+      R('111113',vm+': Get VM Instance Properties (size, OS, region, disk)','GET',AZ+'?api-version=2024-07-01',azx)
     ]},
-    {type:'arista',site:'MYB01',host:'cEOS01',ip:'192.168.1.75',user:'svc-monitor',af:'0',rf:'60',staleness:false,status:'online',routes:[
-      R('30001','Arista EOS Command API','POST','/command-api',{url:'https://192.168.1.75'})
+    {type:'arista',site:aSite,host:eos,ip:aIp,user:'svc-monitor',af:'0',rf:'60',staleness:false,status:'online',routes:[
+      R('30001','Arista EOS Command API','POST','/command-api',{url:'https://'+aIp})
     ]}
   ];
 }
+
+
 function vcEpRow(e,n){
   var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
   var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
