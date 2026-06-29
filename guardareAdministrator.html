@@ -1320,12 +1320,12 @@
   .gcfg-spin{width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sweep .7s linear infinite;display:inline-block}
   .gcfg-actions{display:flex;justify-content:flex-end;gap:10px}
   /* vCollector config (control-based) */
-  .vc-tabs{display:flex;gap:2px;margin:0 0 18px;border-bottom:1px solid var(--line)}
-  .vc-tab{font-family:inherit;font-size:13px;font-weight:600;color:var(--dim);background:none;border:none;border-bottom:2px solid transparent;padding:9px 15px;margin-bottom:-1px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.15s}
-  .vc-tab:hover{color:var(--text)}
-  .vc-tab.on{color:var(--teal);border-bottom-color:var(--teal)}
-  .vc-tabn{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:18px;padding:0 5px;border-radius:9px;background:var(--line);color:var(--text);font-size:11px;font-weight:700;line-height:1}
-  .vc-tab.on .vc-tabn{background:var(--teal);color:#04201b}
+  .vc-tabs{display:inline-flex;gap:3px;margin:2px 0 22px;padding:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px}
+  .vc-tab{font-family:inherit;font-size:14px;font-weight:700;color:var(--dim);background:none;border:none;border-radius:9px;padding:10px 22px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;letter-spacing:.4px}
+  .vc-tab:hover{color:var(--text);background:var(--raise)}
+  .vc-tab.on,.vc-tab.on:hover{color:#04201b;background:var(--teal)}
+  .vc-tabn{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:19px;padding:0 6px;border-radius:9px;background:var(--line);color:var(--text);font-size:11px;font-weight:700;line-height:1}
+  .vc-tab.on .vc-tabn{background:rgba(4,32,27,.2);color:#04201b}
   .vc-count{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:20px;padding:0 7px;border-radius:10px;background:var(--line);color:var(--dim);font-size:11px;font-weight:700;line-height:1}
   .vc-intro{display:flex;gap:9px;align-items:flex-start;padding:11px 14px;margin-bottom:16px;border:1px solid var(--line);border-radius:11px;background:rgba(43,208,198,.05);color:var(--dim);font-size:13px;line-height:1.55}
   .vc-intro>svg{width:16px;height:16px;flex:0 0 auto;stroke:var(--teal);fill:none;stroke-width:2;margin-top:2px}
@@ -2577,7 +2577,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.423.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.424.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10257,7 +10257,7 @@ const CFG_CATS=[
   {cat:'ubuntu',name:'Ubuntu OS',dot:'#E95420',scope:'On-box',blurb:'Host-level tuning applied by the provisioning script — file-descriptor limits, kernel send buffers, per-service systemd safety nets and base OS settings.'},
   {cat:'databases',name:'Databases',dot:'var(--violet)',scope:'On-box',blurb:'Local collector MariaDB buffer and queue settings — plus the cloud database connection used by Guardare Core.'},
   {cat:'gitops',name:'GitOps Repos',dot:'#8B95A7',scope:'Per-collector',blurb:'Per-microservice GitHub repository settings — which config file each service pulls, its repo path, poll interval and the Docker secret that holds its access token. Tokens are never written to config files.'},
-  {cat:'vcollector',name:'vCollector',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
+  {cat:'vcollector',name:'vCollector Endpoint Configuration',dot:'var(--teal)',scope:'Per-collector',blurb:'Polling targets, SNMP enumeration maps and API model profiles that drive how this collector ingests device data.'},
   {cat:'normalizer',name:'Normalizer',dot:'var(--green)',scope:'Per-collector',blurb:'Per-manufacturer manifests that map raw device data into the unified Guardare schema — one profile per manufacturer this collector polls.'},
   {cat:'events',name:'Events Director',dot:'var(--amber)',scope:'Per-collector',blurb:'Rule sets that turn normalized telemetry into alerts and route them to the right notification channels.'},
   {cat:'hudusync',name:'HuduSync',dot:'var(--violet)',scope:'Per-collector',blurb:'Layout mappings and asset lifecycle policies that sync discovered devices into Hudu documentation.'}
@@ -10847,7 +10847,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.423.alpha';
+const APP_VERSION='v2026.02.424.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11553,7 +11553,6 @@ function cfgGitOpsForm(coll){
 
 /* ===== vCollector config (control-based) — slice 1: API endpoints ===== */
 var vcSubTab='api';
-var VC_IC_INFO='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>';
 var VC_IC_NET='<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="6" rx="1.6"/><rect x="4" y="14" width="16" height="6" rx="1.6"/><path d="M8 7h.01M8 17h.01"/></svg>';
 var VC_IC_CAM='<svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="11" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/></svg>';
 var VC_IC_DOOR='<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6z"/><path d="M4 21h16M12.5 12h.01"/></svg>';
@@ -11624,9 +11623,8 @@ function cfgVcollectorForm(coll){
   var eps=vcDemoEndpoints(coll);
   var tabBtn=function(k,lbl,nn){ var c=(nn!=null?'<span class="vc-tabn">'+nn+'</span>':''); return '<button class="vc-tab'+(vcSubTab===k?' on':'')+'" onclick="vcSetTab(\''+k+'\')">'+lbl+c+'</button>'; };
   var strip='<div class="vc-tabs">'+tabBtn('api','API',eps.length)+tabBtn('snmp','SNMP',null)+tabBtn('cli','CLI',null)+'</div>';
-  var intro='<div class="vc-intro">'+VC_IC_INFO+'<div>The polling targets for this collector are defined here as controls instead of raw YAML. Pick an endpoint <b>type</b> and its routes come pre-wired \u2014 you fill in only the site, gateway and credentials. Changes write back to <b>_vCollectorCfg.yaml</b> and push via GitOps.</div></div>';
   var body;
-  if(vcSubTab==='api'){ body=intro+vcApiSection(eps); }
+  if(vcSubTab==='api'){ body=vcApiSection(eps); }
   else if(vcSubTab==='snmp'){ body=vcStub('SNMP enumeration maps','OID tables with the value-format and enum interpretation helpers from your header \u2014 built next, right after the endpoint editor.'); }
   else { body=vcStub('CLI tracers','Latency and reachability probes with bulk edit across sites \u2014 built next.'); }
   return '<div class="gcfg">'+strip+body+'</div>';
