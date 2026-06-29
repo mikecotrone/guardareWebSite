@@ -2647,7 +2647,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.437.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.439.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10917,7 +10917,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.437.alpha';
+const APP_VERSION='v2026.02.439.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11632,45 +11632,45 @@ var VC_IC_LAYERS='<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l
 var VC_IC_PLUS='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
 var VC_IC_CLOUD='<svg viewBox="0 0 24 24"><path d="M6.5 18a4.5 4.5 0 0 1 .8-8.93 5 5 0 0 1 9.4-1.07A3.75 3.75 0 0 1 17.5 18z"/></svg>';
 var VC_IC_SWITCH='<svg viewBox="0 0 24 24"><rect x="2" y="9" width="20" height="9" rx="2"/><path d="M6 13h.01M10 13h.01M14 13h4M7 5v4M17 5v4"/></svg>';
+var VC_IC_AZURE='<svg viewBox="0 0 24 24"><path d="M6.5 18a4.5 4.5 0 0 1 .8-8.93 5 5 0 0 1 9.4-1.07A3.75 3.75 0 0 1 17.5 18z"/><path d="M12 16.5v-4M10 14l2-2 2 2"/></svg>';
 var VC_IC_PENCIL='<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
 function vcDemoEndpoints(coll){
-  var seed=cfgSeed(coll+':vcapi');
-  var ri=function(n){return Math.floor(seed()*n);};
-  var pick=function(a){return a[ri(a.length)];};
-  var pad2=function(n){return ('0'+n).slice(-2);};
-  var ST=['NX','MW','PD','GC','RV','BH','LK'];
-  var CITY=['Eastgate','Northfield','Lakeside','Cedar Park','Westbrook','Fair Oaks','Stonecreek','Briarwood','Maple Grove','Highpoint','Brookline','Glenwood','Riverton','Oakhurst'];
-  var home=pick(ST);
-  var lanA=20+ri(170);
-  var gw=function(){return '10.'+lanA+'.'+(4+ri(58)*4)+'.1';};
-  var av=function(){return '10.'+(220+ri(20))+'.'+(4+ri(58)*4)+'.'+(10+ri(80));};
-  var eps=[];
-  eps.push({type:'net',site:home+'01',host:home+'01-'+pick(CITY)+'-Gateway',ip:gw(),user:'svc-monitor',af:'10',rf:'60',routes:['11111','55555','44444'],staleness:true,status:'online'});
-  var n=4+ri(4);
-  for(var i=0;i<n;i++){ var sc=pick(ST)+pad2(2+i); eps.push({type:'net',site:sc,host:sc+'-'+pick(CITY)+'-Gateway',ip:gw(),user:'svc-monitor',af:'10',rf:'58',routes:['11111','55555','44444'],staleness:false,status:(seed()<0.16?'warn':'online')}); }
-  eps.push({type:'protect',site:home+'01',host:home+'01-UNVR01',ip:av(),user:'svc-monitor',af:'10',rf:'30',routes:['20001'],staleness:false,status:'online'});
-  eps.push({type:'access',site:home+'01',host:home+'01-UNVR01',ip:av(),user:'svc-monitor',af:'10',rf:'45',routes:['70001'],staleness:false,status:(seed()<0.5?'online':'warn')});
-  eps.push({type:'meraki',site:home+'01',host:home+'01-Meraki',ip:'api.meraki.com',user:'API key',af:'0',rf:'120',routes:['60001','60002'],staleness:false,status:'online'});
-  eps.push({type:'arista',site:home+'01',host:home+'01-EOS-Leaf01',ip:'10.'+lanA+'.'+(4+ri(58)*4)+'.2',user:'svc-monitor',af:'10',rf:'60',routes:['show-ver','show-int'],staleness:false,status:(seed()<0.5?'online':'warn')});
-  return eps;
+  var R=function(id,desc,method,uri,extra){ var o={id:id,desc:desc,method:method,uri:uri}; if(extra){ for(var k in extra) o[k]=extra[k]; } return o; };
+  var AZ='/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/GCC-FP';
+  var azx={url:'https://management.azure.com',sub:'d3bffc00-eb61-42b5-a008-20579ebb8325'};
+  return [
+    {type:'net',site:'NX01',host:'NX01-UDMPro',ip:'10.0.10.1',user:'svc-monitor',af:'10',rf:'58',staleness:false,status:'online',routes:[
+      R('11111','Core device details','GET','/proxy/network/api/s/default/stat/device'),
+      R('2222','Active clients with traffic and UniFi devices (v2 API)','GET','/proxy/network/v2/api/site/default/clients/active?includeTrafficUsage=true&includeUnifiDevices=true')
+    ]},
+    {type:'meraki',site:'MX01',host:'Meraki Dashboard',ip:'api.meraki.com',user:'API key',af:'0',rf:'120',staleness:false,status:'online',routes:[
+      R('60001','Get all organization devices','GET','/api/v1/organizations/578149602163689538/devices',{url:'https://api.meraki.com'}),
+      R('60002','Get device statuses','GET','/api/v1/organizations/578149602163689538/devices/statuses',{url:'https://api.meraki.com'})
+    ]},
+    {type:'azure',site:'GCC-FP',host:'GCC-FP Virtual Machine',ip:'management.azure.com',user:'azure-sp',af:'0',rf:'60',staleness:false,status:'online',routes:[
+      R('11111','GCC-FP: Get Operational Status for this Virtual Server','GET',AZ+'/instanceView?api-version=2024-07-01',azx),
+      R('111112','GCC-FP: Get vCPU Utilization','GET',AZ+'/providers/microsoft.insights/metrics?metricnames=Percentage%20CPU&aggregation=Average&timespan=PT5M&interval=PT1M&api-version=2021-05-01',azx),
+      R('111113','GCC-FP: Get VM Instance Properties (size, OS, region, disk)','GET',AZ+'?api-version=2024-07-01',azx)
+    ]},
+    {type:'arista',site:'MYB01',host:'cEOS01',ip:'192.168.1.75',user:'svc-monitor',af:'0',rf:'60',staleness:false,status:'online',routes:[
+      R('30001','Arista EOS Command API','POST','/command-api',{url:'https://192.168.1.75'})
+    ]}
+  ];
 }
 function vcEpRow(e,n){
   var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
   var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
-  var chips=e.routes.map(function(r){return '<span class="vc-chip">'+r+'</span>';}).join('');
-  if(e.staleness){ chips+='<span class="vc-chip stale" title="staleness filter: drop clients older than 30 min">stale\u00b730m</span>'; }
   return '<div class="vc-ep" onclick="vcEpOpen(\''+_esc(e.site)+'\')">'+
     '<div class="vc-ep-id">'+
       '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span><span class="vc-ep-proto '+pt[0]+'">'+pt[1]+'</span></div>'+
       '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
       '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+(e.af&&e.af!=='0'?'auth '+e.af+'s \u00b7 ':'')+'poll '+e.rf+'s</span></div>'+
     '</div>'+
-    '<div class="vc-chips">'+chips+'</div>'+
     '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
   '</div>';
 }
 function vcApiSection(eps){
-  var groups=[['net','UniFi Network App',VC_IC_NET],['protect','UNVR Protect',VC_IC_CAM],['access','UniFi Access',VC_IC_DOOR],['meraki','Cisco Meraki',VC_IC_CLOUD],['arista','Arista EOS',VC_IC_SWITCH]];
+  var groups=[['net','UniFi Network App',VC_IC_NET],['protect','UNVR Protect',VC_IC_CAM],['access','UniFi Access',VC_IC_DOOR],['meraki','Cisco Meraki',VC_IC_CLOUD],['azure','Microsoft Azure',VC_IC_AZURE],['arista','Arista EOS',VC_IC_SWITCH]];
   var out='';
   groups.forEach(function(grp){
     var list=eps.filter(function(e){return e.type===grp[0];});
@@ -11718,21 +11718,25 @@ function cfgVcollectorForm(coll){
 }
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
 var VC_IC_TRASH='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>';
-function vcRouteEntry(rid,desc,method,url,uri){
+function vcRouteEntry(r, defUrl){
+  if(typeof r==='string'){ r={id:r}; }
+  var method=r.method||'GET', url=(r.url||defUrl||''), uri=r.uri||'', desc=r.desc||'', sub=r.sub||'';
   var opt=function(m){ return '<option'+(m===method?' selected':'')+'>'+m+'</option>'; };
+  var subField=sub?'<div class="gcfg-field"><label>Subscription ID</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(sub)+'"></div></div>':'';
   return '<div class="vc-rt">'+
-    '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(rid)+'</span><span class="vc-rt-idlbl">route_id · auto</span>'+
+    '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(r.id)+'</span><span class="vc-rt-idlbl">route_id · auto</span>'+
       '<button class="vc-rt-del" onclick="vcRemoveRoute(this)" aria-label="Remove route">'+VC_IC_TRASH+'</button></div>'+
     '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(desc)+'" placeholder="Describe what this route pulls"></div></div>'+
     '<div class="vc-rt-row">'+
       '<div class="gcfg-field vc-rt-method"><label>Method</label><div class="gcfg-iwrap"><select class="tm-input">'+opt('GET')+opt('POST')+'</select></div></div>'+
       '<div class="gcfg-field vc-rt-url"><label>Base URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(url)+'" placeholder="https://host"></div></div>'+
     '</div>'+
+    subField+
     '<div class="gcfg-field"><label>URI</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(uri)+'" placeholder="/api/v1/..."></div></div>'+
   '</div>';
 }
 function vcGenRouteId(){ return String(Math.floor(10000+Math.random()*89999)); }
-function vcAddRoute(btn){ var L=document.getElementById('vcRtList'); if(L){ L.insertAdjacentHTML('beforeend', vcRouteEntry(vcGenRouteId(),'','GET','','')); } }
+function vcAddRoute(btn){ var L=document.getElementById('vcRtList'); if(L){ L.insertAdjacentHTML('beforeend', vcRouteEntry({id:vcGenRouteId(),method:'GET'}, '')); } }
 function vcRemoveRoute(btn){ var c=btn.closest('.vc-rt'); if(c) c.remove(); }
 function vcEpModalEl(){ var m=document.getElementById('vcEpModal'); if(!m){ m=document.createElement('div'); m.className='modal-backdrop'; m.id='vcEpModal'; m.addEventListener('click',function(ev){ if(ev.target===m) closeVcEp(); }); document.body.appendChild(m); } return m; }
 function closeVcEp(){ var m=document.getElementById('vcEpModal'); if(m) m.classList.remove('show'); }
@@ -11742,8 +11746,8 @@ function vcEpOpen(site){
   var coll=cfgMgrColl, all=vcDemoEndpoints(coll), e=null;
   for(var i=0;i<all.length;i++){ if(all[i].site===site){ e=all[i]; break; } }
   if(!e){ return; }
-  var icMap={net:VC_IC_NET,protect:VC_IC_CAM,access:VC_IC_DOOR,meraki:VC_IC_CLOUD,arista:VC_IC_SWITCH};
-  var lblMap={net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access',meraki:'Cisco Meraki',arista:'Arista EOS'};
+  var icMap={net:VC_IC_NET,protect:VC_IC_CAM,access:VC_IC_DOOR,meraki:VC_IC_CLOUD,azure:VC_IC_AZURE,arista:VC_IC_SWITCH};
+  var lblMap={net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access',meraki:'Cisco Meraki',azure:'Microsoft Azure',arista:'Arista EOS'};
   var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
   var grp=[]; for(var j=0;j<all.length;j++){ if(all[j].type===e.type) grp.push(all[j]); }
   var n=grp.indexOf(e)+1, ic=icMap[e.type]||VC_IC_API;
@@ -11755,9 +11759,8 @@ function vcEpOpen(site){
       '<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>'+
       (e.af&&e.af!=='0'?'<div class="gcfg-field"><label>Auth refresh (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.af+'"></div></div>':'');
   }
-  var RT_SEED={'60001':{desc:'Get all organization devices',uri:'/api/v1/organizations/578149602163689538/devices'},'60002':{desc:'Get organization device statuses',uri:'/api/v1/organizations/578149602163689538/devices/statuses'}};
-  var dm=(e.type==='arista'?'POST':'GET'), defUrl='https://'+e.ip;
-  var routes=e.routes.map(function(r){ var sd=RT_SEED[r]||{}; return vcRouteEntry(r, sd.desc||'', sd.method||dm, sd.url||defUrl, sd.uri||''); }).join('');
+  var defUrl='https://'+e.ip;
+  var routes=e.routes.map(function(r){ return vcRouteEntry(r, defUrl); }).join('');
   var stale='<label class="ucfg-toggle"><input type="checkbox" '+(e.staleness?'checked':'')+' onchange="vcDlgStaleToggle(this)"><span class="ucfg-sw-inline"></span><span>Drop clients older than threshold</span></label>'+
     '<div class="gcfg-field" style="margin-top:12px"><label>Threshold (seconds)</label><div class="gcfg-iwrap"><input id="vcDlgStaleThr" class="tm-input" type="number" value="1800"'+(e.staleness?'':' disabled')+'></div><span class="gcfg-hint">Clients whose last-seen exceeds this are dropped before normalization</span></div>';
   var html='<div class="modal modal-form vc-dlg">'+
