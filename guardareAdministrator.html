@@ -1354,6 +1354,19 @@
   .vc-ep-proto.rest{color:var(--teal-deep);border-color:var(--teal);background:var(--teal-ghost)}
   .vc-ep-proto.rpc{color:var(--violet);border-color:var(--violet);background:transparent}
   .vc-ep-proto.wss{color:var(--amber);border-color:var(--amber);background:transparent}
+  .modal.vc-dlg{width:min(560px,94vw);max-height:88vh;display:flex;flex-direction:column;padding:20px}
+  .vc-dlg .tk-head{flex:0 0 auto;margin-bottom:14px}
+  .vc-dlg-x{flex:none;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--mute);display:grid;place-items:center;cursor:pointer;padding:0}
+  .vc-dlg-x:hover{color:var(--text);background:var(--bg-2)}
+  .vc-dlg-x svg{width:16px;height:16px}
+  .vc-dlg-body{overflow:auto;flex:1 1 auto;margin:0 -2px;padding:0 2px 2px}
+  .vc-dlg .modal-acts{flex:0 0 auto;margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
+  .vc-dlg .modal-acts .btn{flex:0 0 auto}
+  .vc-dlg-routes{display:flex;flex-direction:column;gap:8px;margin-bottom:2px}
+  .vc-dlg-route{padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg-2)}
+  .vc-dlg-route-id{font-size:13px;font-weight:700;color:var(--text)}
+  .vc-dlg-route-meta{font-size:11.5px;color:var(--mute)}
+  .vc-dlg-route .ucfg-sw-inline{margin-left:auto}
   .vc-ep-edit{display:inline-flex;align-items:center;color:var(--mute)}
   .vc-ep-edit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
   .vc-folder-head{display:flex;align-items:center;gap:13px;padding:16px 18px;cursor:pointer}
@@ -2622,7 +2635,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.433.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.434.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10892,7 +10905,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.433.alpha';
+const APP_VERSION='v2026.02.434.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11636,7 +11649,7 @@ function vcEpRow(e,n){
   if(e.staleness){ chips+='<span class="vc-chip stale" title="staleness filter: drop clients older than 30 min">stale\u00b730m</span>'; }
   return '<div class="vc-ep" onclick="vcEpOpen(\''+_esc(e.site)+'\')">'+
     '<div class="vc-ep-id">'+
-      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span><span class=\"vc-ep-proto '+pt[0]+'\">'+pt[1]+'</span></div>'+
+      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span><span class="vc-ep-proto '+pt[0]+'">'+pt[1]+'</span></div>'+
       '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
       '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+(e.af&&e.af!=='0'?'auth '+e.af+'s \u00b7 ':'')+'poll '+e.rf+'s</span></div>'+
     '</div>'+
@@ -11692,7 +11705,51 @@ function cfgVcollectorForm(coll){
   return '<div class="gcfg">'+tabrow+body+'</div>';
 }
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
-function vcEpOpen(site){ toast('Endpoint editor for '+site+' \u2014 coming in slice 2'); }
+function vcEpModalEl(){ var m=document.getElementById('vcEpModal'); if(!m){ m=document.createElement('div'); m.className='modal-backdrop'; m.id='vcEpModal'; m.addEventListener('click',function(ev){ if(ev.target===m) closeVcEp(); }); document.body.appendChild(m); } return m; }
+function closeVcEp(){ var m=document.getElementById('vcEpModal'); if(m) m.classList.remove('show'); }
+function vcEpSave(){ toast('Endpoint configuration saved'); closeVcEp(); }
+function vcDlgStaleToggle(cb){ var t=document.getElementById('vcDlgStaleThr'); if(t) t.disabled=!cb.checked; }
+function vcEpOpen(site){
+  var coll=cfgMgrColl, all=vcDemoEndpoints(coll), e=null;
+  for(var i=0;i<all.length;i++){ if(all[i].site===site){ e=all[i]; break; } }
+  if(!e){ return; }
+  var icMap={net:VC_IC_NET,protect:VC_IC_CAM,access:VC_IC_DOOR,meraki:VC_IC_CLOUD,arista:VC_IC_SWITCH};
+  var lblMap={net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access',meraki:'Cisco Meraki',arista:'Arista EOS'};
+  var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
+  var grp=[]; for(var j=0;j<all.length;j++){ if(all[j].type===e.type) grp.push(all[j]); }
+  var n=grp.indexOf(e)+1, ic=icMap[e.type]||VC_IC_API;
+  var auth;
+  if(e.type==='meraki'){
+    auth='<div class="gcfg-field"><label>API Key</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxxxxxxxxxx"></div><span class="gcfg-hint">Sent as header X-Cisco-Meraki-API-Key</span></div>';
+  } else {
+    auth='<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.user)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>'+
+      (e.af&&e.af!=='0'?'<div class="gcfg-field"><label>Auth refresh (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.af+'"></div></div>':'');
+  }
+  var routes=e.routes.map(function(r){ return '<label class="ucfg-toggle vc-dlg-route"><span class="vc-dlg-route-id mono">'+_esc(r)+'</span><span class="vc-dlg-route-meta">inherited route</span><input type="checkbox" checked><span class="ucfg-sw-inline"></span></label>'; }).join('');
+  var stale='<label class="ucfg-toggle"><input type="checkbox" '+(e.staleness?'checked':'')+' onchange="vcDlgStaleToggle(this)"><span class="ucfg-sw-inline"></span><span>Drop clients older than threshold</span></label>'+
+    '<div class="gcfg-field" style="margin-top:12px"><label>Threshold (seconds)</label><div class="gcfg-iwrap"><input id="vcDlgStaleThr" class="tm-input" type="number" value="1800"'+(e.staleness?'':' disabled')+'></div><span class="gcfg-hint">Clients whose last-seen exceeds this are dropped before normalization</span></div>';
+  var html='<div class="modal modal-form vc-dlg">'+
+    '<div class="tk-head"><div class="tk-head-l"><div class="tk-ic">'+ic+'</div>'+
+      '<div><div class="modal-title">'+_esc(e.site)+'</div>'+
+      '<p class="tk-sub">'+lblMap[e.type]+' \u00b7 Endpoint #'+n+' \u00b7 <span class="vc-ep-proto '+pt[0]+'">'+pt[1]+'</span></p></div></div>'+
+      '<button class="vc-dlg-x" onclick="closeVcEp()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
+    '<div class="vc-dlg-body">'+
+      '<div class="gcfg-subhead">Identity</div>'+
+      '<div class="gcfg-field"><label>Category / Site</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.site)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Host</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.host)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Gateway IP</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.ip)+'"></div></div>'+
+      '<div class="gcfg-subhead">Authentication</div>'+auth+
+      '<div class="gcfg-subhead">Routes <span class="gcfg-subnote">'+e.routes.length+' inherited</span></div>'+
+      '<div class="vc-dlg-routes">'+routes+'</div>'+
+      '<div class="gcfg-subhead">Staleness filter</div>'+stale+
+      '<div class="gcfg-subhead">Polling</div>'+
+      '<div class="gcfg-field"><label>Poll interval (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.rf+'"></div></div>'+
+    '</div>'+
+    '<div class="modal-acts tk-acts"><button class="btn" onclick="closeVcEp()">Cancel</button><button class="btn primary" onclick="vcEpSave()">Save changes</button></div>'+
+  '</div>';
+  var m=vcEpModalEl(); m.innerHTML=html; m.classList.remove('show'); void m.offsetWidth; m.classList.add('show');
+}
 function vcAddEndpoint(){ toast('Endpoint configuration dialog \u2014 coming in slice 2'); }
 function vcRenameFolder(name){ toast('Rename '+name+' \u2014 customizable category name (coming in slice 2)'); }
 function vcToggleFolder(el,type){ var c=el.closest('.vc-folder'); if(!c) return; var collapsed=c.classList.toggle('collapsed'); vcFolderOpen[type]=!collapsed; }
