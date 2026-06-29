@@ -1319,6 +1319,47 @@
   .gcfg-addr-loading{display:flex;align-items:center;gap:8px}
   .gcfg-spin{width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sweep .7s linear infinite;display:inline-block}
   .gcfg-actions{display:flex;justify-content:flex-end;gap:10px}
+  /* vCollector config (control-based) */
+  .vc-tabs{display:flex;gap:2px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .vc-tab{font-family:inherit;font-size:13px;font-weight:600;color:var(--dim);background:none;border:none;border-bottom:2px solid transparent;padding:9px 15px;margin-bottom:-1px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.15s}
+  .vc-tab:hover{color:var(--text)}
+  .vc-tab.on{color:var(--teal);border-bottom-color:var(--teal)}
+  .vc-tabn{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:18px;padding:0 5px;border-radius:9px;background:var(--line);color:var(--text);font-size:11px;font-weight:700;line-height:1}
+  .vc-tab.on .vc-tabn{background:var(--teal);color:#04201b}
+  .vc-count{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:20px;padding:0 7px;border-radius:10px;background:var(--line);color:var(--dim);font-size:11px;font-weight:700;line-height:1}
+  .vc-intro{display:flex;gap:9px;align-items:flex-start;padding:11px 14px;margin-bottom:16px;border:1px solid var(--line);border-radius:11px;background:rgba(43,208,198,.05);color:var(--dim);font-size:13px;line-height:1.55}
+  .vc-intro>svg{width:16px;height:16px;flex:0 0 auto;stroke:var(--teal);fill:none;stroke-width:2;margin-top:2px}
+  .vc-intro b{color:var(--text);font-weight:600}
+  .vc-eplist{display:flex;flex-direction:column;gap:9px}
+  .vc-ep{display:flex;align-items:center;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--panel);cursor:pointer;transition:.15s}
+  .vc-ep:hover{border-color:rgba(43,208,198,.5);background:var(--raise)}
+  .vc-ep-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+  .vc-ep-id{flex:1 1 auto;min-width:0}
+  .vc-ep-top{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .vc-ep-site{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.3px}
+  .vc-ep-host{font-size:12.5px;color:var(--dim)}
+  .vc-ep-meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:5px;font-size:11.5px;color:var(--mute)}
+  .vc-ep-meta b{color:var(--dim);font-weight:600}
+  .vc-chips{display:flex;gap:5px;flex-wrap:wrap;align-items:center;flex:0 0 auto}
+  .vc-chip{font-size:10.5px;font-weight:600;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:2px 6px;line-height:1.5}
+  .vc-chip.stale{color:var(--amber);border-color:rgba(246,181,63,.45);background:rgba(246,181,63,.09)}
+  .vc-ep-cta{flex:0 0 auto;color:var(--mute);display:flex}
+  .vc-ep-cta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+  .vc-add{margin-top:20px}
+  .vc-grouphint{font-size:12px;color:var(--mute);margin:-2px 0 12px;line-height:1.5}
+  .vc-tplrow{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+  .vc-tpl{text-align:left;font-family:inherit;border:1px dashed var(--line);border-radius:12px;background:rgba(43,208,198,.03);padding:14px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:7px}
+  .vc-tpl:hover{border-color:var(--teal);background:rgba(43,208,198,.08)}
+  .vc-tpl-ic{width:31px;height:31px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--raise);border:1px solid var(--line)}
+  .vc-tpl-ic svg{width:17px;height:17px;stroke:var(--teal);fill:none;stroke-width:2}
+  .vc-tpl-n{font-size:13px;font-weight:700;color:var(--text)}
+  .vc-tpl-d{font-size:11.5px;color:var(--mute);line-height:1.45;flex:1 1 auto}
+  .vc-tpl-r{font-size:10.5px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--dim)}
+  .vc-stub{text-align:center;padding:48px 20px;border:1px dashed var(--line);border-radius:13px;color:var(--mute)}
+  .vc-stub>svg{width:30px;height:30px;stroke:var(--mute);fill:none;stroke-width:1.6;margin-bottom:10px;display:inline-block}
+  .vc-stub-t{font-size:14px;font-weight:600;color:var(--dim);margin-bottom:4px}
+  .vc-stub-d{font-size:12.5px;line-height:1.5}
+  @media(max-width:760px){.vc-tplrow{grid-template-columns:1fr}.vc-ep{flex-wrap:wrap}.vc-chips{order:3;width:100%}.vc-ep-cta{display:none}}
   .gcfg-placeholder{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;padding:36px 18px}
   .gcfg-ph-ic{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--bg-2);border:1px dashed var(--line)}
   .gcfg-ph-ic svg{width:25px;height:25px;stroke:var(--mute);fill:none;stroke-width:1.6}
@@ -2471,6 +2512,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <button class="nav-subitem" data-sub="ubuntu" onclick="goCfgSub('ubuntu')"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
         <button class="nav-subitem" data-sub="databases" onclick="goCfgSub('databases')"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
         <button class="nav-subitem" data-sub="gitops" onclick="goCfgSub('gitops')"><span class="sub-lead"></span><span data-i18n="GitOps Repos">GitOps Repos</span></button>
+        <button class="nav-subitem" data-sub="vcollector" onclick="goCfgSub('vcollector')"><span class="sub-lead"></span><span>vCollector</span></button>
       </div>
     </div>
     </div><!--/cfgNav-->
@@ -2535,7 +2577,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.422.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.423.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10805,7 +10847,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.422.alpha';
+const APP_VERSION='v2026.02.423.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11509,6 +11551,90 @@ function cfgGitOpsForm(coll){
   return `<div class="gcfg">${vcol}${norm}${ev}${hudu}${actions}</div>`;
 }
 
+/* ===== vCollector config (control-based) — slice 1: API endpoints ===== */
+var vcSubTab='api';
+var VC_IC_INFO='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>';
+var VC_IC_NET='<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="6" rx="1.6"/><rect x="4" y="14" width="16" height="6" rx="1.6"/><path d="M8 7h.01M8 17h.01"/></svg>';
+var VC_IC_CAM='<svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="11" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/></svg>';
+var VC_IC_DOOR='<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6z"/><path d="M4 21h16M12.5 12h.01"/></svg>';
+var VC_IC_CHEV='<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
+var VC_IC_LAYERS='<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>';
+function vcDemoEndpoints(coll){
+  var seed=cfgSeed(coll+':vcapi');
+  var ri=function(n){return Math.floor(seed()*n);};
+  var pick=function(a){return a[ri(a.length)];};
+  var pad2=function(n){return ('0'+n).slice(-2);};
+  var ST=['NX','MW','PD','GC','RV','BH','LK'];
+  var CITY=['Eastgate','Northfield','Lakeside','Cedar Park','Westbrook','Fair Oaks','Stonecreek','Briarwood','Maple Grove','Highpoint','Brookline','Glenwood','Riverton','Oakhurst'];
+  var home=pick(ST);
+  var lanA=20+ri(170);
+  var gw=function(){return '10.'+lanA+'.'+(4+ri(58)*4)+'.1';};
+  var av=function(){return '10.'+(220+ri(20))+'.'+(4+ri(58)*4)+'.'+(10+ri(80));};
+  var eps=[];
+  eps.push({type:'net',site:home+'01',host:home+'01-'+pick(CITY)+'-Gateway',ip:gw(),user:'svc-monitor',af:'10',rf:'60',routes:['11111','55555','44444'],staleness:true,status:'online'});
+  var n=4+ri(4);
+  for(var i=0;i<n;i++){ var sc=pick(ST)+pad2(2+i); eps.push({type:'net',site:sc,host:sc+'-'+pick(CITY)+'-Gateway',ip:gw(),user:'svc-monitor',af:'10',rf:'58',routes:['11111','55555','44444'],staleness:false,status:(seed()<0.16?'warn':'online')}); }
+  eps.push({type:'protect',site:home+'01',host:home+'01-UNVR01',ip:av(),user:'svc-monitor',af:'10',rf:'30',routes:['20001'],staleness:false,status:'online'});
+  eps.push({type:'access',site:home+'01',host:home+'01-UNVR01',ip:av(),user:'svc-monitor',af:'10',rf:'45',routes:['70001'],staleness:false,status:(seed()<0.5?'online':'warn')});
+  return eps;
+}
+function vcEpRow(e){
+  var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
+  var chips=e.routes.map(function(r){return '<span class="vc-chip">'+r+'</span>';}).join('');
+  if(e.staleness){ chips+='<span class="vc-chip stale" title="staleness filter: drop clients older than 30 min">stale\u00b730m</span>'; }
+  return '<div class="vc-ep" onclick="vcEpOpen(\''+_esc(e.site)+'\')">'+
+    '<span class="vc-ep-dot" style="background:'+dot+'"></span>'+
+    '<div class="vc-ep-id">'+
+      '<div class="vc-ep-top"><span class="vc-ep-site">'+_esc(e.site)+'</span><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
+      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>auth '+e.af+'s \u00b7 poll '+e.rf+'s</span></div>'+
+    '</div>'+
+    '<div class="vc-chips">'+chips+'</div>'+
+    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
+  '</div>';
+}
+function vcAddCard(){
+  var tpl=function(t,nm,desc,routes,ic){
+    return '<button class="vc-tpl" onclick="vcAddEndpoint(\''+t+'\')"><span class="vc-tpl-ic">'+ic+'</span><span class="vc-tpl-n">'+nm+'</span><span class="vc-tpl-d">'+desc+'</span><span class="vc-tpl-r">routes: '+routes+'</span></button>';
+  };
+  return '<div class="vc-add"><div class="gcfg-subhead">Add an endpoint</div><div class="vc-grouphint">Pick a type \u2014 its routes come pre-wired, so you fill in only the site, gateway IP and credentials.</div>'+
+    '<div class="vc-tplrow">'+
+      tpl('net','UniFi Network App','UDM / UDMPM gateway. Device stats, active clients, Connect devices.','11111 \u00b7 55555 \u00b7 44444',VC_IC_NET)+
+      tpl('protect','UNVR Protect','Protect recorder bootstrap manifest.','20001',VC_IC_CAM)+
+      tpl('access','UniFi Access','Access door / reader topology on the UNVR.','70001',VC_IC_DOOR)+
+    '</div></div>';
+}
+function vcApiSection(eps){
+  var groups=[['net','UniFi Network App',VC_IC_NET,'UDM / UDMPM gateways \u2014 device stats, active clients and Connect devices.'],
+              ['protect','UNVR Protect',VC_IC_CAM,'Protect recorder bootstrap manifest from the UNVR.'],
+              ['access','UniFi Access',VC_IC_DOOR,'Door and reader topology where Access runs on the UNVR.']];
+  var out='';
+  groups.forEach(function(grp){
+    var list=eps.filter(function(e){return e.type===grp[0];});
+    if(!list.length){ return; }
+    out+='<div class="gcfg-card"><div class="gcfg-chead"><span class="gcfg-cic">'+grp[2]+'</span><div class="gcfg-ctext"><h3>'+grp[1]+'</h3><p>'+grp[3]+'</p></div><span class="vc-count">'+list.length+'</span></div>'+
+      '<div class="vc-eplist">'+list.map(vcEpRow).join('')+'</div></div>';
+  });
+  out+=vcAddCard();
+  return out;
+}
+function vcStub(title,desc){
+  return '<div class="vc-stub">'+VC_IC_LAYERS+'<div class="vc-stub-t">'+title+'</div><div class="vc-stub-d">'+desc+'</div></div>';
+}
+function cfgVcollectorForm(coll){
+  var eps=vcDemoEndpoints(coll);
+  var tabBtn=function(k,lbl,nn){ var c=(nn!=null?'<span class="vc-tabn">'+nn+'</span>':''); return '<button class="vc-tab'+(vcSubTab===k?' on':'')+'" onclick="vcSetTab(\''+k+'\')">'+lbl+c+'</button>'; };
+  var strip='<div class="vc-tabs">'+tabBtn('api','API',eps.length)+tabBtn('snmp','SNMP',null)+tabBtn('cli','CLI',null)+'</div>';
+  var intro='<div class="vc-intro">'+VC_IC_INFO+'<div>The polling targets for this collector are defined here as controls instead of raw YAML. Pick an endpoint <b>type</b> and its routes come pre-wired \u2014 you fill in only the site, gateway and credentials. Changes write back to <b>_vCollectorCfg.yaml</b> and push via GitOps.</div></div>';
+  var body;
+  if(vcSubTab==='api'){ body=intro+vcApiSection(eps); }
+  else if(vcSubTab==='snmp'){ body=vcStub('SNMP enumeration maps','OID tables with the value-format and enum interpretation helpers from your header \u2014 built next, right after the endpoint editor.'); }
+  else { body=vcStub('CLI tracers','Latency and reachability probes with bulk edit across sites \u2014 built next.'); }
+  return '<div class="gcfg">'+strip+body+'</div>';
+}
+function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
+function vcEpOpen(site){ toast('Endpoint editor for '+site+' \u2014 coming in slice 2'); }
+function vcAddEndpoint(t){ var nm=({net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access'})[t]||t; toast('New '+nm+' endpoint \u2014 editor coming in slice 2'); }
+
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
   const scope=tenantScope(), isAll=scope==='all';
@@ -11549,6 +11675,9 @@ function renderCfgMgr(){
     const f=files.find(x=>x.key===cfgSubPage)||files[0];
     body='<div class="cfg-manback"><button class="cfg-back-btn" onclick="goCfgSub(\'normalizer\')"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
       '<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
+  } else if(cfgSubPage==='vcollector'){
+    const f=files.find(x=>x.key==='vcollector')||files[0];
+    body=cfgVcollectorForm(cfgMgrColl)+cfgSourcePeek(f,cfgMgrColl);
   } else {
     const f=files.find(x=>x.cat===cfgSubPage)||files[0];
     body='<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
