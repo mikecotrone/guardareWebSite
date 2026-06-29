@@ -1352,7 +1352,7 @@
   .vc-ep-name{font-size:13.5px;font-weight:700;color:var(--text)}
   .vc-ep-edit{display:inline-flex;align-items:center;color:var(--mute)}
   .vc-ep-edit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-  .vc-folder-head{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+  .vc-folder-head{display:flex;align-items:center;gap:13px;margin-bottom:14px;cursor:pointer}
   .vc-folder-ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--raise);border:1px solid var(--line);flex:0 0 auto}
   .vc-folder-ic svg{width:22px;height:22px;stroke:var(--teal);fill:none;stroke-width:2}
   .vc-folder-txt{flex:1 1 auto;min-width:0}
@@ -1361,6 +1361,12 @@
   .vc-folder-edit:hover{color:var(--teal)}
   .vc-folder-edit svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
   .vc-folder-sub{font-size:12px;color:var(--mute);margin-top:2px}
+  .vc-folder-chev{margin-left:auto;display:flex;color:var(--mute);transition:transform .2s;transform:rotate(90deg);flex:0 0 auto}
+  .vc-folder-chev svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+  .vc-folder-head:hover .vc-folder-chev{color:var(--dim)}
+  .vc-folder.collapsed .vc-folder-chev{transform:rotate(0deg)}
+  .vc-folder.collapsed .vc-folder-head{margin-bottom:0}
+  .vc-folder.collapsed .vc-eplist{display:none}
   .vc-ep-meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:5px;font-size:11.5px;color:var(--mute)}
   .vc-ep-meta b{color:var(--dim);font-weight:600}
   .vc-chips{display:flex;gap:5px;flex-wrap:wrap;align-items:center;flex:0 0 auto}
@@ -2612,7 +2618,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.430.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.431.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10882,7 +10888,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.430.alpha';
+const APP_VERSION='v2026.02.431.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11588,6 +11594,7 @@ function cfgGitOpsForm(coll){
 
 /* ===== vCollector config (control-based) — slice 1: API endpoints ===== */
 var vcSubTab='api';
+var vcFolderOpen={};
 var VC_IC_NET='<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="6" rx="1.6"/><rect x="4" y="14" width="16" height="6" rx="1.6"/><path d="M8 7h.01M8 17h.01"/></svg>';
 var VC_IC_CAM='<svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="11" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/></svg>';
 var VC_IC_DOOR='<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6z"/><path d="M4 21h16M12.5 12h.01"/></svg>';
@@ -11639,10 +11646,12 @@ function vcApiSection(eps){
     var list=eps.filter(function(e){return e.type===grp[0];});
     if(!list.length){ return; }
     var rows=''; list.forEach(function(e,i){ rows+=vcEpRow(e,i+1); });
-    out+='<div class="gcfg-card">'+
-      '<div class="vc-folder-head"><span class="vc-folder-ic">'+grp[2]+'</span>'+
-        '<div class="vc-folder-txt"><div class="vc-folder-name">'+grp[1]+'<span class="vc-folder-edit" onclick="vcRenameFolder(\''+_esc(grp[1])+'\')">'+VC_IC_PENCIL+'</span></div>'+
+    var collapsed=(vcFolderOpen[grp[0]]===false);
+    out+='<div class="gcfg-card vc-folder'+(collapsed?' collapsed':'')+'">'+
+      '<div class="vc-folder-head" onclick="vcToggleFolder(this,\''+grp[0]+'\')"><span class="vc-folder-ic">'+grp[2]+'</span>'+
+        '<div class="vc-folder-txt"><div class="vc-folder-name">'+grp[1]+'<span class="vc-folder-edit" onclick="event.stopPropagation();vcRenameFolder(\''+_esc(grp[1])+'\')">'+VC_IC_PENCIL+'</span></div>'+
         '<div class="vc-folder-sub">'+list.length+(list.length===1?' endpoint':' endpoints')+'</div></div>'+
+        '<span class="vc-folder-chev">'+VC_IC_CHEV+'</span>'+
       '</div>'+
       '<div class="vc-eplist">'+rows+'</div></div>';
   });
@@ -11681,6 +11690,7 @@ function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
 function vcEpOpen(site){ toast('Endpoint editor for '+site+' \u2014 coming in slice 2'); }
 function vcAddEndpoint(){ toast('Endpoint configuration dialog \u2014 coming in slice 2'); }
 function vcRenameFolder(name){ toast('Rename '+name+' \u2014 customizable category name (coming in slice 2)'); }
+function vcToggleFolder(el,type){ var c=el.closest('.vc-folder'); if(!c) return; var collapsed=c.classList.toggle('collapsed'); vcFolderOpen[type]=!collapsed; }
 
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
