@@ -1363,14 +1363,10 @@
   .vc-dlg .modal-acts{flex:0 0 auto;margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
   .vc-dlg .modal-acts .btn{flex:0 0 auto}
   .vc-dlg-routes{display:flex;flex-direction:column;gap:8px;margin-bottom:2px}
-  .vc-dlg-route{padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg-2);gap:11px}
-  .vc-dlg-route-m{font-size:10px;font-weight:800;letter-spacing:.04em;padding:3px 7px;border-radius:5px;line-height:1.05;flex:0 0 auto;font-family:ui-monospace,Menlo,Consolas,monospace}
-  .vc-dlg-route-m.get{color:var(--teal-deep);background:var(--teal-ghost);border:1px solid var(--teal)}
-  .vc-dlg-route-m.post{color:var(--amber);background:transparent;border:1px solid var(--amber)}
-  .vc-dlg-route-txt{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 auto}
-  .vc-dlg-route-name{font-size:13px;font-weight:700;color:var(--text)}
-  .vc-dlg-route-id{font-size:11px;color:var(--mute)}
-  .vc-dlg-route .ucfg-sw-inline{margin-left:auto;flex:0 0 auto}
+  .vc-dlg-route{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--bg-2)}
+  .vc-dlg-route-method{flex:0 0 auto;width:86px;padding-left:10px;padding-right:8px}
+  .vc-dlg-route-path{flex:1 1 auto;min-width:0;font-family:ui-monospace,Menlo,Consolas,monospace}
+  .vc-dlg-route-sw{flex:0 0 auto}
   .vc-ep-edit{display:inline-flex;align-items:center;color:var(--mute)}
   .vc-ep-edit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
   .vc-folder-head{display:flex;align-items:center;gap:13px;padding:16px 18px;cursor:pointer}
@@ -2639,7 +2635,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.435.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.436.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10909,7 +10905,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.435.alpha';
+const APP_VERSION='v2026.02.436.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11730,8 +11726,11 @@ function vcEpOpen(site){
       '<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>'+
       (e.af&&e.af!=='0'?'<div class="gcfg-field"><label>Auth refresh (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.af+'"></div></div>':'');
   }
-  var ROUTE_INFO={'11111':['GET','Device statistics'],'55555':['GET','Active clients'],'44444':['GET','UniFi Connect devices'],'20001':['GET','Protect bootstrap manifest'],'70001':['GET','Access door & reader topology'],'60001':['GET','Organization devices'],'60002':['GET','Device statuses'],'show-ver':['POST','show version'],'show-int':['POST','show interfaces']};
-  var routes=e.routes.map(function(r){ var ri=ROUTE_INFO[r]||['GET','Route']; var mc=(ri[0]==='POST'?'post':'get'); return '<label class="ucfg-toggle vc-dlg-route"><span class="vc-dlg-route-m '+mc+'">'+ri[0]+'</span><span class="vc-dlg-route-txt"><span class="vc-dlg-route-name">'+_esc(ri[1])+'</span><span class="vc-dlg-route-id mono">route '+_esc(r)+'</span></span><input type="checkbox" checked><span class="ucfg-sw-inline"></span></label>'; }).join('');
+  var routes=e.routes.map(function(r){ return '<div class="vc-dlg-route">'+
+    '<select class="tm-input vc-dlg-route-method"><option>GET</option><option>PUT</option></select>'+
+    '<input class="tm-input vc-dlg-route-path" value="'+_esc(r)+'" placeholder="route path">'+
+    '<label class="ucfg-toggle vc-dlg-route-sw"><input type="checkbox" checked><span class="ucfg-sw-inline"></span></label>'+
+  '</div>'; }).join('');
   var stale='<label class="ucfg-toggle"><input type="checkbox" '+(e.staleness?'checked':'')+' onchange="vcDlgStaleToggle(this)"><span class="ucfg-sw-inline"></span><span>Drop clients older than threshold</span></label>'+
     '<div class="gcfg-field" style="margin-top:12px"><label>Threshold (seconds)</label><div class="gcfg-iwrap"><input id="vcDlgStaleThr" class="tm-input" type="number" value="1800"'+(e.staleness?'':' disabled')+'></div><span class="gcfg-hint">Clients whose last-seen exceeds this are dropped before normalization</span></div>';
   var html='<div class="modal modal-form vc-dlg">'+
@@ -11745,7 +11744,7 @@ function vcEpOpen(site){
       '<div class="gcfg-field"><label>Host</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.host)+'"></div></div>'+
       '<div class="gcfg-field"><label>Gateway IP</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.ip)+'"></div></div>'+
       '<div class="gcfg-subhead">Authentication</div>'+auth+
-      '<div class="gcfg-subhead">Routes <span class="gcfg-subnote">'+e.routes.length+' inherited</span></div>'+
+      '<div class="gcfg-subhead">Routes <span class="gcfg-subnote">'+e.routes.length+' '+(e.routes.length===1?'route':'routes')+'</span></div>'+
       '<div class="vc-dlg-routes">'+routes+'</div>'+
       '<div class="gcfg-subhead">Staleness filter</div>'+stale+
       '<div class="gcfg-subhead">Polling</div>'+
