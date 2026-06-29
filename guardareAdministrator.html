@@ -1320,12 +1320,18 @@
   .gcfg-spin{width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sweep .7s linear infinite;display:inline-block}
   .gcfg-actions{display:flex;justify-content:flex-end;gap:10px}
   /* vCollector config (control-based) */
-  .vc-tabs{display:inline-flex;gap:3px;margin:2px 0 22px;padding:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px}
+  .vc-tabs{display:inline-flex;gap:3px;margin:0;padding:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px}
   .vc-tab{font-family:inherit;font-size:14px;font-weight:700;color:var(--dim);background:none;border:none;border-radius:9px;padding:10px 22px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;letter-spacing:.4px}
   .vc-tab:hover{color:var(--text);background:var(--raise)}
   .vc-tab.on,.vc-tab.on:hover{color:#04201b;background:var(--teal)}
   .vc-tabn{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:19px;padding:0 6px;border-radius:9px;background:var(--line);color:var(--text);font-size:11px;font-weight:700;line-height:1}
   .vc-tab.on .vc-tabn{background:rgba(4,32,27,.2);color:#04201b}
+  html[data-theme="light"] .vc-tab.on,html[data-theme="light"] .vc-tab.on:hover{color:#fff;background:var(--teal-deep)}
+  html[data-theme="light"] .vc-tab.on .vc-tabn{background:rgba(255,255,255,.25);color:#fff}
+  .vc-tabrow{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:2px 0 22px}
+  .vc-addbtn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13px;font-weight:700;color:var(--teal);background:var(--teal-ghost);border:1px solid var(--teal);border-radius:10px;padding:9px 16px;cursor:pointer;transition:.15s;letter-spacing:.2px}
+  .vc-addbtn:hover{border-color:var(--teal-deep);color:var(--teal-deep)}
+  .vc-addbtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2}
   .vc-count{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:20px;padding:0 7px;border-radius:10px;background:var(--line);color:var(--dim);font-size:11px;font-weight:700;line-height:1}
   .vc-intro{display:flex;gap:9px;align-items:flex-start;padding:11px 14px;margin-bottom:16px;border:1px solid var(--line);border-radius:11px;background:rgba(43,208,198,.05);color:var(--dim);font-size:13px;line-height:1.55}
   .vc-intro>svg{width:16px;height:16px;flex:0 0 auto;stroke:var(--teal);fill:none;stroke-width:2;margin-top:2px}
@@ -1367,8 +1373,8 @@
   .vc-statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   .vc-stat{display:flex;align-items:center;gap:14px;padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);position:relative;overflow:hidden}
   .vc-stat::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
-  .vc-stat-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
-  .vc-stat-ic svg{width:23px;height:23px;stroke:var(--ac);fill:none;stroke-width:2}
+  .vc-stat-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--ac)}
+  .vc-stat-ic svg{width:23px;height:23px;stroke:#04201b;fill:none;stroke-width:2.1}
   .vc-stat-num{font-family:'Open Sans',system-ui,sans-serif;font-size:28px;font-weight:700;line-height:1;color:var(--text);letter-spacing:-.02em}
   .vc-stat-lbl{font-size:12px;color:var(--dim);margin-top:5px;font-weight:600}
   @media(max-width:760px){.vc-statrow{grid-template-columns:1fr}}
@@ -2589,7 +2595,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.425.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.427.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10859,7 +10865,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.425.alpha';
+const APP_VERSION='v2026.02.427.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11570,6 +11576,9 @@ var VC_IC_CAM='<svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="11"
 var VC_IC_DOOR='<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6z"/><path d="M4 21h16M12.5 12h.01"/></svg>';
 var VC_IC_CHEV='<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
 var VC_IC_LAYERS='<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>';
+var VC_IC_PLUS='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
+var VC_IC_CLOUD='<svg viewBox="0 0 24 24"><path d="M6.5 18a4.5 4.5 0 0 1 .8-8.93 5 5 0 0 1 9.4-1.07A3.75 3.75 0 0 1 17.5 18z"/></svg>';
+var VC_IC_SWITCH='<svg viewBox="0 0 24 24"><rect x="2" y="9" width="20" height="9" rx="2"/><path d="M6 13h.01M10 13h.01M14 13h4M7 5v4M17 5v4"/></svg>';
 function vcDemoEndpoints(coll){
   var seed=cfgSeed(coll+':vcapi');
   var ri=function(n){return Math.floor(seed()*n);};
@@ -11587,6 +11596,8 @@ function vcDemoEndpoints(coll){
   for(var i=0;i<n;i++){ var sc=pick(ST)+pad2(2+i); eps.push({type:'net',site:sc,host:sc+'-'+pick(CITY)+'-Gateway',ip:gw(),user:'svc-monitor',af:'10',rf:'58',routes:['11111','55555','44444'],staleness:false,status:(seed()<0.16?'warn':'online')}); }
   eps.push({type:'protect',site:home+'01',host:home+'01-UNVR01',ip:av(),user:'svc-monitor',af:'10',rf:'30',routes:['20001'],staleness:false,status:'online'});
   eps.push({type:'access',site:home+'01',host:home+'01-UNVR01',ip:av(),user:'svc-monitor',af:'10',rf:'45',routes:['70001'],staleness:false,status:(seed()<0.5?'online':'warn')});
+  eps.push({type:'meraki',site:home+'01',host:home+'01-Meraki',ip:'api.meraki.com',user:'API key',af:'0',rf:'120',routes:['60001','60002'],staleness:false,status:'online'});
+  eps.push({type:'arista',site:home+'01',host:home+'01-EOS-Leaf01',ip:'10.'+lanA+'.'+(4+ri(58)*4)+'.2',user:'svc-monitor',af:'10',rf:'60',routes:['show-ver','show-int'],staleness:false,status:(seed()<0.5?'online':'warn')});
   return eps;
 }
 function vcEpRow(e){
@@ -11597,27 +11608,18 @@ function vcEpRow(e){
     '<span class="vc-ep-dot" style="background:'+dot+'"></span>'+
     '<div class="vc-ep-id">'+
       '<div class="vc-ep-top"><span class="vc-ep-site">'+_esc(e.site)+'</span><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
-      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>auth '+e.af+'s \u00b7 poll '+e.rf+'s</span></div>'+
+      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+(e.af&&e.af!=='0'?'auth '+e.af+'s \u00b7 ':'')+'poll '+e.rf+'s</span></div>'+
     '</div>'+
     '<div class="vc-chips">'+chips+'</div>'+
     '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
   '</div>';
 }
-function vcAddCard(){
-  var tpl=function(t,nm,desc,routes,ic){
-    return '<button class="vc-tpl" onclick="vcAddEndpoint(\''+t+'\')"><span class="vc-tpl-ic">'+ic+'</span><span class="vc-tpl-n">'+nm+'</span><span class="vc-tpl-d">'+desc+'</span><span class="vc-tpl-r">routes: '+routes+'</span></button>';
-  };
-  return '<div class="vc-add"><div class="gcfg-subhead">Add an endpoint</div><div class="vc-grouphint">Pick a type \u2014 its routes come pre-wired, so you fill in only the site, gateway IP and credentials.</div>'+
-    '<div class="vc-tplrow">'+
-      tpl('net','UniFi Network App','UDM / UDMPM gateway. Device stats, active clients, Connect devices.','11111 \u00b7 55555 \u00b7 44444',VC_IC_NET)+
-      tpl('protect','UNVR Protect','Protect recorder bootstrap manifest.','20001',VC_IC_CAM)+
-      tpl('access','UniFi Access','Access door / reader topology on the UNVR.','70001',VC_IC_DOOR)+
-    '</div></div>';
-}
 function vcApiSection(eps){
   var groups=[['net','UniFi Network App',VC_IC_NET,'UDM / UDMPM gateways \u2014 device stats, active clients and Connect devices.'],
               ['protect','UNVR Protect',VC_IC_CAM,'Protect recorder bootstrap manifest from the UNVR.'],
-              ['access','UniFi Access',VC_IC_DOOR,'Door and reader topology where Access runs on the UNVR.']];
+              ['access','UniFi Access',VC_IC_DOOR,'Door and reader topology where Access runs on the UNVR.'],
+              ['meraki','Cisco Meraki',VC_IC_CLOUD,'Cloud-managed Dashboard API \u2014 organization devices and statuses.'],
+              ['arista','Arista EOS',VC_IC_SWITCH,'eAPI command sets over HTTPS \u2014 switch state and interface health.']];
   var out='';
   groups.forEach(function(grp){
     var list=eps.filter(function(e){return e.type===grp[0];});
@@ -11625,7 +11627,6 @@ function vcApiSection(eps){
     out+='<div class="gcfg-card"><div class="gcfg-chead"><span class="gcfg-cic">'+grp[2]+'</span><div class="gcfg-ctext"><h3>'+grp[1]+'</h3><p>'+grp[3]+'</p></div><span class="vc-count">'+list.length+'</span></div>'+
       '<div class="vc-eplist">'+list.map(vcEpRow).join('')+'</div></div>';
   });
-  out+=vcAddCard();
   return out;
 }
 function vcStub(title,desc){
@@ -11638,26 +11639,28 @@ var VC_IC_CLI='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16"
 function vcCounts(coll){ var r=cfgSeed(coll+':vccount'); return {api:vcDemoEndpoints(coll).length, snmp:1+Math.floor(r()*3), cli:14+Math.floor(r()*22)}; }
 function vcSummary(coll){
   var c=vcCounts(coll);
-  var stat=function(ic,num,lbl,ac,tint){ return '<div class="vc-stat" style="--ac:'+ac+'"><span class="vc-stat-ic" style="background:'+tint+'">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
+  var stat=function(ic,num,lbl,ac){ return '<div class="vc-stat" style="--ac:'+ac+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
   return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Data Sources</div><div class="vc-statrow">'+
-    stat(VC_IC_API,c.api,'API Endpoints','var(--teal)','rgba(43,208,198,.13)')+
-    stat(VC_IC_SNMP,c.snmp,'SNMP Devices','var(--violet)','rgba(40,224,255,.13)')+
-    stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)','rgba(65,217,138,.13)')+
+    stat(VC_IC_API,c.api,'API Endpoints','var(--teal)')+
+    stat(VC_IC_SNMP,c.snmp,'SNMP Devices','var(--violet)')+
+    stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)')+
   '</div></div>';
 }
 function cfgVcollectorForm(coll){
   var eps=vcDemoEndpoints(coll);
   var tabBtn=function(k,lbl,nn){ var c=(nn!=null?'<span class="vc-tabn">'+nn+'</span>':''); return '<button class="vc-tab'+(vcSubTab===k?' on':'')+'" onclick="vcSetTab(\''+k+'\')">'+lbl+c+'</button>'; };
   var strip='<div class="vc-tabs">'+tabBtn('api','API',eps.length)+tabBtn('snmp','SNMP',null)+tabBtn('cli','CLI',null)+'</div>';
+  var addBtn=(vcSubTab==='api')?'<button class="vc-addbtn" onclick="vcAddEndpoint()">'+VC_IC_PLUS+'Add Endpoint</button>':'';
+  var tabrow='<div class="vc-tabrow">'+strip+addBtn+'</div>';
   var body;
   if(vcSubTab==='api'){ body=vcApiSection(eps); }
   else if(vcSubTab==='snmp'){ body=vcStub('SNMP enumeration maps','OID tables with the value-format and enum interpretation helpers from your header \u2014 built next, right after the endpoint editor.'); }
   else { body=vcStub('CLI tracers','Latency and reachability probes with bulk edit across sites \u2014 built next.'); }
-  return '<div class="gcfg">'+strip+body+'</div>';
+  return '<div class="gcfg">'+tabrow+body+'</div>';
 }
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
 function vcEpOpen(site){ toast('Endpoint editor for '+site+' \u2014 coming in slice 2'); }
-function vcAddEndpoint(t){ var nm=({net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access'})[t]||t; toast('New '+nm+' endpoint \u2014 editor coming in slice 2'); }
+function vcAddEndpoint(){ toast('Endpoint configuration dialog \u2014 coming in slice 2'); }
 
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
@@ -11706,7 +11709,7 @@ function renderCfgMgr(){
     const f=files.find(x=>x.cat===cfgSubPage)||files[0];
     body='<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
   }
-  el.innerHTML=head+(cfgSubPage==='vcollector'?vcSummary(cfgMgrColl):'')+bar+body;
+  el.innerHTML=head+bar+(cfgSubPage==='vcollector'?vcSummary(cfgMgrColl):'')+body;
   syncNormNav();
 }
 function toggleNavDisc(key){
