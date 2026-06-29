@@ -1360,6 +1360,18 @@
   .vc-stub-t{font-size:14px;font-weight:600;color:var(--dim);margin-bottom:4px}
   .vc-stub-d{font-size:12.5px;line-height:1.5}
   @media(max-width:760px){.vc-tplrow{grid-template-columns:1fr}.vc-ep{flex-wrap:wrap}.vc-chips{order:3;width:100%}.vc-ep-cta{display:none}}
+  /* vCollector data-source summary */
+  .vc-summary{margin:0 0 22px}
+  .vc-summary-t{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--mute);margin-bottom:11px;display:flex;align-items:center;gap:7px}
+  .vc-summary-t svg{width:15px;height:15px;stroke:var(--mute);fill:none;stroke-width:2}
+  .vc-statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .vc-stat{display:flex;align-items:center;gap:14px;padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);position:relative;overflow:hidden}
+  .vc-stat::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
+  .vc-stat-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .vc-stat-ic svg{width:23px;height:23px;stroke:var(--ac);fill:none;stroke-width:2}
+  .vc-stat-num{font-family:'Open Sans',system-ui,sans-serif;font-size:28px;font-weight:700;line-height:1;color:var(--text);letter-spacing:-.02em}
+  .vc-stat-lbl{font-size:12px;color:var(--dim);margin-top:5px;font-weight:600}
+  @media(max-width:760px){.vc-statrow{grid-template-columns:1fr}}
   .gcfg-placeholder{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;padding:36px 18px}
   .gcfg-ph-ic{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--bg-2);border:1px dashed var(--line)}
   .gcfg-ph-ic svg{width:25px;height:25px;stroke:var(--mute);fill:none;stroke-width:1.6}
@@ -2577,7 +2589,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.424.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.425.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10847,7 +10859,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.424.alpha';
+const APP_VERSION='v2026.02.425.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11619,6 +11631,20 @@ function vcApiSection(eps){
 function vcStub(title,desc){
   return '<div class="vc-stub">'+VC_IC_LAYERS+'<div class="vc-stub-t">'+title+'</div><div class="vc-stub-d">'+desc+'</div></div>';
 }
+var VC_IC_DB='<svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>';
+var VC_IC_API='<svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13.5 17.5l-1 1a4 4 0 0 1-6-6l1-1"/></svg>';
+var VC_IC_SNMP='<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M6 14h.01M10 12h8"/></svg>';
+var VC_IC_CLI='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>';
+function vcCounts(coll){ var r=cfgSeed(coll+':vccount'); return {api:vcDemoEndpoints(coll).length, snmp:1+Math.floor(r()*3), cli:14+Math.floor(r()*22)}; }
+function vcSummary(coll){
+  var c=vcCounts(coll);
+  var stat=function(ic,num,lbl,ac,tint){ return '<div class="vc-stat" style="--ac:'+ac+'"><span class="vc-stat-ic" style="background:'+tint+'">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
+  return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Data Sources</div><div class="vc-statrow">'+
+    stat(VC_IC_API,c.api,'API Endpoints','var(--teal)','rgba(43,208,198,.13)')+
+    stat(VC_IC_SNMP,c.snmp,'SNMP Devices','var(--violet)','rgba(40,224,255,.13)')+
+    stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)','rgba(65,217,138,.13)')+
+  '</div></div>';
+}
 function cfgVcollectorForm(coll){
   var eps=vcDemoEndpoints(coll);
   var tabBtn=function(k,lbl,nn){ var c=(nn!=null?'<span class="vc-tabn">'+nn+'</span>':''); return '<button class="vc-tab'+(vcSubTab===k?' on':'')+'" onclick="vcSetTab(\''+k+'\')">'+lbl+c+'</button>'; };
@@ -11680,7 +11706,7 @@ function renderCfgMgr(){
     const f=files.find(x=>x.cat===cfgSubPage)||files[0];
     body='<div class="cfg-editor">'+cfgScaffold(cat)+'</div>'+cfgSourcePeek(f,cfgMgrColl);
   }
-  el.innerHTML=head+bar+body;
+  el.innerHTML=head+(cfgSubPage==='vcollector'?vcSummary(cfgMgrColl):'')+bar+body;
   syncNormNav();
 }
 function toggleNavDisc(key){
