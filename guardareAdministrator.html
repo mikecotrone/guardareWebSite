@@ -1445,7 +1445,8 @@
   .vc-stat-ic svg{width:23px;height:23px;stroke:var(--ac);fill:none;stroke-width:2.1}
   .vc-stat-num{font-family:'Open Sans',system-ui,sans-serif;font-size:28px;font-weight:700;line-height:1;color:var(--text);letter-spacing:-.02em}
   .vc-stat-lbl{font-size:12px;color:var(--dim);margin-top:5px;font-weight:600}
-  .vc-stat-sub{display:inline-block;margin-top:7px;font-size:10.5px;font-weight:700;color:var(--ac);background:var(--acg);border-radius:6px;padding:2px 8px;letter-spacing:.02em}
+  .vc-stat-sub{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .vc-stat-pill{font-size:12px;font-weight:700;color:var(--ac);background:var(--acg);border-radius:7px;padding:3px 10px;letter-spacing:.02em}
   @media(max-width:760px){.vc-statrow{grid-template-columns:1fr}}
   .gcfg-placeholder{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;padding:36px 18px}
   .gcfg-ph-ic{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--bg-2);border:1px dashed var(--line)}
@@ -2664,7 +2665,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.453.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.454.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10934,7 +10935,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.453.alpha';
+const APP_VERSION='v2026.02.454.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11726,26 +11727,18 @@ var VC_IC_API='<svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l
 var VC_IC_SNMP='<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M6 14h.01M10 12h8"/></svg>';
 var VC_IC_CLI='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>';
 function vcCounts(coll){
-  var scope=(typeof tenantScope==='function')?tenantScope():'';
-  var isAll=(scope==='all'||!scope);
-  var rows=(typeof fleetRows!=='undefined'&&fleetRows)?fleetRows:[];
-  var sel=rows.filter(function(r){ return isAll||r[1]===scope; });
-  if(!sel.length){ sel=[[ (coll||'').split(':')[1]||coll, (coll||'').split(':')[0]||'' ]]; }
-  var api=0,apiR=0,snmp=0,snmpO=0,cli=0;
-  sel.forEach(function(r){ var id=(r[1]?r[1]+':':'')+r[0];
-    var a=vcDemoEndpoints(id); api+=a.length; a.forEach(function(e){ apiR+=(e.routes?e.routes.length:0); });
-    var sn=vcSnmpEndpoints(id); snmp+=sn.length; sn.forEach(function(e){ snmpO+=(e.oids?e.oids.length:0); });
-    cli+=vcCliEndpoints(id).length;
-  });
-  return {api:api,apiRoutes:apiR,snmp:snmp,snmpOids:snmpO,cli:cli};
+  var a=vcDemoEndpoints(coll), apiR=0; a.forEach(function(e){ apiR+=(e.routes?e.routes.length:0); });
+  var sn=vcSnmpEndpoints(coll), snmpO=0; sn.forEach(function(e){ snmpO+=(e.oids?e.oids.length:0); });
+  var cl=vcCliEndpoints(coll), up=0,lat=0; cl.forEach(function(e){ if(e.cat==='latency'){ lat++; } else { up++; } });
+  return {api:a.length,apiRoutes:apiR,snmp:sn.length,snmpOids:snmpO,cli:cl.length,cliUptime:up,cliLatency:lat};
 }
 function vcSummary(coll){
   var c=vcCounts(coll);
   var stat=function(ic,num,lbl,ac,acg,sub){ var sb=(sub?'<div class="vc-stat-sub">'+sub+'</div>':''); return '<div class="vc-stat" style="--ac:'+ac+';--acg:'+acg+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div>'+sb+'</div></div>'; };
   return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Data Sources</div><div class="vc-statrow">'+
-    stat(VC_IC_API,c.api,'API Endpoints','var(--teal)','var(--teal-ghost)',c.apiRoutes+' routes')+
-    stat(VC_IC_SNMP,c.snmp,'SNMP Devices','var(--violet)','var(--violet-ghost)',c.snmpOids+' OIDs')+
-    stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)','var(--green-ghost)')+
+    stat(VC_IC_API,c.api,'API Endpoints','var(--teal)','var(--teal-ghost)','<span class="vc-stat-pill">'+c.apiRoutes+' routes</span>')+
+    stat(VC_IC_SNMP,c.snmp,'SNMP Devices','var(--violet)','var(--violet-ghost)','<span class="vc-stat-pill">'+c.snmpOids+' OIDs</span>')+
+    stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)','var(--green-ghost)','<span class="vc-stat-pill">'+c.cliUptime+' Uptime</span><span class="vc-stat-pill">'+c.cliLatency+' Latency</span>')+
   '</div></div>';
 }
 function cfgVcollectorForm(coll){
