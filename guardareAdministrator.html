@@ -1382,6 +1382,8 @@
   .vc-cmd .tm-input{flex:1 1 auto;min-width:0}
   .vc-cmd .vc-rt-del{flex:0 0 auto}
   .vc-ep-proto.snmp{color:var(--violet);border-color:var(--violet);background:transparent}
+  .vc-ep-proto.full{color:var(--green);border-color:var(--green);background:transparent}
+  .vc-ep-proto.rtt{color:var(--teal-deep);border-color:var(--teal);background:var(--teal-ghost)}
   .vc-empty{padding:26px;text-align:center;color:var(--mute);font-size:13px;border:1px dashed var(--line);border-radius:12px}
   .vc-subhead2{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin:13px 0 8px}
   .vc-enum-list{display:flex;flex-direction:column;gap:7px;margin-bottom:9px}
@@ -2661,7 +2663,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.448.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.450.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10931,7 +10933,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.448.alpha';
+const APP_VERSION='v2026.02.450.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11722,7 +11724,7 @@ var VC_IC_DB='<svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><p
 var VC_IC_API='<svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13.5 17.5l-1 1a4 4 0 0 1-6-6l1-1"/></svg>';
 var VC_IC_SNMP='<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M6 14h.01M10 12h8"/></svg>';
 var VC_IC_CLI='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>';
-function vcCounts(coll){ var r=cfgSeed(coll+':vccount'); return {api:vcDemoEndpoints(coll).length, snmp:vcSnmpEndpoints(coll).length, cli:14+Math.floor(r()*22)}; }
+function vcCounts(coll){ var r=cfgSeed(coll+':vccount'); return {api:vcDemoEndpoints(coll).length, snmp:vcSnmpEndpoints(coll).length, cli:vcCliEndpoints(coll).length}; }
 function vcSummary(coll){
   var c=vcCounts(coll);
   var stat=function(ic,num,lbl,ac,acg){ return '<div class="vc-stat" style="--ac:'+ac+';--acg:'+acg+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
@@ -11735,14 +11737,15 @@ function vcSummary(coll){
 function cfgVcollectorForm(coll){
   var eps=vcDemoEndpoints(coll);
   var snmps=vcSnmpEndpoints(coll);
+  var clis=vcCliEndpoints(coll);
   var tabBtn=function(k,lbl,nn){ var c=(nn!=null?'<span class="vc-tabn">'+nn+'</span>':''); return '<button class="vc-tab'+(vcSubTab===k?' on':'')+'" onclick="vcSetTab(\''+k+'\')">'+lbl+c+'</button>'; };
-  var strip='<div class="vc-tabs">'+tabBtn('api','API',eps.length)+tabBtn('snmp','SNMP',snmps.length)+tabBtn('cli','CLI',null)+'</div>';
-  var addBtn=(vcSubTab==='api'||vcSubTab==='snmp')?'<button class="vc-addbtn" onclick="vcAddEndpoint()">'+VC_IC_PLUS+(vcSubTab==='snmp'?'Add Device':'Add Endpoint')+'</button>':'';
+  var strip='<div class="vc-tabs">'+tabBtn('api','API',eps.length)+tabBtn('snmp','SNMP',snmps.length)+tabBtn('cli','CLI',clis.length)+'</div>';
+  var addBtn=(vcSubTab==='api'||vcSubTab==='snmp'||vcSubTab==='cli')?'<button class="vc-addbtn" onclick="vcAddEndpoint()">'+VC_IC_PLUS+(vcSubTab==='snmp'?'Add Device':(vcSubTab==='cli'?'Add Tracer':'Add Endpoint'))+'</button>':'';
   var tabrow='<div class="vc-tabrow">'+strip+addBtn+'</div>';
   var body;
   if(vcSubTab==='api'){ body=vcApiSection(eps); }
   else if(vcSubTab==='snmp'){ body=vcSnmpSection(snmps); }
-  else { body=vcStub('CLI tracers','Latency and reachability probes with bulk edit across sites \u2014 built next.'); }
+  else { body=vcCliSection(clis); }
   return '<div class="gcfg">'+tabrow+body+'</div>';
 }
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
@@ -11780,9 +11783,14 @@ function vcSnmpEndpoints(coll){
   ]; };
   var site=pick(['CWA','MYB','NX','GC','RV','BH'])+('0'+(1+ri(9))).slice(-2);
   var oct=220+ri(30);
+  var LINKS=[['Main Office','Warehouse'],['Clubhouse','Pool House'],['Gymnasium','Stadium'],['North Tower','South Annex'],['HQ','Distribution Center'],['Campus','Residence Hall'],['Plant','Loading Dock'],['Admin','Maintenance Shop'],['Lodge','Boathouse'],['Pavilion','Concession Stand'],['Clinic','Pharmacy'],['Hangar','Control Tower']];
+  var i1=ri(LINKS.length), i2=ri(LINKS.length); if(i2===i1){ i2=(i1+1)%LINKS.length; }
+  var la=LINKS[i1], lb=LINKS[i2];
+  var d1='AirBridge '+la[0]+'-to-'+la[1]+' ('+la[0]+' side)';
+  var d2='AirBridge '+lb[0]+'-to-'+lb[1]+' ('+lb[0]+' side)';
   return [
-    {id:id6(),site:site,mfr:'Ubiquiti',model:'AirBridge',desc:'AirBridge Smith-to-FieldHouse (Field House side)',ip:'192.168.1.'+oct,port:'161',ver:'v1',community:'********',oids:oidPair(),status:'online'},
-    {id:id6(),site:site,mfr:'Ubiquiti',model:'AirBridge',desc:'AirBridge Smith-to-FieldHouse (Smith side)',ip:'192.168.1.'+(oct-1),port:'161',ver:'v1',community:'********',oids:oidPair(),status:'online'}
+    {id:id6(),site:site,mfr:'Ubiquiti',model:'AirBridge',desc:d1,ip:'192.168.1.'+oct,port:'161',ver:'v1',community:'********',oids:oidPair(),status:'online'},
+    {id:id6(),site:site,mfr:'Ubiquiti',model:'AirBridge',desc:d2,ip:'192.168.1.'+(oct-1),port:'161',ver:'v1',community:'********',oids:oidPair(),status:'online'}
   ];
 }
 function vcSnmpRow(e,n){
@@ -11859,6 +11867,82 @@ function vcSnmpOpen(id){
       '<button class="vc-rt-add" onclick="vcAddOid(this)">'+VC_IC_PLUS+'Add OID</button>'+
     '</div>'+
     '<div class="modal-acts tk-acts"><button class="btn" onclick="closeVcEp()">Cancel</button><button class="btn primary" onclick="vcSnmpSave()">Save changes</button></div>'+
+  '</div>';
+  var m=vcEpModalEl(); m.innerHTML=html; m.classList.remove('show'); void m.offsetWidth; m.classList.add('show');
+}
+var VC_IC_PULSE='<svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 3 13 3-16 2 9h4"/></svg>';
+var VC_IC_GAUGE='<svg viewBox="0 0 24 24"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 14l4-3"/><circle cx="12" cy="14" r="1.2"/></svg>';
+function vcCliEndpoints(coll){
+  var seed=cfgSeed(coll+':vccli');
+  var ri=function(n){return Math.floor(seed()*n);};
+  var pick=function(a){return a[ri(a.length)];};
+  var site=pick(['MYB','CWA','NX','GC','RV','BH','LK'])+('0'+(1+ri(9))).slice(-2);
+  var p3=function(){ return '10.'+(160+ri(30))+'.'+(1+ri(250))+'.'+(2+ri(250)); };
+  var w1=p3(), w2=p3(), r1=p3(), r2=p3(), rr=p3();
+  return [
+    {id:'CLI-INTERNET-LATENCY-0001',type:'ping_rtt',cat:'latency',desc:'LatencyTracer Google DNS',opts:'2, -1',target:'8.8.8.8',freq:'600',site:site},
+    {id:'CLI-ICMP-0001',type:'ping_full',cat:'uptime',desc:'Uptime monitor to WLC01: '+w1,opts:'2, -1',target:w1,freq:'45',site:site},
+    {id:'CLI-ICMP-0002',type:'ping_full',cat:'uptime',desc:'Uptime monitor to WLC02: '+w2,opts:'2, -1',target:w2,freq:'45',site:site},
+    {id:'CLI-ICMP-0003',type:'ping_full',cat:'uptime',desc:'Uptime monitor to Cisco Prime Registrar #1: '+r1,opts:'2, -1',target:r1,freq:'45',site:site},
+    {id:'CLI-ICMP-0004',type:'ping_full',cat:'uptime',desc:'Uptime monitor to Cisco Prime Registrar #2: '+r2,opts:'2, -1',target:r2,freq:'45',site:site},
+    {id:'CLI-ICMP-0005',type:'ping_full',cat:'uptime',desc:'Uptime monitor to Cisco Prime Registrar Regional: '+rr,opts:'2, -1',target:rr,freq:'45',site:site}
+  ];
+}
+function vcCliRow(e,n){
+  var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
+  var bd=(e.type==='ping_rtt'?['rtt','ping_rtt']:['full','ping_full']);
+  return '<div class="vc-ep" onclick="vcCliOpen(\''+_esc(e.id)+'\')">'+
+    '<div class="vc-ep-id">'+
+      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Tracer #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name mono">'+_esc(e.target)+'</span><span class="vc-ep-proto '+bd[0]+'">'+bd[1]+'</span></div>'+
+      '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.desc)+'</span></div>'+
+      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.id)+'</span><span>every '+_esc(e.freq)+'s</span><span>'+_esc(e.site)+'</span></div>'+
+    '</div>'+
+    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
+  '</div>';
+}
+function vcCliSection(eps){
+  if(!eps.length) return '<div class="vc-empty">No CLI tracers configured.</div>';
+  var CATS=[['uptime','Uptime Tracer',VC_IC_PULSE],['latency','Latency Tracer',VC_IC_GAUGE]];
+  var out='';
+  CATS.forEach(function(g){
+    var list=eps.filter(function(e){ return e.cat===g[0]; });
+    if(!list.length){ return; }
+    var rows=''; list.forEach(function(e,i){ rows+=vcCliRow(e,i+1); });
+    var collapsed=(vcFolderOpen['cli:'+g[0]]===false);
+    out+='<div class="gcfg-card vc-folder'+(collapsed?' collapsed':'')+'">'+
+      '<div class="vc-folder-head" onclick="vcToggleFolder(this,\'cli:'+g[0]+'\')"><span class="vc-folder-ic">'+g[2]+'</span>'+
+        '<div class="vc-folder-txt"><div class="vc-folder-name">'+g[1]+'</div>'+
+        '<div class="vc-folder-sub">'+list.length+(list.length===1?' tracer':' tracers')+'</div></div>'+
+        '<span class="vc-folder-chev">'+VC_IC_CHEV+'</span>'+
+      '</div>'+
+      '<div class="vc-eplist">'+rows+'</div></div>';
+  });
+  return out;
+}
+function vcCliSave(){ toast('CLI tracer configuration saved'); closeVcEp(); }
+function vcCliOpen(id){
+  var coll=cfgMgrColl, all=vcCliEndpoints(coll), e=null;
+  for(var i=0;i<all.length;i++){ if(all[i].id===id){ e=all[i]; break; } }
+  if(!e){ return; }
+  var ic=(e.cat==='latency'?VC_IC_GAUGE:VC_IC_PULSE);
+  var bd=(e.type==='ping_rtt'?['rtt','ping_rtt']:['full','ping_full']);
+  var tOpt=function(t){ return '<option'+(t===e.type?' selected':'')+'>'+t+'</option>'; };
+  var html='<div class="modal modal-form vc-dlg">'+
+    '<div class="tk-head"><div class="tk-head-l"><div class="tk-ic">'+ic+'</div>'+
+      '<div><div class="vc-dlg-eyebrow">CLI Tracer Configuration</div><div class="modal-title mono">'+_esc(e.target)+'</div>'+
+      '<p class="tk-sub">'+(e.cat==='latency'?'Latency Tracer':'Uptime Tracer')+' \u00b7 <span class="vc-ep-proto '+bd[0]+'">'+bd[1]+'</span></p></div></div>'+
+      '<button class="vc-dlg-x" onclick="closeVcEp()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
+    '<div class="vc-dlg-body">'+
+      '<div class="gcfg-subhead">Test</div>'+
+      '<div class="gcfg-field"><label>CLI ID</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.id)+'" readonly></div></div>'+
+      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.desc)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Test type</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px">'+tOpt('ping_rtt')+tOpt('ping_full')+'</select></div></div>'+
+      '<div class="gcfg-field"><label>Test options</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.opts)+'" style="max-width:160px" placeholder="2, -1"></div></div>'+
+      '<div class="gcfg-field"><label>Target (IP / hostname)</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.target)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+_esc(e.freq)+'" style="max-width:150px"></div></div>'+
+      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.site)+'"></div></div>'+
+    '</div>'+
+    '<div class="modal-acts tk-acts"><button class="btn" onclick="closeVcEp()">Cancel</button><button class="btn primary" onclick="vcCliSave()">Save changes</button></div>'+
   '</div>';
   var m=vcEpModalEl(); m.innerHTML=html; m.classList.remove('show'); void m.offsetWidth; m.classList.add('show');
 }
