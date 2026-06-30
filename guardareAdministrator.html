@@ -1381,6 +1381,18 @@
   .vc-cmd{display:flex;align-items:center;gap:9px}
   .vc-cmd .tm-input{flex:1 1 auto;min-width:0}
   .vc-cmd .vc-rt-del{flex:0 0 auto}
+  .vc-ep-proto.snmp{color:var(--violet);border-color:var(--violet);background:transparent}
+  .vc-empty{padding:26px;text-align:center;color:var(--mute);font-size:13px;border:1px dashed var(--line);border-radius:12px}
+  .vc-subhead2{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin:13px 0 8px}
+  .vc-enum-list{display:flex;flex-direction:column;gap:7px;margin-bottom:9px}
+  .vc-enum{display:flex;align-items:center;gap:8px}
+  .vc-enum-v{flex:0 0 92px}
+  .vc-enum-arrow{flex:0 0 auto;color:var(--mute);font-size:15px;line-height:1}
+  .vc-enum-l{flex:1 1 auto;min-width:0}
+  .vc-enum .vc-rt-del{flex:0 0 auto}
+  .vc-enum-add{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:12px;font-weight:700;color:var(--teal);background:transparent;border:1px dashed var(--teal);border-radius:8px;padding:7px 12px;cursor:pointer;transition:.15s}
+  .vc-enum-add:hover{background:var(--teal-ghost)}
+  .vc-enum-add svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2}
   .vc-ep-edit{display:inline-flex;align-items:center;color:var(--mute)}
   .vc-ep-edit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
   .vc-folder-head{display:flex;align-items:center;gap:13px;padding:16px 18px;cursor:pointer}
@@ -2649,7 +2661,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.447.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.448.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10919,7 +10931,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.447.alpha';
+const APP_VERSION='v2026.02.448.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11710,7 +11722,7 @@ var VC_IC_DB='<svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><p
 var VC_IC_API='<svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13.5 17.5l-1 1a4 4 0 0 1-6-6l1-1"/></svg>';
 var VC_IC_SNMP='<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M6 14h.01M10 12h8"/></svg>';
 var VC_IC_CLI='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>';
-function vcCounts(coll){ var r=cfgSeed(coll+':vccount'); return {api:vcDemoEndpoints(coll).length, snmp:1+Math.floor(r()*3), cli:14+Math.floor(r()*22)}; }
+function vcCounts(coll){ var r=cfgSeed(coll+':vccount'); return {api:vcDemoEndpoints(coll).length, snmp:vcSnmpEndpoints(coll).length, cli:14+Math.floor(r()*22)}; }
 function vcSummary(coll){
   var c=vcCounts(coll);
   var stat=function(ic,num,lbl,ac,acg){ return '<div class="vc-stat" style="--ac:'+ac+';--acg:'+acg+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
@@ -11722,13 +11734,14 @@ function vcSummary(coll){
 }
 function cfgVcollectorForm(coll){
   var eps=vcDemoEndpoints(coll);
+  var snmps=vcSnmpEndpoints(coll);
   var tabBtn=function(k,lbl,nn){ var c=(nn!=null?'<span class="vc-tabn">'+nn+'</span>':''); return '<button class="vc-tab'+(vcSubTab===k?' on':'')+'" onclick="vcSetTab(\''+k+'\')">'+lbl+c+'</button>'; };
-  var strip='<div class="vc-tabs">'+tabBtn('api','API',eps.length)+tabBtn('snmp','SNMP',null)+tabBtn('cli','CLI',null)+'</div>';
-  var addBtn=(vcSubTab==='api')?'<button class="vc-addbtn" onclick="vcAddEndpoint()">'+VC_IC_PLUS+'Add Endpoint</button>':'';
+  var strip='<div class="vc-tabs">'+tabBtn('api','API',eps.length)+tabBtn('snmp','SNMP',snmps.length)+tabBtn('cli','CLI',null)+'</div>';
+  var addBtn=(vcSubTab==='api'||vcSubTab==='snmp')?'<button class="vc-addbtn" onclick="vcAddEndpoint()">'+VC_IC_PLUS+(vcSubTab==='snmp'?'Add Device':'Add Endpoint')+'</button>':'';
   var tabrow='<div class="vc-tabrow">'+strip+addBtn+'</div>';
   var body;
   if(vcSubTab==='api'){ body=vcApiSection(eps); }
-  else if(vcSubTab==='snmp'){ body=vcStub('SNMP enumeration maps','OID tables with the value-format and enum interpretation helpers from your header \u2014 built next, right after the endpoint editor.'); }
+  else if(vcSubTab==='snmp'){ body=vcSnmpSection(snmps); }
   else { body=vcStub('CLI tracers','Latency and reachability probes with bulk edit across sites \u2014 built next.'); }
   return '<div class="gcfg">'+tabrow+body+'</div>';
 }
@@ -11755,6 +11768,100 @@ function vcRemoveRoute(btn){ var c=btn.closest('.vc-rt'); if(c) c.remove(); }
 function vcCmdRow(c){ return '<div class="vc-cmd"><input class="tm-input mono" value="'+_esc(c||'')+'" placeholder="show ..."><button class="vc-rt-del" onclick="vcRemoveCmd(this)" aria-label="Remove command">'+VC_IC_TRASH+'</button></div>'; }
 function vcAddCmd(btn){ var L=document.getElementById('vcCmdList'); if(L){ L.insertAdjacentHTML('beforeend', vcCmdRow('')); } }
 function vcRemoveCmd(btn){ var c=btn.closest('.vc-cmd'); if(c) c.remove(); }
+var VC_IC_RADIO='<svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8 12a4 4 0 0 1 8 0"/><circle cx="12" cy="12" r="1.4"/><path d="M12 13.4V20"/></svg>';
+function vcSnmpEndpoints(coll){
+  var seed=cfgSeed(coll+':vcsnmp');
+  var ri=function(n){return Math.floor(seed()*n);};
+  var pick=function(a){return a[ri(a.length)];};
+  var id6=function(){ return 'AB'+(100000+ri(900000)); };
+  var oidPair=function(){ return [
+    {oid:'1.3.6.1.2.1.2.2.1.8.2',name:'ifOperStatus',desc:'Ethernet Interface',freq:'45',enum:[['1','up'],['2','down']]},
+    {oid:'1.3.6.1.2.1.2.2.1.8.9',name:'ifOperStatus',desc:'Bridge0 Interface',freq:'45',enum:[['1','up'],['2','down']]}
+  ]; };
+  var site=pick(['CWA','MYB','NX','GC','RV','BH'])+('0'+(1+ri(9))).slice(-2);
+  var oct=220+ri(30);
+  return [
+    {id:id6(),site:site,mfr:'Ubiquiti',model:'AirBridge',desc:'AirBridge Smith-to-FieldHouse (Field House side)',ip:'192.168.1.'+oct,port:'161',ver:'v1',community:'********',oids:oidPair(),status:'online'},
+    {id:id6(),site:site,mfr:'Ubiquiti',model:'AirBridge',desc:'AirBridge Smith-to-FieldHouse (Smith side)',ip:'192.168.1.'+(oct-1),port:'161',ver:'v1',community:'********',oids:oidPair(),status:'online'}
+  ];
+}
+function vcSnmpRow(e,n){
+  var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
+  return '<div class="vc-ep" onclick="vcSnmpOpen(\''+_esc(e.id)+'\')">'+
+    '<div class="vc-ep-id">'+
+      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Device #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span><span class="vc-ep-proto snmp">SNMP '+_esc(e.ver)+'</span></div>'+
+      '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.desc)+'</span></div>'+
+      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+':'+_esc(e.port)+'</span><span>'+_esc(e.mfr)+' \u00b7 community <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+e.oids.length+' OIDs</span></div>'+
+    '</div>'+
+    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
+  '</div>';
+}
+function vcSnmpSection(eps){
+  if(!eps.length) return '<div class="vc-empty">No SNMP devices configured.</div>';
+  var mfrs={}, order=[]; eps.forEach(function(e){ if(!mfrs[e.mfr]){ mfrs[e.mfr]=[]; order.push(e.mfr); } mfrs[e.mfr].push(e); });
+  var out='';
+  order.forEach(function(m){
+    var list=mfrs[m], rows=''; list.forEach(function(e,i){ rows+=vcSnmpRow(e,i+1); });
+    var collapsed=(vcFolderOpen['snmp:'+m]===false);
+    out+='<div class="gcfg-card vc-folder'+(collapsed?' collapsed':'')+'">'+
+      '<div class="vc-folder-head" onclick="vcToggleFolder(this,\'snmp:'+m+'\')"><span class="vc-folder-ic">'+VC_IC_RADIO+'</span>'+
+        '<div class="vc-folder-txt"><div class="vc-folder-name">'+_esc(m)+'</div>'+
+        '<div class="vc-folder-sub">'+list.length+(list.length===1?' device':' devices')+'</div></div>'+
+        '<span class="vc-folder-chev">'+VC_IC_CHEV+'</span>'+
+      '</div>'+
+      '<div class="vc-eplist">'+rows+'</div></div>';
+  });
+  return out;
+}
+function vcEnumRow(v,l){ return '<div class="vc-enum"><input class="tm-input mono vc-enum-v" value="'+_esc(v||'')+'" placeholder="1"><span class="vc-enum-arrow">\u2192</span><input class="tm-input vc-enum-l" value="'+_esc(l||'')+'" placeholder="up"><button class="vc-rt-del" onclick="vcRemoveEnum(this)" aria-label="Remove mapping">'+VC_IC_TRASH+'</button></div>'; }
+function vcOidEntry(o){
+  o=o||{}; var enums=(o.enum||[]).map(function(pr){ return vcEnumRow(pr[0],pr[1]); }).join('');
+  return '<div class="vc-rt">'+
+    '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(o.oid||'new')+'</span><span class="vc-rt-idlbl">OID</span>'+
+      '<button class="vc-rt-del" onclick="vcRemoveOid(this)" aria-label="Remove OID">'+VC_IC_TRASH+'</button></div>'+
+    '<div class="gcfg-field"><label>OID</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(o.oid||'')+'" placeholder="1.3.6.1.2.1..."></div></div>'+
+    '<div class="gcfg-field"><label>Name</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(o.name||'')+'" placeholder="ifOperStatus"></div></div>'+
+    '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(o.desc||'')+'" placeholder="Interface description"></div></div>'+
+    '<div class="gcfg-field"><label>Call frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+_esc(o.freq||'60')+'" style="max-width:150px"></div></div>'+
+    '<div class="vc-subhead2">Value mappings</div>'+
+    '<div class="vc-enum-list">'+enums+'</div>'+
+    '<button class="vc-enum-add" onclick="vcAddEnum(this)">'+VC_IC_PLUS+'Add mapping</button>'+
+  '</div>';
+}
+function vcAddOid(btn){ var L=document.getElementById('vcOidList'); if(L){ L.insertAdjacentHTML('beforeend', vcOidEntry({})); } }
+function vcRemoveOid(btn){ var c=btn.closest('.vc-rt'); if(c) c.remove(); }
+function vcAddEnum(btn){ var L=btn.previousElementSibling; if(L&&L.classList.contains('vc-enum-list')){ L.insertAdjacentHTML('beforeend', vcEnumRow('','')); } }
+function vcRemoveEnum(btn){ var c=btn.closest('.vc-enum'); if(c) c.remove(); }
+function vcSnmpSave(){ toast('SNMP endpoint configuration saved'); closeVcEp(); }
+function vcSnmpOpen(id){
+  var coll=cfgMgrColl, all=vcSnmpEndpoints(coll), e=null;
+  for(var i=0;i<all.length;i++){ if(all[i].id===id){ e=all[i]; break; } }
+  if(!e){ return; }
+  var verOpt=function(v){ return '<option'+(v===e.ver?' selected':'')+'>'+v+'</option>'; };
+  var oids=e.oids.map(vcOidEntry).join('');
+  var html='<div class="modal modal-form vc-dlg">'+
+    '<div class="tk-head"><div class="tk-head-l"><div class="tk-ic">'+VC_IC_RADIO+'</div>'+
+      '<div><div class="vc-dlg-eyebrow">SNMP Endpoint Configuration</div><div class="modal-title">'+_esc(e.site)+'</div>'+
+      '<p class="tk-sub">'+_esc(e.mfr)+' '+_esc(e.model||'')+' \u00b7 <span class="vc-ep-proto snmp">SNMP '+_esc(e.ver)+'</span></p></div></div>'+
+      '<button class="vc-dlg-x" onclick="closeVcEp()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
+    '<div class="vc-dlg-body">'+
+      '<div class="gcfg-subhead">Identity</div>'+
+      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.site)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Manufacturer</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.mfr)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.desc)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Host / Name</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.ip)+'"></div></div>'+
+      '<div class="gcfg-subhead">SNMP</div>'+
+      '<div class="gcfg-field"><label>Port</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.port)+'" style="max-width:120px"></div></div>'+
+      '<div class="gcfg-field"><label>Version</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:120px">'+verOpt('v1')+verOpt('v2c')+verOpt('v3')+'</select></div></div>'+
+      '<div class="gcfg-field"><label>Community</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div><span class="gcfg-hint">SNMP community string \u2014 stored encrypted</span></div>'+
+      '<div class="gcfg-subhead">OIDs <span class="gcfg-subnote">'+e.oids.length+(e.oids.length===1?' oid':' oids')+'</span></div>'+
+      '<div class="vc-rt-list" id="vcOidList">'+oids+'</div>'+
+      '<button class="vc-rt-add" onclick="vcAddOid(this)">'+VC_IC_PLUS+'Add OID</button>'+
+    '</div>'+
+    '<div class="modal-acts tk-acts"><button class="btn" onclick="closeVcEp()">Cancel</button><button class="btn primary" onclick="vcSnmpSave()">Save changes</button></div>'+
+  '</div>';
+  var m=vcEpModalEl(); m.innerHTML=html; m.classList.remove('show'); void m.offsetWidth; m.classList.add('show');
+}
 function vcEpModalEl(){ var m=document.getElementById('vcEpModal'); if(!m){ m=document.createElement('div'); m.className='modal-backdrop'; m.id='vcEpModal'; m.addEventListener('click',function(ev){ if(ev.target===m) closeVcEp(); }); document.body.appendChild(m); } return m; }
 function closeVcEp(){ var m=document.getElementById('vcEpModal'); if(m) m.classList.remove('show'); }
 function vcEpSave(){ toast('Endpoint configuration saved'); closeVcEp(); }
