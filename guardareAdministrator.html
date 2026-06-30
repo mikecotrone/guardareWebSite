@@ -16,7 +16,7 @@
     --raise:#123036; --line:#1B3A41; --line-soft:#16323880;
     --text:#E9F3F1; --dim:#8BA7AC; --mute:#5C797F;
     --teal:#2BD0C6; --teal-deep:#149489; --teal-ghost:#2bd0c61a;
-    --green:#41D98A; --amber:#F6B53F; --red:#FF5D5D; --violet:#28E0FF; --gray:#54707655; --tron:#28E0FF; --tron-deep:#1f9fc4; --tron-orange:#FF7A18;
+    --green:#41D98A; --amber:#F6B53F; --red:#FF5D5D; --violet:#28E0FF; --violet-ghost:#28E0FF1a; --green-ghost:#41D98A1a; --gray:#54707655; --tron:#28E0FF; --tron-deep:#1f9fc4; --tron-orange:#FF7A18;
     --r:12px; --r-sm:8px;
     --sb:248px;
     --shadow:0 18px 40px -22px rgba(0,0,0,.8);
@@ -27,7 +27,7 @@
     --raise:#EEF4F3; --line:#D2DEDB; --line-soft:#DBE6E480;
     --text:#0C2A2E; --dim:#384F54; --mute:#586E73;
     --teal:#0E9F96; --teal-deep:#0A776F; --teal-ghost:#0e9f9618;
-    --green:#17A463; --amber:#C5870A; --red:#DE3B3B; --violet:#0E9CC2; --gray:#9DB0AF3a; --tron:#0E9CC2; --tron-deep:#0a78a0; --tron-orange:#DE6A12;
+    --green:#17A463; --amber:#C5870A; --red:#DE3B3B; --violet:#0E9CC2; --violet-ghost:#0E9CC218; --green-ghost:#17A46318; --gray:#9DB0AF3a; --tron:#0E9CC2; --tron-deep:#0a78a0; --tron-orange:#DE6A12;
     --shadow:0 16px 36px -22px rgba(18,50,55,.28);
     color-scheme:light;
   }
@@ -1323,11 +1323,9 @@
   .vc-tabs{display:inline-flex;gap:3px;margin:0;padding:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px}
   .vc-tab{font-family:inherit;font-size:14px;font-weight:700;color:var(--dim);background:none;border:none;border-radius:9px;padding:10px 22px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;letter-spacing:.4px}
   .vc-tab:hover{color:var(--text);background:var(--raise)}
-  .vc-tab.on,.vc-tab.on:hover{color:#04201b;background:var(--teal)}
+  .vc-tab.on,.vc-tab.on:hover{color:var(--teal-deep);background:var(--teal-ghost);box-shadow:inset 0 0 0 1px var(--teal)}
   .vc-tabn{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:19px;padding:0 6px;border-radius:9px;background:var(--line);color:var(--text);font-size:11px;font-weight:700;line-height:1}
-  .vc-tab.on .vc-tabn{background:rgba(4,32,27,.2);color:#04201b}
-  html[data-theme="light"] .vc-tab.on,html[data-theme="light"] .vc-tab.on:hover{color:#fff;background:var(--teal-deep)}
-  html[data-theme="light"] .vc-tab.on .vc-tabn{background:rgba(255,255,255,.25);color:#fff}
+  .vc-tab.on .vc-tabn{background:var(--teal-deep);color:#fff}
   .vc-tabrow{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:2px 0 22px}
   .vc-addbtn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13px;font-weight:700;color:var(--teal);background:var(--teal-ghost);border:1px solid var(--teal);border-radius:10px;padding:9px 16px;cursor:pointer;transition:.15s;letter-spacing:.2px}
   .vc-addbtn:hover{border-color:var(--teal-deep);color:var(--teal-deep)}
@@ -1429,8 +1427,8 @@
   .vc-statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   .vc-stat{display:flex;align-items:center;gap:14px;padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);position:relative;overflow:hidden}
   .vc-stat::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
-  .vc-stat-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--ac)}
-  .vc-stat-ic svg{width:23px;height:23px;stroke:#04201b;fill:none;stroke-width:2.1}
+  .vc-stat-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--acg)}
+  .vc-stat-ic svg{width:23px;height:23px;stroke:var(--ac);fill:none;stroke-width:2.1}
   .vc-stat-num{font-family:'Open Sans',system-ui,sans-serif;font-size:28px;font-weight:700;line-height:1;color:var(--text);letter-spacing:-.02em}
   .vc-stat-lbl{font-size:12px;color:var(--dim);margin-top:5px;font-weight:600}
   @media(max-width:760px){.vc-statrow{grid-template-columns:1fr}}
@@ -2651,7 +2649,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.445.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.447.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9669,7 +9667,7 @@ function pickTenant(slug){
   else if(cur==='alerts') renderAlertsFull();
   else if(cur==='config') renderConfig();
   else if(cur==='audit') renderAudit();
-  else if(cur==='cfgmgr') renderCfgMgr();
+  else if(cur==='cfgmgr'){ var _fr=(typeof fleetRows!=='undefined'?fleetRows.filter(function(r){return r[1]===slug;}):[]); if(_fr.length) cfgMgrColl=slug+':'+_fr[0][0]; renderCfgMgr(); }
   else if(cur==='integrations') renderIntegrations();
   else if(cur==='account'){ acctTenant=slug; renderAccount(); }
   else if(cur==='tenantcfg') renderTenantCfg();
@@ -10921,7 +10919,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.445.alpha';
+const APP_VERSION='v2026.02.447.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11715,11 +11713,11 @@ var VC_IC_CLI='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16"
 function vcCounts(coll){ var r=cfgSeed(coll+':vccount'); return {api:vcDemoEndpoints(coll).length, snmp:1+Math.floor(r()*3), cli:14+Math.floor(r()*22)}; }
 function vcSummary(coll){
   var c=vcCounts(coll);
-  var stat=function(ic,num,lbl,ac){ return '<div class="vc-stat" style="--ac:'+ac+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
+  var stat=function(ic,num,lbl,ac,acg){ return '<div class="vc-stat" style="--ac:'+ac+';--acg:'+acg+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
   return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Data Sources</div><div class="vc-statrow">'+
-    stat(VC_IC_API,c.api,'API Endpoints','var(--teal)')+
-    stat(VC_IC_SNMP,c.snmp,'SNMP Devices','var(--violet)')+
-    stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)')+
+    stat(VC_IC_API,c.api,'API Endpoints','var(--teal)','var(--teal-ghost)')+
+    stat(VC_IC_SNMP,c.snmp,'SNMP Devices','var(--violet)','var(--violet-ghost)')+
+    stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)','var(--green-ghost)')+
   '</div></div>';
 }
 function cfgVcollectorForm(coll){
