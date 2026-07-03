@@ -2453,7 +2453,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
           <label class="lg-label" for="lgEmail">Username</label>
           <div class="lg-field"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><input class="lg-input" id="lgEmail" type="text" value="demo" placeholder="Username" autocomplete="username"/></div>
           <label class="lg-label" for="lgPass">Password</label>
-          <div class="lg-field"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><input class="lg-input" id="lgPass" type="password" placeholder="Enter your password" autocomplete="current-password"/><button type="button" class="lg-eye" id="lgEye" onclick="lgTogglePw()" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+          <div class="lg-field"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><input class="lg-input" id="lgPass" type="password" placeholder="Enter your password" autocomplete="current-password"/><button type="button" class="lg-eye" id="lgEye" data-act="call" data-fn="lgTogglePw" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
           <div class="lg-row">
             <label class="lg-check"><input type="checkbox" checked/>Remember me</label>
             <a class="lg-link" href="#" data-act="noop">Forgot password?</a>
@@ -2475,7 +2475,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
   <span class="pdot"></span>
   <span><b data-i18n="Interactive preview">Interactive preview</b> <span class="pmut">— <span data-i18n="All sites, alerts, and data shown are fabricated.">All sites, alerts, and data shown are fabricated.</span></span></span>
   <a class="plink" href="https://guardare.io/community" target="_blank" rel="noopener noreferrer" data-i18n="Help shape 2027 →">Help shape 2027 &rarr;</a>
-  <button class="pclose" title="Hide banner" onclick="document.getElementById('previewBanner').remove()">&times;</button>
+  <button class="pclose" title="Hide banner" data-act="dismiss-banner">&times;</button>
 </div>
 <div class="app" id="appShell" style="visibility:hidden">
   <!-- TOP BAR -->
@@ -2526,20 +2526,20 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       </div>
     </div>
     <div class="op-wrap">
-      <button class="op-badge" id="opBadge" onclick="toggleOpMenu(event)" aria-label="Account menu">
+      <button class="op-badge" id="opBadge" data-act="call-ev" data-fn="toggleOpMenu" aria-label="Account menu">
         <div class="op-avatar">MC</div>
         <div class="op-meta">Mike C.<small data-i18n="Guardare Administrator">Guardare Administrator</small></div>
         <svg class="op-cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       <div class="op-menu" id="opMenu">
         <div class="op-menu-head" data-i18n="Signed in as">Signed in as</div>
-        <button class="op-menu-item" onclick="openAccount()"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg><span data-i18n="Account & Organization">Account &amp; Organization</span></button>
-        <button class="op-menu-item" onclick="openProfile()"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="My profile">My profile</span></button>
+        <button class="op-menu-item" data-act="call" data-fn="openAccount"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg><span data-i18n="Account & Organization">Account &amp; Organization</span></button>
+        <button class="op-menu-item" data-act="call" data-fn="openProfile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="My profile">My profile</span></button>
         <div class="op-menu-sep"></div>
-        <button class="op-menu-item" onclick="guardareLogout()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span data-i18n="Sign out">Sign out</span></button>
+        <button class="op-menu-item" data-act="call" data-fn="guardareLogout"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span data-i18n="Sign out">Sign out</span></button>
       </div>
     </div>
-    <div class="theme-toggle" id="themeToggle" onclick="guardareToggleTheme()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();guardareToggleTheme();}" role="switch" tabindex="0" aria-label="Toggle light or dark theme" title="Toggle theme">
+    <div class="theme-toggle" id="themeToggle" data-act="call" data-fn="guardareToggleTheme" role="switch" tabindex="0" aria-label="Toggle light or dark theme" title="Toggle theme">
       <svg class="tt-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.1M12 19.5v2.1M4.6 4.6l1.5 1.5M17.9 17.9l1.5 1.5M2.4 12h2.1M19.5 12h2.1M4.6 19.4l1.5-1.5M17.9 6.1l1.5-1.5"/></svg>
       <span class="tt-track"><span class="tt-knob"></span></span>
       <svg class="tt-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -2632,8 +2632,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <svg class="disc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="nav-children" id="navChildren-cloudcfg">
-        <button class="nav-subitem nav-sub-cloudcfg" onclick="goCloudCfg()"><span class="sub-lead"></span><span data-i18n="Configuration">Configuration</span></button>
-        <button class="nav-subitem nav-sub-cloudmon" onclick="goCloudMon()"><span class="sub-lead"></span><span data-i18n="Monitoring">Monitoring</span></button>
+        <button class="nav-subitem nav-sub-cloudcfg" data-act="call" data-fn="goCloudCfg"><span class="sub-lead"></span><span data-i18n="Configuration">Configuration</span></button>
+        <button class="nav-subitem nav-sub-cloudmon" data-act="call" data-fn="goCloudMon"><span class="sub-lead"></span><span data-i18n="Monitoring">Monitoring</span></button>
       </div>
     </div>
     <button class="nav-item" data-screen="config">
@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.474.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.475.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2703,7 +2703,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="ctx-left">
         <span class="ctx-label" data-i18n="Viewing">Viewing</span>
         <div class="ctx-pick" id="ctxPick">
-          <button class="ctx-pick-btn" onclick="toggleCtxPick(event)">
+          <button class="ctx-pick-btn" data-act="call-ev" data-fn="toggleCtxPick">
             <span class="ctx-cdot s-online" id="ctxCollDot"></span>
             <span class="ctx-pick-text">
               <span class="ctx-site" id="ctxSiteLabel">Site</span>
@@ -2727,7 +2727,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       </div>
 
       <!-- ticker -->
-      <div class="ticker" onclick="toggleTicker()">
+      <div class="ticker" data-act="call" data-fn="toggleTicker">
         <div class="ticker-lab"><span class="dot"></span><span data-i18n="Live alerts">Live alerts</span></div>
         <div class="ticker-track">
           <div class="ticker-move" id="ticker"></div>
@@ -2860,7 +2860,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <button class="chip" data-fs="offline" data-act="fleet-filter"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span> <span class="cell-mut" id="fcOffline">—</span></button>
         <div class="head-actions" style="margin-left:auto">
           <div class="loc-viewseg" id="fleetViewSeg" role="tablist"></div>
-          <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
+          <button class="btn" data-act="ui-toast" data-arg="Export — fleet snapshot to CSV"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
         </div>
       </div>
 
@@ -2885,13 +2885,13 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
           <div class="page-eyebrow" id="detailCrumb"><button data-act="go" data-arg="fleet" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Inventory">← Collector Inventory</button> / Acme Corp</div>
           <div class="detail-title">
             <h1 class="page-title" style="font-size:31px" id="detailId">Collector</h1>
-            <span class="detail-addr" id="detailAddr" role="button" tabindex="0" title="View in Locations" onclick="gotoLocationFromDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gotoLocationFromDetail();}"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="detailAddrTxt">—</span></span>
+            <span class="detail-addr" id="detailAddr" role="button" tabindex="0" title="View in Locations" data-act="call" data-fn="gotoLocationFromDetail"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="detailAddrTxt">—</span></span>
           </div>
           <p class="page-sub"><span class="td-status s-warn" id="detailStatus" style="display:inline-flex"><i></i><span id="detailStatusTxt">Degraded</span></span></p>
         </div>
         <div class="head-actions">
-          <button class="btn" onclick="openLiveLogs()"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
-          <button class="btn" onclick="openDiagnostics()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
+          <button class="btn" data-act="call" data-fn="openLiveLogs"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-i18n="Live logs">Live logs</span></button>
+          <button class="btn" data-act="call" data-fn="openDiagnostics"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Diagnostics">Diagnostics</span></button>
         </div>
       </div>
 
@@ -2943,8 +2943,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
           <button class="alert-tab" data-atab="resolved" data-act="alert-tab"><span data-i18n="Resolved">Resolved</span> <span class="ct" id="ctResolved">0</span></button>
         </div>
         <div class="head-actions">
-          <button class="btn" onclick="toast('Alert rules editor')"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="4"/></svg><span data-i18n="Alert rules">Alert rules</span></button>
-          <button class="btn primary" onclick="ackAll()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Acknowledge all">Acknowledge all</span></button>
+          <button class="btn" data-act="ui-toast" data-arg="Alert rules editor"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="4"/></svg><span data-i18n="Alert rules">Alert rules</span></button>
+          <button class="btn primary" data-act="call" data-fn="ackAll"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Acknowledge all">Acknowledge all</span></button>
         </div>
       </div>
 
@@ -2995,7 +2995,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
               <input id="ctopoRep" type="range" min="60" max="180" value="100" oninput="ctopoRepulsion(this.value)" onchange="ctopoRepulsionSettle()" aria-label="Sizing">
               <span id="ctopoRepVal">100%</span>
             </div>
-            <button class="ctopo-btn" onclick="ctopoFit()" data-i18n="Fit to view">Fit to view</button>
+            <button class="ctopo-btn" data-act="call" data-fn="ctopoFit" data-i18n="Fit to view">Fit to view</button>
           </div>
         </div>
         <div class="ctopo-canvas-wrap"><div id="ctopoCanvas" class="ctopo-canvas"></div><div id="ctopoTenantTag" class="ctopo-tenant-tag"></div></div>
@@ -6128,15 +6128,15 @@ snmp_field_mapping:
 <div class="modal-backdrop" id="locModal" data-act="backdrop-close" data-arg="loc">
   <div class="modal loc-modal" role="dialog" aria-modal="true"><div id="locModalBody"></div></div>
 </div>
-<div class="modal-backdrop" id="rebootModal" onclick="rebootBackdrop(event)">
+<div class="modal-backdrop" id="rebootModal" data-act="call-ev" data-fn="rebootBackdrop">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rebootTitle">
     <div id="rebootConfirm">
       <div class="modal-ic warn"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></div>
       <h3 class="modal-title" id="rebootTitle" data-i18n="Reboot collector?">Reboot collector?</h3>
       <p class="modal-text">You're about to reboot <b class="mono" id="rebootTarget">acme-corp:site-04</b>. This reboots the collector's <b>Ubuntu Linux host</b> — the OS restarts and all four microservices go offline until it comes back up. Buffered telemetry is preserved locally and synced on reconnect.</p>
       <div class="modal-acts">
-        <button class="btn" onclick="closeRebootModal()" data-i18n="No, cancel">No, cancel</button>
-        <button class="btn danger" onclick="confirmReboot()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Yes, reboot">Yes, reboot</span></button>
+        <button class="btn" data-act="call" data-fn="closeRebootModal" data-i18n="No, cancel">No, cancel</button>
+        <button class="btn danger" data-act="call" data-fn="confirmReboot"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Yes, reboot">Yes, reboot</span></button>
       </div>
     </div>
     <div id="rebootProgress" style="display:none">
@@ -6155,8 +6155,8 @@ snmp_field_mapping:
     <h3 class="modal-title" id="mspSwitchTitle" data-i18n="Switch to MSP mode?">Switch to MSP mode?</h3>
     <p class="modal-text" id="mspSwitchText" data-i18n="All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can't be undone.">All data in this Enterprise customer will be migrated into a new MSP customer record. This reshapes the whole console and can't be undone.</p>
     <div class="modal-acts">
-      <button class="btn" onclick="closeMspSwitchModal()" data-i18n="No, cancel">No, cancel</button>
-      <button class="btn danger" onclick="confirmMspSwitch()"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg><span id="mspSwitchBtn" data-i18n="Yes, switch to MSP">Yes, switch to MSP</span></button>
+      <button class="btn" data-act="call" data-fn="closeMspSwitchModal" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn danger" data-act="call" data-fn="confirmMspSwitch"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg><span id="mspSwitchBtn" data-i18n="Yes, switch to MSP">Yes, switch to MSP</span></button>
     </div>
   </div>
 </div>
@@ -6186,7 +6186,7 @@ snmp_field_mapping:
       <div class="tm-field"><label data-i18n="Description">Description</label><textarea class="tm-input tk-textarea" id="tkDesc" data-i18n-ph="What is happening? Steps, impact, affected devices…" placeholder="What is happening? Steps, impact, affected devices&hellip;"></textarea></div>
       <div class="modal-acts tk-acts">
         <button class="btn" data-act="close-ticket" data-i18n="Cancel">Cancel</button>
-        <button class="btn primary" id="tkSubmitBtn" onclick="submitTicket()"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="tkSubmitLbl" data-i18n="Submit ticket">Submit ticket</span></button>
+        <button class="btn primary" id="tkSubmitBtn" data-act="call" data-fn="submitTicket"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="tkSubmitLbl" data-i18n="Submit ticket">Submit ticket</span></button>
       </div>
     </div>
     <div id="tkSubmitting" style="display:none">
@@ -6198,7 +6198,7 @@ snmp_field_mapping:
       <div class="tk-done-top"><span class="tk-done-ic"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><h3 class="modal-title" data-i18n="Ticket created">Ticket created</h3><p class="tk-sub" id="tkDoneProv"></p></div>
       <div class="tk-ticketcard" id="tkTicketCard"></div>
       <div class="modal-acts tk-acts">
-        <button class="btn" onclick="tkCreateAnother()" data-i18n="Create another">Create another</button>
+        <button class="btn" data-act="call" data-fn="tkCreateAnother" data-i18n="Create another">Create another</button>
         <button class="btn primary" data-act="close-ticket"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Done">Done</span></button>
       </div>
     </div>
@@ -6210,8 +6210,8 @@ snmp_field_mapping:
     <h3 class="modal-title" id="wxAllTitle">Enable weather for all locations?</h3>
     <p class="modal-text" id="wxAllText"></p>
     <div class="modal-acts">
-      <button class="btn" onclick="wxCloseBulk()" data-i18n="Cancel">Cancel</button>
-      <button class="btn primary" id="wxAllOk" onclick="wxConfirmBulk()">Enable all</button>
+      <button class="btn" data-act="call" data-fn="wxCloseBulk" data-i18n="Cancel">Cancel</button>
+      <button class="btn primary" id="wxAllOk" data-act="call" data-fn="wxConfirmBulk">Enable all</button>
     </div>
   </div>
 </div>
@@ -6221,8 +6221,8 @@ snmp_field_mapping:
     <h3 class="modal-title" id="suspendTitle" data-i18n="Suspend this tenant?">Suspend this tenant?</h3>
     <p class="modal-text">You're about to suspend <b class="mono" id="suspendTarget">tenant</b>. Collectors stay deployed and keep buffering locally, but the tenant is marked <b>Suspended</b> and excluded from active billing until you reactivate it.</p>
     <div class="modal-acts">
-      <button class="btn" onclick="closeSuspendModal()" data-i18n="No, cancel">No, cancel</button>
-      <button class="btn danger" onclick="confirmSuspend()"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span data-i18n="Yes, suspend">Yes, suspend</span></button>
+      <button class="btn" data-act="call" data-fn="closeSuspendModal" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn danger" data-act="call" data-fn="confirmSuspend"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span data-i18n="Yes, suspend">Yes, suspend</span></button>
     </div>
   </div>
 </div>
@@ -6232,8 +6232,8 @@ snmp_field_mapping:
     <h3 class="modal-title" data-i18n="Delete this tenant?">Delete this tenant?</h3>
     <p class="modal-text">This permanently removes <b class="mono" id="delTenantTarget">tenant</b> from Guardare — its directory record, configuration and branding. Deployed collectors are not touched, but they will no longer report into this tenant. This can't be undone.</p>
     <div class="modal-acts">
-      <button class="btn" onclick="closeDeleteTenantModal()" data-i18n="No, cancel">No, cancel</button>
-      <button class="btn danger" onclick="confirmDeleteTenant()"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg><span data-i18n="Yes, delete">Yes, delete</span></button>
+      <button class="btn" data-act="call" data-fn="closeDeleteTenantModal" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn danger" data-act="call" data-fn="confirmDeleteTenant"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg><span data-i18n="Yes, delete">Yes, delete</span></button>
     </div>
   </div>
 </div>
@@ -6251,12 +6251,12 @@ snmp_field_mapping:
       <div class="at-field"><label data-i18n="Primary region">Primary region</label><select id="atRegion" class="tm-input"><option>NA</option><option selected>EU</option><option>UK</option><option>SA</option><option>APAC</option><option>NC</option></select></div>
     </div>
     <div class="modal-acts">
-      <button class="btn" onclick="closeAddTenantModal()" data-i18n="No, cancel">No, cancel</button>
-      <button class="btn primary" onclick="confirmAddTenant()"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="Create tenant">Create tenant</span></button>
+      <button class="btn" data-act="call" data-fn="closeAddTenantModal" data-i18n="No, cancel">No, cancel</button>
+      <button class="btn primary" data-act="call" data-fn="confirmAddTenant"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="Create tenant">Create tenant</span></button>
     </div>
   </div>
 </div>
-<div class="modal-backdrop" id="diagModal" onclick="diagBackdrop(event)">
+<div class="modal-backdrop" id="diagModal" data-act="call-ev" data-fn="diagBackdrop">
   <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="diagTitle">
     <div class="modal-ic info"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
     <h3 class="modal-title" id="diagTitle" data-i18n="Running diagnostics…">Running diagnostics…</h3>
@@ -6264,13 +6264,13 @@ snmp_field_mapping:
     <div class="diag-list" id="diagList"></div>
     <div class="diag-summary" id="diagSummary" style="display:none"></div>
     <div class="modal-acts" id="diagActs" style="display:none">
-      <button class="btn" onclick="closeDiag()" data-i18n="Close">Close</button>
-      <button class="btn primary" onclick="runDiagnostics()"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Re-run">Re-run</span></button>
+      <button class="btn" data-act="call" data-fn="closeDiag" data-i18n="Close">Close</button>
+      <button class="btn primary" data-act="call" data-fn="runDiagnostics"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg><span data-i18n="Re-run">Re-run</span></button>
     </div>
   </div>
 </div>
 
-<div class="modal-backdrop" id="osMaintModal" onclick="osMaintBackdrop(event)">
+<div class="modal-backdrop" id="osMaintModal" data-act="call-ev" data-fn="osMaintBackdrop">
   <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="osmTitle">
     <div class="modal-ic info" id="osmIcon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></div>
     <h3 class="modal-title" id="osmTitle">—</h3>
@@ -6278,12 +6278,12 @@ snmp_field_mapping:
     <div class="diag-list" id="osmList"></div>
     <div class="svc-done" id="osmDone" style="display:none"></div>
     <div class="modal-acts" id="osmActs" style="display:none">
-      <button class="btn primary" onclick="closeOsMaint()" data-i18n="Close">Close</button>
+      <button class="btn primary" data-act="call" data-fn="closeOsMaint" data-i18n="Close">Close</button>
     </div>
   </div>
 </div>
 
-<div class="modal-backdrop" id="svcModal" onclick="svcBackdrop(event)">
+<div class="modal-backdrop" id="svcModal" data-act="call-ev" data-fn="svcBackdrop">
   <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="svcTitle">
     <div id="svcConfirm">
       <div class="modal-ic info" id="svcConfirmIc"></div>
@@ -6291,7 +6291,7 @@ snmp_field_mapping:
       <p class="modal-text" id="svcText"></p>
       <div class="modal-acts">
         <button class="btn" data-act="close-svc" data-i18n="No, cancel">No, cancel</button>
-        <button class="btn primary" id="svcConfirmBtn" onclick="confirmSvcOp()"></button>
+        <button class="btn primary" id="svcConfirmBtn" data-act="call" data-fn="confirmSvcOp"></button>
       </div>
     </div>
     <div id="svcProgress" style="display:none">
@@ -6307,7 +6307,7 @@ snmp_field_mapping:
   </div>
 </div>
 
-<div class="modal-backdrop" id="intgModal" onclick="intgBackdrop(event)">
+<div class="modal-backdrop" id="intgModal" data-act="call-ev" data-fn="intgBackdrop">
   <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="intgTitle">
     <div id="intgConfirm">
       <div class="modal-ic info" id="intgConfirmIc"></div>
@@ -6315,7 +6315,7 @@ snmp_field_mapping:
       <p class="modal-text" id="intgText"></p>
       <div class="modal-acts">
         <button class="btn" data-act="close-intg" data-i18n="No, cancel">No, cancel</button>
-        <button class="btn primary" id="intgConfirmBtn" onclick="confirmIntgOp()"></button>
+        <button class="btn primary" id="intgConfirmBtn" data-act="call" data-fn="confirmIntgOp"></button>
       </div>
     </div>
     <div id="intgProgress" style="display:none">
@@ -6331,7 +6331,7 @@ snmp_field_mapping:
   </div>
 </div>
 
-<div class="modal-backdrop" id="aiModal" onclick="aiBackdrop(event)">
+<div class="modal-backdrop" id="aiModal" data-act="call-ev" data-fn="aiBackdrop">
   <div class="modal modal-wide ai-modal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
     <div class="ai-modal-head">
       <span class="ai-spark lg"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg></span>
@@ -6340,14 +6340,14 @@ snmp_field_mapping:
     <div class="ai-think" id="aiThink"><span class="diag-spin"></span> <span data-i18n="Claude is analyzing the alert…">Claude is analyzing the alert…</span></div>
     <div class="ai-result" id="aiResult" style="display:none"></div>
     <div class="modal-acts" id="aiActs" style="display:none">
-      <button class="btn" onclick="closeAi()" data-i18n="Close">Close</button>
-      <button class="btn primary" onclick="draftTicketFromAlert()"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3z"/></svg><span data-i18n="Draft ticket">Draft ticket</span></button>
+      <button class="btn" data-act="call" data-fn="closeAi" data-i18n="Close">Close</button>
+      <button class="btn primary" data-act="call" data-fn="draftTicketFromAlert"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3z"/></svg><span data-i18n="Draft ticket">Draft ticket</span></button>
     </div>
     <div class="ai-foot"><span class="ai-dot"></span><span data-i18n="Powered by Claude · Anthropic">Powered by Claude · Anthropic</span></div>
   </div>
 </div>
 
-<div class="modal-backdrop" id="logsModal" onclick="llBackdrop(event)">
+<div class="modal-backdrop" id="logsModal" data-act="call-ev" data-fn="llBackdrop">
   <div class="modal modal-logs" role="dialog" aria-modal="true" aria-labelledby="llTitle">
     <div class="ll-head">
       <div class="ll-titlewrap">
@@ -6365,12 +6365,12 @@ snmp_field_mapping:
         <button class="ll-chip" data-lvl="ERR" data-act="ll-filter">ERR</button>
       </div>
       <div class="ll-tools">
-        <button class="btn ll-btn" id="llPause" onclick="llTogglePause()"><svg viewBox="0 0 24 24"><path d="M7 5v14M17 5v14"/></svg><span data-i18n="Pause">Pause</span></button>
-        <button class="btn ll-btn" onclick="llClear()"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg><span data-i18n="Clear">Clear</span></button>
+        <button class="btn ll-btn" id="llPause" data-act="call" data-fn="llTogglePause"><svg viewBox="0 0 24 24"><path d="M7 5v14M17 5v14"/></svg><span data-i18n="Pause">Pause</span></button>
+        <button class="btn ll-btn" data-act="call" data-fn="llClear"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg><span data-i18n="Clear">Clear</span></button>
       </div>
     </div>
     <div class="ll-body" id="llBody" data-llf="all"></div>
-    <div class="ll-foot"><span data-i18n="wss:// · message recovery on">wss:// · message recovery on</span><button class="btn" onclick="closeLiveLogs()" data-i18n="Close">Close</button></div>
+    <div class="ll-foot"><span data-i18n="wss:// · message recovery on">wss:// · message recovery on</span><button class="btn" data-act="call" data-fn="closeLiveLogs" data-i18n="Close">Close</button></div>
   </div>
 </div>
 
@@ -8629,7 +8629,7 @@ function tkcToggle(k,on){ if(on) delete TKCFG.hide[k]; else TKCFG.hide[k]=true; 
 function closeTickerCfg(){ var b=document.getElementById('tkcBack'); if(b) b.remove(); }
 function openTickerCfg(e){ if(e&&e.stopPropagation) e.stopPropagation(); closeTickerCfg();
   var speeds=[['slow','Slow'],['normal','Normal'],['fast','Fast']];
-  var seg=speeds.map(function(s){return '<button class="tkc-seg-b'+(TKCFG.speed===s[0]?' active':'')+'" onclick="tkcSetSpeed(\''+s[0]+'\')">'+TX(s[1])+'</button>';}).join('');
+  var seg=speeds.map(function(s){return '<button class="tkc-seg-b'+(TKCFG.speed===s[0]?' active':'')+'" data-act="tkc-speed" data-arg="'+s[0]+'">'+TX(s[1])+'</button>';}).join('');
   var sevs=[['critical','Critical'],['warning','Degraded'],['info','Info']];
   var rows=sevs.map(function(sv){ var on=!TKCFG.hide[sv[0]];
     return '<label class="tkc-row"><span class="sev '+sv[0]+'">'+sv[1].toUpperCase()+'</span><label class="wx-tog"><input type="checkbox" '+(on?'checked':'')+' onchange="tkcToggle(\''+sv[0]+'\',this.checked)"><span class="wx-sw"></span></label></label>';
@@ -8845,7 +8845,7 @@ function renderPlaceholder(key){
     <div class="panel"><div class="empty">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
       <h3>${TX(t)}</h3><p>${TX(d)}</p>
-      <button class="btn primary" style="margin-top:18px" onclick="toast('${cta} — wired in the next build pass')">${TX(cta)}</button>
+      <button class="btn primary" style="margin-top:18px" data-act="ui-toast" data-arg="${cta} — wired in the next build pass">${TX(cta)}</button>
     </div></div>`;
 }
 
@@ -8900,7 +8900,7 @@ function renderTenants(){
 
     <div class="tnt-grid">
       ${TENANT_DIR.map(tntCard).join('')}
-      <button class="tnt-card tnt-add" onclick="openAddTenantModal()"><span class="tnt-add-ic"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="tnt-add-l">${TX('New tenant')}</span></button>
+      <button class="tnt-card tnt-add" data-act="call" data-fn="openAddTenantModal"><span class="tnt-add-ic"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="tnt-add-l">${TX('New tenant')}</span></button>
     </div>`;
 }
 
@@ -8916,7 +8916,7 @@ function tntCard(t){
   const sel = (tenantScope()!=='all' && tenantScope()===t.slug) ? ' tnt-selected' : '';
   return `
     <div class="tnt-card${sel}" style="--c:${color}" draggable="true" data-slug="${t.slug}"
-      onclick="manageTenant('${t.slug}')"
+      data-act="tnt-manage" data-arg="${t.slug}"
       ondragstart="tntDragStart(event,'${t.slug}')" ondragend="tntDragEnd(event)"
       ondragover="tntDragOver(event)" ondragenter="tntDragEnter(event)" ondragleave="tntDragLeave(event)"
       ondrop="tntDrop(event,'${t.slug}')">
@@ -9188,8 +9188,8 @@ function renderTenantManage(slug){
         </div>
       </div>
       <div class="head-actions">
-        <button class="btn" onclick="enterTenant('${slug}')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/></svg><span>${TX('Open collector workspace')}</span></button>
-        <button class="btn primary" onclick="toast('${name} — ${TX('changes saved')}')"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span>${TX('Save changes')}</span></button>
+        <button class="btn" data-act="tnt-enter" data-arg="${slug}"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/></svg><span>${TX('Open collector workspace')}</span></button>
+        <button class="btn primary" data-act="ui-toast" data-arg="${name} — ${TX('changes saved')}"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span>${TX('Save changes')}</span></button>
       </div>
     </div>
     <div class="panel tm-card tm-wide mb18">
@@ -9243,7 +9243,7 @@ function renderTenantManage(slug){
           <div class="tm-logo-prev">${TENANT_LOGOS[slug]?`<img class="tm-logo-fg" src="${TENANT_LOGOS[slug]}" alt="logo">`:`<span class="tn-avatar" style="background:${tenantColors[slug]||'var(--teal)'};width:54px;height:54px;font-size:19px">${tnInit(name)}</span>`}</div>
           <div class="tm-logo-side">
             <label class="btn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg><span>${TX('Upload logo')}</span><input type="file" accept="image/png,image/jpeg,image/svg+xml" style="display:none" onchange="tenantLogoUpload('${slug}',this)"></label>
-            ${TENANT_LOGOS[slug]?`<button class="btn" onclick="tenantLogoClear('${slug}')">${TX('Remove')}</button>`:''}
+            ${TENANT_LOGOS[slug]?`<button class="btn" data-act="tnt-logo-clear" data-arg="${slug}">${TX('Remove')}</button>`:''}
             <span class="tm-note">${TX('PNG, JPG or SVG — shown across Guardare for this tenant.')}</span>
           </div>
         </div>
@@ -9267,8 +9267,8 @@ function renderTenantManage(slug){
       <div class="tm-danger">
           <div><b>${TX('Danger zone')}</b><span>${TX('Suspend stops collection; delete is permanent.')}</span></div>
           <div class="tm-danger-btns">
-            ${dir.status==='suspended'?`<button class="btn" style="color:var(--green);border-color:#1d4a34" onclick="reactivateTenant('${slug}')">${TX('Reactivate')}</button>`:`<button class="btn" style="color:var(--amber);border-color:#574214" onclick="openSuspendModal('${slug}')">${TX('Suspend')}</button>`}
-            <button class="btn tm-del" onclick="openDeleteTenantModal('${slug}')">${TX('Delete')}</button>
+            ${dir.status==='suspended'?`<button class="btn" style="color:var(--green);border-color:#1d4a34" data-act="tnt-reactivate" data-arg="${slug}">${TX('Reactivate')}</button>`:`<button class="btn" style="color:var(--amber);border-color:#574214" data-act="tnt-suspend" data-arg="${slug}">${TX('Suspend')}</button>`}
+            <button class="btn tm-del" data-act="tnt-del" data-arg="${slug}">${TX('Delete')}</button>
           </div>
         </div>
     </div>`;
@@ -9549,7 +9549,7 @@ function intgCard(it, scope){
   const richHtml = (!readOnly && it.richFn && typeof window[it.richFn]==='function') ? window[it.richFn](it,scope) : '';
   let actions;
   if(mode==='inherited') actions=`<span class="intg-note-inline">${TX('Managed at platform level')}</span><button class="btn ${connected?'danger':'primary'}" data-act="intg-op" data-arg="${it.id}" data-on="${connected?'false':'true'}">${connected?TX('Disconnect'):TX('Connect')}</button>`;
-  else if(mode==='rollup') actions=`<span class="intg-note-inline">${rollN} ${TX('of')} ${TENANT_INTG_TOTAL} ${TX('tenants connected')}</span><button class="btn" onclick="toast('${TX('Pick a tenant from the switcher to configure')}')">${TX('Configure per tenant')}</button>`;
+  else if(mode==='rollup') actions=`<span class="intg-note-inline">${rollN} ${TX('of')} ${TENANT_INTG_TOTAL} ${TX('tenants connected')}</span><button class="btn" data-act="ui-toast" data-arg="${TX('Pick a tenant from the switcher to configure')}">${TX('Configure per tenant')}</button>`;
   else { const ctxName = (ENT || it.scope!=='tenant') ? TX('platform') : (tenantName[scope]||scope);
     actions=`<label class="intg-toggle"><input type="checkbox" ${connected?'checked':''} onchange="toast('${it.name} — ${ctxName} ' + (this.checked?'${TX('enabled')}':'${TX('disabled')}'))"><span>${TX('Enabled')}</span></label>
              <button class="btn ${connected?'danger':'primary'}" data-act="intg-op" data-arg="${it.id}" data-on="${connected?'false':'true'}">${connected?TX('Disconnect'):TX('Connect')}</button>`; }
@@ -9633,7 +9633,7 @@ function renderIntegrations(){
     const isOpen = intgAccOpen ? intgAccOpen.has(key) : false;
     return `
       <section class="intg-group${isOpen?' open':''}" data-group="${key}">
-        <button class="intg-group-head" type="button" onclick="toggleIntgAcc(this)" aria-expanded="${isOpen}">
+        <button class="intg-group-head" type="button" data-act="intg-acc" aria-expanded="${isOpen}">
           <h2 class="intg-group-title">${TX(titleOf[key])}</h2>
           <span class="intg-group-count">${items.length}</span>
           ${scopePill}
@@ -9658,7 +9658,7 @@ function renderIntegrations(){
         <p class="page-sub">${sub}</p>
       </div>
       <div class="head-actions">
-        <button class="btn" onclick="toast('${TX('Browse integration catalog')} — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add integration')}</button>
+        <button class="btn" data-act="ui-toast" data-arg="${TX('Browse integration catalog')} — wired in the next build"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>${TX('Add integration')}</button>
       </div>
     </div>
     <div class="intg-accordion">${sections}</div>`;
@@ -9668,14 +9668,14 @@ function renderIntegrations(){
 function renderTenantMenu(){
   const menu=document.getElementById('tenantMenu'); if(!menu) return;
   const allActive = (currentTenant==='all' && !currentTenantCtx) ? ' active' : '';
-  let html=`<button class="tenant-opt${allActive}" data-tenant="all" onclick="pickAllTenants();closeAllMenus()">
+  let html=`<button class="tenant-opt${allActive}" data-tenant="all" data-act="pick-all-tenants">
       <span class="t">${TX('All Tenants')}</span><span class="d">${TX('Aggregate · every customer')}</span>
     </button><div class="ms-sep"></div>`;
   html+=TENANT_DIR.map(t=>{
     const name=tenantName[t.slug]||t.slug;
     const sub=`${t.plan} · ${t.regions.join(' + ')}`;
     const active=currentTenantCtx===t.slug?' active':'';
-    return `<button class="tenant-opt${active}" data-tenant="${t.slug}" onclick="pickTenant('${t.slug}');closeAllMenus()">
+    return `<button class="tenant-opt${active}" data-tenant="${t.slug}" data-act="pick-tenant" data-arg="${t.slug}">
       <span class="t">${name}</span><span class="d">${sub}</span>
     </button>`;
   }).join('');
@@ -9824,7 +9824,7 @@ function detailWxCard(key){
   }
   var cloud='<svg viewBox="0 0 24 24" class="dwx-logo"><path d="M7 18.5a4.5 4.5 0 0 1-.5-8.97 6 6 0 0 1 11.5 1.2A3.8 3.8 0 0 1 17.5 18.5z"/><path d="M8.5 21l1-2M12 21l1-2M15.5 21l1-2"/></svg>';
   var msg=conn? TX('Weather not enabled for this location.') : TX('Connect a weather provider in Integrations.');
-  var act=conn? '<button class="btn" onclick="enableWxFromColl(\''+_escJs(key)+'\')"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>'+TX('Enable in Locations')+'</button>'
+  var act=conn? '<button class="btn" data-act="wx-enable" data-arg="'+_esc(key)+'"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>'+TX('Enable in Locations')+'</button>'
             : '<button class="btn" data-act="go-intg"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>'+TX('Open Integrations')+'</button>';
   return '<div class="panel dwx dwx-off">'+head+'<div class="dwx-empty">'+cloud+'<div class="dwx-emptxt">'+msg+'</div>'+act+'</div></div>';
 }
@@ -9864,7 +9864,7 @@ function renderAudit(){
   let list=AUDIT_LOG.filter(e=> !scope || e.tenant===scope);
   const total=list.length;
   list=list.filter(e=> auditFilter==='all'||e.cat===auditFilter);
-  const chips=cats.map(([k,l])=>`<button class="aud-chip${auditFilter===k?' on':''}" onclick="auditFilter='${k}';renderAudit()">${TX(l)}</button>`).join('');
+  const chips=cats.map(([k,l])=>`<button class="aud-chip${auditFilter===k?' on':''}" data-act="audit-filter" data-arg="${k}">${TX(l)}</button>`).join('');
   const rows=list.map(e=>{
     const col=auditCatColor(e.cat);
     const ten = e.tenant==='platform'
@@ -9888,7 +9888,7 @@ function renderAudit(){
         <p class="page-sub">${list.length} ${TX('of')} ${total} ${TX('events')} · ${TX('newest first')}</p>
       </div>
     </div>
-    <div class="aud-filter" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">${chips}<button class="btn" style="margin-left:auto" onclick="toast('Audit export (CSV) — wired in the next build')"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>${TX('Export CSV')}</button></div>
+    <div class="aud-filter" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">${chips}<button class="btn" style="margin-left:auto" data-act="ui-toast" data-arg="Audit export (CSV) — wired in the next build"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>${TX('Export CSV')}</button></div>
     <div class="panel" style="overflow-x:auto">
       <table id="auditTbl">
         <thead><tr><th>${TX('Time')}</th>${oneTenant?'':`<th>${TX('Tenant')}</th>`}<th>${TX('Actor')}</th><th>${TX('Action')}</th><th>${TX('Target')}</th><th>${TX('Source IP')}</th></tr></thead>
@@ -10009,7 +10009,7 @@ function wxCell(l){
 }
 function wxStatusBar(){
   const i=wxIntg();
-  if(!i||!i.connected) return '<div class="wx-bar off"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>'+TX('Weather provider not connected')+' \u00b7 <button class="wx-bar-link" onclick="renderIntegrations();go(\'integrations\')">'+TX('Configure in Integrations')+'</button></div>';
+  if(!i||!i.connected) return '<div class="wx-bar off"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>'+TX('Weather provider not connected')+' \u00b7 <button class="wx-bar-link" data-act="go-intg">'+TX('Configure in Integrations')+'</button></div>';
   const prov = 'Open-Meteo';
   const n = locationRows().filter(function(l){return WEATHER_SITES.has(l.tenant+':'+l.id);}).length;
   return '<div class="wx-bar on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>'+TX('Weather')+' \u00b7 '+prov+' \u00b7 '+(wxUnits()==='imperial'?'\u00b0F':'\u00b0C')+' \u00b7 '+n+' '+TX('sites enabled')+'</div>';
@@ -10209,8 +10209,8 @@ function openLocationCard(key){
       '<div class="lm-field lm-field-wide lm-wxrow"><label class="lm-wxlabel">'+TX('Enable Weather Forecasting')+'</label><label class="wx-tog"><input type="checkbox" id="lmWx" '+(wxOn?'checked':'')+' onchange="lmToggleWx()"><span class="wx-sw"></span></label></div>'+
     '</div></div>'+
     '<div class="lm-acts">'+
-      (isAdd?'<span class="lm-acts-sp"></span>':'<button class="btn danger lm-del" onclick="lmAskDelete()"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>'+TX('Delete Location')+'</button>')+
-      '<div class="lm-acts-r"><button class="btn" onclick="closeLocationCard()">'+TX('Cancel')+'</button><button class="btn primary" onclick="saveLocationCard()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>'+TX('Save changes')+'</button></div>'+
+      (isAdd?'<span class="lm-acts-sp"></span>':'<button class="btn danger lm-del" data-act="call" data-fn="lmAskDelete"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>'+TX('Delete Location')+'</button>')+
+      '<div class="lm-acts-r"><button class="btn" data-act="call" data-fn="closeLocationCard">'+TX('Cancel')+'</button><button class="btn primary" data-act="call" data-fn="saveLocationCard"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>'+TX('Save changes')+'</button></div>'+
     '</div>';
   document.getElementById('locModal').classList.add('show');
   if(!isAdd && WEATHER_SITES.has(key) && wxConnected()){ wxMaybeFetch(key, l.lat, l.lng); }
@@ -10256,7 +10256,7 @@ function lmAskDelete(){
   ov.innerHTML='<div class="lm-confirm-card"><div class="lm-confirm-ic"><svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h18.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div>'+
     '<div class="lm-confirm-h">'+TX('Delete this location?')+'</div>'+
     '<div class="lm-confirm-b">'+TX('This permanently removes the location from the console and cannot be undone.')+'</div>'+
-    '<div class="lm-confirm-acts"><button class="btn" onclick="lmCancelDelete()">'+TX('Cancel')+'</button><button class="btn danger" onclick="lmConfirmDelete()"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>'+TX('Delete')+'</button></div></div>';
+    '<div class="lm-confirm-acts"><button class="btn" data-act="call" data-fn="lmCancelDelete">'+TX('Cancel')+'</button><button class="btn danger" data-act="call" data-fn="lmConfirmDelete"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>'+TX('Delete')+'</button></div></div>';
   box.appendChild(ov);
 }
 function lmCancelDelete(){ var c=document.getElementById('lmConfirm'); if(c) c.remove(); }
@@ -10949,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.474.alpha';
+const APP_VERSION='v2026.02.475.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11280,7 +11280,7 @@ function tcfgCustomerCard(obj,mode,slug){
         </div>
       </div>
       <div class="gcfg-actions" style="padding:0 18px 18px">
-        ${mode==='tenant'&&dir?`<button class="btn" style="${dir.status==='suspended'?'color:var(--green);border-color:#1d4a34':'color:var(--amber);border-color:#574214'}" onclick="${dir.status==='suspended'?`reactivateTenant('${slug}')`:`openSuspendModal('${slug}')`}">${dir.status==='suspended'?TX('Reactivate tenant'):TX('Suspend tenant')}</button><span style="flex:1"></span>`:''}
+        ${mode==='tenant'&&dir?`<button class="btn" style="${dir.status==='suspended'?'color:var(--green);border-color:#1d4a34':'color:var(--amber);border-color:#574214'}" data-act="${dir.status==='suspended'?'tnt-reactivate':'tnt-suspend'}" data-arg="${slug}">${dir.status==='suspended'?TX('Reactivate tenant'):TX('Suspend tenant')}</button><span style="flex:1"></span>`:''}
         <button class="btn" data-act="tcfg-reset">${TX('Reset')}</button>
         <button class="btn primary" data-act="tcfg-save" data-mode="${mode}" data-arg="${slug||''}"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
       </div>
@@ -12261,8 +12261,30 @@ var UI_ACTS={
   'tnt-fleet':function(el,arg,ev){ ev.stopPropagation(); openTenantFleet(arg); },
   'wx-bulk':function(el,arg,ev){ ev.stopPropagation(); wxAskBulk(); },
   'stop':function(el,arg,ev){ ev.stopPropagation(); },
-  'noop':function(el,arg,ev){ ev.preventDefault(); }
+  'noop':function(el,arg,ev){ ev.preventDefault(); },
+  'call':function(el){ var n=el.getAttribute('data-fn'); if(UI_CALL_OK[n]&&typeof window[n]==='function'){ window[n](); } },
+  'call-ev':function(el,arg,ev){ var n=el.getAttribute('data-fn'); if(UI_CALLEV_OK[n]&&typeof window[n]==='function'){ window[n](ev); } },
+  'tkc-speed':function(el,arg){ tkcSetSpeed(arg); },
+  'tnt-logo-clear':function(el,arg){ tenantLogoClear(arg); },
+  'search-coll':function(el){ searchGoCollector(el.getAttribute('data-ten'),el.getAttribute('data-coll')); },
+  'search-tenant':function(el,arg){ searchGoTenant(arg); },
+  'search-alert':function(el,arg){ searchGoAlert(parseInt(arg,10)); },
+  'tnt-reactivate':function(el,arg){ reactivateTenant(arg); },
+  'tnt-suspend':function(el,arg){ openSuspendModal(arg); },
+  'tnt-del':function(el,arg){ openDeleteTenantModal(arg); },
+  'tnt-manage':function(el,arg){ manageTenant(arg); },
+  'tnt-enter':function(el,arg){ enterTenant(arg); },
+  'pick-tenant':function(el,arg){ pickTenant(arg); closeAllMenus(); },
+  'pick-all-tenants':function(){ pickAllTenants(); closeAllMenus(); },
+  'wx-enable':function(el,arg){ enableWxFromColl(arg); },
+  'audit-filter':function(el,arg){ auditFilter=arg; renderAudit(); },
+  'intg-acc':function(el){ toggleIntgAcc(el); },
+  'dismiss-banner':function(){ var b=document.getElementById('previewBanner'); if(b){ b.remove(); } },
+  'ai-refresh':function(){ renderAiSummary(true); }
 };
+var UI_CALL_OK={}, UI_CALLEV_OK={};
+'wxConfirmBulk wxCloseBulk toggleTicker tkCreateAnother submitTicket saveLocationCard runDiagnostics lmConfirmDelete lmCancelDelete lmAskDelete llTogglePause llClear lgTogglePw guardareLogout goCloudMon goCloudCfg draftTicketFromAlert ctopoFit confirmSvcOp confirmSuspend confirmReboot confirmMspSwitch confirmIntgOp confirmDeleteTenant confirmAddTenant closeSuspendModal closeRebootModal closeOsMaint closeMspSwitchModal closeLocationCard closeLiveLogs closeDiag closeDeleteTenantModal closeAi closeAddTenantModal ackAll openProfile openLiveLogs openDiagnostics openAddTenantModal openAccount guardareToggleTheme gotoLocationFromDetail'.split(' ').forEach(function(n){ UI_CALL_OK[n]=1; });
+'svcBackdrop rebootBackdrop osMaintBackdrop llBackdrop intgBackdrop diagBackdrop aiBackdrop toggleOpMenu toggleCtxPick'.split(' ').forEach(function(n){ UI_CALLEV_OK[n]=1; });
 /* capture phase: the dispatcher must run before the document-level
    closeAllMenus click listener (registered earlier), so menu-toggle acts can
    stopPropagation() exactly like the old inline handlers did at target phase. */
@@ -13735,7 +13757,7 @@ function renderAiSummary(regen){
       <span class="ai-spark"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg></span>
       <h3>${TX('AI health summary')}</h3>
       <span class="ai-conf">${TX('Confidence')}: ${TX(s.conf)}</span>
-      <button class="ai-refresh" title="${TX('Regenerate')}" onclick="renderAiSummary(true)"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+      <button class="ai-refresh" title="${TX('Regenerate')}" data-act="ai-refresh"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
     </div>
     <p class="ai-body${regen?' ai-typing':''}">${s.body}</p>
     <div class="ai-next"><span class="ai-next-k">${TX('Suggested next step')}</span><span>${s.next}</span></div>
@@ -15086,15 +15108,15 @@ function runSearch(q){
   const als=alerts.map((a,i)=>({a,i})).filter(x=>(x.a[1]||'').toLowerCase().includes(q)||(x.a[2]||'').toLowerCase().includes(q)||(tenantName[x.a[3]]||'').toLowerCase().includes(q)).slice(0,4);
   let h='';
   if(cols.length) h+=`<div class="sr-group">${TX('Collectors')}</div>`+cols.map(c=>
-    `<div class="sr-item" onclick="searchGoCollector('${_se(c.ten)}','${_se(c.coll)}')">
+    `<div class="sr-item" data-act="search-coll" data-ten="${_se(c.ten)}" data-coll="${_se(c.coll)}">
       <span class="sr-dot" style="background:${_stCol2[c.st]||'var(--green)'}"></span>
       <span class="sr-main"><b>${_se(c.coll)}</b></span><span class="sr-sub">${_se(tenantName[c.ten]||c.ten)}</span></div>`).join('');
   if(tens.length) h+=`<div class="sr-group">${TX('Tenants')}</div>`+tens.map(t=>
-    `<div class="sr-item" onclick="searchGoTenant('${_se(t.slug)}')">
+    `<div class="sr-item" data-act="search-tenant" data-arg="${_se(t.slug)}">
       <span class="sr-av" style="background:${tenantColors[t.slug]||'var(--teal)'}">${_se(tnInit(tenantName[t.slug]||t.slug))}</span>
       <span class="sr-main"><b>${_se(tenantName[t.slug]||t.slug)}</b></span><span class="sr-sub">${_se(t.plan||'')}</span></div>`).join('');
   if(als.length) h+=`<div class="sr-group">${TX('Alerts')}</div>`+als.map(x=>
-    `<div class="sr-item" onclick="searchGoAlert(${x.i})">
+    `<div class="sr-item" data-act="search-alert" data-arg="${x.i}">
       <span class="sr-dot" style="background:${_sevCol[x.a[0]]||'var(--amber)'}"></span>
       <span class="sr-main"><b>${_se(TX(x.a[1]))}</b></span><span class="sr-sub">${_se(tenantName[x.a[3]]||x.a[3])}</span></div>`).join('');
   box.innerHTML = h || `<div class="sr-empty">${TX('No matches')}</div>`;
