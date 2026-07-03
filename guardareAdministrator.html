@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.475.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.476.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10949,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.475.alpha';
+const APP_VERSION='v2026.02.476.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11830,19 +11830,27 @@ function cfgVcollectorForm(coll){
 }
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
 var VC_IC_TRASH='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>';
+/* ===== Phase 2 pillar 2: shared field components. vfInput/vfSelect emit the
+   canonical tm-input control; vfField wraps in gcfg-field/label/iwrap (+hint).
+   o.v is pre-escaped at the call site; o.x is a raw attribute tail
+   (placeholder/style/readonly) for per-field variance. Output is
+   byte-identical to the hand-rolled markup it replaced. ===== */
+function vfInput(o){ return '<input class="tm-input'+(o.mono?' mono':'')+'"'+(o.k?' data-k="'+o.k+'"':'')+(o.type?' type="'+o.type+'"':'')+' value="'+(o.v||'')+'"'+(o.x||'')+'>'; }
+function vfSelect(o){ return '<select class="tm-input'+(o.mono?' mono':'')+'"'+(o.k?' data-k="'+o.k+'"':'')+(o.x||'')+'>'+o.opts+'</select>'; }
+function vfField(label,ctrl,hint){ return '<div class="gcfg-field"><label>'+label+'</label><div class="gcfg-iwrap">'+ctrl+'</div>'+(hint?'<span class="gcfg-hint">'+hint+'</span>':'')+'</div>'; }
 function vcRouteEntry(r, defUrl){
   if(typeof r==='string'){ r={id:r}; }
   var method=r.method||'GET', url=(r.url||defUrl||''), uri=r.uri||'', desc=r.desc||'', sub=r.sub||'';
   var opt=function(m){ return '<option'+(m===method?' selected':'')+'>'+m+'</option>'; };
-  var subField=sub?'<div class="gcfg-field"><label>Subscription ID</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="sub" value="'+_esc(sub)+'"></div></div>':'';
+  var subField=sub?vfField('Subscription ID',vfInput({mono:1,k:'sub',v:_esc(sub)})):'';
   return '<div class="vc-rt">'+
     '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(r.id)+'</span><span class="vc-rt-idlbl">route_id · auto</span>'+
       '<button class="vc-rt-del" data-act="vc-remove-route" aria-label="Remove route">'+VC_IC_TRASH+'</button></div>'+
-    '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(desc)+'" placeholder="Describe what this route pulls"></div></div>'+
-    '<div class="gcfg-field"><label>Method</label><div class="gcfg-iwrap"><select class="tm-input" data-k="method" style="max-width:170px">'+opt('GET')+opt('POST')+'</select></div></div>'+
-    '<div class="gcfg-field"><label>Base URL</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="url" value="'+_esc(url)+'" placeholder="https://host"></div></div>'+
+    vfField('Description',vfInput({k:'desc',v:_esc(desc),x:' placeholder="Describe what this route pulls"'}))+
+    vfField('Method',vfSelect({k:'method',x:' style="max-width:170px"',opts:opt('GET')+opt('POST')}))+
+    vfField('Base URL',vfInput({mono:1,k:'url',v:_esc(url),x:' placeholder="https://host"'}))+
     subField+
-    '<div class="gcfg-field"><label>URI</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="uri" value="'+_esc(uri)+'" placeholder="/api/v1/..."></div></div>'+
+    vfField('URI',vfInput({mono:1,k:'uri',v:_esc(uri),x:' placeholder="/api/v1/..."'}))+
   '</div>';
 }
 function vcGenRouteId(){ return String(Math.floor(10000+Math.random()*89999)); }
@@ -11907,10 +11915,10 @@ function vcOidEntry(o){
   return '<div class="vc-rt">'+
     '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(o.oid||'new')+'</span><span class="vc-rt-idlbl">OID</span>'+
       '<button class="vc-rt-del" data-act="vc-remove-oid" aria-label="Remove OID">'+VC_IC_TRASH+'</button></div>'+
-    '<div class="gcfg-field"><label>OID</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="oid" value="'+_esc(o.oid||'')+'" placeholder="1.3.6.1.2.1..."></div></div>'+
-    '<div class="gcfg-field"><label>Name</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="name" value="'+_esc(o.name||'')+'" placeholder="ifOperStatus"></div></div>'+
-    '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(o.desc||'')+'" placeholder="Interface description"></div></div>'+
-    '<div class="gcfg-field"><label>Call frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="freq" type="number" value="'+_esc(o.freq||'60')+'" style="max-width:150px"></div></div>'+
+    vfField('OID',vfInput({mono:1,k:'oid',v:_esc(o.oid||''),x:' placeholder="1.3.6.1.2.1..."'}))+
+    vfField('Name',vfInput({mono:1,k:'name',v:_esc(o.name||''),x:' placeholder="ifOperStatus"'}))+
+    vfField('Description',vfInput({k:'desc',v:_esc(o.desc||''),x:' placeholder="Interface description"'}))+
+    vfField('Call frequency (seconds)',vfInput({k:'freq',type:'number',v:_esc(o.freq||'60'),x:' style="max-width:150px"'}))+
     '<div class="vc-subhead2">Value mappings</div>'+
     '<div class="vc-enum-list">'+enums+'</div>'+
     '<button class="vc-enum-add" data-act="vc-add-enum">'+VC_IC_PLUS+'Add mapping</button>'+
@@ -11960,14 +11968,14 @@ function vcSnmpOpen(id){
       '<button class="vc-dlg-x" data-act="vc-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="vc-dlg-body">'+
       '<div class="gcfg-subhead">Identity</div>'+
-      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" data-k="site" value="'+_esc(e.site)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Manufacturer</label><div class="gcfg-iwrap"><input class="tm-input" data-k="mfr" value="'+_esc(e.mfr)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(e.desc)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Host / Name</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="ip" value="'+_esc(e.ip)+'"></div></div>'+
+      vfField('Site ID',vfInput({k:'site',v:_esc(e.site)}))+
+      vfField('Manufacturer',vfInput({k:'mfr',v:_esc(e.mfr)}))+
+      vfField('Description',vfInput({k:'desc',v:_esc(e.desc)}))+
+      vfField('Host / Name',vfInput({mono:1,k:'ip',v:_esc(e.ip)}))+
       '<div class="gcfg-subhead">SNMP</div>'+
-      '<div class="gcfg-field"><label>Port</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="port" value="'+_esc(e.port)+'" style="max-width:120px"></div></div>'+
-      '<div class="gcfg-field"><label>Version</label><div class="gcfg-iwrap"><select class="tm-input" data-k="ver" style="max-width:120px">'+verOpt('v1')+verOpt('v2c')+verOpt('v3')+'</select></div></div>'+
-      '<div class="gcfg-field"><label>Community</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div><span class="gcfg-hint">SNMP community string \u2014 stored encrypted</span></div>'+
+      vfField('Port',vfInput({mono:1,k:'port',v:_esc(e.port),x:' style="max-width:120px"'}))+
+      vfField('Version',vfSelect({k:'ver',x:' style="max-width:120px"',opts:verOpt('v1')+verOpt('v2c')+verOpt('v3')}))+
+      vfField('Community',vfInput({type:'password',v:'xxxxxxxxxxxx'}),'SNMP community string \u2014 stored encrypted')+
       '<div class="gcfg-subhead">OIDs <span class="gcfg-subnote">'+e.oids.length+(e.oids.length===1?' oid':' oids')+'</span></div>'+
       '<div class="vc-rt-list" id="vcOidList">'+oids+'</div>'+
       '<button class="vc-rt-add" data-act="vc-add-oid">'+VC_IC_PLUS+'Add OID</button>'+
@@ -12054,13 +12062,13 @@ function vcCliOpen(id){
       '<button class="vc-dlg-x" data-act="vc-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="vc-dlg-body">'+
       '<div class="gcfg-subhead">Test</div>'+
-      '<div class="gcfg-field"><label>CLI ID</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.id)+'" readonly></div></div>'+
-      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(e.desc)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Test type</label><div class="gcfg-iwrap"><select class="tm-input" data-k="type" style="max-width:170px">'+tOpt('ping_rtt')+tOpt('ping_full')+'</select></div></div>'+
-      '<div class="gcfg-field"><label>Test options</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="opts" value="'+_esc(e.opts)+'" style="max-width:160px" placeholder="2, -1"></div></div>'+
-      '<div class="gcfg-field"><label>Target (IP / hostname)</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="target" value="'+_esc(e.target)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="freq" type="number" value="'+_esc(e.freq)+'" style="max-width:150px"></div></div>'+
-      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" data-k="site" value="'+_esc(e.site)+'"></div></div>'+
+      vfField('CLI ID',vfInput({mono:1,v:_esc(e.id),x:' readonly'}))+
+      vfField('Description',vfInput({k:'desc',v:_esc(e.desc)}))+
+      vfField('Test type',vfSelect({k:'type',x:' style="max-width:170px"',opts:tOpt('ping_rtt')+tOpt('ping_full')}))+
+      vfField('Test options',vfInput({mono:1,k:'opts',v:_esc(e.opts),x:' style="max-width:160px" placeholder="2, -1"'}))+
+      vfField('Target (IP / hostname)',vfInput({mono:1,k:'target',v:_esc(e.target)}))+
+      vfField('Frequency (seconds)',vfInput({k:'freq',type:'number',v:_esc(e.freq),x:' style="max-width:150px"'}))+
+      vfField('Site ID',vfInput({k:'site',v:_esc(e.site)}))+
     '</div>'+
     '<div class="modal-acts tk-acts"><button class="btn" data-act="vc-close">Cancel</button><button class="btn primary" data-act="vc-save-cli">Save changes</button></div>'+
   '</div>';
@@ -12118,15 +12126,15 @@ function vcEpOpen(site){
   var n=(isNew?grp.length+1:grp.indexOf(e)+1), ic=icMap[e.type]||VC_IC_API;
   var auth;
   if(e.type==='meraki'){
-    auth='<div class="gcfg-field"><label>API Key</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxxxxxxxxxx"></div><span class="gcfg-hint">Sent as header X-Cisco-Meraki-API-Key</span></div>';
+    auth=vfField('API Key',vfInput({type:'password',v:'xxxxxxxxxxxxxxxxxxxx'}),'Sent as header X-Cisco-Meraki-API-Key');
   } else if(e.type==='arista'){
-    auth='<div class="gcfg-field"><label>Auth URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="https://'+_esc(e.ip)+'"></div></div>'+'<div class="gcfg-field"><label>Auth URI</label><div class="gcfg-iwrap"><input class="tm-input mono" value="/command-api"></div></div>'+'<div class="gcfg-field"><label>Auth method</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px"><option>POST</option><option>GET</option></select></div></div>'+'<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" data-k="user" value="'+_esc(e.user)+'"></div></div>'+'<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>';
+    auth=vfField('Auth URL',vfInput({mono:1,v:'https://'+_esc(e.ip)}))+vfField('Auth URI',vfInput({mono:1,v:'/command-api'}))+vfField('Auth method',vfSelect({x:' style="max-width:170px"',opts:'<option>POST</option><option>GET</option>'}))+vfField('Username',vfInput({k:'user',v:_esc(e.user)}))+vfField('Password',vfInput({type:'password',v:'xxxxxxxxxxxx'}));
   } else {
-    auth='<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" data-k="user" value="'+_esc(e.user)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>'+
-      (e.af&&e.af!=='0'?'<div class="gcfg-field"><label>Auth refresh (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="af" type="number" value="'+e.af+'"></div></div>':'');
+    auth=vfField('Username',vfInput({k:'user',v:_esc(e.user)}))+
+      vfField('Password',vfInput({type:'password',v:'xxxxxxxxxxxx'}))+
+      (e.af&&e.af!=='0'?vfField('Auth refresh (seconds)',vfInput({k:'af',type:'number',v:e.af})):'');
   }
-  if(e.type==='azure'){ auth+='<div class="gcfg-field"><label>Scope</label><div class="gcfg-iwrap"><input class="tm-input mono" value="https://management.azure.com/.default"></div><span class="gcfg-hint">OAuth2 token scope requested when authenticating to Azure Resource Manager</span></div>'; }
+  if(e.type==='azure'){ auth+=vfField('Scope',vfInput({mono:1,v:'https://management.azure.com/.default'}),'OAuth2 token scope requested when authenticating to Azure Resource Manager'); }
   var defUrl='https://'+e.ip;
   var routes=e.routes.map(function(r){ return vcRouteEntry(r, defUrl); }).join('');
   var rpc='';
@@ -12134,12 +12142,12 @@ function vcEpOpen(site){
     var cmds=e.cmds||[];
     var cmdRows=cmds.map(vcCmdRow).join('');
     rpc='<div class="gcfg-subhead">JSON-RPC</div>'+
-      '<div class="gcfg-field"><label>API model type</label><div class="gcfg-iwrap"><input class="tm-input mono" value="json_rpc" readonly></div></div>'+
-      '<div class="gcfg-field"><label>JWT profile</label><div class="gcfg-iwrap"><input class="tm-input" value="" placeholder="(none)"></div></div>'+
-      '<div class="gcfg-field"><label>RPC version</label><div class="gcfg-iwrap"><input class="tm-input mono" value="2.0" style="max-width:120px"></div></div>'+
-      '<div class="gcfg-field"><label>RPC method</label><div class="gcfg-iwrap"><input class="tm-input mono" value="runCmds" style="max-width:220px"></div></div>'+
-      '<div class="gcfg-field"><label>Param · Format</label><div class="gcfg-iwrap"><input class="tm-input mono" value="json" style="max-width:160px"></div></div>'+
-      '<div class="gcfg-field"><label>Param · Timestamps</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:160px"><option>false</option><option>true</option></select></div></div>'+
+      vfField('API model type',vfInput({mono:1,v:'json_rpc',x:' readonly'}))+
+      vfField('JWT profile',vfInput({v:'',x:' placeholder="(none)"'}))+
+      vfField('RPC version',vfInput({mono:1,v:'2.0',x:' style="max-width:120px"'}))+
+      vfField('RPC method',vfInput({mono:1,v:'runCmds',x:' style="max-width:220px"'}))+
+      vfField('Param · Format',vfInput({mono:1,v:'json',x:' style="max-width:160px"'}))+
+      vfField('Param · Timestamps',vfSelect({x:' style="max-width:160px"',opts:'<option>false</option><option>true</option>'}))+
       '<div class="gcfg-subhead">Commands</div>'+
       '<div class="vc-rt-list" id="vcCmdList">'+cmdRows+'</div>'+
       '<button class="vc-rt-add" data-act="vc-add-cmd">'+VC_IC_PLUS+'Add command</button>';
@@ -12151,16 +12159,16 @@ function vcEpOpen(site){
       '<button class="vc-dlg-x" data-act="vc-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="vc-dlg-body">'+
       '<div class="gcfg-subhead">Identity</div>'+
-      (isNew?'<div class="gcfg-field"><label>Vendor / Category</label><div class="gcfg-iwrap"><select class="tm-input" data-k="type" style="max-width:240px">'+['net','protect','access','meraki','azure','arista'].map(function(t){ return '<option value="'+t+'"'+(t===e.type?' selected':'')+'>'+lblMap[t]+'</option>'; }).join('')+'</select></div><span class="gcfg-hint">Determines protocol and folder placement</span></div>':'')+
-      '<div class="gcfg-field"><label>Category / Site</label><div class="gcfg-iwrap"><input class="tm-input" data-k="site" value="'+_esc(e.site)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Host</label><div class="gcfg-iwrap"><input class="tm-input" data-k="host" value="'+_esc(e.host)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Gateway IP</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="ip" value="'+_esc(e.ip)+'"></div></div>'+
+      (isNew?vfField('Vendor / Category',vfSelect({k:'type',x:' style="max-width:240px"',opts:['net','protect','access','meraki','azure','arista'].map(function(t){ return '<option value="'+t+'"'+(t===e.type?' selected':'')+'>'+lblMap[t]+'</option>'; }).join('')}),'Determines protocol and folder placement'):'')+
+      vfField('Category / Site',vfInput({k:'site',v:_esc(e.site)}))+
+      vfField('Host',vfInput({k:'host',v:_esc(e.host)}))+
+      vfField('Gateway IP',vfInput({mono:1,k:'ip',v:_esc(e.ip)}))+
       '<div class="gcfg-subhead">Authentication</div>'+auth+rpc+
       '<div class="gcfg-subhead">Routes <span class="gcfg-subnote">'+e.routes.length+' '+(e.routes.length===1?'route':'routes')+'</span></div>'+
       '<div class="vc-rt-list" id="vcRtList">'+routes+'</div>'+
       '<button class="vc-rt-add" data-act="vc-add-route">'+VC_IC_PLUS+'Add route</button>'+
       '<div class="gcfg-subhead">Route Polling Interval</div>'+
-      '<div class="gcfg-field"><label>Poll interval (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="rf" type="number" value="'+e.rf+'"></div></div>'+
+      vfField('Poll interval (seconds)',vfInput({k:'rf',type:'number',v:e.rf}))+
     '</div>'+
     '<div class="modal-acts tk-acts"><button class="btn" data-act="vc-close">Cancel</button><button class="btn primary" data-act="vc-save-ep">Save changes</button></div>'+
   '</div>';
