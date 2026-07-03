@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.467.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.468.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10949,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.467.alpha';
+const APP_VERSION='v2026.02.468.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12169,13 +12169,13 @@ function vcEpOpen(site){
 function vcAddEndpoint(){ if(vcSubTab==='snmp'){ vcSnmpOpen(null); } else if(vcSubTab==='cli'){ vcCliOpen(null); } else { vcEpOpen(null); } }
 function vcRenameFolder(name){ toast('Rename '+name+' \u2014 customizable category name (coming in slice 2)'); }
 function vcToggleFolder(el,type){ var c=el.closest('.vc-folder'); if(!c) return; var collapsed=c.classList.toggle('collapsed'); vcFolderOpen[type]=!collapsed; }
-/* ===== Phase 2 (Amendment A1 §A1.6): delegated events — vCollector slice.
-   One document-level dispatcher; elements declare data-act (+ data-arg).
-   Acts are vc- prefixed so other slices' data-act attributes are ignored.
+/* ===== Phase 2 (Amendment A1 §A1.6): delegated events — app-wide dispatcher.
+   One document-level dispatcher; elements declare data-act (+ data-arg/-op/-skey).
+   Acts are namespaced (vc-, svc-); unknown data-act values are ignored.
    closest() picks the nearest act, so nested actions (rename pencil inside a
    folder head) need no stopPropagation. Inline handlers removed from this
    slice; _escJs no longer needed for vc rows (attribute context, _esc). ===== */
-var VC_ACTS={
+var UI_ACTS={
   'vc-open-ep':function(el,arg){ vcEpOpen(arg); },
   'vc-open-snmp':function(el,arg){ vcSnmpOpen(arg); },
   'vc-open-cli':function(el,arg){ vcCliOpen(arg); },
@@ -12195,13 +12195,16 @@ var VC_ACTS={
   'vc-close':function(){ closeVcEp(); },
   'vc-save-ep':function(){ vcEpSave(); },
   'vc-save-snmp':function(){ vcSnmpSave(); },
-  'vc-save-cli':function(){ vcCliSave(); }
+  'vc-save-cli':function(){ vcCliSave(); },
+  'svc-op':function(el){ svcAct(el.getAttribute('data-skey'),el.getAttribute('data-op')); },
+  'svc-toast':function(el){ toast(el.getAttribute('data-arg')); },
+  'svc-maint':function(el){ osMaint(el.getAttribute('data-op'),el.getAttribute('data-skey')); }
 };
 document.addEventListener('click',function(ev){
   var el=(ev.target&&ev.target.closest)?ev.target.closest('[data-act]'):null;
-  if(!el){ return; }
-  var h=VC_ACTS[el.getAttribute('data-act')];
-  if(h){ h(el,el.getAttribute('data-arg')); }
+  if(!el||el.disabled){ return; }
+  var h=UI_ACTS[el.getAttribute('data-act')];
+  if(h){ h(el,el.getAttribute('data-arg'),ev); }
 });
 
 function renderCfgMgr(){
@@ -12474,7 +12477,7 @@ function protoChips(p){return `<div class="svc-protos">`+Object.keys(p).map(k=>`
 function svcBorderCls(st){ return st==='stopped'?'cs-stopped':(st==='starting'||st==='stopping')?'cs-starting':''; }
 function svcCard(o){
   const metrics=o.metrics.map(m=>`<div class="svc-m"><div class="n">${m.n}${m.unit?`<small>${m.unit}</small>`:''}</div><div class="l">${TX(m.l)}</div></div>`).join('');
-  const acts=o.acts.map(a=>{const _dis=(o.status==='stopped'&&(a.act==='reload'||a.act==='stop'));return `<button class="svc-act" data-act="${a.act||''}" data-tip="${TX(a.tip)}" aria-label="${TX(a.tip)}"${_dis?' disabled':''} onclick="${a.act&&o.skey?`svcAct('${o.skey}','${a.act}')`:`toast('${a.toast}')`}">${a.icon}</button>`;}).join('');
+  const acts=o.acts.map(a=>{const _dis=(o.status==='stopped'&&(a.act==='reload'||a.act==='stop'));return `<button class="svc-act" data-act="${a.act&&o.skey?'svc-op':'svc-toast'}" data-skey="${o.skey||''}" data-op="${a.act||''}" data-arg="${_esc(a.toast||'')}" data-tip="${TX(a.tip)}" aria-label="${TX(a.tip)}"${_dis?' disabled':''}>${a.icon}</button>`;}).join('');
   return `<div class="svc-card ${o.deg?'deg':''} ${svcBorderCls(o.status)}">
     <div class="svc-top"><div><div class="svc-name">${o.name}</div><div class="svc-role">${TX(o.role)}</div></div>
       <span class="td-status ${statusClass[o.status]}"${o.skey?` id="scpill-${o.skey}"`:''}><i></i><span class="lbl">${TX(statusLabel[o.status])}</span></span></div>
@@ -12645,7 +12648,7 @@ function osTaskCard(t,host){
     +'<div class="svc-top"><div><div class="svc-name">'+TX(t.name)+'</div><div class="svc-role">'+TX(t.role)+'</div></div>'
     +'<span class="ostask-badge"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>OS</span></div>'
     +'<div class="svc-foot"><span class="svc-ver">'+((host.indexOf('guardare')===0)?host:'gso-'+host)+'</span>'
-    +'<div class="svc-acts"><button class="svc-act '+(t.btncls||'')+'" data-tip="'+TX(t.name)+'" aria-label="'+TX(t.name)+'" onclick="osMaint(\''+_escJs(t.act)+'\',\''+_escJs(host)+'\')">'+ICN[t.act]+'</button></div></div></div>';
+    +'<div class="svc-acts"><button class="svc-act '+(t.btncls||'')+'" data-tip="'+TX(t.name)+'" aria-label="'+TX(t.name)+'" data-act="svc-maint" data-op="'+_esc(t.act)+'" data-skey="'+_esc(host)+'">'+ICN[t.act]+'</button></div></div></div>';
 }
 function renderCloudCfg(){
   const el=document.getElementById('screen-cloudcfg'); if(!el) return;
