@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.471.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.472.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2743,7 +2743,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
             <span class="tag" id="radarRegion-A">North America</span>
           </div>
           <div class="radar-wrap">
-            <canvas id="radarCanvas-A" class="radar-svg" style="touch-action:none;cursor:grab"></canvas><div class="radar-zoom"><button type="button" aria-label="Zoom in" onclick="geoZoom('A',1)">+</button><button type="button" aria-label="Zoom out" onclick="geoZoom('A',-1)">−</button></div>
+            <canvas id="radarCanvas-A" class="radar-svg" style="touch-action:none;cursor:grab"></canvas><div class="radar-zoom"><button type="button" aria-label="Zoom in" data-act="geo-zoom" data-geo="A" data-arg="1">+</button><button type="button" aria-label="Zoom out" data-act="geo-zoom" data-geo="A" data-arg="-1">−</button></div>
           </div>
           <div class="radar-caption">
             <div class="n display"><b id="onlineCount-A">7</b> <span style="color:var(--mute);font-size:24px" id="totalCount-A">/ 10</span></div>
@@ -2762,7 +2762,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
             <span class="tag" id="radarRegion-B">North America</span>
           </div>
           <div class="radar-wrap">
-            <canvas id="radarCanvas-B" class="radar-svg" style="touch-action:none;cursor:grab"></canvas><div class="radar-zoom"><button type="button" aria-label="Zoom in" onclick="geoZoom('B',1)">+</button><button type="button" aria-label="Zoom out" onclick="geoZoom('B',-1)">−</button></div>
+            <canvas id="radarCanvas-B" class="radar-svg" style="touch-action:none;cursor:grab"></canvas><div class="radar-zoom"><button type="button" aria-label="Zoom in" data-act="geo-zoom" data-geo="B" data-arg="1">+</button><button type="button" aria-label="Zoom out" data-act="geo-zoom" data-geo="B" data-arg="-1">−</button></div>
           </div>
           <div class="radar-caption">
             <div class="n display"><b id="onlineCount-B">7</b> <span style="color:var(--mute);font-size:24px" id="totalCount-B">/ 10</span></div>
@@ -2853,11 +2853,11 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       </div>
 
       <div class="filters">
-        <button class="chip active" data-fs="all" onclick="setFleetFilter('all')"><span data-i18n="All">All</span> <span class="cell-mut" style="color:inherit" id="fleetCount">—</span></button>
-        <button class="chip" data-fs="online" onclick="setFleetFilter('online')"><i style="background:#41D98A"></i><span data-i18n="Online">Online</span> <span class="cell-mut" id="fcOnline">—</span></button>
-        <button class="chip" data-fs="warn" onclick="setFleetFilter('warn')"><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span> <span class="cell-mut" id="fcWarn">—</span></button>
-        <button class="chip" data-fs="crit" onclick="setFleetFilter('crit')"><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span> <span class="cell-mut" id="fcCrit">—</span></button>
-        <button class="chip" data-fs="offline" onclick="setFleetFilter('offline')"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span> <span class="cell-mut" id="fcOffline">—</span></button>
+        <button class="chip active" data-fs="all" data-act="fleet-filter"><span data-i18n="All">All</span> <span class="cell-mut" style="color:inherit" id="fleetCount">—</span></button>
+        <button class="chip" data-fs="online" data-act="fleet-filter"><i style="background:#41D98A"></i><span data-i18n="Online">Online</span> <span class="cell-mut" id="fcOnline">—</span></button>
+        <button class="chip" data-fs="warn" data-act="fleet-filter"><i style="background:#F6B53F"></i><span data-i18n="Degraded">Degraded</span> <span class="cell-mut" id="fcWarn">—</span></button>
+        <button class="chip" data-fs="crit" data-act="fleet-filter"><i style="background:#FF5D5D"></i><span data-i18n="Critical">Critical</span> <span class="cell-mut" id="fcCrit">—</span></button>
+        <button class="chip" data-fs="offline" data-act="fleet-filter"><i style="background:#547076"></i><span data-i18n="Offline">Offline</span> <span class="cell-mut" id="fcOffline">—</span></button>
         <div class="head-actions" style="margin-left:auto">
           <div class="loc-viewseg" id="fleetViewSeg" role="tablist"></div>
           <button class="btn" onclick="toast('Export — fleet snapshot to CSV')"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg><span data-i18n="Export">Export</span></button>
@@ -6358,11 +6358,11 @@ snmp_field_mapping:
     </div>
     <div class="ll-toolbar">
       <div class="ll-filters">
-        <button class="ll-chip on" data-lvl="all" onclick="llSetFilter('all')" data-i18n="All">All</button>
-        <button class="ll-chip" data-lvl="INFO" onclick="llSetFilter('INFO')">INFO</button>
-        <button class="ll-chip" data-lvl="OK" onclick="llSetFilter('OK')">OK</button>
-        <button class="ll-chip" data-lvl="WARN" onclick="llSetFilter('WARN')">WARN</button>
-        <button class="ll-chip" data-lvl="ERR" onclick="llSetFilter('ERR')">ERR</button>
+        <button class="ll-chip on" data-lvl="all" data-act="ll-filter" data-i18n="All">All</button>
+        <button class="ll-chip" data-lvl="INFO" data-act="ll-filter">INFO</button>
+        <button class="ll-chip" data-lvl="OK" data-act="ll-filter">OK</button>
+        <button class="ll-chip" data-lvl="WARN" data-act="ll-filter">WARN</button>
+        <button class="ll-chip" data-lvl="ERR" data-act="ll-filter">ERR</button>
       </div>
       <div class="ll-tools">
         <button class="btn ll-btn" id="llPause" onclick="llTogglePause()"><svg viewBox="0 0 24 24"><path d="M7 5v14M17 5v14"/></svg><span data-i18n="Pause">Pause</span></button>
@@ -8596,7 +8596,7 @@ const sevIcon = {
 function renderFleetGrid(){
   const ns=activeCtx().nodes;
   document.getElementById('fleetGrid').innerHTML = ns.map(n=>`
-    <div class="node ${n[2]}" onclick="openDetail('${_escJs(n[1]+':'+n[0])}')">
+    <div class="node ${n[2]}" data-act="open-detail" data-arg="${_esc(n[1]+':'+n[0])}">
       <div class="node-top">
         <span class="node-id">${n[0]}</span>
         <span class="node-dot"></span>
@@ -8699,8 +8699,8 @@ function _fleetRenderCards(rows, sc){
   if(seg){
     var gi='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>';
     var li='<svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>';
-    seg.innerHTML='<button class="'+(FLEET_VIEW==='card'?'active':'')+'" data-fv="card" onclick="setFleetView(\'card\')" title="'+TX('Card view')+'" aria-label="'+TX('Card view')+'">'+gi+'</button>'
-      +'<button class="'+(FLEET_VIEW==='list'?'active':'')+'" data-fv="list" onclick="setFleetView(\'list\')" title="'+TX('List view')+'" aria-label="'+TX('List view')+'">'+li+'</button>';
+    seg.innerHTML='<button class="'+(FLEET_VIEW==='card'?'active':'')+'" data-fv="card" data-act="fleet-view" title="'+TX('Card view')+'" aria-label="'+TX('Card view')+'">'+gi+'</button>'
+      +'<button class="'+(FLEET_VIEW==='list'?'active':'')+'" data-fv="list" data-act="fleet-view" title="'+TX('List view')+'" aria-label="'+TX('List view')+'">'+li+'</button>';
   }
   var grid=document.getElementById('fleetGridFull');
   var panel=document.getElementById('fleetTblPanel');
@@ -8709,7 +8709,7 @@ function _fleetRenderCards(rows, sc){
     grid.innerHTML=rows.map(function(r){
       var st=statusClass[r[2]]||'';
       var ten=r[1],id=r[0],_site=(typeof siteOf==='function')?(siteOf(ten,id)||{}):{},_key=ten+':'+id,_locnm=_site.name||id,_svc=_cardSvc(_key,r[2]),_w=_cardWx(_key,_site);
-      return '<div class="fcard '+st+'" onclick="openDetail(\''+_escJs(r[1]+':'+r[0])+'\')">'
+      return '<div class="fcard '+st+'" data-act="open-detail" data-arg="'+_esc(r[1]+':'+r[0])+'">'
         +'<div class="fcard-h">'
           +(oneScope?'<span></span>':'<span class="fcard-tn">'+tnBadge(r[1])+'<span>'+_esc(tenantName[r[1]]||r[1])+'</span></span>')
           +'<span class="td-status '+st+'"><i></i>'+TX(statusLabel[r[2]]||r[2])+'</span>'
@@ -8742,7 +8742,7 @@ function renderFleetTable(){
       : (tenantName[sc]||sc)+' · '+nC.toLocaleString()+' '+(nC===1?TX('collector'):TX('collectors'));
   }
   document.getElementById('fleetTable').innerHTML = rows.map(r=>`
-    <tr onclick="openDetail('${_escJs(r[1]+':'+r[0])}')">
+    <tr data-act="open-detail" data-arg="${_esc(r[1]+':'+r[0])}">
       <td class="col-tenant"><span class="cell-tenant">${tnBadge(r[1])}${tenantName[r[1]]}</span></td>
       <td class="cell-id">${r[0]}</td>
       <td>${(typeof siteOf==='function'?(siteOf(r[1],r[0]).city||''):'')||'—'}</td>
@@ -9771,7 +9771,7 @@ function detailCollBar(){
   var site=(typeof siteOf==='function')?siteOf(slug,coll):{name:coll,city:'\u2014'};
   var list=(typeof collectorsForTenant==='function')?collectorsForTenant(slug):[];
   var menu=list.map(function(c){var on=c.id===coll; var s2=(typeof siteOf==='function')?siteOf(slug,c.id):{name:c.id};
-    return '<button class="'+(on?'active':'')+'" onclick="switchCollector(\''+_escJs(c.id)+'\')"><span class="cdotm" style="background:'+stColor(c.status)+'"></span>'+c.id+' <span class="pl">'+(s2.name||'')+'</span></button>';}).join('');
+    return '<button class="'+(on?'active':'')+'" data-act="switch-coll" data-arg="'+_esc(c.id)+'"><span class="cdotm" style="background:'+stColor(c.status)+'"></span>'+c.id+' <span class="pl">'+(s2.name||'')+'</span></button>';}).join('');
   var tnm=tenantName[slug]||slug;
   var SVGloc='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M9 16v4M15 16v4"/></svg>';
   var SVGpin='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>';
@@ -10049,7 +10049,7 @@ function locCardHTML(l0,oneTenant){
   const key=l.tenant+':'+l.id;
   const sid=LOC_ID_OVERRIDE[key]||l.id;
   const wxOn=WEATHER_SITES.has(key)&&wxConnected();
-  return '<button class="loc-card" data-loc="'+key+'" onclick="openLocationCard(\''+_escJs(key)+'\')">'
+  return '<button class="loc-card" data-loc="'+key+'" data-act="loc-open">'
     + (oneTenant?'':'<div class="loc-card-top"><span class="loc-card-tn">'+tnBadge(l.tenant)+'<span>'+(tenantName[l.tenant]||l.tenant)+'</span></span></div>')
     + '<div class="loc-card-name">'+_esc(l.name)+'</div>'
     + '<div class="loc-card-sid-sub"><span class="mono">'+_esc(sid)+'</span></div>'
@@ -10067,7 +10067,7 @@ function locListHTML(list,oneTenant){
   const rows=list.map(function(l0){
     const l=effLoc(l0); const key=l.tenant+':'+l.id; const sid=LOC_ID_OVERRIDE[key]||l.id;
     const wxOn=WEATHER_SITES.has(key)&&wxConnected();
-    return '<tr class="loc-row" data-loc="'+key+'" onclick="openLocationCard(\''+_escJs(key)+'\')">'
+    return '<tr class="loc-row" data-loc="'+key+'" data-act="loc-open">'
       + (oneTenant?'':'<td><span class="loc-row-tn">'+tnBadge(l.tenant,'xs')+(tenantName[l.tenant]||l.tenant)+'</span></td>')
       + '<td class="mono loc-row-sid">'+_esc(sid)+'</td>'
       + '<td><b>'+_esc(l.name)+'</b></td>'
@@ -10085,8 +10085,8 @@ function renderConfig(){
   const gridIcon='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>';
   const listIcon='<svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>';
   const seg='<div class="loc-viewseg" role="tablist">'
-    +'<button class="'+(LOC_VIEW==='card'?'active':'')+'" onclick="setLocView(\'card\')" title="'+TX('Card view')+'" aria-label="'+TX('Card view')+'">'+gridIcon+'</button>'
-    +'<button class="'+(LOC_VIEW==='list'?'active':'')+'" onclick="setLocView(\'list\')" title="'+TX('List view')+'" aria-label="'+TX('List view')+'">'+listIcon+'</button>'
+    +'<button class="'+(LOC_VIEW==='card'?'active':'')+'" data-act="loc-view" data-arg="card" title="'+TX('Card view')+'" aria-label="'+TX('Card view')+'">'+gridIcon+'</button>'
+    +'<button class="'+(LOC_VIEW==='list'?'active':'')+'" data-act="loc-view" data-arg="list" title="'+TX('List view')+'" aria-label="'+TX('List view')+'">'+listIcon+'</button>'
     +'</div>';
   const body=(LOC_VIEW==='list')?locListHTML(list,oneTenant):('<div class="loc-grid">'+list.map(function(l0){return locCardHTML(l0,oneTenant);}).join('')+'</div>');
   const sub=TX('Guardare Core and Vista deployments across {n} locations').replace('{n}',list.length);
@@ -10097,7 +10097,7 @@ function renderConfig(){
     +'<p class="page-sub">'+sub+'</p>'
     +'</div>'+seg+'</div>'+body
     +'<div class="loc-foot">'
-    +'<button class="btn primary" onclick="openLocationCard(\'\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add location')+'</button>'
+    +'<button class="btn primary" data-act="loc-open" data-loc=""><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add location')+'</button>'
     +'</div>';
   if(LOC_VIEW==='list'){ var _t=document.getElementById('locTable'); if(_t){ if(typeof makeColsResizable==='function') makeColsResizable(_t); if(typeof makeSortable==='function') makeSortable(_t,{exclude:[_t.tHead.rows[0].cells.length-1]}); } }
   wxKick();
@@ -10949,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.471.alpha';
+const APP_VERSION='v2026.02.472.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12223,7 +12223,15 @@ var UI_ACTS={
   'tcfg-model':function(el,arg){ tcfgSetModel(arg); },
   'prof-save':function(){ profSave(); },
   'prof-reset':function(){ renderProfile(); },
-  'prof-revoke':function(el){ profRevoke(el); }
+  'prof-revoke':function(el){ profRevoke(el); },
+  'fleet-filter':function(el){ setFleetFilter(el.getAttribute('data-fs')); },
+  'fleet-view':function(el){ setFleetView(el.getAttribute('data-fv')); },
+  'll-filter':function(el){ llSetFilter(el.getAttribute('data-lvl')); },
+  'geo-zoom':function(el,arg){ geoZoom(el.getAttribute('data-geo'),parseInt(arg,10)); },
+  'open-detail':function(el,arg){ openDetail(arg); },
+  'switch-coll':function(el,arg){ switchCollector(arg); },
+  'loc-open':function(el){ openLocationCard(el.getAttribute('data-loc')||''); },
+  'loc-view':function(el,arg){ setLocView(arg); }
 };
 /* capture phase: the dispatcher must run before the document-level
    closeAllMenus click listener (registered earlier), so menu-toggle acts can
@@ -13168,7 +13176,7 @@ function buildCtxBar(){
   const cd=document.getElementById('ctxCollDot'); if(cd) cd.className='ctx-cdot '+(statusClass[ctxStatusOf(slug,coll)]||'s-online');
   const menu=document.getElementById('ctxPickMenu');
   if(menu) menu.innerHTML=collectorsForTenant(slug).map(c=>
-    `<button class="${c.id===coll?'sel':''}" onclick="switchCollector('${_escJs(c.id)}')"><span class="ctx-cdot ${statusClass[c.status]||'s-online'}"></span><span class="ctx-opt-text"><span class="ctx-opt-site">${siteOf(c.id)}</span><span class="ctx-opt-coll">${c.id}</span></span><small>${TX(statusLabel[c.status]||'')}</small></button>`).join('');
+    `<button class="${c.id===coll?'sel':''}" data-act="switch-coll" data-arg="${_esc(c.id)}"><span class="ctx-cdot ${statusClass[c.status]||'s-online'}"></span><span class="ctx-opt-text"><span class="ctx-opt-site">${siteOf(c.id)}</span><span class="ctx-opt-coll">${c.id}</span></span><small>${TX(statusLabel[c.status]||'')}</small></button>`).join('');
 }
 function toggleCtxPick(e){ e.stopPropagation(); const m=document.getElementById('ctxPickMenu'); const open=m.classList.contains('open'); closeAllMenus(); if(!open) m.classList.add('open'); }
 function enterTenant(slug){
