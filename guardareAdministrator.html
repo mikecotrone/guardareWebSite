@@ -2462,9 +2462,9 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         </form>
         <div class="lg-or">or continue with</div>
         <div class="lg-sso">
-          <button type="button" onclick="guardareLogin(event)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 12.2c0-.7-.06-1.4-.18-2H12v3.8h5.3a4.5 4.5 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 .95-3.4.95-2.6 0-4.8-1.75-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path d="M6.4 13.95a6 6 0 0 1 0-3.9V7.45H3.1a10 10 0 0 0 0 9z"/><path d="M12 5.95c1.47 0 2.78.5 3.8 1.5l2.85-2.85A10 10 0 0 0 3.1 7.45L6.4 10.05C7.2 7.7 9.4 5.95 12 5.95z"/></svg>Google</button>
-          <button type="button" onclick="guardareLogin(event)"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>Microsoft</button>
-          <button type="button" onclick="guardareLogin(event)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="8" cy="9" r="4.5"/><path d="M11.2 12.2 20 21M16.5 17.5l2 2-1.2 1.2"/></svg>SSO</button>
+          <button type="button" data-act="login"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 12.2c0-.7-.06-1.4-.18-2H12v3.8h5.3a4.5 4.5 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 .95-3.4.95-2.6 0-4.8-1.75-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path d="M6.4 13.95a6 6 0 0 1 0-3.9V7.45H3.1a10 10 0 0 0 0 9z"/><path d="M12 5.95c1.47 0 2.78.5 3.8 1.5l2.85-2.85A10 10 0 0 0 3.1 7.45L6.4 10.05C7.2 7.7 9.4 5.95 12 5.95z"/></svg>Google</button>
+          <button type="button" data-act="login"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>Microsoft</button>
+          <button type="button" data-act="login"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="8" cy="9" r="4.5"/><path d="M11.2 12.2 20 21M16.5 17.5l2 2-1.2 1.2"/></svg>SSO</button>
         </div>
         <div class="lg-foot">Need access? <a href="#" onclick="return false">Contact your administrator</a></div>
       </div>
@@ -2549,11 +2549,11 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
   <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="plane-switch" role="tablist" aria-label="System context">
-      <button class="plane-seg" data-plane="estate" role="tab" onclick="setSysPlane('estate')" title="Guardare Vista — observe the customer network &amp; systems estate">
+      <button class="plane-seg" data-plane="estate" role="tab" data-act="sys-plane" title="Guardare Vista — observe the customer network &amp; systems estate">
         <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
         <span class="ps-l"><b data-i18n="Observability">Observability</b><i>Guardare Vista</i></span>
       </button>
-      <button class="plane-seg active" data-plane="platform" role="tab" onclick="setSysPlane('platform')" title="Guardare Core — manage and monitor the Guardare platform itself">
+      <button class="plane-seg active" data-plane="platform" role="tab" data-act="sys-plane" title="Guardare Core — manage and monitor the Guardare platform itself">
         <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         <span class="ps-l"><b data-i18n="Platform">Platform</b><i>Guardare Core</i></span>
       </button>
@@ -2604,7 +2604,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <div id="cfgNav">
     <div class="nav-group" data-i18n="Collector Configuration">Collector Configuration</div>
     <div class="nav-parent">
-      <button class="nav-item nav-disc" data-disc="cfgmgr" onclick="toggleNavDisc('cfgmgr')">
+      <button class="nav-item nav-disc" data-disc="cfgmgr" data-act="nav-disc">
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><path d="M7 7h.01M7 17h.01"/></svg>
         <span data-i18n="Collector Settings">Collector Settings</span>
         <svg class="disc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
@@ -2626,7 +2626,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <span data-i18n="Tenant Management">Tenant Management</span>
     </button>
     <div class="nav-parent">
-      <button class="nav-item nav-disc" data-disc="cloudcfg" onclick="toggleNavDisc('cloudcfg')">
+      <button class="nav-item nav-disc" data-disc="cloudcfg" data-act="nav-disc">
         <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
         <span data-i18n="Cloud Management">Cloud Management</span>
         <svg class="disc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
@@ -2649,27 +2649,27 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
 
     <div id="estateNav">
     <div class="nav-group" data-i18n="Observability">Observability</div>
-    <button class="nav-item" data-estate="monitoring" onclick="goEstate('monitoring')">
+    <button class="nav-item" data-estate="monitoring" data-act="go-estate">
       <svg viewBox="0 0 24 24"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
       <span data-i18n="Monitoring">Monitoring</span>
     </button>
-    <button class="nav-item" data-estate="analysis" onclick="goEstate('analysis')">
+    <button class="nav-item" data-estate="analysis" data-act="go-estate">
       <svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16v-4M12 16V8M16 16v-7"/></svg>
       <span data-i18n="Analysis">Analysis</span>
     </button>
-    <button class="nav-item" data-estate="reporting" onclick="goEstate('reporting')">
+    <button class="nav-item" data-estate="reporting" data-act="go-estate">
       <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
       <span data-i18n="Reporting">Reporting</span>
     </button>
-    <button class="nav-item" data-estate="topology" onclick="goEstate('topology')">
+    <button class="nav-item" data-estate="topology" data-act="go-estate">
       <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><path d="M7.6 7.6l3 8.4M16.4 7.6l-3 8.4M8.2 6h7.6"/></svg>
       <span data-i18n="Topology">Topology</span>
     </button>
-    <button class="nav-item" data-estate="flows" onclick="goEstate('flows')">
+    <button class="nav-item" data-estate="flows" data-act="go-estate">
       <svg viewBox="0 0 24 24"><path d="M4 8h12l-3-3M20 16H8l3 3"/></svg>
       <span data-i18n="Traffic & Flows">Traffic & Flows</span>
     </button>
-    <button class="nav-item" data-estate="alerting" onclick="goEstate('alerting')">
+    <button class="nav-item" data-estate="alerting" data-act="go-estate">
       <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
       <span data-i18n="Alert Correlation">Alert Correlation</span>
     </button>
@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.472.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.473.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -2826,7 +2826,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <div class="panel">
           <div class="panel-head">
             <h3 data-i18n="Recent alerts">Recent alerts</h3>
-            <button class="tag" style="color:var(--teal);cursor:pointer" onclick="go('alerts')" data-i18n="View all →">View all →</button>
+            <button class="tag" style="color:var(--teal);cursor:pointer" data-act="go" data-arg="alerts" data-i18n="View all →">View all →</button>
           </div>
           <div class="alert-mini" id="miniAlerts"></div>
         </div>
@@ -2882,7 +2882,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <section class="screen" id="screen-detail">
       <div class="page-head">
         <div>
-          <div class="page-eyebrow" id="detailCrumb"><button onclick="go('fleet')" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Inventory">← Collector Inventory</button> / Acme Corp</div>
+          <div class="page-eyebrow" id="detailCrumb"><button data-act="go" data-arg="fleet" style="color:var(--teal);cursor:pointer" data-i18n="← Collector Inventory">← Collector Inventory</button> / Acme Corp</div>
           <div class="detail-title">
             <h1 class="page-title" style="font-size:31px" id="detailId">Collector</h1>
             <span class="detail-addr" id="detailAddr" role="button" tabindex="0" title="View in Locations" onclick="gotoLocationFromDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gotoLocationFromDetail();}"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="detailAddrTxt">—</span></span>
@@ -2937,10 +2937,10 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
 
       <div class="alert-tabs-row">
         <div class="alert-tabs">
-          <button class="alert-tab" data-atab="all" onclick="setAlertTab('all')"><span data-i18n="All">All</span> <span class="ct" id="ctAll">0</span></button>
-          <button class="alert-tab active" data-atab="active" onclick="setAlertTab('active')"><span data-i18n="Active">Active</span> <span class="ct" id="ctActive">0</span></button>
-          <button class="alert-tab" data-atab="acked" onclick="setAlertTab('acked')"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct" id="ctAcked">0</span></button>
-          <button class="alert-tab" data-atab="resolved" onclick="setAlertTab('resolved')"><span data-i18n="Resolved">Resolved</span> <span class="ct" id="ctResolved">0</span></button>
+          <button class="alert-tab" data-atab="all" data-act="alert-tab"><span data-i18n="All">All</span> <span class="ct" id="ctAll">0</span></button>
+          <button class="alert-tab active" data-atab="active" data-act="alert-tab"><span data-i18n="Active">Active</span> <span class="ct" id="ctActive">0</span></button>
+          <button class="alert-tab" data-atab="acked" data-act="alert-tab"><span data-i18n="Acknowledged">Acknowledged</span> <span class="ct" id="ctAcked">0</span></button>
+          <button class="alert-tab" data-atab="resolved" data-act="alert-tab"><span data-i18n="Resolved">Resolved</span> <span class="ct" id="ctResolved">0</span></button>
         </div>
         <div class="head-actions">
           <button class="btn" onclick="toast('Alert rules editor')"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="4"/></svg><span data-i18n="Alert rules">Alert rules</span></button>
@@ -6185,7 +6185,7 @@ snmp_field_mapping:
       </div>
       <div class="tm-field"><label data-i18n="Description">Description</label><textarea class="tm-input tk-textarea" id="tkDesc" data-i18n-ph="What is happening? Steps, impact, affected devices…" placeholder="What is happening? Steps, impact, affected devices&hellip;"></textarea></div>
       <div class="modal-acts tk-acts">
-        <button class="btn" onclick="closeTicketModal()" data-i18n="Cancel">Cancel</button>
+        <button class="btn" data-act="close-ticket" data-i18n="Cancel">Cancel</button>
         <button class="btn primary" id="tkSubmitBtn" onclick="submitTicket()"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="tkSubmitLbl" data-i18n="Submit ticket">Submit ticket</span></button>
       </div>
     </div>
@@ -6199,7 +6199,7 @@ snmp_field_mapping:
       <div class="tk-ticketcard" id="tkTicketCard"></div>
       <div class="modal-acts tk-acts">
         <button class="btn" onclick="tkCreateAnother()" data-i18n="Create another">Create another</button>
-        <button class="btn primary" onclick="closeTicketModal()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Done">Done</span></button>
+        <button class="btn primary" data-act="close-ticket"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg><span data-i18n="Done">Done</span></button>
       </div>
     </div>
   </div>
@@ -6290,7 +6290,7 @@ snmp_field_mapping:
       <h3 class="modal-title" id="svcTitle"></h3>
       <p class="modal-text" id="svcText"></p>
       <div class="modal-acts">
-        <button class="btn" onclick="closeSvcModal()" data-i18n="No, cancel">No, cancel</button>
+        <button class="btn" data-act="close-svc" data-i18n="No, cancel">No, cancel</button>
         <button class="btn primary" id="svcConfirmBtn" onclick="confirmSvcOp()"></button>
       </div>
     </div>
@@ -6301,7 +6301,7 @@ snmp_field_mapping:
       <div class="diag-list" id="svcList"></div>
       <div class="svc-done" id="svcDone" style="display:none"></div>
       <div class="modal-acts" id="svcActs" style="display:none">
-        <button class="btn primary" onclick="closeSvcModal()" data-i18n="Done">Done</button>
+        <button class="btn primary" data-act="close-svc" data-i18n="Done">Done</button>
       </div>
     </div>
   </div>
@@ -6314,7 +6314,7 @@ snmp_field_mapping:
       <h3 class="modal-title" id="intgTitle"></h3>
       <p class="modal-text" id="intgText"></p>
       <div class="modal-acts">
-        <button class="btn" onclick="closeIntgModal()" data-i18n="No, cancel">No, cancel</button>
+        <button class="btn" data-act="close-intg" data-i18n="No, cancel">No, cancel</button>
         <button class="btn primary" id="intgConfirmBtn" onclick="confirmIntgOp()"></button>
       </div>
     </div>
@@ -6325,7 +6325,7 @@ snmp_field_mapping:
       <div class="diag-list" id="intgList"></div>
       <div class="svc-done" id="intgDone" style="display:none"></div>
       <div class="modal-acts" id="intgActs" style="display:none">
-        <button class="btn primary" onclick="closeIntgModal()" data-i18n="Done">Done</button>
+        <button class="btn primary" data-act="close-intg" data-i18n="Done">Done</button>
       </div>
     </div>
   </div>
@@ -8611,7 +8611,7 @@ function renderFleetGrid(){
 function renderMiniAlerts(){
   const list=(tenantScope()==='all'?alerts:alerts.filter(a=>a[3]===tenantScope())).slice(0,5);
   document.getElementById('miniAlerts').innerHTML = list.map(a=>`
-    <div class="alert-row" onclick="go('alerts')">
+    <div class="alert-row" data-act="go" data-arg="alerts">
       <span class="alert-bar ${a[0]}"></span>
       <div class="alert-body">
         <div class="t">${TX(a[1])}</div>
@@ -8637,12 +8637,12 @@ function openTickerCfg(e){ if(e&&e.stopPropagation) e.stopPropagation(); closeTi
   var ov=document.createElement('div'); ov.className='tkc-back'; ov.id='tkcBack';
   ov.onclick=function(ev){ if(ev.target.id==='tkcBack') closeTickerCfg(); };
   ov.innerHTML='<div class="tkc-card"><div class="tkc-head"><h3>'+TX('Live Alerts Settings')+'</h3>'+
-    '<button class="lm-x" onclick="closeTickerCfg()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
+    '<button class="lm-x" data-act="close-tkc" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="tkc-body">'+
       '<div class="tkc-field"><label class="tkc-lbl">'+TX('Scroll speed')+'</label><div class="tkc-seg">'+seg+'</div></div>'+
       '<div class="tkc-field"><label class="tkc-lbl">'+TX('Show severities')+'</label><div class="tkc-rows">'+rows+'</div></div>'+
     '</div>'+
-    '<div class="tkc-acts"><button class="btn primary" onclick="closeTickerCfg()">'+TX('Close')+'</button></div></div>';
+    '<div class="tkc-acts"><button class="btn primary" data-act="close-tkc">'+TX('Close')+'</button></div></div>';
   document.body.appendChild(ov);
 }
 /* constant visual scroll speed (px/sec) so "Normal" feels the same whether the tenant has 2 alerts or 20 */
@@ -9178,7 +9178,7 @@ function renderTenantManage(slug){
   const statusOpts=[['active','Active'],['trial','Trial'],['suspended','Suspended']].map(s=>`<option value="${s[0]}" ${s[0]===dir.status?'selected':''}>${TX(s[1])}</option>`).join('');
   const sv=`onchange="toast('${name} — ${TX('unsaved change')}')"`;
   document.getElementById('screen-tenant-manage').innerHTML=`
-    <nav class="tm-crumb" aria-label="Breadcrumb"><button class="tm-crumb-link" onclick="go('tenants')"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>${TX('Tenant Management')}</button></nav>
+    <nav class="tm-crumb" aria-label="Breadcrumb"><button class="tm-crumb-link" data-act="go" data-arg="tenants"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>${TX('Tenant Management')}</button></nav>
     <div class="page-head">
       <div class="tm-head-id">
         ${TENANT_LOGOS[slug]?`<span class="tm-head-logo"><img src="${TENANT_LOGOS[slug]}" alt=""></span>`:`<span class="tn-avatar" style="background:${tenantColors[slug]||'var(--teal)'};width:48px;height:48px;font-size:18px;border-radius:12px">${tnInit(name)}</span>`}
@@ -9548,11 +9548,11 @@ function intgCard(it, scope){
         <input class="tm-input" type="${f[1]}" value="${f[2]||''}" ${f[1]==='password'?'placeholder="••••••••"':'placeholder="'+TX('Not set')+'"'} onchange="toast('${it.name} — ${TX('unsaved change')}')"></div>`).join('');
   const richHtml = (!readOnly && it.richFn && typeof window[it.richFn]==='function') ? window[it.richFn](it,scope) : '';
   let actions;
-  if(mode==='inherited') actions=`<span class="intg-note-inline">${TX('Managed at platform level')}</span><button class="btn ${connected?'danger':'primary'}" onclick="intgOp('${it.id}',${connected?'false':'true'})">${connected?TX('Disconnect'):TX('Connect')}</button>`;
+  if(mode==='inherited') actions=`<span class="intg-note-inline">${TX('Managed at platform level')}</span><button class="btn ${connected?'danger':'primary'}" data-act="intg-op" data-arg="${it.id}" data-on="${connected?'false':'true'}">${connected?TX('Disconnect'):TX('Connect')}</button>`;
   else if(mode==='rollup') actions=`<span class="intg-note-inline">${rollN} ${TX('of')} ${TENANT_INTG_TOTAL} ${TX('tenants connected')}</span><button class="btn" onclick="toast('${TX('Pick a tenant from the switcher to configure')}')">${TX('Configure per tenant')}</button>`;
   else { const ctxName = (ENT || it.scope!=='tenant') ? TX('platform') : (tenantName[scope]||scope);
     actions=`<label class="intg-toggle"><input type="checkbox" ${connected?'checked':''} onchange="toast('${it.name} — ${ctxName} ' + (this.checked?'${TX('enabled')}':'${TX('disabled')}'))"><span>${TX('Enabled')}</span></label>
-             <button class="btn ${connected?'danger':'primary'}" onclick="intgOp('${it.id}',${connected?'false':'true'})">${connected?TX('Disconnect'):TX('Connect')}</button>`; }
+             <button class="btn ${connected?'danger':'primary'}" data-act="intg-op" data-arg="${it.id}" data-on="${connected?'false':'true'}">${connected?TX('Disconnect'):TX('Connect')}</button>`; }
   return `
     <div class="panel intg-card${readOnly?' intg-readonly':''}">
       <div class="intg-head">
@@ -10949,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.472.alpha';
+const APP_VERSION='v2026.02.473.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12231,7 +12231,19 @@ var UI_ACTS={
   'open-detail':function(el,arg){ openDetail(arg); },
   'switch-coll':function(el,arg){ switchCollector(arg); },
   'loc-open':function(el){ openLocationCard(el.getAttribute('data-loc')||''); },
-  'loc-view':function(el,arg){ setLocView(arg); }
+  'loc-view':function(el,arg){ setLocView(arg); },
+  'login':function(el,arg,ev){ guardareLogin(ev); },
+  'sys-plane':function(el){ setSysPlane(el.getAttribute('data-plane')); },
+  'nav-disc':function(el){ toggleNavDisc(el.getAttribute('data-disc')); },
+  'go-estate':function(el){ goEstate(el.getAttribute('data-estate')); },
+  'alert-tab':function(el){ setAlertTab(el.getAttribute('data-atab')); },
+  'go':function(el,arg){ go(arg); },
+  'go-intg':function(){ go('integrations'); renderIntegrations(); },
+  'close-ticket':function(){ closeTicketModal(); },
+  'close-svc':function(){ closeSvcModal(); },
+  'close-intg':function(){ closeIntgModal(); },
+  'close-tkc':function(){ closeTickerCfg(); },
+  'intg-op':function(el,arg){ intgOp(arg,el.getAttribute('data-on')==='true'); }
 };
 /* capture phase: the dispatcher must run before the document-level
    closeAllMenus click listener (registered earlier), so menu-toggle acts can
@@ -12556,7 +12568,7 @@ function renderDetail(){
   if(typeof renderAiSummary==='function') renderAiSummary(false);
   const oc=CRUMB_ORIGIN[navHighlight]||CRUMB_ORIGIN.fleet;   /* breadcrumb returns to wherever you came from */
   const crumb=document.getElementById('detailCrumb');
-  if(crumb) crumb.innerHTML=`<button onclick="go('${oc.s}')" style="color:var(--teal);cursor:pointer">← ${TX(oc.k)}</button>`;
+  if(crumb) crumb.innerHTML=`<button data-act="go" data-arg="${oc.s}" style="color:var(--teal);cursor:pointer">← ${TX(oc.k)}</button>`;
   const S=genServices(id);
   const cards=[
     svcCard({name:'vCollector',role:'Ingests device data',status:S.vcollector.status,
@@ -13695,7 +13707,7 @@ function renderAiSummary(regen){
     card.classList.add('ai-off');
     card.innerHTML=`<div class="ai-head"><span class="ai-spark"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg></span><h3>${TX('AI health summary')}</h3></div>
       <p class="ai-body">${TX('Connect Anthropic to enable AI triage')}.</p>
-      <div class="ai-next"><button class="btn primary" onclick="go('integrations');renderIntegrations()"><span>${TX('Connect Anthropic')}</span></button></div>`;
+      <div class="ai-next"><button class="btn primary" data-act="go-intg"><span>${TX('Connect Anthropic')}</span></button></div>`;
     return;
   }
   card.classList.remove('ai-off');
