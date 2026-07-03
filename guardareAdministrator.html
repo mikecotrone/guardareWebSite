@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.468.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.469.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9781,15 +9781,15 @@ function detailCollBar(){
       '<svg class="vcoll-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>'+
       '<span class="vcoll-lbl">'+TX('Viewing Collector')+'</span>'+
       '<span class="yaml-pick vcoll-pickwrap">'+
-        '<button class="vcoll-pick" onclick="toggleSvcColl(event,\'detailCollMenu\')" title="'+TX('Switch collector')+'"><span class="cdotm" style="background:'+stColor(st)+'"></span><b>'+coll+'</b><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>'+
+        '<button class="vcoll-pick" data-act="pick-toggle" data-menu="detailCollMenu" title="'+TX('Switch collector')+'"><span class="cdotm" style="background:'+stColor(st)+'"></span><b>'+coll+'</b><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>'+
         '<div class="yaml-pick-menu vcoll-menu" id="detailCollMenu">'+menu+'</div>'+
       '</span>'+
     '</div>'+
     '<div class="vcoll-meta">'+
       '<span class="vm">'+tnBadge(slug,'xs')+tnm+'</span>'+
-      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" onclick="gotoLocationFromColl(\''+_escJs(id)+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();gotoLocationFromColl(\''+_escJs(id)+'\');}">'+SVGid+TX('Site ID')+' <b>'+coll+'</b></span>'+
+      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" data-act="goto-loc" data-arg="'+_esc(id)+'">'+SVGid+TX('Site ID')+' <b>'+coll+'</b></span>'+
       '<span class="vm">'+SVGloc+'<b>'+(site.name||'\u2014')+'</b></span>'+
-      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" onclick="gotoLocationFromColl(\''+_escJs(id)+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();gotoLocationFromColl(\''+_escJs(id)+'\');}">'+SVGpin+(site.city||'\u2014')+'</span>'+
+      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" data-act="goto-loc" data-arg="'+_esc(id)+'">'+SVGpin+(site.city||'\u2014')+'</span>'+
     '</div>'+
   '</div>';
 }
@@ -10949,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.468.alpha';
+const APP_VERSION='v2026.02.469.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12198,13 +12198,33 @@ var UI_ACTS={
   'vc-save-cli':function(){ vcCliSave(); },
   'svc-op':function(el){ svcAct(el.getAttribute('data-skey'),el.getAttribute('data-op')); },
   'svc-toast':function(el){ toast(el.getAttribute('data-arg')); },
-  'svc-maint':function(el){ osMaint(el.getAttribute('data-op'),el.getAttribute('data-skey')); }
+  'svc-maint':function(el){ osMaint(el.getAttribute('data-op'),el.getAttribute('data-skey')); },
+  'pick-toggle':function(el,arg,ev){ toggleSvcColl(ev,el.getAttribute('data-menu')); },
+  'pick-cfg':function(el){ selectCfgMgrColl(el.getAttribute('data-coll')); },
+  'pick-svc':function(el){ selectSvcColl(el.getAttribute('data-coll')); },
+  'goto-loc':function(el,arg){ gotoLocationFromColl(arg); }
 };
+/* capture phase: the dispatcher must run before the document-level
+   closeAllMenus click listener (registered earlier), so menu-toggle acts can
+   stopPropagation() exactly like the old inline handlers did at target phase. */
 document.addEventListener('click',function(ev){
   var el=(ev.target&&ev.target.closest)?ev.target.closest('[data-act]'):null;
   if(!el||el.disabled){ return; }
   var h=UI_ACTS[el.getAttribute('data-act')];
   if(h){ h(el,el.getAttribute('data-arg'),ev); }
+},true);
+/* keyboard activation (Enter/Space) for role="button" data-act elements;
+   native controls keep their own key handling. */
+document.addEventListener('keydown',function(ev){
+  if(ev.key!=='Enter'&&ev.key!==' '){ return; }
+  var t=ev.target;
+  if(!t||!t.closest){ return; }
+  var tag=t.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||tag==='BUTTON'){ return; }
+  var el=t.closest('[data-act]');
+  if(!el||el.disabled||el.tagName==='BUTTON'){ return; }
+  var h=UI_ACTS[el.getAttribute('data-act')];
+  if(h){ ev.preventDefault(); h(el,el.getAttribute('data-arg'),ev); }
 });
 
 function renderCfgMgr(){
@@ -12223,7 +12243,7 @@ function renderCfgMgr(){
   const curT=cfgMgrColl.split(':')[0], curC=cfgMgrColl.split(':')[1];
   const curRow=rows.find(r=>r.tenant+':'+r.coll===cfgMgrColl)||rows[0];
   let menu='';
-  const btn=r=>{const id=r.tenant+':'+r.coll;return '<button data-coll="'+id+'" onclick="selectCfgMgrColl(\''+_escJs(id)+'\')"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
+  const btn=r=>{const id=r.tenant+':'+r.coll;return '<button data-coll="'+id+'" data-act="pick-cfg"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
   if(isAll){ const byT={}; rows.forEach(r=>{(byT[r.tenant]=byT[r.tenant]||[]).push(r);});
     Object.keys(byT).forEach(t=>{ menu+='<div class="ms-grouplbl">'+tnBadge(t,'xs')+(tenantName[t]||t)+'</div>'; byT[t].forEach(r=>menu+=btn(r)); });
   } else rows.forEach(r=>menu+=btn(r));
@@ -12580,7 +12600,7 @@ function svcCollBar(menuId){
   var rows=svcCollRows(), cur=svcCurrentColl();
   var curRow=rows.find(function(r){return r.tenant+':'+r.coll===cur;})||rows[0]||{coll:'collector',name:'\u2014',status:'online'};
   var curC=cur.split(':')[1];
-  var btn=function(r){var id=r.tenant+':'+r.coll, on=(id===cur);return '<button class="'+(on?'active':'')+'" data-coll="'+id+'" onclick="selectSvcColl(\''+_escJs(id)+'\')"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
+  var btn=function(r){var id=r.tenant+':'+r.coll, on=(id===cur);return '<button class="'+(on?'active':'')+'" data-coll="'+id+'" data-act="pick-svc"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
   var byT={}; rows.forEach(function(r){(byT[r.tenant]=byT[r.tenant]||[]).push(r);});
   var menu=''; Object.keys(byT).forEach(function(t){ menu+='<div class="ms-grouplbl">'+tnBadge(t,'xs')+(tenantName[t]||t)+'</div>'; byT[t].forEach(function(r){menu+=btn(r);}); });
   var site=(typeof siteOf==='function')?siteOf(curRow.tenant,curRow.coll):{name:curRow.name,city:''};
@@ -12594,15 +12614,15 @@ function svcCollBar(menuId){
       '<svg class="vcoll-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>'+
       '<span class="vcoll-lbl">'+TX('Viewing Collector')+'</span>'+
       '<span class="yaml-pick vcoll-pickwrap">'+
-        '<button class="vcoll-pick" onclick="toggleSvcColl(event,\''+menuId+'\')" title="'+TX('Switch collector')+'"><span class="cdotm" style="background:'+stColor(curRow.status)+'"></span><b>'+curC+'</b><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>'+
+        '<button class="vcoll-pick" data-act="pick-toggle" data-menu="'+menuId+'" title="'+TX('Switch collector')+'"><span class="cdotm" style="background:'+stColor(curRow.status)+'"></span><b>'+curC+'</b><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>'+
         '<div class="yaml-pick-menu vcoll-menu" id="'+menuId+'">'+menu+'</div>'+
       '</span>'+
     '</div>'+
     '<div class="vcoll-meta">'+
       '<span class="vm">'+tnBadge(curRow.tenant,'xs')+tnm+'</span>'+
-      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" onclick="gotoLocationFromColl(\''+_escJs(cur)+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();gotoLocationFromColl(\''+_escJs(cur)+'\');}">'+SVGid+TX('Site ID')+' <b>'+curC+'</b></span>'+
+      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" data-act="goto-loc" data-arg="'+_esc(cur)+'">'+SVGid+TX('Site ID')+' <b>'+curC+'</b></span>'+
       '<span class="vm">'+SVGloc+'<b>'+(curRow.name||'—')+'</b></span>'+
-      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" onclick="gotoLocationFromColl(\''+_escJs(cur)+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();gotoLocationFromColl(\''+_escJs(cur)+'\');}">'+SVGpin+city+'</span>'+
+      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" data-act="goto-loc" data-arg="'+_esc(cur)+'">'+SVGpin+city+'</span>'+
     '</div>'+
   '</div>';
 }
@@ -12612,7 +12632,7 @@ function cfgMgrCollBar(){
   if(!cur && rows.length) cur=rows[0].tenant+':'+rows[0].coll;
   var curRow=rows.find(function(r){return r.tenant+':'+r.coll===cur;})||rows[0]||{tenant:'',coll:'collector',name:'\u2014',status:'online'};
   var curC=(cur||'').split(':')[1]||curRow.coll;
-  var btn=function(r){var id=r.tenant+':'+r.coll, on=(id===cur);return '<button class="'+(on?'active':'')+'" data-coll="'+id+'" onclick="selectCfgMgrColl(\''+_escJs(id)+'\')"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
+  var btn=function(r){var id=r.tenant+':'+r.coll, on=(id===cur);return '<button class="'+(on?'active':'')+'" data-coll="'+id+'" data-act="pick-cfg"><span class="cdotm" style="background:'+stColor(r.status)+'"></span>'+r.coll+' <span class="pl">'+(r.name||'')+'</span></button>';};
   var byT={}; rows.forEach(function(r){(byT[r.tenant]=byT[r.tenant]||[]).push(r);});
   var menu=''; Object.keys(byT).forEach(function(t){ menu+='<div class="ms-grouplbl">'+tnBadge(t,'xs')+(tenantName[t]||t)+'</div>'; byT[t].forEach(function(r){menu+=btn(r);}); });
   var site=(typeof siteOf==='function')?siteOf(curRow.tenant,curRow.coll):{name:curRow.name,city:''};
@@ -12626,15 +12646,15 @@ function cfgMgrCollBar(){
       '<svg class="vcoll-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>'+
       '<span class="vcoll-lbl">'+TX('Viewing Collector')+'</span>'+
       '<span class="yaml-pick vcoll-pickwrap">'+
-        '<button class="vcoll-pick" onclick="toggleCfgMgrColl(event)" title="'+TX('Switch collector')+'"><span class="cdotm" style="background:'+stColor(curRow.status)+'"></span><b>'+curC+'</b><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>'+
+        '<button class="vcoll-pick" data-act="pick-toggle" data-menu="cfgMgrCollMenu" title="'+TX('Switch collector')+'"><span class="cdotm" style="background:'+stColor(curRow.status)+'"></span><b>'+curC+'</b><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>'+
         '<div class="yaml-pick-menu vcoll-menu" id="cfgMgrCollMenu">'+menu+'</div>'+
       '</span>'+
     '</div>'+
     '<div class="vcoll-meta">'+
       '<span class="vm">'+tnBadge(curRow.tenant,'xs')+tnm+'</span>'+
-      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" onclick="gotoLocationFromColl(\''+_escJs(cur)+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();gotoLocationFromColl(\''+_escJs(cur)+'\');}">'+SVGid+TX('Site ID')+' <b>'+curC+'</b></span>'+
+      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" data-act="goto-loc" data-arg="'+_esc(cur)+'">'+SVGid+TX('Site ID')+' <b>'+curC+'</b></span>'+
       '<span class="vm">'+SVGloc+'<b>'+(curRow.name||'\u2014')+'</b></span>'+
-      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" onclick="gotoLocationFromColl(\''+_escJs(cur)+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();gotoLocationFromColl(\''+_escJs(cur)+'\');}">'+SVGpin+city+'</span>'+
+      '<span class="vm vm-link" role="button" tabindex="0" title="'+TX('View in Locations')+'" data-act="goto-loc" data-arg="'+_esc(cur)+'">'+SVGpin+city+'</span>'+
     '</div>'+
   '</div>';
 }
