@@ -2676,7 +2676,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.459.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.461.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -9453,7 +9453,7 @@ const INTEGRATIONS=[
    connected:false, endpoint:'https://events.pagerduty.com/v2/enqueue', fields:[
      ['ITSM service name','text','pagerDuty'],
      ['API token','password','••••••••••••'],
-     ['From email','text','mikec@vistatechgso.com'],
+     ['From email','text','alerts@vistatech.example'],
      ['Maint-window check (sec)','text','300'],
      ['Incident-status check (sec)','text','60'],
      ['Absence prune timeout (sec)','text','3600'],
@@ -10951,8 +10951,8 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.459.alpha';
-let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
+const APP_VERSION='v2026.02.461.alpha';
+let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
 TCFG['roma']={
@@ -10968,7 +10968,7 @@ TCFG['roma']={
 const TCFG_REGIONS=['NA','EU','UK','SA','APAC','NC'];
 const SINGLE_CUSTOMER={customer_name:'VistaTech Managed Services',legal_name:'VistaTech GSO, LLC',
   primary_address:'1200 Eastchester Dr, High Point, NC 27265',region:'NC',
-  contact_name:'NOC Desk',contact_email:'noc@vistatechgso.com',contact_phone:'+1 (336) 821-4500',notes:''};
+  contact_name:'NOC Desk',contact_email:'noc@vistatech.example',contact_phone:'+1 (336) 555-0117',notes:''};
 function tcfgFor(slug){
   if(TCFG[slug]) return TCFG[slug];
   const r=cfgSeed('tcfg|'+slug), dir=TENANT_DIR.find(t=>t.slug===slug);
@@ -11717,9 +11717,9 @@ function vcDemoEndpoints(coll){
   var uModel=pick(['UDM-Pro','UDM-SE','UDM-Pro-Max','UDM-Pro-SE']);
   var uIp='10.'+(10+ri(240))+'.'+(4+ri(50))+'.1';
   var mSite='MX'+nn();
-  var vm=pick(['GCC-FP','GCC-WEB','GCC-APP','GCC-SQL','GCC-DC','GCC-RDS']);
-  var AZ='/subscriptions/71a66b10-a968-4830-b6f3-d0daefe9052b/resourceGroups/GCC-AZURE/providers/Microsoft.Compute/virtualMachines/'+vm;
-  var azx={url:'https://management.azure.com',sub:'d3bffc00-eb61-42b5-a008-20579ebb8325'};
+  var vm=pick(['AZV-FP','AZV-WEB','AZV-APP','AZV-SQL','AZV-DC','AZV-RDS']);
+  var AZ='/subscriptions/4b9e77c3-0d15-48a6-8e2f-6a5d90b31e78/resourceGroups/AZV-AZURE/providers/Microsoft.Compute/virtualMachines/'+vm;
+  var azx={url:'https://management.azure.com',sub:'8f3c21aa-5d94-4c07-9b62-3f1e8a70c4d2'};
   var aSite=pick(['MYB','CHI','DAL','ATL','SEA','BOS','DEN','PHX'])+nn();
   var eos='cEOS'+('0'+(1+ri(12))).slice(-2);
   var aIp='192.168.'+(1+ri(40))+'.'+(50+ri(150));
@@ -11729,8 +11729,8 @@ function vcDemoEndpoints(coll){
       R('2222','Active clients with traffic and UniFi devices (v2 API)','GET','/proxy/network/v2/api/site/default/clients/active?includeTrafficUsage=true&includeUnifiDevices=true')
     ]},
     {type:'meraki',site:mSite,host:mSite+'-Meraki-Org',ip:'api.meraki.com',user:'API key',af:'0',rf:'120',staleness:false,status:'online',routes:[
-      R('60001','Get all organization devices','GET','/api/v1/organizations/578149602163689538/devices',{url:'https://api.meraki.com'}),
-      R('60002','Get device statuses','GET','/api/v1/organizations/578149602163689538/devices/statuses',{url:'https://api.meraki.com'})
+      R('60001','Get all organization devices','GET','/api/v1/organizations/731502946817253604/devices',{url:'https://api.meraki.com'}),
+      R('60002','Get device statuses','GET','/api/v1/organizations/731502946817253604/devices/statuses',{url:'https://api.meraki.com'})
     ]},
     {type:'azure',site:vm,host:vm+' Virtual Machine',ip:'management.azure.com',user:'azure-sp',af:'0',rf:'60',staleness:false,status:'online',routes:[
       R('11111',vm+': Get Operational Status for this Virtual Server','GET',AZ+'/instanceView?api-version=2024-07-01',azx),
@@ -11853,15 +11853,15 @@ function vcRouteEntry(r, defUrl){
   if(typeof r==='string'){ r={id:r}; }
   var method=r.method||'GET', url=(r.url||defUrl||''), uri=r.uri||'', desc=r.desc||'', sub=r.sub||'';
   var opt=function(m){ return '<option'+(m===method?' selected':'')+'>'+m+'</option>'; };
-  var subField=sub?'<div class="gcfg-field"><label>Subscription ID</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(sub)+'"></div></div>':'';
+  var subField=sub?'<div class="gcfg-field"><label>Subscription ID</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="sub" value="'+_esc(sub)+'"></div></div>':'';
   return '<div class="vc-rt">'+
     '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(r.id)+'</span><span class="vc-rt-idlbl">route_id · auto</span>'+
       '<button class="vc-rt-del" onclick="vcRemoveRoute(this)" aria-label="Remove route">'+VC_IC_TRASH+'</button></div>'+
-    '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(desc)+'" placeholder="Describe what this route pulls"></div></div>'+
-    '<div class="gcfg-field"><label>Method</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px">'+opt('GET')+opt('POST')+'</select></div></div>'+
-    '<div class="gcfg-field"><label>Base URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(url)+'" placeholder="https://host"></div></div>'+
+    '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(desc)+'" placeholder="Describe what this route pulls"></div></div>'+
+    '<div class="gcfg-field"><label>Method</label><div class="gcfg-iwrap"><select class="tm-input" data-k="method" style="max-width:170px">'+opt('GET')+opt('POST')+'</select></div></div>'+
+    '<div class="gcfg-field"><label>Base URL</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="url" value="'+_esc(url)+'" placeholder="https://host"></div></div>'+
     subField+
-    '<div class="gcfg-field"><label>URI</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(uri)+'" placeholder="/api/v1/..."></div></div>'+
+    '<div class="gcfg-field"><label>URI</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="uri" value="'+_esc(uri)+'" placeholder="/api/v1/..."></div></div>'+
   '</div>';
 }
 function vcGenRouteId(){ return String(Math.floor(10000+Math.random()*89999)); }
@@ -11926,10 +11926,10 @@ function vcOidEntry(o){
   return '<div class="vc-rt">'+
     '<div class="vc-rt-head"><span class="vc-rt-id mono">'+_esc(o.oid||'new')+'</span><span class="vc-rt-idlbl">OID</span>'+
       '<button class="vc-rt-del" onclick="vcRemoveOid(this)" aria-label="Remove OID">'+VC_IC_TRASH+'</button></div>'+
-    '<div class="gcfg-field"><label>OID</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(o.oid||'')+'" placeholder="1.3.6.1.2.1..."></div></div>'+
-    '<div class="gcfg-field"><label>Name</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(o.name||'')+'" placeholder="ifOperStatus"></div></div>'+
-    '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(o.desc||'')+'" placeholder="Interface description"></div></div>'+
-    '<div class="gcfg-field"><label>Call frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+_esc(o.freq||'60')+'" style="max-width:150px"></div></div>'+
+    '<div class="gcfg-field"><label>OID</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="oid" value="'+_esc(o.oid||'')+'" placeholder="1.3.6.1.2.1..."></div></div>'+
+    '<div class="gcfg-field"><label>Name</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="name" value="'+_esc(o.name||'')+'" placeholder="ifOperStatus"></div></div>'+
+    '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(o.desc||'')+'" placeholder="Interface description"></div></div>'+
+    '<div class="gcfg-field"><label>Call frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="freq" type="number" value="'+_esc(o.freq||'60')+'" style="max-width:150px"></div></div>'+
     '<div class="vc-subhead2">Value mappings</div>'+
     '<div class="vc-enum-list">'+enums+'</div>'+
     '<button class="vc-enum-add" onclick="vcAddEnum(this)">'+VC_IC_PLUS+'Add mapping</button>'+
@@ -11939,11 +11939,32 @@ function vcAddOid(btn){ var L=document.getElementById('vcOidList'); if(L){ L.ins
 function vcRemoveOid(btn){ var c=btn.closest('.vc-rt'); if(c) c.remove(); }
 function vcAddEnum(btn){ var L=btn.previousElementSibling; if(L&&L.classList.contains('vc-enum-list')){ L.insertAdjacentHTML('beforeend', vcEnumRow('','')); } }
 function vcRemoveEnum(btn){ var c=btn.closest('.vc-enum'); if(c) c.remove(); }
-function vcSnmpSave(){ toast('SNMP endpoint configuration saved'); closeVcEp(); }
+function vcSnmpSave(){
+  var ctx=vcEditCtx, m=document.getElementById('vcEpModal');
+  if(ctx&&ctx.slice==='snmp'&&m){
+    vcReadTop(m,ctx.obj);
+    var L=m.querySelector('#vcOidList');
+    if(L){
+      var oids=[];
+      L.querySelectorAll('.vc-rt').forEach(function(rt){
+        var o={}; vcReadKeys(rt,o); o.enum=[];
+        rt.querySelectorAll('.vc-enum').forEach(function(en){
+          var v=en.querySelector('.vc-enum-v'), l=en.querySelector('.vc-enum-l');
+          if(v&&l&&(v.value.trim()||l.value.trim())){ o.enum.push([v.value.trim(),l.value.trim()]); }
+        });
+        if(o.oid){ oids.push(o); }
+      });
+      ctx.obj.oids=oids;
+    }
+    VcStore.update('snmp',ctx.coll,EndpointRepo.snmp(ctx.coll));
+  }
+  toast('SNMP endpoint configuration saved'); closeVcEp();
+}
 function vcSnmpOpen(id){
   var coll=cfgMgrColl, all=EndpointRepo.snmp(coll), e=null;
   for(var i=0;i<all.length;i++){ if(all[i].id===id){ e=all[i]; break; } }
   if(!e){ return; }
+  vcEditCtx={slice:'snmp',coll:coll,obj:e};
   var verOpt=function(v){ return '<option'+(v===e.ver?' selected':'')+'>'+v+'</option>'; };
   var oids=e.oids.map(vcOidEntry).join('');
   var html='<div class="modal modal-form vc-dlg">'+
@@ -11953,13 +11974,13 @@ function vcSnmpOpen(id){
       '<button class="vc-dlg-x" onclick="closeVcEp()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="vc-dlg-body">'+
       '<div class="gcfg-subhead">Identity</div>'+
-      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.site)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Manufacturer</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.mfr)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.desc)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Host / Name</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.ip)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" data-k="site" value="'+_esc(e.site)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Manufacturer</label><div class="gcfg-iwrap"><input class="tm-input" data-k="mfr" value="'+_esc(e.mfr)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(e.desc)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Host / Name</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="ip" value="'+_esc(e.ip)+'"></div></div>'+
       '<div class="gcfg-subhead">SNMP</div>'+
-      '<div class="gcfg-field"><label>Port</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.port)+'" style="max-width:120px"></div></div>'+
-      '<div class="gcfg-field"><label>Version</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:120px">'+verOpt('v1')+verOpt('v2c')+verOpt('v3')+'</select></div></div>'+
+      '<div class="gcfg-field"><label>Port</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="port" value="'+_esc(e.port)+'" style="max-width:120px"></div></div>'+
+      '<div class="gcfg-field"><label>Version</label><div class="gcfg-iwrap"><select class="tm-input" data-k="ver" style="max-width:120px">'+verOpt('v1')+verOpt('v2c')+verOpt('v3')+'</select></div></div>'+
       '<div class="gcfg-field"><label>Community</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div><span class="gcfg-hint">SNMP community string \u2014 stored encrypted</span></div>'+
       '<div class="gcfg-subhead">OIDs <span class="gcfg-subnote">'+e.oids.length+(e.oids.length===1?' oid':' oids')+'</span></div>'+
       '<div class="vc-rt-list" id="vcOidList">'+oids+'</div>'+
@@ -12018,11 +12039,20 @@ function vcCliSection(eps){
   });
   return out;
 }
-function vcCliSave(){ toast('CLI tracer configuration saved'); closeVcEp(); }
+function vcCliSave(){
+  var ctx=vcEditCtx, m=document.getElementById('vcEpModal');
+  if(ctx&&ctx.slice==='cli'&&m){
+    vcReadTop(m,ctx.obj);
+    ctx.obj.cat=(ctx.obj.type==='ping_rtt'?'latency':'uptime');
+    VcStore.update('cli',ctx.coll,EndpointRepo.cli(ctx.coll));
+  }
+  toast('CLI tracer configuration saved'); closeVcEp();
+}
 function vcCliOpen(id){
   var coll=cfgMgrColl, all=EndpointRepo.cli(coll), e=null;
   for(var i=0;i<all.length;i++){ if(all[i].id===id){ e=all[i]; break; } }
   if(!e){ return; }
+  vcEditCtx={slice:'cli',coll:coll,obj:e};
   var ic=(e.cat==='latency'?VC_IC_GAUGE:VC_IC_PULSE);
   var bd=(e.type==='ping_rtt'?['rtt','ping_rtt']:['full','ping_full']);
   var tOpt=function(t){ return '<option'+(t===e.type?' selected':'')+'>'+t+'</option>'; };
@@ -12034,24 +12064,48 @@ function vcCliOpen(id){
     '<div class="vc-dlg-body">'+
       '<div class="gcfg-subhead">Test</div>'+
       '<div class="gcfg-field"><label>CLI ID</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.id)+'" readonly></div></div>'+
-      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.desc)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Test type</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px">'+tOpt('ping_rtt')+tOpt('ping_full')+'</select></div></div>'+
-      '<div class="gcfg-field"><label>Test options</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.opts)+'" style="max-width:160px" placeholder="2, -1"></div></div>'+
-      '<div class="gcfg-field"><label>Target (IP / hostname)</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.target)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+_esc(e.freq)+'" style="max-width:150px"></div></div>'+
-      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.site)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Description</label><div class="gcfg-iwrap"><input class="tm-input" data-k="desc" value="'+_esc(e.desc)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Test type</label><div class="gcfg-iwrap"><select class="tm-input" data-k="type" style="max-width:170px">'+tOpt('ping_rtt')+tOpt('ping_full')+'</select></div></div>'+
+      '<div class="gcfg-field"><label>Test options</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="opts" value="'+_esc(e.opts)+'" style="max-width:160px" placeholder="2, -1"></div></div>'+
+      '<div class="gcfg-field"><label>Target (IP / hostname)</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="target" value="'+_esc(e.target)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Frequency (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="freq" type="number" value="'+_esc(e.freq)+'" style="max-width:150px"></div></div>'+
+      '<div class="gcfg-field"><label>Site ID</label><div class="gcfg-iwrap"><input class="tm-input" data-k="site" value="'+_esc(e.site)+'"></div></div>'+
     '</div>'+
     '<div class="modal-acts tk-acts"><button class="btn" onclick="closeVcEp()">Cancel</button><button class="btn primary" onclick="vcCliSave()">Save changes</button></div>'+
   '</div>';
   var m=vcEpModalEl(); m.innerHTML=html; m.classList.remove('show'); void m.offsetWidth; m.classList.add('show');
 }
+/* dialog-save persistence: fields carry data-k -> harvested into the store-held objects */
+var vcEditCtx=null;
+function vcReadKeys(root,obj){ root.querySelectorAll('[data-k]').forEach(function(el){ obj[el.getAttribute('data-k')]=String(el.value).trim(); }); }
+function vcReadTop(m,obj){ m.querySelectorAll('[data-k]').forEach(function(el){ if(el.closest('.vc-rt')){ return; } obj[el.getAttribute('data-k')]=String(el.value).trim(); }); }
 function vcEpModalEl(){ var m=document.getElementById('vcEpModal'); if(!m){ m=document.createElement('div'); m.className='modal-backdrop'; m.id='vcEpModal'; m.addEventListener('click',function(ev){ if(ev.target===m) closeVcEp(); }); document.body.appendChild(m); } return m; }
-function closeVcEp(){ var m=document.getElementById('vcEpModal'); if(m) m.classList.remove('show'); }
-function vcEpSave(){ toast('Endpoint configuration saved'); closeVcEp(); }
+function closeVcEp(){ vcEditCtx=null; var m=document.getElementById('vcEpModal'); if(m) m.classList.remove('show'); }
+function vcEpSave(){
+  var ctx=vcEditCtx, m=document.getElementById('vcEpModal');
+  if(ctx&&ctx.slice==='api'&&m){
+    vcReadTop(m,ctx.obj);
+    var L=m.querySelector('#vcRtList');
+    if(L){
+      var routes=[];
+      L.querySelectorAll('.vc-rt').forEach(function(rt){
+        var idEl=rt.querySelector('.vc-rt-id');
+        var r={id:(idEl?idEl.textContent.trim():vcGenRouteId())};
+        vcReadKeys(rt,r);
+        if(!r.sub){ delete r.sub; }
+        routes.push(r);
+      });
+      ctx.obj.routes=routes;
+    }
+    VcStore.update('api',ctx.coll,EndpointRepo.api(ctx.coll));
+  }
+  toast('Endpoint configuration saved'); closeVcEp();
+}
 function vcEpOpen(site){
   var coll=cfgMgrColl, all=EndpointRepo.api(coll), e=null;
   for(var i=0;i<all.length;i++){ if(all[i].site===site){ e=all[i]; break; } }
   if(!e){ return; }
+  vcEditCtx={slice:'api',coll:coll,obj:e};
   var icMap={net:VC_IC_NET,protect:VC_IC_CAM,access:VC_IC_DOOR,meraki:VC_IC_CLOUD,azure:VC_IC_AZURE,arista:VC_IC_SWITCH};
   var lblMap={net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access',meraki:'Cisco Meraki',azure:'Microsoft Azure',arista:'Arista EOS'};
   var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
@@ -12061,11 +12115,11 @@ function vcEpOpen(site){
   if(e.type==='meraki'){
     auth='<div class="gcfg-field"><label>API Key</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxxxxxxxxxx"></div><span class="gcfg-hint">Sent as header X-Cisco-Meraki-API-Key</span></div>';
   } else if(e.type==='arista'){
-    auth='<div class="gcfg-field"><label>Auth URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="https://'+_esc(e.ip)+'"></div></div>'+'<div class="gcfg-field"><label>Auth URI</label><div class="gcfg-iwrap"><input class="tm-input mono" value="/command-api"></div></div>'+'<div class="gcfg-field"><label>Auth method</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px"><option>POST</option><option>GET</option></select></div></div>'+'<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.user)+'"></div></div>'+'<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>';
+    auth='<div class="gcfg-field"><label>Auth URL</label><div class="gcfg-iwrap"><input class="tm-input mono" value="https://'+_esc(e.ip)+'"></div></div>'+'<div class="gcfg-field"><label>Auth URI</label><div class="gcfg-iwrap"><input class="tm-input mono" value="/command-api"></div></div>'+'<div class="gcfg-field"><label>Auth method</label><div class="gcfg-iwrap"><select class="tm-input" style="max-width:170px"><option>POST</option><option>GET</option></select></div></div>'+'<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" data-k="user" value="'+_esc(e.user)+'"></div></div>'+'<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>';
   } else {
-    auth='<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.user)+'"></div></div>'+
+    auth='<div class="gcfg-field"><label>Username</label><div class="gcfg-iwrap"><input class="tm-input" data-k="user" value="'+_esc(e.user)+'"></div></div>'+
       '<div class="gcfg-field"><label>Password</label><div class="gcfg-iwrap"><input class="tm-input" type="password" value="xxxxxxxxxxxx"></div></div>'+
-      (e.af&&e.af!=='0'?'<div class="gcfg-field"><label>Auth refresh (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.af+'"></div></div>':'');
+      (e.af&&e.af!=='0'?'<div class="gcfg-field"><label>Auth refresh (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="af" type="number" value="'+e.af+'"></div></div>':'');
   }
   if(e.type==='azure'){ auth+='<div class="gcfg-field"><label>Scope</label><div class="gcfg-iwrap"><input class="tm-input mono" value="https://management.azure.com/.default"></div><span class="gcfg-hint">OAuth2 token scope requested when authenticating to Azure Resource Manager</span></div>'; }
   var defUrl='https://'+e.ip;
@@ -12092,15 +12146,15 @@ function vcEpOpen(site){
       '<button class="vc-dlg-x" onclick="closeVcEp()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
     '<div class="vc-dlg-body">'+
       '<div class="gcfg-subhead">Identity</div>'+
-      '<div class="gcfg-field"><label>Category / Site</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.site)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Host</label><div class="gcfg-iwrap"><input class="tm-input" value="'+_esc(e.host)+'"></div></div>'+
-      '<div class="gcfg-field"><label>Gateway IP</label><div class="gcfg-iwrap"><input class="tm-input mono" value="'+_esc(e.ip)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Category / Site</label><div class="gcfg-iwrap"><input class="tm-input" data-k="site" value="'+_esc(e.site)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Host</label><div class="gcfg-iwrap"><input class="tm-input" data-k="host" value="'+_esc(e.host)+'"></div></div>'+
+      '<div class="gcfg-field"><label>Gateway IP</label><div class="gcfg-iwrap"><input class="tm-input mono" data-k="ip" value="'+_esc(e.ip)+'"></div></div>'+
       '<div class="gcfg-subhead">Authentication</div>'+auth+rpc+
       '<div class="gcfg-subhead">Routes <span class="gcfg-subnote">'+e.routes.length+' '+(e.routes.length===1?'route':'routes')+'</span></div>'+
       '<div class="vc-rt-list" id="vcRtList">'+routes+'</div>'+
       '<button class="vc-rt-add" onclick="vcAddRoute(this)">'+VC_IC_PLUS+'Add route</button>'+
       '<div class="gcfg-subhead">Route Polling Interval</div>'+
-      '<div class="gcfg-field"><label>Poll interval (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" type="number" value="'+e.rf+'"></div></div>'+
+      '<div class="gcfg-field"><label>Poll interval (seconds)</label><div class="gcfg-iwrap"><input class="tm-input" data-k="rf" type="number" value="'+e.rf+'"></div></div>'+
     '</div>'+
     '<div class="modal-acts tk-acts"><button class="btn" onclick="closeVcEp()">Cancel</button><button class="btn primary" onclick="vcEpSave()">Save changes</button></div>'+
   '</div>';
