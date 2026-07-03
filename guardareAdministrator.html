@@ -1330,6 +1330,17 @@
   .vc-addbtn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13px;font-weight:700;color:var(--teal);background:var(--teal-ghost);border:1px solid var(--teal);border-radius:10px;padding:9px 16px;cursor:pointer;transition:.15s;letter-spacing:.2px}
   .vc-addbtn:hover{border-color:var(--teal-deep);color:var(--teal-deep)}
   .vc-addbtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2}
+  .vc-tabtools{display:flex;align-items:center;gap:10px}
+  .vc-list{padding:6px 0}
+  .vc-lrow{display:flex;align-items:center;gap:10px;padding:11px 16px;cursor:pointer;border-bottom:1px solid var(--line);transition:background .13s}
+  .vc-lrow:last-child{border-bottom:0}
+  .vc-lrow:hover{background:var(--bg-2)}
+  .vc-lrow-cat{flex:0 0 auto;font-size:11px;font-weight:700;color:var(--mute);letter-spacing:.02em;min-width:118px}
+  .vc-lrow-name{flex:0 0 auto;font-size:13px;font-weight:700;color:var(--text)}
+  .vc-lrow-sub{flex:1 1 auto;min-width:0;font-size:12px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vc-lrow-meta{flex:0 0 auto;font-size:11.5px;color:var(--mute);white-space:nowrap}
+  .vc-lrow .vc-ep-cta{margin-left:2px}
+  @media(max-width:720px){ .vc-lrow{flex-wrap:wrap;row-gap:4px} .vc-lrow-cat{min-width:0} .vc-lrow-sub{flex-basis:100%;order:5} .vc-lrow-meta{order:6} }
   .vc-count{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:20px;padding:0 7px;border-radius:10px;background:var(--line);color:var(--dim);font-size:11px;font-weight:700;line-height:1}
   .vc-intro{display:flex;gap:9px;align-items:flex-start;padding:11px 14px;margin-bottom:16px;border:1px solid var(--line);border-radius:11px;background:rgba(43,208,198,.05);color:var(--dim);font-size:13px;line-height:1.55}
   .vc-intro>svg{width:16px;height:16px;flex:0 0 auto;stroke:var(--teal);fill:none;stroke-width:2;margin-top:2px}
@@ -2665,7 +2676,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.456.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.457.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10935,7 +10946,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.456.alpha';
+const APP_VERSION='v2026.02.457.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatechgso.com',email:'noc@vistatechgso.com',region:'us-east-1',phone:'+1 (336) 821-4500',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11642,6 +11653,8 @@ function cfgGitOpsForm(coll){
 /* ===== vCollector config (control-based) — slice 1: API endpoints ===== */
 var vcSubTab='api';
 var vcFolderOpen={};
+var VC_VIEW=(function(){ try{ return localStorage.getItem('guardare_vc_view')||'card'; }catch(e){ return 'card'; } })();
+function vcSetView(v){ VC_VIEW=v; try{ localStorage.setItem('guardare_vc_view',v); }catch(e){} renderCfgMgr(); }
 var VC_IC_NET='<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="6" rx="1.6"/><rect x="4" y="14" width="16" height="6" rx="1.6"/><path d="M8 7h.01M8 17h.01"/></svg>';
 var VC_IC_CAM='<svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="11" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/></svg>';
 var VC_IC_DOOR='<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6z"/><path d="M4 21h16M12.5 12h.01"/></svg>';
@@ -11741,6 +11754,38 @@ function vcSummary(coll){
     stat(VC_IC_CLI,c.cli,'CLI Tracers','var(--green)','var(--green-ghost)','<span class="vc-stat-pill">'+c.cliUptime+' Uptime</span><span class="vc-stat-pill">'+c.cliLatency+' Latency</span>')+
   '</div></div>';
 }
+function vcListRow(o){
+  return '<div class="vc-lrow" onclick="'+o.click+'">'+
+    '<span class="vc-ep-dot" style="background:'+o.dot+'"></span>'+
+    '<span class="vc-lrow-cat">'+_esc(o.cat)+'</span>'+
+    '<span class="vc-lrow-name'+(o.mono?' mono':'')+'">'+_esc(o.name)+'</span>'+
+    '<span class="vc-ep-proto '+o.badge[0]+'">'+o.badge[1]+'</span>'+
+    '<span class="vc-lrow-sub">'+_esc(o.sub)+'</span>'+
+    '<span class="vc-lrow-meta">'+o.meta+'</span>'+
+    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
+  '</div>';
+}
+function vcApiList(eps){
+  var lblMap={net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access',meraki:'Cisco Meraki',azure:'Microsoft Azure',arista:'Arista EOS'};
+  return '<div class="gcfg-card vc-list">'+eps.map(function(e){
+    var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
+    var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
+    return vcListRow({click:"vcEpOpen('"+_esc(e.site)+"')",dot:dot,cat:lblMap[e.type]||e.type,name:e.site,badge:pt,sub:e.host,meta:'<span class="mono">'+_esc(e.ip)+'</span> \u00b7 poll '+_esc(e.rf)+'s'});
+  }).join('')+'</div>';
+}
+function vcSnmpList(eps){
+  return '<div class="gcfg-card vc-list">'+eps.map(function(e){
+    var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
+    return vcListRow({click:"vcSnmpOpen('"+_esc(e.id)+"')",dot:dot,cat:e.mfr,name:e.site,badge:['snmp','SNMP '+e.ver],sub:e.desc,meta:'<span class="mono">'+_esc(e.ip)+':'+_esc(e.port)+'</span> \u00b7 '+e.oids.length+' OIDs'});
+  }).join('')+'</div>';
+}
+function vcCliList(eps){
+  return '<div class="gcfg-card vc-list">'+eps.map(function(e){
+    var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
+    var bd=(e.type==='ping_rtt'?['rtt','ping_rtt']:['full','ping_full']);
+    return vcListRow({click:"vcCliOpen('"+_esc(e.id)+"')",dot:dot,cat:(e.cat==='latency'?'Latency Tracer':'Uptime Tracer'),name:e.target,mono:true,badge:bd,sub:e.desc,meta:'every '+_esc(e.freq)+'s'});
+  }).join('')+'</div>';
+}
 function cfgVcollectorForm(coll){
   var eps=vcDemoEndpoints(coll);
   var snmps=vcSnmpEndpoints(coll);
@@ -11748,11 +11793,16 @@ function cfgVcollectorForm(coll){
   var tabBtn=function(k,lbl,nn){ var c=(nn!=null?'<span class="vc-tabn">'+nn+'</span>':''); return '<button class="vc-tab'+(vcSubTab===k?' on':'')+'" onclick="vcSetTab(\''+k+'\')">'+lbl+c+'</button>'; };
   var strip='<div class="vc-tabs">'+tabBtn('api','API')+tabBtn('snmp','SNMP')+tabBtn('cli','CLI')+'</div>';
   var addBtn=(vcSubTab==='api'||vcSubTab==='snmp'||vcSubTab==='cli')?'<button class="vc-addbtn" onclick="vcAddEndpoint()">'+VC_IC_PLUS+(vcSubTab==='snmp'?'Add Device':(vcSubTab==='cli'?'Add Tracer':'Add Endpoint'))+'</button>':'';
-  var tabrow='<div class="vc-tabrow">'+strip+addBtn+'</div>';
+  var gi='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>';
+  var li='<svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>';
+  var seg='<div class="loc-viewseg" role="tablist">'+
+    '<button class="'+(VC_VIEW==='card'?'active':'')+'" onclick="vcSetView(\'card\')" title="Card view" aria-label="Card view">'+gi+'</button>'+
+    '<button class="'+(VC_VIEW==='list'?'active':'')+'" onclick="vcSetView(\'list\')" title="List view" aria-label="List view">'+li+'</button></div>';
+  var tabrow='<div class="vc-tabrow">'+strip+'<div class="vc-tabtools">'+seg+addBtn+'</div></div>';
   var body;
-  if(vcSubTab==='api'){ body=vcApiSection(eps); }
-  else if(vcSubTab==='snmp'){ body=vcSnmpSection(snmps); }
-  else { body=vcCliSection(clis); }
+  if(vcSubTab==='api'){ body=(VC_VIEW==='list')?vcApiList(eps):vcApiSection(eps); }
+  else if(vcSubTab==='snmp'){ body=(VC_VIEW==='list')?vcSnmpList(snmps):vcSnmpSection(snmps); }
+  else { body=(VC_VIEW==='list')?vcCliList(clis):vcCliSection(clis); }
   return '<div class="gcfg">'+tabrow+body+'</div>';
 }
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
