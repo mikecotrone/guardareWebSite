@@ -2610,11 +2610,11 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <svg class="disc-caret" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="nav-children" id="navChildren-cfgmgr">
-        <button class="nav-subitem" data-sub="base" onclick="goCfgSub('base')"><span class="sub-lead"></span><span data-i18n="Global">Global</span></button>
-        <button class="nav-subitem" data-sub="ubuntu" onclick="goCfgSub('ubuntu')"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
-        <button class="nav-subitem" data-sub="databases" onclick="goCfgSub('databases')"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
-        <button class="nav-subitem" data-sub="gitops" onclick="goCfgSub('gitops')"><span class="sub-lead"></span><span data-i18n="GitOps Repos">GitOps Repos</span></button>
-        <button class="nav-subitem" data-sub="vcollector" onclick="goCfgSub('vcollector')"><span class="sub-lead"></span><span>vCollector</span></button>
+        <button class="nav-subitem" data-sub="base" data-act="cfg-sub" data-arg="base"><span class="sub-lead"></span><span data-i18n="Global">Global</span></button>
+        <button class="nav-subitem" data-sub="ubuntu" data-act="cfg-sub" data-arg="ubuntu"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
+        <button class="nav-subitem" data-sub="databases" data-act="cfg-sub" data-arg="databases"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
+        <button class="nav-subitem" data-sub="gitops" data-act="cfg-sub" data-arg="gitops"><span class="sub-lead"></span><span data-i18n="GitOps Repos">GitOps Repos</span></button>
+        <button class="nav-subitem" data-sub="vcollector" data-act="cfg-sub" data-arg="vcollector"><span class="sub-lead"></span><span>vCollector</span></button>
       </div>
     </div>
     </div><!--/cfgNav-->
@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.469.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.470.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10440,7 +10440,7 @@ function cfgScaffold(cat){
 }
 function cfgManCard(f,coll){
   const st=cfgState(coll,f);
-  return '<div class="cfg-man-card" style="cursor:pointer" onclick="goCfgSub(\''+_escJs(f.key)+'\')"><div class="cfg-man-top"><span class="cfg-man-dot"></span><span class="cfg-man-name">'+f.pill+'</span></div><div class="cfg-man-path">'+cfgRepoPath(f)+'</div><div class="cfg-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">poll '+f.poll+'s</span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div></div>';
+  return '<div class="cfg-man-card" style="cursor:pointer" data-act="cfg-sub" data-arg="'+_esc(f.key)+'"><div class="cfg-man-top"><span class="cfg-man-dot"></span><span class="cfg-man-name">'+f.pill+'</span></div><div class="cfg-man-path">'+cfgRepoPath(f)+'</div><div class="cfg-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">poll '+f.poll+'s</span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div></div>';
 }
 const UBUNTU_SVG='<svg viewBox="0 0 48 48" aria-label="Ubuntu">'+
   '<circle cx="24" cy="24" r="14.5" fill="none" stroke="#E95420" stroke-width="3"/>'+
@@ -10492,7 +10492,7 @@ function renderNormSubmenu(){
   const mans=coll?collManifests(coll):['snmp'];
   box.innerHTML=mans.map(k=>{
     const m=NORM_MAP[k]||{label:k}; const sub='norm-'+k;
-    return '<button class="nav-subsubitem" data-sub="'+sub+'" onclick="goCfgSub(\''+_escJs(sub)+'\')"><span class="ss-lead"></span><span>'+m.label+'</span></button>';
+    return '<button class="nav-subsubitem" data-sub="'+sub+'" data-act="cfg-sub" data-arg="'+_esc(sub)+'"><span class="ss-lead"></span><span>'+m.label+'</span></button>';
   }).join('');
   box.querySelectorAll('.nav-subsubitem').forEach(b=>b.classList.toggle('active', b.dataset.sub===cfgSubPage));
 }
@@ -10592,7 +10592,7 @@ function cfgBaseForm(coll){
   const locNames=tlocs.map(function(x){return x.name;});
   let gLoc=locNames.indexOf(g.customer_location)>=0?g.customer_location:(locNames.indexOf(ownName)>=0?ownName:(locNames[0]||g.customer_location||''));
   g.customer_location=gLoc;
-  const locOpts=tlocs.map(function(x){var lbl=x.name+((x.city&&x.city!==x.name)?' \u00b7 '+x.city:'');return '<button type="button" class="'+(x.name===gLoc?'sel':'')+'" data-name="'+_esc(x.name)+'" onclick="gcfgLocPick(this.dataset.name)">'+_esc(lbl)+'</button>';}).join('');
+  const locOpts=tlocs.map(function(x){var lbl=x.name+((x.city&&x.city!==x.name)?' \u00b7 '+x.city:'');return '<button type="button" class="'+(x.name===gLoc?'sel':'')+'" data-name="'+_esc(x.name)+'" data-act="gcfg-locpick">'+_esc(lbl)+'</button>';}).join('');
   const lockSvg='<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
   const globeIcon='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>';
   const field=(id,label,val,hint,req)=>`
@@ -10625,7 +10625,7 @@ function cfgBaseForm(coll){
         <div class="gcfg-field span2">
           <label for="gcfgLoc">${TX('Collector location')}<span class="req">*</span></label>
           <div class="gcfg-locpick" id="gcfgLocWrap">
-            <button type="button" class="gcfg-locbtn" onclick="gcfgLocToggle(event)"><span id="gcfgLocVal">${_esc(gLoc||'\u2014')}</span><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <button type="button" class="gcfg-locbtn" data-act="gcfg-loctoggle"><span id="gcfgLocVal">${_esc(gLoc||'\u2014')}</span><svg class="cr" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
             <input type="hidden" id="gcfgLoc" value="${_esc(gLoc)}">
             <div class="yaml-pick-menu gcfg-locmenu" id="gcfgLocMenu">${locOpts}</div>
           </div>
@@ -10646,8 +10646,8 @@ function cfgBaseForm(coll){
       </div>
     </div>
     <div class="gcfg-actions">
-      <button class="btn" onclick="cfgBaseReset()">${TX('Reset')}</button>
-      <button class="btn primary" onclick="cfgBaseSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
+      <button class="btn" data-act="cfg-base-reset">${TX('Reset')}</button>
+      <button class="btn primary" data-act="cfg-base-save"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
     </div>
   </div>`;
 }
@@ -10738,8 +10738,8 @@ function cfgUbuntuForm(coll){
     ${cfgHostPeek(coll)}
 
     <div class="gcfg-actions">
-      <button class="btn" onclick="cfgUbuntuReset()">${TX('Reset')}</button>
-      <button class="btn primary" onclick="cfgUbuntuSave()"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
+      <button class="btn" data-act="cfg-ubuntu-reset">${TX('Reset')}</button>
+      <button class="btn primary" data-act="cfg-ubuntu-save"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button>
     </div>
   </div>`;
 }
@@ -10949,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.469.alpha';
+const APP_VERSION='v2026.02.470.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11138,7 +11138,7 @@ function tkRenderDone(){
     +row(TX('Tenant'), d.tenant)
     +row(TX('Linked collector'), d.coll)
     +row(TX('Created'), d.created.toLocaleString())
-    +'<button class="tk-tc-link" onclick="tkViewInProvider()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>'+TX('View')+' '+d.num+' · '+p.name+'</button>';
+    +'<button class="tk-tc-link" data-act="tk-view-provider"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>'+TX('View')+' '+d.num+' · '+p.name+'</button>';
 }
 function tkViewInProvider(){ if(TK_DATA) toast('Opening '+TK_DATA.num+' in '+TK_DATA.provider.name+'…'); }
 function tkCreateAnother(){
@@ -11617,7 +11617,7 @@ function cfgGitOpsForm(coll){
   const norm = card('Normalizer','Normalizer',
     tokField('git_nm_tok','${NORMALIZER_REPO_TOKEN}')+
     field('git_nm_uri',TX('Repo config URI'),'normalizerCFG/')+
-    `<div class="gcfg-field span2"><label>${TX('API manifests')} <span class="git-arr-tag">normalizerApiCfgArray</span></label><div class="git-arr">${apiItems}<button class="git-arr-add" onclick="toast('${TX('Add manufacturer manifest')} — ${TX('wired in the next build')}')">+ ${TX('Add')}</button></div><span class="gcfg-hint">${TX('One API config file per polled manufacturer at this site.')}</span></div>`+
+    `<div class="gcfg-field span2"><label>${TX('API manifests')} <span class="git-arr-tag">normalizerApiCfgArray</span></label><div class="git-arr">${apiItems}<button class="git-arr-add" data-act="ui-toast" data-arg="${TX('Add manufacturer manifest')} — ${TX('wired in the next build')}">+ ${TX('Add')}</button></div><span class="gcfg-hint">${TX('One API config file per polled manufacturer at this site.')}</span></div>`+
     field('git_nm_snmp',`${TX('SNMP manifest')} <span class="git-arr-tag">normalizerSnmpCfgArray</span>`,'_normalizerSnmpCfg.yaml')+
     field('git_nm_cli',`${TX('CLI manifest')} <span class="git-arr-tag">normalizerCliCfgArray</span>`,'_normalizerCliCfg.yaml'));
 
@@ -11627,7 +11627,7 @@ function cfgGitOpsForm(coll){
     field('git_ev_file',TX('Config file name'),'_eventsDirector_RuleSetConfig.yaml')+
     `<div class="gcfg-field"><label for="git_ev_poll">${TX('Poll interval')} <span class="git-arr-tag">seconds</span></label><div class="gcfg-iwrap"><input id="git_ev_poll" class="tm-input mono" value="30"></div><span class="gcfg-hint">${TX('How often this service pulls its rule set from GitHub.')}</span></div>`);
 
-  const actions=`<div class="gcfg-actions" style="padding:2px 2px 6px"><button class="btn" onclick="renderCfgMgr()">${TX('Reset')}</button><button class="btn primary" onclick="toast('${TX('GitOps repository settings saved')}')"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button></div>`;
+  const actions=`<div class="gcfg-actions" style="padding:2px 2px 6px"><button class="btn" data-act="cfg-rerender">${TX('Reset')}</button><button class="btn primary" data-act="ui-toast" data-arg="${TX('GitOps repository settings saved')}"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg>${TX('Save changes')}</button></div>`;
   const hudu = card('HuduSync','hudusync',
     tokField('git_hs_tok','${HUDUSYNC_REPO_TOKEN}')+
     field('git_hs_uri',TX('Repo config URI'),'huduSyncCFG/')+
@@ -12202,7 +12202,17 @@ var UI_ACTS={
   'pick-toggle':function(el,arg,ev){ toggleSvcColl(ev,el.getAttribute('data-menu')); },
   'pick-cfg':function(el){ selectCfgMgrColl(el.getAttribute('data-coll')); },
   'pick-svc':function(el){ selectSvcColl(el.getAttribute('data-coll')); },
-  'goto-loc':function(el,arg){ gotoLocationFromColl(arg); }
+  'goto-loc':function(el,arg){ gotoLocationFromColl(arg); },
+  'cfg-sub':function(el,arg){ goCfgSub(arg); },
+  'cfg-base-save':function(){ cfgBaseSave(); },
+  'cfg-base-reset':function(){ cfgBaseReset(); },
+  'cfg-ubuntu-save':function(){ cfgUbuntuSave(); },
+  'cfg-ubuntu-reset':function(){ cfgUbuntuReset(); },
+  'cfg-rerender':function(){ renderCfgMgr(); },
+  'gcfg-loctoggle':function(el,arg,ev){ gcfgLocToggle(ev); },
+  'gcfg-locpick':function(el){ gcfgLocPick(el.getAttribute('data-name')); },
+  'tk-view-provider':function(){ tkViewInProvider(); },
+  'ui-toast':function(el,arg){ toast(arg); }
 };
 /* capture phase: the dispatcher must run before the document-level
    closeAllMenus click listener (registered earlier), so menu-toggle acts can
@@ -12262,10 +12272,10 @@ function renderCfgMgr(){
     const mans=files.filter(f=>f.cat==='normalizer');
     const cards=mans.map(f=>cfgManCard(f,cfgMgrColl)).join('');
     body='<div class="cfg-mannote"><span class="cfg-man-dot"></span>'+TX('This collector runs')+' <b>'+mans.length+'</b> '+TX('manufacturer manifests — one normalization profile per polled manufacturer.')+' '+TX('Open one to configure it.')+'</div>'+
-      '<div class="cfg-man-grid">'+cards+'<button class="cfg-man-add" onclick="toast(\''+TX('Add manufacturer manifest — coming in the per-service build')+'\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add manufacturer')+'</button></div>';
+      '<div class="cfg-man-grid">'+cards+'<button class="cfg-man-add" data-act="ui-toast" data-arg="'+_esc(TX('Add manufacturer manifest — coming in the per-service build'))+'"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add manufacturer')+'</button></div>';
   } else if(cfgSubPage.indexOf('norm-')===0){
     const f=files.find(x=>x.key===cfgSubPage)||files[0];
-    body='<div class="cfg-manback"><button class="cfg-back-btn" onclick="goCfgSub(\'normalizer\')"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
+    body='<div class="cfg-manback"><button class="cfg-back-btn" data-act="cfg-sub" data-arg="normalizer"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
       '<div class="cfg-editor">'+cfgScaffold(cat)+'</div>';
   } else if(cfgSubPage==='vcollector'){
     body=cfgVcollectorForm(cfgMgrColl);
