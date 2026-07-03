@@ -2679,7 +2679,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.466.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.467.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -3004,7 +3004,6 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <section class="screen" id="screen-cloudcfg"></section>
     <section class="screen" id="screen-cloudmon"></section>
     <section class="screen" id="screen-estate"></section>
-    <section class="screen" id="screen-tenantcfg"></section>
     <section class="screen" id="screen-cfgmgr"></section>
     <section class="screen" id="screen-nms"></section>
     <style>
@@ -8408,7 +8407,6 @@ function setLang(l){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', TX(el.getAttribute('data-i18n-ph'))); });
   updateChrome();
   renderFleetGrid();renderFleetTable();renderAlertsFull();renderMiniAlerts();renderTicker();renderConfig();renderIntegrations();renderCfgMgr();renderAudit();renderDetail();if(typeof renderMicrosvc==='function')renderMicrosvc();if(typeof renderCollMgmt==='function')renderCollMgmt();if(typeof renderEstate==='function')renderEstate();
-  if(typeof renderTenantCfg==='function') renderTenantCfg();
   if(typeof renderAccount==='function' && document.getElementById('screen-account') && document.getElementById('screen-account').innerHTML.trim()) renderAccount();
   renderTenants(); renderTenantMenu(); if(currentTenantCtx&&currentTenantCtx!=='cloud'){ buildCtxBar(); renderTenantNMS(); }
   if(currentTenantCtx){ const tm=document.getElementById('screen-tenant-manage'); if(tm&&tm.classList.contains('show')) renderTenantManage(currentTenantCtx); }
@@ -9689,7 +9687,7 @@ function pickTenant(slug){
   currentTenantCtx=slug;
   currentTenant=slug;                 /* keep the dashboard context in sync with the topbar */
   refreshDashboard();                 /* radar, fleet grid, mini-alerts, ticker, console all follow */
-  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations','account','tenantcfg','collmgmt','microsvc','colltopo'];
+  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations','account','collmgmt','microsvc','colltopo'];
   let cur=SCREENS.find(s=>{const e=document.getElementById('screen-'+s); return e&&e.classList.contains('show');});
   if(!cur) cur='fleet';   /* from a collector view → land on Fleet Management (scoped), not a specific collector */
   if(cur==='tenants') renderTenants();
@@ -9700,7 +9698,6 @@ function pickTenant(slug){
   else if(cur==='cfgmgr'){ var _fr=(typeof fleetRows!=='undefined'?fleetRows.filter(function(r){return r[1]===slug;}):[]); if(_fr.length) cfgMgrColl=slug+':'+_fr[0][0]; renderCfgMgr(); }
   else if(cur==='integrations') renderIntegrations();
   else if(cur==='account'){ acctTenant=slug; renderAccount(); }
-  else if(cur==='tenantcfg') renderTenantCfg();
   else if(cur==='collmgmt') renderCollMgmt();
   else if(cur==='microsvc') renderMicrosvc();
   toast('Switched to '+(tenantName[slug]||slug));   /* announce every tenant change, same as All Tenants */
@@ -9718,7 +9715,7 @@ function pickAllTenants(){
   currentTenantCtx=null;
   /* if managing a specific tenant, All Tenants returns to the tenants list */
   if(document.getElementById('screen-tenant-manage').classList.contains('show')){ switchTenant('all'); renderTenants(); go('tenants'); return; }
-  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations','account','tenantcfg','collmgmt','microsvc','colltopo'];
+  const SCREENS=['tenants','fleet','alerts','dashboard','audit','reports','provision','config','cfgmgr','integrations','account','collmgmt','microsvc','colltopo'];
   let cur=SCREENS.find(s=>{const e=document.getElementById('screen-'+s); return e&&e.classList.contains('show');}) || 'dashboard';
   switchTenant('all');                 /* refreshes dashboard, fleet, alerts, config + announces the switch */
   if(cur==='tenants') renderTenants();
@@ -9726,7 +9723,6 @@ function pickAllTenants(){
   else if(cur==='cfgmgr') renderCfgMgr();
   else if(cur==='integrations') renderIntegrations();
   else if(cur==='account'){ acctTenant=null; renderAccount(); }
-  else if(cur==='tenantcfg') renderTenantCfg();
   else if(cur==='collmgmt') renderCollMgmt();
   else if(cur==='microsvc') renderMicrosvc();
   updateAlertCounts();
@@ -9737,7 +9733,6 @@ function switchTenant(id){
   currentTenant=id;
   updateChrome();
   renderFleetGrid(); renderFleetTable(); renderAlertsFull(); renderMiniAlerts(); renderTicker(); renderConfig(); setupRadars();
-  if(typeof renderTenantCfg==='function') renderTenantCfg();
   if(typeof renderTenants==='function') renderTenants();
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active',o.dataset.tenant===id));
   toast('Switched to '+(id==='all'?TX('All Tenants'):(TENANTS[id]?TENANTS[id].name:(tenantName[id]||id))));
@@ -10954,7 +10949,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.466.alpha';
+const APP_VERSION='v2026.02.467.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11006,7 +11001,7 @@ function applyDeploymentMode(){
   if(typeof renderAudit==='function') renderAudit();
   if(typeof renderAccount==='function') renderAccount();
   document.querySelectorAll('.tenant-opt').forEach(o=>o.classList.toggle('active', o.dataset.tenant===currentTenant));
-  if(single && (navHighlight==='tenants'||navHighlight==='tenantcfg')) go('dashboard');
+  if(single && navHighlight==='tenants') go('dashboard');
 }
 /* themed config hero banners (Guardare + MariaDB), styled like the Ubuntu OS card */
 function cfgGuardareCard(){
@@ -11309,23 +11304,6 @@ function tcfgBody(){
     </div>`;
   }
   return tcfgCustomerCard(tcfgFor(acctTenant),'tenant',acctTenant);
-}
-function renderTenantCfg(){
-  const el=document.getElementById('screen-tenantcfg'); if(!el) return;
-  const single = MSP_DEPLOYMENT==='single';
-  const scope = tenantScope();
-  const sub = single ? TX('Single-customer deployment — one customer record.')
-            : (scope==='all' ? TX('Multi-tenant deployment — select a customer to edit its record.')
-                             : `${tenantName[scope]||scope} · ${TX('customer record')}`);
-  el.innerHTML=`
-    <div class="page-head">
-      <div>
-        <div class="page-eyebrow">${TX('Configuration')}</div>
-        <h1 class="page-title">${TX('Tenant Configuration')}</h1>
-        <p class="page-sub">${sub}</p>
-      </div>
-    </div>
-    <div class="gcfg">${tcfgBody()}</div>`;
 }
 
 /* ======================= ACCOUNT / ORGANIZATION SETTINGS ======================= */
@@ -13203,7 +13181,6 @@ document.querySelectorAll('.nav-item').forEach(n=>{
     const s=n.dataset.screen;
     if(!s) return;   /* disclosure parents (.nav-disc) carry no data-screen — their inline onclick handles navigation; calling go(undefined) here would blank every screen */
     if(s==='config') renderConfig();
-    else if(s==='tenantcfg') renderTenantCfg();
     else if(s==='cfgmgr') renderCfgMgr();
     else if(s==='integrations') renderIntegrations();
     else if(s==='tenants') renderTenants();
