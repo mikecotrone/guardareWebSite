@@ -1375,6 +1375,55 @@
   .vc-rt-list{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
   .vc-rt{border:1px solid var(--line);border-radius:11px;background:var(--bg-2);padding:13px;transition:border-color .15s}
   .vc-rt:hover{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),0 6px 18px rgba(43,208,198,.15)}
+  /* ===== normalizer manifest visualization ===== */
+  .nm-page .vc-summary{margin-bottom:14px}
+  .nm-group-head{font-size:13px;font-weight:700;color:var(--text);letter-spacing:.3px;margin:20px 2px 10px;text-transform:uppercase;opacity:.85}
+  .nm-group-head .gcfg-subnote{text-transform:none}
+  .nm-body{display:flex;flex-direction:column;gap:10px}
+  .nm-grid{display:flex;flex-direction:column;gap:4px}
+  .nm-row{display:flex;align-items:center;gap:10px;padding:7px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel);min-width:0}
+  .nm-row:hover{border-color:rgba(43,208,198,.5)}
+  .nm-col{flex:0 0 220px;text-align:right;font-weight:600;color:var(--text);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nm-typ{flex:0 0 auto;font-size:9.5px;font-weight:700;letter-spacing:.4px;color:var(--violet);background:var(--violet-ghost);border-radius:5px;padding:2px 6px}
+  .nm-arrow{color:var(--mute);flex:0 0 auto;font-size:13px}
+  .nm-src{flex:1 1 auto;font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nm-src.k-path{color:var(--teal)}
+  .nm-src.k-fn{color:var(--violet)}
+  .nm-src.k-lit{color:var(--amber)}
+  .nm-src.k-empty{color:var(--mute);font-style:italic}
+  .nm-kind{flex:0 0 auto;font-size:9.5px;font-weight:700;letter-spacing:.4px;border-radius:5px;padding:2px 7px}
+  .nm-kind.k-path{color:var(--teal);background:var(--teal-ghost)}
+  .nm-kind.k-fn{color:var(--violet);background:var(--violet-ghost)}
+  .nm-kind.k-lit{color:var(--amber);background:#f6b53f1a}
+  .nm-kind.k-empty{color:var(--mute);background:var(--raise)}
+  .nm-pills{display:flex;flex-wrap:wrap;gap:6px}
+  .nm-pills.nm-global{margin-bottom:14px}
+  .nm-pill{font-size:11px;font-weight:600;border-radius:6px;padding:3px 9px;border:1px solid var(--line);color:var(--dim);background:var(--panel)}
+  .nm-pill.route{color:var(--teal);border-color:transparent;background:var(--teal-ghost)}
+  .nm-pill.product{color:var(--dim);background:var(--raise)}
+  .nm-pill.inc{color:var(--green);border-color:transparent;background:var(--green-ghost)}
+  .nm-pill.exc{color:var(--red);border-color:transparent;background:#ff5d5d14}
+  .nm-pill.recon{color:var(--amber);border-color:transparent;background:#f6b53f1a}
+  .nm-pill.anchor{color:var(--violet);border-color:transparent;background:var(--violet-ghost)}
+  .nm-route{flex-wrap:wrap;row-gap:4px}
+  .nm-method{flex:0 0 auto;font-size:10px;font-weight:800;letter-spacing:.5px;color:var(--teal);background:var(--teal-ghost);border-radius:5px;padding:2px 7px}
+  .nm-rt-name{font-weight:700;font-size:12.5px;color:var(--text)}
+  .nm-rt-desc{color:var(--dim);font-size:12px;flex:1 1 auto;min-width:120px}
+  .nm-rt-path{flex-basis:100%;font-size:11.5px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nm-rule{display:flex;gap:10px;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+  .nm-rule:hover{border-color:rgba(43,208,198,.5)}
+  .nm-rule-idx{flex:0 0 22px;height:22px;border-radius:6px;background:var(--raise);color:var(--dim);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+  .nm-rule-main{flex:1 1 auto;min-width:0}
+  .nm-rule-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .nm-rule-id{font-size:10.5px;color:var(--mute)}
+  .nm-cond{font-size:11.5px;color:var(--text);background:var(--raise);border-radius:5px;padding:2px 7px}
+  .nm-op{font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--amber);text-transform:uppercase}
+  .nm-default{font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--violet)}
+  .nm-res{font-size:11.5px;font-weight:700;color:var(--green);background:var(--green-ghost);border-radius:5px;padding:2px 8px}
+  .nm-rule-desc{font-size:11.5px;color:var(--dim);margin-top:3px}
+  .nm-note{font-size:12px;color:var(--dim);border-left:3px solid var(--amber);background:#f6b53f0d;border-radius:0 8px 8px 0;padding:8px 12px}
+  .nm-notes{display:flex;flex-direction:column;gap:8px;padding:14px}
+  @media(max-width:760px){.nm-col{flex-basis:130px}}
   .vc-rt-head{display:flex;align-items:center;gap:9px;margin-bottom:12px}
   .vc-rt-id{font-size:13px;font-weight:800;color:var(--text);background:var(--raise);border:1px solid var(--line);border-radius:7px;padding:3px 9px;letter-spacing:.5px}
   .vc-rt-idlbl{font-size:11px;color:var(--mute)}
@@ -2681,7 +2730,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.482.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.483.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10951,7 +11000,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.482.alpha';
+const APP_VERSION='v2026.02.483.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12307,6 +12356,259 @@ document.addEventListener('keydown',function(ev){
   if(h){ ev.preventDefault(); h(el,el.getAttribute('data-arg'),ev); }
 });
 
+/* ===== Normalizer manifest visualization — data model =====
+   Transcribed from the production YAML manifests (UNIFI API + CLI Stage 2).
+   Read-only visualization; editing lands with dialog persistence later. */
+var NM_UNIFI={
+ kind:'api', label:'UniFi', mfr:'Ubiquiti', file:'normalizer-unifi.yaml',
+ routes:[
+  {name:'Route_Stat_Device',product:'UNIFI',desc:'All Unifi core device details',route:'/proxy/network/api/s/default/stat/device',method:'GET',anchor:'_id'},
+  {name:'Route_Stat_Sysinfo',product:'UNIFI',desc:'UDM Controller Details',route:'/proxy/network/api/s/default/stat/sysinfo',method:'GET',anchor:''},
+  {name:'Route_Stat_Alarm',product:'UNIFI',desc:'Events from UDM',route:'/proxy/network/api/s/default/stat/alarm?archived=false',method:'GET',anchor:'_id'},
+  {name:'Route_Clients_Active',product:'UNIFI',desc:'All active clients from UDM (v2 API)',route:'/proxy/network/v2/api/site/default/clients/active?includeTrafficUsage=true&includeUnifiDevices=true',method:'GET',anchor:'id'},
+  {name:'Protect_Api_Bootstrap',product:'PROTECT',desc:'Bootstrap file from UNVR Controller',route:'/proxy/protect/api/bootstrap',method:'GET',anchor:'id'},
+  {name:'Connect_Device',product:'UNIFI-CONNECT',desc:'All Connect App Devices',route:'/proxy/connect/api/v2/devices',method:'GET',anchor:'ip'},
+  {name:'Access_Topology',product:'UNIFI-ACCESS',desc:'UniFi Access device topology (flattened by routeApiEnvelope)',route:'/proxy/access/api/v2/devices/topology',method:'GET',anchor:'unique_id'}
+ ],
+ rules:{
+  include:[
+   {name:'IncludeKeyValueList_001',k:'modelKey',v:'camera|nvr'},
+   {name:'IncludeKeyValueList_NVR',k:'modelKey',v:'nvr'},
+   {name:'IncludeKeyValueList_UDMPRO',k:'model',v:'UDMPRO'},
+   {name:'IncludeKeyValueList_CAMERA',k:'modelKey',v:'camera'},
+   {name:'IncludeKeyValueList_WirelessClient',k:'type',v:'WIRELESS'}
+  ],
+  exclude:[
+   {name:'ExcludeKeyValueList_AdoptedByOther',k:'isAdoptedByOther',v:'true'},
+   {name:'ExcludeKeyValueList_UdmUap',k:'type',v:'udm|uap'}
+  ]
+ },
+ tableGroups:[
+  {group:'UniFi Network devices',tables:[
+   {name:'network-device-profile',route:'Route_Stat_Device',recon:{timeout:3600,max:10},fields:[
+    ['profileUuid','$_id'],['hostname','$name'],['model','$model'],['deviceTypeStr','$type'],['ipAddress','$ip'],['macAddress','$mac'],['status','$state'],['usingLteBackup','$lte_failover'],['swVersion','$version'],['swUpgradeStatus','$upgradable'],['lastSeenDateTime','$last_seen'],['productLineStr','UNIFI'],['manufacturerStr','UBIQUITI']]},
+   {name:'network-device-configuration',route:'Route_Stat_Device',fields:[
+    ['profileUuid','$_id'],['ipaddress','!crossTableLookup(network-device-profile:ipaddress)'],['hostname','!crossTableLookup(network-device-profile:hostname)'],['configVersion','$cfgversion'],['controllerIp','$inform_ip'],['controllerMacAddr','$gateway_mac']]},
+   {name:'network-device-health-stats',route:'Route_Stat_Device',fields:[
+    ['profileUuid','$_id'],['ipaddress','!crossTableLookup(network-device-profile:ipaddress)'],['hostname','!crossTableLookup(network-device-profile:hostname)'],['myController','!crossTableLookup(network-device-configuration:controllerIp)'],['memoryTotal','$sys_stats->$mem_total'],['memoryUsed','$sys_stats->$mem_used'],['cpuLoadAverage','$sys_stats->$loadavg_5'],['fanUtilization','$fan_level'],['temperature','$general_temperature'],['overallPoePowerAvailable','$total_max_power'],['overallPoePowerInUse','$total_used_power'],['adoptedByController','$adopted']]},
+   {name:'network-device-adjacent-neighbors',route:'Route_Stat_Device',fields:[
+    ['profileUuid','$_id'],['ipaddress','!crossTableLookup(network-device-profile:ipaddress)'],['hostname','!crossTableLookup(network-device-profile:hostname)'],['localPortId','$lldp_table[]->$local_port_idx*'],['localPortDesc','$local_port_idx*->$local_port_name']]},
+   {name:'network-device-interface-stats',route:'Route_Stat_Device',exclude:'ExcludeKeyValueList_UdmUap',fields:[
+    ['profileUuid','$_id'],['ipaddress','!crossTableLookup(network-device-profile:ipaddress)'],['hostname','!crossTableLookup(network-device-profile:hostname)'],['interfaceId','$port_table[]->$port_idx*'],['portState','$port_idx*->$up'],['interfaceName','$port_idx*->$name'],['interfaceType','$port_idx*->$media'],['interfaceDescription','$port_idx*->$name'],['interfaceStpState','$port_idx*->$stp_state'],['txErrors','$port_idx*->$tx_errors'],['txDropped','$port_idx*->$tx_dropped'],['txPackets','$port_idx*->$tx_packets'],['rxErrors','$port_idx*->$rx_errors'],['rxDrops','$port_idx*->$rx_dropped'],['rxPackets','$port_idx*->$rx_packets'],['portAnomaly','$port_idx*->$custom_anomalies'],['poeWattUtilization','$port_idx*->$poe_current']]},
+   {name:'network-device-interface-macAddr',route:'Route_Stat_Device',fields:[
+    ['profileUuid','$_id'],['ipaddress','!crossTableLookup(network-device-profile:ipaddress)'],['hostname','!crossTableLookup(network-device-profile:hostname)'],['interfaceId','$port_table[]->$port_idx*'],['macAddr','$port_idx*->$mac_table[]->$mac*'],['vlanId','$mac*->$vlan'],['age','$mac*->$age'],['entryType','$mac*->$static']]}
+  ]},
+  {group:'UniFi Network clients (v2 API)',tables:[
+   {name:'network-client-profile',route:'Route_Clients_Active',fields:[
+    ['profileUuid','$id'],['hostname','$hostname'],['displayName','$display_name'],['description','$name'],['manufacturer','$oui'],['model','$model_name'],['macAddress','$mac'],['ipAddress','$ip'],['status','$status'],['clientType','$type'],['isGuest','$is_guest'],['isBlocked','$blocked'],['firstSeen','$first_seen'],['lastSeen','$last_seen'],['uptime','$uptime'],['assocTime','$assoc_time'],['connectedNetworkName','$network_name'],['connectedNetworkId','$network_id'],['connectedNetworkVlanId','$vlan'],['uplinkMac','$uplink_mac'],['uplinkName','$last_uplink_name'],['connectedSwitchPort','$sw_port'],['wiredRateMbps','$wired_rate_mbps'],['connectedWifiApMacAddr','$ap_mac'],['connectedWifiNetwork','$essid']]},
+   {name:'network-client-wireless-stats',route:'Route_Clients_Active',include:'IncludeKeyValueList_WirelessClient',fields:[
+    ['profileUuid','$id'],['clientMac','$mac'],['apMac','$ap_mac'],['signal','$signal'],['noise','$noise'],['rssi','$rssi'],['channel','$channel'],['channelWidth','$channel_width'],['radio','$radio'],['radioProto','$radio_proto'],['mimo','$mimo'],['bssid','$bssid'],['wifiExperienceScore','$wifi_experience_score'],['wifiExperienceAverage','$wifi_experience_average'],['wifiTxAttempts','$wifi_tx_attempts'],['wifiTxRetriesPercentage','$wifi_tx_retries_percentage'],['txRate','$tx_rate'],['rxRate','$rx_rate'],['txMcsIndex','$tx_mcs_index'],['ccq','$ccq'],['roamCount','$roam_count'],['idletime','$idletime'],['powersaveEnabled','$powersave_enabled']]}
+  ]},
+  {group:'UniFi controllers',tables:[
+   {name:'unifi-controller-system',route:'Route_Stat_Device',include:'IncludeKeyValueList_UDMPRO',fields:[
+    ['profileUuid','$_id'],['modelType','$model'],['macAddr','$mac'],['wanIp','$ip'],['lanIp','$lan_ip'],['status','$state'],['hostname','$name'],['internetLatency','$uptime_stats->$WAN->$alerting_monitors[0]->$latency_average'],['kernelVersion','$kernel_version'],['osVersion','$version'],['updateAvailable','$upgradable'],['productLineStr','UNIFI'],['manufacturerStr','ubiquiti']]},
+   {name:'unifi-controller-server-application',route:'Route_Stat_Sysinfo',fields:[
+    ['profileUuid','$hostname'],['ipaddress','!crossTableLookup(unifi-controller-system:lanIp)'],['hostname','!crossTableLookup(unifi-controller-system:hostname)'],['platformType','$ubnt_device_type'],['applicationName','$name'],['currentVersion','$version'],['previousVersion','$previous_version'],['updateAvailable','$update_available'],['applicationUptime','$uptime']]},
+   {name:'unifi-event-notification',route:'Route_Stat_Alarm',fields:[
+    ['profileUuid','$_id'],['eventAlertId','$unique_alertid'],['eventTimeStamp','$datetime'],['eventType','$event_type'],['eventSrcIpAddr','$src_ip'],['eventInterface','$in_iface'],['eventTitle','$key'],['eventMessage','$msg']]}
+  ]},
+  {group:'Protect cameras & devices',tables:[
+   {name:'protect-device-profile',route:'Protect_Api_Bootstrap',include:'IncludeKeyValueList_CAMERA',exclude:'ExcludeKeyValueList_AdoptedByOther',recon:{timeout:3600,max:10},fields:[
+    ['profileUuid','$id'],['hostname','$name'],['model','$type'],['deviceTypeStr','$modelKey'],['ipAddress','$host'],['macAddress','$mac'],['status','$state'],['swVersion','$latestFirmwareVersion'],['swUpgradeStatus','$fwUpdateState'],['lastSeenDateTime','$lastSeen'],['productLineStr','PROTECT'],['manufacturerStr','ubiquiti']]},
+   {name:'protect-device-configuration',route:'Protect_Api_Bootstrap',include:'IncludeKeyValueList_CAMERA',fields:[
+    ['profileUuid','$id'],['ipaddress','!crossTableLookup(protect-device-profile:ipAddress)'],['hostname','!crossTableLookup(protect-device-profile:hostname)'],['controllerIp','$connectionHost'],['controllerMacAddr','$nvrMac'],['configurationActive','']]},
+   {name:'protect-device-health-stats',route:'Protect_Api_Bootstrap',include:'IncludeKeyValueList_CAMERA',fields:[
+    ['profileUuid','$id'],['ipaddress','!crossTableLookup(protect-device-profile:ipAddress)'],['hostname','!crossTableLookup(protect-device-profile:hostname)'],['uptime','$uptime'],['protectAdoptedByController','$isAdopted']]}
+  ]},
+  {group:'Protect UNVR controllers',tables:[
+   {name:'protect-controller-system',route:'Protect_Api_Bootstrap',include:'IncludeKeyValueList_NVR',fields:[
+    ['profileUuid','$id'],['modelType','$type'],['macAddr','$mac'],['wanIp','$publicIp'],['lanIp','$host'],['hostname','$name'],['kernelVersion','$ucoreVersion'],['osVersion','$firmwareVersion'],['productLineStr','PROTECT'],['manufacturerStr','ubiquiti']]},
+   {name:'protect-controller-applications',route:'Protect_Api_Bootstrap',include:'IncludeKeyValueList_NVR',fields:[
+    ['profileUuid','$id'],['ipaddress','!crossTableLookup(protect-controller-system:lanIp)'],['hostname','!crossTableLookup(protect-controller-system:hostname)'],['platformType','$type'],['applicationName','$hostShortname'],['currentVersion','$firmwareVersion'],['previousVersion',''],['updateAvailable',''],['applicationUptime','$uptime']]},
+   {name:'protect-controller-health',route:'Protect_Api_Bootstrap',include:'IncludeKeyValueList_NVR',fields:[
+    ['profileUuid','$id'],['ipaddress','!crossTableLookup(protect-controller-system:lanIp)'],['hostname','!crossTableLookup(protect-controller-system:hostname)'],['storageTotalSize','$systemInfo->$storage->$size'],['storageUsed','$systemInfo->$storage->$used'],['storageType','$systemInfo->$storage->$type'],['storageAvailable','$systemInfo->$storage->$available'],['memoryTotal','$systemInfo->$memory->$total'],['memoryAvailable','$systemInfo->$memory->$available'],['cpuLoadAverage','$systemInfo->$cpu->$averageLoad'],['temperature','$systemInfo->$cpu->$temperature']]}
+  ]},
+  {group:'Connect displays',tables:[
+   {name:'connect-device-profile',route:'Connect_Device',fields:[
+    ['profileUuid','$id'],['ipaddress','$ip'],['hostname','$name'],['macAddress','$mac'],['online','$online'],['connectAdoptedByController','$state'],['currentVersion','$firmwareversion'],['productLineStr','UNIFI-CONNECT'],['manufacturerStr','ubiquiti']]}
+  ]},
+  {group:'Access devices — readers, hubs, elevator controllers',tables:[
+   {name:'access-device-profile',route:'Access_Topology',fields:[
+    ['profileUuid','$unique_id'],['hostname','$alias'],['displayName','$alias'],['description','$name'],['model','$device_type'],['hardwareRevision','$hw_type'],['firmware','$firmware'],['macAddress','$mac'],['ipAddress','$ip'],['guid','$guid'],['status','$is_online'],['isAdopted','$is_adopted'],['isManaged','$is_managed'],['isConnected','$is_connected'],['connectedHubMac','$connected_uah_id'],['buildingName','$buildingName'],['floorName','$floorName'],['doorName','$doorName'],['doorFullName','$doorFullName'],['startTime','$start_time'],['lastSeenDateTime','$last_seen'],['deviceTypeStr','access-control'],['productLineStr','UNIFI-ACCESS'],['manufacturerStr','ubiquiti']]}
+  ]}
+ ],
+ identity:[
+  {name:'network-device-profile',blurb:'UniFi Network devices — switches, gateways, UAPs',
+   rules:{deviceCategoryStr:[
+     {id:'ndp-cat-001',d:'UAPs are wireless infrastructure',w:{f:'deviceTypeStr',op:'equals',v:'uap'},r:'wifi'},
+     {id:'ndp-cat-002',d:'Switches and gateways are network infrastructure',w:{f:'deviceTypeStr',op:'in',v:'usw, udm, ugw'},r:'network'},
+     {id:'ndp-cat-default',d:'Default to network for unclassified UniFi hardware',w:null,r:'network'}],
+    deviceTypeStr:[
+     {id:'ndp-typ-001',d:'Echo upstream deviceTypeStr if present',w:{f:'deviceTypeStr',op:'present',v:''},r:'$deviceTypeStr'},
+     {id:'ndp-typ-default',d:'Default fallback',w:null,r:'unknown'}]},
+   copies:[['siteId','$siteId'],['profileUuidStr','$profileUuid'],['macAddressStr','$macAddress'],['ipAddressStr','$ipAddress'],['hostnameStr','$hostname'],['displayNameStr','$hostname'],['modelStr','$model'],['manufacturerStr','$manufacturerStr'],['productLineStr','$productLineStr'],['lastSeenAtStr','$lastSeenDateTime'],['statusStr','$status']]},
+  {name:'network-client-profile',blurb:'UniFi Network clients — VLAN/hostname/manufacturer classification',
+   note:'hostnameStr and displayNameStr are intentionally swapped vs. the raw source columns: UniFi’s $display_name carries the friendly, MAC-disambiguated name while $hostname is often empty for third-party devices. Promoting displayName into hostnameStr ensures VLAN devices reach Hudu instead of being silently skipped.',
+   rules:{deviceCategoryStr:[
+     {id:'ncp-cat-001',d:'Voice VLAN — VoIP phones',w:{f:'connectedNetworkName',op:'contains',v:'Voice VLAN'},r:'endpoint'},
+     {id:'ncp-cat-002',d:'Video VLAN — security cameras and NVRs',w:{f:'connectedNetworkName',op:'contains',v:'Video VLAN'},r:'endpoint'},
+     {id:'ncp-cat-003',d:'Access Control VLAN — door readers, badge hardware',w:{f:'connectedNetworkName',op:'contains',v:'Access Control VLAN'},r:'iot'},
+     {id:'ncp-cat-004',d:'HVAC VLAN — building management/HVAC equipment',w:{f:'connectedNetworkName',op:'contains',v:'HVAC VLAN'},r:'iot'},
+     {id:'ncp-cat-005',d:'Management VLAN — admin workstations and infrastructure',w:{f:'connectedNetworkName',op:'contains',v:'Management VLAN'},r:'client'},
+     {id:'ncp-cat-006',d:'Workstations VLAN — staff workstations',w:{f:'connectedNetworkName',op:'contains',v:'Workstations VLAN'},r:'client'},
+     {id:'ncp-cat-007',d:'Data VLAN — general data network clients',w:{f:'connectedNetworkName',op:'contains',v:'Data VLAN'},r:'client'},
+     {id:'ncp-cat-default',d:'Default fallback for unrecognized networks',w:null,r:'client'}],
+    deviceTypeStr:[
+     {id:'ncp-typ-001',d:'UNVR hostname → network video recorder',w:{f:'hostname',op:'equals',v:'UNVR'},r:'nvr'},
+     {id:'ncp-typ-002',d:'Voice VLAN → phone',w:{f:'connectedNetworkName',op:'contains',v:'Voice VLAN'},r:'phone'},
+     {id:'ncp-typ-003',d:'Video VLAN → camera',w:{f:'connectedNetworkName',op:'contains',v:'Video VLAN'},r:'camera'},
+     {id:'ncp-typ-004',d:'Access Control VLAN → access-control (legacy fallback; UA devices now sourced from access-device-profile)',w:{f:'connectedNetworkName',op:'contains',v:'Access Control VLAN'},r:'access-control'},
+     {id:'ncp-typ-005',d:'HVAC VLAN → hvac',w:{f:'connectedNetworkName',op:'contains',v:'HVAC VLAN'},r:'hvac'},
+     {id:'ncp-typ-default',d:'Default — workstation',w:null,r:'workstation'}]},
+   copies:[['siteId','$siteId'],['profileUuidStr','$profileUuid'],['macAddressStr','$macAddress'],['ipAddressStr','$ipAddress'],['hostnameStr','$displayName'],['displayNameStr','$hostname'],['manufacturerStr','$manufacturer'],['modelStr','$model'],['connectedNetworkName','$connectedNetworkName'],['connectedNetworkId','$connectedNetworkId'],['lastSeenAtStr','$lastSeen'],['firstSeenAtStr','$firstSeen'],['statusStr','$status']]},
+  {name:'protect-controller-system',blurb:'Protect NVR controllers — always server/nvr',
+   rules:{deviceCategoryStr:[{id:'pcs-cat-default',d:'Protect NVRs are servers',w:null,r:'server'}],
+    deviceTypeStr:[{id:'pcs-typ-default',d:'All Protect controllers are NVRs',w:null,r:'nvr'}]},
+   copies:[['siteId','$siteId'],['profileUuidStr','$profileUuid'],['macAddressStr','$macAddr'],['ipAddressStr','$lanIp'],['hostnameStr','$hostname'],['displayNameStr','$hostname'],['modelStr','$modelType'],['manufacturerStr','$manufacturerStr'],['productLineStr','$productLineStr']]},
+  {name:'protect-device-profile',blurb:'Protect cameras — endpoint; type echoes upstream or defaults to camera',
+   rules:{deviceCategoryStr:[{id:'pdp-cat-default',d:'All Protect devices are endpoints',w:null,r:'endpoint'}],
+    deviceTypeStr:[
+     {id:'pdp-typ-001',d:'Echo upstream deviceTypeStr if present',w:{f:'deviceTypeStr',op:'present',v:''},r:'$deviceTypeStr'},
+     {id:'pdp-typ-default',d:'Default to camera',w:null,r:'camera'}]},
+   copies:[['siteId','$siteId'],['profileUuidStr','$profileUuid'],['macAddressStr','$macAddress'],['ipAddressStr','$ipAddress'],['hostnameStr','$hostname'],['displayNameStr','$hostname'],['modelStr','$model'],['manufacturerStr','$manufacturerStr'],['productLineStr','$productLineStr'],['lastSeenAtStr','$lastSeenDateTime'],['statusStr','$status']]},
+  {name:'connect-device-profile',blurb:'Connect displays — always endpoint/connect-display',
+   rules:{deviceCategoryStr:[{id:'cdp-cat-default',d:'Connect displays are endpoints',w:null,r:'endpoint'}],
+    deviceTypeStr:[{id:'cdp-typ-default',d:'All Connect devices classified as connect-display',w:null,r:'connect-display'}]},
+   copies:[['siteId','$siteId'],['profileUuidStr','$profileUuid'],['macAddressStr','$macAddress'],['ipAddressStr','$ipaddress'],['hostnameStr','$hostname'],['displayNameStr','$hostname'],['manufacturerStr','$manufacturerStr'],['productLineStr','$productLineStr']]},
+  {name:'access-device-profile',blurb:'Access devices — UA door readers, hubs, elevator controllers; IoT/access-control',
+   rules:{deviceCategoryStr:[{id:'adp-cat-default',d:'Access devices are IoT (door readers, hubs, elevator controllers)',w:null,r:'iot'}],
+    deviceTypeStr:[{id:'adp-typ-default',d:'All Access devices classified as access-control',w:null,r:'access-control'}]},
+   copies:[['siteId','$siteId'],['profileUuidStr','$profileUuid'],['macAddressStr','$macAddress'],['ipAddressStr','$ipAddress'],['hostnameStr','$hostname'],['displayNameStr','$displayName'],['modelStr','$model'],['hardwareRevisionStr','$hardwareRevision'],['firmwareStr','$firmware'],['manufacturerStr','$manufacturerStr'],['productLineStr','$productLineStr'],['connectedHubMacStr','$connectedHubMac'],['buildingNameStr','$buildingName'],['floorNameStr','$floorName'],['doorNameStr','$doorName'],['doorFullNameStr','$doorFullName'],['lastSeenAtStr','$lastSeenDateTime'],['statusStr','$status']]}
+ ]
+};
+var NM_CLI={
+ kind:'cli', label:'CLI', mfr:'Generic', file:'normalizer-cli.yaml',
+ global:{protocol:'cli',manufacturer:'generic',pk:'cliId'},
+ blocks:[
+  {anchor:'cliRouteBlock_pingRtt',testType:'ping_rtt',blurb:'Two tables per route: one summary row per cycle, one row per RTT sample.',tables:[
+   {name:'cliPingProfile',fields:[
+    ['profileUuidStr','$profileUuidStr'],['cliId','$endpointId'],['host','$host'],['pingMin','$min','DECIMAL(10,3)'],['pingAvg','$avg','DECIMAL(10,3)'],['pingMax','$max','DECIMAL(10,3)'],['pingMdev','$mdev','DECIMAL(10,3)'],['pingLossPct','$lossPct','DECIMAL(5,2)'],['sampleCount','$sampleCount','INT UNSIGNED'],['probeStatus','$probeStatus'],['exitCode','$exitCode','INT'],['wallClockMs','$wallClockMs','INT UNSIGNED'],['completed','$completed','TINYINT(1)'],['siteId','$siteId'],['timestamp','$timestamp','BIGINT']]},
+   {name:'cliPingSamples',arraySource:'$samples',fields:[
+    ['profileUuidStr','$profileUuidStr'],['cliId','$endpointId'],['host','$host'],['sampleIdx','$__index','INT UNSIGNED'],['sampleMs','$__value','DECIMAL(10,3)'],['siteId','$siteId'],['timestamp','$timestamp','BIGINT']]}
+  ]},
+  {anchor:'cliRouteBlock_pingFull',testType:'ping_full',blurb:'Single table; persists the raw ping text for diagnostic/forensic review.',tables:[
+   {name:'cliPingProfileFull',fields:[
+    ['profileUuidStr','$profileUuidStr'],['cliId','$endpointId'],['host','$host'],['pingAvg','$avg','DECIMAL(10,3)'],['pingLossPct','$lossPct','DECIMAL(5,2)'],['sampleCount','$sampleCount','INT UNSIGNED'],['probeStatus','$probeStatus'],['exitCode','$exitCode','INT'],['wallClockMs','$wallClockMs','INT UNSIGNED'],['completed','$completed','TINYINT(1)'],['rawOutput','$rawText'],['siteId','$siteId'],['timestamp','$timestamp','BIGINT']]}
+  ]},
+  {anchor:'cliRouteBlock_iperf3Udp',testType:'iperf3_udp',blurb:'UDP throughput probes — bandwidth, jitter, loss (SD-WAN validation).',tables:[
+   {name:'cliIperf3Profile',fields:[
+    ['profileUuidStr','$profileUuidStr'],['cliId','$endpointId'],['host','$host'],['bitsPerSec','$bitsPerSec','BIGINT UNSIGNED'],['bytes','$bytes','BIGINT UNSIGNED'],['seconds','$seconds','DECIMAL(10,3)'],['jitterMs','$jitterMs','DECIMAL(10,3)'],['lostPackets','$lostPackets','INT UNSIGNED'],['totalPackets','$totalPackets','INT UNSIGNED'],['probeStatus','$probeStatus'],['exitCode','$exitCode','INT'],['wallClockMs','$wallClockMs','INT UNSIGNED'],['completed','$completed','TINYINT(1)'],['siteId','$siteId'],['timestamp','$timestamp','BIGINT']]}
+  ]},
+  {anchor:'cliRouteBlock_iperf3Tcp',testType:'iperf3_tcp',blurb:'TCP throughput — bandwidth only (jitter/loss are UDP-only).',tables:[
+   {name:'cliIperf3TcpProfile',fields:[
+    ['profileUuidStr','$profileUuidStr'],['cliId','$endpointId'],['host','$host'],['bitsPerSec','$bitsPerSec','BIGINT UNSIGNED'],['bytes','$bytes','BIGINT UNSIGNED'],['seconds','$seconds','DECIMAL(10,3)'],['probeStatus','$probeStatus'],['exitCode','$exitCode','INT'],['wallClockMs','$wallClockMs','INT UNSIGNED'],['completed','$completed','TINYINT(1)'],['siteId','$siteId'],['timestamp','$timestamp','BIGINT']]}
+  ]}
+ ],
+ notes:['probeStatus (v1.3 §15): ok | unreachable | did_not_run — records what happened to the probe, separate from what it measured. EventsDirector uptime rules fire on unreachable, clear on ok; did_not_run rows are inert.','profileUuidStr is stamped once per ping cycle by vCollector — profile row and sample rows share it, giving samples a real FK to their parent profile.','column_types are CREATE/ADD-only — existing deployed tables keep their current types until the Layer-4 one-shot migration.','Tables grow INSERT-only — scheduled retention DELETE older than N days still required.']
+};
+var NM_VIS={'norm-unifi':NM_UNIFI,'norm-cli':NM_CLI};
+/* ===== Normalizer manifest visualization — renderers =====
+   Mapping grid: DB column ← source expression, kind color-coded
+   (path/fn/literal/script/empty). Folders reuse the vc accordion +
+   delegated vc-toggle-folder act; all markup via the T template. */
+function nmKind(v){
+  if(v==null||v===''){ return 'empty'; }
+  var s=String(v);
+  if(s.charAt(0)==='!'){ return 'fn'; }
+  if(s.indexOf('$')>=0){ return 'path'; }
+  return 'lit';
+}
+function nmSrc(v){
+  var k=nmKind(v);
+  return T`<span class="nm-src mono k-${k}">${k==='empty'?'— (empty)':v}</span><span class="nm-kind k-${k}">${k==='path'?'path':k==='fn'?'fn':k==='lit'?'literal':'empty'}</span>`;
+}
+function nmRow(f){
+  var typ=f[2]?T`<span class="nm-typ mono">${f[2]}</span>`:'';
+  return T`<div class="nm-row"><span class="nm-col mono">${f[0]}</span>${T.raw(typ)}<span class="nm-arrow">←</span>${T.raw(nmSrc(f[1]))}</div>`;
+}
+function nmGrid(fields){ return '<div class="nm-grid">'+fields.map(nmRow).join('')+'</div>'; }
+function nmFolder(key,icon,title,sub,body,openByDefault){
+  var st=vcFolderOpen[key];
+  var open=(st===undefined)?!!openByDefault:(st===true);
+  return T`<div class="gcfg-card vc-folder${open?'':' collapsed'}"><div class="vc-folder-head" data-act="vc-toggle-folder" data-arg="${key}"><span class="vc-folder-ic">${T.raw(icon)}</span><div class="vc-folder-txt"><div class="vc-folder-name">${T.raw(title)}</div><div class="vc-folder-sub">${T.raw(sub)}</div></div><span class="vc-folder-chev">${T.raw(VC_IC_CHEV)}</span></div><div class="vc-eplist nm-body">${T.raw(body)}</div></div>`;
+}
+function nmPill(cls,txt){ return T`<span class="nm-pill ${cls}">${txt}</span>`; }
+function nmStatRow(items){
+  return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Manifest Overview</div><div class="vc-statrow">'+
+    items.map(function(it){ return '<div class="vc-stat" style="--ac:'+it[2]+';--acg:'+it[3]+'"><span class="vc-stat-ic">'+it[4]+'</span><div><div class="vc-stat-num">'+it[0]+'</div><div class="vc-stat-lbl">'+_esc(it[1])+'</div></div></div>'; }).join('')+'</div></div>';
+}
+function nmRuleRow(r,i){
+  var when=r.w?T`<span class="nm-cond mono">${r.w.f}</span><span class="nm-op">${r.w.op}</span>${r.w.v?T`<span class="nm-cond mono">${r.w.v}</span>`:''}`:'<span class="nm-default">DEFAULT (catch-all)</span>';
+  return T`<div class="nm-rule"><span class="nm-rule-idx">${i+1}</span><div class="nm-rule-main"><div class="nm-rule-top"><span class="nm-rule-id mono">${r.id}</span>${T.raw(when)}<span class="nm-arrow">→</span><span class="nm-res mono">${r.r}</span></div><div class="nm-rule-desc">${r.d}</div></div></div>`;
+}
+function nmRouteRow(rt){
+  return T`<div class="nm-row nm-route"><span class="nm-method">${rt.method}</span><span class="nm-rt-name mono">${rt.name}</span>${T.raw(nmPill('product',rt.product))}<span class="nm-rt-desc">${rt.desc}</span><span class="nm-rt-path mono">${rt.route}</span>${rt.anchor?T.raw(T`<span class="nm-pill anchor" title="node-section-anchor">⚓ ${rt.anchor}</span>`):''}</div>`;
+}
+function nmTableFolder(t){
+  var pills=[nmPill('route','↪ '+t.route)];
+  if(t.include){ pills.push(nmPill('inc','include: '+t.include.replace('IncludeKeyValueList_',''))); }
+  if(t.exclude){ pills.push(nmPill('exc','exclude: '+t.exclude.replace('ExcludeKeyValueList_',''))); }
+  if(t.recon){ pills.push(nmPill('recon','presence reconciliation · prune >'+t.recon.timeout+'s · max '+t.recon.max+'/cycle')); }
+  var body='<div class="nm-pills">'+pills.join('')+'</div>'+nmGrid(t.fields);
+  return nmFolder('nm:tbl:'+t.name,VC_IC_DB,'<span class="mono">'+_esc(t.name)+'</span>',t.fields.length+' column mappings',body,false);
+}
+function nmIdentityFolder(b){
+  var groups=Object.keys(b.rules).map(function(g){
+    var rows=b.rules[g].map(nmRuleRow).join('');
+    return '<div class="vc-subhead2">routingRules · <span class="mono">'+_esc(g)+'</span> <span class="gcfg-subnote">'+b.rules[g].length+' rules, first match wins</span></div><div class="nm-grid">'+rows+'</div>';
+  }).join('');
+  var note=b.note?T`<div class="nm-note">${b.note}</div>`:'';
+  var body=note+groups+'<div class="vc-subhead2">fieldCopies <span class="gcfg-subnote">'+b.copies.length+' direct copies</span></div>'+nmGrid(b.copies);
+  return nmFolder('nm:id:'+b.name,VC_IC_LAYERS,'<span class="mono">'+_esc(b.name)+'</span>',_esc(b.blurb),body,false);
+}
+function nmManifestPage(key){
+  var m=NM_VIS[key]; if(!m){ return ''; }
+  if(m.kind==='cli'){ return nmCliPage(m); }
+  var nMap=0; m.tableGroups.forEach(function(g){ g.tables.forEach(function(t){ nMap+=t.fields.length; }); });
+  var nTbl=0; m.tableGroups.forEach(function(g){ nTbl+=g.tables.length; });
+  var out=nmStatRow([
+    [m.routes.length,'API Routes','var(--teal)','var(--teal-ghost)',VC_IC_API],
+    [nTbl,'Data Tables','var(--violet)','var(--violet-ghost)',VC_IC_DB],
+    [nMap,'Column Mappings','var(--green)','var(--green-ghost)',VC_IC_LAYERS],
+    [m.identity.length,'Identity Blocks','var(--amber)','#f6b53f1a',VC_IC_SNMP]
+  ]);
+  out+=nmFolder('nm:routes',VC_IC_API,'API Routes',m.routes.length+' routes · product lines: UNIFI, PROTECT, CONNECT, ACCESS','<div class="nm-grid">'+m.routes.map(nmRouteRow).join('')+'</div>',true);
+  var ruleBody='<div class="vc-subhead2">Include rule lists</div><div class="nm-pills">'+
+    m.rules.include.map(function(r){ return nmPill('inc',r.name.replace('IncludeKeyValueList_','')+' · '+r.k+' = '+r.v); }).join('')+
+    '</div><div class="vc-subhead2">Exclude rule lists</div><div class="nm-pills">'+
+    m.rules.exclude.map(function(r){ return nmPill('exc',r.name.replace('ExcludeKeyValueList_','')+' · '+r.k+' = '+r.v); }).join('')+'</div>';
+  out+=nmFolder('nm:rules',VC_IC_CLI,'Include / Exclude Rule Lists',(m.rules.include.length+m.rules.exclude.length)+' reusable filters',ruleBody,false);
+  m.tableGroups.forEach(function(g){
+    out+='<div class="nm-group-head">'+_esc(g.group)+' <span class="gcfg-subnote">'+g.tables.length+(g.tables.length===1?' table':' tables')+'</span></div>';
+    g.tables.forEach(function(t){ out+=nmTableFolder(t); });
+  });
+  out+='<div class="nm-group-head">Device identity canonicalization <span class="gcfg-subnote">'+m.identity.length+' mapping blocks · machine-authored</span></div>';
+  m.identity.forEach(function(b){ out+=nmIdentityFolder(b); });
+  return '<div class="gcfg nm-page">'+out+'</div>';
+}
+function nmCliPage(m){
+  var nTbl=0,nMap=0; m.blocks.forEach(function(b){ b.tables.forEach(function(t){ nTbl++; nMap+=t.fields.length; }); });
+  var out=nmStatRow([
+    [m.blocks.length,'Test Types','var(--teal)','var(--teal-ghost)',VC_IC_CLI],
+    [nTbl,'Data Tables','var(--violet)','var(--violet-ghost)',VC_IC_DB],
+    [nMap,'Column Mappings','var(--green)','var(--green-ghost)',VC_IC_LAYERS]
+  ]);
+  out+='<div class="nm-pills nm-global">'+nmPill('product','protocol: '+m.global.protocol)+nmPill('product','manufacturer: '+m.global.manufacturer)+nmPill('anchor','primary key: '+m.global.pk)+'</div>';
+  m.blocks.forEach(function(b){
+    var body='';
+    b.tables.forEach(function(t){
+      body+='<div class="vc-subhead2"><span class="mono">'+_esc(t.name)+'</span>'+(t.arraySource?' <span class="nm-pill route">array_source: '+_esc(t.arraySource)+' → one row per element</span>':'')+' <span class="gcfg-subnote">'+t.fields.length+' columns</span></div>'+nmGrid(t.fields);
+    });
+    out+=nmFolder('nm:cli:'+b.testType,VC_IC_PULSE,'<span class="mono">'+_esc(b.testType)+'</span>',_esc(b.blurb)+' · anchor <span class="mono">'+_esc(b.anchor)+'</span>',body,b.testType==='ping_rtt');
+  });
+  out+='<div class="nm-group-head">Manifest notes</div><div class="gcfg-card nm-notes">'+m.notes.map(function(n){ return T`<div class="nm-note">${n}</div>`; }).join('')+'</div>';
+  return '<div class="gcfg nm-page">'+out+'</div>';
+}
 function renderCfgMgr(){
   const el=document.getElementById('screen-cfgmgr'); if(!el) return;
   const scope=tenantScope(), isAll=scope==='all';
@@ -12346,7 +12648,7 @@ function renderCfgMgr(){
   } else if(cfgSubPage.indexOf('norm-')===0){
     const f=files.find(x=>x.key===cfgSubPage)||files[0];
     body='<div class="cfg-manback"><button class="cfg-back-btn" data-act="cfg-sub" data-arg="normalizer"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
-      '<div class="cfg-editor">'+cfgScaffold(cat)+'</div>';
+      (typeof NM_VIS!=='undefined'&&NM_VIS[cfgSubPage]?nmManifestPage(cfgSubPage):'<div class="cfg-editor">'+cfgScaffold(cat)+'</div>');
   } else if(cfgSubPage==='vcollector'){
     body=cfgVcollectorForm(cfgMgrColl);
   } else {
