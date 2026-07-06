@@ -407,6 +407,8 @@
   .nav-subsubitem .ss-lead{width:4px;height:4px;border-radius:99px;background:var(--mute);flex:none;transition:.15s}
   .nav-subsubitem.active{color:var(--text);background:linear-gradient(90deg,var(--teal-ghost),transparent)}
   .nav-subsubitem.active .ss-lead{background:var(--green);box-shadow:0 0 7px var(--green)}
+  .nav-subsub{display:none}
+  .nav-subsub.open{display:block}
   .cfg-scaffold{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:46px 28px;color:var(--dim)}
   .cfg-scaffold-ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:var(--raise);border:1px solid var(--line)}
   .cfg-scaffold-ic svg{width:24px;height:24px;stroke:var(--teal);fill:none;stroke-width:1.7}
@@ -2665,6 +2667,8 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <button class="nav-subitem" data-sub="ubuntu" data-act="cfg-sub" data-arg="ubuntu"><span class="sub-lead"></span><span data-i18n="Ubuntu OS">Ubuntu OS</span></button>
         <button class="nav-subitem" data-sub="databases" data-act="cfg-sub" data-arg="databases"><span class="sub-lead"></span><span data-i18n="Databases">Databases</span></button>
         <button class="nav-subitem" data-sub="gitops" data-act="cfg-sub" data-arg="gitops"><span class="sub-lead"></span><span data-i18n="GitOps Repos">GitOps Repos</span></button>
+        <button class="nav-subitem nav-subdisc" data-sub="normalizer" data-act="cfg-sub" data-arg="normalizer"><span class="sub-lead"></span><span>Normalizer</span></button>
+        <div class="nav-subsub" id="navSubNorm"></div>
         <button class="nav-subitem" data-sub="vcollector" data-act="cfg-sub" data-arg="vcollector"><span class="sub-lead"></span><span>vCollector</span></button>
       </div>
     </div>
@@ -2730,7 +2734,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.483.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.484.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -11000,7 +11004,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.483.alpha';
+const APP_VERSION='v2026.02.484.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
