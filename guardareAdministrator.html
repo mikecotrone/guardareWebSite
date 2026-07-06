@@ -1363,18 +1363,18 @@
   .vc-ep-proto.rest{color:var(--teal-deep);border-color:var(--teal);background:var(--teal-ghost)}
   .vc-ep-proto.rpc{color:var(--violet);border-color:var(--violet);background:transparent}
   .vc-ep-proto.wss{color:var(--amber);border-color:var(--amber);background:transparent}
-  .modal.vc-dlg{width:min(720px,94vw);max-width:none;max-height:88vh;display:flex;flex-direction:column;padding:20px}
+  .modal.modal-form.vc-dlg{width:min(880px,94vw);max-width:none;max-height:88vh;display:flex;flex-direction:column;padding:20px}
   .vc-dlg .tk-head{flex:0 0 auto;margin-bottom:14px}
   .vc-dlg-eyebrow{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:3px}
   .vc-dlg-x{flex:none;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--mute);display:grid;place-items:center;cursor:pointer;padding:0}
   .vc-dlg-x:hover{color:var(--text);background:var(--bg-2)}
   .vc-dlg-x svg{width:16px;height:16px}
-  .vc-dlg-body{overflow:auto;flex:1 1 auto;margin:0 -2px;padding:0 2px 2px}
+  .vc-dlg-body{overflow:auto;flex:1 1 auto;margin:0 -10px;padding:0 22px 2px}
   .vc-dlg .modal-acts{flex:0 0 auto;margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
   .vc-dlg .modal-acts .btn{flex:0 0 auto}
   .vc-rt-list{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
   .vc-rt{border:1px solid var(--line);border-radius:11px;background:var(--bg-2);padding:13px;transition:border-color .15s}
-  .vc-rt:hover{border-color:rgba(43,208,198,.5)}
+  .vc-rt:hover{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),0 6px 18px rgba(43,208,198,.15)}
   .vc-rt-head{display:flex;align-items:center;gap:9px;margin-bottom:12px}
   .vc-rt-id{font-size:13px;font-weight:800;color:var(--text);background:var(--raise);border:1px solid var(--line);border-radius:7px;padding:3px 9px;letter-spacing:.5px}
   .vc-rt-idlbl{font-size:11px;color:var(--mute)}
@@ -2680,7 +2680,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.479.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.481.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10950,7 +10950,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.479.alpha';
+const APP_VERSION='v2026.02.481.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
