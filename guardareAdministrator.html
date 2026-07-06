@@ -1363,7 +1363,7 @@
   .vc-ep-proto.rest{color:var(--teal-deep);border-color:var(--teal);background:var(--teal-ghost)}
   .vc-ep-proto.rpc{color:var(--violet);border-color:var(--violet);background:transparent}
   .vc-ep-proto.wss{color:var(--amber);border-color:var(--amber);background:transparent}
-  .modal.vc-dlg{width:min(560px,94vw);max-height:88vh;display:flex;flex-direction:column;padding:20px}
+  .modal.vc-dlg{width:min(720px,94vw);max-width:none;max-height:88vh;display:flex;flex-direction:column;padding:20px}
   .vc-dlg .tk-head{flex:0 0 auto;margin-bottom:14px}
   .vc-dlg-eyebrow{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:3px}
   .vc-dlg-x{flex:none;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--mute);display:grid;place-items:center;cursor:pointer;padding:0}
@@ -1373,7 +1373,8 @@
   .vc-dlg .modal-acts{flex:0 0 auto;margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
   .vc-dlg .modal-acts .btn{flex:0 0 auto}
   .vc-rt-list{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
-  .vc-rt{border:1px solid var(--line);border-radius:11px;background:var(--bg-2);padding:13px}
+  .vc-rt{border:1px solid var(--line);border-radius:11px;background:var(--bg-2);padding:13px;transition:border-color .15s}
+  .vc-rt:hover{border-color:rgba(43,208,198,.5)}
   .vc-rt-head{display:flex;align-items:center;gap:9px;margin-bottom:12px}
   .vc-rt-id{font-size:13px;font-weight:800;color:var(--text);background:var(--raise);border:1px solid var(--line);border-radius:7px;padding:3px 9px;letter-spacing:.5px}
   .vc-rt-idlbl{font-size:11px;color:var(--mute)}
@@ -2679,7 +2680,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.477.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.479.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10949,7 +10950,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.477.alpha';
+const APP_VERSION='v2026.02.479.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -11728,14 +11729,7 @@ function vcDemoEndpoints(coll){
 function vcEpRow(e,n){
   var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
   var pt=(e.type==='arista'?['rpc','JSON-RPC']:(e.type==='wss'?['wss','WSS']:['rest','REST']));
-  return '<div class="vc-ep" data-act="vc-open-ep" data-arg="'+_esc(e.site)+'">'+
-    '<div class="vc-ep-id">'+
-      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Endpoint #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span><span class="vc-ep-proto '+pt[0]+'">'+pt[1]+'</span></div>'+
-      '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.host)+'</span></div>'+
-      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+'</span><span><b>'+_esc(e.user)+'</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+(e.af&&e.af!=='0'?'auth '+e.af+'s \u00b7 ':'')+'poll '+e.rf+'s</span></div>'+
-    '</div>'+
-    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
-  '</div>';
+  return T`<div class="vc-ep" data-act="vc-open-ep" data-arg="${e.site}"><div class="vc-ep-id"><div class="vc-ep-title"><span class="vc-ep-dot" style="background:${dot}"></span><span class="vc-ep-num">Endpoint #${n}</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">${e.site}</span><span class="vc-ep-proto ${pt[0]}">${pt[1]}</span></div><div class="vc-ep-top"><span class="vc-ep-host">${e.host}</span></div><div class="vc-ep-meta"><span class="mono">${e.ip}</span><span><b>${e.user}</b> \u00b7 <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>${e.af&&e.af!=='0'?'auth '+e.af+'s \u00b7 ':''}poll ${e.rf}s</span></div></div><span class="vc-ep-cta">${T.raw(VC_IC_CHEV)}</span></div>`;
 }
 function vcApiSection(eps){
   var groups=[['net','UniFi Network App',VC_IC_NET],['protect','UNVR Protect',VC_IC_CAM],['access','UniFi Access',VC_IC_DOOR],['meraki','Cisco Meraki',VC_IC_CLOUD],['azure','Microsoft Azure',VC_IC_AZURE],['arista','Arista EOS',VC_IC_SWITCH]];
@@ -11778,15 +11772,7 @@ function vcSummary(coll){
   '</div></div>';
 }
 function vcListRow(o){
-  return '<div class="vc-lrow" data-act="'+o.act+'" data-arg="'+_esc(o.arg)+'">'+
-    '<span class="vc-ep-dot" style="background:'+o.dot+'"></span>'+
-    '<span class="vc-lrow-cat">'+_esc(o.cat)+'</span>'+
-    '<span class="vc-lrow-name'+(o.mono?' mono':'')+'">'+_esc(o.name)+'</span>'+
-    '<span class="vc-ep-proto '+o.badge[0]+'">'+o.badge[1]+'</span>'+
-    '<span class="vc-lrow-sub">'+_esc(o.sub)+'</span>'+
-    '<span class="vc-lrow-meta">'+o.meta+'</span>'+
-    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
-  '</div>';
+  return T`<div class="vc-lrow" data-act="${o.act}" data-arg="${o.arg}"><span class="vc-ep-dot" style="background:${o.dot}"></span><span class="vc-lrow-cat">${o.cat}</span><span class="vc-lrow-name${o.mono?' mono':''}">${o.name}</span><span class="vc-ep-proto ${o.badge[0]}">${o.badge[1]}</span><span class="vc-lrow-sub">${o.sub}</span><span class="vc-lrow-meta">${T.raw(o.meta)}</span><span class="vc-ep-cta">${T.raw(VC_IC_CHEV)}</span></div>`;
 }
 function vcApiList(eps){
   var lblMap={net:'UniFi Network App',protect:'UNVR Protect',access:'UniFi Access',meraki:'Cisco Meraki',azure:'Microsoft Azure',arista:'Arista EOS'};
@@ -11830,6 +11816,24 @@ function cfgVcollectorForm(coll){
 }
 function vcSetTab(t){ vcSubTab=t; renderCfgMgr(); }
 var VC_IC_TRASH='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>';
+/* ===== Phase 2 pillar 3: auto-escaping tagged template.
+   T`<div>${value}</div>` escapes every interpolation through _esc by default;
+   wrap trusted, already-built HTML in T.raw(html) to pass it through. Arrays
+   are joined (items escaped unless raw). null/undefined render as ''. ===== */
+function TRaw(h){ this.html=h; }
+function T(strings){
+  var out=strings[0];
+  for(var i=1;i<arguments.length;i++){
+    var v=arguments[i];
+    if(v==null){ v=''; }
+    else if(v instanceof TRaw){ v=v.html; }
+    else if(Array.isArray(v)){ v=v.map(function(x){ return (x instanceof TRaw)?x.html:_esc(x); }).join(''); }
+    else { v=_esc(v); }
+    out+=v+strings[i];
+  }
+  return out;
+}
+T.raw=function(h){ return new TRaw(h); };
 /* ===== Phase 2 pillar 2: shared field components. vfInput/vfSelect emit the
    canonical tm-input control; vfField wraps in gcfg-field/label/iwrap (+hint).
    o.v is pre-escaped at the call site; o.x is a raw attribute tail
@@ -11883,14 +11887,7 @@ function vcSnmpEndpoints(coll){
 }
 function vcSnmpRow(e,n){
   var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
-  return '<div class="vc-ep" data-act="vc-open-snmp" data-arg="'+_esc(e.id)+'">'+
-    '<div class="vc-ep-id">'+
-      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Device #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">'+_esc(e.site)+'</span><span class="vc-ep-proto snmp">SNMP '+_esc(e.ver)+'</span></div>'+
-      '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.desc)+'</span></div>'+
-      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.ip)+':'+_esc(e.port)+'</span><span>'+_esc(e.mfr)+' \u00b7 community <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>'+e.oids.length+' OIDs</span></div>'+
-    '</div>'+
-    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
-  '</div>';
+  return T`<div class="vc-ep" data-act="vc-open-snmp" data-arg="${e.id}"><div class="vc-ep-id"><div class="vc-ep-title"><span class="vc-ep-dot" style="background:${dot}"></span><span class="vc-ep-num">Device #${n}</span><span class="vc-ep-sep">:</span><span class="vc-ep-name">${e.site}</span><span class="vc-ep-proto snmp">SNMP ${e.ver}</span></div><div class="vc-ep-top"><span class="vc-ep-host">${e.desc}</span></div><div class="vc-ep-meta"><span class="mono">${e.ip}:${e.port}</span><span>${e.mfr} \u00b7 community <span class="mono">\u2022\u2022\u2022\u2022\u2022\u2022</span></span><span>${e.oids.length} OIDs</span></div></div><span class="vc-ep-cta">${T.raw(VC_IC_CHEV)}</span></div>`;
 }
 function vcSnmpSection(eps){
   if(!eps.length) return '<div class="vc-empty">No SNMP devices configured.</div>';
@@ -12005,14 +12002,7 @@ function vcCliEndpoints(coll){
 function vcCliRow(e,n){
   var dot=(e.status==='warn'?'var(--amber)':(e.status==='crit'?'var(--red)':'var(--green)'));
   var bd=(e.type==='ping_rtt'?['rtt','ping_rtt']:['full','ping_full']);
-  return '<div class="vc-ep" data-act="vc-open-cli" data-arg="'+_esc(e.id)+'">'+
-    '<div class="vc-ep-id">'+
-      '<div class="vc-ep-title"><span class="vc-ep-dot" style="background:'+dot+'"></span><span class="vc-ep-num">Tracer #'+n+'</span><span class="vc-ep-sep">:</span><span class="vc-ep-name mono">'+_esc(e.target)+'</span><span class="vc-ep-proto '+bd[0]+'">'+bd[1]+'</span></div>'+
-      '<div class="vc-ep-top"><span class="vc-ep-host">'+_esc(e.desc)+'</span></div>'+
-      '<div class="vc-ep-meta"><span class="mono">'+_esc(e.id)+'</span><span>every '+_esc(e.freq)+'s</span><span>'+_esc(e.site)+'</span></div>'+
-    '</div>'+
-    '<span class="vc-ep-cta">'+VC_IC_CHEV+'</span>'+
-  '</div>';
+  return T`<div class="vc-ep" data-act="vc-open-cli" data-arg="${e.id}"><div class="vc-ep-id"><div class="vc-ep-title"><span class="vc-ep-dot" style="background:${dot}"></span><span class="vc-ep-num">Tracer #${n}</span><span class="vc-ep-sep">:</span><span class="vc-ep-name mono">${e.target}</span><span class="vc-ep-proto ${bd[0]}">${bd[1]}</span></div><div class="vc-ep-top"><span class="vc-ep-host">${e.desc}</span></div><div class="vc-ep-meta"><span class="mono">${e.id}</span><span>every ${e.freq}s</span><span>${e.site}</span></div></div><span class="vc-ep-cta">${T.raw(VC_IC_CHEV)}</span></div>`;
 }
 function vcCliSection(eps){
   if(!eps.length) return '<div class="vc-empty">No CLI tracers configured.</div>';
