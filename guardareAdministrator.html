@@ -1436,6 +1436,19 @@
   .nm-res{font-size:11.5px;font-weight:700;color:var(--green);background:var(--green-ghost);border-radius:5px;padding:2px 8px}
   .nm-rule-desc{font-size:11.5px;color:var(--dim);margin-top:2px}
   .nm-note{font-size:12px;color:var(--dim);border-left:3px solid var(--amber);background:#f6b53f0d;border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:8px}
+  .nm-fbadge{flex:0 0 auto;font-size:9.5px;font-weight:800;letter-spacing:.6px;border-radius:5px;padding:2px 8px;margin-right:12px;color:var(--mute);background:var(--raise)}
+  .vc-folder.nm-f-rt{border-left:3px solid var(--teal)}
+  .nm-f-rt .vc-folder-ic{background:var(--teal-ghost)} .nm-f-rt .vc-folder-ic svg{stroke:var(--teal)}
+  .nm-f-rt .nm-fbadge{color:var(--teal);background:var(--teal-ghost)}
+  .vc-folder.nm-f-rl{border-left:3px solid var(--green)}
+  .nm-f-rl .vc-folder-ic{background:var(--green-ghost)} .nm-f-rl .vc-folder-ic svg{stroke:var(--green)}
+  .nm-f-rl .nm-fbadge{color:var(--green);background:var(--green-ghost)}
+  .vc-folder.nm-f-map{border-left:3px solid var(--violet)}
+  .nm-f-map .vc-folder-ic{background:var(--violet-ghost)} .nm-f-map .vc-folder-ic svg{stroke:var(--violet)}
+  .nm-f-map .nm-fbadge{color:var(--violet);background:var(--violet-ghost)}
+  .vc-folder.nm-f-id{border-left:3px solid var(--amber)}
+  .nm-f-id .vc-folder-ic{background:#f6b53f1a} .nm-f-id .vc-folder-ic svg{stroke:var(--amber)}
+  .nm-f-id .nm-fbadge{color:var(--amber);background:#f6b53f1a}
   .nm-edit{cursor:pointer}
   .nm2-row.nm-edit:hover .nm2-l,.nm2-row.nm-edit:hover .nm2-r{border-color:rgba(43,208,198,.5)}
   .nm-rts .vc-ep{margin-bottom:6px}
@@ -2764,7 +2777,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.487.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.489.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -11034,7 +11047,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.487.alpha';
+const APP_VERSION='v2026.02.489.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12366,7 +12379,8 @@ var UI_ACTS={
   'nm-edit':function(el){ nmOpen(el.getAttribute('data-path'),false); },
   'nm-add':function(el){ nmOpen(el.getAttribute('data-path'),true); },
   'nm-save':function(){ nmSave(); },
-  'nm-del':function(){ nmDelete(); }
+  'nm-del':function(){ nmDelete(); },
+  'nm-rename':function(el){ nmRenameOpen(el.getAttribute('data-path')); }
 };
 var UI_CALL_OK={}, UI_CALLEV_OK={};
 'wxConfirmBulk wxCloseBulk toggleTicker tkCreateAnother submitTicket saveLocationCard runDiagnostics lmConfirmDelete lmCancelDelete lmAskDelete llTogglePause llClear lgTogglePw guardareLogout goCloudMon goCloudCfg draftTicketFromAlert ctopoFit confirmSvcOp confirmSuspend confirmReboot confirmMspSwitch confirmIntgOp confirmDeleteTenant confirmAddTenant closeSuspendModal closeRebootModal closeOsMaint closeMspSwitchModal closeLocationCard closeLiveLogs closeDiag closeDeleteTenantModal closeAi closeAddTenantModal ackAll openProfile openLiveLogs openDiagnostics openAddTenantModal openAccount guardareToggleTheme gotoLocationFromDetail'.split(' ').forEach(function(n){ UI_CALL_OK[n]=1; });
@@ -12399,6 +12413,7 @@ document.addEventListener('keydown',function(ev){
    Read-only visualization; editing lands with dialog persistence later. */
 var NM_UNIFI={
  kind:'api', label:'UniFi', mfr:'Ubiquiti', file:'normalizer-unifi.yaml',
+ titles:{routes:'API Route Node Mapping',rules:'Include / Exclude Rule Lists',identity:'Device Identity Canonicalization'},
  routes:[
   {name:'Route_Stat_Device',product:'UNIFI',desc:'All Unifi core device details',route:'/proxy/network/api/s/default/stat/device',method:'GET',anchor:'_id'},
   {name:'Route_Stat_Sysinfo',product:'UNIFI',desc:'UDM Controller Details',route:'/proxy/network/api/s/default/stat/sysinfo',method:'GET',anchor:''},
@@ -12526,6 +12541,7 @@ var NM_UNIFI={
 };
 var NM_CLI={
  kind:'cli', label:'CLI', mfr:'Generic', file:'normalizer-cli.yaml',
+ titles:{notes:'Manifest Notes'},
  global:{protocol:'cli',manufacturer:'generic',pk:'cliId'},
  blocks:[
   {anchor:'cliRouteBlock_pingRtt',testType:'ping_rtt',blurb:'Two tables per route: one summary row per cycle, one row per RTT sample.',tables:[
@@ -12575,10 +12591,13 @@ function nmGrid(fields,pathPrefix,rightHead){
     fields.map(function(f,i){ return nm2Row(f,pathPrefix+':'+i); }).join('')+
     '<button class="vc-rt-add nm-add" data-act="nm-add" data-path="'+_esc(pathPrefix)+'">'+VC_IC_PLUS+'Add mapping</button></div>';
 }
-function nmFolder(key,icon,title,sub,body,openByDefault){
+function nmFolder(key,icon,title,sub,body,openByDefault,o){
+  o=o||{};
   var st=vcFolderOpen[key];
   var open=(st===undefined)?!!openByDefault:(st===true);
-  return T`<div class="gcfg-card vc-folder${open?'':' collapsed'}"><div class="vc-folder-head" data-act="vc-toggle-folder" data-arg="${key}"><span class="vc-folder-ic">${T.raw(icon)}</span><div class="vc-folder-txt"><div class="vc-folder-name">${T.raw(title)}</div><div class="vc-folder-sub">${T.raw(sub)}</div></div><span class="vc-folder-chev">${T.raw(VC_IC_CHEV)}</span></div><div class="vc-eplist nm-body">${T.raw(body)}</div></div>`;
+  var pencil=o.rename?T`<span class="vc-folder-edit" data-act="nm-rename" data-path="${o.rename}" title="Rename section">${T.raw(VC_IC_PENCIL)}</span>`:'';
+  var badge=o.badge?T`<span class="nm-fbadge">${o.badge}</span>`:'';
+  return T`<div class="gcfg-card vc-folder ${o.cls||''}${open?'':' collapsed'}"><div class="vc-folder-head" data-act="vc-toggle-folder" data-arg="${key}"><span class="vc-folder-ic">${T.raw(icon)}</span><div class="vc-folder-txt"><div class="vc-folder-name">${T.raw(title)}${T.raw(pencil)}</div><div class="vc-folder-sub">${T.raw(sub)}</div></div>${T.raw(badge)}<span class="vc-folder-chev">${T.raw(VC_IC_CHEV)}</span></div><div class="vc-eplist nm-body">${T.raw(body)}</div></div>`;
 }
 function nmPill(cls,txt){ return T`<span class="nm-pill ${cls}">${txt}</span>`; }
 function nmStatRow(items){
@@ -12618,27 +12637,27 @@ function nmManifestPage(key){
   if(m.kind==='cli'){ return nmCliPage(m); }
   var nMap=0,nTbl=0; m.tableGroups.forEach(function(g){ nTbl+=g.tables.length; g.tables.forEach(function(t){ nMap+=t.fields.length; }); });
   var out=nmStatRow([
-    [m.routes.length,'API Routes','var(--teal)','var(--teal-ghost)',VC_IC_API],
+    [m.routes.length,'Route Node Maps','var(--teal)','var(--teal-ghost)',VC_IC_API],
     [nTbl,'Data Tables','var(--violet)','var(--violet-ghost)',VC_IC_DB],
     [nMap,'Column Mappings','var(--green)','var(--green-ghost)',VC_IC_LAYERS],
     [m.identity.length,'Identity Blocks','var(--amber)','#f6b53f1a',VC_IC_SNMP]
   ]);
-  out+=nmFolder('nm:routes',VC_IC_API,'API Routes',m.routes.length+' routes across UNIFI, PROTECT, CONNECT and ACCESS',
-    '<div class="nm-rts">'+m.routes.map(nmRouteCard).join('')+'</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rt">'+VC_IC_PLUS+'Add route</button>',true);
+  out+=nmFolder('nm:routes',VC_IC_API,_esc(m.titles.routes),m.routes.length+' route matchers — each pairs an incoming vCollector route with a node-section-anchor, telling the normalizer where to begin iterating that payload',
+    '<div class="nm-rts">'+m.routes.map(nmRouteCard).join('')+'</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rt">'+VC_IC_PLUS+'Add route mapping</button>',true,{cls:'nm-f-rt',badge:'MATCHERS',rename:'title:routes'});
   var ruleBody='<div class="nm-rulecols"><div><div class="nm-rulecol-h inc">Include rule lists <span class="gcfg-subnote">row kept only if it matches</span></div><div class="nm-rulegrid">'+
     m.rules.include.map(function(r,i){ return nmRuleCard(r,'rl:inc:'+i,'inc'); }).join('')+
     '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:inc">'+VC_IC_PLUS+'Add include rule</button></div>'+
     '<div><div class="nm-rulecol-h exc">Exclude rule lists <span class="gcfg-subnote">row dropped if it matches</span></div><div class="nm-rulegrid">'+
     m.rules.exclude.map(function(r,i){ return nmRuleCard(r,'rl:exc:'+i,'exc'); }).join('')+
     '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:exc">'+VC_IC_PLUS+'Add exclude rule</button></div></div>';
-  out+=nmFolder('nm:rules',VC_IC_CLI,'Include / Exclude Rule Lists',(m.rules.include.length+m.rules.exclude.length)+' reusable filters, referenced by tables below',ruleBody,false);
+  out+=nmFolder('nm:rules',VC_IC_CLI,_esc(m.titles.rules),(m.rules.include.length+m.rules.exclude.length)+' reusable filters, referenced by tables below',ruleBody,false,{cls:'nm-f-rl',badge:'FILTERS',rename:'title:rules'});
   m.tableGroups.forEach(function(g,gi){
     var nGrpMap=0; g.tables.forEach(function(t){ nGrpMap+=t.fields.length; });
-    out+=nmFolder('nm:grp:'+g.group,VC_IC_DB,_esc(g.group),g.tables.length+(g.tables.length===1?' table · ':' tables · ')+nGrpMap+' mappings',
-      g.tables.map(function(t,ti){ return nmTableSection(t,'map:'+gi+':'+ti); }).join(''),false);
+    out+=nmFolder('nm:grp:'+gi,VC_IC_DB,_esc(g.group),g.tables.length+(g.tables.length===1?' table · ':' tables · ')+nGrpMap+' mappings',
+      g.tables.map(function(t,ti){ return nmTableSection(t,'map:'+gi+':'+ti); }).join(''),false,{cls:'nm-f-map',badge:'DB ↔ JSON',rename:'title:grp:'+gi});
   });
-  out+=nmFolder('nm:identity',VC_IC_LAYERS,'Device Identity Canonicalization',m.identity.length+' mapping blocks · machine-authored · first-match-wins routing',
-    m.identity.map(function(b,bi){ return nmIdentityBlock(b,bi); }).join(''),false);
+  out+=nmFolder('nm:identity',VC_IC_LAYERS,_esc(m.titles.identity),m.identity.length+' mapping blocks · machine-authored · first-match-wins routing',
+    m.identity.map(function(b,bi){ return nmIdentityBlock(b,bi); }).join(''),false,{cls:'nm-f-id',badge:'IDENTITY',rename:'title:identity'});
   return '<div class="gcfg nm-page">'+out+'</div>';
 }
 function nmCliPage(m){
@@ -12650,10 +12669,10 @@ function nmCliPage(m){
   ]);
   out+='<div class="nm-pills nm-global">'+nmPill('product','protocol: '+m.global.protocol)+nmPill('product','manufacturer: '+m.global.manufacturer)+nmPill('anchor','primary key: '+m.global.pk)+'</div>';
   m.blocks.forEach(function(b,bi){
-    out+=nmFolder('nm:cli:'+b.testType,VC_IC_PULSE,'<span class="mono">'+_esc(b.testType)+'</span>',_esc(b.blurb),
-      b.tables.map(function(t,ti){ return nmTableSection(t,'cmap:'+bi+':'+ti,'β envelope source'); }).join(''),b.testType==='ping_rtt');
+    out+=nmFolder('nm:cli:'+b.testType,VC_IC_PULSE,'<span class="mono">'+_esc(b.title||b.testType)+'</span>',_esc(b.blurb),
+      b.tables.map(function(t,ti){ return nmTableSection(t,'cmap:'+bi+':'+ti,'β envelope source'); }).join(''),b.testType==='ping_rtt',{cls:'nm-f-map',badge:'DB ↔ JSON',rename:'title:cli:'+bi});
   });
-  out+=nmFolder('nm:cli:notes',VC_IC_LAYERS,'Manifest Notes',m.notes.length+' operational notes',m.notes.map(function(n){ return T`<div class="nm-note">${n}</div>`; }).join(''),false);
+  out+=nmFolder('nm:cli:notes',VC_IC_LAYERS,_esc(m.titles.notes),m.notes.length+' operational notes',m.notes.map(function(n){ return T`<div class="nm-note">${n}</div>`; }).join(''),false,{cls:'nm-f-id',badge:'NOTES',rename:'title:clinotes'});
   return '<div class="gcfg nm-page">'+out+'</div>';
 }
 /* ===== Normalizer manifest editing =====
@@ -12661,6 +12680,21 @@ function nmCliPage(m){
    dialog (vfField + data-k harvest), mutates the manifest object in place
    and re-renders. Session persistence — server writes land with HttpRepo. */
 var nmEditCtx=null;
+function nmTitleRef(path){
+  var m=nmManifest(); if(!m){ return null; }
+  var p=path.split(':');
+  if(p[1]==='grp'){ return {obj:m.tableGroups[+p[2]],key:'group'}; }
+  if(p[1]==='cli'){ var b=m.blocks[+p[2]]; if(b.title===undefined){ b.title=b.testType; } return {obj:b,key:'title'}; }
+  if(p[1]==='clinotes'){ return {obj:m.titles,key:'notes'}; }
+  return {obj:m.titles,key:p[1]};
+}
+function nmRenameOpen(path){
+  var r=nmTitleRef(path); if(!r){ return; }
+  var html=nmDlgShell('Normalizer · Section Title',String(r.obj[r.key]),'Display name only — the underlying YAML structure is unchanged',
+    vfField('Section title',vfInput({k:'t',v:_esc(r.obj[r.key])})),true);
+  nmEditCtx={res:{kind:'title',obj:r.obj,key:r.key},isNew:false,path:path};
+  var mEl=vcEpModalEl(); mEl.innerHTML=html; mEl.classList.remove('show'); void mEl.offsetWidth; mEl.classList.add('show');
+}
 function nmManifest(){ return NM_VIS[cfgSubPage]||null; }
 function nmResolve(path){
   var m=nmManifest(); if(!m){ return null; }
@@ -12691,12 +12725,12 @@ function nmOpen(path,isNew){
   if(r.kind==='route'){
     var rt=o||{name:'',product:'UNIFI',desc:'',route:'',method:'GET',anchor:''};
     var mOpt=function(v){ return '<option'+(v===rt.method?' selected':'')+'>'+v+'</option>'; };
-    html=nmDlgShell('Normalizer · API Route',isNew?'New Route':rt.name,'Route definition consumed by table blocks via apiRouteBlock',
+    html=nmDlgShell('Normalizer · Route Node Mapping',isNew?'New Route Mapping':rt.name,'Matches an incoming vCollector route and anchors node iteration — referenced by table blocks via apiRouteBlock',
       vfField('Name',vfInput({mono:1,k:'name',v:_esc(rt.name),x:' placeholder="Route_Stat_Device"'}))+
       vfField('Product line',vfInput({mono:1,k:'product',v:_esc(rt.product)}))+
       vfField('Description',vfInput({k:'desc',v:_esc(rt.desc)}))+
       vfField('Method',vfSelect({k:'method',x:' style="max-width:170px"',opts:mOpt('GET')+mOpt('POST')}))+
-      vfField('Route',vfInput({mono:1,k:'route',v:_esc(rt.route),x:' placeholder="/proxy/..."'}))+
+      vfField('vCollector route to match',vfInput({mono:1,k:'route',v:_esc(rt.route),x:' placeholder="/proxy/..."'}))+
       vfField('Node section anchor',vfInput({mono:1,k:'anchor',v:_esc(rt.anchor)}),'Key that anchors per-node iteration — empty for single-document responses'),isNew);
   } else if(r.kind==='rule'){
     var rl=o||{name:'',k:'',v:''};
@@ -12743,6 +12777,11 @@ function nmSave(){
   if(!ctx||!mEl){ closeVcEp(); return; }
   var v={}; vcReadTop(mEl,v);
   var r=ctx.res, obj;
+  if(r.kind==='title'){
+    if(!v.t){ toast('Title is required'); return; }
+    r.obj[r.key]=v.t;
+    nmEditCtx=null; toast('Section renamed — session only'); closeVcEp(); renderCfgMgr(); return;
+  }
   if(r.kind==='route'){
     if(!v.name||!v.route){ toast('Name and Route are required'); return; }
     obj={name:v.name,product:v.product,desc:v.desc,route:v.route,method:v.method,anchor:v.anchor};
