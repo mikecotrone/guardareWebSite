@@ -2829,7 +2829,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.498.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.499.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -11105,7 +11105,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.498.alpha';
+const APP_VERSION='v2026.02.499.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12073,7 +12073,7 @@ function vcOidEntry(o){
     vfField('Call frequency (seconds)',vfInput({k:'freq',type:'number',v:_esc(o.freq||'60'),x:' style="max-width:150px"'}))+
     '<div class="vc-subhead2">Value mappings</div>'+
     '<div class="vc-enum-list">'+enums+'</div>'+
-    '<button class="vc-enum-add" data-act="vc-add-enum">'+VC_IC_PLUS+'Add mapping</button>'+
+    '<button class="vc-enum-add" data-act="vc-add-enum">'+VC_IC_PLUS+'Add new mapping</button>'+
   '</div>';
 }
 function vcAddOid(btn){ var L=document.getElementById('vcOidList'); if(L){ L.insertAdjacentHTML('beforeend', vcOidEntry({})); } }
@@ -12130,7 +12130,7 @@ function vcSnmpOpen(id){
       vfField('Community',vfInput({type:'password',v:'xxxxxxxxxxxx'}),'SNMP community string \u2014 stored encrypted')+
       '<div class="gcfg-subhead">OIDs <span class="gcfg-subnote">'+e.oids.length+(e.oids.length===1?' oid':' oids')+'</span></div>'+
       '<div class="vc-rt-list" id="vcOidList">'+oids+'</div>'+
-      '<button class="vc-rt-add" data-act="vc-add-oid">'+VC_IC_PLUS+'Add OID</button>'+
+      '<button class="vc-rt-add" data-act="vc-add-oid">'+VC_IC_PLUS+'Add new OID</button>'+
     '</div>'+
     '<div class="modal-acts tk-acts"><button class="btn" data-act="vc-close">Cancel</button><button class="btn primary" data-act="vc-save-snmp">Save changes</button></div>'+
   '</div>';
@@ -12295,7 +12295,7 @@ function vcEpOpen(site){
       vfField('Param · Timestamps',vfSelect({x:' style="max-width:160px"',opts:'<option>false</option><option>true</option>'}))+
       '<div class="gcfg-subhead">Commands</div>'+
       '<div class="vc-rt-list" id="vcCmdList">'+cmdRows+'</div>'+
-      '<button class="vc-rt-add" data-act="vc-add-cmd">'+VC_IC_PLUS+'Add command</button>';
+      '<button class="vc-rt-add" data-act="vc-add-cmd">'+VC_IC_PLUS+'Add new command</button>';
   }
   var html='<div class="modal modal-form vc-dlg">'+
     '<div class="tk-head"><div class="tk-head-l"><div class="tk-ic">'+ic+'</div>'+
@@ -12311,7 +12311,7 @@ function vcEpOpen(site){
       '<div class="gcfg-subhead">Authentication</div>'+auth+rpc+
       '<div class="gcfg-subhead">Routes <span class="gcfg-subnote">'+e.routes.length+' '+(e.routes.length===1?'route':'routes')+'</span></div>'+
       '<div class="vc-rt-list" id="vcRtList">'+routes+'</div>'+
-      '<button class="vc-rt-add" data-act="vc-add-route">'+VC_IC_PLUS+'Add route</button>'+
+      '<button class="vc-rt-add" data-act="vc-add-route">'+VC_IC_PLUS+'Add new route</button>'+
       '<div class="gcfg-subhead">Route Polling Interval</div>'+
       vfField('Poll interval (seconds)',vfInput({k:'rf',type:'number',v:e.rf}))+
     '</div>'+
@@ -12647,7 +12647,7 @@ function nm2Row(f,path){
 function nmGrid(fields,pathPrefix,rightHead){
   return '<div class="nm2"><div class="nm2-heads"><span>MariaDB column</span><span></span><span>'+_esc(rightHead||'API source')+'</span></div>'+
     fields.map(function(f,i){ return nm2Row(f,pathPrefix+':'+i); }).join('')+
-    '<button class="vc-rt-add nm-add" data-act="nm-add" data-path="'+_esc(pathPrefix)+'">'+VC_IC_PLUS+'Add mapping</button></div>';
+    '<button class="vc-rt-add nm-add" data-act="nm-add" data-path="'+_esc(pathPrefix)+'">'+VC_IC_PLUS+'Add new mapping</button></div>';
 }
 function nmFolder(key,icon,title,sub,body,openByDefault,o){
   o=o||{};
@@ -12703,7 +12703,7 @@ function nmIdentityBlock(b,bi){
   var groups=Object.keys(b.rules).map(function(g){
     return '<div class="vc-subhead2">'+nmRuleGroupTitle(g)+' <span class="gcfg-subnote">'+b.rules[g].length+' '+TX('rules · first match wins')+'</span></div><div class="nm-rules">'+
       b.rules[g].map(function(r,ri){ return nmRuleRow(r,'irule:'+bi+':'+g+':'+ri); }).join('')+
-      '<button class="vc-rt-add nm-add" data-act="nm-add" data-path="irule:'+bi+':'+_esc(g)+'">'+VC_IC_PLUS+'Add rule</button></div>';
+      '<button class="vc-rt-add nm-add" data-act="nm-add" data-path="irule:'+bi+':'+_esc(g)+'">'+VC_IC_PLUS+'Add new rule</button></div>';
   }).join('');
   var note=b.note?T`<div class="nm-note">${b.note}</div>`:'';
   return '<div class="nm-tbl"><div class="nm-tbl-head"><span class="nm-tbl-name mono">'+_esc(b.name)+'</span><span class="nm-tbl-n">'+_esc(b.blurb)+'</span></div>'+note+groups+
@@ -12727,13 +12727,13 @@ function nmManifestPage(key){
     idBody,true);
   /* --- API Manifest Route Configuration --- */
   var rtBody=nmFolder('nm:routes',VC_IC_API,_esc(m.titles.routes),m.routes.length+' route matchers — each pairs an incoming vCollector route with a node-section-anchor, telling the normalizer where to begin iterating that payload',
-    '<div class="nm-rts">'+m.routes.map(nmRouteCard).join('')+'</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rt">'+VC_IC_PLUS+'Add route mapping</button>',false,{cls:'nm-f-rt',badge:'MATCHERS',rename:'title:routes'});
+    '<div class="nm-rts">'+m.routes.map(nmRouteCard).join('')+'</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rt">'+VC_IC_PLUS+'Add new route mapping</button>',false,{cls:'nm-f-rt',badge:'MATCHERS',rename:'title:routes'});
   var ruleBody='<div class="nm-rulecols"><div><div class="nm-rulecol-h inc">Include rule lists <span class="gcfg-subnote">row kept only if it matches</span></div><div class="nm-rulegrid">'+
     m.rules.include.map(function(r,i){ return nmRuleCard(r,'rl:inc:'+i,'inc'); }).join('')+
-    '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:inc">'+VC_IC_PLUS+'Add include rule</button></div>'+
+    '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:inc">'+VC_IC_PLUS+'Add new include rule</button></div>'+
     '<div><div class="nm-rulecol-h exc">Exclude rule lists <span class="gcfg-subnote">row dropped if it matches</span></div><div class="nm-rulegrid">'+
     m.rules.exclude.map(function(r,i){ return nmRuleCard(r,'rl:exc:'+i,'exc'); }).join('')+
-    '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:exc">'+VC_IC_PLUS+'Add exclude rule</button></div></div>';
+    '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:exc">'+VC_IC_PLUS+'Add new exclude rule</button></div></div>';
   rtBody+=nmFolder('nm:rules',VC_IC_CLI,_esc(m.titles.rules),(m.rules.include.length+m.rules.exclude.length)+' reusable filters, referenced by tables below',ruleBody,false,{cls:'nm-f-rl',badge:'FILTERS',rename:'title:rules'});
   out+=nmSection('nm:sec:rt','nm-s-rt',VC_IC_API,'API Manifest Route Configuration',
     'Declares which incoming vCollector API routes this manifest listens to, and where in each JSON payload the Normalizer starts iterating. The include/exclude rule lists are reusable filters that keep or drop rows before any mapping happens.',
@@ -12947,7 +12947,7 @@ function renderCfgMgr(){
         '<div class="nm-flow">'+fnode(i_chip,'Raw device data',false)+i_flowarr+fnode(i_doc,'Manufacturer manifest',true)+i_flowarr+fnode(i_layers,'Unified Guardare schema',false)+'</div>'+
       '</div>'+
       '<div class="nm-secthead"><span class="nm-secthead-t">'+TX('Manufacturer manifests')+'</span><span class="nm-secthead-n">'+mans.length+'</span>'+(drifted?'<span class="cfg-drift">'+drifted+' '+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('all in sync')+'</span>')+'<span class="nm-secthead-line"></span></div>'+
-      '<div class="nm-man-grid">'+cards+'<button class="cfg-man-add" data-act="ui-toast" data-arg="'+_esc(TX('Add manufacturer manifest — coming in the per-service build'))+'"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add manufacturer')+'</button></div>';
+      '<div class="nm-man-grid">'+cards+'<button class="cfg-man-add" data-act="ui-toast" data-arg="'+_esc(TX('Add manufacturer manifest — coming in the per-service build'))+'"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add new manufacturer')+'</button></div>';
   } else if(cfgSubPage.indexOf('norm-')===0){
     const f=files.find(x=>x.key===cfgSubPage)||files[0];
     body='<div class="cfg-manback"><button class="cfg-back-btn" data-act="cfg-sub" data-arg="normalizer"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
