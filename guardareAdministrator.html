@@ -482,6 +482,7 @@
   .nm-secgrp .nm-secgrp-body>.vc-folder:not(.collapsed)>.vc-folder-head{background:var(--teal-ghost);border-radius:var(--r) var(--r) 0 0;border-bottom:1px solid var(--line-soft)}
   .nm-secgrp .nm-secgrp-body>.vc-folder:not(.collapsed)>.vc-folder-head .vc-folder-name{color:var(--teal-deep)}
   .nm-secgrp .nm-secgrp-body>.vc-folder:not(.collapsed)>.vc-folder-head .vc-folder-chev{color:var(--teal)}
+  /* inner cards stay neutral — the section owns the color and icon */
   .nm-secgrp .nm-secgrp-body>.vc-folder{border-left:1px solid var(--line)}
   .nm-secgrp .nm-secgrp-body>.vc-folder>.vc-folder-head>.vc-folder-ic{display:none}
   .vc-folder.nm-s-id{border-left:3px solid var(--amber)}
@@ -490,6 +491,56 @@
   .nm-s-rt>.vc-folder-head .vc-folder-ic{background:var(--teal-ghost);border-color:var(--line)} .nm-s-rt>.vc-folder-head .vc-folder-ic svg{stroke:var(--teal)}
   .vc-folder.nm-s-map{border-left:3px solid var(--violet)}
   .nm-s-map>.vc-folder-head .vc-folder-ic{background:var(--violet-ghost);border-color:var(--line)} .nm-s-map>.vc-folder-head .vc-folder-ic svg{stroke:var(--violet)}
+  /* ---------- EVENTS DIRECTOR RULE SET EDITOR ---------- */
+  .ev-wrap{display:flex;flex-direction:column;gap:12px}
+  .ev-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .ev-segs{display:flex;gap:6px;flex-wrap:wrap}
+  .ev-seg{font:inherit;font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--dim);cursor:pointer;transition:.15s}
+  .ev-seg span{opacity:.7;font-weight:600;margin-left:3px}
+  .ev-seg.active{border-color:var(--teal);color:var(--teal);background:var(--teal-ghost)}
+  .ev-search{flex:1;min-width:170px;max-width:340px}
+  .ev-list{display:flex;flex-direction:column;gap:10px}
+  .ev-rule{transition:border-color .15s, box-shadow .15s}
+  .ev-rule.open{border-color:var(--teal);box-shadow:0 10px 28px -18px rgba(14,159,150,.55)}
+  .ev-head{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;cursor:pointer}
+  .ev-rule.open>.ev-head{background:var(--teal-ghost);border-bottom:1px solid var(--line-soft);border-radius:var(--r) var(--r) 0 0}
+  .ev-sev{font-size:10px;font-weight:800;letter-spacing:.05em;padding:3px 9px;border-radius:7px;border:1px solid;flex:none;margin-top:2px}
+  .ev-headmain{flex:1;min-width:0}
+  .ev-name{font-size:13.5px;font-weight:700;color:var(--text)}
+  .ev-dis{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red);background:#ff5d5d14;border:1px solid #ff5d5d44;border-radius:99px;padding:1px 7px;margin-left:6px}
+  .ev-id{font-size:10.5px;color:var(--mute);margin-top:1px}
+  .ev-sum{font-size:11.5px;color:var(--dim);margin-top:6px;line-height:1.55;word-break:break-word}
+  .ev-sum b{color:var(--text);font-size:9.5px;letter-spacing:.05em}
+  .ev-sum i{font-style:normal;font-size:9.5px;font-weight:800;color:var(--teal)}
+  .ev-sum .mono{color:var(--teal)}
+  .ev-arr{color:var(--mute)}
+  .ev-badges{display:flex;align-items:center;gap:8px;flex:none;flex-wrap:wrap;justify-content:flex-end;max-width:320px}
+  .ev-tag{font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2.5px 8px;border-radius:99px;border:1px solid var(--line);color:var(--dim);background:var(--raise)}
+  .ev-tag.t-snmp{color:var(--violet);border-color:var(--violet);background:var(--violet-ghost)}
+  .ev-tag.t-api{color:var(--teal);border-color:var(--teal);background:var(--teal-ghost)}
+  .ev-tag.t-cli{color:var(--amber);border-color:#f6b53f66;background:#f6b53f14}
+  .ev-tag.loc{color:var(--green);border-color:#41d98a55;background:var(--green-ghost);cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+  .ev-tag.loc svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
+  .ev-tag.loc:hover{border-color:var(--green);filter:brightness(1.12)}
+  .ev-switch{width:34px;height:19px;border-radius:99px;background:var(--gray);border:1px solid var(--line);position:relative;cursor:pointer;flex:none;display:inline-block}
+  .ev-knob{position:absolute;top:1.5px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--panel);border:1px solid var(--line);transition:.18s;pointer-events:none}
+  .ev-knob.on{left:16px;background:var(--green);border-color:var(--green)}
+  .ev-editor{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+  .ev-sect{border:1px solid var(--line-soft);border-radius:10px;padding:13px 14px;background:var(--panel)}
+  .ev-sect-t{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:0 0 11px}
+  .ev-sect-t span{font-weight:600;letter-spacing:0;text-transform:none;color:var(--mute)}
+  .ev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .ev-cond{display:grid;grid-template-columns:1.2fr .65fr 1.6fr .75fr 30px;gap:8px;align-items:center;margin-bottom:8px}
+  @media(max-width:900px){ .ev-cond{grid-template-columns:1fr 1fr} }
+  .ev-x{font:inherit;width:28px;height:28px;border-radius:7px;border:1px solid var(--line);background:none;color:var(--mute);cursor:pointer;font-size:15px;line-height:1}
+  .ev-x:hover{color:var(--red);border-color:var(--red)}
+  .ev-ta{min-height:88px;resize:vertical;line-height:1.5}
+  .ev-chk{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);padding:8px 0}
+  .ev-chk input{accent-color:var(--teal)}
+  .ev-varhint{font-size:11px;color:var(--mute);margin-top:9px}
+  .ev-varhint .mono{color:var(--teal);background:var(--raise);border:1px solid var(--line-soft);border-radius:5px;padding:1px 5px;margin:0 1px}
+  .ev-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .ev-foot .spacer{flex:1}
   .sidebar-foot{margin-top:auto;padding:13px 12px;border-top:1px solid var(--line-soft)}
   .health-pill{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim)}
   .health-pill .dot{width:7px;height:7px;border-radius:99px;background:var(--green);box-shadow:0 0 8px var(--green)}
@@ -1942,9 +1993,18 @@
   .tm-brand-row{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
   .tm-subh{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;font-weight:700}
   .tm-dz-card{border:1px solid #ff5d5d;background:linear-gradient(180deg,#2a1016 0%,var(--panel) 55%);animation:dzGlow 2.8s ease-in-out infinite}
+  .tm-loc-link{cursor:pointer;border-radius:9px;transition:.12s;position:relative}
+  .tm-loc-link:hover{background:var(--raise);box-shadow:inset 0 0 0 1px var(--line)}
+  .tm-loc-link:hover .tm-loc-coll{color:var(--teal)}
+  .tm-loc-go{font-size:10.5px;font-weight:700;color:var(--teal);opacity:0;transition:.12s;margin-left:8px;flex:none;align-self:center}
+  .tm-loc-link:hover .tm-loc-go{opacity:1}
   .tm-dz-card .tm-danger{border:0;background:transparent;padding:0}
   .tm-dz-card .tm-danger b{color:#ff8a8a}
   @keyframes dzGlow{0%,100%{box-shadow:0 0 0 1px #ff5d5d33,0 0 14px #ff5d5d2e}50%{box-shadow:0 0 0 1px #ff5d5d99,0 0 26px #ff5d5d66}}
+  html[data-theme="light"] .tm-dz-card{background:linear-gradient(180deg,#fbeaea 0%,var(--panel) 55%)}
+  html[data-theme="light"] .tm-dz-card .tm-danger b{color:#c03434}
+  html[data-theme="light"] .tm-danger{border-color:#e6bcbc;background:#faeded}
+  html[data-theme="light"] .tm-danger b{color:#c03434}
   .tm-stat{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:10px;padding:13px}
   .tm-stat b{display:block;font-size:23px;font-weight:700;color:var(--text);line-height:1}
   .tm-stat b small{font-size:12px;color:var(--mute);font-weight:600}
@@ -2765,6 +2825,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
         <button class="nav-subitem" data-sub="vcollector" data-act="cfg-sub" data-arg="vcollector"><span class="sub-lead"></span><span>vCollector</span></button>
         <button class="nav-subitem nav-subdisc" data-sub="normalizer" data-act="cfg-sub" data-arg="normalizer"><span class="sub-lead"></span><span>Normalizer</span></button>
         <div class="nav-subsub" id="navSubNorm"></div>
+        <button class="nav-subitem" data-sub="events" data-act="cfg-sub" data-arg="events"><span class="sub-lead"></span><span>Events Director</span></button>
       </div>
     </div>
     </div><!--/cfgNav-->
@@ -2829,7 +2890,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.499.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.500.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5455,6 +5516,310 @@ deviceIdentityMapping:
 <script type="text/plain" id="cfg-events">
 [
   {
+    "id": "SNMP-DEVICE-DOWN-0001",
+    "name": "VLAN001 Device Down (SNMP) Check",
+    "type": "snmp",
+    "enabled": true,
+    "severity_level": "P1",
+    "alert": {
+      "title": "$ipAddress Device Down (SNMP)",
+      "message": "$ipAddress is down and did not respond to SNMP poll"
+    },
+    "rule_logic": {
+      "target_table": "snmp_topology",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "matches",
+            "value": "10.*.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "queryResult",
+            "op": "=",
+            "value": "No response error (-8411)",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "queryResult",
+        "op": "!=",
+        "value": "No response error (-8411)",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "ALL-SW01-HIGH-CPU-0001",
+    "name": "CISCO SWITCH HIGH CPU",
+    "type": "snmp",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "$ipAddress: HIGH CPU",
+      "message": "Cisco Switch $ipAddress has a high CPU 5 minute average above 80%: $queryResult %"
+    },
+    "rule_logic": {
+      "target_table": "snmp_topology",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "matches",
+            "value": "10.200.*.*",
+            "type": "string"
+          },
+          {
+            "field": "oid",
+            "op": "=",
+            "value": ".1.3.6.1.4.1.9.6.1.101.1.9.0",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "queryResult",
+            "op": ">",
+            "value": "80",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "queryResult",
+        "op": "<=",
+        "value": "80",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "ALL-SW01-HIGH-TEMP-0001",
+    "name": "CISCO SWITCH HIGH TEMPERATURE CHECK",
+    "type": "snmp",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "Cisco Switch $ipAddress: High Temperature",
+      "message": "$ipAddress has a high temperature of $queryResult °C"
+    },
+    "rule_logic": {
+      "target_table": "snmp_topology",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "=",
+            "value": "10.200.1.1",
+            "type": "string"
+          },
+          {
+            "field": "oid",
+            "op": "=",
+            "value": ".1.3.6.1.4.1.9.6.1.101.83.5.1.1.2.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "queryResult",
+            "op": ">",
+            "value": "59",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "queryResult",
+        "op": "<=",
+        "value": "59",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "HQ-GSO-SW01-STP-0001",
+    "name": "CISCO SPANNING TREE TOPOLOGY CHANGE CHECK",
+    "type": "snmp",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "Cisco Switch $ipAddress STP toplogy change has occured",
+      "message": "$ipAddress STP toplogy change has occured: $queryResult ago"
+    },
+    "rule_logic": {
+      "target_table": "snmp_topology",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "=",
+            "value": "10.200.1.1",
+            "type": "string"
+          },
+          {
+            "field": "oid",
+            "op": "=",
+            "value": ".1.3.6.1.2.1.17.2.3.0",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "queryResult",
+            "op": "<",
+            "value": "12000",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "queryResult",
+        "op": ">=",
+        "value": "12000",
+        "type": "integer"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "HQ-GSO-C3650-Core_SW01-BGP-0001",
+    "name": "EBGP RECEVIED ROUTES CHECK",
+    "type": "snmp",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "Cisco Switch $ipAddress eBGP Routing Table Changed",
+      "message": "$ipAddress eBGP routing table has changed. eBGP RT was 14 routes and now is: $queryResult routes."
+    },
+    "rule_logic": {
+      "target_table": "snmp_topology",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "=",
+            "value": "10.100.1.2",
+            "type": "string"
+          },
+          {
+            "field": "oid",
+            "op": "=",
+            "value": ".1.3.6.1.4.1.9.9.187.1.2.4.1.1.192.168.255.101.1.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "queryResult",
+            "op": "!=",
+            "value": "13",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "queryResult",
+        "op": "=",
+        "value": "13",
+        "type": "integer"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
     "id": "API-CORE-DEVICE-DOWN-0001",
     "name": "VLAN 01: Unifi Core Device Down Check",
     "type": "api",
@@ -5503,7 +5868,13 @@ deviceIdentityMapping:
         {
           "field": "status",
           "op": "in",
-          "values": ["2", "3", "4", "5", "6"],
+          "values": [
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
           "type": "integer"
         }
       ]
@@ -5518,24 +5889,24 @@ deviceIdentityMapping:
     }
   },
   {
-    "id": "CLI-LATENCYTRACER-0001",
-    "name": "Latency Tracer: Google DNS 8.8.8.8",
-    "type": "cli",
+    "id": "API-CORE-HIGH-CPU-0001",
+    "name": "Unifi Core Device High CPU Check",
+    "type": "api",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "Latency Detected to: $IPADDRESS (LatencyTracer)",
-      "message": "$IPADDRESS has triggered a round-trip LatencyTracer alert: $RESULT ms"
+      "title": "High CPU Alert for $hostname ($ipaddress)",
+      "message": "High CPU Alert for $hostname ($ipaddress) - CPU 5 minute load is $cpuLoadAverage"
     },
     "rule_logic": {
-      "target_table": "cli_data",
+      "target_table": "networkDeviceHealthStats",
       "if": {
         "operator": "AND",
         "conditions": [
           {
-            "field": "ipAddress",
-            "op": "=",
-            "value": "8.8.8.8",
+            "field": "ipaddress",
+            "op": "matches",
+            "value": "*.*.*.*",
             "type": "string"
           }
         ]
@@ -5544,9 +5915,9 @@ deviceIdentityMapping:
         "operator": "AND",
         "conditions": [
           {
-            "field": "result",
+            "field": "cpuLoadAverage",
             "op": ">",
-            "value": "95",
+            "value": "50.0",
             "type": "double"
           }
         ]
@@ -5555,9 +5926,65 @@ deviceIdentityMapping:
     "autoclear": {
       "enabled": true,
       "condition": {
-        "field": "result",
+        "field": "cpuLoadAverage",
         "op": "<=",
-        "value": "95",
+        "value": "50.0",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "API-CORE-HIGH-MEMORY-0001",
+    "name": "Unifi Core Device High Memory Utilization",
+    "type": "api",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "High Memory Alert for $hostname ($ipaddress)",
+      "message": "High Memory Alert for $hostname ($ipaddress) - Memory utilization is $memoryUtilizationPct%"
+    },
+    "rule_logic": {
+      "target_table": "networkDeviceHealthStats",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipaddress",
+            "op": "matches",
+            "value": "*.*.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "memoryUtilizationPct",
+            "op": ">",
+            "value": "95.0",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "memoryUtilizationPct",
+        "op": "<=",
+        "value": "95.0",
         "type": "double"
       }
     },
@@ -5565,6 +5992,2128 @@ deviceIdentityMapping:
       "conditions": []
     },
     "alert_delay_counter": 1,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "API-CORE-NOT-ADOPTED-0001",
+    "name": "Unifi Core Device Not Adopted By Controller",
+    "type": "api",
+    "enabled": true,
+    "severity_level": "P1",
+    "alert": {
+      "title": "$HOSTNAME is not Adopted by Controller",
+      "message": "$HOSTNAME is not Adopted by the Controller"
+    },
+    "rule_logic": {
+      "target_table": "networkDeviceProfile",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "matches",
+            "value": "*.*.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "adoptedByController",
+            "op": "=",
+            "value": "false",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "adoptedByController",
+        "op": "=",
+        "value": "true",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "API-CORE-HIGH-TEMPERATURE-0001",
+    "name": "Unifi Core Device High Temperature",
+    "type": "api",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "High Temperature for $hostname",
+      "message": "High Temperature for $hostname ($temperature °C)"
+    },
+    "rule_logic": {
+      "target_table": "networkDeviceHealthStats",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipaddress",
+            "op": "matches",
+            "value": "*.*.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "temperature",
+            "op": ">",
+            "value": "90",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "temperature",
+        "op": "<=",
+        "value": "90",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "API-STP-PORT-STATE-CHG-0001",
+    "name": "Unifi STP State Change on Interface",
+    "type": "api",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "STP State Change for Port $interfaceId on $HOSTNAME",
+      "message": "Spanning-Tree state changed from 'Forwarding' to $interfaceStpState"
+    },
+    "rule_logic": {
+      "target_table": "networkDeviceInterfaceStats",
+      "discriminator_field": "interfaceId",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipAddress",
+            "op": "matches",
+            "value": "*.*.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "interfaceStpState",
+            "op": "=",
+            "value": "blocking",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "interfaceStpState",
+        "op": "=",
+        "value": "forwarding",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "API-PORT-ANOMALY-COUNTER-0001",
+    "name": "Unifi Switch Port Anomaly Counter High",
+    "type": "api",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "Port Anomaly Counter High: $interfaceName on $hostname",
+      "message": "$hostname ($ipaddress) port $interfaceId ($interfaceName) has $portAnomaly anomalies (threshold > 5). Possible CRC/collision/interface errors - investigate physical layer."
+    },
+    "rule_logic": {
+      "target_table": "networkDeviceInterfaceStats",
+      "discriminator_field": "interfaceId",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "ipaddress",
+            "op": "matches",
+            "value": "*.*.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "portAnomaly",
+            "op": ">",
+            "value": "5",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "portAnomaly",
+        "op": "<=",
+        "value": "5",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "UPTIMETRACER-GLOBAL-0001",
+    "name": "PING FOR DOWN STATUS",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P1",
+    "alert": {
+      "title": "Device Down: $host (Uptime Tracer)",
+      "message": "$host is DOWN and is not responding (100% packet loss)"
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "matches",
+            "value": "10.200.*.*",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "CLOUD-FLARE-LATENCYTRACER-0001",
+    "name": "Latency Tracer: Cloud Flare 1.1.1.1",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "Latency Detected to: $host (LatencyTracer)",
+      "message": "$host has triggered a round-trip high LatencyTracer alert: $pingAvg ms"
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "1.1.1.1",
+            "type": "string"
+          },
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "ok",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "pingAvg",
+            "op": ">",
+            "value": "125",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "pingAvg",
+        "op": "<=",
+        "value": "125",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "PATT-DNS-VM-01-0017",
+    "name": "Latency Tracer: NC03 DNS vServer #1 (10.200.1.2)",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P1",
+    "alert": {
+      "title": "Latency Tracer: NC03 DNS vServer (10.200.1.2) has high latency",
+      "message": "DNS Server at NC03 10.200.1.2 has high latency: $pingAvg ms. Please check the physical host hardware for issues."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.1.2",
+            "type": "string"
+          },
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "ok",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "pingAvg",
+            "op": ">",
+            "value": "50",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "pingAvg",
+        "op": "<=",
+        "value": "50",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "PATT-DNS-VM-02-0018",
+    "name": "Latency Tracer: NC03 DNS vServer #2 (10.200.6.2)",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P1",
+    "alert": {
+      "title": "Latency Tracer: NC03 DNS vServer (10.200.6.2) has high latency",
+      "message": "DNS Server at NC03 10.200.6.2 has high latency: $pingAvg ms. Please check the physical host hardware for issues."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.6.2",
+            "type": "string"
+          },
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "ok",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "pingAvg",
+            "op": ">",
+            "value": "50",
+            "type": "double"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "pingAvg",
+        "op": "<=",
+        "value": "50",
+        "type": "double"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-VA04-0001",
+    "name": "SDWAN Tunnel Down: VA04 ShenandoahAve-Roanoke",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (VA04 — ShenandoahAve-Roanoke)",
+      "message": "The SD-WAN tunnel to VA04 (ShenandoahAve-Roanoke) is DOWN — 100% packet loss to the site gateway $host. Location: 2708 Shenandoah Ave NW, Roanoke, VA 24017 (Roanoke, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Roanoke have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.8.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.8.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC10-0001",
+    "name": "WAN Circuit Down: NC10 PiedmontPkwy-Greensboro",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "WAN Circuit Down (NC10 — PiedmontPkwy-Greensboro) [MPLS]",
+      "message": "The MPLS circuit to NC10 (PiedmontPkwy-Greensboro) is DOWN — 100% packet loss to the site gateway $host. Location: 4321 Piedmont Pkwy, Greensboro, NC 27410 (Greensboro, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the MPLS WAN — local users at Greensboro have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the MPLS provider circuit and the site edge router. This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.12.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC07-0001",
+    "name": "SDWAN Tunnel Down: SC07 ENorthSt-Greenville",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC07 — ENorthSt-Greenville)",
+      "message": "The SD-WAN tunnel to SC07 (ENorthSt-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 500 E North St, Suite A, Greenville, SC (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.20.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.20.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC05-0001",
+    "name": "SDWAN Tunnel Down: NC05 NoblinRd-Raleigh",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC05 — NoblinRd-Raleigh)",
+      "message": "The SD-WAN tunnel to NC05 (NoblinRd-Raleigh) is DOWN — 100% packet loss to the site gateway $host. Location: 2741 Noblin Rd, Suite 100, Raleigh, NC 27604 (Raleigh, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Raleigh have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.24.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.24.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC08-0001",
+    "name": "SDWAN Tunnel Down: SC08 GarlingtonRd-Greenville",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC08 — GarlingtonRd-Greenville)",
+      "message": "The SD-WAN tunnel to SC08 (GarlingtonRd-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 297 Garlington Rd, Greenville, SC 29615 (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.28.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.28.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC09-0001",
+    "name": "SDWAN Tunnel Down: NC09 AlbertPick-Greensboro",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC09 — AlbertPick-Greensboro)",
+      "message": "The SD-WAN tunnel to NC09 (AlbertPick-Greensboro) is DOWN — 100% packet loss to the site gateway $host. Location: 7021 Albert Pick Rd, Suite 200, Greensboro, NC 27409 (Greensboro, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greensboro have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.32.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.32.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-TN01-0001",
+    "name": "SDWAN Tunnel Down: TN01 WesternAve-Knoxville",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (TN01 — WesternAve-Knoxville)",
+      "message": "The SD-WAN tunnel to TN01 (WesternAve-Knoxville) is DOWN — 100% packet loss to the site gateway $host. Location: 4702 Western Ave, Suite 101, Knoxville, TN 37921 (Knoxville, TN). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Knoxville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.36.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.36.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC01-0001",
+    "name": "SDWAN Tunnel Down: NC01 SandhillRd-Candler",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC01 — SandhillRd-Candler)",
+      "message": "The SD-WAN tunnel to NC01 (SandhillRd-Candler) is DOWN — 100% packet loss to the site gateway $host. Location: 1388 Sandhill Rd, Suite 8, Candler, NC 28715 (Candler, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Candler have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.40.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.40.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC05-0001",
+    "name": "SDWAN Tunnel Down: SC05 DeannaLane-Wando",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC05 — DeannaLane-Wando)",
+      "message": "The SD-WAN tunnel to SC05 (DeannaLane-Wando) is DOWN — 100% packet loss to the site gateway $host. Location: 459 Deanna Ln, Charleston, SC 29492 (Charleston, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Charleston have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.44.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.44.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC09-0001",
+    "name": "SDWAN Tunnel Down: SC09 MarcusDr-Greenville",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC09 — MarcusDr-Greenville)",
+      "message": "The SD-WAN tunnel to SC09 (MarcusDr-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 95 Marcus Dr, Greenville, SC 29615 (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.48.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.48.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC04-0001",
+    "name": "SDWAN Tunnel Down: SC04 VantagePointDr-Cayce",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC04 — VantagePointDr-Cayce)",
+      "message": "The SD-WAN tunnel to SC04 (VantagePointDr-Cayce) is DOWN — 100% packet loss to the site gateway $host. Location: 104 Vantage Point Dr, West Columbia, SC 29172 (West Columbia, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at West Columbia have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.60.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.60.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC02-0001",
+    "name": "SDWAN Tunnel Down: SC02 ChildsSt-Irmo",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC02 — ChildsSt-Irmo)",
+      "message": "The SD-WAN tunnel to SC02 (ChildsSt-Irmo) is DOWN — 100% packet loss to the site gateway $host. Location: 7313 Childs St, Irmo, SC 29063 (Irmo, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Irmo have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.64.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.64.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-VA03-0001",
+    "name": "SDWAN Tunnel Down: VA03 WestwoodAve-Richmond",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (VA03 — WestwoodAve-Richmond)",
+      "message": "The SD-WAN tunnel to VA03 (WestwoodAve-Richmond) is DOWN — 100% packet loss to the site gateway $host. Location: 2117 Westwood Ave, Richmond, VA 23230 (Richmond, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Richmond have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.68.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.68.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-VA01-0001",
+    "name": "SDWAN Tunnel Down: VA01 ProfessionalPl-Chesapeake",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (VA01 — ProfessionalPl-Chesapeake)",
+      "message": "The SD-WAN tunnel to VA01 (ProfessionalPl-Chesapeake) is DOWN — 100% packet loss to the site gateway $host. Location: 928 Professional Pl, Chesapeake, VA 23320 (Chesapeake, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Chesapeake have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.72.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.72.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC06-0001",
+    "name": "SDWAN Tunnel Down: NC06 MarketSt-Wilmington",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC06 — MarketSt-Wilmington)",
+      "message": "The SD-WAN tunnel to NC06 (MarketSt-Wilmington) is DOWN — 100% packet loss to the site gateway $host. Location: 2905 Market St, Wilmington, NC 28403 (Wilmington, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Wilmington have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.76.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.76.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC07-0001",
+    "name": "SDWAN Tunnel Down: NC07 WindmillWay-Wilmington",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC07 — WindmillWay-Wilmington)",
+      "message": "The SD-WAN tunnel to NC07 (WindmillWay-Wilmington) is DOWN — 100% packet loss to the site gateway $host. Location: 6615-B Windmill Way, Wilmington, NC 28405 (Wilmington, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Wilmington have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.80.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.80.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC08-0001",
+    "name": "WAN Circuit Down: NC08 UpperAsbury-Charlotte",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "WAN Circuit Down (NC08 — UpperAsbury-Charlotte) [MPLS]",
+      "message": "The MPLS circuit to NC08 (UpperAsbury-Charlotte) is DOWN — 100% packet loss to the site gateway $host. Location: 1133 Upper Asbury Ave, Charlotte, NC 28206 (Charlotte, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the MPLS WAN — local users at Charlotte have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the MPLS provider circuit and the site edge router. This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.92.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC03-0001",
+    "name": "SDWAN Tunnel Down: SC03 TrotterCt-Columbia",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC03 — TrotterCt-Columbia)",
+      "message": "The SD-WAN tunnel to SC03 (TrotterCt-Columbia) is DOWN — 100% packet loss to the site gateway $host. Location: 2 C Trotter Rd, West Columbia, SC 29169 (West Columbia, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at West Columbia have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.100.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.100.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-TN02-0001",
+    "name": "SDWAN Tunnel Down: TN02 GrassmerePark-Nashville",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (TN02 — GrassmerePark-Nashville)",
+      "message": "The SD-WAN tunnel to TN02 (GrassmerePark-Nashville) is DOWN — 100% packet loss to the site gateway $host. Location: 658 Grassmere Park Dr, Suite 101, Nashville, TN 37211 (Nashville, TN). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Nashville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.108.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.108.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-GA01-0001",
+    "name": "SDWAN Tunnel Down: GA01 FrankeIndustrialDr-Augusta",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (GA01 — FrankeIndustrialDr-Augusta)",
+      "message": "The SD-WAN tunnel to GA01 (FrankeIndustrialDr-Augusta) is DOWN — 100% packet loss to the site gateway $host. Location: 1068 Franke Industrial Dr, Augusta, GA 30909 (Augusta, GA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Augusta have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.112.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.112.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC10-0001",
+    "name": "SDWAN Tunnel Down: SC10 PleasantburgDr-Greenville",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC10 — PleasantburgDr-Greenville)",
+      "message": "The SD-WAN tunnel to SC10 (PleasantburgDr-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 918 S Pleasantburg Dr, Greenville, SC 29607 (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.116.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.116.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-TN03-0001",
+    "name": "SDWAN Tunnel Down: TN03 CenturyOaksDr-Chattanooga",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (TN03 — CenturyOaksDr-Chattanooga)",
+      "message": "The SD-WAN tunnel to TN03 (CenturyOaksDr-Chattanooga) is DOWN — 100% packet loss to the site gateway $host. Location: 6011 Century Oaks Dr, Chattanooga, TN 37416 (Chattanooga, TN). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Chattanooga have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.120.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.120.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC11-0001",
+    "name": "SDWAN Tunnel Down: NC11 VanDykeDr-Wilmington",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC11 — VanDykeDr-Wilmington)",
+      "message": "The SD-WAN tunnel to NC11 (VanDykeDr-Wilmington) is DOWN — 100% packet loss to the site gateway $host. Location: 315 Van Dyke Dr, Wilmington, NC 28405 (Wilmington, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Wilmington have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.124.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.124.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC06-0001",
+    "name": "SDWAN Tunnel Down: SC06 TrigardLn-Charleston",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC06 — TrigardLn-Charleston)",
+      "message": "The SD-WAN tunnel to SC06 (TrigardLn-Charleston) is DOWN — 100% packet loss to the site gateway $host. Location: 114 Trigard Ln, Unit B, Summerville, SC 29483 (Summerville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Summerville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.128.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.128.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-GA02-0001",
+    "name": "SDWAN Tunnel Down: GA02 LakefieldDr-Suwanee",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (GA02 — LakefieldDr-Suwanee)",
+      "message": "The SD-WAN tunnel to GA02 (LakefieldDr-Suwanee) is DOWN — 100% packet loss to the site gateway $host. Location: 3871 Lakefield Dr, Suite 300, Suwanee, GA 30024 (Suwanee, GA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Suwanee have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.130.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.130.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC04-0001",
+    "name": "SDWAN Tunnel Down: NC04 HobbyCt-Raleigh",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC04 — HobbyCt-Raleigh)",
+      "message": "The SD-WAN tunnel to NC04 (HobbyCt-Raleigh) is DOWN — 100% packet loss to the site gateway $host. Location: 3321 Hobby Ct, Raleigh, NC 27604 (Raleigh, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Raleigh have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.132.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.132.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-NC02-0001",
+    "name": "SDWAN Tunnel Down: NC02 7915TriadCntDr-Greensboro",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (NC02 — 7915TriadCntDr-Greensboro)",
+      "message": "The SD-WAN tunnel to NC02 (7915TriadCntDr-Greensboro) is DOWN — 100% packet loss to the site gateway $host. Location: 9715 Triad Center Dr, Greensboro, NC 27407 (Greensboro, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greensboro have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.136.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.136.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-SC01-0001",
+    "name": "SDWAN Tunnel Down: SC01 PalmettoSt-Florence",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (SC01 — PalmettoSt-Florence)",
+      "message": "The SD-WAN tunnel to SC01 (PalmettoSt-Florence) is DOWN — 100% packet loss to the site gateway $host. Location: 4019 W Palmetto St, Florence, SC 29501 (Florence, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Florence have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.140.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.140.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
+    "dependency": {
+      "mode": "none",
+      "parent_rule_id": ""
+    },
+    "notification": {
+      "channel": "pagerduty"
+    }
+  },
+  {
+    "id": "SDWAN-UPTIME-VA02-0001",
+    "name": "SDWAN Tunnel Down: VA02 RWH-Norfolk",
+    "type": "cli",
+    "enabled": true,
+    "severity_level": "P2",
+    "alert": {
+      "title": "SDWAN Tunnel Down (VA02 — RWH-Norfolk)",
+      "message": "The SD-WAN tunnel to VA02 (RWH-Norfolk) is DOWN — 100% packet loss to the site gateway $host. Location: 7420 Central Business Park Dr #3, Norfolk, VA 23513 (Norfolk, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Norfolk have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.144.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+    },
+    "rule_logic": {
+      "target_table": "cliPingProfile",
+      "discriminator_field": "host",
+      "if": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "host",
+            "op": "=",
+            "value": "10.200.144.1",
+            "type": "string"
+          }
+        ]
+      },
+      "then_match": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "field": "probeStatus",
+            "op": "=",
+            "value": "unreachable",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "autoclear": {
+      "enabled": true,
+      "condition": {
+        "field": "probeStatus",
+        "op": "=",
+        "value": "ok",
+        "type": "string"
+      }
+    },
+    "suppress": {
+      "conditions": []
+    },
+    "alert_delay_counter": 0,
     "dependency": {
       "mode": "none",
       "parent_rule_id": ""
@@ -9405,10 +11954,11 @@ function renderTenantManage(slug){
         <div class="tm-loc-table">
           <div class="tm-loc-hd"><span>${TX('Address')}</span><span>${TX('Collector')}</span><span>${TX('Status')}</span></div>
           ${locs.map(l=>`
-            <div class="tm-loc">
+            <div class="tm-loc tm-loc-link" data-act="loc-open" data-loc="${slug}:${l.coll}" role="button" tabindex="0" title="${TX('Open location configuration')}">
               <span class="tm-loc-addr"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>${l.address}</span>
               <span class="tm-loc-coll mono">${l.coll}</span>
               <span class="td-status ${statusClass[l.status]||'s-online'}"><i></i>${TX(statusLabel[l.status]||'Online')}</span>
+              <span class="tm-loc-go">${TX('Configure')} ›</span>
             </div>`).join('')}
         </div>
       </div>
@@ -10594,7 +13144,7 @@ function cfgManCard(f,coll){
   const av=f.pill.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase();
   const i_arr='<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
   return '<div class="nm-man-card" role="button" tabindex="0" data-act="cfg-sub" data-arg="'+_esc(f.key)+'">'+
-    '<div class="nm-man-head"><span class="nm-man-av">'+av+'</span><span><span class="nm-man-name">'+f.pill+'</span><div class="nm-man-kind">'+TX('Manufacturer manifest')+' \u00b7 '+kind+'</div></span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div>'+
+    '<div class="nm-man-head"><span class="nm-man-av">'+av+'</span><span><span class="nm-man-name">'+f.pill+'</span><div class="nm-man-kind">'+TX('Manufacturer manifest')+' · '+kind+'</div></span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div>'+
     '<div class="nm-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">'+TX('poll')+' '+f.poll+'s</span><span class="nm-man-cta">'+TX('Configure')+i_arr+'</span></div>'+
     '</div>';
 }
@@ -11105,7 +13655,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.499.alpha';
+const APP_VERSION='v2026.02.500.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12362,6 +14912,17 @@ var UI_ACTS={
   'cfg-ubuntu-save':function(){ cfgUbuntuSave(); },
   'cfg-ubuntu-reset':function(){ cfgUbuntuReset(); },
   'cfg-rerender':function(){ renderCfgMgr(); },
+  'ev-open':function(el,arg){ evtOpenRule(arg); },
+  'ev-enable':function(el,arg){ evtEnable(arg); },
+  'ev-new':function(){ evtNew(); },
+  'ev-dup':function(){ evtDup(); },
+  'ev-del':function(){ evtDel(); },
+  'ev-save':function(){ evtSave(); },
+  'ev-cancel':function(){ evtCancel(); },
+  'ev-cond-add':function(el,arg){ evtCondAdd(arg); },
+  'ev-cond-del':function(el,arg){ evtCondDel(arg); },
+  'ev-filter':function(el,arg){ evtTypeFilter=arg; renderCfgMgr(); },
+  'ev-loc':function(el,arg){ evtLocOpen(arg); },
   'gcfg-loctoggle':function(el,arg,ev){ gcfgLocToggle(ev); },
   'gcfg-locpick':function(el){ gcfgLocPick(el.getAttribute('data-name')); },
   'tk-view-provider':function(){ tkViewInProvider(); },
@@ -12671,6 +15232,296 @@ function nmSection(key,cls,icon,title,blurb,body,openByDefault){
       '<span class="vc-folder-chev">'+VC_IC_CHEV+'</span>'+
     '</div><div class="vc-eplist nm-body nm-secgrp-body">'+body+'</div></div>';
 }
+/* ===== EVENTS DIRECTOR — visual Rule Set creator / editor ===== */
+let EVT_RULES=null, evtOpenId=null, evtDraft=null, evtTypeFilter='all';
+const EVT_OPS=['=','!=','>','>=','<','<=','matches','in'];
+const EVT_VTYPES=['string','integer','double','boolean'];
+const EVT_CHANNELS=['pagerduty','slack','email','teams','webhook'];
+const EVT_TABLES={snmp:'snmp_topology',api:'networkDeviceProfile',cli:'cliPingProfile'};
+function evtRules(){
+  if(!EVT_RULES){ try{ EVT_RULES=JSON.parse(document.getElementById('cfg-events').textContent); }catch(e){ EVT_RULES=[]; } }
+  return EVT_RULES;
+}
+function evtSevChip(sv){
+  var c=sv==='P1'?'var(--red)':sv==='P2'?'var(--amber)':'var(--teal)';
+  var g=sv==='P1'?'#ff5d5d14':sv==='P2'?'#f6b53f14':'var(--teal-ghost)';
+  return '<span class="ev-sev" style="color:'+c+';background:'+g+';border-color:'+c+'">'+_esc(sv||'P3')+'</span>';
+}
+function evtCondTxt(c){
+  if(!c||!c.field) return '';
+  var v=(c.op==='in')?('['+(c.values||[]).join(', ')+']'):(c.value==null?'':c.value);
+  return '<span class="mono">'+_esc(c.field)+'</span> '+_esc(c.op)+' <span class="mono">'+_esc(String(v))+'</span>';
+}
+function evtSummary(r){
+  var rl=r.rule_logic||{};
+  var ifc=(rl['if']&&rl['if'].conditions)||[], thc=(rl.then_match&&rl.then_match.conditions)||[];
+  var o1=(rl['if']&&rl['if'].operator)||'AND', o2=(rl.then_match&&rl.then_match.operator)||'AND';
+  var out='<b>IF</b> '+ifc.map(evtCondTxt).join(' <i>'+o1+'</i> ')+' <span class="ev-arr">→</span> <b>ALERT WHEN</b> '+thc.map(evtCondTxt).join(' <i>'+o2+'</i> ');
+  if(r.autoclear&&r.autoclear.enabled) out+=' <span class="ev-arr">→</span> <b>CLEARS</b> '+evtCondTxt(r.autoclear.condition);
+  return out;
+}
+function evtLocOf(r){
+  var m=/^SDWAN-UPTIME-([A-Z]{2}\d{2})/.exec(r.id||'');
+  var code=m?m[1]:null;
+  if(!code){ var m2=/\b([A-Z]{2}\d{2})\b/.exec(r.name||''); code=m2?m2[1]:null; }
+  if(!code) return null;
+  var rows=(typeof locationRows==='function')?locationRows():[];
+  var hit=rows.find(function(l){ return ((l.id||'')+' '+(l.name||'')).toUpperCase().indexOf(code)>-1; });
+  return {code:code,key:hit?(hit.tenant+':'+hit.id):''};
+}
+function evtStatRow(rules){
+  var en=rules.filter(function(r){return r.enabled;}).length;
+  var p1=rules.filter(function(r){return r.severity_level==='P1';}).length;
+  var p2=rules.filter(function(r){return r.severity_level==='P2';}).length;
+  var ch={}; rules.forEach(function(r){ ch[(r.notification&&r.notification.channel)||'—']=1; });
+  var stat=function(ic,num,lbl,ac,acg){ return '<div class="vc-stat" style="--ac:'+ac+';--acg:'+acg+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
+  return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' '+TX('Rule Set Overview')+'</div><div class="vc-statrow">'+
+    stat(VC_IC_DB,rules.length,TX('Total Rules'),'var(--teal)','var(--teal-ghost)')+
+    stat(VC_IC_API,en+' / '+rules.length,TX('Enabled'),'var(--green)','var(--green-ghost)')+
+    stat(VC_IC_SNMP,p1,TX('P1 Critical'),'var(--red)','#ff5d5d14')+
+    stat(VC_IC_CLI,p2,TX('P2 Major'),'var(--amber)','#f6b53f14')+
+    stat(VC_IC_LAYERS,Object.keys(ch).join(', '),TX('Notification Channel'),'var(--violet)','var(--violet-ghost)')+
+  '</div></div>';
+}
+function evtRuleCard(r){
+  var open=(evtOpenId===r.id);
+  var loc=evtLocOf(r);
+  var pin='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>';
+  var head='<div class="ev-head" data-act="ev-open" data-arg="'+_esc(r.id)+'">'+
+    evtSevChip(r.severity_level)+
+    '<div class="ev-headmain"><div class="ev-name">'+_esc(r.name)+(r.enabled?'':' <span class="ev-dis">'+TX('disabled')+'</span>')+'</div>'+
+    '<div class="ev-id mono">'+_esc(r.id)+' · '+_esc((r.rule_logic&&r.rule_logic.target_table)||'')+'</div>'+
+    '<div class="ev-sum">'+evtSummary(r)+'</div></div>'+
+    '<div class="ev-badges">'+
+      '<span class="ev-tag t-'+_esc(r.type)+'">'+_esc((r.type||'').toUpperCase())+'</span>'+
+      '<span class="ev-tag">'+_esc((r.notification&&r.notification.channel)||'')+'</span>'+
+      (loc?'<span class="ev-tag loc" data-act="ev-loc" data-arg="'+_esc(loc.key)+'" title="'+TX('Open location configuration')+'">'+pin+loc.code+'</span>':'')+
+      '<span class="ev-switch" data-act="ev-enable" data-arg="'+_esc(r.id)+'" title="'+TX('Enable / disable rule')+'"><span class="ev-knob'+(r.enabled?' on':'')+'"></span></span>'+
+      '<span class="vc-folder-chev" style="'+(open?'transform:rotate(90deg)':'transform:rotate(0deg)')+'">'+VC_IC_CHEV+'</span>'+
+    '</div></div>';
+  return '<div class="gcfg-card ev-rule'+(open?' open':'')+'" data-search="'+_esc((r.id+' '+r.name+' '+(r.type||'')+' '+(r.severity_level||'')).toLowerCase())+'">'+head+(open?evtEditor():'')+'</div>';
+}
+function evtCondAt(grp,idx){
+  var d=evtDraft; if(!d) return null;
+  if(grp==='if') return d.rule_logic['if'].conditions[idx];
+  if(grp==='then') return d.rule_logic.then_match.conditions[idx];
+  if(grp==='sup') return d.suppress.conditions[idx];
+  if(grp==='ac') return d.autoclear.condition;
+  return null;
+}
+function evtCondRow(c,grp,idx,noDel){
+  var val=(c.op==='in')?(c.values||[]).join(', '):(c.value==null?'':c.value);
+  var ops=EVT_OPS.map(function(o){return '<option'+(o===c.op?' selected':'')+'>'+o+'</option>';}).join('');
+  var typ=EVT_VTYPES.map(function(t){return '<option'+(t===c.type?' selected':'')+'>'+t+'</option>';}).join('');
+  return '<div class="ev-cond" data-path="'+grp+':'+idx+'">'+
+    '<input class="tm-input ev-k" data-k="field" value="'+_esc(c.field||'')+'" placeholder="'+TX('field / column')+'">'+
+    '<select class="tm-input ev-k" data-k="op">'+ops+'</select>'+
+    '<input class="tm-input ev-k" data-k="value" value="'+_esc(String(val))+'" placeholder="'+TX('value — comma-separated for in')+'">'+
+    '<select class="tm-input ev-k" data-k="type">'+typ+'</select>'+
+    (noDel?'<span></span>':'<button class="ev-x" data-act="ev-cond-del" data-arg="'+grp+':'+idx+'" title="'+TX('Remove condition')+'">×</button>')+
+  '</div>';
+}
+function evtCondGroup(grp,node,addLbl){
+  var conds=(node&&node.conditions)||[];
+  return conds.map(function(c,i){ return evtCondRow(c,grp,i); }).join('')+
+    '<button class="vc-rt-add nm-add" data-act="ev-cond-add" data-arg="'+grp+'">'+VC_IC_PLUS+TX(addLbl)+'</button>';
+}
+function evtSect(t,hint,body){
+  return '<div class="ev-sect"><div class="ev-sect-t">'+TX(t)+(hint?' <span>— '+TX(hint)+'</span>':'')+'</div>'+body+'</div>';
+}
+function evtField(lbl,inner){ return '<div class="gcfg-field"><label>'+TX(lbl)+'</label>'+inner+'</div>'; }
+function evtEditor(){
+  var d=evtDraft; if(!d) return '';
+  var rl=d.rule_logic;
+  var sel=function(f,opts,cur){ return '<select class="tm-input" data-f="'+f+'">'+opts.map(function(o){return '<option'+(o===cur?' selected':'')+'>'+o+'</option>';}).join('')+'</select>'; };
+  var chk=function(f,on,lbl){ return '<label class="ev-chk"><input type="checkbox" data-f="'+f+'"'+(on?' checked':'')+'> '+TX(lbl)+'</label>'; };
+  var others=evtRules().filter(function(r){return r.id!==d.id;}).map(function(r){return r.id;});
+  var identity='<div class="ev-grid">'+
+    evtField('Rule name','<input class="tm-input" data-f="name" value="'+_esc(d.name||'')+'">')+
+    evtField('Rule ID','<input class="tm-input mono" data-f="id" value="'+_esc(d.id||'')+'">')+
+    evtField('Severity',sel('sev',['P1','P2','P3'],d.severity_level))+
+    evtField('Source type',sel('type',['snmp','api','cli'],d.type))+
+    '</div>';
+  var scope='<div class="ev-grid" style="margin-bottom:10px">'+
+    evtField('Target table','<input class="tm-input mono" data-f="table" value="'+_esc(rl.target_table||'')+'">')+
+    evtField('Discriminator field (optional)','<input class="tm-input mono" data-f="disc" value="'+_esc(rl.discriminator_field||'')+'" placeholder="'+TX('e.g. host, interfaceId')+'">')+
+    evtField('Combine conditions with',sel('ifop',['AND','OR'],(rl['if']&&rl['if'].operator)||'AND'))+
+    '</div>'+evtCondGroup('if',rl['if'],'Add new scope condition');
+  var trig='<div class="ev-grid" style="margin-bottom:10px">'+
+    evtField('Combine conditions with',sel('thenop',['AND','OR'],(rl.then_match&&rl.then_match.operator)||'AND'))+
+    '</div>'+evtCondGroup('then',rl.then_match,'Add new trigger condition');
+  var alert_='<div class="ev-grid" style="grid-template-columns:1fr">'+
+    evtField('Alert title','<input class="tm-input" data-f="title" value="'+_esc((d.alert&&d.alert.title)||'')+'">')+
+    evtField('Alert message','<textarea class="tm-input ev-ta" data-f="message">'+_esc((d.alert&&d.alert.message)||'')+'</textarea>')+
+    '</div><div class="ev-varhint">'+TX('Use $variables from the target table row, e.g.')+' <span class="mono">$HOSTNAME</span> <span class="mono">$IPADDRESS</span> <span class="mono">$host</span> <span class="mono">$pingAvg</span> <span class="mono">$queryResult</span></div>';
+  var beh='<div class="ev-grid" style="margin-bottom:10px">'+
+    evtField('Alert delay counter','<input class="tm-input" type="number" min="0" data-f="delay" value="'+(d.alert_delay_counter||0)+'">')+
+    '<div class="gcfg-field"><label>'+TX('Autoclear')+'</label>'+chk('acen',d.autoclear&&d.autoclear.enabled,'Automatically clear the alert when the condition below is true')+'</div>'+
+    '</div>'+evtCondRow(d.autoclear.condition||{field:'',op:'=',value:'',type:'string'},'ac',0,true)+
+    '<div class="ev-sect-t" style="margin-top:12px">'+TX('Suppress')+' <span>— '+TX('never fire while any of these match')+'</span></div>'+
+    evtCondGroup('sup',d.suppress,'Add new suppress condition');
+  var routing='<div class="ev-grid">'+
+    evtField('Notification channel',sel('channel',EVT_CHANNELS,(d.notification&&d.notification.channel)||'pagerduty'))+
+    evtField('Dependency mode',sel('depmode',['none','parent'],(d.dependency&&d.dependency.mode)||'none'))+
+    evtField('Parent rule',sel('depid',[''].concat(others),(d.dependency&&d.dependency.parent_rule_id)||''))+
+    '</div>';
+  var isNew=(evtOpenId==='__new__');
+  var foot='<div class="ev-foot">'+
+    '<button class="btn primary" data-act="ev-save">'+TX(isNew?'Create rule':'Save rule')+'</button>'+
+    '<button class="btn" data-act="ev-cancel">'+TX('Cancel')+'</button>'+
+    '<span class="spacer"></span>'+
+    (isNew?'':'<button class="btn" data-act="ev-dup">'+TX('Duplicate')+'</button>')+
+    (isNew?'':'<button class="btn danger" data-act="ev-del">'+TX('Delete rule')+'</button>')+
+    '</div>'+
+    '<details class="cfg-peek"><summary><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>'+TX('View rule JSON (as it will be written)')+'</summary><div class="cfg-body"><pre class="cfg-pre">'+jsonHL(JSON.stringify(d,null,2))+'</pre></div></details>';
+  return '<div class="ev-editor" id="evtEditor">'+
+    evtSect('1 · Identity','name it, rank it',identity)+
+    evtSect('2 · Scope','WHICH rows to watch (IF)',scope)+
+    evtSect('3 · Trigger','WHEN to fire the alert (THEN)',trig)+
+    evtSect('4 · Alert content','what the on-call engineer reads',alert_)+
+    evtSect('5 · Behavior','delay, autoclear and suppression',beh)+
+    evtSect('6 · Routing','where the alert goes',routing)+
+    foot+'</div>';
+}
+function evtPage(){
+  var rules=evtRules(), f=evtTypeFilter;
+  var shown=rules.filter(function(r){ return f==='all'||r.type===f; });
+  var seg=['all','snmp','api','cli'].map(function(t){
+    var n=(t==='all')?rules.length:rules.filter(function(r){return r.type===t;}).length;
+    return '<button class="ev-seg'+(f===t?' active':'')+'" data-act="ev-filter" data-arg="'+t+'">'+(t==='all'?TX('All'):t.toUpperCase())+' <span>'+n+'</span></button>';
+  }).join('');
+  var newCard='';
+  if(evtOpenId==='__new__'){
+    newCard='<div class="gcfg-card ev-rule open"><div class="ev-head">'+evtSevChip(evtDraft.severity_level)+
+      '<div class="ev-headmain"><div class="ev-name">'+TX('New rule')+'</div><div class="ev-id mono">'+TX('fill in the guided steps below, then Create')+'</div></div></div>'+evtEditor()+'</div>';
+  }
+  return '<div class="ev-wrap">'+evtStatRow(rules)+
+    '<div class="ev-toolbar"><div class="ev-segs">'+seg+'</div>'+
+    '<input id="evtSearch" class="tm-input ev-search" placeholder="'+TX('Search rules by name, id, type…')+'">'+
+    '<button class="btn primary" data-act="ev-new"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 5v14M5 12h14"/></svg> '+TX('Create new rule')+'</button></div>'+
+    newCard+
+    '<div class="ev-list">'+shown.map(evtRuleCard).join('')+'</div></div>';
+}
+function evtHarvest(){
+  var ed=document.getElementById('evtEditor'); if(!ed||!evtDraft) return;
+  ed.querySelectorAll('[data-f]').forEach(function(inp){
+    var f=inp.getAttribute('data-f'), v=(inp.type==='checkbox')?inp.checked:inp.value;
+    if(f==='name') evtDraft.name=v;
+    else if(f==='id') evtDraft.id=String(v).trim();
+    else if(f==='sev') evtDraft.severity_level=v;
+    else if(f==='type') evtDraft.type=v;
+    else if(f==='table') evtDraft.rule_logic.target_table=v;
+    else if(f==='disc'){ if(String(v).trim()) evtDraft.rule_logic.discriminator_field=String(v).trim(); else delete evtDraft.rule_logic.discriminator_field; }
+    else if(f==='ifop') evtDraft.rule_logic['if'].operator=v;
+    else if(f==='thenop') evtDraft.rule_logic.then_match.operator=v;
+    else if(f==='title') evtDraft.alert.title=v;
+    else if(f==='message') evtDraft.alert.message=v;
+    else if(f==='delay') evtDraft.alert_delay_counter=parseInt(v,10)||0;
+    else if(f==='acen') evtDraft.autoclear.enabled=!!v;
+    else if(f==='channel') evtDraft.notification.channel=v;
+    else if(f==='depmode') evtDraft.dependency.mode=v;
+    else if(f==='depid') evtDraft.dependency.parent_rule_id=v;
+  });
+  ed.querySelectorAll('.ev-cond').forEach(function(row){
+    var pp=row.getAttribute('data-path').split(':');
+    var c=evtCondAt(pp[0],parseInt(pp[1],10)); if(!c) return;
+    var g=function(k){ var e=row.querySelector('[data-k="'+k+'"]'); return e?e.value:''; };
+    c.field=g('field'); c.op=g('op'); c.type=g('type');
+    if(c.op==='in'){ c.values=g('value').split(',').map(function(x){return x.trim();}).filter(function(x){return x!=='';}); delete c.value; }
+    else { c.value=g('value'); delete c.values; }
+  });
+}
+function evtBlank(){
+  return {id:'NEW-RULE-0001',name:'',type:'snmp',enabled:true,severity_level:'P2',
+    alert:{title:'',message:''},
+    rule_logic:{target_table:EVT_TABLES.snmp,'if':{operator:'AND',conditions:[{field:'',op:'matches',value:'',type:'string'}]},then_match:{operator:'AND',conditions:[{field:'',op:'=',value:'',type:'string'}]}},
+    autoclear:{enabled:true,condition:{field:'',op:'=',value:'',type:'string'}},
+    suppress:{conditions:[]},alert_delay_counter:0,
+    dependency:{mode:'none',parent_rule_id:''},notification:{channel:'pagerduty'}};
+}
+function evtOpenRule(id){
+  if(evtOpenId===id){ evtOpenId=null; evtDraft=null; }
+  else{
+    var r=evtRules().find(function(x){return x.id===id;}); if(!r) return;
+    evtOpenId=id; evtDraft=JSON.parse(JSON.stringify(r));
+    if(!evtDraft.suppress) evtDraft.suppress={conditions:[]};
+    if(!evtDraft.autoclear) evtDraft.autoclear={enabled:false,condition:{field:'',op:'=',value:'',type:'string'}};
+    if(!evtDraft.autoclear.condition) evtDraft.autoclear.condition={field:'',op:'=',value:'',type:'string'};
+    if(!evtDraft.dependency) evtDraft.dependency={mode:'none',parent_rule_id:''};
+    if(!evtDraft.notification) evtDraft.notification={channel:'pagerduty'};
+  }
+  renderCfgMgr();
+}
+function evtEnable(id){
+  var r=evtRules().find(function(x){return x.id===id;}); if(!r) return;
+  r.enabled=!r.enabled;
+  toast(TX(r.enabled?'Rule enabled':'Rule disabled')+' — '+TX('session only until App Server persistence'));
+  renderCfgMgr();
+}
+function evtNew(){ evtOpenId='__new__'; evtDraft=evtBlank(); renderCfgMgr(); var m=document.getElementById('main'); if(m) m.scrollTop=0; }
+function evtCondAdd(grp){
+  evtHarvest();
+  var c={field:'',op:'=',value:'',type:'string'};
+  if(grp==='if') evtDraft.rule_logic['if'].conditions.push(c);
+  else if(grp==='then') evtDraft.rule_logic.then_match.conditions.push(c);
+  else if(grp==='sup') evtDraft.suppress.conditions.push(c);
+  renderCfgMgr();
+}
+function evtCondDel(arg){
+  evtHarvest();
+  var pp=arg.split(':'), grp=pp[0], idx=parseInt(pp[1],10);
+  if(grp==='if') evtDraft.rule_logic['if'].conditions.splice(idx,1);
+  else if(grp==='then') evtDraft.rule_logic.then_match.conditions.splice(idx,1);
+  else if(grp==='sup') evtDraft.suppress.conditions.splice(idx,1);
+  renderCfgMgr();
+}
+function evtSave(){
+  evtHarvest();
+  if(!evtDraft.id){ toast(TX('Rule ID is required')); return; }
+  if(!evtDraft.name){ toast(TX('Rule name is required')); return; }
+  var rules=evtRules();
+  if(evtOpenId==='__new__'){
+    if(rules.find(function(r){return r.id===evtDraft.id;})){ toast(TX('A rule with this ID already exists')); return; }
+    rules.unshift(evtDraft);
+    toast(TX('Rule created — session only until App Server persistence'));
+  } else {
+    var i=rules.findIndex(function(r){return r.id===evtOpenId;});
+    if(i<0){ toast(TX('Rule not found')); return; }
+    rules[i]=evtDraft;
+    toast(TX('Rule saved — session only until App Server persistence'));
+  }
+  evtOpenId=evtDraft.id; evtDraft=JSON.parse(JSON.stringify(evtDraft));
+  renderCfgMgr();
+}
+function evtCancel(){ evtOpenId=null; evtDraft=null; renderCfgMgr(); }
+function evtDel(){
+  var rules=evtRules(), i=rules.findIndex(function(r){return r.id===evtOpenId;});
+  if(i>-1){ rules.splice(i,1); toast(TX('Rule deleted — session only')); }
+  evtOpenId=null; evtDraft=null; renderCfgMgr();
+}
+function evtDup(){
+  var rules=evtRules(), i=rules.findIndex(function(r){return r.id===evtOpenId;});
+  if(i<0) return;
+  var c=JSON.parse(JSON.stringify(rules[i])); c.id=c.id+'-COPY'; c.name=c.name+' (copy)';
+  rules.splice(i+1,0,c);
+  evtOpenId=c.id; evtDraft=JSON.parse(JSON.stringify(c));
+  toast(TX('Rule duplicated — session only'));
+  renderCfgMgr();
+}
+function evtLocOpen(key){
+  if(key){ openLocationCard(key); }
+  else { go('config'); if(typeof renderConfig==='function') renderConfig(); toast(TX('No exact site match — opened Location Management')); }
+}
+document.addEventListener('input',function(ev){
+  var t=ev.target;
+  if(t&&t.id==='evtSearch'){
+    var q=(t.value||'').toLowerCase();
+    document.querySelectorAll('.ev-rule').forEach(function(c){
+      if(c.classList.contains('open')) return;
+      c.style.display=(!q||(c.getAttribute('data-search')||'').indexOf(q)>-1)?'':'none';
+    });
+  }
+});
 function nmStatRow(items){
   return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Manifest Overview</div><div class="vc-statrow">'+
     items.map(function(it){ return '<div class="vc-stat" style="--ac:'+it[2]+';--acg:'+it[3]+'"><span class="vc-stat-ic">'+it[4]+'</span><div><div class="vc-stat-num">'+it[0]+'</div><div class="vc-stat-lbl">'+_esc(it[1])+'</div></div></div>'; }).join('')+'</div></div>';
@@ -12952,6 +15803,9 @@ function renderCfgMgr(){
     const f=files.find(x=>x.key===cfgSubPage)||files[0];
     body='<div class="cfg-manback"><button class="cfg-back-btn" data-act="cfg-sub" data-arg="normalizer"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
       (typeof NM_VIS!=='undefined'&&NM_VIS[cfgSubPage]?nmManifestPage(cfgSubPage):'<div class="cfg-editor">'+cfgScaffold(cat)+'</div>');
+  } else if(cfgSubPage==='events'){
+    const f=files.find(x=>x.cat==='events')||files[0];
+    body='<div class="cfg-manback">'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+evtPage();
   } else if(cfgSubPage==='vcollector'){
     body=cfgVcollectorForm(cfgMgrColl);
   } else {
