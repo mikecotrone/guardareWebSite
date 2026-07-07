@@ -476,6 +476,7 @@
   .nm-secgrp>.vc-folder-head .vc-folder-sub{color:var(--dim);margin-top:4px;line-height:1.55;max-width:980px;white-space:normal}
   .nm-secgrp-body{display:flex;flex-direction:column;gap:12px}
   .nm-secgrp>.nm-secgrp-body{border-left:none;padding-left:0}
+  .nm-secgrp .nm-secgrp-body .vc-eplist{border-left:none;padding-left:0}
   .nm-secgrp .nm-secgrp-body>.vc-folder{border-left:1px solid var(--line)}
   .nm-secgrp .nm-secgrp-body>.vc-folder>.vc-folder-head>.vc-folder-ic{display:none}
   .vc-folder.nm-s-id{border-left:3px solid var(--amber)}
@@ -2823,7 +2824,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.496.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.497.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -11099,7 +11100,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.496.alpha';
+const APP_VERSION='v2026.02.497.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
