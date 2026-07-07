@@ -472,6 +472,13 @@
   .nm-man-cta{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--green)}
   .nm-man-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .15s}
   .nm-man-card:hover .nm-man-cta svg{transform:translateX(2px)}
+  .nm-sect{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:24px 0 12px}
+  .nm-sect:first-of-type{margin-top:6px}
+  .nm-sect-ic{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:var(--raise);border:1px solid var(--line-soft);flex:none}
+  .nm-sect-ic svg{width:13px;height:13px;stroke:var(--dim);fill:none;stroke-width:1.9}
+  .nm-sect-t{font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text)}
+  .nm-sect-d{font-size:11.5px;color:var(--dim)}
+  .nm-sect-line{flex:1;height:1px;background:var(--line-soft);min-width:40px}
   .sidebar-foot{margin-top:auto;padding:13px 12px;border-top:1px solid var(--line-soft)}
   .health-pill{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim)}
   .health-pill .dot{width:7px;height:7px;border-radius:99px;background:var(--green);box-shadow:0 0 8px var(--green)}
@@ -2811,7 +2818,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.491.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.492.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -11087,7 +11094,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.491.alpha';
+const APP_VERSION='v2026.02.492.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12640,6 +12647,9 @@ function nmFolder(key,icon,title,sub,body,openByDefault,o){
   return T`<div class="gcfg-card vc-folder ${o.cls||''}${open?'':' collapsed'}"><div class="vc-folder-head" data-act="vc-toggle-folder" data-arg="${key}"><span class="vc-folder-ic">${T.raw(icon)}</span><div class="vc-folder-txt"><div class="vc-folder-name">${T.raw(title)}${T.raw(pencil)}</div><div class="vc-folder-sub">${T.raw(sub)}</div></div>${T.raw(badge)}<span class="vc-folder-chev">${T.raw(VC_IC_CHEV)}</span></div><div class="vc-eplist nm-body">${T.raw(body)}</div></div>`;
 }
 function nmPill(cls,txt){ return T`<span class="nm-pill ${cls}">${txt}</span>`; }
+function nmSectHead(icon,title,desc){
+  return '<div class="nm-sect"><span class="nm-sect-ic">'+icon+'</span><span class="nm-sect-t">'+TX(title)+'</span>'+(desc?'<span class="nm-sect-d">'+TX(desc)+'</span>':'')+'<span class="nm-sect-line"></span></div>';
+}
 function nmStatRow(items){
   return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Manifest Overview</div><div class="vc-statrow">'+
     items.map(function(it){ return '<div class="vc-stat" style="--ac:'+it[2]+';--acg:'+it[3]+'"><span class="vc-stat-ic">'+it[4]+'</span><div><div class="vc-stat-num">'+it[0]+'</div><div class="vc-stat-lbl">'+_esc(it[1])+'</div></div></div>'; }).join('')+'</div></div>';
@@ -12651,7 +12661,7 @@ function nmRuleCard(r,path,cls){
   return T`<div class="nm-rulecard ${cls} nm-edit" data-act="nm-edit" data-path="${path}" title="Edit rule"><div class="nm-rulecard-name mono">${r.name.replace('IncludeKeyValueList_','').replace('ExcludeKeyValueList_','')}</div><div class="nm-rulecard-cond"><span class="mono">${r.k}</span> = <span class="mono">${r.v}</span></div></div>`;
 }
 function nmRuleRow(r,path){
-  var when=r.w?T`<span class="nm-cond mono">${r.w.f}</span><span class="nm-op">${r.w.op}</span>${r.w.v?T`<span class="nm-cond mono">${r.w.v}</span>`:''}`:'<span class="nm-default">DEFAULT (catch-all)</span>';
+  var when=r.w?T`<span class="nm-cond mono">${r.w.f}</span><span class="nm-op">${r.w.op}</span>${r.w.v?T.raw(T`<span class="nm-cond mono">${r.w.v}</span>`):''}`:'<span class="nm-default">DEFAULT (catch-all)</span>';
   return T`<div class="nm-rule nm-edit" data-act="nm-edit" data-path="${path}" title="Edit rule"><span class="nm-rule-idx">${path.split(':').pop()*1+1}</span><div class="nm-rule-main"><div class="nm-rule-top"><span class="nm-rule-id mono">${r.id}</span>${T.raw(when)}<span class="nm-rule-arrow">→</span><span class="nm-res mono">${r.r}</span></div><div class="nm-rule-desc">${r.d}</div></div></div>`;
 }
 function nmTableSection(t,pathPrefix,rightHead){
@@ -12682,8 +12692,14 @@ function nmManifestPage(key){
     [nMap,'Column Mappings','var(--green)','var(--green-ghost)',VC_IC_LAYERS],
     [m.identity.length,'Identity Blocks','var(--amber)','#f6b53f1a',VC_IC_SNMP]
   ]);
+  /* --- Device Identification --- */
+  out+=nmSectHead(VC_IC_LAYERS,'Device Identification','how normalized rows become uniquely identified devices');
+  out+=nmFolder('nm:identity',VC_IC_LAYERS,_esc(m.titles.identity),m.identity.length+' mapping blocks · machine-authored · first-match-wins routing',
+    m.identity.map(function(b,bi){ return nmIdentityBlock(b,bi); }).join(''),true,{cls:'nm-f-id',badge:'IDENTITY',rename:'title:identity'});
+  /* --- API Manifest Route Configuration --- */
+  out+=nmSectHead(VC_IC_API,'API Manifest Route Configuration','route matchers and the reusable row filters they apply');
   out+=nmFolder('nm:routes',VC_IC_API,_esc(m.titles.routes),m.routes.length+' route matchers — each pairs an incoming vCollector route with a node-section-anchor, telling the normalizer where to begin iterating that payload',
-    '<div class="nm-rts">'+m.routes.map(nmRouteCard).join('')+'</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rt">'+VC_IC_PLUS+'Add route mapping</button>',true,{cls:'nm-f-rt',badge:'MATCHERS',rename:'title:routes'});
+    '<div class="nm-rts">'+m.routes.map(nmRouteCard).join('')+'</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rt">'+VC_IC_PLUS+'Add route mapping</button>',false,{cls:'nm-f-rt',badge:'MATCHERS',rename:'title:routes'});
   var ruleBody='<div class="nm-rulecols"><div><div class="nm-rulecol-h inc">Include rule lists <span class="gcfg-subnote">row kept only if it matches</span></div><div class="nm-rulegrid">'+
     m.rules.include.map(function(r,i){ return nmRuleCard(r,'rl:inc:'+i,'inc'); }).join('')+
     '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:inc">'+VC_IC_PLUS+'Add include rule</button></div>'+
@@ -12691,13 +12707,13 @@ function nmManifestPage(key){
     m.rules.exclude.map(function(r,i){ return nmRuleCard(r,'rl:exc:'+i,'exc'); }).join('')+
     '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:exc">'+VC_IC_PLUS+'Add exclude rule</button></div></div>';
   out+=nmFolder('nm:rules',VC_IC_CLI,_esc(m.titles.rules),(m.rules.include.length+m.rules.exclude.length)+' reusable filters, referenced by tables below',ruleBody,false,{cls:'nm-f-rl',badge:'FILTERS',rename:'title:rules'});
+  /* --- API Data Mapping --- */
+  out+=nmSectHead(VC_IC_DB,'API Data Mapping','DB ↔ JSON — how API payload fields land in MariaDB columns');
   m.tableGroups.forEach(function(g,gi){
     var nGrpMap=0; g.tables.forEach(function(t){ nGrpMap+=t.fields.length; });
     out+=nmFolder('nm:grp:'+gi,VC_IC_DB,_esc(g.group),g.tables.length+(g.tables.length===1?' table · ':' tables · ')+nGrpMap+' mappings',
       g.tables.map(function(t,ti){ return nmTableSection(t,'map:'+gi+':'+ti); }).join(''),false,{cls:'nm-f-map',badge:'DB ↔ JSON',rename:'title:grp:'+gi});
   });
-  out+=nmFolder('nm:identity',VC_IC_LAYERS,_esc(m.titles.identity),m.identity.length+' mapping blocks · machine-authored · first-match-wins routing',
-    m.identity.map(function(b,bi){ return nmIdentityBlock(b,bi); }).join(''),false,{cls:'nm-f-id',badge:'IDENTITY',rename:'title:identity'});
   return '<div class="gcfg nm-page">'+out+'</div>';
 }
 function nmCliPage(m){
