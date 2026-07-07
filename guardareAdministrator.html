@@ -438,6 +438,40 @@
   .cfg-man-add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px dashed var(--line);border-radius:var(--r);background:none;color:var(--dim);cursor:pointer;font:inherit;font-size:12.5px;font-weight:600;min-height:96px;transition:.15s}
   .cfg-man-add:hover{border-color:var(--teal);color:var(--text)}
   .cfg-man-add svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7}
+  /* ---------- NORMALIZER MANIFEST OVERVIEW ---------- */
+  .nm-hero{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:18px 20px;margin:0 0 18px;border:1px solid var(--line);border-left:3px solid var(--green);border-radius:var(--r);background:linear-gradient(180deg,var(--raise),var(--panel))}
+  .nm-hero-ic{width:46px;height:46px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--green-ghost);border:1px solid #41d98a3d}
+  .nm-hero-ic svg{width:24px;height:24px;stroke:var(--green);fill:none;stroke-width:1.8}
+  .nm-hero-main{flex:1 1 300px;min-width:250px}
+  .nm-hero-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14.5px;font-weight:700;color:var(--text)}
+  .nm-hero-badge{font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);background:var(--green-ghost);border:1px solid #41d98a44;padding:2.5px 9px;border-radius:99px}
+  .nm-hero-sub{font-size:12.5px;color:var(--dim);margin-top:5px;line-height:1.55;max-width:760px}
+  .nm-hero-sub b{color:var(--text);font-weight:600}
+  .nm-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:none}
+  .nm-flow-node{display:flex;flex-direction:column;gap:4px;align-items:center;border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:9px 13px;font-size:10.5px;font-weight:600;color:var(--dim);text-align:center;line-height:1.3;max-width:110px}
+  .nm-flow-node svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .nm-flow-node.hot{border-color:#41d98a55;background:var(--green-ghost);color:var(--green)}
+  .nm-flow-arr{color:var(--mute);flex:none}
+  .nm-flow-arr svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;display:block}
+  .nm-secthead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 12px}
+  .nm-secthead-t{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+  .nm-secthead-n{font-size:10.5px;font-weight:700;color:var(--green);background:var(--green-ghost);border:1px solid #41d98a44;padding:1px 8px;border-radius:99px}
+  .nm-secthead-line{flex:1;height:1px;background:var(--line-soft)}
+  .nm-man-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+  .nm-man-card{position:relative;text-align:left;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:15px 16px 13px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:.15s}
+  .nm-man-card:hover{border-color:var(--green);background:var(--raise);transform:translateY(-1px);box-shadow:0 6px 18px -12px #41d98a66}
+  .nm-man-head{display:flex;align-items:center;gap:10px}
+  .nm-man-av{width:34px;height:34px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--green-ghost);border:1px solid #41d98a3d;color:var(--green);font-size:12px;font-weight:800;letter-spacing:.02em}
+  .nm-man-name{font-weight:700;font-size:13.5px;color:var(--text)}
+  .nm-man-kind{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:1px}
+  .nm-man-head .cfg-clean,.nm-man-head .cfg-drift{margin-left:auto}
+  .nm-man-file{display:flex;align-items:center;gap:7px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--teal);background:var(--raise);border:1px solid var(--line-soft);border-radius:7px;padding:6px 9px;word-break:break-all}
+  .nm-man-file svg{width:13px;height:13px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8}
+  .nm-man-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--dim);border-top:1px solid var(--line-soft);padding-top:9px;margin-top:1px}
+  .nm-man-foot b{color:var(--text);font-weight:600}
+  .nm-man-cta{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--green)}
+  .nm-man-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .15s}
+  .nm-man-card:hover .nm-man-cta svg{transform:translateX(2px)}
   .sidebar-foot{margin-top:auto;padding:13px 12px;border-top:1px solid var(--line-soft)}
   .health-pill{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim)}
   .health-pill .dot{width:7px;height:7px;border-radius:99px;background:var(--green);box-shadow:0 0 8px var(--green)}
@@ -10538,7 +10572,15 @@ function cfgScaffold(cat){
 }
 function cfgManCard(f,coll){
   const st=cfgState(coll,f);
-  return '<div class="cfg-man-card" style="cursor:pointer" data-act="cfg-sub" data-arg="'+_esc(f.key)+'"><div class="cfg-man-top"><span class="cfg-man-dot"></span><span class="cfg-man-name">'+f.pill+'</span></div><div class="cfg-man-path">'+cfgRepoPath(f)+'</div><div class="cfg-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">poll '+f.poll+'s</span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div></div>';
+  const kind=f.svc.indexOf('Snmp')>-1?TX('SNMP polling'):f.svc.indexOf('Cli')>-1?TX('CLI scrape'):TX('API polling');
+  const av=f.pill.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase();
+  const i_file='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+  const i_arr='<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
+  return '<div class="nm-man-card" role="button" tabindex="0" data-act="cfg-sub" data-arg="'+_esc(f.key)+'">'+
+    '<div class="nm-man-head"><span class="nm-man-av">'+av+'</span><span><span class="nm-man-name">'+f.pill+'</span><div class="nm-man-kind">'+TX('Manufacturer manifest')+' · '+kind+'</div></span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div>'+
+    '<div class="nm-man-file">'+i_file+'<span>'+cfgRepoPath(f)+'</span></div>'+
+    '<div class="nm-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">'+TX('poll')+' '+f.poll+'s</span><span class="nm-man-cta">'+TX('Configure')+i_arr+'</span></div>'+
+    '</div>';
 }
 const UBUNTU_SVG='<svg viewBox="0 0 48 48" aria-label="Ubuntu">'+
   '<circle cx="24" cy="24" r="14.5" fill="none" stroke="#E95420" stroke-width="3"/>'+
@@ -12841,8 +12883,23 @@ function renderCfgMgr(){
   } else if(cfgSubPage==='normalizer'){
     const mans=files.filter(f=>f.cat==='normalizer');
     const cards=mans.map(f=>cfgManCard(f,cfgMgrColl)).join('');
-    body='<div class="cfg-mannote"><span class="cfg-man-dot"></span>'+TX('This collector runs')+' <b>'+mans.length+'</b> '+TX('manufacturer manifests — one normalization profile per polled manufacturer.')+' '+TX('Open one to configure it.')+'</div>'+
-      '<div class="cfg-man-grid">'+cards+'<button class="cfg-man-add" data-act="ui-toast" data-arg="'+_esc(TX('Add manufacturer manifest — coming in the per-service build'))+'"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add manufacturer')+'</button></div>';
+    const drifted=mans.filter(f=>cfgState(cfgMgrColl,f).drift).length;
+    const i_funnel='<svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5z"/></svg>';
+    const i_chip='<svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 2v3M14 2v3M10 19v3M14 19v3M2 10h3M2 14h3M19 10h3M19 14h3"/></svg>';
+    const i_doc='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>';
+    const i_layers='<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>';
+    const i_flowarr='<span class="nm-flow-arr"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>';
+    const fnode=(ic,lbl,hot)=>'<span class="nm-flow-node'+(hot?' hot':'')+'">'+ic+TX(lbl)+'</span>';
+    body='<div class="nm-hero">'+
+        '<div class="nm-hero-ic">'+i_funnel+'</div>'+
+        '<div class="nm-hero-main">'+
+          '<div class="nm-hero-title">'+TX('Normalizer manifest files')+'<span class="nm-hero-badge">'+TX('one manifest per manufacturer')+'</span></div>'+
+          '<div class="nm-hero-sub">'+TX('Every manufacturer this collector polls has its own manifest file in GitOps. Each manifest tells the Normalizer how to translate that manufacturer’s raw device data into the unified Guardare schema.')+' <b>'+TX('Select a manufacturer card below to configure its manifest.')+'</b></div>'+
+        '</div>'+
+        '<div class="nm-flow">'+fnode(i_chip,'Raw device data',false)+i_flowarr+fnode(i_doc,'Manufacturer manifest',true)+i_flowarr+fnode(i_layers,'Unified Guardare schema',false)+'</div>'+
+      '</div>'+
+      '<div class="nm-secthead"><span class="nm-secthead-t">'+TX('Manufacturer manifests')+'</span><span class="nm-secthead-n">'+mans.length+'</span>'+(drifted?'<span class="cfg-drift">'+drifted+' '+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('all in sync')+'</span>')+'<span class="nm-secthead-line"></span></div>'+
+      '<div class="nm-man-grid">'+cards+'<button class="cfg-man-add" data-act="ui-toast" data-arg="'+_esc(TX('Add manufacturer manifest — coming in the per-service build'))+'"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'+TX('Add manufacturer')+'</button></div>';
   } else if(cfgSubPage.indexOf('norm-')===0){
     const f=files.find(x=>x.key===cfgSubPage)||files[0];
     body='<div class="cfg-manback"><button class="cfg-back-btn" data-act="cfg-sub" data-arg="normalizer"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'+TX('All manifests')+'</button>'+cfgSourceStrip(f,cfgMgrColl)+'</div>'+
