@@ -477,6 +477,11 @@
   .nm-secgrp-body{display:flex;flex-direction:column;gap:12px}
   .nm-secgrp>.nm-secgrp-body{border-left:none;padding-left:0}
   .nm-secgrp .nm-secgrp-body .vc-eplist{border-left:none;padding-left:0}
+  /* make the open accordion card unmistakable */
+  .nm-secgrp .nm-secgrp-body>.vc-folder:not(.collapsed){border-color:var(--teal);box-shadow:0 10px 28px -18px rgba(14,159,150,.55);background:var(--raise)}
+  .nm-secgrp .nm-secgrp-body>.vc-folder:not(.collapsed)>.vc-folder-head{background:var(--teal-ghost);border-radius:var(--r) var(--r) 0 0;border-bottom:1px solid var(--line-soft)}
+  .nm-secgrp .nm-secgrp-body>.vc-folder:not(.collapsed)>.vc-folder-head .vc-folder-name{color:var(--teal-deep)}
+  .nm-secgrp .nm-secgrp-body>.vc-folder:not(.collapsed)>.vc-folder-head .vc-folder-chev{color:var(--teal)}
   .nm-secgrp .nm-secgrp-body>.vc-folder{border-left:1px solid var(--line)}
   .nm-secgrp .nm-secgrp-body>.vc-folder>.vc-folder-head>.vc-folder-ic{display:none}
   .vc-folder.nm-s-id{border-left:3px solid var(--amber)}
@@ -2824,7 +2829,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.497.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.498.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -11100,7 +11105,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.497.alpha';
+const APP_VERSION='v2026.02.498.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
