@@ -2811,7 +2811,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.489.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.490.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10574,11 +10574,9 @@ function cfgManCard(f,coll){
   const st=cfgState(coll,f);
   const kind=f.svc.indexOf('Snmp')>-1?TX('SNMP polling'):f.svc.indexOf('Cli')>-1?TX('CLI scrape'):TX('API polling');
   const av=f.pill.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase();
-  const i_file='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
   const i_arr='<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
   return '<div class="nm-man-card" role="button" tabindex="0" data-act="cfg-sub" data-arg="'+_esc(f.key)+'">'+
     '<div class="nm-man-head"><span class="nm-man-av">'+av+'</span><span><span class="nm-man-name">'+f.pill+'</span><div class="nm-man-kind">'+TX('Manufacturer manifest')+' · '+kind+'</div></span>'+(st.drift?'<span class="cfg-drift">'+TX('drift')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div>'+
-    '<div class="nm-man-file">'+i_file+'<span>'+cfgRepoPath(f)+'</span></div>'+
     '<div class="nm-man-foot"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">'+TX('poll')+' '+f.poll+'s</span><span class="nm-man-cta">'+TX('Configure')+i_arr+'</span></div>'+
     '</div>';
 }
@@ -11089,7 +11087,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.489.alpha';
+const APP_VERSION='v2026.02.490.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
