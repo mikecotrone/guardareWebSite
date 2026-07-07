@@ -1581,7 +1581,7 @@
   .vc-summary{margin:0 0 22px}
   .vc-summary-t{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--mute);margin-bottom:11px;display:flex;align-items:center;gap:7px}
   .vc-summary-t svg{width:15px;height:15px;stroke:var(--mute);fill:none;stroke-width:2}
-  .vc-statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .vc-statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
   .vc-stat{display:flex;align-items:center;gap:14px;padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);position:relative;overflow:hidden}
   .vc-stat::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
   .vc-stat-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--acg)}
@@ -2811,7 +2811,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.490.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.491.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -10616,7 +10616,7 @@ function currentCfgColl(){
 function cfgCatFor(sub){
   if(sub && sub.indexOf('norm-')===0){
     const mk=sub.slice(5), m=NORM_MAP[mk];
-    return {cat:sub,name:'Normalizer · '+(m?m.label:mk),dot:'var(--green)',scope:'Per-collector',
+    return {cat:sub,name:'Normalizer · '+(m?m.label:mk)+' '+TX('Manifest Configuration'),dot:'var(--green)',scope:'Per-collector',
       blurb:'Normalization manifest that maps raw '+(m?m.label:mk)+' device output into the unified Guardare schema for this collector.'};
   }
   return CFG_CATS.find(c=>c.cat===sub)||CFG_CATS[0];
@@ -11087,7 +11087,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.490.alpha';
+const APP_VERSION='v2026.02.491.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
