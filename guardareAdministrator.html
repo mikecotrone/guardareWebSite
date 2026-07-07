@@ -472,14 +472,17 @@
   .nm-man-cta{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--green)}
   .nm-man-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .15s}
   .nm-man-card:hover .nm-man-cta svg{transform:translateX(2px)}
-  .nm-sect{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:24px 0 12px}
-  .nm-sect:first-of-type{margin-top:6px}
-  .nm-sect-ic{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:var(--raise);border:1px solid var(--line-soft);flex:none}
-  .nm-sect-ic svg{width:13px;height:13px;stroke:var(--dim);fill:none;stroke-width:1.9}
-  .nm-sect-t{font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text)}
-  .nm-sect-d{font-size:11.5px;color:var(--dim)}
-  .nm-sect-line{flex:1;height:1px;background:var(--line-soft);min-width:40px}
-  .nm-sect-blurb{font-size:12px;color:var(--dim);line-height:1.55;margin:-4px 0 12px 33px;max-width:940px}
+  /* section "owner" accordion cards on the manifest page */
+  .nm-secgrp{background:linear-gradient(180deg,var(--raise),var(--panel))}
+  .nm-secgrp>.vc-folder-head .vc-folder-name{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .nm-secgrp>.vc-folder-head .vc-folder-sub{color:var(--dim);margin-top:4px;line-height:1.55;max-width:980px;white-space:normal}
+  .nm-secgrp-body{display:flex;flex-direction:column;gap:12px}
+  .vc-folder.nm-s-id{border-left:3px solid var(--amber)}
+  .nm-s-id>.vc-folder-head .vc-folder-ic{background:#f6b53f1a;border-color:#f6b53f3a} .nm-s-id>.vc-folder-head .vc-folder-ic svg{stroke:var(--amber)}
+  .vc-folder.nm-s-rt{border-left:3px solid var(--teal)}
+  .nm-s-rt>.vc-folder-head .vc-folder-ic{background:var(--teal-ghost);border-color:var(--line)} .nm-s-rt>.vc-folder-head .vc-folder-ic svg{stroke:var(--teal)}
+  .vc-folder.nm-s-map{border-left:3px solid var(--violet)}
+  .nm-s-map>.vc-folder-head .vc-folder-ic{background:var(--violet-ghost);border-color:var(--line)} .nm-s-map>.vc-folder-head .vc-folder-ic svg{stroke:var(--violet)}
   .sidebar-foot{margin-top:auto;padding:13px 12px;border-top:1px solid var(--line-soft)}
   .health-pill{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim)}
   .health-pill .dot{width:7px;height:7px;border-radius:99px;background:var(--green);box-shadow:0 0 8px var(--green)}
@@ -2819,7 +2822,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.493.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.494.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -11095,7 +11098,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.493.alpha';
+const APP_VERSION='v2026.02.494.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -12648,9 +12651,18 @@ function nmFolder(key,icon,title,sub,body,openByDefault,o){
   return T`<div class="gcfg-card vc-folder ${o.cls||''}${open?'':' collapsed'}"><div class="vc-folder-head" data-act="vc-toggle-folder" data-arg="${key}"><span class="vc-folder-ic">${T.raw(icon)}</span><div class="vc-folder-txt"><div class="vc-folder-name">${T.raw(title)}${T.raw(pencil)}</div><div class="vc-folder-sub">${T.raw(sub)}</div></div>${T.raw(badge)}<span class="vc-folder-chev">${T.raw(VC_IC_CHEV)}</span></div><div class="vc-eplist nm-body">${T.raw(body)}</div></div>`;
 }
 function nmPill(cls,txt){ return T`<span class="nm-pill ${cls}">${txt}</span>`; }
-function nmSectHead(icon,title,desc,blurb){
-  return '<div class="nm-sect"><span class="nm-sect-ic">'+icon+'</span><span class="nm-sect-t">'+TX(title)+'</span>'+(desc?'<span class="nm-sect-d">'+TX(desc)+'</span>':'')+'<span class="nm-sect-line"></span></div>'+
-    (blurb?'<div class="nm-sect-blurb">'+TX(blurb)+'</div>':'');
+function nmSection(key,cls,icon,title,blurb,body,openByDefault){
+  /* section "owner" accordion — title + explanation in the head, child cards nested in the body */
+  var st=vcFolderOpen[key];
+  var open=(st===undefined)?!!openByDefault:(st===true);
+  return '<div class="gcfg-card vc-folder nm-secgrp '+cls+(open?'':' collapsed')+'">'+
+    '<div class="vc-folder-head" data-act="vc-toggle-folder" data-arg="'+_esc(key)+'">'+
+      '<span class="vc-folder-ic">'+icon+'</span>'+
+      '<div class="vc-folder-txt"><div class="vc-folder-name">'+TX(title)+'</div>'+
+      '<div class="vc-folder-sub">'+TX(blurb)+'</div></div>'+
+      '<span class="nm-fbadge">'+TX('SECTION')+'</span>'+
+      '<span class="vc-folder-chev">'+VC_IC_CHEV+'</span>'+
+    '</div><div class="vc-eplist nm-body nm-secgrp-body">'+body+'</div></div>';
 }
 function nmStatRow(items){
   return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' Manifest Overview</div><div class="vc-statrow">'+
@@ -12701,14 +12713,13 @@ function nmManifestPage(key){
     [m.identity.length,'Identity Blocks','var(--amber)','#f6b53f1a',VC_IC_SNMP]
   ]);
   /* --- Device Identification --- */
-  out+=nmSectHead(VC_IC_LAYERS,'Device Identification','how normalized rows become uniquely identified devices',
-    'Turns each polled row into one canonical device record. Routing rules classify the device (category, type — first match wins), then field copies stamp its identity columns: MAC, IP, hostname, model, manufacturer.');
-  out+=nmFolder('nm:identity',VC_IC_LAYERS,_esc(m.titles.identity),m.identity.length+' mapping blocks · machine-authored · first-match-wins routing',
+  var idBody=nmFolder('nm:identity',VC_IC_LAYERS,_esc(m.titles.identity),m.identity.length+' mapping blocks · machine-authored · first-match-wins routing',
     m.identity.map(function(b,bi){ return nmIdentityBlock(b,bi); }).join(''),false,{cls:'nm-f-id',badge:'IDENTITY',rename:'title:identity'});
+  out+=nmSection('nm:sec:id','nm-s-id',VC_IC_LAYERS,'Device Identification',
+    'Turns each polled row into one canonical device record. Routing rules classify the device (category, type — first match wins), then field copies stamp its identity columns: MAC, IP, hostname, model, manufacturer.',
+    idBody,true);
   /* --- API Manifest Route Configuration --- */
-  out+=nmSectHead(VC_IC_API,'API Manifest Route Configuration','route matchers and the reusable row filters they apply',
-    'Declares which incoming vCollector API routes this manifest listens to, and where in each JSON payload the Normalizer starts iterating. The include/exclude rule lists are reusable filters that keep or drop rows before any mapping happens.');
-  out+=nmFolder('nm:routes',VC_IC_API,_esc(m.titles.routes),m.routes.length+' route matchers — each pairs an incoming vCollector route with a node-section-anchor, telling the normalizer where to begin iterating that payload',
+  var rtBody=nmFolder('nm:routes',VC_IC_API,_esc(m.titles.routes),m.routes.length+' route matchers — each pairs an incoming vCollector route with a node-section-anchor, telling the normalizer where to begin iterating that payload',
     '<div class="nm-rts">'+m.routes.map(nmRouteCard).join('')+'</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rt">'+VC_IC_PLUS+'Add route mapping</button>',false,{cls:'nm-f-rt',badge:'MATCHERS',rename:'title:routes'});
   var ruleBody='<div class="nm-rulecols"><div><div class="nm-rulecol-h inc">Include rule lists <span class="gcfg-subnote">row kept only if it matches</span></div><div class="nm-rulegrid">'+
     m.rules.include.map(function(r,i){ return nmRuleCard(r,'rl:inc:'+i,'inc'); }).join('')+
@@ -12716,15 +12727,20 @@ function nmManifestPage(key){
     '<div><div class="nm-rulecol-h exc">Exclude rule lists <span class="gcfg-subnote">row dropped if it matches</span></div><div class="nm-rulegrid">'+
     m.rules.exclude.map(function(r,i){ return nmRuleCard(r,'rl:exc:'+i,'exc'); }).join('')+
     '</div><button class="vc-rt-add nm-add" data-act="nm-add" data-path="rl:exc">'+VC_IC_PLUS+'Add exclude rule</button></div></div>';
-  out+=nmFolder('nm:rules',VC_IC_CLI,_esc(m.titles.rules),(m.rules.include.length+m.rules.exclude.length)+' reusable filters, referenced by tables below',ruleBody,false,{cls:'nm-f-rl',badge:'FILTERS',rename:'title:rules'});
+  rtBody+=nmFolder('nm:rules',VC_IC_CLI,_esc(m.titles.rules),(m.rules.include.length+m.rules.exclude.length)+' reusable filters, referenced by tables below',ruleBody,false,{cls:'nm-f-rl',badge:'FILTERS',rename:'title:rules'});
+  out+=nmSection('nm:sec:rt','nm-s-rt',VC_IC_API,'API Manifest Route Configuration',
+    'Declares which incoming vCollector API routes this manifest listens to, and where in each JSON payload the Normalizer starts iterating. The include/exclude rule lists are reusable filters that keep or drop rows before any mapping happens.',
+    rtBody,true);
   /* --- API Data Mapping --- */
-  out+=nmSectHead(VC_IC_DB,'API Data Mapping','DB ↔ JSON — how API payload fields land in MariaDB columns',
-    'Maps fields from each API payload into MariaDB columns, table by table — this is where raw JSON becomes normalized Guardare schema data. Each card below covers one payload family.');
+  var mapBody='';
   m.tableGroups.forEach(function(g,gi){
     var nGrpMap=0; g.tables.forEach(function(t){ nGrpMap+=t.fields.length; });
-    out+=nmFolder('nm:grp:'+gi,VC_IC_DB,_esc(g.group),g.tables.length+(g.tables.length===1?' table · ':' tables · ')+nGrpMap+' mappings',
+    mapBody+=nmFolder('nm:grp:'+gi,VC_IC_DB,_esc(g.group),g.tables.length+(g.tables.length===1?' table · ':' tables · ')+nGrpMap+' mappings',
       g.tables.map(function(t,ti){ return nmTableSection(t,'map:'+gi+':'+ti); }).join(''),false,{cls:'nm-f-map',badge:'DB ↔ JSON',rename:'title:grp:'+gi});
   });
+  out+=nmSection('nm:sec:map','nm-s-map',VC_IC_DB,'API Data Mapping',
+    'Maps fields from each API payload into MariaDB columns, table by table — this is where raw JSON becomes normalized Guardare schema data. Each card below covers one payload family.',
+    mapBody,true);
   return '<div class="gcfg nm-page">'+out+'</div>';
 }
 function nmCliPage(m){
