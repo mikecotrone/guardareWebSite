@@ -554,6 +554,11 @@
   .zx-segbtn:last-child{border-right:0}
   .zx-segbtn:first-child{border-radius:7px 0 0 7px}
   .zx-segbtn:last-child{border-radius:0 7px 7px 0}
+  .zx-seg-sm .zx-segbtn{padding:4px 12px;font-size:10.5px;font-weight:700}
+  .ev-opjoin{display:flex;align-items:center;gap:10px;margin:2px 0 10px}
+  .ev-opjoin:before{content:'';width:26px;height:1px;background:var(--line)}
+  .ev-opjoin:after{content:'';flex:1;height:1px;background:var(--line-soft)}
+  .ev-opfixed{font-size:10px;font-weight:800;color:var(--dim);letter-spacing:.05em;background:var(--raise);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
   .zx-segbtn:hover{color:var(--text)}
   .zx-segbtn.active{background:var(--teal-ghost);color:var(--teal-deep);box-shadow:inset 0 0 0 1px var(--teal)}
   .zx-segbtn.sev-p1.active{background:#ff5d5d22;color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
@@ -2920,7 +2925,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.504.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.505.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13696,7 +13701,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.504.alpha';
+const APP_VERSION='v2026.02.505.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -14964,7 +14969,11 @@ var UI_ACTS={
   'ev-cond-del':function(el,arg){ evtCondDel(arg); },
   'ev-filter':function(el,arg){ evtTypeFilter=arg; renderCfgMgr(); },
   'ev-loc':function(el,arg){ evtLocOpen(arg); },
-  'ev-segpick':function(el){ var g=el.closest('.zx-seg'); if(!g) return; g.querySelectorAll('.zx-segbtn').forEach(function(b){b.classList.remove('active');}); el.classList.add('active'); },
+  'ev-segpick':function(el){ var g=el.closest('.zx-seg'); if(!g) return; var v=el.getAttribute('data-v');
+    g.querySelectorAll('.zx-segbtn').forEach(function(b){ b.classList.toggle('active',b===el); });
+    var f=g.getAttribute('data-f'), ed=document.getElementById('evtEditor');
+    if(f&&ed){ ed.querySelectorAll('.zx-seg[data-f="'+f+'"]').forEach(function(o){ if(o===g) return;
+      o.querySelectorAll('.zx-segbtn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-v')===v); }); }); } },
   'ev-up':function(el,arg){ evtMove(arg,-1); },
   'ev-down':function(el,arg){ evtMove(arg,1); },
   'ev-revert':function(){ evtRevert(); },
@@ -15375,10 +15384,24 @@ function evtCondRow(c,grp,idx,noDel){
     (noDel?'<span></span>':'<button class="ev-x" data-act="ev-cond-del" data-arg="'+grp+':'+idx+'" title="'+TX('Remove condition')+'">×</button>')+
   '</div>';
 }
-function evtCondGroup(grp,node,addLbl){
+function evtCondGroup(grp,node,addLbl,opField){
   var conds=(node&&node.conditions)||[];
-  return conds.map(function(c,i){ return evtCondRow(c,grp,i); }).join('')+
-    '<button class="vc-rt-add nm-add" data-act="ev-cond-add" data-arg="'+grp+'">'+VC_IC_PLUS+TX(addLbl)+'</button>';
+  var op=(node&&node.operator)||'AND';
+  var htm='';
+  conds.forEach(function(c,i){
+    if(i>0){
+      if(opField){
+        htm+='<div class="ev-opjoin"><div class="zx-seg zx-seg-sm" data-f="'+opField+'">'+['AND','OR'].map(function(o){
+          return '<button type="button" class="zx-segbtn'+(o===op?' active':'')+'" data-act="ev-segpick" data-v="'+o+'">'+o+'</button>';
+        }).join('')+'</div></div>';
+      } else {
+        htm+='<div class="ev-opjoin"><span class="ev-opfixed">'+TX('OR')+'</span></div>';
+      }
+    }
+    htm+=evtCondRow(c,grp,i);
+  });
+  htm+='<button class="vc-rt-add nm-add" data-act="ev-cond-add" data-arg="'+grp+'">'+VC_IC_PLUS+TX(addLbl)+'</button>';
+  return htm;
 }
 function evtSect(t,hint,body){
   return '<div class="ev-sect"><div class="ev-sect-t">'+TX(t)+(hint?' <span>— '+TX(hint)+'</span>':'')+'</div>'+body+'</div>';
@@ -15414,11 +15437,9 @@ function evtEditor(){
   out+=sect('Scope','WHICH rows to watch (IF)');
   out+=row('Target table','<input class="tm-input mono" data-f="table" value="'+_esc(rl.target_table||'')+'" style="max-width:340px">',true);
   out+=row('Discriminator field','<input class="tm-input mono" data-f="disc" value="'+_esc(rl.discriminator_field||'')+'" placeholder="'+TX('optional — e.g. host, interfaceId')+'" style="max-width:340px">');
-  out+=row('Combine conditions with',seg('ifop',['AND','OR'],(rl['if']&&rl['if'].operator)||'AND'));
-  out+=row('Conditions',evtCondGroup('if',rl['if'],'Add new scope condition'));
+  out+=row('Conditions',evtCondGroup('if',rl['if'],'Add new scope condition','ifop'));
   out+=sect('Trigger','WHEN to fire the alert (THEN)');
-  out+=row('Combine conditions with',seg('thenop',['AND','OR'],(rl.then_match&&rl.then_match.operator)||'AND'));
-  out+=row('Conditions',evtCondGroup('then',rl.then_match,'Add new trigger condition'));
+  out+=row('Conditions',evtCondGroup('then',rl.then_match,'Add new trigger condition','thenop'));
   out+=sect('Alert','what the on-call engineer reads');
   out+=row('Alert title','<input class="tm-input" data-f="title" value="'+_esc((d.alert&&d.alert.title)||'')+'">',true);
   out+=row('Alert message','<textarea class="tm-input ev-ta" data-f="message">'+_esc((d.alert&&d.alert.message)||'')+'</textarea>'+
