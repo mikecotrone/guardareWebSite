@@ -541,6 +541,36 @@
   .ev-varhint .mono{color:var(--teal);background:var(--raise);border:1px solid var(--line-soft);border-radius:5px;padding:1px 5px;margin:0 1px}
   .ev-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .ev-foot .spacer{flex:1}
+  /* Zabbix-style trigger form */
+  .zx-form{gap:2px}
+  .zx-row{display:grid;grid-template-columns:210px 1fr;gap:6px 16px;align-items:start;padding:6px 0}
+  .zx-lbl{text-align:right;font-size:12px;color:var(--dim);padding-top:9px;font-weight:600}
+  .zx-req{color:var(--red);margin-right:3px}
+  .zx-fld{min-width:0}
+  .zx-sect{margin:14px 0 4px;padding:8px 12px;background:var(--raise);border:1px solid var(--line-soft);border-radius:8px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  .zx-sect span{font-weight:600;letter-spacing:0;text-transform:none;color:var(--mute)}
+  .zx-seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;vertical-align:middle}
+  .zx-segbtn{font:inherit;font-size:12px;font-weight:600;padding:7px 14px;background:var(--panel);border:0;border-right:1px solid var(--line);color:var(--dim);cursor:pointer;transition:.12s}
+  .zx-segbtn:last-child{border-right:0}
+  .zx-segbtn:first-child{border-radius:7px 0 0 7px}
+  .zx-segbtn:last-child{border-radius:0 7px 7px 0}
+  .zx-segbtn:hover{color:var(--text)}
+  .zx-segbtn.active{background:var(--teal-ghost);color:var(--teal-deep);box-shadow:inset 0 0 0 1px var(--teal)}
+  .zx-segbtn.sev-p1.active{background:#ff5d5d22;color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
+  .zx-segbtn.sev-p2.active{background:#f6b53f22;color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
+  .zx-segbtn.sev-p3.active{background:var(--teal-ghost);color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+  .zx-actions{display:flex;gap:8px;margin-top:16px;padding:14px 0 2px;border-top:1px solid var(--line-soft);align-items:center}
+  .zx-actions .spacer{flex:1}
+  .zx-chanrow{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+  .zx-chanstat{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700}
+  .zx-chanstat.on{color:var(--green)}
+  .zx-chanstat.off{color:var(--amber)}
+  .zx-mini{padding:6px 12px;font-size:11.5px}
+  .ev-prio{display:flex;flex-direction:column;align-items:center;gap:1px;flex:none;margin:-2px 2px 0 -4px}
+  .ev-prio-n{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12px;font-weight:800;color:var(--dim);background:var(--raise);border:1px solid var(--line);border-radius:7px;min-width:32px;text-align:center;padding:3px 5px}
+  .ev-prio button{border:0;background:none;color:var(--mute);cursor:pointer;font-size:8.5px;padding:1px 8px;line-height:1.2}
+  .ev-prio button:hover{color:var(--teal)}
+  @media(max-width:860px){ .zx-row{grid-template-columns:1fr} .zx-lbl{text-align:left;padding-top:0} }
   .sidebar-foot{margin-top:auto;padding:13px 12px;border-top:1px solid var(--line-soft)}
   .health-pill{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim)}
   .health-pill .dot{width:7px;height:7px;border-radius:99px;background:var(--green);box-shadow:0 0 8px var(--green)}
@@ -2890,7 +2920,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.500.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.504.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -5517,7 +5547,7 @@ deviceIdentityMapping:
 [
   {
     "id": "SNMP-DEVICE-DOWN-0001",
-    "name": "VLAN001 Device Down (SNMP) Check",
+    "name": "Core VLAN Device Down (SNMP) Check",
     "type": "snmp",
     "enabled": true,
     "severity_level": "P1",
@@ -5573,13 +5603,13 @@ deviceIdentityMapping:
   },
   {
     "id": "ALL-SW01-HIGH-CPU-0001",
-    "name": "CISCO SWITCH HIGH CPU",
+    "name": "Core Switch High CPU",
     "type": "snmp",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
       "title": "$ipAddress: HIGH CPU",
-      "message": "Cisco Switch $ipAddress has a high CPU 5 minute average above 80%: $queryResult %"
+      "message": "Switch $ipAddress has a high CPU 5 minute average above 80%: $queryResult %"
     },
     "rule_logic": {
       "target_table": "snmp_topology",
@@ -5635,12 +5665,12 @@ deviceIdentityMapping:
   },
   {
     "id": "ALL-SW01-HIGH-TEMP-0001",
-    "name": "CISCO SWITCH HIGH TEMPERATURE CHECK",
+    "name": "Core Switch High Temperature Check",
     "type": "snmp",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "Cisco Switch $ipAddress: High Temperature",
+      "title": "Switch $ipAddress: High Temperature",
       "message": "$ipAddress has a high temperature of $queryResult °C"
     },
     "rule_logic": {
@@ -5697,13 +5727,13 @@ deviceIdentityMapping:
   },
   {
     "id": "HQ-GSO-SW01-STP-0001",
-    "name": "CISCO SPANNING TREE TOPOLOGY CHANGE CHECK",
+    "name": "Spanning Tree Topology Change Check",
     "type": "snmp",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "Cisco Switch $ipAddress STP toplogy change has occured",
-      "message": "$ipAddress STP toplogy change has occured: $queryResult ago"
+      "title": "Switch $ipAddress STP topology change has occured",
+      "message": "$ipAddress STP topology change has occured: $queryResult ago"
     },
     "rule_logic": {
       "target_table": "snmp_topology",
@@ -5759,12 +5789,12 @@ deviceIdentityMapping:
   },
   {
     "id": "HQ-GSO-C3650-Core_SW01-BGP-0001",
-    "name": "EBGP RECEVIED ROUTES CHECK",
+    "name": "eBGP Received Routes Check",
     "type": "snmp",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "Cisco Switch $ipAddress eBGP Routing Table Changed",
+      "title": "Switch $ipAddress eBGP Routing Table Changed",
       "message": "$ipAddress eBGP routing table has changed. eBGP RT was 14 routes and now is: $queryResult routes."
     },
     "rule_logic": {
@@ -5821,7 +5851,7 @@ deviceIdentityMapping:
   },
   {
     "id": "API-CORE-DEVICE-DOWN-0001",
-    "name": "VLAN 01: Unifi Core Device Down Check",
+    "name": "Core VLAN: Managed Device Down Check",
     "type": "api",
     "enabled": true,
     "severity_level": "P1",
@@ -5890,7 +5920,7 @@ deviceIdentityMapping:
   },
   {
     "id": "API-CORE-HIGH-CPU-0001",
-    "name": "Unifi Core Device High CPU Check",
+    "name": "Managed Device High CPU Check",
     "type": "api",
     "enabled": true,
     "severity_level": "P2",
@@ -5946,7 +5976,7 @@ deviceIdentityMapping:
   },
   {
     "id": "API-CORE-HIGH-MEMORY-0001",
-    "name": "Unifi Core Device High Memory Utilization",
+    "name": "Managed Device High Memory Utilization",
     "type": "api",
     "enabled": true,
     "severity_level": "P2",
@@ -6002,7 +6032,7 @@ deviceIdentityMapping:
   },
   {
     "id": "API-CORE-NOT-ADOPTED-0001",
-    "name": "Unifi Core Device Not Adopted By Controller",
+    "name": "Managed Device Not Adopted By Controller",
     "type": "api",
     "enabled": true,
     "severity_level": "P1",
@@ -6058,7 +6088,7 @@ deviceIdentityMapping:
   },
   {
     "id": "API-CORE-HIGH-TEMPERATURE-0001",
-    "name": "Unifi Core Device High Temperature",
+    "name": "Managed Device High Temperature",
     "type": "api",
     "enabled": true,
     "severity_level": "P2",
@@ -6114,7 +6144,7 @@ deviceIdentityMapping:
   },
   {
     "id": "API-STP-PORT-STATE-CHG-0001",
-    "name": "Unifi STP State Change on Interface",
+    "name": "STP State Change on Interface",
     "type": "api",
     "enabled": true,
     "severity_level": "P2",
@@ -6171,7 +6201,7 @@ deviceIdentityMapping:
   },
   {
     "id": "API-PORT-ANOMALY-COUNTER-0001",
-    "name": "Unifi Switch Port Anomaly Counter High",
+    "name": "Switch Port Anomaly Counter High",
     "type": "api",
     "enabled": true,
     "severity_level": "P2",
@@ -6228,7 +6258,7 @@ deviceIdentityMapping:
   },
   {
     "id": "UPTIMETRACER-GLOBAL-0001",
-    "name": "PING FOR DOWN STATUS",
+    "name": "Ping For Down Status",
     "type": "cli",
     "enabled": true,
     "severity_level": "P1",
@@ -6285,7 +6315,7 @@ deviceIdentityMapping:
   },
   {
     "id": "CLOUD-FLARE-LATENCYTRACER-0001",
-    "name": "Latency Tracer: Cloud Flare 1.1.1.1",
+    "name": "Latency Tracer: Public DNS 1.1.1.1",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
@@ -6347,13 +6377,13 @@ deviceIdentityMapping:
   },
   {
     "id": "PATT-DNS-VM-01-0017",
-    "name": "Latency Tracer: NC03 DNS vServer #1 (10.200.1.2)",
+    "name": "Latency Tracer: DC01 DNS vServer #1",
     "type": "cli",
     "enabled": true,
     "severity_level": "P1",
     "alert": {
-      "title": "Latency Tracer: NC03 DNS vServer (10.200.1.2) has high latency",
-      "message": "DNS Server at NC03 10.200.1.2 has high latency: $pingAvg ms. Please check the physical host hardware for issues."
+      "title": "Latency Tracer: DC01 DNS vServer #1 has high latency",
+      "message": "DNS Server #1 at DC01 has high latency: $pingAvg ms. Please check the physical host hardware for issues."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6409,13 +6439,13 @@ deviceIdentityMapping:
   },
   {
     "id": "PATT-DNS-VM-02-0018",
-    "name": "Latency Tracer: NC03 DNS vServer #2 (10.200.6.2)",
+    "name": "Latency Tracer: DC01 DNS vServer #2",
     "type": "cli",
     "enabled": true,
     "severity_level": "P1",
     "alert": {
-      "title": "Latency Tracer: NC03 DNS vServer (10.200.6.2) has high latency",
-      "message": "DNS Server at NC03 10.200.6.2 has high latency: $pingAvg ms. Please check the physical host hardware for issues."
+      "title": "Latency Tracer: DC01 DNS vServer #2 has high latency",
+      "message": "DNS Server #2 at DC01 has high latency: $pingAvg ms. Please check the physical host hardware for issues."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6471,13 +6501,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-VA04-0001",
-    "name": "SDWAN Tunnel Down: VA04 ShenandoahAve-Roanoke",
+    "name": "SDWAN Tunnel Down: VA04 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (VA04 — ShenandoahAve-Roanoke)",
-      "message": "The SD-WAN tunnel to VA04 (ShenandoahAve-Roanoke) is DOWN — 100% packet loss to the site gateway $host. Location: 2708 Shenandoah Ave NW, Roanoke, VA 24017 (Roanoke, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Roanoke have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.8.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (VA04 — Remote Site)",
+      "message": "The SD-WAN tunnel to VA04 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.8.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6528,13 +6558,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC10-0001",
-    "name": "WAN Circuit Down: NC10 PiedmontPkwy-Greensboro",
+    "name": "WAN Circuit Down: NC10 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "WAN Circuit Down (NC10 — PiedmontPkwy-Greensboro) [MPLS]",
-      "message": "The MPLS circuit to NC10 (PiedmontPkwy-Greensboro) is DOWN — 100% packet loss to the site gateway $host. Location: 4321 Piedmont Pkwy, Greensboro, NC 27410 (Greensboro, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the MPLS WAN — local users at Greensboro have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the MPLS provider circuit and the site edge router. This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "WAN Circuit Down (NC10 — Remote Site) [MPLS]",
+      "message": "The MPLS circuit to NC10 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the MPLS WAN — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the MPLS provider circuit and the site edge router. This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6585,13 +6615,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC07-0001",
-    "name": "SDWAN Tunnel Down: SC07 ENorthSt-Greenville",
+    "name": "SDWAN Tunnel Down: SC07 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC07 — ENorthSt-Greenville)",
-      "message": "The SD-WAN tunnel to SC07 (ENorthSt-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 500 E North St, Suite A, Greenville, SC (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.20.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC07 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC07 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.20.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6642,13 +6672,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC05-0001",
-    "name": "SDWAN Tunnel Down: NC05 NoblinRd-Raleigh",
+    "name": "SDWAN Tunnel Down: NC05 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC05 — NoblinRd-Raleigh)",
-      "message": "The SD-WAN tunnel to NC05 (NoblinRd-Raleigh) is DOWN — 100% packet loss to the site gateway $host. Location: 2741 Noblin Rd, Suite 100, Raleigh, NC 27604 (Raleigh, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Raleigh have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.24.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC05 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC05 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.24.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6699,13 +6729,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC08-0001",
-    "name": "SDWAN Tunnel Down: SC08 GarlingtonRd-Greenville",
+    "name": "SDWAN Tunnel Down: SC08 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC08 — GarlingtonRd-Greenville)",
-      "message": "The SD-WAN tunnel to SC08 (GarlingtonRd-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 297 Garlington Rd, Greenville, SC 29615 (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.28.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC08 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC08 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.28.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6756,13 +6786,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC09-0001",
-    "name": "SDWAN Tunnel Down: NC09 AlbertPick-Greensboro",
+    "name": "SDWAN Tunnel Down: NC09 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC09 — AlbertPick-Greensboro)",
-      "message": "The SD-WAN tunnel to NC09 (AlbertPick-Greensboro) is DOWN — 100% packet loss to the site gateway $host. Location: 7021 Albert Pick Rd, Suite 200, Greensboro, NC 27409 (Greensboro, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greensboro have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.32.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC09 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC09 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.32.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6813,13 +6843,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-TN01-0001",
-    "name": "SDWAN Tunnel Down: TN01 WesternAve-Knoxville",
+    "name": "SDWAN Tunnel Down: TN01 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (TN01 — WesternAve-Knoxville)",
-      "message": "The SD-WAN tunnel to TN01 (WesternAve-Knoxville) is DOWN — 100% packet loss to the site gateway $host. Location: 4702 Western Ave, Suite 101, Knoxville, TN 37921 (Knoxville, TN). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Knoxville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.36.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (TN01 — Remote Site)",
+      "message": "The SD-WAN tunnel to TN01 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.36.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6870,13 +6900,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC01-0001",
-    "name": "SDWAN Tunnel Down: NC01 SandhillRd-Candler",
+    "name": "SDWAN Tunnel Down: NC01 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC01 — SandhillRd-Candler)",
-      "message": "The SD-WAN tunnel to NC01 (SandhillRd-Candler) is DOWN — 100% packet loss to the site gateway $host. Location: 1388 Sandhill Rd, Suite 8, Candler, NC 28715 (Candler, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Candler have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.40.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC01 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC01 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.40.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6927,13 +6957,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC05-0001",
-    "name": "SDWAN Tunnel Down: SC05 DeannaLane-Wando",
+    "name": "SDWAN Tunnel Down: SC05 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC05 — DeannaLane-Wando)",
-      "message": "The SD-WAN tunnel to SC05 (DeannaLane-Wando) is DOWN — 100% packet loss to the site gateway $host. Location: 459 Deanna Ln, Charleston, SC 29492 (Charleston, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Charleston have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.44.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC05 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC05 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.44.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -6984,13 +7014,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC09-0001",
-    "name": "SDWAN Tunnel Down: SC09 MarcusDr-Greenville",
+    "name": "SDWAN Tunnel Down: SC09 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC09 — MarcusDr-Greenville)",
-      "message": "The SD-WAN tunnel to SC09 (MarcusDr-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 95 Marcus Dr, Greenville, SC 29615 (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.48.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC09 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC09 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.48.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7041,13 +7071,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC04-0001",
-    "name": "SDWAN Tunnel Down: SC04 VantagePointDr-Cayce",
+    "name": "SDWAN Tunnel Down: SC04 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC04 — VantagePointDr-Cayce)",
-      "message": "The SD-WAN tunnel to SC04 (VantagePointDr-Cayce) is DOWN — 100% packet loss to the site gateway $host. Location: 104 Vantage Point Dr, West Columbia, SC 29172 (West Columbia, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at West Columbia have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.60.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC04 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC04 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.60.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7098,13 +7128,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC02-0001",
-    "name": "SDWAN Tunnel Down: SC02 ChildsSt-Irmo",
+    "name": "SDWAN Tunnel Down: SC02 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC02 — ChildsSt-Irmo)",
-      "message": "The SD-WAN tunnel to SC02 (ChildsSt-Irmo) is DOWN — 100% packet loss to the site gateway $host. Location: 7313 Childs St, Irmo, SC 29063 (Irmo, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Irmo have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.64.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC02 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC02 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.64.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7155,13 +7185,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-VA03-0001",
-    "name": "SDWAN Tunnel Down: VA03 WestwoodAve-Richmond",
+    "name": "SDWAN Tunnel Down: VA03 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (VA03 — WestwoodAve-Richmond)",
-      "message": "The SD-WAN tunnel to VA03 (WestwoodAve-Richmond) is DOWN — 100% packet loss to the site gateway $host. Location: 2117 Westwood Ave, Richmond, VA 23230 (Richmond, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Richmond have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.68.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (VA03 — Remote Site)",
+      "message": "The SD-WAN tunnel to VA03 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.68.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7212,13 +7242,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-VA01-0001",
-    "name": "SDWAN Tunnel Down: VA01 ProfessionalPl-Chesapeake",
+    "name": "SDWAN Tunnel Down: VA01 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (VA01 — ProfessionalPl-Chesapeake)",
-      "message": "The SD-WAN tunnel to VA01 (ProfessionalPl-Chesapeake) is DOWN — 100% packet loss to the site gateway $host. Location: 928 Professional Pl, Chesapeake, VA 23320 (Chesapeake, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Chesapeake have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.72.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (VA01 — Remote Site)",
+      "message": "The SD-WAN tunnel to VA01 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.72.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7269,13 +7299,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC06-0001",
-    "name": "SDWAN Tunnel Down: NC06 MarketSt-Wilmington",
+    "name": "SDWAN Tunnel Down: NC06 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC06 — MarketSt-Wilmington)",
-      "message": "The SD-WAN tunnel to NC06 (MarketSt-Wilmington) is DOWN — 100% packet loss to the site gateway $host. Location: 2905 Market St, Wilmington, NC 28403 (Wilmington, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Wilmington have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.76.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC06 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC06 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.76.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7326,13 +7356,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC07-0001",
-    "name": "SDWAN Tunnel Down: NC07 WindmillWay-Wilmington",
+    "name": "SDWAN Tunnel Down: NC07 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC07 — WindmillWay-Wilmington)",
-      "message": "The SD-WAN tunnel to NC07 (WindmillWay-Wilmington) is DOWN — 100% packet loss to the site gateway $host. Location: 6615-B Windmill Way, Wilmington, NC 28405 (Wilmington, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Wilmington have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.80.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC07 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC07 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.80.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7383,13 +7413,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC08-0001",
-    "name": "WAN Circuit Down: NC08 UpperAsbury-Charlotte",
+    "name": "WAN Circuit Down: NC08 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "WAN Circuit Down (NC08 — UpperAsbury-Charlotte) [MPLS]",
-      "message": "The MPLS circuit to NC08 (UpperAsbury-Charlotte) is DOWN — 100% packet loss to the site gateway $host. Location: 1133 Upper Asbury Ave, Charlotte, NC 28206 (Charlotte, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the MPLS WAN — local users at Charlotte have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the MPLS provider circuit and the site edge router. This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "WAN Circuit Down (NC08 — Remote Site) [MPLS]",
+      "message": "The MPLS circuit to NC08 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the MPLS WAN — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the MPLS provider circuit and the site edge router. This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7440,13 +7470,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC03-0001",
-    "name": "SDWAN Tunnel Down: SC03 TrotterCt-Columbia",
+    "name": "SDWAN Tunnel Down: SC03 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC03 — TrotterCt-Columbia)",
-      "message": "The SD-WAN tunnel to SC03 (TrotterCt-Columbia) is DOWN — 100% packet loss to the site gateway $host. Location: 2 C Trotter Rd, West Columbia, SC 29169 (West Columbia, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at West Columbia have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.100.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC03 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC03 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.100.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7497,13 +7527,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-TN02-0001",
-    "name": "SDWAN Tunnel Down: TN02 GrassmerePark-Nashville",
+    "name": "SDWAN Tunnel Down: TN02 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (TN02 — GrassmerePark-Nashville)",
-      "message": "The SD-WAN tunnel to TN02 (GrassmerePark-Nashville) is DOWN — 100% packet loss to the site gateway $host. Location: 658 Grassmere Park Dr, Suite 101, Nashville, TN 37211 (Nashville, TN). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Nashville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.108.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (TN02 — Remote Site)",
+      "message": "The SD-WAN tunnel to TN02 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.108.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7554,13 +7584,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-GA01-0001",
-    "name": "SDWAN Tunnel Down: GA01 FrankeIndustrialDr-Augusta",
+    "name": "SDWAN Tunnel Down: GA01 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (GA01 — FrankeIndustrialDr-Augusta)",
-      "message": "The SD-WAN tunnel to GA01 (FrankeIndustrialDr-Augusta) is DOWN — 100% packet loss to the site gateway $host. Location: 1068 Franke Industrial Dr, Augusta, GA 30909 (Augusta, GA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Augusta have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.112.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (GA01 — Remote Site)",
+      "message": "The SD-WAN tunnel to GA01 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.112.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7611,13 +7641,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC10-0001",
-    "name": "SDWAN Tunnel Down: SC10 PleasantburgDr-Greenville",
+    "name": "SDWAN Tunnel Down: SC10 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC10 — PleasantburgDr-Greenville)",
-      "message": "The SD-WAN tunnel to SC10 (PleasantburgDr-Greenville) is DOWN — 100% packet loss to the site gateway $host. Location: 918 S Pleasantburg Dr, Greenville, SC 29607 (Greenville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greenville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.116.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC10 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC10 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.116.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7668,13 +7698,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-TN03-0001",
-    "name": "SDWAN Tunnel Down: TN03 CenturyOaksDr-Chattanooga",
+    "name": "SDWAN Tunnel Down: TN03 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (TN03 — CenturyOaksDr-Chattanooga)",
-      "message": "The SD-WAN tunnel to TN03 (CenturyOaksDr-Chattanooga) is DOWN — 100% packet loss to the site gateway $host. Location: 6011 Century Oaks Dr, Chattanooga, TN 37416 (Chattanooga, TN). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Chattanooga have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.120.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (TN03 — Remote Site)",
+      "message": "The SD-WAN tunnel to TN03 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.120.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7725,13 +7755,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC11-0001",
-    "name": "SDWAN Tunnel Down: NC11 VanDykeDr-Wilmington",
+    "name": "SDWAN Tunnel Down: NC11 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC11 — VanDykeDr-Wilmington)",
-      "message": "The SD-WAN tunnel to NC11 (VanDykeDr-Wilmington) is DOWN — 100% packet loss to the site gateway $host. Location: 315 Van Dyke Dr, Wilmington, NC 28405 (Wilmington, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Wilmington have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.124.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC11 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC11 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.124.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7782,13 +7812,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC06-0001",
-    "name": "SDWAN Tunnel Down: SC06 TrigardLn-Charleston",
+    "name": "SDWAN Tunnel Down: SC06 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC06 — TrigardLn-Charleston)",
-      "message": "The SD-WAN tunnel to SC06 (TrigardLn-Charleston) is DOWN — 100% packet loss to the site gateway $host. Location: 114 Trigard Ln, Unit B, Summerville, SC 29483 (Summerville, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Summerville have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.128.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC06 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC06 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.128.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7839,13 +7869,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-GA02-0001",
-    "name": "SDWAN Tunnel Down: GA02 LakefieldDr-Suwanee",
+    "name": "SDWAN Tunnel Down: GA02 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (GA02 — LakefieldDr-Suwanee)",
-      "message": "The SD-WAN tunnel to GA02 (LakefieldDr-Suwanee) is DOWN — 100% packet loss to the site gateway $host. Location: 3871 Lakefield Dr, Suite 300, Suwanee, GA 30024 (Suwanee, GA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Suwanee have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.130.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (GA02 — Remote Site)",
+      "message": "The SD-WAN tunnel to GA02 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.130.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7896,13 +7926,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC04-0001",
-    "name": "SDWAN Tunnel Down: NC04 HobbyCt-Raleigh",
+    "name": "SDWAN Tunnel Down: NC04 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC04 — HobbyCt-Raleigh)",
-      "message": "The SD-WAN tunnel to NC04 (HobbyCt-Raleigh) is DOWN — 100% packet loss to the site gateway $host. Location: 3321 Hobby Ct, Raleigh, NC 27604 (Raleigh, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Raleigh have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.132.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC04 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC04 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.132.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -7953,13 +7983,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-NC02-0001",
-    "name": "SDWAN Tunnel Down: NC02 7915TriadCntDr-Greensboro",
+    "name": "SDWAN Tunnel Down: NC02 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (NC02 — 7915TriadCntDr-Greensboro)",
-      "message": "The SD-WAN tunnel to NC02 (7915TriadCntDr-Greensboro) is DOWN — 100% packet loss to the site gateway $host. Location: 9715 Triad Center Dr, Greensboro, NC 27407 (Greensboro, NC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Greensboro have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.136.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (NC02 — Remote Site)",
+      "message": "The SD-WAN tunnel to NC02 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.136.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -8010,13 +8040,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-SC01-0001",
-    "name": "SDWAN Tunnel Down: SC01 PalmettoSt-Florence",
+    "name": "SDWAN Tunnel Down: SC01 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (SC01 — PalmettoSt-Florence)",
-      "message": "The SD-WAN tunnel to SC01 (PalmettoSt-Florence) is DOWN — 100% packet loss to the site gateway $host. Location: 4019 W Palmetto St, Florence, SC 29501 (Florence, SC). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Florence have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.140.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (SC01 — Remote Site)",
+      "message": "The SD-WAN tunnel to SC01 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.140.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -8067,13 +8097,13 @@ deviceIdentityMapping:
   },
   {
     "id": "SDWAN-UPTIME-VA02-0001",
-    "name": "SDWAN Tunnel Down: VA02 RWH-Norfolk",
+    "name": "SDWAN Tunnel Down: VA02 Remote Site",
     "type": "cli",
     "enabled": true,
     "severity_level": "P2",
     "alert": {
-      "title": "SDWAN Tunnel Down (VA02 — RWH-Norfolk)",
-      "message": "The SD-WAN tunnel to VA02 (RWH-Norfolk) is DOWN — 100% packet loss to the site gateway $host. Location: 7420 Central Business Park Dr #3, Norfolk, VA 23513 (Norfolk, VA). The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at Norfolk have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.144.1). This alert auto-clears when the site responds again (probeStatus=ok)."
+      "title": "SDWAN Tunnel Down (VA02 — Remote Site)",
+      "message": "The SD-WAN tunnel to VA02 (Remote Site) is DOWN — 100% packet loss to the site gateway $host. The probe reached the collector but received no reply (probeStatus=unreachable), so this is a genuine site/WAN outage, not a collector gap or restart artifact. Impact: this location is isolated from the SD-WAN fabric — local users at this site have no connectivity to HQ/cloud resources routed over the WAN. Action: verify the site's WAN/ISP circuit and power at the edge device, then check the SD-WAN hub for the OSPF neighbor/adjacency state to this spoke (the overlay runs OSPF) and the site edge gateway (10.200.144.1). This alert auto-clears when the site responds again (probeStatus=ok)."
     },
     "rule_logic": {
       "target_table": "cliPingProfile",
@@ -12207,6 +12237,17 @@ const TENANT_INTG={
 const TENANT_INTG_TOTAL=Object.keys(TENANT_INTG).length;
 function tIntg(tenant,id){ return (TENANT_INTG[tenant]||{})[id]||null; }
 function tenantConnCount(id){ return Object.keys(TENANT_INTG).filter(t=>{const s=tIntg(t,id);return s&&s.connected;}).length; }
+function _intgPersist(){ try{
+  var plat={}; INTEGRATIONS.forEach(function(i){ plat[i.id]=!!i.connected; });
+  var ten={}; Object.keys(TENANT_INTG).forEach(function(t){ ten[t]={}; Object.keys(TENANT_INTG[t]).forEach(function(id){ ten[t][id]={connected:!!TENANT_INTG[t][id].connected, endpoint:TENANT_INTG[t][id].endpoint}; }); });
+  localStorage.setItem('guardare_intg_conn', JSON.stringify({plat:plat,ten:ten}));
+}catch(e){} }
+(function _intgRestore(){ try{
+  var raw=localStorage.getItem('guardare_intg_conn'); if(!raw) return;
+  var d=JSON.parse(raw);
+  if(d.plat) INTEGRATIONS.forEach(function(i){ if(Object.prototype.hasOwnProperty.call(d.plat,i.id)) i.connected=!!d.plat[i.id]; });
+  if(d.ten) Object.keys(d.ten).forEach(function(t){ TENANT_INTG[t]=TENANT_INTG[t]||{}; Object.keys(d.ten[t]).forEach(function(id){ TENANT_INTG[t][id]=d.ten[t][id]; }); });
+}catch(e){} })();
 function setIntgField(id,idx,val){ const it=INTEGRATIONS.find(i=>i.id===id); if(!it||!it.fields[idx]) return; it.fields[idx][2]=val;
   if(id==='open-meteo' && it.fields[idx][0]==='Units'){
     _wxUnitsPersist(id,val); WX_CACHE={};
@@ -13655,7 +13696,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.500.alpha';
+const APP_VERSION='v2026.02.504.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -14923,6 +14964,10 @@ var UI_ACTS={
   'ev-cond-del':function(el,arg){ evtCondDel(arg); },
   'ev-filter':function(el,arg){ evtTypeFilter=arg; renderCfgMgr(); },
   'ev-loc':function(el,arg){ evtLocOpen(arg); },
+  'ev-segpick':function(el){ var g=el.closest('.zx-seg'); if(!g) return; g.querySelectorAll('.zx-segbtn').forEach(function(b){b.classList.remove('active');}); el.classList.add('active'); },
+  'ev-up':function(el,arg){ evtMove(arg,-1); },
+  'ev-down':function(el,arg){ evtMove(arg,1); },
+  'ev-revert':function(){ evtRevert(); },
   'gcfg-loctoggle':function(el,arg,ev){ gcfgLocToggle(ev); },
   'gcfg-locpick':function(el){ gcfgLocPick(el.getAttribute('data-name')); },
   'tk-view-provider':function(){ tkViewInProvider(); },
@@ -15239,7 +15284,10 @@ const EVT_VTYPES=['string','integer','double','boolean'];
 const EVT_CHANNELS=['pagerduty','slack','email','teams','webhook'];
 const EVT_TABLES={snmp:'snmp_topology',api:'networkDeviceProfile',cli:'cliPingProfile'};
 function evtRules(){
-  if(!EVT_RULES){ try{ EVT_RULES=JSON.parse(document.getElementById('cfg-events').textContent); }catch(e){ EVT_RULES=[]; } }
+  if(!EVT_RULES){
+    try{ var ls=localStorage.getItem('guardare_evt_rules'); if(ls) EVT_RULES=JSON.parse(ls); }catch(e){}
+    if(!EVT_RULES){ try{ EVT_RULES=JSON.parse(document.getElementById('cfg-events').textContent); }catch(e){ EVT_RULES=[]; } }
+  }
   return EVT_RULES;
 }
 function evtSevChip(sv){
@@ -15273,21 +15321,27 @@ function evtStatRow(rules){
   var en=rules.filter(function(r){return r.enabled;}).length;
   var p1=rules.filter(function(r){return r.severity_level==='P1';}).length;
   var p2=rules.filter(function(r){return r.severity_level==='P2';}).length;
-  var ch={}; rules.forEach(function(r){ ch[(r.notification&&r.notification.channel)||'—']=1; });
-  var stat=function(ic,num,lbl,ac,acg){ return '<div class="vc-stat" style="--ac:'+ac+';--acg:'+acg+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div></div></div>'; };
+  var ch={}; rules.forEach(function(r){ var c=(r.notification&&r.notification.channel)||'—'; ch[c]=(ch[c]||0)+1; });
+  var chPills=Object.keys(ch).map(function(k){ var it=INTEGRATIONS.find(function(i){return i.id===k;}); return '<span class="vc-stat-pill">'+_esc(it?it.name:k)+' · '+ch[k]+'</span>'; }).join('');
+  var stat=function(ic,num,lbl,ac,acg,sub){ return '<div class="vc-stat" style="--ac:'+ac+';--acg:'+acg+'"><span class="vc-stat-ic">'+ic+'</span><div><div class="vc-stat-num">'+num+'</div><div class="vc-stat-lbl">'+lbl+'</div>'+(sub?'<div class="vc-stat-sub">'+sub+'</div>':'')+'</div></div>'; };
   return '<div class="vc-summary"><div class="vc-summary-t">'+VC_IC_DB+' '+TX('Rule Set Overview')+'</div><div class="vc-statrow">'+
     stat(VC_IC_DB,rules.length,TX('Total Rules'),'var(--teal)','var(--teal-ghost)')+
     stat(VC_IC_API,en+' / '+rules.length,TX('Enabled'),'var(--green)','var(--green-ghost)')+
     stat(VC_IC_SNMP,p1,TX('P1 Critical'),'var(--red)','#ff5d5d14')+
     stat(VC_IC_CLI,p2,TX('P2 Major'),'var(--amber)','#f6b53f14')+
-    stat(VC_IC_LAYERS,Object.keys(ch).join(', '),TX('Notification Channel'),'var(--violet)','var(--violet-ghost)')+
+    stat(VC_IC_LAYERS,Object.keys(ch).length,TX('Channels In Use'),'var(--violet)','var(--violet-ghost)',chPills)+
   '</div></div>';
 }
 function evtRuleCard(r){
+  var all=evtRules(), n=all.indexOf(r)+1;
   var open=(evtOpenId===r.id);
   var loc=evtLocOf(r);
   var pin='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>';
-  var head='<div class="ev-head" data-act="ev-open" data-arg="'+_esc(r.id)+'">'+
+  var prio='<div class="ev-prio" title="'+TX('Processing priority — rules are evaluated top-down')+'">'+
+    '<button data-act="ev-up" data-arg="'+_esc(r.id)+'" title="'+TX('Move up (raise priority)')+'">▲</button>'+
+    '<span class="ev-prio-n">'+n+'</span>'+
+    '<button data-act="ev-down" data-arg="'+_esc(r.id)+'" title="'+TX('Move down (lower priority)')+'">▼</button></div>';
+  var head='<div class="ev-head" data-act="ev-open" data-arg="'+_esc(r.id)+'">'+prio+
     evtSevChip(r.severity_level)+
     '<div class="ev-headmain"><div class="ev-name">'+_esc(r.name)+(r.enabled?'':' <span class="ev-dis">'+TX('disabled')+'</span>')+'</div>'+
     '<div class="ev-id mono">'+_esc(r.id)+' · '+_esc((r.rule_logic&&r.rule_logic.target_table)||'')+'</div>'+
@@ -15333,55 +15387,61 @@ function evtField(lbl,inner){ return '<div class="gcfg-field"><label>'+TX(lbl)+'
 function evtEditor(){
   var d=evtDraft; if(!d) return '';
   var rl=d.rule_logic;
-  var sel=function(f,opts,cur){ return '<select class="tm-input" data-f="'+f+'">'+opts.map(function(o){return '<option'+(o===cur?' selected':'')+'>'+o+'</option>';}).join('')+'</select>'; };
+  var seg=function(f,opts,cur){ return '<div class="zx-seg" data-f="'+f+'">'+opts.map(function(o){
+      var v=(typeof o==='string')?o:o[0], lbl=(typeof o==='string')?o:o[1], cls=(typeof o==='string')?'':(o[2]||'');
+      return '<button type="button" class="zx-segbtn '+cls+(v===cur?' active':'')+'" data-act="ev-segpick" data-v="'+_esc(v)+'">'+_esc(lbl)+'</button>';
+    }).join('')+'</div>'; };
+  var row=function(lbl,body,req){ return '<div class="zx-row"><div class="zx-lbl">'+(req?'<span class="zx-req">*</span>':'')+TX(lbl)+'</div><div class="zx-fld">'+body+'</div></div>'; };
+  var sect=function(t,hint){ return '<div class="zx-sect">'+TX(t)+(hint?' <span>— '+TX(hint)+'</span>':'')+'</div>'; };
   var chk=function(f,on,lbl){ return '<label class="ev-chk"><input type="checkbox" data-f="'+f+'"'+(on?' checked':'')+'> '+TX(lbl)+'</label>'; };
   var others=evtRules().filter(function(r){return r.id!==d.id;}).map(function(r){return r.id;});
-  var identity='<div class="ev-grid">'+
-    evtField('Rule name','<input class="tm-input" data-f="name" value="'+_esc(d.name||'')+'">')+
-    evtField('Rule ID','<input class="tm-input mono" data-f="id" value="'+_esc(d.id||'')+'">')+
-    evtField('Severity',sel('sev',['P1','P2','P3'],d.severity_level))+
-    evtField('Source type',sel('type',['snmp','api','cli'],d.type))+
-    '</div>';
-  var scope='<div class="ev-grid" style="margin-bottom:10px">'+
-    evtField('Target table','<input class="tm-input mono" data-f="table" value="'+_esc(rl.target_table||'')+'">')+
-    evtField('Discriminator field (optional)','<input class="tm-input mono" data-f="disc" value="'+_esc(rl.discriminator_field||'')+'" placeholder="'+TX('e.g. host, interfaceId')+'">')+
-    evtField('Combine conditions with',sel('ifop',['AND','OR'],(rl['if']&&rl['if'].operator)||'AND'))+
-    '</div>'+evtCondGroup('if',rl['if'],'Add new scope condition');
-  var trig='<div class="ev-grid" style="margin-bottom:10px">'+
-    evtField('Combine conditions with',sel('thenop',['AND','OR'],(rl.then_match&&rl.then_match.operator)||'AND'))+
-    '</div>'+evtCondGroup('then',rl.then_match,'Add new trigger condition');
-  var alert_='<div class="ev-grid" style="grid-template-columns:1fr">'+
-    evtField('Alert title','<input class="tm-input" data-f="title" value="'+_esc((d.alert&&d.alert.title)||'')+'">')+
-    evtField('Alert message','<textarea class="tm-input ev-ta" data-f="message">'+_esc((d.alert&&d.alert.message)||'')+'</textarea>')+
-    '</div><div class="ev-varhint">'+TX('Use $variables from the target table row, e.g.')+' <span class="mono">$HOSTNAME</span> <span class="mono">$IPADDRESS</span> <span class="mono">$host</span> <span class="mono">$pingAvg</span> <span class="mono">$queryResult</span></div>';
-  var beh='<div class="ev-grid" style="margin-bottom:10px">'+
-    evtField('Alert delay counter','<input class="tm-input" type="number" min="0" data-f="delay" value="'+(d.alert_delay_counter||0)+'">')+
-    '<div class="gcfg-field"><label>'+TX('Autoclear')+'</label>'+chk('acen',d.autoclear&&d.autoclear.enabled,'Automatically clear the alert when the condition below is true')+'</div>'+
-    '</div>'+evtCondRow(d.autoclear.condition||{field:'',op:'=',value:'',type:'string'},'ac',0,true)+
-    '<div class="ev-sect-t" style="margin-top:12px">'+TX('Suppress')+' <span>— '+TX('never fire while any of these match')+'</span></div>'+
-    evtCondGroup('sup',d.suppress,'Add new suppress condition');
-  var routing='<div class="ev-grid">'+
-    evtField('Notification channel',sel('channel',EVT_CHANNELS,(d.notification&&d.notification.channel)||'pagerduty'))+
-    evtField('Dependency mode',sel('depmode',['none','parent'],(d.dependency&&d.dependency.mode)||'none'))+
-    evtField('Parent rule',sel('depid',[''].concat(others),(d.dependency&&d.dependency.parent_rule_id)||''))+
-    '</div>';
+  /* communications channel — bound to the live Integrations registry */
+  var ch=(d.notification&&d.notification.channel)||'pagerduty';
+  var chans=evtChannels();
+  var known=chans.some(function(i){return i.id===ch;});
+  var chOpts=(known?'':'<option value="'+_esc(ch)+'" selected>'+_esc(ch)+' — '+TX('legacy value')+'</option>')+
+    chans.map(function(i){ return '<option value="'+_esc(i.id)+'"'+(i.id===ch?' selected':'')+'>'+_esc(i.name)+(evtChanConnected(i.id)?'':' — '+TX('not connected'))+'</option>'; }).join('');
+  var cur=INTEGRATIONS.find(function(i){return i.id===ch;});
+  var chStat=(cur&&evtChanConnected(ch))
+    ? '<span class="zx-chanstat on" id="evChanStat">● '+TX('Connected — routing live')+'</span>'
+    : '<span class="zx-chanstat off" id="evChanStat">● '+TX(cur?'Not connected — alerts will queue':'Not in Integrations')+'</span>';
+  var out='';
+  out+=sect('Rule');
+  out+=row('Name','<input class="tm-input" data-f="name" value="'+_esc(d.name||'')+'">',true);
+  out+=row('Rule ID','<input class="tm-input mono" data-f="id" value="'+_esc(d.id||'')+'">',true);
+  out+=row('Severity',seg('sev',[['P1','P1 · Critical','sev-p1'],['P2','P2 · Major','sev-p2'],['P3','P3 · Minor','sev-p3']],d.severity_level));
+  out+=row('Source type',seg('type',[['snmp','SNMP'],['api','API'],['cli','CLI']],d.type));
+  out+=sect('Scope','WHICH rows to watch (IF)');
+  out+=row('Target table','<input class="tm-input mono" data-f="table" value="'+_esc(rl.target_table||'')+'" style="max-width:340px">',true);
+  out+=row('Discriminator field','<input class="tm-input mono" data-f="disc" value="'+_esc(rl.discriminator_field||'')+'" placeholder="'+TX('optional — e.g. host, interfaceId')+'" style="max-width:340px">');
+  out+=row('Combine conditions with',seg('ifop',['AND','OR'],(rl['if']&&rl['if'].operator)||'AND'));
+  out+=row('Conditions',evtCondGroup('if',rl['if'],'Add new scope condition'));
+  out+=sect('Trigger','WHEN to fire the alert (THEN)');
+  out+=row('Combine conditions with',seg('thenop',['AND','OR'],(rl.then_match&&rl.then_match.operator)||'AND'));
+  out+=row('Conditions',evtCondGroup('then',rl.then_match,'Add new trigger condition'));
+  out+=sect('Alert','what the on-call engineer reads');
+  out+=row('Alert title','<input class="tm-input" data-f="title" value="'+_esc((d.alert&&d.alert.title)||'')+'">',true);
+  out+=row('Alert message','<textarea class="tm-input ev-ta" data-f="message">'+_esc((d.alert&&d.alert.message)||'')+'</textarea>'+
+    '<div class="ev-varhint">'+TX('Use $variables from the target table row, e.g.')+' <span class="mono">$HOSTNAME</span> <span class="mono">$IPADDRESS</span> <span class="mono">$host</span> <span class="mono">$pingAvg</span> <span class="mono">$queryResult</span></div>');
+  out+=sect('Behavior','delay, autoclear and suppression');
+  out+=row('Alert delay counter','<input class="tm-input" type="number" min="0" data-f="delay" value="'+(d.alert_delay_counter||0)+'" style="max-width:120px">');
+  out+=row('Autoclear',chk('acen',d.autoclear&&d.autoclear.enabled,'Automatically clear the alert when this condition is true')+
+    evtCondRow(d.autoclear.condition||{field:'',op:'=',value:'',type:'string'},'ac',0,true));
+  out+=row('Suppress',evtCondGroup('sup',d.suppress,'Add new suppress condition'));
+  out+=sect('Routing','where the alert goes');
+  out+=row('Communications channel','<div class="zx-chanrow"><select class="tm-input" data-f="channel" id="evChanSel" style="max-width:280px">'+chOpts+'</select>'+chStat+
+    '<button class="btn zx-mini" data-act="go-intg">'+TX('Open Integrations')+'</button></div>');
+  out+=row('Dependency',seg('depmode',[['none','None'],['parent','Parent rule']],(d.dependency&&d.dependency.mode)||'none')+
+    ' <select class="tm-input" data-f="depid" style="max-width:300px;margin-left:8px">'+[''].concat(others).map(function(o){return '<option'+(o===((d.dependency&&d.dependency.parent_rule_id)||'')?' selected':'')+'>'+o+'</option>';}).join('')+'</select>');
   var isNew=(evtOpenId==='__new__');
-  var foot='<div class="ev-foot">'+
-    '<button class="btn primary" data-act="ev-save">'+TX(isNew?'Create rule':'Save rule')+'</button>'+
+  var foot='<div class="zx-actions">'+
+    '<button class="btn primary" data-act="ev-save">'+TX(isNew?'Add':'Update')+'</button>'+
+    (isNew?'':'<button class="btn" data-act="ev-dup">'+TX('Clone')+'</button>')+
+    (isNew?'':'<button class="btn danger" data-act="ev-del">'+TX('Delete')+'</button>')+
     '<button class="btn" data-act="ev-cancel">'+TX('Cancel')+'</button>'+
-    '<span class="spacer"></span>'+
-    (isNew?'':'<button class="btn" data-act="ev-dup">'+TX('Duplicate')+'</button>')+
-    (isNew?'':'<button class="btn danger" data-act="ev-del">'+TX('Delete rule')+'</button>')+
-    '</div>'+
+    '<span class="spacer"></span></div>'+
     '<details class="cfg-peek"><summary><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>'+TX('View rule JSON (as it will be written)')+'</summary><div class="cfg-body"><pre class="cfg-pre">'+jsonHL(JSON.stringify(d,null,2))+'</pre></div></details>';
-  return '<div class="ev-editor" id="evtEditor">'+
-    evtSect('1 · Identity','name it, rank it',identity)+
-    evtSect('2 · Scope','WHICH rows to watch (IF)',scope)+
-    evtSect('3 · Trigger','WHEN to fire the alert (THEN)',trig)+
-    evtSect('4 · Alert content','what the on-call engineer reads',alert_)+
-    evtSect('5 · Behavior','delay, autoclear and suppression',beh)+
-    evtSect('6 · Routing','where the alert goes',routing)+
-    foot+'</div>';
+  return '<div class="ev-editor zx-form" id="evtEditor">'+out+foot+'</div>';
 }
 function evtPage(){
   var rules=evtRules(), f=evtTypeFilter;
@@ -15398,14 +15458,17 @@ function evtPage(){
   return '<div class="ev-wrap">'+evtStatRow(rules)+
     '<div class="ev-toolbar"><div class="ev-segs">'+seg+'</div>'+
     '<input id="evtSearch" class="tm-input ev-search" placeholder="'+TX('Search rules by name, id, type…')+'">'+
-    '<button class="btn primary" data-act="ev-new"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 5v14M5 12h14"/></svg> '+TX('Create new rule')+'</button></div>'+
+    '<button class="btn primary" data-act="ev-new"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 5v14M5 12h14"/></svg> '+TX('Create new rule')+'</button>'+
+    '<button class="btn zx-mini" data-act="ev-revert" title="'+TX('Discard locally saved changes and reload the rule set from the GitOps copy')+'">'+TX('Revert to GitOps copy')+'</button></div>'+
     newCard+
     '<div class="ev-list">'+shown.map(evtRuleCard).join('')+'</div></div>';
 }
 function evtHarvest(){
   var ed=document.getElementById('evtEditor'); if(!ed||!evtDraft) return;
   ed.querySelectorAll('[data-f]').forEach(function(inp){
-    var f=inp.getAttribute('data-f'), v=(inp.type==='checkbox')?inp.checked:inp.value;
+    var f=inp.getAttribute('data-f'), v;
+    if(inp.classList&&inp.classList.contains('zx-seg')){ var a=inp.querySelector('.zx-segbtn.active'); v=a?a.getAttribute('data-v'):''; }
+    else v=(inp.type==='checkbox')?inp.checked:inp.value;
     if(f==='name') evtDraft.name=v;
     else if(f==='id') evtDraft.id=String(v).trim();
     else if(f==='sev') evtDraft.severity_level=v;
@@ -15455,7 +15518,8 @@ function evtOpenRule(id){
 function evtEnable(id){
   var r=evtRules().find(function(x){return x.id===id;}); if(!r) return;
   r.enabled=!r.enabled;
-  toast(TX(r.enabled?'Rule enabled':'Rule disabled')+' — '+TX('session only until App Server persistence'));
+  evtPersist();
+  toast(TX(r.enabled?'Rule enabled':'Rule disabled')+' — '+TX('saved in this console'));
   renderCfgMgr();
 }
 function evtNew(){ evtOpenId='__new__'; evtDraft=evtBlank(); renderCfgMgr(); var m=document.getElementById('main'); if(m) m.scrollTop=0; }
@@ -15483,12 +15547,14 @@ function evtSave(){
   if(evtOpenId==='__new__'){
     if(rules.find(function(r){return r.id===evtDraft.id;})){ toast(TX('A rule with this ID already exists')); return; }
     rules.unshift(evtDraft);
-    toast(TX('Rule created — session only until App Server persistence'));
+    evtPersist();
+    toast(TX('Rule created — saved in this console'));
   } else {
     var i=rules.findIndex(function(r){return r.id===evtOpenId;});
     if(i<0){ toast(TX('Rule not found')); return; }
     rules[i]=evtDraft;
-    toast(TX('Rule saved — session only until App Server persistence'));
+    evtPersist();
+    toast(TX('Rule updated — saved in this console'));
   }
   evtOpenId=evtDraft.id; evtDraft=JSON.parse(JSON.stringify(evtDraft));
   renderCfgMgr();
@@ -15496,7 +15562,7 @@ function evtSave(){
 function evtCancel(){ evtOpenId=null; evtDraft=null; renderCfgMgr(); }
 function evtDel(){
   var rules=evtRules(), i=rules.findIndex(function(r){return r.id===evtOpenId;});
-  if(i>-1){ rules.splice(i,1); toast(TX('Rule deleted — session only')); }
+  if(i>-1){ rules.splice(i,1); evtPersist(); toast(TX('Rule deleted — saved in this console')); }
   evtOpenId=null; evtDraft=null; renderCfgMgr();
 }
 function evtDup(){
@@ -15505,13 +15571,47 @@ function evtDup(){
   var c=JSON.parse(JSON.stringify(rules[i])); c.id=c.id+'-COPY'; c.name=c.name+' (copy)';
   rules.splice(i+1,0,c);
   evtOpenId=c.id; evtDraft=JSON.parse(JSON.stringify(c));
-  toast(TX('Rule duplicated — session only'));
+  evtPersist();
+  toast(TX('Rule duplicated — saved in this console'));
   renderCfgMgr();
 }
 function evtLocOpen(key){
   if(key){ openLocationCard(key); }
   else { go('config'); if(typeof renderConfig==='function') renderConfig(); toast(TX('No exact site match — opened Location Management')); }
 }
+function evtChannels(){
+  /* communications channels come from the live Integrations registry — Alerting / On-call group only */
+  return INTEGRATIONS.filter(function(i){ return i.group==='alerting'; });
+}
+function evtChanConnected(id){
+  var it=INTEGRATIONS.find(function(i){return i.id===id;}); if(!it) return false;
+  var sc=(typeof tenantScope==='function')?tenantScope():'all';
+  var t=(typeof tIntg==='function')?tIntg(sc,id):null;
+  return t?!!t.connected:!!it.connected;
+}
+function evtPersist(){ try{ localStorage.setItem('guardare_evt_rules', JSON.stringify(evtRules())); }catch(e){} }
+function evtRevert(){
+  try{ localStorage.removeItem('guardare_evt_rules'); }catch(e){}
+  EVT_RULES=null; evtOpenId=null; evtDraft=null; renderCfgMgr();
+  toast(TX('Local changes discarded — rule set reloaded from the GitOps copy'));
+}
+function evtMove(id,dir){
+  var rules=evtRules(), i=rules.findIndex(function(r){return r.id===id;}); if(i<0) return;
+  var j=i+dir; if(j<0||j>=rules.length) return;
+  var t=rules[i]; rules[i]=rules[j]; rules[j]=t;
+  evtPersist();
+  toast(TX('Rule priority updated — saved in this console'));
+  renderCfgMgr();
+}
+document.addEventListener('change',function(ev){
+  var t=ev.target;
+  if(t&&t.id==='evChanSel'){
+    var it=INTEGRATIONS.find(function(i){return i.id===t.value;});
+    var st=document.getElementById('evChanStat'); if(!st) return;
+    if(it&&evtChanConnected(it.id)){ st.className='zx-chanstat on'; st.textContent='● '+TX('Connected — routing live'); }
+    else { st.className='zx-chanstat off'; st.textContent='● '+TX(it?'Not connected — alerts will queue':'Not in Integrations'); }
+  }
+});
 document.addEventListener('input',function(ev){
   var t=ev.target;
   if(t&&t.id==='evtSearch'){
@@ -17663,6 +17763,7 @@ function intgSetConn(id,val,scope){
   else { if(!TENANT_INTG[scope]) TENANT_INTG[scope]={};
     if(!TENANT_INTG[scope][id]) TENANT_INTG[scope][id]={endpoint:it.endpoint.replace('yourorg',scope)};
     TENANT_INTG[scope][id].connected=val; }
+  if(typeof _intgPersist==='function') _intgPersist();
 }
 function finishIntgOp(op){
   const it=INTEGRATIONS.find(i=>i.id===op.id);
