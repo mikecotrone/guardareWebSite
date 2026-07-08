@@ -2925,7 +2925,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.507.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.509.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13701,7 +13701,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.507.alpha';
+const APP_VERSION='v2026.02.509.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -15479,8 +15479,7 @@ function evtPage(){
   return '<div class="ev-wrap">'+evtStatRow(rules)+
     '<div class="ev-toolbar"><div class="ev-segs">'+seg+'</div>'+
     '<input id="evtSearch" class="tm-input ev-search" placeholder="'+TX('Search rules by name, id, type…')+'">'+
-    '<button class="btn primary" data-act="ev-new"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 5v14M5 12h14"/></svg> '+TX('Create new rule')+'</button>'+
-    '<button class="btn zx-mini" data-act="ev-revert" title="'+TX('Discard locally saved changes and reload the rule set from the GitOps copy')+'">'+TX('Revert to GitOps copy')+'</button></div>'+
+    '<button class="btn primary" data-act="ev-new"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 5v14M5 12h14"/></svg> '+TX('Create new rule')+'</button></div>'+
     newCard+
     '<div class="ev-list">'+shown.map(evtRuleCard).join('')+'</div></div>';
 }
@@ -15927,7 +15926,7 @@ function renderCfgMgr(){
   } else if(cfgSubPage==='events'){
     const f=files.find(x=>x.cat==='events')||files[0];
     const st=cfgState(cfgMgrColl,f);
-    const slim='<div class="cfg-meta"><span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">'+TX('poll')+' '+f.poll+'s</span><span class="mi">'+TX('pulled')+' <b>'+st.pulled+'</b></span>'+(st.drift?'<span class="cfg-drift">'+TX('drift vs repo')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'</div>';
+    const slim='<div class="cfg-meta">'+(st.drift?'<span class="cfg-drift">'+TX('drift vs repo')+'</span>':'<span class="cfg-clean">'+TX('in sync')+'</span>')+'<span class="mi">SHA <b class="mono">'+st.sha+'</b></span><span class="mi">'+TX('poll')+' '+f.poll+'s</span><span class="mi">'+TX('pulled')+' <b>'+st.pulled+'</b></span></div>';
     body='<div class="cfg-manback">'+slim+'</div>'+evtPage();
   } else if(cfgSubPage==='vcollector'){
     body=cfgVcollectorForm(cfgMgrColl);
