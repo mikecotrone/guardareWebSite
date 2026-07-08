@@ -2925,7 +2925,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.509.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.510.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13701,7 +13701,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.509.alpha';
+const APP_VERSION='v2026.02.510.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -18136,11 +18136,12 @@ GeoRadar.prototype._draw=function(t){
   ctx.save();
   ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
   var g=ctx.createRadialGradient(cx,cy*0.86,R*0.05,cx,cy,R);
-  g.addColorStop(0,'#0e2a31'); g.addColorStop(0.6,'#0a1d23'); g.addColorStop(1,'#07151a');
+  if(light){ g.addColorStop(0,'#f3faf9'); g.addColorStop(0.6,'#e2efed'); g.addColorStop(1,'#d1e4e1'); }
+  else { g.addColorStop(0,'#0e2a31'); g.addColorStop(0.6,'#0a1d23'); g.addColorStop(1,'#07151a'); }
   ctx.fillStyle=g; ctx.fillRect(cx-R,cy-R,R*2,R*2);
   var i;
-  for(i=0;i<GEO_GRAT.length;i++) this._poly(GEO_GRAT[i],'rgba(43,208,198,0.07)',1);
-  for(i=0;i<GEO_LAND.length;i++) this._poly(GEO_LAND[i],'rgba(86,196,178,0.5)',0.9);
+  for(i=0;i<GEO_GRAT.length;i++) this._poly(GEO_GRAT[i],light?'rgba(10,119,111,0.12)':'rgba(43,208,198,0.07)',1);
+  for(i=0;i<GEO_LAND.length;i++) this._poly(GEO_LAND[i],light?'rgba(9,95,88,0.62)':'rgba(86,196,178,0.5)',0.9);
   if(R>vpR*1.55 && GEO_STATES.length){
     _geoPrep();
     var _clr=this.view.clon*GEO_D, _cla=this.view.clat*GEO_D, _cc=Math.cos(_cla);
@@ -18151,19 +18152,19 @@ GeoRadar.prototype._draw=function(t){
       if(_vv[0]*_cdx+_vv[1]*_cdy+_vv[2]*_cdz < -0.05) continue;
       _cp=this.project(GEO_STATES_CTR[i][0],GEO_STATES_CTR[i][1]);
       if(_cp.x<-_marg||_cp.x>this.W+_marg||_cp.y<-_marg||_cp.y>this.H+_marg) continue;
-      this._poly(GEO_STATES[i],'rgba(110,201,189,0.16)',0.55);
+      this._poly(GEO_STATES[i],light?'rgba(10,119,111,0.22)':'rgba(110,201,189,0.16)',0.55);
     }
   }
-  for(i=0;i<GEO_BORDERS.length;i++) this._poly(GEO_BORDERS[i],'rgba(110,201,189,0.2)',0.6);
+  for(i=0;i<GEO_BORDERS.length;i++) this._poly(GEO_BORDERS[i],light?'rgba(10,119,111,0.30)':'rgba(110,201,189,0.2)',0.6);
   // sweep
   var sweep=(t*0.0006)%(Math.PI*2),s;
-  for(s=0;s<46;s++){ var a=sweep-s*0.026, al=(1-s/46)*0.10; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a)); ctx.lineTo(cx+R*Math.cos(a-0.027),cy+R*Math.sin(a-0.027)); ctx.closePath(); ctx.fillStyle='rgba(43,208,198,'+al+')'; ctx.fill(); }
-  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(sweep),cy+R*Math.sin(sweep)); ctx.strokeStyle='rgba(43,208,198,0.5)'; ctx.lineWidth=1.3; ctx.stroke();
+  for(s=0;s<46;s++){ var a=sweep-s*0.026, al=(1-s/46)*0.10; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a)); ctx.lineTo(cx+R*Math.cos(a-0.027),cy+R*Math.sin(a-0.027)); ctx.closePath(); ctx.fillStyle=(light?'rgba(14,159,150,':'rgba(43,208,198,')+al+')'; ctx.fill(); }
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(sweep),cy+R*Math.sin(sweep)); ctx.strokeStyle=light?'rgba(11,127,119,0.55)':'rgba(43,208,198,0.5)'; ctx.lineWidth=1.3; ctx.stroke();
   ctx.restore();
   // range rings
   ctx.save();
   var rings=[0.34,0.67,1.0];
-  for(i=0;i<rings.length;i++){ ctx.beginPath(); ctx.arc(cx,cy,vpR*rings[i],0,7); ctx.strokeStyle='rgba(43,208,198,0.12)'; ctx.lineWidth=1; ctx.setLineDash([2,7]); ctx.stroke(); }
+  for(i=0;i<rings.length;i++){ ctx.beginPath(); ctx.arc(cx,cy,vpR*rings[i],0,7); ctx.strokeStyle=light?'rgba(11,127,119,0.20)':'rgba(43,208,198,0.12)'; ctx.lineWidth=1; ctx.setLineDash([2,7]); ctx.stroke(); }
   ctx.setLineDash([]); ctx.restore();
   // rim glow / outline
   ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,7);
@@ -18173,7 +18174,7 @@ GeoRadar.prototype._draw=function(t){
   // tron-orange accent ring
   ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R+1.5,0,7); ctx.strokeStyle='rgba(255,122,24,0.62)'; ctx.lineWidth=1.2; ctx.shadowColor='rgba(255,122,24,0.45)'; ctx.shadowBlur=6; ctx.stroke(); ctx.restore();
   // core
-  var cg=ctx.createRadialGradient(cx,cy,0,cx,cy,20); cg.addColorStop(0,'rgba(43,208,198,0.85)'); cg.addColorStop(1,'rgba(43,208,198,0)'); ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,20,0,7); ctx.fill();
+  var cg=ctx.createRadialGradient(cx,cy,0,cx,cy,20); cg.addColorStop(0,light?'rgba(11,127,119,0.55)':'rgba(43,208,198,0.85)'); cg.addColorStop(1,'rgba(43,208,198,0)'); ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,20,0,7); ctx.fill();
   // blips
   var behind=0,b,hits=[];
   for(b=0;b<this.sites.length;b++){
