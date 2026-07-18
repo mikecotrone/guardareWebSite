@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.516.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.517.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13706,7 +13706,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.516.alpha';
+const APP_VERSION='v2026.02.517.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -19743,12 +19743,13 @@ function rkElevSVG(rack){
     }else if(d.role==='mgr'){
       for(let i=0;i<9;i++)s+=`<rect x="${x+16+i*((w-32)/9)}" y="${y+h/2-3.5}" width="${(w-32)/9-4}" height="7" rx="2" fill="var(--bg)" opacity=".5"/>`;
       s+=`<text class="lbl" x="${x+w/2}" y="${y+h/2+3}" text-anchor="middle" fill="var(--dim)" opacity=".0"></text>`;
-    }else if(d.img){ /* real photo takes over the faceplate (NetBox-style) */
+    }else if(d.img){ /* real photo takes over the faceplate (NetBox-style) —
+      scaled to FIT the RU slot (no crop, no name overlay: the tooltip carries the name) */
       s+=`<clipPath id="rkclip-${d.id}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3"/></clipPath>`;
-      s+=`<image href="${rkEsc(d.img)}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid slice" clip-path="url(#rkclip-${d.id})"/>`;
+      s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="#0a2126"/>`;
+      s+=`<image href="${rkEsc(d.img)}" x="${x+1.5}" y="${y+1}" width="${w-3}" height="${h-2}" preserveAspectRatio="xMidYMid meet" clip-path="url(#rkclip-${d.id})"/>`;
       s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="none" stroke="${edge}"/>`;
-      s+=`<text class="lbl" x="${x+9}" y="${y+(h>26?14:h/2+3.2)}" fill="#fff" style="paint-order:stroke;stroke:#000a;stroke-width:2.5px">${rkEsc(d.name.length>30?d.name.slice(0,29)+'…':d.name)}</text>`;
-      s+=`<circle cx="${x+w-9}" cy="${y+(h>26?10:h/2)}" r="2.2" fill="${d.status==='active'?'#41D98A':'#F6B53F'}" filter="url(#rkGlow-${rack.id})"/>`;
+      s+=`<circle cx="${x+w-4.5}" cy="${y+4}" r="1.8" fill="${d.status==='active'?'#41D98A':'#F6B53F'}" filter="url(#rkGlow-${rack.id})"/>`;
     }else{
       const maxN=h<=22?17:29; /* short labels beside 1U faceplates — the tooltip carries the full name */
       s+=`<text class="lbl" x="${x+9}" y="${y+(h>26?14:h/2+3.2)}" fill="${tcol}">${rkEsc(d.name.length>maxN+1?d.name.slice(0,maxN)+'…':d.name)}</text>`;
