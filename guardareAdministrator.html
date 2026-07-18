@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.512.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.514.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13706,7 +13706,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.512.alpha';
+const APP_VERSION='v2026.02.514.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -19392,6 +19392,21 @@ function rkTipCableHTML(id){
   ${rkTipFlowHTML(c)}
   ${c.note?`<div class="tip-note">${rkEsc(c.note)}</div>`:''}`;
 }
+const RK_AF_DESC={
+  fr:'Cool air is drawn in at the front and exhausted out the rear — standard cold-aisle-facing flow.',
+  rf:'Reversed flow: intake at the rear, exhaust at the front. Watch for hot-aisle recirculation.',
+  side:'Intake and exhaust on the sides of the chassis — needs side clearance in the rack.',
+  pass:'Passive device — no fans, convection cooling only.',
+  mix:'Mixed airflow: multiple flow directions within the chassis.'
+};
+function rkTipAirflowHTML(afKey,devId){
+  const af=RK_AF[afKey]||RK_AF.pass;
+  const d=devId?rkDev(devId):null;
+  return `<div class="tip-head"><i style="background:${af.c};color:${af.c}"></i><b>${rkTX('Airflow')}</b>
+    ${d?`<span>${rkEsc(d.name)}</span>`:''}</div>
+  <div class="tip-chips"><span class="tc" style="color:${af.c};border-color:${af.c}55;font-size:11px">${rkEsc(rkTX(af.t))}</span></div>
+  <div class="tip-sub" style="margin-top:8px;line-height:1.55">${rkEsc(rkTX(RK_AF_DESC[afKey]||RK_AF_DESC.pass))}</div>`;
+}
 function rkTipPortHTML(devId,port,strand){
   const p=rkDev(devId);if(!p)return null;
   const role=RK_ROLES[p.role]||RK_ROLES.blank,c=rkPortCable(devId,port),lab=rkPortLabel(p,port);
@@ -19531,12 +19546,21 @@ function rkElevSVG(rack){
         for(let i=0;i<10;i++)s+=`<rect x="${x+w-78+i*6}" y="${y+h/2-2.5}" width="4" height="5" rx="1" fill="${txt?'#08262b55':'#ffffff2e'}"/>`;
       }
     }
-    /* airflow chip */
+    /* airflow badge — pronounced: haloed disc + bold directional chevrons + edge strip on the device */
     if(RKS.airflow&&d.role!=='blank'&&d.role!=='mgr'){
       const af=RK_AF[d.af]||RK_AF.pass;
-      s+=`<g><circle cx="${frameX+RACKW+13}" cy="${y+h/2}" r="4" fill="${af.c}" filter="url(#rkGlow-${rack.id})"/>`;
-      if(d.af==='fr')s+=`<path d="M ${frameX+RACKW+10.5} ${y+h/2} h5 m-2 -2 l2 2 l-2 2" stroke="#06282c" stroke-width="1.1" fill="none"/>`;
-      if(d.af==='rf')s+=`<path d="M ${frameX+RACKW+15.5} ${y+h/2} h-5 m2 -2 l-2 2 l2 2" stroke="#06282c" stroke-width="1.1" fill="none"/>`;
+      const cx=frameX+RACKW+14,cy=y+h/2,dk='#06232a';
+      s+=`<rect x="${x+w-3.4}" y="${y+1.2}" width="2.6" height="${h-2.4}" rx="1.3" fill="${af.c}" opacity=".85"/>`;
+      s+=`<g class="rk-afbadge" data-af="${d.af}" data-afdev="${d.id}" style="cursor:help">`;
+      s+=`<circle cx="${cx}" cy="${cy}" r="8" fill="${af.c}" opacity=".14"/>`;
+      s+=`<circle cx="${cx}" cy="${cy}" r="7.6" fill="none" stroke="${af.c}" stroke-width="1" opacity=".5"/>`;
+      s+=`<circle cx="${cx}" cy="${cy}" r="5.6" fill="${af.c}" filter="url(#rkGlow-${rack.id})"/>`;
+      const ch=(x1,dir)=>`M ${x1} ${cy-2.9} l${dir*2.9} 2.9 l${dir*-2.9} 2.9`;
+      if(d.af==='fr')s+=`<path d="${ch(cx-3.8,1)} ${ch(cx-0.4,1)}" stroke="${dk}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      else if(d.af==='rf')s+=`<path d="${ch(cx+3.8,-1)} ${ch(cx+0.4,-1)}" stroke="${dk}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      else if(d.af==='side')s+=`<path d="M ${cx-2.9} ${cy-3.4} l2.9 2.9 2.9 -2.9 M ${cx-2.9} ${cy+3.4} l2.9 -2.9 2.9 2.9" stroke="${dk}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      else if(d.af==='mix')s+=`<path d="M ${cx-4} ${cy-2.6} l2.7 2.6 -2.7 2.6 M ${cx+4} ${cy-2.6} l-2.7 2.6 2.7 2.6" stroke="${dk}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      else s+=`<path d="M ${cx-3.2} ${cy} h6.4" stroke="${dk}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
       s+=`</g>`;
     }
     s+=`</g>`;
@@ -19879,7 +19903,7 @@ function rkLegendHTML(){
     <div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Cable types')} · ${rkTX('click to filter')}</span>
       <div class="rk-leg-row">${Object.keys(RK_CTYPES).map(k=>`<span class="rk-leg-i" data-rk="legtype" data-arg="${k}" title="${rkTX('Click to show / hide')} ${rkEsc(RK_CTYPES[k].t)}" style="cursor:pointer;${RKS.show[k]?'':'opacity:.32'}"><i style="background:${RK_CTYPES[k].c};color:${RK_CTYPES[k].c}"></i>${rkEsc(RK_CTYPES[k].t)}</span>`).join('')}</div></div>
     ${RKS.power?`<div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Power draw')}</span><div class="rk-leg-grad"></div><div class="rk-leg-gl"><span>0 W</span><span>500 W</span></div></div>`:''}
-    ${RKS.airflow?`<div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Airflow')}</span><div class="rk-leg-row">${Object.keys(RK_AF).map(k=>`<span class="rk-leg-i"><i style="background:${RK_AF[k].c};color:${RK_AF[k].c}"></i>${rkEsc(rkTX(RK_AF[k].t))}</span>`).join('')}</div></div>`:''}
+    ${RKS.airflow?`<div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Airflow')}</span><div class="rk-leg-row">${Object.keys(RK_AF).map(k=>`<span class="rk-leg-i" data-af="${k}" style="cursor:help"><i style="background:${RK_AF[k].c};color:${RK_AF[k].c}"></i>${rkEsc(rkTX(RK_AF[k].t))}</span>`).join('')}</div></div>`:''}
     <div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Roles')}</span>
       <div class="rk-leg-row">${['agg','poe','dmz','fw','patch','fiber','nvr','pdu','ups'].map(k=>`<span class="rk-leg-i sq"><i style="background:${RK_ROLES[k].c};color:${RK_ROLES[k].c}"></i>${rkEsc(rkTX(RK_ROLES[k].t))}</span>`).join('')}</div></div>
   </div>`;
@@ -20097,10 +20121,12 @@ function rkBind(root){
   wrap.addEventListener('pointerover',ev=>{
     if(RKS.drag||RKS._panActive||performance.now()<(RKS._tipMute||0)){rkTipHide();return;}
     const prt=ev.target.closest('[data-pport]');
+    const afb=ev.target.closest('[data-af]');
     const cbl=ev.target.closest('[data-cable]');
     const dev=ev.target.closest('[data-dev]');
     let html=null;
     if(prt)html=rkTipPortHTML(prt.dataset.pdev,prt.dataset.pport,prt.dataset.strand);
+    else if(afb)html=rkTipAirflowHTML(afb.dataset.af,afb.dataset.afdev);
     else if(cbl)html=rkTipCableHTML(cbl.dataset.cable);
     else if(dev)html=rkTipDevHTML(dev.dataset.dev);
     if(html)rkTipShow(html,ev.clientX,ev.clientY);else rkTipHide();
