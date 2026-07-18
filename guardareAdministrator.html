@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.517.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.518.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13706,7 +13706,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.517.alpha';
+const APP_VERSION='v2026.02.518.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -19557,6 +19557,37 @@ function rkCableTitle(c){
 /* ---------------- geometry ---------------- */
 const UH=21,NUMW=30,RACKW=234,GUT=118,RAIL=26,PADT=12;
 
+/* auto-trim device photos: crop transparent / near-white padding so the
+   product itself fills the RU slot. Falls back to the original image if the
+   canvas is tainted (cross-origin URL) or nothing solid is found. */
+function rkTrimImage(src,cb){
+  const im=new Image();
+  im.onload=()=>{
+    try{
+      const cw=im.naturalWidth,ch=im.naturalHeight;
+      if(!cw||!ch||cw*ch>16e6){cb(src);return;}
+      const cv=document.createElement('canvas');cv.width=cw;cv.height=ch;
+      const cx=cv.getContext('2d',{willReadFrequently:true});cx.drawImage(im,0,0);
+      const data=cx.getImageData(0,0,cw,ch).data;
+      let minX=cw,minY=ch,maxX=-1,maxY=-1;
+      for(let yy=0;yy<ch;yy++)for(let xx=0;xx<cw;xx++){
+        const i=(yy*cw+xx)*4;
+        const solid=data[i+3]>16&&!(data[i]>238&&data[i+1]>238&&data[i+2]>238);
+        if(solid){if(xx<minX)minX=xx;if(xx>maxX)maxX=xx;if(yy<minY)minY=yy;if(yy>maxY)maxY=yy;}
+      }
+      if(maxX<=minX||maxY<=minY){cb(src);return;}
+      const pad=2,sx=Math.max(0,minX-pad),sy=Math.max(0,minY-pad);
+      const sw=Math.min(cw-1,maxX+pad)-sx+1,sh=Math.min(ch-1,maxY+pad)-sy+1;
+      if(sw>=cw-4&&sh>=ch-4){cb(src);return;} /* nothing meaningful to trim */
+      const out=document.createElement('canvas');out.width=sw;out.height=sh;
+      out.getContext('2d').drawImage(im,sx,sy,sw,sh,0,0,sw,sh);
+      cb(out.toDataURL('image/png'));
+    }catch(e){cb(src);}
+  };
+  im.onerror=()=>cb(src);
+  im.src=src;
+}
+
 /* ---------------- realistic device faceplates ----------------
    Procedurally drawn front panels per role. If a device has d.img
    (URL or data-URL), the photo renders instead — NetBox-style. */
@@ -20603,7 +20634,16 @@ function rkApplyDev(){
   d.name=v('rkEdName')||d.name;d.model=v('rkEdModel')??d.model;
   d.w=parseInt(v('rkEdW'),10)||0;d.role=v('rkEdRole')||d.role;d.af=v('rkEdAf')||d.af;
   const dn=v('rkEdDens');if(dn!=null)d.dens=dn;
-  const im=v('rkEdImg');if(im!=null)d.img=im.trim()||undefined;
+  const im=v('rkEdImg');
+  if(im!=null){
+    const val=im.trim();
+    if(val&&val!==d.img){
+      d.img=val;
+      rkTrimImage(val,trimmed=>{ /* async: swap in the margin-cropped version once ready */
+        if(d.img===val&&trimmed!==val){d.img=trimmed;rkRerender();}
+      });
+    }else if(!val)d.img=undefined;
+  }
   if(typeof toast==='function')toast(rkTX('Device updated'));
   rkRerender();
 }
