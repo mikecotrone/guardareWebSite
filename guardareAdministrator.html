@@ -2911,6 +2911,15 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><path d="M7.6 7.6l3 8.4M16.4 7.6l-3 8.4M8.2 6h7.6"/></svg>
       <span data-i18n="Topology">Topology</span>
     </button>
+    <button class="nav-item" data-estate="locations" data-act="go-estate">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
+      <span data-i18n="Location Management">Location Management</span>
+    </button>
+    <button class="nav-item" data-estate="racks" data-act="go-estate">
+      <svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="1.5"/><path d="M6 7h12M6 11h12M6 15h12M9 4.8h.01M9 8.8h.01M9 12.8h.01"/><path d="M8 21.5v1.6M16 21.5v1.6"/></svg>
+      <span data-i18n="Rack Management">Rack Management</span>
+      <span class="badge" style="background:rgba(40,224,255,.12);color:var(--tron);border-color:rgba(31,159,196,.4)" data-i18n="New">New</span>
+    </button>
     <button class="nav-item" data-estate="flows" data-act="go-estate">
       <svg viewBox="0 0 24 24"><path d="M4 8h12l-3-3M20 16H8l3 3"/></svg>
       <span data-i18n="Traffic & Flows">Traffic & Flows</span>
@@ -18744,6 +18753,1487 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'){const c=document.g
 setLang('en');
 updateBrand();
 if(typeof applyDeploymentMode==='function') applyDeploymentMode();
+</script>
+<style>
+
+  /* ================= GUARDARE VISTA — RACK VIEWS ================= */
+  .rk-wrap{display:flex;flex-direction:column;gap:14px;min-height:calc(100vh - 210px)}
+  .rk-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px}
+  .rk-tabs{display:flex;gap:4px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:3px}
+  .rk-tab{border:none;background:transparent;color:var(--dim);font:600 12.5px "Open Sans",sans-serif;padding:7px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.18s}
+  .rk-tab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .rk-tab:hover{color:var(--text)}
+  .rk-tab.active{background:linear-gradient(180deg,rgba(40,224,255,.16),rgba(40,224,255,.07));color:var(--tron);box-shadow:inset 0 0 0 1px var(--tron-deep),0 0 14px rgba(40,224,255,.12)}
+  .rk-sel{background:var(--bg-2);border:1px solid var(--line);color:var(--text);font:600 12.5px "Open Sans",sans-serif;border-radius:9px;padding:7px 10px;cursor:pointer;outline:none;max-width:250px}
+  .rk-sel:hover,.rk-sel:focus{border-color:var(--tron-deep)}
+  .rk-tb-sep{width:1px;height:24px;background:var(--line);margin:0 8px;flex:0 0 1px}
+  .rk-tools{display:flex;gap:7px;align-items:center;margin-left:auto;flex-wrap:wrap}
+  .rk-tgl{border:1px solid var(--line);background:var(--bg-2);color:var(--dim);font:600 12px "Open Sans",sans-serif;padding:7px 12px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.18s;position:relative}
+  .rk-tgl svg{width:13.5px;height:13.5px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .rk-tgl:hover{color:var(--text);border-color:var(--tron-deep)}
+  .rk-tgl.on[data-k="cables"]{background:rgba(43,208,198,.13);color:var(--teal);border-color:var(--teal-deep);box-shadow:0 0 12px rgba(43,208,198,.15)}
+  .rk-tgl.on[data-k="power"]{background:rgba(255,122,24,.13);color:var(--tron-orange);border-color:#8a4a16;box-shadow:0 0 12px rgba(255,122,24,.15)}
+  .rk-tgl.on[data-k="airflow"]{background:rgba(40,224,255,.12);color:var(--tron);border-color:var(--tron-deep);box-shadow:0 0 12px rgba(40,224,255,.15)}
+  .rk-tgl.on[data-k="edit"]{background:rgba(65,217,138,.13);color:var(--green);border-color:#1d6b45;box-shadow:0 0 12px rgba(65,217,138,.18)}
+  .rk-tgl.fam{padding:7px 10px}
+  .rk-tgl.fam i{width:8px;height:8px;border-radius:99px;flex:0 0 8px;opacity:.35;transition:.18s}
+  .rk-tgl.fam.on i{opacity:1;box-shadow:0 0 7px currentColor}
+  .rk-tgl.fam.on[data-k="fiber"]{color:#41D98A;border-color:#1d6b45;background:rgba(65,217,138,.1)}
+  .rk-tgl.fam.on[data-k="eth"]{color:#38BDF8;border-color:#1f5f80;background:rgba(56,189,248,.1)}
+  .rk-tgl.fam.on[data-k="pwr"]{color:#FF5D8F;border-color:#7a2a44;background:rgba(255,93,143,.1)}
+  .rk-tgl.dis{opacity:.32;cursor:not-allowed;pointer-events:none;filter:saturate(.3)}
+  .rk-zoombtns{display:flex;gap:4px}
+  .rk-tgl.zb{padding:7px 0;min-width:34px;justify-content:center;font-weight:700}
+  .rk-body{display:flex;gap:14px;align-items:stretch;flex:1;min-height:0}
+  /* ---- palette ---- */
+  .rk-palette{flex:0 0 208px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:none;flex-direction:column;gap:8px;align-self:flex-start;position:sticky;top:0;max-height:calc(100vh - 250px);overflow:auto}
+  .rk-wrap.editing .rk-palette{display:flex;animation:rkIn .25s ease}
+  .rk-pal-h{font:700 10.5px "Open Sans",sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);margin:2px 0 4px}
+  .rk-pal-item{display:flex;align-items:center;gap:9px;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;cursor:grab;user-select:none;-webkit-user-select:none;transition:.15s;touch-action:none}
+  .rk-pal-item:hover{border-color:var(--tron-deep);transform:translateX(2px);box-shadow:0 4px 14px -6px #000c}
+  .rk-pal-item:active{cursor:grabbing}
+  .rk-pal-sw{width:11px;height:11px;border-radius:3.5px;flex:0 0 11px;box-shadow:0 0 8px -1px currentColor}
+  .rk-pal-item b{font:600 12px "Open Sans",sans-serif;color:var(--text);display:block;line-height:1.25}
+  .rk-pal-item i{font:400 10.5px "Open Sans",sans-serif;color:var(--mute);font-style:normal}
+  .rk-pal-note{font:400 11px "Open Sans",sans-serif;color:var(--mute);line-height:1.5;border-top:1px dashed var(--line);padding-top:9px;margin-top:2px}
+  /* ---- stage ---- */
+  .rk-stage{flex:1;min-width:0;background:
+    radial-gradient(rgba(43,208,198,.05) 1.2px,transparent 1.6px),
+    radial-gradient(120% 90% at 50% 0%,rgba(40,224,255,.045),transparent 60%),var(--bg-2);
+    background-size:26px 26px,auto;border:1px solid var(--line);border-radius:var(--r);overflow:auto;position:relative}
+  html[data-theme="light"] .rk-stage{background:radial-gradient(rgba(14,159,150,.09) 1.2px,transparent 1.6px),var(--bg-2);background-size:26px 26px}
+  .rk-elevs{display:flex;gap:44px;padding:30px 34px 88px;align-items:flex-start;width:max-content;margin:0 auto}
+  .rk-rackcol{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .rk-rackname{font:700 13px "Open Sans",sans-serif;color:var(--text);letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+  .rk-rackname small{font:600 10.5px "Open Sans",sans-serif;color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+  .rk-racksub{font:500 11px "Open Sans",sans-serif;color:var(--mute);margin-top:-6px}
+  .rk-tenant-chip{font:600 9.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--tron);background:rgba(40,224,255,.1);border:1px solid var(--tron-deep);border-radius:99px;padding:2.5px 9px;margin-left:2px}
+  .rk-svg{overflow:visible}
+  /* svg pieces */
+  .rk-frame{fill:url(#rkFrameGrad);stroke:var(--line);stroke-width:1.2;rx:8}
+  .rk-unum{font:600 8.5px "Open Sans",sans-serif;fill:var(--mute);paint-order:stroke;stroke:var(--bg-2);stroke-width:3px;stroke-linejoin:round}
+  .rk-urow{fill:transparent;stroke:var(--line-soft);stroke-width:.6}
+  .rk-dev{cursor:pointer;transition:opacity .25s,filter .25s}
+  .rk-dev rect.body{stroke-width:1;rx:2.5;transition:filter .18s}
+  .rk-dev:hover rect.body{filter:brightness(1.22) saturate(1.15)}
+  .rk-dev text.lbl{font:600 9.5px "Open Sans",sans-serif;pointer-events:none}
+  .rk-dev text.sub{font:500 7.5px "Open Sans",sans-serif;pointer-events:none;opacity:.75}
+  .rk-dev.sel rect.body{stroke:var(--tron);stroke-width:1.6;filter:drop-shadow(0 0 7px rgba(40,224,255,.65)) brightness(1.15)}
+  .rk-cable{fill:none;cursor:pointer;transition:opacity .25s,stroke-width .15s}
+  .rk-cable:hover{stroke-width:3.2!important}
+  .rk-cable.sel{stroke-width:3.4!important;filter:drop-shadow(0 0 6px currentColor)}
+  .rk-cablehit{fill:none;stroke:transparent;stroke-width:11;cursor:pointer}
+  .rk-dim{opacity:.13!important}
+  .rk-semidim{opacity:.38!important}
+  .rk-dropok rect.uhl{fill:rgba(65,217,138,.28);stroke:var(--green)}
+  .rk-dropbad rect.uhl{fill:rgba(255,93,93,.25);stroke:var(--red)}
+  .rk-ghost{position:fixed;z-index:999;pointer-events:none;background:rgba(40,224,255,.14);border:1px solid var(--tron);border-radius:6px;color:var(--tron);font:600 11px "Open Sans",sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -8px #000d,0 0 18px rgba(40,224,255,.25);backdrop-filter:blur(2px)}
+  .rk-connect-hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:20;background:rgba(65,217,138,.14);border:1px solid #1d6b45;color:var(--green);font:600 12px "Open Sans",sans-serif;padding:8px 16px;border-radius:99px;box-shadow:0 8px 24px -8px #000c;display:flex;gap:10px;align-items:center;white-space:nowrap}
+  .rk-connect-hint button{border:none;background:rgba(255,93,93,.15);color:var(--red);border-radius:99px;font:700 11px "Open Sans",sans-serif;padding:3px 10px;cursor:pointer}
+  /* legend */
+  .rk-legend{position:sticky;bottom:0;left:0;margin:0;width:max-content;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;padding:11px 15px;display:flex;gap:22px;align-items:center;z-index:15;box-shadow:var(--shadow);margin:0 0 14px 14px}
+  .rk-leg-b{display:flex;flex-direction:column;gap:6px}
+  .rk-leg-t{font:700 9.5px "Open Sans",sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
+  .rk-leg-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .rk-leg-i{display:flex;align-items:center;gap:5.5px;font:600 10.5px "Open Sans",sans-serif;color:var(--dim)}
+  .rk-leg-i i{width:9px;height:9px;border-radius:99px;box-shadow:0 0 7px -1px currentColor}
+  .rk-leg-i.sq i{border-radius:3px}
+  .rk-leg-grad{width:120px;height:9px;border-radius:99px;background:linear-gradient(90deg,#2a6bd4,#2bd0c6,#f6b53f,#ff7a18,#ff5d5d)}
+  .rk-leg-gl{display:flex;justify-content:space-between;font:600 9.5px "Open Sans",sans-serif;color:var(--mute);width:120px}
+  /* ---- details panel ---- */
+  .rk-panel{flex:0 0 300px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;align-self:stretch;max-height:calc(100vh - 250px);position:sticky;top:0;overflow:hidden}
+  .rk-panel.collapsed{flex:0 0 42px;overflow:hidden}
+  .rk-panel-rail{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;height:100%;min-height:220px;border:none;background:transparent;color:var(--dim);cursor:pointer;padding:13px 0;transition:.18s}
+  .rk-panel-rail:hover{color:var(--tron);background:rgba(40,224,255,.05)}
+  .rk-panel-rail svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex:0 0 auto}
+  .rk-panel-rail span{writing-mode:vertical-rl;font:700 10.5px "Open Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase}
+  .rk-panel-h{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)}
+  .rk-panel-h b{font:700 13.5px "Open Sans",sans-serif;color:var(--text)}
+  .rk-panel-x{border:none;background:transparent;color:var(--mute);cursor:pointer;font-size:16px;line-height:1;padding:4px}
+  .rk-panel-x:hover{color:var(--text)}
+  .rk-panel-b{padding:14px 15px;overflow:auto;display:flex;flex-direction:column;gap:12px}
+  .rk-empty{display:flex;flex-direction:column;align-items:center;gap:12px;padding:44px 22px;text-align:center;color:var(--mute)}
+  .rk-empty svg{width:38px;height:38px;stroke:var(--mute);fill:none;stroke-width:1.3;opacity:.7}
+  .rk-empty p{font:400 12px "Open Sans",sans-serif;line-height:1.6;margin:0}
+  .rk-dev-head{display:flex;align-items:center;gap:9px}
+  .rk-dev-head .sw{width:12px;height:12px;border-radius:4px;box-shadow:0 0 9px -1px currentColor;flex:0 0 12px}
+  .rk-dev-head b{font:700 14.5px "Open Sans",sans-serif;color:var(--text);word-break:break-word}
+  .rk-dev-head small{margin-left:auto;font:700 9px "Open Sans",sans-serif;letter-spacing:.1em;color:var(--mute);text-transform:uppercase;flex:0 0 auto}
+  .rk-statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .rk-stat{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center}
+  .rk-stat b{display:block;font:700 16px "Rajdhani","Open Sans",sans-serif;color:var(--text);letter-spacing:.02em}
+  .rk-stat.ok b{color:var(--green)}
+  .rk-stat span{font:600 9.5px "Open Sans",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+  .rk-kv{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .rk-kv .row{display:flex;justify-content:space-between;gap:10px;padding:8px 11px;font:500 12px "Open Sans",sans-serif;color:var(--dim)}
+  .rk-kv .row+.row{border-top:1px solid var(--line-soft)}
+  .rk-kv .row b{color:var(--text);font-weight:600;text-align:right;word-break:break-word}
+  .rk-actbtn{border:1px solid var(--tron-deep);background:linear-gradient(180deg,rgba(40,224,255,.2),rgba(40,224,255,.08));color:var(--tron);font:700 12.5px "Open Sans",sans-serif;padding:10px;border-radius:10px;cursor:pointer;transition:.18s;width:100%}
+  .rk-actbtn:hover{box-shadow:0 0 16px rgba(40,224,255,.28);filter:brightness(1.1)}
+  .rk-actbtn.warn{border-color:#6b2a2a;background:rgba(255,93,93,.1);color:var(--red)}
+  .rk-actbtn.warn:hover{box-shadow:0 0 14px rgba(255,93,93,.22)}
+  .rk-actbtn.grn{border-color:#1d6b45;background:rgba(65,217,138,.12);color:var(--green)}
+  .rk-actbtn.grn:hover{box-shadow:0 0 14px rgba(65,217,138,.25)}
+  .rk-sec-t{font:700 10px "Open Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:8px;margin-top:2px}
+  .rk-sec-t::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+  .rk-cbl-item{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;cursor:pointer;transition:.15s}
+  .rk-cbl-item:hover{border-color:var(--tron-deep);transform:translateX(2px)}
+  .rk-cbl-item.sel{border-color:var(--tron);box-shadow:0 0 10px rgba(40,224,255,.18)}
+  .rk-cbl-item .a{display:flex;align-items:center;gap:7px;font:700 12px "Open Sans",sans-serif;color:var(--text)}
+  .rk-cbl-item .a i{width:8px;height:8px;border-radius:99px;flex:0 0 8px;box-shadow:0 0 6px currentColor}
+  .rk-cbl-item .a small{margin-left:auto;font:600 9.5px "Open Sans",sans-serif;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+  .rk-cbl-item .b{font:500 11px "Open Sans",sans-serif;color:var(--dim);margin-top:3px;padding-left:15px}
+  .rk-cbl-item .b b{color:var(--teal);font-weight:600}
+  .rk-field{display:flex;flex-direction:column;gap:5px}
+  .rk-field label{font:600 10px "Open Sans",sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+  .rk-field input,.rk-field select{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;color:var(--text);font:500 12.5px "Open Sans",sans-serif;padding:8px 10px;outline:none;width:100%}
+  .rk-field input:focus,.rk-field select:focus{border-color:var(--tron-deep);box-shadow:0 0 0 3px rgba(40,224,255,.08)}
+  .rk-2col{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .rk-chipset{display:flex;gap:6px;flex-wrap:wrap}
+  .rk-chip{border:1px solid var(--line);background:var(--bg-2);color:var(--dim);font:600 10.5px "Open Sans",sans-serif;padding:5px 10px;border-radius:99px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px}
+  .rk-chip i{width:7px;height:7px;border-radius:99px}
+  .rk-chip:hover{color:var(--text);border-color:var(--tron-deep)}
+  .rk-chip.on{color:var(--text);border-color:var(--tron);background:rgba(40,224,255,.1);box-shadow:0 0 8px rgba(40,224,255,.14)}
+  /* ---- cable map ---- */
+  .rk-mapwrap{position:relative;flex:1;min-height:560px;overflow:hidden;border-radius:var(--r);cursor:grab}
+  .rk-mapwrap:active{cursor:grabbing}
+  .rk-map-node rect.nbody{fill:url(#rkNodeGrad);stroke:var(--line);stroke-width:1.1;transition:.18s}
+  .rk-map-node:hover rect.nbody{stroke:var(--tron-deep)}
+  .rk-map-node.sel rect.nbody{stroke:var(--tron);stroke-width:1.6;filter:drop-shadow(0 0 9px rgba(40,224,255,.4))}
+  .rk-map-node{cursor:pointer;transition:opacity .25s}
+  .rk-map-node text.nt{font:700 11.5px "Open Sans",sans-serif;fill:var(--text);pointer-events:none}
+  .rk-map-node text.nr{font:600 8.5px "Open Sans",sans-serif;letter-spacing:.08em;fill:var(--mute);text-transform:uppercase;pointer-events:none}
+  .rk-map-port rect{fill:var(--raise);stroke:var(--line);stroke-width:.9;transition:.15s}
+  .rk-map-port text{font:600 8.5px "Open Sans",sans-serif;fill:var(--dim);pointer-events:none}
+  .rk-map-node.sel .rk-map-port rect{stroke:var(--tron-deep)}
+  .rk-mapzoom{position:absolute;right:14px;top:14px;display:flex;flex-direction:column;gap:6px;z-index:10}
+  .rk-mapzoom button{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 90%,transparent);color:var(--text);font:700 15px "Open Sans",sans-serif;cursor:pointer;backdrop-filter:blur(6px)}
+  .rk-mapzoom button:hover{border-color:var(--tron-deep);color:var(--tron)}
+  /* ---- patch panel view ---- */
+  .rk-panels{display:flex;flex-direction:column;gap:16px;padding:26px 28px 96px;max-width:920px;margin:0 auto}
+  .rk-pp-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;padding:15px 17px;box-shadow:var(--shadow)}
+  .rk-pp-h{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .rk-pp-name{display:flex;align-items:center;gap:11px;border:none;background:transparent;padding:4px 8px 4px 4px;margin:-4px 0 -4px -4px;border-radius:9px;cursor:pointer;text-align:left;transition:.15s}
+  .rk-pp-name:hover{background:rgba(40,224,255,.07)}
+  .rk-pp-name:hover b{color:var(--tron)}
+  .rk-pp-h .sw{width:11px;height:11px;border-radius:4px;flex:0 0 11px;box-shadow:0 0 9px -1px currentColor}
+  .rk-pp-h b{font:700 13.5px "Open Sans",sans-serif;color:var(--text);display:block;transition:.15s}
+  .rk-pp-h small{font:500 10.5px "Open Sans",sans-serif;color:var(--mute);display:block;margin-top:1px}
+  .rk-pp-util{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .rk-pp-util b{font:700 15px "Open Sans",sans-serif;color:var(--teal)}
+  .rk-pp-util b i{font-style:normal;font-weight:600;font-size:11px;color:var(--mute)}
+  .rk-pp-util .bar{width:88px;height:5px;border-radius:99px;background:var(--bg);overflow:hidden}
+  .rk-pp-util .bar div{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--tron))}
+  .rk-pp-grid{display:flex;flex-direction:column;gap:7px;background:var(--bg-2);border:1px solid var(--line);border-radius:11px;padding:13px 14px}
+  .rk-pp-row{display:grid;grid-template-columns:16px repeat(12,1fr);gap:6px;align-items:center}
+  .rk-pp-rowlab{font:700 9.5px "Open Sans",sans-serif;color:var(--mute);text-align:center}
+  .rk-port{position:relative;aspect-ratio:1/1;min-width:0;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--mute);font:600 9.5px "Open Sans",sans-serif;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;padding:0}
+  .rk-port:hover{border-color:var(--tron-deep);color:var(--text);transform:translateY(-1px);box-shadow:0 4px 10px -5px #000c}
+  .rk-port.on{background:color-mix(in srgb,var(--pc) 24%,var(--bg));border-color:var(--pc);color:var(--text);box-shadow:0 0 9px -2px var(--pc)}
+  .rk-port.on::after{content:"";position:absolute;top:3px;right:3px;width:4px;height:4px;border-radius:99px;background:var(--pc);box-shadow:0 0 5px var(--pc)}
+  .rk-port.fib{border-radius:99px}
+  .rk-port.fib.on::after{top:1.5px;right:1.5px}
+  .rk-port.sel{border-color:var(--tron);box-shadow:0 0 0 2px rgba(40,224,255,.4),0 0 14px rgba(40,224,255,.3);color:var(--text)}
+  .rk-port.dim{opacity:.35}
+  /* port map — readable wiring list under each panel */
+  .rk-pp-map{display:flex;flex-direction:column;gap:4px;margin-top:10px}
+  .rk-ppm-row{display:flex;align-items:center;gap:8px;border:1px solid transparent;background:var(--bg-2);border-radius:8px;padding:6.5px 11px;cursor:pointer;font:500 11.5px "Open Sans",sans-serif;color:var(--dim);transition:.14s;text-align:left}
+  .rk-ppm-row:hover{border-color:var(--tron-deep);color:var(--text);transform:translateX(2px)}
+  .rk-ppm-row.sel{border-color:var(--tron);box-shadow:0 0 9px rgba(40,224,255,.15);color:var(--text)}
+  .rk-ppm-row i{width:7px;height:7px;border-radius:99px;flex:0 0 7px;box-shadow:0 0 6px currentColor}
+  .rk-ppm-row b{font-weight:700;color:var(--text);white-space:nowrap}
+  .rk-ppm-row .lab{color:var(--teal);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+  .rk-ppm-row .arr{color:var(--mute)}
+  .rk-ppm-row .pp{color:var(--dim)}
+  .rk-ppm-row small{margin-left:auto;font:600 9.5px "Open Sans",sans-serif;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;flex:0 0 auto}
+  /* status strip */
+  .rk-strip{display:flex;gap:20px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:9px 16px;font:600 11.5px "Open Sans",sans-serif;color:var(--mute);flex-wrap:wrap}
+  .rk-strip b{color:var(--text);font-family:"Rajdhani","Open Sans",sans-serif;font-size:14px}
+  .rk-strip .sep{width:1px;height:16px;background:var(--line)}
+  .rk-strip .hint{margin-left:auto;display:flex;align-items:center;gap:7px;font-weight:500;color:var(--mute)}
+  .rk-strip .hint kbd{background:var(--bg-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font:600 10px "Open Sans",sans-serif;color:var(--dim)}
+  @keyframes rkIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+  @keyframes rkDash{to{stroke-dashoffset:-26}}
+  .rk-cable.traced{stroke-dasharray:9 4;animation:rkDash 1.1s linear infinite}
+  @media (max-width:1200px){.rk-panel{flex-basis:262px}}
+  @media (max-width:980px){.rk-body{flex-direction:column}.rk-panel{position:static;max-height:none;flex-basis:auto}.rk-palette{position:static;max-height:none;flex-basis:auto}
+    .rk-panel.collapsed{flex-basis:auto}
+    .rk-panel-rail{flex-direction:row;min-height:42px;padding:0 13px;justify-content:center}
+    .rk-panel-rail span{writing-mode:horizontal-tb}}
+
+</style>
+<script>
+/* ================================================================
+   GUARDARE VISTA — RACK VIEWS
+   NetBox-inspired rack elevations, cable mapping & visual builder
+   ================================================================ */
+(function(){
+'use strict';
+
+/* ---------------- catalogs ---------------- */
+const RK_ROLES={
+  agg:  {t:'Aggregation Switch', c:'#41D98A'},
+  core: {t:'Core Switch',        c:'#3ECF8E'},
+  poe:  {t:'PoE Access Switch',  c:'#2BD0C6'},
+  dmz:  {t:'DMZ Switch',         c:'#9BE15D'},
+  spine:{t:'Spine Switch',       c:'#D96BD0'},
+  leaf: {t:'Leaf Switch',        c:'#38BDF8'},
+  fw:   {t:'Firewall / Gateway', c:'#FF9D4D'},
+  lb:   {t:'Load Balancer',      c:'#C88BFF'},
+  srv:  {t:'Server',             c:'#C9B98F'},
+  nvr:  {t:'NVR / Recorder',     c:'#F6B53F'},
+  patch:{t:'Copper Patch Panel', c:'#7B93A8'},
+  fiber:{t:'Fiber Patch Panel',  c:'#9F8BFF'},
+  mgr:  {t:'Cable Manager',      c:'#5A79B8'},
+  blank:{t:'Blank / Filler',     c:'#2A4A52'},
+  pdu:  {t:'PDU',                c:'#FF5D8F'},
+  ups:  {t:'UPS',                c:'#FF5D5D'}
+};
+const RK_CTYPES={
+  smf:  {t:'SMF Fiber',   c:'#41D98A'},
+  cat6a:{t:'Cat6a',       c:'#38BDF8'},
+  dac:  {t:'DAC / Twinax',c:'#C88BFF'},
+  pwr:  {t:'Power',       c:'#FF5D8F'}
+};
+const RK_AF={fr:{t:'Front → Rear',c:'#41D98A'},rf:{t:'Rear → Front',c:'#F6B53F'},side:{t:'Side',c:'#38BDF8'},pass:{t:'Passive',c:'#6B8A91'},mix:{t:'Mixed',c:'#FF5D8F'}};
+const RK_PWR_CONNS=['NEMA 5-15P','NEMA 5-15R','NEMA 5-20P','NEMA L5-20P','NEMA L5-30P','NEMA L5-30R','NEMA L6-20P','NEMA L6-30P','IEC C13','IEC C14','IEC C19','IEC C20'];
+const RK_PWR_CIRCUITS=[[15,120],[20,120],[30,120],[20,208],[30,208]];
+
+/* device palette templates for the builder */
+const RK_TPL=[
+  {role:'agg',  h:1, n:'Aggregation Switch', m:'ECS-4650-54T'},
+  {role:'poe',  h:1, n:'48p PoE Switch',     m:'Enterprise-48-POE'},
+  {role:'dmz',  h:1, n:'10G DMZ Switch',     m:'USW-10XG'},
+  {role:'fw',   h:1, n:'Edge Gateway',       m:'Guardare EFG'},
+  {role:'srv',  h:1, n:'1U Server',          m:'PowerEdge R650'},
+  {role:'nvr',  h:4, n:'NVR / Recorder',     m:'ENVR-8500'},
+  {role:'patch',h:1, n:'24p Patch Panel',    m:'Copper 24p'},
+  {role:'fiber',h:1, n:'Fiber Patch Panel',  m:'LC 12×3'},
+  {role:'mgr',  h:1, n:'Cable Manager',      m:'Brushed 1U'},
+  {role:'blank',h:1, n:'1 RU Blank',         m:'Filler'},
+  {role:'pdu',  h:2, n:'Metered PDU',        m:'UniFi PDU Pro'},
+  {role:'ups',  h:2, n:'UPS 3000VA',         m:'OL3000RTXL2U'}
+];
+
+/* ---------------- seed data ---------------- */
+/* pos = 0-based offset from the TOP of the rack; numbering 'asc' = U1 on top (matches Mike's Visio), 'desc' = NetBox style */
+function D(id,pos,h,role,name,model,w,af){return{id,pos,h,role,name,model:model||'',w:w||0,af:af||'pass',status:'active'};}
+function C(id,type,ad,ap,bd,bp,len,note){return{id,type,a:{dev:ad,port:ap},b:{dev:bd,port:bp},len:len||'2 m',note:note||''};}
+const RK_DB={
+  racks:[
+    {id:'gso',name:'GSO-MDF-01',site:'Greensboro · HQ MDF',tenant:'piedmont',u:42,numbering:'asc',devices:[
+      D('fpp1',0,1,'fiber','GSO-FIB-A','Fiber Patch 12×3 · LC',0,'pass'),
+      D('fpp2',1,1,'fiber','GSO-FIB-B','Fiber Patch 12×3 · LC',0,'pass'),
+      D('cm1',2,1,'mgr','Brushed Cable Manager'),
+      D('agg1',3,1,'agg','Enterprise-Aggregation-01','ECS-Aggregation-52X',128,'fr'),
+      D('cm2',4,1,'mgr','Brushed Cable Manager'),
+      D('agg2',5,1,'agg','Enterprise-Aggregation-02','ECS-Aggregation-52X',124,'fr'),
+      D('cm3',6,1,'mgr','Brushed Cable Manager'),
+      D('bl1',7,1,'blank','1 RU Blank'),D('bl2',8,1,'blank','1 RU Blank'),
+      D('efg1',9,1,'fw','EFG-01','Guardare EFG-2100',86,'fr'),
+      D('bl3',10,1,'blank','1 RU Blank'),
+      D('efg2',11,1,'fw','EFG-02','Guardare EFG-2100',82,'fr'),
+      D('bl4',12,1,'blank','1 RU Blank'),
+      D('ppa',13,1,'patch','GSO-PP-A','Cat6a 24p'),
+      D('poe1',14,1,'poe','Enterprise-48-POE+++','ECS-4650-54P',342,'fr'),
+      D('ppb',15,1,'patch','GSO-PP-B','Cat6a 24p'),
+      D('ppc',16,1,'patch','GSO-PP-C','Cat6a 24p'),
+      D('poe2',17,1,'poe','Enterprise-48-POE+++','ECS-4650-54P',298,'fr'),
+      D('ppd',18,1,'patch','GSO-PP-D','Cat6a 24p'),
+      D('bl5',19,1,'blank','1 RU Blank'),D('bl6',20,1,'blank','1 RU Blank'),
+      D('bl7',21,1,'blank','1 RU Blank'),D('bl8',22,1,'blank','1 RU Blank'),
+      D('dmzsp',23,1,'dmz','USW-10XG · Spectrum DMZ','USW-10XG',48,'fr'),
+      D('bl9',24,1,'blank','1 RU Blank'),
+      D('dmzsg',25,1,'dmz','USW-10XG · Segra DMZ','USW-10XG',44,'fr'),
+      D('bl10',26,1,'blank','1 RU Blank'),
+      D('envr',27,4,'nvr','ENVR-01','Guardare ENVR-8500',224,'fr'),
+      D('cm4',31,1,'mgr','Brushed Cable Manager'),
+      D('pdu1',32,2,'pdu','UniFi PDU Pro 01','USP-PDU-Pro',24,'pass'),
+      D('cm5',34,1,'mgr','Brushed Cable Manager'),
+      D('pdu2',35,2,'pdu','UniFi PDU Pro 02','USP-PDU-Pro',22,'pass'),
+      D('cm6',37,1,'mgr','Brushed Cable Manager'),
+      D('ups1',38,2,'ups','CyberPower UPS 01','OL3000RTXL2U',64,'fr'),
+      D('ups2',40,2,'ups','CyberPower UPS 02','OL3000RTXL2U',61,'fr')
+    ]},
+    {id:'lab',name:'LAB-SL-01',site:'HQ New York · Spine-Leaf Lab',tenant:'acme-corp',u:24,numbering:'desc',devices:[
+      D('sp1',0,1,'spine','SPINE-1','DCS-7050SX3',176,'fr'),
+      D('sp2',1,1,'spine','SPINE-2','DCS-7050SX3',171,'fr'),
+      D('lbl1',2,1,'blank','1 RU Blank'),
+      D('lf1',3,1,'leaf','LEAF-1','DCS-7050SX3-48YC8',142,'fr'),
+      D('lf2',4,1,'leaf','LEAF-2','DCS-7050SX3-48YC8',139,'fr'),
+      D('lf3',5,1,'leaf','LEAF-3','DCS-7050SX3-48YC8',145,'fr'),
+      D('lbl2',6,1,'blank','1 RU Blank'),D('lcm1',7,1,'mgr','Cable Manager'),
+      D('sv1',8,1,'srv','SERVER-5','PowerEdge R750',388,'fr'),
+      D('sv2',9,1,'srv','SERVER-6','PowerEdge R750',402,'fr'),
+      D('sv3',10,1,'srv','SERVER-7','PowerEdge R750',371,'fr'),
+      D('sv4',11,1,'srv','SERVER-8','PowerEdge R750',365,'fr'),
+      D('lbl3',12,1,'blank','1 RU Blank'),D('lbl4',13,1,'blank','1 RU Blank'),
+      D('lbl5',14,1,'blank','1 RU Blank'),D('lbl6',15,1,'blank','1 RU Blank'),
+      D('lbl7',16,1,'blank','1 RU Blank'),D('lbl8',17,1,'blank','1 RU Blank'),
+      D('lbl9',18,1,'blank','1 RU Blank'),D('lbl10',19,1,'blank','1 RU Blank'),
+      D('lpdu',20,2,'pdu','Lab PDU','USP-PDU-Pro',18,'pass'),
+      D('lups',22,2,'ups','Lab UPS','OL3000RTXL2U',52,'fr')
+    ]},
+    {id:'dcs',name:'DC-SEC-01',site:'DC01 Primary · Security Row',tenant:'roma',u:42,numbering:'desc',devices:[
+      D('dcm1',0,1,'mgr','Cable Manager'),
+      D('fw1',1,1,'fw','FW-1','FortiGate 600F',118,'fr'),
+      D('dbl1',2,1,'blank','1 RU Blank'),
+      D('fw2',3,1,'fw','FW-2-DCS','FortiGate 600F',121,'fr'),
+      D('dbl2',4,1,'blank','1 RU Blank'),D('dbl3',5,1,'blank','1 RU Blank'),
+      D('lb1',6,1,'lb','LB-1','BIG-IP i2800',96,'fr'),
+      D('dbl4',7,1,'blank','1 RU Blank'),
+      D('lb2',8,1,'lb','LB-2-DCS','BIG-IP i2800',94,'fr'),
+      D('dbl5',9,1,'blank','1 RU Blank'),D('dbl6',10,1,'blank','1 RU Blank'),
+      D('cor1',11,1,'core','CORE-1-DCS','Nexus 9336C',238,'fr'),
+      D('dbl7',12,1,'blank','1 RU Blank'),
+      D('cor2',13,1,'core','CORE-2-DCS','Nexus 9336C',241,'fr'),
+      D('dcm2',14,1,'mgr','Cable Manager'),
+      D('dbl8',15,1,'blank','1 RU Blank'),D('dbl9',16,1,'blank','1 RU Blank'),
+      D('dbl10',17,1,'blank','1 RU Blank'),D('dbl11',18,1,'blank','1 RU Blank'),
+      D('web1',19,1,'srv','WEB-1','PowerEdge R750',356,'fr'),
+      D('web2',20,1,'srv','WEB-2','PowerEdge R750',344,'fr'),
+      D('web3',21,1,'srv','WEB-3','PowerEdge R750',361,'fr'),
+      D('web4',22,1,'srv','WEB-4','PowerEdge R750',352,'fr'),
+      D('dbl12',23,1,'blank','1 RU Blank'),D('dbl13',24,1,'blank','1 RU Blank'),
+      D('dbl14',25,1,'blank','1 RU Blank'),D('dbl15',26,1,'blank','1 RU Blank'),
+      D('dbl16',27,1,'blank','1 RU Blank'),D('dbl17',28,1,'blank','1 RU Blank'),
+      D('dbl18',29,1,'blank','1 RU Blank'),D('dbl19',30,1,'blank','1 RU Blank'),
+      D('dbl20',31,1,'blank','1 RU Blank'),D('dbl21',32,1,'blank','1 RU Blank'),
+      D('dbl22',33,1,'blank','1 RU Blank'),D('dbl23',34,1,'blank','1 RU Blank'),
+      D('dcm3',35,1,'mgr','Cable Manager'),
+      D('dpdu1',36,2,'pdu','PDU-A','Metered 30A',26,'pass'),
+      D('dpdu2',38,2,'pdu','PDU-B','Metered 30A',27,'pass'),
+      D('dups',40,2,'ups','UPS-DCS','OL3000RTXL2U',58,'fr')
+    ]}
+  ],
+  cables:[
+    /* --- GSO-MDF-01 --- */
+    C('c1','smf','fpp1','A1','dmzsp','SFP+ 9','3 m','Spectrum 10G circuit'),
+    C('c2','smf','fpp2','A1','dmzsg','SFP+ 9','3 m','Segra 10G circuit'),
+    C('c3','cat6a','dmzsp','1','efg1','WAN1','1 m'),
+    C('c4','cat6a','dmzsp','2','efg2','WAN1','1 m'),
+    C('c5','cat6a','dmzsg','1','efg1','WAN2','1 m'),
+    C('c6','cat6a','dmzsg','2','efg2','WAN2','1 m'),
+    C('c7','smf','efg1','LAN1','agg1','49','1 m'),
+    C('c8','smf','efg1','LAN2','agg2','49','1 m'),
+    C('c9','smf','efg2','LAN1','agg1','50','1 m'),
+    C('c10','smf','efg2','LAN2','agg2','50','1 m'),
+    C('c11','cat6a','efg1','HA','efg2','HA','0.5 m','HA heartbeat'),
+    C('c12','dac','agg1','51','agg2','51','0.5 m','MLAG peer-link 1'),
+    C('c13','dac','agg1','52','agg2','52','0.5 m','MLAG peer-link 2'),
+    C('c14','smf','poe1','SFP 1','agg1','1','2 m'),
+    C('c15','smf','poe1','SFP 2','agg2','1','2 m'),
+    C('c16','smf','poe2','SFP 1','agg1','2','2 m'),
+    C('c17','smf','poe2','SFP 2','agg2','2','2 m'),
+    C('c18','cat6a','envr','eth0','poe1','47','2 m'),
+    C('c19','cat6a','envr','eth1','poe2','47','2 m'),
+    C('c20','smf','fpp1','B1','agg1','53','5 m','Campus fiber link'),
+    C('c21','smf','fpp2','B1','agg2','53','5 m','Campus fiber link'),
+    C('c24','pwr','pdu1','IN','ups1','OUT 1','1 m'),
+    C('c25','pwr','pdu2','IN','ups2','OUT 1','1 m'),
+    /* --- LAB-SL-01 --- */
+    C('c30','smf','lf1','Eth1','sp1','Eth3/1','2 m'),
+    C('c31','smf','lf1','Eth2','sp2','Eth3/1','2 m'),
+    C('c32','smf','lf2','Eth1','sp1','Eth3/2','2 m'),
+    C('c33','smf','lf2','Eth2','sp2','Eth3/2','2 m'),
+    C('c34','smf','lf3','Eth1','sp1','Eth3/3','2 m'),
+    C('c35','smf','lf3','Eth2','sp2','Eth3/3','2 m'),
+    C('c36','dac','sv1','eth0','lf1','Eth2/1','1 m'),
+    C('c37','dac','sv2','eth0','lf1','Eth2/2','1 m'),
+    C('c38','dac','sv3','eth0','lf2','Eth2/1','1 m'),
+    C('c39','dac','sv4','eth0','lf3','Eth2/1','1 m'),
+    C('c40','pwr','lpdu','IN','lups','OUT 1','1 m'),
+    /* --- DC-SEC-01 --- */
+    C('c50','cat6a','fw1','HA','fw2','HA','0.5 m','HA pair'),
+    C('c51','smf','fw1','Inside','lb1','Frontend','2 m'),
+    C('c52','smf','fw2','Inside','lb2','Frontend','2 m'),
+    C('c53','smf','lb1','Backend1','cor1','Eth2','1 m'),
+    C('c54','smf','lb1','Backend2','cor2','Eth1','1 m'),
+    C('c55','smf','lb2','Backend1','cor1','Eth1','1 m'),
+    C('c56','smf','lb2','Backend2','cor2','Eth2','1 m'),
+    C('c57','smf','web1','eth0','cor1','Eth3','3 m'),
+    C('c58','smf','web2','eth0','cor2','Eth3','3 m'),
+    C('c59','smf','web3','eth0','cor1','Eth4','3 m'),
+    C('c60','smf','web4','eth0','cor2','Eth4','3 m'),
+    C('c61','pwr','dpdu1','IN','dups','OUT 1','1 m'),
+    C('c62','pwr','dpdu2','IN','dups','OUT 2','1 m')
+  ]
+};
+
+/* station patching: copper panels → PoE switch ports (port-level detail for Patch Panel View)
+   panel port n patches to switch port n (ppa/ppc) or n+24 (ppb/ppd) so switch ports never collide */
+[['ppa','poe1',0,[1,2,3,7,8,12,15,18,22]],['ppb','poe1',24,[2,5,6,9,14,17,21]],
+ ['ppc','poe2',0,[1,4,5,10,11,16,20]],['ppd','poe2',24,[3,6,8,13,19,23]]].forEach(([p,sw,off,ports])=>{
+  ports.forEach(pt=>RK_DB.cables.push(C('cp-'+p+'-'+pt,'cat6a',p,String(pt),sw,String(pt+off),'0.5 m','Station patch')));
+});
+
+/* power connector detail (NEMA / IEC) — cords carry plug/receptacle, amps & volts */
+const PW=(a,b,amps,volts)=>({a,b,amps,volts});
+const RK_PWR_SEED={
+  c24:PW('NEMA L5-30P','NEMA L5-30R',30,120), /* PDU feed ← UPS twist-lock */
+  c25:PW('NEMA L5-30P','NEMA L5-30R',30,120),
+  c40:PW('NEMA L5-30P','NEMA L5-30R',30,120),
+  c61:PW('NEMA L5-30P','NEMA L5-30R',30,120),
+  c62:PW('NEMA L5-30P','NEMA L5-30R',30,120)
+};
+RK_DB.cables.forEach(c=>{if(RK_PWR_SEED[c.id])c.pwr=RK_PWR_SEED[c.id];});
+/* device power cords — A/B redundancy: odd PSUs feed PDU-01, even feed PDU-02 */
+[['agg1','PSU','pdu1','Outlet 1'],['agg2','PSU','pdu2','Outlet 1'],
+ ['efg1','PSU','pdu1','Outlet 2'],['efg2','PSU','pdu2','Outlet 2'],
+ ['poe1','PSU','pdu1','Outlet 3'],['poe2','PSU','pdu2','Outlet 3'],
+ ['envr','PSU-1','pdu1','Outlet 4'],['envr','PSU-2','pdu2','Outlet 4'],
+ ['dmzsp','PSU','pdu1','Outlet 5'],['dmzsg','PSU','pdu2','Outlet 5']
+].forEach(([d,dp,p,pp],i)=>{
+  const c=C('pw'+i,'pwr',d,dp,p,pp,'1.5 m','Power cord');
+  c.pwr=PW('IEC C13','NEMA 5-15P',15,120);
+  RK_DB.cables.push(c);
+});
+
+/* link speed + per-side transceiver / media modules (GLC-T, SFP-10G-LR, QSFP-100G-SR4, DAC…) */
+const RK_XCVR_SEED={
+  c1:{s:'10G',a:'LC · SMF',b:'SFP-10G-LR'},   c2:{s:'10G',a:'LC · SMF',b:'SFP-10G-LR'},
+  c3:{s:'10G',a:'RJ45 · 10GBASE-T',b:'RJ45 · 10GBASE-T'}, c4:{s:'10G',a:'RJ45 · 10GBASE-T',b:'RJ45 · 10GBASE-T'},
+  c5:{s:'10G',a:'RJ45 · 10GBASE-T',b:'RJ45 · 10GBASE-T'}, c6:{s:'10G',a:'RJ45 · 10GBASE-T',b:'RJ45 · 10GBASE-T'},
+  c7:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'}, c8:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'},
+  c9:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'}, c10:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'},
+  c11:{s:'1G',a:'RJ45 · 1000BASE-T',b:'RJ45 · 1000BASE-T'},
+  c12:{s:'10G',a:'DAC-10G-0.5m',b:'DAC-10G-0.5m'}, c13:{s:'10G',a:'DAC-10G-0.5m',b:'DAC-10G-0.5m'},
+  c14:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'}, c15:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'},
+  c16:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'}, c17:{s:'10G',a:'SFP-10G-LR',b:'SFP-10G-LR'},
+  c18:{s:'1G',a:'RJ45 · 1000BASE-T',b:'RJ45 · PoE+'}, c19:{s:'1G',a:'RJ45 · 1000BASE-T',b:'RJ45 · PoE+'},
+  c20:{s:'10G',a:'LC · SMF',b:'SFP-10G-LR'}, c21:{s:'10G',a:'LC · SMF',b:'SFP-10G-LR'},
+  c30:{s:'100G',a:'QSFP-100G-SR4',b:'QSFP-100G-SR4'}, c31:{s:'100G',a:'QSFP-100G-SR4',b:'QSFP-100G-SR4'},
+  c32:{s:'100G',a:'QSFP-100G-SR4',b:'QSFP-100G-SR4'}, c33:{s:'100G',a:'QSFP-100G-SR4',b:'QSFP-100G-SR4'},
+  c34:{s:'100G',a:'QSFP-100G-SR4',b:'QSFP-100G-SR4'}, c35:{s:'100G',a:'QSFP-100G-SR4',b:'QSFP-100G-SR4'},
+  c36:{s:'10G',a:'DAC-10G-1m',b:'DAC-10G-1m'}, c37:{s:'10G',a:'DAC-10G-1m',b:'DAC-10G-1m'},
+  c38:{s:'10G',a:'DAC-10G-1m',b:'DAC-10G-1m'}, c39:{s:'10G',a:'DAC-10G-1m',b:'DAC-10G-1m'},
+  c50:{s:'1G',a:'RJ45 · 1000BASE-T',b:'RJ45 · 1000BASE-T'},
+  c51:{s:'10G',a:'SFP-10G-SR',b:'SFP-10G-SR'}, c52:{s:'10G',a:'SFP-10G-SR',b:'SFP-10G-SR'},
+  c53:{s:'10G',a:'SFP-10G-SR',b:'SFP-10G-SR'}, c54:{s:'10G',a:'SFP-10G-SR',b:'SFP-10G-SR'},
+  c55:{s:'10G',a:'SFP-10G-SR',b:'SFP-10G-SR'}, c56:{s:'10G',a:'SFP-10G-SR',b:'SFP-10G-SR'},
+  c57:{s:'25G',a:'SFP-25G-SR',b:'SFP-25G-SR'}, c58:{s:'25G',a:'SFP-25G-SR',b:'SFP-25G-SR'},
+  c59:{s:'25G',a:'SFP-25G-SR',b:'SFP-25G-SR'}, c60:{s:'25G',a:'SFP-25G-SR',b:'SFP-25G-SR'}
+};
+RK_DB.cables.forEach(c=>{const x=RK_XCVR_SEED[c.id];if(x){c.speed=x.s;c.a.xcvr=x.a;c.b.xcvr=x.b;}
+  else if(c.id.startsWith('cp-')){c.speed='1G';c.b.xcvr='RJ45 · PoE+';} /* station patches land on PoE switch ports */
+});
+const RK_SPEEDS=['1G','2.5G','10G','25G','40G','100G'];
+
+/* human-readable port labels — what each panel port serves (editable in the builder) */
+const RK_SEED_LABELS={
+  ppa:{'1':'Front Desk','2':'Conf Rm A','3':'Conf Rm B','7':'AP-Lobby','8':'AP-Warehouse','12':'Printer Bay','15':'Door Access','18':'Cam-North','22':'Cam-South'},
+  ppb:{'2':'Sales Row 1','5':'Sales Row 2','6':'Eng Row 1','9':'Eng Row 2','14':'Break Room','17':'AP-Mezzanine','21':'Shipping Desk'},
+  ppc:{'1':'Exec Suite','4':'IT Bench','5':'Server Rm AP','10':'Lobby Kiosk','11':'Guard Shack','16':'Cam-East','20':'Cam-West'},
+  ppd:{'3':'Warehouse 1','6':'Warehouse 2','8':'Dock Office','13':'AP-Yard','19':'Cam-Yard','23':'Intercom'},
+  fpp1:{'A1':'Spectrum 10G handoff','B1':'Campus link · Bldg B'},
+  fpp2:{'A1':'Segra 10G handoff','B1':'Campus link · Bldg C'}
+};
+RK_DB.racks.forEach(r=>r.devices.forEach(d=>{if(RK_SEED_LABELS[d.id])d.labels=RK_SEED_LABELS[d.id];}));
+
+/* ---------------- state ---------------- */
+const RKS={view:'elev',scope:'all',cables:true,power:false,airflow:false,edit:false,panelOpen:true,zoom:1,
+  sel:null,          /* {type:'dev'|'cable', id} */
+  connect:null,      /* {from:devId, ctype} */
+  show:{smf:true,cat6a:true,dac:true,pwr:true},
+  drag:null, seq:100};
+
+/* ---------------- helpers ---------------- */
+const rkEsc=s=>String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const rkTX=k=>typeof TX==='function'?TX(k):k;
+function rkRackOf(devId){return RK_DB.racks.find(r=>r.devices.some(d=>d.id===devId));}
+function rkDev(devId){for(const r of RK_DB.racks){const d=r.devices.find(x=>x.id===devId);if(d)return d;}return null;}
+function rkULabel(rack,pos,h){ /* display label for a device spanning pos..pos+h-1 (pos from top) */
+  const us=[];for(let i=0;i<h;i++){us.push(rack.numbering==='asc'?pos+i+1:rack.u-(pos+i));}
+  return us.length>1?(Math.min(...us)+'–'+Math.max(...us)):String(us[0]);
+}
+function rkTenantScope(){ /* honor the MSP tenant context bar */
+  try{
+    const s=(typeof currentTenantCtx!=='undefined'&&currentTenantCtx)||(typeof currentTenant!=='undefined'&&currentTenant)||'all';
+    return (typeof TENANTS!=='undefined'&&TENANTS[s])?s:'all';
+  }catch(e){return 'all';}
+}
+function rkTenantName(slug){
+  if(typeof TENANTS!=='undefined'&&TENANTS[slug])return TENANTS[slug].name;
+  if(typeof tenantName!=='undefined'&&tenantName[slug])return tenantName[slug];
+  return slug;
+}
+function rkTenantRacks(){
+  const s=rkTenantScope();
+  return s==='all'?RK_DB.racks:RK_DB.racks.filter(r=>r.tenant===s);
+}
+function rkScopedRacks(){
+  const base=rkTenantRacks();
+  if(RKS.scope==='all')return base;
+  const hit=base.filter(r=>r.id===RKS.scope);
+  return hit.length?hit:base; /* stale rack scope from another tenant falls back to all-in-tenant */
+}
+function rkVisibleCables(){return RK_DB.cables.filter(c=>RKS.show[c.type]);}
+function rkCablesOf(devId){return rkVisibleCables().filter(c=>c.a.dev===devId||c.b.dev===devId);}
+function rkPeer(c,devId){return c.a.dev===devId?c.b:c.a;}
+function rkHeat(w){ /* 0..500W → blue→teal→amber→orange→red */
+  const stops=[[42,107,212],[43,208,198],[246,181,63],[255,122,24],[255,93,93]];
+  const t=Math.max(0,Math.min(1,(w||0)/500))*(stops.length-1),i=Math.min(Math.floor(t),stops.length-2),f=t-i;
+  const m=(a,b)=>Math.round(a+(b-a)*f);
+  return `rgb(${m(stops[i][0],stops[i+1][0])},${m(stops[i][1],stops[i+1][1])},${m(stops[i][2],stops[i+1][2])})`;
+}
+function rkDarkText(hex){ /* true → use dark text on this bg */
+  const h=hex.replace('#','');const r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+  return (r*.299+g*.587+b*.114)>140;
+}
+function rkShade(hex,f){ /* darken/lighten hex by factor f (-1..1) */
+  const h=hex.replace('#','');let out='#';
+  for(let i=0;i<3;i++){let v=parseInt(h.substr(i*2,2),16);v=Math.round(f<0?v*(1+f):v+(255-v)*f);out+=('0'+Math.max(0,Math.min(255,v)).toString(16)).slice(-2);}
+  return out;
+}
+function rkFree(rack,pos,h,ignoreId){ /* are units pos..pos+h-1 free? (blank fillers count as free space) */
+  if(pos<0||pos+h>rack.u)return false;
+  return !rack.devices.some(d=>d.id!==ignoreId&&d.role!=='blank'&&!(pos+h<=d.pos||pos>=d.pos+d.h));
+}
+function rkClearBlanks(rack,pos,h,ignoreId){ /* remove blank fillers overlapped by a drop */
+  rack.devices=rack.devices.filter(d=>!(d.role==='blank'&&d.id!==ignoreId&&!(pos+h<=d.pos||pos>=d.pos+d.h)));
+}
+function rkSelDevId(){return RKS.sel&&RKS.sel.type==='dev'?RKS.sel.id:null;}
+function rkTraceSet(){ /* devIds + cableIds currently highlighted, or null when nothing selected */
+  if(!RKS.sel)return null;
+  const devs=new Set(),cbls=new Set();
+  if(RKS.sel.type==='dev'){devs.add(RKS.sel.id);rkCablesOf(RKS.sel.id).forEach(c=>{cbls.add(c.id);devs.add(c.a.dev);devs.add(c.b.dev);});}
+  else if(RKS.sel.type==='port'){devs.add(RKS.sel.dev);}
+  else{const c=RK_DB.cables.find(x=>x.id===RKS.sel.id);if(c){cbls.add(c.id);devs.add(c.a.dev);devs.add(c.b.dev);}}
+  return{devs,cbls};
+}
+function rkPortCable(devId,port){
+  return RK_DB.cables.find(c=>(c.a.dev===devId&&c.a.port===port)||(c.b.dev===devId&&c.b.port===port))||null;
+}
+/* rich hover tooltips */
+function rkDevTitle(d){
+  const rack=rkRackOf(d.id),role=RK_ROLES[d.role]||RK_ROLES.blank;
+  const lines=[d.name+' — '+rkTX(role.t)];
+  lines.push((d.model?d.model+' · ':'')+(rack?rack.name+' · U'+rkULabel(rack,d.pos,d.h)+' · '+d.h+'U':''));
+  if(!['blank','mgr'].includes(d.role)){
+    const n=rkCablesOf(d.id).length;
+    lines.push((d.w?d.w+' W':'—')+' · '+rkTX((RK_AF[d.af]||RK_AF.pass).t)+' · '+n+' '+rkTX(n===1?'cable':'cables')+' · '+rkTX('Active'));
+  }
+  return lines.join('\n');
+}
+function rkEndDetail(c,side){ /* one endpoint, fully described: device · port · module */
+  const d=rkDev(c[side].dev);
+  let s=(d?d.name:'?')+' · '+rkTX('Port')+' '+c[side].port;
+  if(c[side].xcvr)s+=' · '+c[side].xcvr;
+  if(c.pwr)s+=' · '+(side==='a'?c.pwr.a:c.pwr.b);
+  return s;
+}
+function rkCableTitle(c){
+  const ct=RK_CTYPES[c.type];
+  const lines=[rkEndDetail(c,'a')+'  ⇄  '+rkEndDetail(c,'b')];
+  let l2=ct.t+(c.speed?' · '+c.speed:'')+' · '+c.len;
+  if(c.pwr)l2+=' · '+c.pwr.amps+'A @ '+c.pwr.volts+'V';
+  if(c.note)l2+=' — '+c.note;
+  lines.push(l2);
+  return lines.join('\n');
+}
+
+/* ---------------- geometry ---------------- */
+const UH=21,NUMW=30,RACKW=234,GUT=118,RAIL=26,PADT=12;
+
+/* ---------------- elevation SVG ---------------- */
+function rkElevSVG(rack){
+  const frameX=GUT+NUMW,frameH=rack.u*UH+2*PADT,W=frameX+RACKW+RAIL+8,H=frameH+8;
+  const trace=rkTraceSet();
+  const uy=i=>4+PADT+i*UH;
+  let s=`<svg class="rk-svg" data-rack="${rack.id}" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  s+=`<defs>
+    <linearGradient id="rkFG-${rack.id}" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="var(--raise)"/><stop offset=".5" stop-color="var(--panel-2)"/><stop offset="1" stop-color="var(--raise)"/>
+    </linearGradient>
+    <filter id="rkGlow-${rack.id}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+  /* frame */
+  s+=`<rect x="${frameX}" y="4" width="${RACKW}" height="${frameH}" rx="9" fill="url(#rkFG-${rack.id})" stroke="var(--line)" stroke-width="1.2"/>`;
+  /* mounting rail dots (unit numbers collected separately so they render above the cable layer) */
+  let nums='';
+  for(let i=0;i<rack.u;i++){
+    const y=uy(i);
+    s+=`<rect class="rk-urow" x="${frameX+6}" y="${y}" width="${RACKW-12}" height="${UH}"/>`;
+    nums+=`<text class="rk-unum" x="${frameX-8}" y="${y+UH/2+3}" text-anchor="end">${rack.numbering==='asc'?i+1:rack.u-i}</text>`;
+    s+=`<circle cx="${frameX+3.2}" cy="${y+UH/2}" r="1.1" fill="var(--mute)" opacity=".5"/><circle cx="${frameX+RACKW-3.2}" cy="${y+UH/2}" r="1.1" fill="var(--mute)" opacity=".5"/>`;
+  }
+  /* drop highlight layer (builder) */
+  s+=`<g class="rk-drophl" data-rack="${rack.id}"></g>`;
+
+  /* ---- cables (drawn under endpoint dots, over frame) ---- */
+  const inRack=id=>rack.devices.some(d=>d.id===id);
+  const cables=rkVisibleCables().filter(c=>inRack(c.a.dev)&&inRack(c.b.dev));
+  /* endpoint stacking: gather endpoints per device, sort by peer position */
+  const eps={}; /* devId -> [{cable,peerPos}] */
+  cables.forEach(c=>{[['a','b'],['b','a']].forEach(([m,o])=>{
+    const d=c[m].dev,peer=rkDev(c[o].dev);
+    (eps[d]=eps[d]||[]).push({c,peerPos:peer?peer.pos:0});
+  });});
+  Object.values(eps).forEach(list=>list.sort((x,y)=>x.peerPos-y.peerPos));
+  const epY=(devId,cable)=>{
+    const d=rkDev(devId),list=eps[devId]||[],i=list.findIndex(e=>e.c===cable),n=list.length;
+    const mid=uy(d.pos)+d.h*UH/2,span=Math.min(d.h*UH-8,n*5.5);
+    return n<2?mid:mid-span/2+(i/(n-1))*span;
+  };
+  /* lanes: shorter spans hug the rack */
+  const sorted=[...cables].sort((a,b)=>{
+    const sp=c=>Math.abs(rkDev(c.a.dev).pos-rkDev(c.b.dev).pos);return sp(a)-sp(b);
+  });
+  let cs='',ds='';
+  sorted.forEach((c,lane)=>{
+    const col=RK_CTYPES[c.type].c,x=frameX+7;
+    const y1=epY(c.a.dev,c),y2=epY(c.b.dev,c);
+    const dx=26+lane*((GUT-34)/Math.max(1,sorted.length-1||1));
+    const cls=[];
+    if(trace){if(trace.cbls.has(c.id)){cls.push('traced');if(RKS.sel.type==='cable'&&RKS.sel.id===c.id)cls.push('sel');}else cls.push('rk-dim');}
+    const p=`M ${x} ${y1} C ${x-dx} ${y1}, ${x-dx} ${y2}, ${x} ${y2}`;
+    cs+=`<path class="rk-cable ${cls.join(' ')}" data-cable="${c.id}" d="${p}" stroke="${col}" stroke-width="2" stroke-linecap="round" opacity=".92"/>`;
+    cs+=`<path class="rk-cablehit" data-cable="${c.id}" d="${p}"><title>${rkEsc(rkCableTitle(c))}</title></path>`;
+    const dimDot=trace&&!trace.cbls.has(c.id)?'rk-dim':'';
+    ds+=`<circle class="${dimDot}" cx="${x}" cy="${y1}" r="2.4" fill="${col}" filter="url(#rkGlow-${rack.id})"/><circle class="${dimDot}" cx="${x}" cy="${y2}" r="2.4" fill="${col}" filter="url(#rkGlow-${rack.id})"/>`;
+  });
+  if(RKS.cables)s+=`<g class="rk-cablelayer">${cs}</g>`;
+  s+=`<g>${nums}</g>`;
+
+  /* ---- devices ---- */
+  rack.devices.forEach(d=>{
+    const role=RK_ROLES[d.role]||RK_ROLES.blank;
+    const y=uy(d.pos)+1.5,h=d.h*UH-3,x=frameX+7,w=RACKW-14;
+    let fill,edge,txt;
+    if(RKS.power&&d.role!=='blank'&&d.role!=='mgr'){
+      const hc=rkHeat(d.w);fill=`${hc}`;edge=rkShade(hc,-.35);txt=rkDarkText(hc.startsWith('#')?hc:'#888888');
+      /* rgb() → luminance quick parse */
+      const m=hc.match(/\d+/g);txt=m?(m[0]*.299+m[1]*.587+m[2]*.114)>140:false;
+    }else if(d.role==='blank'){fill='var(--bg-2)';edge='var(--line)';txt=false;}
+    else if(d.role==='mgr'){fill='color-mix(in srgb,'+role.c+' 20%,var(--panel-2))';edge=rkShade(role.c,-.3);txt=false;}
+    else{fill=role.c;edge=rkShade(role.c,-.4);txt=rkDarkText(role.c);}
+    const cls=['rk-dev'];
+    if(trace){cls.push(trace.devs.has(d.id)?'':(RKS.sel.type==='dev'?'rk-dim':'rk-semidim'));}
+    if(rkSelDevId()===d.id)cls.push('sel');
+    const tcol=txt?'#08262b':'var(--text)';
+    const subcol=txt?'#08262baa':'var(--dim)';
+    s+=`<g class="${cls.join(' ')}" data-dev="${d.id}">`;
+    s+=`<title>${rkEsc(rkDevTitle(d))}</title>`;
+    s+=`<rect class="body" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${fill}" stroke="${edge}"/>`;
+    if(d.role==='blank'){
+      s+=`<text class="lbl" x="${x+w/2}" y="${y+h/2+3}" text-anchor="middle" fill="var(--mute)" opacity=".55">${rkEsc(d.name)}</text>`;
+    }else if(d.role==='mgr'){
+      for(let i=0;i<9;i++)s+=`<rect x="${x+16+i*((w-32)/9)}" y="${y+h/2-3.5}" width="${(w-32)/9-4}" height="7" rx="2" fill="var(--bg)" opacity=".5"/>`;
+      s+=`<text class="lbl" x="${x+w/2}" y="${y+h/2+3}" text-anchor="middle" fill="var(--dim)" opacity=".0"></text>`;
+    }else{
+      s+=`<text class="lbl" x="${x+9}" y="${y+(h>26?14:h/2+3.2)}" fill="${tcol}">${rkEsc(d.name.length>30?d.name.slice(0,29)+'…':d.name)}</text>`;
+      if(h>26)s+=`<text class="sub" x="${x+9}" y="${y+26}" fill="${subcol}">${rkEsc(d.model)}</text>`;
+      /* status LED + port ticks */
+      s+=`<circle cx="${x+w-9}" cy="${y+(h>26?10:h/2)}" r="2.2" fill="${d.status==='active'?'#41D98A':'#F6B53F'}" filter="url(#rkGlow-${rack.id})"/>`;
+      if(['agg','poe','dmz','core','spine','leaf'].includes(d.role)&&h<=26){
+        for(let i=0;i<10;i++)s+=`<rect x="${x+w-78+i*6}" y="${y+h/2-2.5}" width="4" height="5" rx="1" fill="${txt?'#08262b55':'#ffffff2e'}"/>`;
+      }
+    }
+    /* airflow chip */
+    if(RKS.airflow&&d.role!=='blank'&&d.role!=='mgr'){
+      const af=RK_AF[d.af]||RK_AF.pass;
+      s+=`<g><title>${rkEsc(d.name+' · '+rkTX('Airflow')+': '+rkTX(af.t))}</title><circle cx="${frameX+RACKW+13}" cy="${y+h/2}" r="4" fill="${af.c}" filter="url(#rkGlow-${rack.id})"/>`;
+      if(d.af==='fr')s+=`<path d="M ${frameX+RACKW+10.5} ${y+h/2} h5 m-2 -2 l2 2 l-2 2" stroke="#06282c" stroke-width="1.1" fill="none"/>`;
+      if(d.af==='rf')s+=`<path d="M ${frameX+RACKW+15.5} ${y+h/2} h-5 m2 -2 l-2 2 l2 2" stroke="#06282c" stroke-width="1.1" fill="none"/>`;
+      s+=`</g>`;
+    }
+    s+=`</g>`;
+  });
+  if(RKS.cables)s+=`<g>${ds}</g>`;
+  s+=`</svg>`;
+  return s;
+}
+
+/* ---------------- cable map (topology) ---------------- */
+const RK_RANK={fiber:0,dmz:1,fw:2,lb:3,agg:4,core:4,spine:4,leaf:5,poe:5,patch:6,srv:6,web:6,nvr:6,pdu:7,ups:8};
+function rkMapModel(){
+  const racks=rkScopedRacks(),islands=[];
+  racks.forEach(rack=>{
+    const inRack=id=>rack.devices.some(d=>d.id===id);
+    const cables=rkVisibleCables().filter(c=>inRack(c.a.dev)&&inRack(c.b.dev));
+    const devIds=new Set();cables.forEach(c=>{devIds.add(c.a.dev);devIds.add(c.b.dev);});
+    const nodes={};
+    [...devIds].map(rkDev).filter(Boolean).filter(d=>!['mgr','blank'].includes(d.role)).forEach(d=>{
+      nodes[d.id]={d,rank:RK_RANK[d.role]==null?5:RK_RANK[d.role],L:[],R:[]};
+    });
+    /* assign ports to node sides */
+    cables.forEach(c=>{
+      const na=nodes[c.a.dev],nb=nodes[c.b.dev];if(!na||!nb)return;
+      const aSide=na.rank<=nb.rank?'R':'L',bSide=nb.rank<na.rank?'R':'L';
+      na[aSide].push({port:c.a.port,cable:c});nb[bSide].push({port:c.b.port,cable:c});
+    });
+    /* layout: columns by rank */
+    const cols={};Object.values(nodes).forEach(n=>{(cols[n.rank]=cols[n.rank]||[]).push(n);});
+    const ranks=Object.keys(cols).map(Number).sort((a,b)=>a-b);
+    const NW=158,GX=112,GY=26;
+    let maxH=0;
+    ranks.forEach((rk,ci)=>{
+      const col=cols[rk].sort((a,b)=>a.d.pos-b.d.pos);
+      let y=0;
+      col.forEach(n=>{
+        n.h=Math.max(46,26+Math.max(n.L.length,n.R.length)*17+6);n.w=NW;
+        n.x=40+ci*(NW+GX);n.y=y;y+=n.h+GY;
+      });
+      maxH=Math.max(maxH,y-GY);
+    });
+    /* vertical centering per column */
+    ranks.forEach(rk=>{
+      const col=cols[rk],colH=col.reduce((a,n)=>a+n.h+GY,-GY);
+      const off=(maxH-colH)/2;col.forEach(n=>n.y+=off);
+    });
+    islands.push({rack,nodes,cables,w:40+ranks.length*(NW+GX),h:Math.max(maxH,60)});
+  });
+  return islands;
+}
+function rkMapSVG(){
+  const islands=rkMapModel(),trace=rkTraceSet();
+  let y0=30,W=600,parts='';
+  islands.forEach(isl=>{
+    const islSub=(rkTenantScope()==='all'?rkTenantName(isl.rack.tenant)+' · ':'')+isl.rack.site;
+    parts+=`<text x="42" y="${y0-6}" font-size="13" font-weight="700" fill="var(--text)" font-family="Open Sans">${rkEsc(isl.rack.name)}</text>
+      <text x="${50+isl.rack.name.length*8.4}" y="${y0-6}" font-size="10" fill="var(--mute)" font-family="Open Sans">${rkEsc(islSub)}</text>`;
+    /* edges */
+    isl.cables.forEach(c=>{
+      const na=isl.nodes[c.a.dev],nb=isl.nodes[c.b.dev];if(!na||!nb)return;
+      const col=RK_CTYPES[c.type].c;
+      const pa=rkPortPos(na,c),pb=rkPortPos(nb,c);
+      const ax=na.x+(pa.side==='R'?na.w:0),ay=y0+na.y+pa.y,bx=nb.x+(pb.side==='R'?nb.w:0),by=y0+nb.y+pb.y;
+      let d;
+      if(pa.side==='R'&&pb.side==='L')d=`M ${ax} ${ay} C ${(ax+bx)/2} ${ay}, ${(ax+bx)/2} ${by}, ${bx} ${by}`;
+      else if(pa.side==='L'&&pb.side==='R')d=`M ${ax} ${ay} C ${(ax+bx)/2} ${ay}, ${(ax+bx)/2} ${by}, ${bx} ${by}`;
+      else{const bulge=pa.side==='R'?Math.max(ax,bx)+52:Math.min(ax,bx)-52;d=`M ${ax} ${ay} C ${bulge} ${ay}, ${bulge} ${by}, ${bx} ${by}`;}
+      const cls=[];
+      if(trace){if(trace.cbls.has(c.id)){cls.push('traced');if(RKS.sel.type==='cable'&&RKS.sel.id===c.id)cls.push('sel');}else cls.push('rk-dim');}
+      parts+=`<path class="rk-cable ${cls.join(' ')}" data-cable="${c.id}" d="${d}" stroke="${col}" stroke-width="1.9" fill="none" opacity=".92"/><path class="rk-cablehit" data-cable="${c.id}" d="${d}"><title>${rkEsc(rkCableTitle(c))}</title></path>`;
+    });
+    /* nodes */
+    Object.values(isl.nodes).forEach(n=>{
+      const role=RK_ROLES[n.d.role],cls=['rk-map-node'];
+      if(trace)cls.push(trace.devs.has(n.d.id)?'':'rk-dim');
+      if(rkSelDevId()===n.d.id)cls.push('sel');
+      parts+=`<g class="${cls.join(' ')}" data-dev="${n.d.id}" transform="translate(${n.x},${y0+n.y})">
+        <title>${rkEsc(rkDevTitle(n.d))}</title>
+        <rect class="nbody" width="${n.w}" height="${n.h}" rx="9"/>
+        <rect x="0" y="0" width="3.5" height="${n.h}" rx="1.7" fill="${role.c}"/>
+        <text class="nt" x="12" y="15">${rkEsc(n.d.name.length>17?n.d.name.slice(0,16)+'…':n.d.name)}</text>
+        <text class="nr" x="12" y="26">${rkEsc(rkTX(role.t))}</text>`;
+      ['L','R'].forEach(side=>{
+        n[side].forEach((p,i)=>{
+          const px=side==='L'?-3:n.w-43,py=32+i*17;
+          parts+=`<g class="rk-map-port"><title>${rkEsc(n.d.name+' : '+p.port+'\n'+rkCableTitle(p.cable))}</title><rect x="${px}" y="${py}" width="46" height="13" rx="4"/>
+            <text x="${px+23}" y="${py+9.5}" text-anchor="middle">${rkEsc(String(p.port).length>7?String(p.port).slice(0,6)+'…':p.port)}</text></g>`;
+        });
+      });
+      parts+=`</g>`;
+    });
+    W=Math.max(W,isl.w+80);y0+=isl.h+72;
+  });
+  const H=y0;
+  return `<svg id="rkMapSVG" width="100%" height="100%" viewBox="0 0 ${Math.max(W,700)} ${Math.max(H,400)}" data-fit="0,0,${Math.max(W,700)},${Math.max(H,400)}" preserveAspectRatio="xMidYMin meet">
+    <defs><linearGradient id="rkNodeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--raise)"/><stop offset="1" stop-color="var(--panel-2)"/></linearGradient></defs>${parts}</svg>`;
+}
+function rkPortPos(n,cable){
+  for(const side of['L','R']){const i=n[side].findIndex(p=>p.cable===cable);if(i>=0)return{side,y:32+i*17+6.5};}
+  return{side:'R',y:n.h/2};
+}
+
+/* ---------------- panel ---------------- */
+function rkPanelHTML(){
+  let inner;
+  if(RKS.sel&&RKS.sel.type==='dev'){const d=rkDev(RKS.sel.id);inner=d?rkDevPanel(d):rkOverviewPanel();}
+  else if(RKS.sel&&RKS.sel.type==='cable'){const c=RK_DB.cables.find(x=>x.id===RKS.sel.id);inner=c?rkCablePanel(c):rkOverviewPanel();}
+  else if(RKS.sel&&RKS.sel.type==='port'){inner=rkPortDetailPanel();}
+  else inner=rkOverviewPanel();
+  const title=!RKS.sel?rkTX('Rack Overview'):RKS.sel.type==='dev'?rkTX('Device Details'):RKS.sel.type==='port'?rkTX('Port Details'):rkTX('Cable Details');
+  if(!RKS.panelOpen){
+    return `<button class="rk-panel-rail" data-rk="paneltgl" title="${rkTX('Expand panel')}">
+      <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg>
+      <span>${title}</span>
+    </button>`;
+  }
+  return `<div class="rk-panel-h"><b>${title}</b>
+    <span style="display:flex;gap:2px;align-items:center">
+    ${RKS.sel?`<button class="rk-panel-x" data-rk="clear" title="${rkTX('Close')}">✕</button>`:''}
+    <button class="rk-panel-x" data-rk="paneltgl" title="${rkTX('Collapse panel')}"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="M10 6l6 6-6 6"/></svg></button>
+    </span></div>
+    <div class="rk-panel-b">${inner}</div>`;
+}
+function rkOverviewPanel(){
+  const racks=rkScopedRacks(),tsc=rkTenantScope();
+  if(!racks.length)return `<div class="rk-empty" style="padding:36px 14px"><p>${rkEsc(rkTenantName(tsc))} ${rkTX('has no racks recorded yet.')}</p></div>`;
+  let html='';
+  racks.forEach(r=>{
+    const used=r.devices.filter(d=>d.role!=='blank').reduce((a,d)=>a+d.h,0),watts=r.devices.reduce((a,d)=>a+(d.w||0),0);
+    const real=r.devices.filter(d=>!['blank','mgr'].includes(d.role)).length;
+    const inRack=id=>r.devices.some(d=>d.id===id);
+    const nc=RK_DB.cables.filter(c=>inRack(c.a.dev)&&inRack(c.b.dev)).length;
+    const pct=Math.round(used/r.u*100);
+    html+=`<div class="rk-kv" style="cursor:pointer" data-rk="scope" data-arg="${r.id}" title="${rkEsc(r.name+' — '+rkTX('click to scope all views to this rack'))}">
+      <div class="row" style="padding:10px 11px"><span style="display:flex;align-items:center;gap:8px"><b style="font-size:13px">${rkEsc(r.name)}</b></span><b style="color:var(--mute);font-weight:500;font-size:11px">${rkEsc((tsc==='all'?rkTenantName(r.tenant)+' · ':'')+r.site)}</b></div>
+      <div class="row"><span>${rkTX('Usage')}</span><b>${used} / ${r.u} U · ${pct}%</b></div>
+      <div class="row"><span>${rkTX('Devices')}</span><b>${real}</b></div>
+      <div class="row"><span>${rkTX('Cables')}</span><b>${nc}</b></div>
+      <div class="row"><span>${rkTX('Est. draw')}</span><b style="color:${watts>1500?'var(--amber)':'var(--green)'}">${watts.toLocaleString()} W</b></div>
+      <div style="padding:0 11px 11px"><div style="height:6px;border-radius:99px;background:var(--bg);overflow:hidden"><div style="height:100%;width:${pct}%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--tron))"></div></div></div>
+    </div>`;
+  });
+  html+=`<div class="rk-empty" style="padding:18px 10px 8px">
+    <svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="1.5"/><path d="M6 7h12M6 11h12M6 15h12"/></svg>
+    <p>${rkTX('Select a device or cable to inspect it — or toggle Edit Rack to start building.')}</p></div>`;
+  return html;
+}
+function rkDevPanel(d){
+  const rack=rkRackOf(d.id),role=RK_ROLES[d.role];
+  const cbls=rkCablesOf(d.id);
+  let html=`<div class="rk-dev-head"><span class="sw" style="background:${role.c};color:${role.c}"></span><b>${rkEsc(d.name)}</b><small>${rkTX('Device')}</small></div>
+  <div class="rk-statgrid">
+    <div class="rk-stat"><b>U${rkULabel(rack,d.pos,d.h)}</b><span>${rkTX('Position')}</span></div>
+    <div class="rk-stat"><b>${d.h}U</b><span>${rkTX('Height')}</span></div>
+    <div class="rk-stat ok"><b>${rkTX('Active')}</b><span>${rkTX('Status')}</span></div>
+  </div>
+  <div class="rk-kv">
+    <div class="row"><span>${rkTX('Role')}</span><b style="color:${role.c}">${rkEsc(rkTX(role.t))}</b></div>
+    ${d.model?`<div class="row"><span>${rkTX('Model')}</span><b>${rkEsc(d.model)}</b></div>`:''}
+    <div class="row"><span>${rkTX('Rack')}</span><b>${rkEsc(rack.name)}</b></div>
+    <div class="row"><span>${rkTX('Face')}</span><b>${rkTX('Front')}</b></div>
+    <div class="row"><span>${rkTX('Power draw')}</span><b>${d.w?d.w+' W':'—'}</b></div>
+    <div class="row"><span>${rkTX('Airflow')}</span><b style="color:${(RK_AF[d.af]||RK_AF.pass).c}">${rkTX((RK_AF[d.af]||RK_AF.pass).t)}</b></div>
+  </div>`;
+  if(RKS.view==='elev')html+=`<button class="rk-actbtn" data-rk="showmap">${rkTX('Show in Cable Map')}</button>`;
+  else html+=`<button class="rk-actbtn" data-rk="showelev">${rkTX('Show in Elevations')}</button>`;
+  if(RKS.edit){
+    html+=`<div class="rk-sec-t">${rkTX('Edit Device')}</div>
+    <div class="rk-field"><label>${rkTX('Name')}</label><input id="rkEdName" value="${rkEsc(d.name)}"></div>
+    <div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('Model')}</label><input id="rkEdModel" value="${rkEsc(d.model)}"></div>
+      <div class="rk-field"><label>${rkTX('Power (W)')}</label><input id="rkEdW" type="number" min="0" max="5000" value="${d.w||0}"></div>
+    </div>
+    <div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('Role')}</label><select id="rkEdRole">${Object.keys(RK_ROLES).map(k=>`<option value="${k}" ${k===d.role?'selected':''}>${rkEsc(rkTX(RK_ROLES[k].t))}</option>`).join('')}</select></div>
+      <div class="rk-field"><label>${rkTX('Airflow')}</label><select id="rkEdAf">${Object.keys(RK_AF).map(k=>`<option value="${k}" ${k===d.af?'selected':''}>${rkEsc(rkTX(RK_AF[k].t))}</option>`).join('')}</select></div>
+    </div>
+    <button class="rk-actbtn grn" data-rk="applydev">${rkTX('Apply Changes')}</button>
+    <div class="rk-sec-t">${rkTX('Connect Cable')}</div>
+    <div class="rk-chipset">${Object.keys(RK_CTYPES).map(k=>`<button class="rk-chip ${RKS.pendType===k?'on':''}" data-rk="ctype" data-arg="${k}"><i style="background:${RK_CTYPES[k].c}"></i>${rkEsc(RK_CTYPES[k].t)}</button>`).join('')}</div>
+    <button class="rk-actbtn grn" data-rk="connect">${rkTX('Connect to another device…')}</button>
+    <button class="rk-actbtn warn" data-rk="deldev">${rkTX('Remove Device')}</button>`;
+  }
+  html+=`<div class="rk-sec-t">${rkTX('Cables')} (${cbls.length})</div>`;
+  if(!cbls.length)html+=`<p style="font:400 11.5px 'Open Sans';color:var(--mute);margin:0">${rkTX('No connections on this device.')}</p>`;
+  cbls.forEach(c=>{
+    const me=c.a.dev===d.id?c.a:c.b,peerEnd=rkPeer(c,d.id),peer=rkDev(peerEnd.dev);
+    html+=`<div class="rk-cbl-item ${RKS.sel&&RKS.sel.type==='cable'&&RKS.sel.id===c.id?'sel':''}" data-rk="selcable" data-arg="${c.id}" title="${rkEsc(rkCableTitle(c))}">
+      <div class="a"><i style="background:${RK_CTYPES[c.type].c};color:${RK_CTYPES[c.type].c}"></i>${rkEsc(me.port)}<small>${rkEsc(c.type==='pwr'&&c.pwr?c.pwr.a+' · '+c.pwr.amps+'A':(me.xcvr?me.xcvr+(c.speed?' · '+c.speed:''):RK_CTYPES[c.type].t))}</small></div>
+      <div class="b">→ <b>${rkEsc(peer?peer.name:'?')}</b>: ${rkEsc(peerEnd.port)}</div></div>`;
+  });
+  return html;
+}
+function rkCablePanel(c){
+  const da=rkDev(c.a.dev),db=rkDev(c.b.dev),ct=RK_CTYPES[c.type];
+  let html=`<div class="rk-dev-head"><span class="sw" style="background:${ct.c};color:${ct.c}"></span><b>${rkEsc((da?da.name:'?')+' ⇄ '+(db?db.name:'?'))}</b><small>${rkTX('Cable')}</small></div>
+  <div class="rk-statgrid">
+    <div class="rk-stat"><b style="color:${ct.c}">${rkEsc(ct.t)}</b><span>${rkTX('Type')}</span></div>
+    <div class="rk-stat ok"><b>${rkTX('Connected')}</b><span>${rkTX('Status')}</span></div>
+    <div class="rk-stat"><b>${rkEsc(c.len)}</b><span>${rkTX('Length')}</span></div>
+  </div>
+  <div class="rk-kv">
+    <div class="row"><span>${rkTX('A-side')}</span><b>${rkEsc(da?da.name:'?')} : ${rkEsc(c.a.port)}</b></div>
+    ${c.a.xcvr?`<div class="row"><span>${rkTX('A transceiver')}</span><b style="color:${RK_CTYPES[c.type].c}">${rkEsc(c.a.xcvr)}</b></div>`:''}
+    <div class="row"><span>${rkTX('B-side')}</span><b>${rkEsc(db?db.name:'?')} : ${rkEsc(c.b.port)}</b></div>
+    ${c.b.xcvr?`<div class="row"><span>${rkTX('B transceiver')}</span><b style="color:${RK_CTYPES[c.type].c}">${rkEsc(c.b.xcvr)}</b></div>`:''}
+    ${c.speed?`<div class="row"><span>${rkTX('Speed')}</span><b>${rkEsc(c.speed)}</b></div>`:''}
+    ${c.pwr?`<div class="row"><span>${rkTX('Connector A')}</span><b style="color:${RK_CTYPES.pwr.c}">${rkEsc(c.pwr.a)}</b></div>
+    <div class="row"><span>${rkTX('Connector B')}</span><b style="color:${RK_CTYPES.pwr.c}">${rkEsc(c.pwr.b)}</b></div>
+    <div class="row"><span>${rkTX('Circuit')}</span><b>${c.pwr.amps}A @ ${c.pwr.volts}V</b></div>`:''}
+    ${c.note?`<div class="row"><span>${rkTX('Note')}</span><b>${rkEsc(c.note)}</b></div>`:''}
+    <div class="row"><span>${rkTX('Color')}</span><b style="display:flex;align-items:center;gap:7px;justify-content:flex-end"><i style="width:10px;height:10px;border-radius:3px;background:${ct.c};display:inline-block"></i>${ct.c}</b></div>
+  </div>
+  <button class="rk-actbtn" data-rk="${RKS.view==='elev'?'showmap':'showelev'}">${rkTX(RKS.view==='elev'?'Show in Cable Map':'Show in Elevations')}</button>`;
+  const touchesPanel=[da,db].some(d=>d&&(d.role==='patch'||d.role==='fiber'));
+  if(touchesPanel&&RKS.view!=='panels')html+=`<button class="rk-actbtn" data-rk="showpanels">${rkTX('Show in Patch Panels')}</button>`;
+  if(RKS.edit){
+    const panelSides=[['a',da],['b',db]].filter(([k,d])=>d&&(d.role==='patch'||d.role==='fiber'));
+    html+=`<div class="rk-sec-t">${rkTX('Edit Cable')}</div>
+    <div class="rk-field"><label>${rkTX('Type')}</label><select id="rkEdCType">${Object.keys(RK_CTYPES).map(k=>`<option value="${k}" ${k===c.type?'selected':''}>${rkEsc(RK_CTYPES[k].t)}</option>`).join('')}</select></div>
+    ${c.type!=='pwr'?`<div class="rk-field"><label>${rkTX('Speed')}</label><select id="rkEdSpeed"><option value="">—</option>${RK_SPEEDS.map(s=>`<option value="${s}" ${s===c.speed?'selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="rk-field"><label>${rkTX('A transceiver')} · ${rkEsc(da?da.name:'?')}</label><input id="rkEdXa" value="${rkEsc(c.a.xcvr||'')}" placeholder="${rkTX('e.g. GLC-T / SFP-10G-LR / DAC-10G-1m')}"></div>
+    <div class="rk-field"><label>${rkTX('B transceiver')} · ${rkEsc(db?db.name:'?')}</label><input id="rkEdXb" value="${rkEsc(c.b.xcvr||'')}" placeholder="${rkTX('e.g. GLC-T / SFP-100G-LR / QSFP-100G-SR4')}"></div>`:''}
+    ${c.type==='pwr'?(()=>{const p=c.pwr||{a:'IEC C13',b:'NEMA 5-15P',amps:15,volts:120};
+      const opt=v=>RK_PWR_CONNS.map(o=>`<option value="${o}" ${o===v?'selected':''}>${o}</option>`).join('');
+      return `<div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('Connector A')}</label><select id="rkPwA">${opt(p.a)}</select></div>
+      <div class="rk-field"><label>${rkTX('Connector B')}</label><select id="rkPwB">${opt(p.b)}</select></div></div>
+      <div class="rk-field"><label>${rkTX('Circuit')}</label><select id="rkPwC">${RK_PWR_CIRCUITS.map(([a,v])=>`<option value="${a}|${v}" ${a===p.amps&&v===p.volts?'selected':''}>${a}A @ ${v}V</option>`).join('')}</select></div>`;})():''}
+    ${panelSides.map(([k,d])=>`<div class="rk-field"><label>${rkEsc(d.name)} : ${rkEsc(c[k].port)} · ${rkTX('port label')}</label><input id="rkClbl-${k}" value="${rkEsc(rkPortLabel(d,c[k].port))}" placeholder="${rkTX('e.g. Conf Rm A · wall jack 12')}"></div>`).join('')}
+    <button class="rk-actbtn grn" data-rk="applycable">${rkTX('Apply')}</button>
+    <button class="rk-actbtn warn" data-rk="delcable">${rkTX('Disconnect Cable')}</button>`;
+  }
+  return html;
+}
+
+function rkPortDetailPanel(){
+  const p=rkDev(RKS.sel.dev);if(!p)return rkOverviewPanel();
+  const rack=rkRackOf(p.id),role=RK_ROLES[p.role],port=RKS.sel.port;
+  const defType=p.role==='fiber'?'smf':'cat6a';
+  let html=`<div class="rk-dev-head"><span class="sw" style="background:${role.c};color:${role.c}"></span><b>${rkEsc(p.name)} : ${rkEsc(port)}</b><small>${rkTX('Port')}</small></div>
+  <div class="rk-statgrid">
+    <div class="rk-stat"><b>${rkEsc(port)}</b><span>${rkTX('Port')}</span></div>
+    <div class="rk-stat"><b>U${rkULabel(rack,p.pos,p.h)}</b><span>${rkTX('Position')}</span></div>
+    <div class="rk-stat"><b style="color:var(--mute)">${rkTX('Open')}</b><span>${rkTX('Status')}</span></div>
+  </div>
+  <div class="rk-kv">
+    <div class="row"><span>${rkTX('Panel')}</span><b>${rkEsc(p.name)}</b></div>
+    <div class="row"><span>${rkTX('Rack')}</span><b>${rkEsc(rack.name)}</b></div>
+    <div class="row"><span>${rkTX('Media')}</span><b>${rkTX(p.role==='fiber'?'Fiber (LC)':'Copper (RJ45)')}</b></div>
+    ${rkPortLabel(p,port)?`<div class="row"><span>${rkTX('Label')}</span><b>${rkEsc(rkPortLabel(p,port))}</b></div>`:''}
+  </div>`;
+  if(RKS.edit){
+    const targets=rack.devices.filter(d=>!['blank','mgr'].includes(d.role)&&d.id!==p.id);
+    html+=`<div class="rk-sec-t">${rkTX('Port label')}</div>
+    <div class="rk-field"><input id="rkPtLabel" value="${rkEsc(rkPortLabel(p,port))}" placeholder="${rkTX('e.g. Conf Rm A · wall jack 12')}"></div>
+    <button class="rk-actbtn" data-rk="saveportlabel">${rkTX('Save Label')}</button>
+    <div class="rk-sec-t">${rkTX('Patch this port')}</div>
+    <div class="rk-field"><label>${rkTX('To device')}</label><select id="rkPtDev">${targets.map(t=>`<option value="${t.id}">${rkEsc(t.name)}</option>`).join('')}</select></div>
+    <div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('To port')}</label><input id="rkPtPort" placeholder="e.g. 24"></div>
+      <div class="rk-field"><label>${rkTX('Cable type')}</label><select id="rkPtType">${Object.keys(RK_CTYPES).map(k=>`<option value="${k}" ${k===defType?'selected':''}>${rkEsc(RK_CTYPES[k].t)}</option>`).join('')}</select></div>
+    </div>
+    <button class="rk-actbtn grn" data-rk="applypatch">${rkTX('Patch It')}</button>`;
+  }else{
+    html+=`<div class="rk-empty" style="padding:14px 8px 4px"><p>${rkTX('This port is unpatched. Turn on Edit Rack to patch it to a device.')}</p></div>`;
+  }
+  return html;
+}
+/* ---------------- main render ---------------- */
+function rkRenderScreen(){
+  const el=document.getElementById('screen-estate');if(!el)return;
+  const tsc=rkTenantScope();
+  const racks=rkTenantRacks();
+  const totD=racks.reduce((a,r)=>a+r.devices.filter(d=>!['blank','mgr'].includes(d.role)).length,0);
+  const totW=racks.reduce((a,r)=>a+r.devices.reduce((x,d)=>x+(d.w||0),0),0);
+  const freeU=racks.reduce((a,r)=>a+(r.u-r.devices.filter(d=>d.role!=='blank').reduce((x,d)=>x+d.h,0)),0);
+  const inScope=id=>racks.some(r=>r.devices.some(d=>d.id===id));
+  const totC=RK_DB.cables.filter(c=>inScope(c.a.dev)&&inScope(c.b.dev)).length;
+  el.innerHTML=`
+  <div class="page-head"><div>
+    <div class="page-eyebrow">${rkTX('Observability')} · Guardare Vista · ${tsc==='all'?rkTX('All Tenants'):rkEsc(rkTenantName(tsc))}</div>
+    <h1 class="page-title">${rkTX('Rack Management')}</h1>
+    <p class="page-sub">${rkTX('Visually build your racks, map every cable, and inspect power & airflow — NetBox-style.')}</p>
+  </div></div>
+  <div class="rk-wrap ${RKS.edit?'editing':''}">
+    <div class="rk-toolbar">
+      <select class="rk-sel" data-rk="scopesel" title="${rkTX('Scope every view to a single rack or all racks')}">
+        <option value="all" ${RKS.scope==='all'?'selected':''}>${rkTX('All racks')} (${racks.length})</option>
+        ${racks.map(r=>`<option value="${r.id}" ${RKS.scope===r.id?'selected':''}>${rkEsc(r.name)}${tsc==='all'?' — '+rkEsc(rkTenantName(r.tenant)):''}</option>`).join('')}
+      </select>
+      <span class="rk-tb-sep"></span>
+      <div class="rk-tabs">
+        <button class="rk-tab ${RKS.view==='elev'?'active':''}" data-rk="view" data-arg="elev"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="1.5"/><path d="M6 7h12M6 11h12M6 15h12"/></svg>${rkTX('Elevations')}</button>
+        <button class="rk-tab ${RKS.view==='panels'?'active':''}" data-rk="view" data-arg="panels"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10" rx="2"/><circle cx="6.5" cy="12" r="1.2"/><circle cx="10.2" cy="12" r="1.2"/><circle cx="13.9" cy="12" r="1.2"/><circle cx="17.6" cy="12" r="1.2"/></svg>${rkTX('Patch Panels')}</button>
+        <button class="rk-tab ${RKS.view==='map'?'active':''}" data-rk="view" data-arg="map"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.2"/><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="12" r="2.5"/><path d="M7 6.7l9.7 4.3M7 17.3l9.7-4.3"/></svg>${rkTX('Cable Map')}</button>
+      </div>
+      <div class="rk-tools">
+        <button class="rk-tgl fam ${RKS.show.smf?'on':''}" data-rk="fam" data-k="fiber" title="${rkTX('Flag fiber cabling (SMF) on / off')}"><i style="background:${RK_CTYPES.smf.c}"></i>${rkTX('Fiber')}</button>
+        <button class="rk-tgl fam ${(RKS.show.cat6a||RKS.show.dac)?'on':''}" data-rk="fam" data-k="eth" title="${rkTX('Flag Ethernet cabling (Cat6a + DAC) on / off')}"><i style="background:${RK_CTYPES.cat6a.c}"></i>${rkTX('Ethernet')}</button>
+        <button class="rk-tgl fam ${RKS.show.pwr?'on':''}" data-rk="fam" data-k="pwr" title="${rkTX('Flag power cords (NEMA / IEC) on / off')}"><i style="background:${RK_CTYPES.pwr.c}"></i>${rkTX('Power')}</button>
+        <span class="rk-tb-sep"></span>
+        <button class="rk-tgl ${RKS.power?'on':''}" data-rk="tgl" data-k="power" title="${rkTX('Power-draw heat overlay · 0–500 W per device')}"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>${rkTX('Heat')}</button>
+        <button class="rk-tgl ${RKS.airflow?'on':''}" data-rk="tgl" data-k="airflow" title="${rkTX('Airflow direction overlay')}"><svg viewBox="0 0 24 24"><path d="M3 8h10a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h7a2.5 2.5 0 1 1-2.5 2.5"/></svg>${rkTX('Airflow')}</button>
+        <button class="rk-tgl ${RKS.edit?'on':''}" data-rk="tgl" data-k="edit" title="${rkTX('Builder mode — drag, drop, patch and edit')}"><svg viewBox="0 0 24 24"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg>${rkTX('Edit Rack')}</button>
+        <span class="rk-tb-sep"></span>
+        <div class="rk-zoombtns">
+          <button class="rk-tgl zb" data-rk="zoomctl" data-arg="-1" title="${rkTX('Zoom out')}">−</button>
+          <button class="rk-tgl zb" data-rk="zoomctl" data-arg="0" title="${rkTX('Reset zoom')}">${RKS.view==='elev'||RKS.view==='panels'?Math.round((RKS.zoom||1)*100)+'%':'⤢'}</button>
+          <button class="rk-tgl zb" data-rk="zoomctl" data-arg="1" title="${rkTX('Zoom in')}">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="rk-body">
+      <div class="rk-palette">
+        <div class="rk-pal-h">${rkTX('Device Palette')}</div>
+        ${RK_TPL.map((t,i)=>`<div class="rk-pal-item" data-tpl="${i}" title="${rkEsc(rkTX(RK_ROLES[t.role].t)+' · '+t.h+'U — '+rkTX('drag onto a rack to place'))}"><span class="rk-pal-sw" style="background:${RK_ROLES[t.role].c};color:${RK_ROLES[t.role].c}"></span><span><b>${rkEsc(rkTX(t.n))}</b><i>${t.h}U · ${rkEsc(t.m)}</i></span></div>`).join('')}
+        <div class="rk-pal-note">${rkTX('Drag a device onto a rack. Drag devices between units to move them. Click one to edit, connect or remove it.')}</div>
+      </div>
+      <div class="rk-stage" id="rkStage">${RKS.view==='elev'?rkStageElev():RKS.view==='panels'?rkStagePanels():rkStageMap()}</div>
+      <div class="rk-panel ${RKS.panelOpen?'':'collapsed'}" id="rkPanel">${rkPanelHTML()}</div>
+    </div>
+    <div class="rk-strip">
+      <span>${rkTX('Racks')} <b>${racks.length}</b></span><span class="sep"></span>
+      <span>${rkTX('Devices')} <b>${totD}</b></span><span class="sep"></span>
+      <span>${rkTX('Cables')} <b>${totC}</b></span><span class="sep"></span>
+      <span>${rkTX('Free units')} <b>${freeU} U</b></span><span class="sep"></span>
+      <span>${rkTX('Est. draw')} <b style="color:var(--tron-orange)">${(totW/1000).toFixed(2)} kW</b></span>
+      <span class="hint">${rkTX('Click to trace a path')} · <kbd>Esc</kbd> ${rkTX('clears')}</span>
+    </div>
+  </div>`;
+  document.querySelectorAll('#estateNav .nav-item').forEach(n=>n.classList.toggle('active',n.dataset.estate==='racks'));
+  rkBind(el);
+}
+function rkLegendHTML(){
+  return `<div class="rk-legend">
+    <div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Cable types')} · ${rkTX('click to filter')}</span>
+      <div class="rk-leg-row">${Object.keys(RK_CTYPES).map(k=>`<span class="rk-leg-i" data-rk="legtype" data-arg="${k}" title="${rkTX('Click to show / hide')} ${rkEsc(RK_CTYPES[k].t)}" style="cursor:pointer;${RKS.show[k]?'':'opacity:.32'}"><i style="background:${RK_CTYPES[k].c};color:${RK_CTYPES[k].c}"></i>${rkEsc(RK_CTYPES[k].t)}</span>`).join('')}</div></div>
+    ${RKS.power?`<div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Power draw')}</span><div class="rk-leg-grad"></div><div class="rk-leg-gl"><span>0 W</span><span>500 W</span></div></div>`:''}
+    ${RKS.airflow?`<div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Airflow')}</span><div class="rk-leg-row">${Object.keys(RK_AF).map(k=>`<span class="rk-leg-i"><i style="background:${RK_AF[k].c};color:${RK_AF[k].c}"></i>${rkEsc(rkTX(RK_AF[k].t))}</span>`).join('')}</div></div>`:''}
+    <div class="rk-leg-b"><span class="rk-leg-t">${rkTX('Roles')}</span>
+      <div class="rk-leg-row">${['agg','poe','dmz','fw','patch','fiber','nvr','pdu','ups'].map(k=>`<span class="rk-leg-i sq"><i style="background:${RK_ROLES[k].c};color:${RK_ROLES[k].c}"></i>${rkEsc(rkTX(RK_ROLES[k].t))}</span>`).join('')}</div></div>
+  </div>`;
+}
+function rkEmptyStage(){
+  const tsc=rkTenantScope();
+  return `<div class="rk-empty" style="padding:110px 30px">
+    <svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="1.5"/><path d="M6 7h12M6 11h12M6 15h12"/></svg>
+    <p><b style="color:var(--text)">${rkEsc(rkTenantName(tsc))}</b> ${rkTX('has no racks recorded yet.')}<br>${rkTX('Switch tenant from the top bar, or toggle Edit Rack to start documenting this estate.')}</p>
+  </div>`;
+}
+function rkStageElev(){
+  const racks=rkScopedRacks(),tsc=rkTenantScope();
+  if(!racks.length)return rkEmptyStage();
+  return `${RKS.connect?`<div class="rk-connect-hint">⚡ ${rkTX('Connecting from')} <b>${rkEsc((rkDev(RKS.connect.from)||{}).name||'')}</b> — ${rkTX('click a target device')} <button data-rk="cancelconnect">${rkTX('Cancel')}</button></div>`:''}
+  <div class="rk-elevs" style="zoom:${RKS.zoom}">${racks.map(r=>`
+    <div class="rk-rackcol" data-rackcol="${r.id}">
+      <div class="rk-rackname">${rkEsc(r.name)} <small>${r.u}U</small>${tsc==='all'?`<span class="rk-tenant-chip">${rkEsc(rkTenantName(r.tenant))}</span>`:''}</div>
+      <div class="rk-racksub">${rkEsc(r.site)}</div>
+      ${rkElevSVG(r)}
+    </div>`).join('')}</div>
+  ${rkLegendHTML()}`;
+}
+function rkStageMap(){
+  if(!rkScopedRacks().length)return rkEmptyStage();
+  return `${RKS.connect?`<div class="rk-connect-hint">⚡ ${rkTX('Connecting from')} <b>${rkEsc((rkDev(RKS.connect.from)||{}).name||'')}</b> — ${rkTX('click a target device')} <button data-rk="cancelconnect">${rkTX('Cancel')}</button></div>`:''}
+  <div class="rk-mapwrap" id="rkMapWrap">${rkMapSVG()}
+    <div class="rk-mapzoom"><button data-rk="zoom" data-arg="1">+</button><button data-rk="zoom" data-arg="-1">−</button><button data-rk="zoom" data-arg="0" style="font-size:10px">⤢</button></div>
+  </div>
+  ${rkLegendHTML()}`;
+}
+
+/* ---------------- patch panel view ---------------- */
+function rkPortLabel(p,port){return (p.labels||{})[port]||'';}
+function rkPortTitle(p,port){
+  const c=rkPortCable(p.id,port),lab=rkPortLabel(p,port),pre=rkTX('Port')+' '+port+(lab?' · '+lab:'');
+  if(!c)return pre+' — '+rkTX('unpatched');
+  const peer=rkPeer(c,p.id),pd=rkDev(peer.dev);
+  return pre+' → '+(pd?pd.name:'?')+' : '+peer.port+' · '+RK_CTYPES[c.type].t;
+}
+function rkPortBtn(p,port,extraCls){
+  const c=rkPortCable(p.id,port),trace=rkTraceSet();
+  const cls=['rk-port'];if(extraCls)cls.push(extraCls);
+  if(c)cls.push('on');
+  const selPort=RKS.sel&&RKS.sel.type==='port'&&RKS.sel.dev===p.id&&RKS.sel.port===port;
+  const selCable=RKS.sel&&RKS.sel.type==='cable'&&c&&RKS.sel.id===c.id;
+  if(selPort||selCable)cls.push('sel');
+  if(trace&&!selPort&&!selCable){
+    const lit=(c&&trace.cbls.has(c.id))||(RKS.sel.type==='port'&&RKS.sel.dev===p.id);
+    if(!lit)cls.push('dim');
+  }
+  const col=c?RK_CTYPES[c.type].c:'transparent';
+  const lab=String(port).replace(/^[A-C]/,'');
+  return `<button class="${cls.join(' ')}" data-pdev="${p.id}" data-pport="${rkEsc(port)}" style="--pc:${col}" title="${rkEsc(rkPortTitle(p,port))}">${rkEsc(extraCls==='fib'?lab:port)}</button>`;
+}
+function rkPanelCard(rack,p){
+  const role=RK_ROLES[p.role];
+  const ports=p.role==='fiber'
+    ?['A','B','C'].map(row=>Array.from({length:12},(_,i)=>row+(i+1)))
+    :[Array.from({length:12},(_,i)=>String(i+1)),Array.from({length:12},(_,i)=>String(i+13))];
+  const flat=ports.flat();
+  const used=flat.filter(pt=>rkPortCable(p.id,pt)).length;
+  const pct=Math.round(used/flat.length*100);
+  let grid='';
+  if(p.role==='fiber'){
+    grid=ports.map((row,ri)=>`<div class="rk-pp-row"><span class="rk-pp-rowlab">${['A','B','C'][ri]}</span>${row.map(pt=>rkPortBtn(p,pt,'fib')).join('')}</div>`).join('');
+  }else{
+    grid=ports.map(row=>`<div class="rk-pp-row"><span class="rk-pp-rowlab"></span>${row.map(pt=>rkPortBtn(p,pt)).join('')}</div>`).join('');
+  }
+  /* port map — the readable wiring list: "Port 1 · Front Desk → switch : port" */
+  const mapped=flat.filter(pt=>rkPortCable(p.id,pt));
+  let maplist='';
+  if(mapped.length){
+    maplist=`<div class="rk-pp-map">${mapped.map(pt=>{
+      const c=rkPortCable(p.id,pt),peer=rkPeer(c,p.id),pd=rkDev(peer.dev),lab=rkPortLabel(p,pt);
+      const sel=RKS.sel&&RKS.sel.type==='cable'&&RKS.sel.id===c.id;
+      return `<button class="rk-ppm-row ${sel?'sel':''}" data-rk="selcable" data-arg="${c.id}">
+        <i style="background:${RK_CTYPES[c.type].c};color:${RK_CTYPES[c.type].c}"></i>
+        <b>${rkEsc(p.role==='fiber'?pt:rkTX('Port')+' '+pt)}</b>
+        ${lab?`<span class="lab">${rkEsc(lab)}</span>`:''}
+        <span class="arr">→</span><b>${rkEsc(pd?pd.name:'?')}</b><span class="pp">: ${rkEsc(peer.port)}</span>
+        <small>${rkEsc(RK_CTYPES[c.type].t)}</small></button>`;
+    }).join('')}</div>`;
+  }
+  return `<div class="rk-pp-card">
+    <div class="rk-pp-h">
+      <button class="rk-pp-name" data-rk="seldev" data-arg="${p.id}" title="${rkTX('Open device details')}${RKS.edit?' · '+rkTX('rename in Edit mode'):''}">
+        <span class="sw" style="background:${role.c};color:${role.c}"></span>
+        <span><b>${rkEsc(p.name)}</b><small>${rkEsc(rack.name)} · U${rkULabel(rack,p.pos,p.h)} · ${rkEsc(rkTX(role.t))}</small></span>
+      </button>
+      <div class="rk-pp-util"><b>${used}<i>/${flat.length}</i></b>
+        <div class="bar"><div style="width:${pct}%"></div></div>
+      </div>
+    </div>
+    <div class="rk-pp-grid">${grid}</div>
+    ${maplist}
+  </div>`;
+}
+function rkStagePanels(){
+  const racks=rkScopedRacks();
+  if(!racks.length)return rkEmptyStage();
+  let cards='';
+  racks.forEach(rack=>{
+    rack.devices.filter(d=>d.role==='patch'||d.role==='fiber')
+      .sort((a,b)=>a.pos-b.pos)
+      .forEach(p=>{cards+=rkPanelCard(rack,p);});
+  });
+  if(!cards)cards=`<div class="rk-empty" style="padding:80px 20px"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10" rx="2"/><circle cx="6.5" cy="12" r="1.2"/><circle cx="10.2" cy="12" r="1.2"/></svg><p>${rkTX('No patch panels in this rack. Drag one in from the builder palette.')}</p></div>`;
+  return `<div class="rk-panels" style="zoom:${RKS.zoom}">${cards}</div>${rkLegendHTML()}`;
+}
+
+/* ---------------- interactions ---------------- */
+function rkRerender(){
+  const stage=document.getElementById('rkStage');
+  const sx=stage?stage.scrollLeft:0,sy=stage?stage.scrollTop:0;
+  rkRenderScreen();
+  const ns=document.getElementById('rkStage');if(ns){ns.scrollLeft=sx;ns.scrollTop=sy;}
+}
+function rkSelect(sel){RKS.sel=sel;if(sel)RKS.panelOpen=true;rkRerender();}
+function rkBind(root){
+  const wrap=root.querySelector('.rk-wrap');if(!wrap)return;
+  wrap.addEventListener('click',ev=>{
+    const t=ev.target.closest('[data-rk]');
+    if(t){
+      const k=t.dataset.rk,arg=t.dataset.arg;
+      if(k==='view'){RKS.view=arg;RKS.connect=null;rkRerender();return;}
+      if(k==='tgl'){const key=t.dataset.k;RKS[key]=!RKS[key];if(key==='edit'&&!RKS.edit)RKS.connect=null;rkRerender();return;}
+      if(k==='fam'){const f=t.dataset.k;
+        if(f==='fiber')RKS.show.smf=!RKS.show.smf;
+        else if(f==='eth'){const on=RKS.show.cat6a||RKS.show.dac;RKS.show.cat6a=RKS.show.dac=!on;}
+        else if(f==='pwr')RKS.show.pwr=!RKS.show.pwr;
+        rkRerender();return;}
+      if(k==='zoomctl'){
+        const d=parseInt(arg,10);
+        if(RKS.view==='map'){rkZoom(d);return;}
+        if(d===0)RKS.zoom=1;else RKS.zoom=Math.max(.55,Math.min(1.7,Math.round((RKS.zoom+(d>0?.15:-.15))*100)/100));
+        rkRerender();return;
+      }
+      if(k==='scope'){RKS.scope=arg;rkRerender();return;}
+      if(k==='legtype'){RKS.show[arg]=!RKS.show[arg];rkRerender();return;}
+      if(k==='paneltgl'){RKS.panelOpen=!RKS.panelOpen;rkRerender();return;}
+      if(k==='clear'){RKS.sel=null;RKS.connect=null;rkRerender();return;}
+      if(k==='selcable'){rkSelect({type:'cable',id:arg});return;}
+      if(k==='showmap'){RKS.view='map';rkRerender();return;}
+      if(k==='showelev'){RKS.view='elev';rkRerender();return;}
+      if(k==='ctype'){RKS.pendType=arg;rkRerender();return;}
+      if(k==='connect'){if(RKS.sel&&RKS.sel.type==='dev'){RKS.connect={from:RKS.sel.id,ctype:RKS.pendType||'cat6a'};rkRerender();}return;}
+      if(k==='cancelconnect'){RKS.connect=null;rkRerender();return;}
+      if(k==='zoom'){rkZoom(parseInt(arg,10));return;}
+      if(k==='applypatch'){rkApplyPatch();return;}
+      if(k==='seldev'){rkSelect({type:'dev',id:arg});return;}
+      if(k==='saveportlabel'){rkSavePortLabel();return;}
+      if(k==='showpanels'){RKS.view='panels';rkRerender();return;}
+      if(k==='applydev'){rkApplyDev();return;}
+      if(k==='deldev'){rkDeleteDev();return;}
+      if(k==='applycable'){rkApplyCable();return;}
+      if(k==='delcable'){rkDeleteCable();return;}
+    }
+    const prt=ev.target.closest('[data-pport]');
+    if(prt){
+      const dev=prt.dataset.pdev,port=prt.dataset.pport;
+      const c=rkPortCable(dev,port);
+      if(c)rkSelect({type:'cable',id:c.id});
+      else rkSelect({type:'port',dev,port});
+      return;
+    }
+    const cbl=ev.target.closest('[data-cable]');
+    if(cbl){rkSelect({type:'cable',id:cbl.dataset.cable});return;}
+    const dev=ev.target.closest('[data-dev]');
+    if(dev){
+      const id=dev.dataset.dev;
+      if(RKS.connect){rkFinishConnect(id);return;}
+      rkSelect({type:'dev',id});return;
+    }
+    if(ev.target.closest('.rk-stage')&&!ev.target.closest('.rk-legend')&&!ev.target.closest('.rk-mapzoom')&&!ev.target.closest('.rk-connect-hint')){
+      if(RKS.sel&&!RKS._panned){RKS.sel=null;rkRerender();}
+    }
+  });
+  wrap.addEventListener('change',ev=>{
+    const t=ev.target.closest('[data-rk="scopesel"]');
+    if(t){RKS.scope=t.value;rkRerender();}
+  });
+  /* ----- builder: drag from palette / move devices ----- */
+  wrap.querySelectorAll('.rk-pal-item').forEach(p=>{
+    p.addEventListener('pointerdown',ev=>{
+      const tpl=RK_TPL[parseInt(p.dataset.tpl,10)];
+      rkStartDrag(ev,{kind:'new',tpl});
+    });
+  });
+  if(RKS.edit&&RKS.view==='elev'){
+    wrap.querySelectorAll('.rk-dev').forEach(g=>{
+      g.addEventListener('pointerdown',ev=>{
+        const d=rkDev(g.dataset.dev);if(!d)return;
+        rkStartDrag(ev,{kind:'move',dev:d,pending:true});
+      });
+    });
+  }
+  /* ----- map pan/zoom ----- */
+  const mw=document.getElementById('rkMapWrap');
+  if(mw){
+    let pan=null;
+    mw.addEventListener('pointerdown',ev=>{if(ev.target.closest('[data-dev]')||ev.target.closest('[data-cable]')||ev.target.closest('.rk-mapzoom'))return;pan={x:ev.clientX,y:ev.clientY,moved:false};});
+    window.addEventListener('pointermove',ev=>{
+      if(!pan)return;const dx=ev.clientX-pan.x,dy=ev.clientY-pan.y;
+      if(Math.abs(dx)+Math.abs(dy)>3)pan.moved=true;
+      const svg=document.getElementById('rkMapSVG');if(!svg)return;
+      const vb=svg.viewBox.baseVal,sc=vb.width/svg.clientWidth;
+      vb.x-=dx*sc;vb.y-=dy*sc;rkMapClamp(vb);pan.x=ev.clientX;pan.y=ev.clientY;
+    },{passive:true});
+    window.addEventListener('pointerup',()=>{if(pan&&pan.moved){RKS._panned=true;setTimeout(()=>RKS._panned=false,50);}pan=null;});
+    mw.addEventListener('wheel',ev=>{ev.preventDefault();rkZoom(ev.deltaY<0?1:-1,ev);},{passive:false});
+  }
+}
+function rkMapClamp(vb){ /* keep the diagram from being zoomed or panned out of sight */
+  const svg=document.getElementById('rkMapSVG');if(!svg)return;
+  const f=(svg.dataset.fit||'').split(',').map(Number);if(f.length!==4||f.some(isNaN))return;
+  const fx=f[0],fy=f[1],fw=f[2],fh=f[3],ar=vb.height/vb.width;
+  vb.width=Math.max(fw/4,Math.min(fw*1.8,vb.width));
+  vb.height=vb.width*ar;
+  vb.x=Math.max(fx-vb.width*.7,Math.min(fx+fw-vb.width*.3,vb.x));
+  vb.y=Math.max(fy-vb.height*.7,Math.min(fy+fh-vb.height*.3,vb.y));
+}
+function rkZoom(dir,ev){
+  const svg=document.getElementById('rkMapSVG');if(!svg)return;
+  const vb=svg.viewBox.baseVal;
+  if(dir===0){ /* reset: refit */
+    rkRerender();return;
+  }
+  const f=dir>0?0.82:1.22;
+  const cx=vb.x+vb.width/2,cy=vb.y+vb.height/2;
+  vb.width*=f;vb.height*=f;vb.x=cx-vb.width/2;vb.y=cy-vb.height/2;
+  rkMapClamp(vb);
+}
+/* drag & drop (pointer-based, works over SVG) */
+function rkStartDrag(ev,info){
+  if(!RKS.edit||RKS.view!=='elev')return;
+  ev.preventDefault();
+  const start={x:ev.clientX,y:ev.clientY};
+  let active=!info.pending,ghost=null;
+  const h=info.kind==='new'?info.tpl.h:info.dev.h;
+  const mkGhost=()=>{
+    ghost=document.createElement('div');ghost.className='rk-ghost';
+    ghost.style.width=(RACKW-14)+'px';ghost.style.height=(h*UH-3)+'px';
+    ghost.textContent=info.kind==='new'?rkTX(info.tpl.n):info.dev.name;
+    document.body.appendChild(ghost);
+  };
+  const hit=(cx,cy)=>{ /* which rack + unit is under the cursor */
+    for(const svg of document.querySelectorAll('.rk-svg')){
+      const r=svg.getBoundingClientRect();
+      if(cx<r.left||cx>r.right||cy<r.top||cy>r.bottom)continue;
+      const rack=RK_DB.racks.find(x=>x.id===svg.dataset.rack);if(!rack)continue;
+      const relY=cy-r.top-(4+PADT),unit=Math.round(relY/UH-h/2+0.0001);
+      return{rack,svg,unit:Math.max(0,Math.min(rack.u-h,unit))};
+    }
+    return null;
+  };
+  const onMove=e=>{
+    if(!active){
+      if(Math.abs(e.clientX-start.x)+Math.abs(e.clientY-start.y)<5)return;
+      active=true;
+    }
+    if(!ghost)mkGhost();
+    ghost.style.left=(e.clientX-((RACKW-14)/2))+'px';ghost.style.top=(e.clientY-(h*UH-3)/2)+'px';
+    document.querySelectorAll('.rk-drophl').forEach(g=>g.innerHTML='');
+    const hz=hit(e.clientX,e.clientY);
+    if(hz){
+      const ok=rkFree(hz.rack,hz.unit,h,info.kind==='move'?info.dev.id:null);
+      const g=hz.svg.querySelector('.rk-drophl');
+      const y=4+PADT+hz.unit*UH;
+      g.innerHTML=`<g class="${ok?'rk-dropok':'rk-dropbad'}"><rect class="uhl" x="${GUT+NUMW+6}" y="${y}" width="${RACKW-12}" height="${h*UH}" rx="4" stroke-width="1.4" stroke-dasharray="5 3"/></g>`;
+      ghost.style.borderColor=ok?'var(--green)':'var(--red)';ghost.style.color=ok?'var(--green)':'var(--red)';
+    }
+  };
+  const onUp=e=>{
+    window.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',onUp);
+    document.querySelectorAll('.rk-drophl').forEach(g=>g.innerHTML='');
+    if(ghost)ghost.remove();
+    if(!active)return; /* treated as click */
+    const hz=hit(e.clientX,e.clientY);
+    if(!hz)return;
+    const ok=rkFree(hz.rack,hz.unit,h,info.kind==='move'?info.dev.id:null);
+    if(!ok){if(typeof toast==='function')toast(rkTX('Those rack units are occupied'));return;}
+    rkClearBlanks(hz.rack,hz.unit,h,info.kind==='move'?info.dev.id:null);
+    if(info.kind==='new'){
+      const id='u'+(++RKS.seq);
+      const count=hz.rack.devices.filter(d=>d.role===info.tpl.role).length+1;
+      hz.rack.devices.push({id,pos:hz.unit,h,role:info.tpl.role,name:info.tpl.n+' '+String(count).padStart(2,'0'),model:info.tpl.m,w:{agg:120,poe:300,dmz:45,fw:85,srv:380,nvr:220,pdu:24,ups:60}[info.tpl.role]||0,af:['patch','fiber','mgr','blank','pdu'].includes(info.tpl.role)?'pass':'fr',status:'active'});
+      RKS.sel={type:'dev',id};
+      if(typeof toast==='function')toast(rkTX('Device added')+' — U'+rkULabel(hz.rack,hz.unit,h));
+    }else{
+      const fromRack=rkRackOf(info.dev.id);
+      if(fromRack!==hz.rack){ /* move across racks: cables to old rack stay (inter-rack not drawn) — keep it simple: strip cables */
+        fromRack.devices.splice(fromRack.devices.indexOf(info.dev),1);
+        hz.rack.devices.push(info.dev);
+      }
+      info.dev.pos=hz.unit;
+      RKS.sel={type:'dev',id:info.dev.id};
+      if(typeof toast==='function')toast(rkTX('Moved to')+' U'+rkULabel(hz.rack,hz.unit,h));
+    }
+    rkRerender();
+  };
+  window.addEventListener('pointermove',onMove);
+  window.addEventListener('pointerup',onUp);
+}
+function rkFinishConnect(targetId){
+  const from=RKS.connect.from;
+  if(targetId===from){if(typeof toast==='function')toast(rkTX('Pick a different device'));return;}
+  const t=RKS.connect.ctype||'cat6a';
+  const np=d=>{const n=rkCablesOf(d).length+1;return 'P'+n;};
+  const id='c'+(++RKS.seq);
+  const nc={id,type:t,a:{dev:from,port:np(from)},b:{dev:targetId,port:np(targetId)},len:'1 m',note:'Added in builder'};
+  if(t==='pwr')nc.pwr=PW('IEC C13','NEMA 5-15P',15,120);else nc.speed=t==='cat6a'?'1G':'10G';
+  RK_DB.cables.push(nc);
+  RKS.connect=null;RKS.sel={type:'cable',id};
+  if(typeof toast==='function')toast(rkTX('Cable connected'));
+  rkRerender();
+}
+function rkApplyPatch(){
+  if(!RKS.sel||RKS.sel.type!=='port')return;
+  const v=id=>{const e=document.getElementById(id);return e?e.value:null;};
+  const dev=v('rkPtDev');if(!dev)return;
+  const port=(v('rkPtPort')||'').trim()||('P'+(rkCablesOf(dev).length+1));
+  if(rkPortCable(dev,port)){if(typeof toast==='function')toast(rkTX('That target port is already in use'));return;}
+  const id='c'+(++RKS.seq);
+  const nc={id,type:v('rkPtType')||'cat6a',a:{dev:RKS.sel.dev,port:RKS.sel.port},b:{dev,port},len:'0.5 m',note:'Patched in builder'};
+  if(nc.type==='pwr')nc.pwr=PW('IEC C13','NEMA 5-15P',15,120);else nc.speed=nc.type==='cat6a'?'1G':'10G';
+  RK_DB.cables.push(nc);
+  RKS.sel={type:'cable',id};
+  if(typeof toast==='function')toast(rkTX('Port patched'));
+  rkRerender();
+}
+function rkApplyDev(){
+  const d=rkDev(rkSelDevId());if(!d)return;
+  const v=id=>{const e=document.getElementById(id);return e?e.value:null;};
+  d.name=v('rkEdName')||d.name;d.model=v('rkEdModel')??d.model;
+  d.w=parseInt(v('rkEdW'),10)||0;d.role=v('rkEdRole')||d.role;d.af=v('rkEdAf')||d.af;
+  if(typeof toast==='function')toast(rkTX('Device updated'));
+  rkRerender();
+}
+function rkDeleteDev(){
+  const id=rkSelDevId();if(!id)return;
+  const rack=rkRackOf(id);if(!rack)return;
+  const n=RK_DB.cables.filter(c=>c.a.dev===id||c.b.dev===id).length;
+  RK_DB.cables=RK_DB.cables.filter(c=>c.a.dev!==id&&c.b.dev!==id);
+  rack.devices=rack.devices.filter(d=>d.id!==id);
+  RKS.sel=null;
+  if(typeof toast==='function')toast(rkTX('Device removed')+(n?` (+${n} ${rkTX('cables')})`:''));
+  rkRerender();
+}
+function rkApplyCable(){
+  const c=RK_DB.cables.find(x=>RKS.sel&&x.id===RKS.sel.id);if(!c)return;
+  const e=document.getElementById('rkEdCType');if(e)c.type=e.value;
+  if(c.type==='pwr'){
+    const gA=document.getElementById('rkPwA'),gB=document.getElementById('rkPwB'),gC=document.getElementById('rkPwC');
+    const cur=c.pwr||{};
+    const cir=gC?gC.value.split('|').map(Number):[cur.amps||15,cur.volts||120];
+    c.pwr={a:gA?gA.value:(cur.a||'IEC C13'),b:gB?gB.value:(cur.b||'NEMA 5-15P'),amps:cir[0],volts:cir[1]};
+  }else delete c.pwr;
+  const sp=document.getElementById('rkEdSpeed');if(sp)c.speed=sp.value||undefined;
+  const xa=document.getElementById('rkEdXa');if(xa)c.a.xcvr=xa.value.trim()||undefined;
+  const xb=document.getElementById('rkEdXb');if(xb)c.b.xcvr=xb.value.trim()||undefined;
+  [['a','rkClbl-a'],['b','rkClbl-b']].forEach(([k,id])=>{
+    const inp=document.getElementById(id);if(!inp)return;
+    const d=rkDev(c[k].dev);if(!d)return;
+    d.labels=d.labels||{};
+    const v=inp.value.trim();
+    if(v)d.labels[c[k].port]=v;else delete d.labels[c[k].port];
+  });
+  if(typeof toast==='function')toast(rkTX('Cable updated'));
+  rkRerender();
+}
+function rkSavePortLabel(){
+  if(!RKS.sel||RKS.sel.type!=='port')return;
+  const d=rkDev(RKS.sel.dev);if(!d)return;
+  const inp=document.getElementById('rkPtLabel');if(!inp)return;
+  d.labels=d.labels||{};
+  const v=inp.value.trim();
+  if(v)d.labels[RKS.sel.port]=v;else delete d.labels[RKS.sel.port];
+  if(typeof toast==='function')toast(rkTX('Port label saved'));
+  rkRerender();
+}
+function rkDeleteCable(){
+  RK_DB.cables=RK_DB.cables.filter(x=>!(RKS.sel&&x.id===RKS.sel.id));
+  RKS.sel=null;
+  if(typeof toast==='function')toast(rkTX('Cable disconnected'));
+  rkRerender();
+}
+/* Esc clears selection */
+window.addEventListener('keydown',ev=>{
+  if(ev.key==='Escape'&&typeof estateSection!=='undefined'&&estateSection==='racks'&&document.getElementById('screen-estate')?.classList.contains('show')){
+    if(RKS.connect||RKS.sel){RKS.connect=null;RKS.sel=null;rkRerender();}
+  }
+});
+
+/* ---------------- wire into Guardare Vista ---------------- */
+if(typeof ESTATE_SECTIONS!=='undefined'){
+  ESTATE_SECTIONS.racks={t:'Rack Management',blurb:'',chips:[]};
+  ESTATE_SECTIONS.locations={t:'Location Management',blurb:'',chips:[]};
+}
+/* Location Management inside the Vista plane: reuse the real Locations screen
+   (tenant-scoped via renderConfig) without flipping back to the Platform plane.
+   goEstate()/setSysPlane() force screen-estate visible right after renderEstate()
+   returns, so the swap to screen-config is deferred one tick. */
+function rkShowLocations(){
+  if(typeof renderConfig==='function')renderConfig();
+  setTimeout(function(){
+    if(typeof GUARDARE_PLANE==='undefined'||GUARDARE_PLANE!=='estate'||estateSection!=='locations')return;
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
+    const sc=document.getElementById('screen-config');if(sc)sc.classList.add('show');
+    document.querySelectorAll('#estateNav .nav-item').forEach(n=>n.classList.toggle('active',n.dataset.estate==='locations'));
+  },0);
+}
+if(typeof renderEstate==='function'){
+  const rkOrig=renderEstate;
+  renderEstate=function(){
+    if(typeof estateSection!=='undefined'&&estateSection==='racks'){rkRenderScreen();return;}
+    if(typeof estateSection!=='undefined'&&estateSection==='locations'){rkShowLocations();return;}
+    rkOrig();
+  };
+}
+/* honor tenant context: switching tenant while inside Guardare Vista re-scopes the
+   estate views in place instead of yanking the user back to the Platform plane */
+function rkInEstate(){return typeof GUARDARE_PLANE!=='undefined'&&GUARDARE_PLANE==='estate';}
+function rkEstateTenantRefresh(){
+  RKS.scope='all';RKS.sel=null;RKS.connect=null;
+  if(typeof updateChrome==='function')updateChrome();
+  if(typeof renderTenantMenu==='function')renderTenantMenu();
+  if(typeof refreshDashboard==='function')refreshDashboard(); /* keep platform widgets in sync for when they return */
+  if(typeof closeAllMenus==='function')closeAllMenus();
+  renderEstate();
+  const m=document.getElementById('main');if(m)m.scrollTop=0;
+}
+if(typeof pickTenant==='function'){
+  const rkOrigPickTenant=pickTenant;
+  pickTenant=function(slug){
+    if(rkInEstate()){
+      currentTenantCtx=slug;currentTenant=slug;
+      rkEstateTenantRefresh();
+      if(typeof toast==='function')toast(rkTX('Switched to')+' '+rkTenantName(slug));
+      return;
+    }
+    rkOrigPickTenant(slug);
+  };
+}
+if(typeof pickAllTenants==='function'){
+  const rkOrigPickAll=pickAllTenants;
+  pickAllTenants=function(){
+    if(rkInEstate()){
+      currentTenantCtx=null;currentTenant='all';
+      rkEstateTenantRefresh();
+      if(typeof toast==='function')toast(rkTX('Switched to')+' '+rkTX('All Tenants'));
+      return;
+    }
+    rkOrigPickAll();
+  };
+}
+window.rkRenderScreen=rkRenderScreen;
+})();
+
 </script>
 </body>
 </html>
