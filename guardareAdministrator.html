@@ -2865,6 +2865,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     </div>
     </div><!--/cfgNav-->
     </div><!--/collectorNav-->
+    </div><!--/platformNav — closed early so Global Platform is shared across Vista & Core-->
     <div id="cloudNav">
     <div class="nav-group" data-i18n="Global Platform">Global Platform</div>
     <button class="nav-item" data-screen="tenants">
@@ -2891,7 +2892,6 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <span data-i18n="Integrations">Integrations</span>
     </button>
     </div>
-    </div>
 
     <div id="estateNav">
     <div class="nav-group" data-i18n="Observability">Observability</div>
@@ -2910,10 +2910,6 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
     <button class="nav-item" data-estate="topology" data-act="go-estate">
       <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><path d="M7.6 7.6l3 8.4M16.4 7.6l-3 8.4M8.2 6h7.6"/></svg>
       <span data-i18n="Topology">Topology</span>
-    </button>
-    <button class="nav-item" data-estate="locations" data-act="go-estate">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
-      <span data-i18n="Location Management">Location Management</span>
     </button>
     <button class="nav-item" data-estate="racks" data-act="go-estate">
       <svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="1.5"/><path d="M6 7h12M6 11h12M6 15h12M9 4.8h.01M9 8.8h.01M9 12.8h.01"/><path d="M8 21.5v1.6M16 21.5v1.6"/></svg>
@@ -2934,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.511.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.512.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13710,7 +13706,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.511.alpha';
+const APP_VERSION='v2026.02.512.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -18935,6 +18931,17 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-port.fib.on::after{top:1.5px;right:1.5px}
   .rk-port.sel{border-color:var(--tron);box-shadow:0 0 0 2px rgba(40,224,255,.4),0 0 14px rgba(40,224,255,.3);color:var(--text)}
   .rk-port.dim{opacity:.35}
+  /* fiber duplex positions — individual Tx / Rx strands */
+  .rk-pp-row.fib{align-items:end}
+  .rk-duplex{display:flex;flex-direction:column;align-items:center;gap:2.5px;min-width:0}
+  .rk-duplex .dl{font:600 8.5px "Open Sans",sans-serif;color:var(--mute)}
+  .rk-strand{width:100%;max-width:21px;aspect-ratio:1/1;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--mute);font:700 7.5px "Open Sans",sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:.15s}
+  .rk-strand:hover{border-color:var(--tron-deep);color:var(--text);transform:translateY(-1px)}
+  .rk-strand.on{background:color-mix(in srgb,var(--pc) 26%,var(--bg));border-color:var(--pc);color:var(--text);box-shadow:0 0 7px -2px var(--pc)}
+  .rk-strand.rx.on{background:color-mix(in srgb,var(--pc) 11%,var(--bg));border-style:dashed}
+  .rk-strand.sel{border-color:var(--tron);box-shadow:0 0 0 2px rgba(40,224,255,.4),0 0 10px rgba(40,224,255,.25);color:var(--text)}
+  .rk-strand.dim{opacity:.35}
+  .rk-ppm-row .str{font:700 9px ui-monospace,Menlo,monospace;color:var(--violet);background:rgba(159,139,255,.1);border:1px solid #4a3f80;border-radius:5px;padding:1.5px 6px;white-space:nowrap}
   /* port map — readable wiring list under each panel */
   .rk-pp-map{display:flex;flex-direction:column;gap:4px;margin-top:10px}
   .rk-ppm-row{display:flex;align-items:center;gap:8px;border:1px solid transparent;background:var(--bg-2);border-radius:8px;padding:6.5px 11px;cursor:pointer;font:500 11.5px "Open Sans",sans-serif;color:var(--dim);transition:.14s;text-align:left}
@@ -18952,6 +18959,39 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-strip .sep{width:1px;height:16px;background:var(--line)}
   .rk-strip .hint{margin-left:auto;display:flex;align-items:center;gap:7px;font-weight:500;color:var(--mute)}
   .rk-strip .hint kbd{background:var(--bg-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font:600 10px "Open Sans",sans-serif;color:var(--dim)}
+  /* Global Platform group shared across planes — in Vista it sits below Observability */
+  body.plane-estate #estateNav{order:1}
+  body.plane-estate #cloudNav{order:2}
+  body.plane-estate .sidebar-foot{order:3}
+  /* ---- rich tooltip ---- */
+  #rkTip{position:fixed;z-index:9999;pointer-events:none;opacity:0;transform:translateY(5px) scale(.98);transition:opacity .13s ease,transform .13s ease;
+    max-width:360px;min-width:230px;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 97%,transparent));
+    border:1px solid var(--line);border-radius:13px;padding:13px 15px;
+    box-shadow:0 22px 50px -14px #000e,0 0 24px -8px rgba(40,224,255,.14),inset 0 1px 0 #ffffff0a;
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  #rkTip.show{opacity:1;transform:none}
+  #rkTip .tip-head{display:flex;align-items:center;gap:9px}
+  #rkTip .tip-head i{width:10px;height:10px;border-radius:3.5px;box-shadow:0 0 9px currentColor;flex:0 0 10px}
+  #rkTip .tip-head b{font:700 13.5px "Open Sans",sans-serif;color:var(--text);letter-spacing:.01em}
+  #rkTip .tip-head span{margin-left:auto;font:600 10.5px "Open Sans",sans-serif;color:var(--dim);letter-spacing:.04em;padding-left:12px;white-space:nowrap}
+  #rkTip .tip-sub{font:500 11px "Open Sans",sans-serif;color:var(--mute);margin-top:4px}
+  #rkTip .tip-sub.lab{color:var(--teal);font-weight:600}
+  #rkTip .tip-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+  #rkTip .tc{font:600 10px "Open Sans",sans-serif;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:3px 8px;white-space:nowrap}
+  #rkTip .tc.mono{font:600 10px ui-monospace,"SF Mono",Menlo,monospace;color:var(--tron);border-color:var(--tron-deep);background:rgba(40,224,255,.08);letter-spacing:.02em}
+  #rkTip .tc.mono.pw{color:#FF5D8F;border-color:#7a2a44;background:rgba(255,93,143,.08)}
+  #rkTip .tc.hot{color:var(--tron-orange);border-color:#8a4a16;background:rgba(255,122,24,.08)}
+  #rkTip .tip-flow{display:flex;flex-direction:column;margin-top:10px;background:var(--bg-2);border:1px solid var(--line-soft);border-radius:10px;padding:10px 11px}
+  #rkTip .tip-end b{font:700 12.5px "Open Sans",sans-serif;color:var(--text);display:block;line-height:1.3}
+  #rkTip .tip-endline{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+  #rkTip .tip-arrow{display:flex;align-items:center;gap:8px;margin:8px 0}
+  #rkTip .tip-arrow .ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent);opacity:.45}
+  #rkTip .tip-arrow svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px currentColor)}
+  #rkTip .tip-note{font:italic 500 10.5px "Open Sans",sans-serif;color:var(--mute);margin-top:9px;border-top:1px dashed var(--line);padding-top:8px}
+  #rkTip .tip-foot{display:flex;align-items:center;gap:7px;font:600 10.5px "Open Sans",sans-serif;color:var(--dim);margin-top:9px}
+  #rkTip .tip-foot .dot{width:7px;height:7px;border-radius:99px;background:var(--mute);flex:0 0 7px}
+  #rkTip .tip-foot .dot.on{background:var(--green);box-shadow:0 0 8px var(--green)}
   @keyframes rkIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
   @keyframes rkDash{to{stroke-dashoffset:-26}}
   .rk-cable.traced{stroke-dasharray:9 4;animation:rkDash 1.1s linear infinite}
@@ -19304,6 +19344,69 @@ function rkTraceSet(){ /* devIds + cableIds currently highlighted, or null when 
 function rkPortCable(devId,port){
   return RK_DB.cables.find(c=>(c.a.dev===devId&&c.a.port===port)||(c.b.dev===devId&&c.b.port===port))||null;
 }
+/* ---------------- rich hover tooltip engine ---------------- */
+let rkTipEl=null;
+function rkTipInit(){if(rkTipEl)return;rkTipEl=document.createElement('div');rkTipEl.id='rkTip';document.body.appendChild(rkTipEl);}
+function rkTipShow(html,x,y){rkTipInit();rkTipEl.innerHTML=html;rkTipEl.classList.add('show');rkTipMove(x,y);}
+function rkTipMove(x,y){
+  if(!rkTipEl)return;
+  const r=rkTipEl.getBoundingClientRect();
+  let px=x+16,py=y+18;
+  if(px+r.width>window.innerWidth-10)px=x-r.width-14;
+  if(py+r.height>window.innerHeight-10)py=y-r.height-14;
+  rkTipEl.style.left=Math.max(6,px)+'px';rkTipEl.style.top=Math.max(6,py)+'px';
+}
+function rkTipHide(){if(rkTipEl)rkTipEl.classList.remove('show');}
+function rkTipDevHTML(id){
+  const d=rkDev(id);if(!d)return null;
+  const rack=rkRackOf(id),role=RK_ROLES[d.role]||RK_ROLES.blank,af=RK_AF[d.af]||RK_AF.pass;
+  const core=!['blank','mgr'].includes(d.role),n=rkCablesOf(id).length;
+  return `<div class="tip-head"><i style="background:${role.c};color:${role.c}"></i><b>${rkEsc(d.name)}</b><span>${rkEsc(rkTX(role.t))}</span></div>
+  ${d.model?`<div class="tip-sub">${rkEsc(d.model)}</div>`:''}
+  <div class="tip-chips">
+    ${rack?`<span class="tc">${rkEsc(rack.name)}</span><span class="tc">U${rkULabel(rack,d.pos,d.h)} · ${d.h}U</span>`:''}
+    ${core?`<span class="tc hot">${d.w||0} W</span><span class="tc" style="color:${af.c}">${rkEsc(rkTX(af.t))}</span>`:''}
+  </div>
+  ${core?`<div class="tip-foot"><span class="dot on"></span>${rkTX('Active')} · ${n} ${rkTX(n===1?'cable':'cables')}</div>`:''}`;
+}
+function rkTipEndHTML(c,side){
+  const d=rkDev(c[side].dev);
+  return `<div class="tip-end"><b>${rkEsc(d?d.name:'?')}</b>
+    <div class="tip-endline"><span class="tc">${rkTX('Port')} ${rkEsc(c[side].port)}</span>
+    ${c[side].xcvr?`<span class="tc mono">${rkEsc(c[side].xcvr)}</span>`:''}
+    ${c.pwr?`<span class="tc mono pw">${rkEsc(side==='a'?c.pwr.a:c.pwr.b)}</span>`:''}</div></div>`;
+}
+function rkTipFlowHTML(c){
+  const ct=RK_CTYPES[c.type];
+  return `<div class="tip-flow">
+    ${rkTipEndHTML(c,'a')}
+    <div class="tip-arrow" style="color:${ct.c}"><span class="ln"></span><svg viewBox="0 0 24 24"><path d="M9 4v14m0 0-3.4-3.4M9 18l3.4-3.4"/><path d="M15 20V6m0 0-3.4 3.4M15 6l3.4 3.4"/></svg><span class="ln"></span></div>
+    ${rkTipEndHTML(c,'b')}
+  </div>`;
+}
+function rkTipCableHTML(id){
+  const c=RK_DB.cables.find(x=>x.id===id);if(!c)return null;
+  const ct=RK_CTYPES[c.type];
+  return `<div class="tip-head"><i style="background:${ct.c};color:${ct.c}"></i><b>${rkEsc(ct.t)}</b>
+    <span>${c.speed?rkEsc(c.speed)+' · ':''}${rkEsc(c.len)}${c.pwr?' · '+c.pwr.amps+'A @ '+c.pwr.volts+'V':''}</span></div>
+  ${rkTipFlowHTML(c)}
+  ${c.note?`<div class="tip-note">${rkEsc(c.note)}</div>`:''}`;
+}
+function rkTipPortHTML(devId,port,strand){
+  const p=rkDev(devId);if(!p)return null;
+  const role=RK_ROLES[p.role]||RK_ROLES.blank,c=rkPortCable(devId,port),lab=rkPortLabel(p,port);
+  const head=strand?rkTX('Port')+' '+port+' · '+strand.toUpperCase()+' '+rkTX('strand'):rkTX('Port')+' '+port;
+  let html=`<div class="tip-head"><i style="background:${role.c};color:${role.c}"></i><b>${rkEsc(p.name)}</b><span>${rkEsc(head)}</span></div>`;
+  if(lab)html+=`<div class="tip-sub lab">${rkEsc(lab)}</div>`;
+  if(p.role==='fiber')html+=`<div class="tip-chips"><span class="tc mono">${rkTX('Duplex LC · 2 strands (Tx / Rx)')}</span></div>`;
+  if(c&&strand){
+    const peer=rkPeer(c,devId),pd=rkDev(peer.dev);
+    html+=`<div class="tip-chips"><span class="tc mono">${rkEsc(port)}·${strand.toUpperCase()}</span><span class="tc" style="border:none;background:none">→</span><span class="tc mono">${rkEsc(peer.port)}·${strand==='tx'?'RX':'TX'}</span><span class="tc">${rkEsc(pd?pd.name:'?')}</span></div>`;
+  }
+  if(c)html+=rkTipFlowHTML(c)+`<div class="tip-foot"><span class="dot on"></span>${rkEsc(RK_CTYPES[c.type].t)}${c.speed?' · '+rkEsc(c.speed):''} · ${rkTX('Connected')}</div>`;
+  else html+=`<div class="tip-foot"><span class="dot"></span>${rkTX('Unpatched — open in Edit Rack to patch or label it')}</div>`;
+  return html;
+}
 /* rich hover tooltips */
 function rkDevTitle(d){
   const rack=rkRackOf(d.id),role=RK_ROLES[d.role]||RK_ROLES.blank;
@@ -19388,7 +19491,7 @@ function rkElevSVG(rack){
     if(trace){if(trace.cbls.has(c.id)){cls.push('traced');if(RKS.sel.type==='cable'&&RKS.sel.id===c.id)cls.push('sel');}else cls.push('rk-dim');}
     const p=`M ${x} ${y1} C ${x-dx} ${y1}, ${x-dx} ${y2}, ${x} ${y2}`;
     cs+=`<path class="rk-cable ${cls.join(' ')}" data-cable="${c.id}" d="${p}" stroke="${col}" stroke-width="2" stroke-linecap="round" opacity=".92"/>`;
-    cs+=`<path class="rk-cablehit" data-cable="${c.id}" d="${p}"><title>${rkEsc(rkCableTitle(c))}</title></path>`;
+    cs+=`<path class="rk-cablehit" data-cable="${c.id}" d="${p}"/>`;
     const dimDot=trace&&!trace.cbls.has(c.id)?'rk-dim':'';
     ds+=`<circle class="${dimDot}" cx="${x}" cy="${y1}" r="2.4" fill="${col}" filter="url(#rkGlow-${rack.id})"/><circle class="${dimDot}" cx="${x}" cy="${y2}" r="2.4" fill="${col}" filter="url(#rkGlow-${rack.id})"/>`;
   });
@@ -19413,7 +19516,6 @@ function rkElevSVG(rack){
     const tcol=txt?'#08262b':'var(--text)';
     const subcol=txt?'#08262baa':'var(--dim)';
     s+=`<g class="${cls.join(' ')}" data-dev="${d.id}">`;
-    s+=`<title>${rkEsc(rkDevTitle(d))}</title>`;
     s+=`<rect class="body" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${fill}" stroke="${edge}"/>`;
     if(d.role==='blank'){
       s+=`<text class="lbl" x="${x+w/2}" y="${y+h/2+3}" text-anchor="middle" fill="var(--mute)" opacity=".55">${rkEsc(d.name)}</text>`;
@@ -19432,7 +19534,7 @@ function rkElevSVG(rack){
     /* airflow chip */
     if(RKS.airflow&&d.role!=='blank'&&d.role!=='mgr'){
       const af=RK_AF[d.af]||RK_AF.pass;
-      s+=`<g><title>${rkEsc(d.name+' · '+rkTX('Airflow')+': '+rkTX(af.t))}</title><circle cx="${frameX+RACKW+13}" cy="${y+h/2}" r="4" fill="${af.c}" filter="url(#rkGlow-${rack.id})"/>`;
+      s+=`<g><circle cx="${frameX+RACKW+13}" cy="${y+h/2}" r="4" fill="${af.c}" filter="url(#rkGlow-${rack.id})"/>`;
       if(d.af==='fr')s+=`<path d="M ${frameX+RACKW+10.5} ${y+h/2} h5 m-2 -2 l2 2 l-2 2" stroke="#06282c" stroke-width="1.1" fill="none"/>`;
       if(d.af==='rf')s+=`<path d="M ${frameX+RACKW+15.5} ${y+h/2} h-5 m2 -2 l-2 2 l2 2" stroke="#06282c" stroke-width="1.1" fill="none"/>`;
       s+=`</g>`;
@@ -19504,7 +19606,7 @@ function rkMapSVG(){
       else{const bulge=pa.side==='R'?Math.max(ax,bx)+52:Math.min(ax,bx)-52;d=`M ${ax} ${ay} C ${bulge} ${ay}, ${bulge} ${by}, ${bx} ${by}`;}
       const cls=[];
       if(trace){if(trace.cbls.has(c.id)){cls.push('traced');if(RKS.sel.type==='cable'&&RKS.sel.id===c.id)cls.push('sel');}else cls.push('rk-dim');}
-      parts+=`<path class="rk-cable ${cls.join(' ')}" data-cable="${c.id}" d="${d}" stroke="${col}" stroke-width="1.9" fill="none" opacity=".92"/><path class="rk-cablehit" data-cable="${c.id}" d="${d}"><title>${rkEsc(rkCableTitle(c))}</title></path>`;
+      parts+=`<path class="rk-cable ${cls.join(' ')}" data-cable="${c.id}" d="${d}" stroke="${col}" stroke-width="1.9" fill="none" opacity=".92"/><path class="rk-cablehit" data-cable="${c.id}" d="${d}"/>`;
     });
     /* nodes */
     Object.values(isl.nodes).forEach(n=>{
@@ -19512,7 +19614,6 @@ function rkMapSVG(){
       if(trace)cls.push(trace.devs.has(n.d.id)?'':'rk-dim');
       if(rkSelDevId()===n.d.id)cls.push('sel');
       parts+=`<g class="${cls.join(' ')}" data-dev="${n.d.id}" transform="translate(${n.x},${y0+n.y})">
-        <title>${rkEsc(rkDevTitle(n.d))}</title>
         <rect class="nbody" width="${n.w}" height="${n.h}" rx="9"/>
         <rect x="0" y="0" width="3.5" height="${n.h}" rx="1.7" fill="${role.c}"/>
         <text class="nt" x="12" y="15">${rkEsc(n.d.name.length>17?n.d.name.slice(0,16)+'…':n.d.name)}</text>
@@ -19520,7 +19621,7 @@ function rkMapSVG(){
       ['L','R'].forEach(side=>{
         n[side].forEach((p,i)=>{
           const px=side==='L'?-3:n.w-43,py=32+i*17;
-          parts+=`<g class="rk-map-port"><title>${rkEsc(n.d.name+' : '+p.port+'\n'+rkCableTitle(p.cable))}</title><rect x="${px}" y="${py}" width="46" height="13" rx="4"/>
+          parts+=`<g class="rk-map-port" data-cable="${p.cable.id}"><rect x="${px}" y="${py}" width="46" height="13" rx="4"/>
             <text x="${px+23}" y="${py+9.5}" text-anchor="middle">${rkEsc(String(p.port).length>7?String(p.port).slice(0,6)+'…':p.port)}</text></g>`;
         });
       });
@@ -19612,6 +19713,10 @@ function rkDevPanel(d){
       <div class="rk-field"><label>${rkTX('Role')}</label><select id="rkEdRole">${Object.keys(RK_ROLES).map(k=>`<option value="${k}" ${k===d.role?'selected':''}>${rkEsc(rkTX(RK_ROLES[k].t))}</option>`).join('')}</select></div>
       <div class="rk-field"><label>${rkTX('Airflow')}</label><select id="rkEdAf">${Object.keys(RK_AF).map(k=>`<option value="${k}" ${k===d.af?'selected':''}>${rkEsc(rkTX(RK_AF[k].t))}</option>`).join('')}</select></div>
     </div>
+    ${(d.role==='patch'||d.role==='fiber')?(()=>{
+      const opts=d.role==='fiber'?['6x2','12x2','12x3','12x4','24x2']:['12','24','48'];
+      const cur=String(d.dens||(d.role==='fiber'?'12x3':'24'));
+      return `<div class="rk-field"><label>${rkTX('Port density')}</label><select id="rkEdDens">${opts.map(o=>`<option value="${o}" ${o===cur?'selected':''}>${d.role==='fiber'?o.replace('x',' × ')+' '+rkTX('duplex positions'):o+' '+rkTX('ports')}</option>`).join('')}</select></div>`;})():''}
     <button class="rk-actbtn grn" data-rk="applydev">${rkTX('Apply Changes')}</button>
     <div class="rk-sec-t">${rkTX('Connect Cable')}</div>
     <div class="rk-chipset">${Object.keys(RK_CTYPES).map(k=>`<button class="rk-chip ${RKS.pendType===k?'on':''}" data-rk="ctype" data-arg="${k}"><i style="background:${RK_CTYPES[k].c}"></i>${rkEsc(RK_CTYPES[k].t)}</button>`).join('')}</div>
@@ -19622,7 +19727,7 @@ function rkDevPanel(d){
   if(!cbls.length)html+=`<p style="font:400 11.5px 'Open Sans';color:var(--mute);margin:0">${rkTX('No connections on this device.')}</p>`;
   cbls.forEach(c=>{
     const me=c.a.dev===d.id?c.a:c.b,peerEnd=rkPeer(c,d.id),peer=rkDev(peerEnd.dev);
-    html+=`<div class="rk-cbl-item ${RKS.sel&&RKS.sel.type==='cable'&&RKS.sel.id===c.id?'sel':''}" data-rk="selcable" data-arg="${c.id}" title="${rkEsc(rkCableTitle(c))}">
+    html+=`<div class="rk-cbl-item ${RKS.sel&&RKS.sel.type==='cable'&&RKS.sel.id===c.id?'sel':''}" data-rk="selcable" data-arg="${c.id}" data-cable="${c.id}">
       <div class="a"><i style="background:${RK_CTYPES[c.type].c};color:${RK_CTYPES[c.type].c}"></i>${rkEsc(me.port)}<small>${rkEsc(c.type==='pwr'&&c.pwr?c.pwr.a+' · '+c.pwr.amps+'A':(me.xcvr?me.xcvr+(c.speed?' · '+c.speed:''):RK_CTYPES[c.type].t))}</small></div>
       <div class="b">→ <b>${rkEsc(peer?peer.name:'?')}</b>: ${rkEsc(peerEnd.port)}</div></div>`;
   });
@@ -19828,21 +19933,50 @@ function rkPortBtn(p,port,extraCls){
   }
   const col=c?RK_CTYPES[c.type].c:'transparent';
   const lab=String(port).replace(/^[A-C]/,'');
-  return `<button class="${cls.join(' ')}" data-pdev="${p.id}" data-pport="${rkEsc(port)}" style="--pc:${col}" title="${rkEsc(rkPortTitle(p,port))}">${rkEsc(extraCls==='fib'?lab:port)}</button>`;
+  return `<button class="${cls.join(' ')}" data-pdev="${p.id}" data-pport="${rkEsc(port)}" style="--pc:${col}">${rkEsc(extraCls==='fib'?lab:port)}</button>`;
+}
+function rkPanelPorts(p){ /* rows of port names, driven by the panel's configurable density */
+  if(p.role==='fiber'){
+    let cols=12,rows=3;
+    const m=String(p.dens||'12x3').match(/^(\d+)x(\d+)$/);
+    if(m){cols=Math.min(24,+m[1]);rows=Math.min(6,+m[2]);}
+    return Array.from({length:rows},(_,r)=>{
+      const L=String.fromCharCode(65+r);
+      return{label:L,cols,ports:Array.from({length:cols},(_,i)=>L+(i+1))};
+    });
+  }
+  const n=Math.min(96,parseInt(p.dens,10)||24),out=[];
+  for(let s=1;s<=n;s+=12)out.push({label:'',cols:12,ports:Array.from({length:Math.min(12,n-s+1)},(_,i)=>String(s+i))});
+  return out;
+}
+function rkStrandBtn(p,port,strand){ /* one physical fiber strand (Tx or Rx) of a duplex position */
+  const c=rkPortCable(p.id,port),trace=rkTraceSet();
+  const cls=['rk-strand',strand];
+  if(c)cls.push('on');
+  const selPort=RKS.sel&&RKS.sel.type==='port'&&RKS.sel.dev===p.id&&RKS.sel.port===port;
+  const selCable=RKS.sel&&RKS.sel.type==='cable'&&c&&RKS.sel.id===c.id;
+  if(selPort||selCable)cls.push('sel');
+  if(trace&&!selPort&&!selCable){
+    const lit=(c&&trace.cbls.has(c.id))||(RKS.sel&&RKS.sel.type==='port'&&RKS.sel.dev===p.id);
+    if(!lit)cls.push('dim');
+  }
+  const col=c?RK_CTYPES[c.type].c:'transparent';
+  return `<button class="${cls.join(' ')}" data-pdev="${p.id}" data-pport="${rkEsc(port)}" data-strand="${strand}" style="--pc:${col}">${strand==='tx'?'T':'R'}</button>`;
+}
+function rkDuplex(p,port){
+  return `<div class="rk-duplex">${rkStrandBtn(p,port,'tx')}${rkStrandBtn(p,port,'rx')}<span class="dl">${rkEsc(String(port).replace(/^[A-Z]/,''))}</span></div>`;
 }
 function rkPanelCard(rack,p){
   const role=RK_ROLES[p.role];
-  const ports=p.role==='fiber'
-    ?['A','B','C'].map(row=>Array.from({length:12},(_,i)=>row+(i+1)))
-    :[Array.from({length:12},(_,i)=>String(i+1)),Array.from({length:12},(_,i)=>String(i+13))];
-  const flat=ports.flat();
+  const rows=rkPanelPorts(p);
+  const flat=rows.flatMap(r=>r.ports);
   const used=flat.filter(pt=>rkPortCable(p.id,pt)).length;
   const pct=Math.round(used/flat.length*100);
   let grid='';
   if(p.role==='fiber'){
-    grid=ports.map((row,ri)=>`<div class="rk-pp-row"><span class="rk-pp-rowlab">${['A','B','C'][ri]}</span>${row.map(pt=>rkPortBtn(p,pt,'fib')).join('')}</div>`).join('');
+    grid=rows.map(r=>`<div class="rk-pp-row fib" style="grid-template-columns:16px repeat(${r.cols},1fr)"><span class="rk-pp-rowlab">${r.label}</span>${r.ports.map(pt=>rkDuplex(p,pt)).join('')}</div>`).join('');
   }else{
-    grid=ports.map(row=>`<div class="rk-pp-row"><span class="rk-pp-rowlab"></span>${row.map(pt=>rkPortBtn(p,pt)).join('')}</div>`).join('');
+    grid=rows.map(r=>`<div class="rk-pp-row" style="grid-template-columns:16px repeat(${r.cols},1fr)"><span class="rk-pp-rowlab"></span>${r.ports.map(pt=>rkPortBtn(p,pt)).join('')}</div>`).join('');
   }
   /* port map — the readable wiring list: "Port 1 · Front Desk → switch : port" */
   const mapped=flat.filter(pt=>rkPortCable(p.id,pt));
@@ -19851,9 +19985,10 @@ function rkPanelCard(rack,p){
     maplist=`<div class="rk-pp-map">${mapped.map(pt=>{
       const c=rkPortCable(p.id,pt),peer=rkPeer(c,p.id),pd=rkDev(peer.dev),lab=rkPortLabel(p,pt);
       const sel=RKS.sel&&RKS.sel.type==='cable'&&RKS.sel.id===c.id;
-      return `<button class="rk-ppm-row ${sel?'sel':''}" data-rk="selcable" data-arg="${c.id}">
+      return `<button class="rk-ppm-row ${sel?'sel':''}" data-rk="selcable" data-arg="${c.id}" data-cable="${c.id}">
         <i style="background:${RK_CTYPES[c.type].c};color:${RK_CTYPES[c.type].c}"></i>
         <b>${rkEsc(p.role==='fiber'?pt:rkTX('Port')+' '+pt)}</b>
+        ${p.role==='fiber'?`<span class="str">Tx⇄Rx</span>`:''}
         ${lab?`<span class="lab">${rkEsc(lab)}</span>`:''}
         <span class="arr">→</span><b>${rkEsc(pd?pd.name:'?')}</b><span class="pp">: ${rkEsc(peer.port)}</span>
         <small>${rkEsc(RK_CTYPES[c.type].t)}</small></button>`;
@@ -19865,7 +20000,7 @@ function rkPanelCard(rack,p){
         <span class="sw" style="background:${role.c};color:${role.c}"></span>
         <span><b>${rkEsc(p.name)}</b><small>${rkEsc(rack.name)} · U${rkULabel(rack,p.pos,p.h)} · ${rkEsc(rkTX(role.t))}</small></span>
       </button>
-      <div class="rk-pp-util"><b>${used}<i>/${flat.length}</i></b>
+      <div class="rk-pp-util"><b>${p.role==='fiber'?used*2:used}<i>/${p.role==='fiber'?flat.length*2+' '+rkTX('strands'):flat.length}</i></b>
         <div class="bar"><div style="width:${pct}%"></div></div>
       </div>
     </div>
@@ -19888,6 +20023,7 @@ function rkStagePanels(){
 
 /* ---------------- interactions ---------------- */
 function rkRerender(){
+  rkTipHide();
   const stage=document.getElementById('rkStage');
   const sx=stage?stage.scrollLeft:0,sy=stage?stage.scrollTop:0;
   rkRenderScreen();
@@ -19957,6 +20093,23 @@ function rkBind(root){
     const t=ev.target.closest('[data-rk="scopesel"]');
     if(t){RKS.scope=t.value;rkRerender();}
   });
+  /* ----- rich tooltips (hover) ----- */
+  wrap.addEventListener('pointerover',ev=>{
+    if(RKS.drag||RKS._panActive||performance.now()<(RKS._tipMute||0)){rkTipHide();return;}
+    const prt=ev.target.closest('[data-pport]');
+    const cbl=ev.target.closest('[data-cable]');
+    const dev=ev.target.closest('[data-dev]');
+    let html=null;
+    if(prt)html=rkTipPortHTML(prt.dataset.pdev,prt.dataset.pport,prt.dataset.strand);
+    else if(cbl)html=rkTipCableHTML(cbl.dataset.cable);
+    else if(dev)html=rkTipDevHTML(dev.dataset.dev);
+    if(html)rkTipShow(html,ev.clientX,ev.clientY);else rkTipHide();
+  });
+  wrap.addEventListener('pointermove',ev=>{
+    if(rkTipEl&&rkTipEl.classList.contains('show'))rkTipMove(ev.clientX,ev.clientY);
+  });
+  wrap.addEventListener('pointerleave',rkTipHide);
+  wrap.addEventListener('pointerdown',()=>{RKS._tipMute=performance.now()+600;rkTipHide();});
   /* ----- builder: drag from palette / move devices ----- */
   wrap.querySelectorAll('.rk-pal-item').forEach(p=>{
     p.addEventListener('pointerdown',ev=>{
@@ -19976,7 +20129,7 @@ function rkBind(root){
   const mw=document.getElementById('rkMapWrap');
   if(mw){
     let pan=null;
-    mw.addEventListener('pointerdown',ev=>{if(ev.target.closest('[data-dev]')||ev.target.closest('[data-cable]')||ev.target.closest('.rk-mapzoom'))return;pan={x:ev.clientX,y:ev.clientY,moved:false};});
+    mw.addEventListener('pointerdown',ev=>{if(ev.target.closest('[data-dev]')||ev.target.closest('[data-cable]')||ev.target.closest('.rk-mapzoom'))return;pan={x:ev.clientX,y:ev.clientY,moved:false};RKS._panActive=true;rkTipHide();});
     window.addEventListener('pointermove',ev=>{
       if(!pan)return;const dx=ev.clientX-pan.x,dy=ev.clientY-pan.y;
       if(Math.abs(dx)+Math.abs(dy)>3)pan.moved=true;
@@ -19984,8 +20137,14 @@ function rkBind(root){
       const vb=svg.viewBox.baseVal,sc=vb.width/svg.clientWidth;
       vb.x-=dx*sc;vb.y-=dy*sc;rkMapClamp(vb);pan.x=ev.clientX;pan.y=ev.clientY;
     },{passive:true});
-    window.addEventListener('pointerup',()=>{if(pan&&pan.moved){RKS._panned=true;setTimeout(()=>RKS._panned=false,50);}pan=null;});
-    mw.addEventListener('wheel',ev=>{ev.preventDefault();rkZoom(ev.deltaY<0?1:-1,ev);},{passive:false});
+    window.addEventListener('pointerup',()=>{if(pan&&pan.moved){RKS._panned=true;setTimeout(()=>RKS._panned=false,50);}pan=null;RKS._panActive=false;});
+    mw.addEventListener('wheel',ev=>{
+      ev.preventDefault();
+      const svg=document.getElementById('rkMapSVG');if(!svg)return;
+      const vb=svg.viewBox.baseVal;
+      if(ev.ctrlKey||ev.metaKey){rkZoom(ev.deltaY<0?1:-1,ev);}      /* pinch / ctrl+wheel = zoom (clamped) */
+      else{const sc=vb.width/svg.clientWidth;vb.x+=ev.deltaX*sc;vb.y+=ev.deltaY*sc;rkMapClamp(vb);} /* two-finger scroll = pan (clamped) */
+    },{passive:false});
   }
 }
 function rkMapClamp(vb){ /* keep the diagram from being zoomed or panned out of sight */
@@ -20111,6 +20270,7 @@ function rkApplyDev(){
   const v=id=>{const e=document.getElementById(id);return e?e.value:null;};
   d.name=v('rkEdName')||d.name;d.model=v('rkEdModel')??d.model;
   d.w=parseInt(v('rkEdW'),10)||0;d.role=v('rkEdRole')||d.role;d.af=v('rkEdAf')||d.af;
+  const dn=v('rkEdDens');if(dn!=null)d.dens=dn;
   if(typeof toast==='function')toast(rkTX('Device updated'));
   rkRerender();
 }
@@ -20172,26 +20332,11 @@ window.addEventListener('keydown',ev=>{
 /* ---------------- wire into Guardare Vista ---------------- */
 if(typeof ESTATE_SECTIONS!=='undefined'){
   ESTATE_SECTIONS.racks={t:'Rack Management',blurb:'',chips:[]};
-  ESTATE_SECTIONS.locations={t:'Location Management',blurb:'',chips:[]};
-}
-/* Location Management inside the Vista plane: reuse the real Locations screen
-   (tenant-scoped via renderConfig) without flipping back to the Platform plane.
-   goEstate()/setSysPlane() force screen-estate visible right after renderEstate()
-   returns, so the swap to screen-config is deferred one tick. */
-function rkShowLocations(){
-  if(typeof renderConfig==='function')renderConfig();
-  setTimeout(function(){
-    if(typeof GUARDARE_PLANE==='undefined'||GUARDARE_PLANE!=='estate'||estateSection!=='locations')return;
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
-    const sc=document.getElementById('screen-config');if(sc)sc.classList.add('show');
-    document.querySelectorAll('#estateNav .nav-item').forEach(n=>n.classList.toggle('active',n.dataset.estate==='locations'));
-  },0);
 }
 if(typeof renderEstate==='function'){
   const rkOrig=renderEstate;
   renderEstate=function(){
     if(typeof estateSection!=='undefined'&&estateSection==='racks'){rkRenderScreen();return;}
-    if(typeof estateSection!=='undefined'&&estateSection==='locations'){rkShowLocations();return;}
     rkOrig();
   };
 }
