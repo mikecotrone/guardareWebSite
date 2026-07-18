@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.514.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.515.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13706,7 +13706,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.514.alpha';
+const APP_VERSION='v2026.02.515.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -18804,6 +18804,27 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-rackname small{font:600 10.5px "Open Sans",sans-serif;color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
   .rk-racksub{font:500 11px "Open Sans",sans-serif;color:var(--mute);margin-top:-6px}
   .rk-tenant-chip{font:600 9.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--tron);background:rgba(40,224,255,.1);border:1px solid var(--tron-deep);border-radius:99px;padding:2.5px 9px;margin-left:2px}
+  .rk-rackchips{display:flex;gap:5px;margin-top:1px;cursor:pointer}
+  .rk-rc{font:600 9px "Open Sans",sans-serif;letter-spacing:.04em;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:99px;padding:2px 8px;transition:.15s}
+  .rk-rackchips:hover .rk-rc{border-color:var(--tron-deep);color:var(--text)}
+  /* device inventory (fans + PSUs) */
+  .rk-inv{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+  .rk-inv-h{display:flex;align-items:center;justify-content:space-between;font:700 10px "Open Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+  .rk-inv-h .live{font:600 9px "Open Sans",sans-serif;letter-spacing:.03em;text-transform:none;color:var(--green)}
+  .rk-inv-row{display:flex;align-items:center;gap:8px;font:500 12px "Open Sans",sans-serif;color:var(--dim)}
+  .rk-inv-row i{width:7px;height:7px;border-radius:99px;flex:0 0 7px}
+  .rk-inv-row i.ok{background:var(--green);box-shadow:0 0 7px var(--green)}
+  .rk-inv-row i.warn{background:var(--amber);box-shadow:0 0 7px var(--amber)}
+  .rk-inv-row b{color:var(--text);font-weight:600}
+  .rk-inv-row .fill{flex:1}
+  .rk-inv-row b.mono{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--teal)}
+  .rk-inv-row small{font:600 10.5px "Open Sans",sans-serif;color:var(--mute)}
+  .rk-inv-sub{font:500 10.5px "Open Sans",sans-serif;color:var(--mute);padding-left:15px;margin-top:-3px}
+  .rk-inv-sub .conn{font-family:ui-monospace,Menlo,monospace;font-size:9.5px;color:#FF5D8F;background:rgba(255,93,143,.08);border:1px solid #7a2a44;border-radius:5px;padding:1px 5px}
+  .rk-inv-duty{display:flex;align-items:center;gap:9px;margin-top:2px}
+  .rk-inv-duty .bar{flex:1;height:5px;border-radius:99px;background:var(--bg);overflow:hidden}
+  .rk-inv-duty .bar div{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--tron));transition:width .6s ease}
+  .rk-inv-duty span{font:700 9.5px "Open Sans",sans-serif;color:var(--mute);white-space:nowrap}
   .rk-svg{overflow:visible}
   /* svg pieces */
   .rk-frame{fill:url(#rkFrameGrad);stroke:var(--line);stroke-width:1.2;rx:8}
@@ -18988,6 +19009,12 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   #rkTip .tip-arrow{display:flex;align-items:center;gap:8px;margin:8px 0}
   #rkTip .tip-arrow .ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,currentColor,transparent);opacity:.45}
   #rkTip .tip-arrow svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px currentColor)}
+  #rkTip .tip-fan{display:flex;align-items:center;gap:9px;margin-top:8px}
+  #rkTip .tip-fan .bar{flex:1;height:6px;border-radius:99px;background:var(--bg);overflow:hidden}
+  #rkTip .tip-fan .bar div{height:100%;border-radius:99px;transition:width .6s ease}
+  #rkTip .tip-fan span{font:700 10px "Open Sans",sans-serif;color:var(--dim);white-space:nowrap}
+  .rk-afbadge .fanpulse{animation:rkFanPulse var(--fp,1.2s) ease-in-out infinite}
+  @keyframes rkFanPulse{0%,100%{opacity:.35}50%{opacity:.9}}
   #rkTip .tip-note{font:italic 500 10.5px "Open Sans",sans-serif;color:var(--mute);margin-top:9px;border-top:1px dashed var(--line);padding-top:8px}
   #rkTip .tip-foot{display:flex;align-items:center;gap:7px;font:600 10.5px "Open Sans",sans-serif;color:var(--dim);margin-top:9px}
   #rkTip .tip-foot .dot{width:7px;height:7px;border-radius:99px;background:var(--mute);flex:0 0 7px}
@@ -19061,7 +19088,7 @@ function D(id,pos,h,role,name,model,w,af){return{id,pos,h,role,name,model:model|
 function C(id,type,ad,ap,bd,bp,len,note){return{id,type,a:{dev:ad,port:ap},b:{dev:bd,port:bp},len:len||'2 m',note:note||''};}
 const RK_DB={
   racks:[
-    {id:'gso',name:'GSO-MDF-01',site:'Greensboro · HQ MDF',tenant:'piedmont',u:42,numbering:'asc',devices:[
+    {id:'gso',name:'GSO-MDF-01',site:'Greensboro · HQ MDF',tenant:'piedmont',u:42,numbering:'asc',door:'vented',mount:'floor',base:'casters',devices:[
       D('fpp1',0,1,'fiber','GSO-FIB-A','Fiber Patch 12×3 · LC',0,'pass'),
       D('fpp2',1,1,'fiber','GSO-FIB-B','Fiber Patch 12×3 · LC',0,'pass'),
       D('cm1',2,1,'mgr','Brushed Cable Manager'),
@@ -19095,7 +19122,7 @@ const RK_DB={
       D('ups1',38,2,'ups','CyberPower UPS 01','OL3000RTXL2U',64,'fr'),
       D('ups2',40,2,'ups','CyberPower UPS 02','OL3000RTXL2U',61,'fr')
     ]},
-    {id:'lab',name:'LAB-SL-01',site:'HQ New York · Spine-Leaf Lab',tenant:'acme-corp',u:24,numbering:'desc',devices:[
+    {id:'lab',name:'LAB-SL-01',site:'HQ New York · Spine-Leaf Lab',tenant:'acme-corp',u:24,numbering:'desc',door:'glass',mount:'wall',swing:true,devices:[
       D('sp1',0,1,'spine','SPINE-1','DCS-7050SX3',176,'fr'),
       D('sp2',1,1,'spine','SPINE-2','DCS-7050SX3',171,'fr'),
       D('lbl1',2,1,'blank','1 RU Blank'),
@@ -19114,7 +19141,7 @@ const RK_DB={
       D('lpdu',20,2,'pdu','Lab PDU','USP-PDU-Pro',18,'pass'),
       D('lups',22,2,'ups','Lab UPS','OL3000RTXL2U',52,'fr')
     ]},
-    {id:'dcs',name:'DC-SEC-01',site:'DC01 Primary · Security Row',tenant:'roma',u:42,numbering:'desc',devices:[
+    {id:'dcs',name:'DC-SEC-01',site:'DC01 Primary · Security Row',tenant:'roma',u:42,numbering:'desc',door:'vented',mount:'floor',base:'feet',devices:[
       D('dcm1',0,1,'mgr','Cable Manager'),
       D('fw1',1,1,'fw','FW-1','FortiGate 600F',118,'fr'),
       D('dbl1',2,1,'blank','1 RU Blank'),
@@ -19207,6 +19234,18 @@ const RK_DB={
   ports.forEach(pt=>RK_DB.cables.push(C('cp-'+p+'-'+pt,'cat6a',p,String(pt),sw,String(pt+off),'0.5 m','Station patch')));
 });
 
+/* cabinet / rack physical details */
+const RK_DOORS={glass:'Glass front',vented:'Vented front',solid:'Solid front',open:'Open frame'};
+const RK_LOCKS={keyed:'Keyed lock',combo:'Combo lock',none:'No lock'};
+Object.assign(RK_DB.racks.find(r=>r.id==='gso'),{cmodel:'Sysracks 42U Server Cabinet',depth:39,load:1300,lock:'keyed',asset:'VT-RK-0141'});
+Object.assign(RK_DB.racks.find(r=>r.id==='lab'),{cmodel:'StarTech 24U Wall Cabinet',depth:20,load:200,lock:'keyed',asset:'VT-RK-0207'});
+Object.assign(RK_DB.racks.find(r=>r.id==='dcs'),{cmodel:'APC NetShelter SX 42U',depth:42,load:2250,lock:'combo',asset:'RM-DC-0031'});
+function rkRackMountLabel(r){
+  return (r.mount||'floor')==='wall'
+    ?rkTX('Wall-mounted')+' · '+(r.swing?rkTX('swing-open'):rkTX('fixed'))
+    :rkTX('Floor')+' · '+((r.base||'casters')==='casters'?rkTX('casters'):rkTX('leveling feet'));
+}
+
 /* power connector detail (NEMA / IEC) — cords carry plug/receptacle, amps & volts */
 const PW=(a,b,amps,volts)=>({a,b,amps,volts});
 const RK_PWR_SEED={
@@ -19259,14 +19298,20 @@ RK_DB.cables.forEach(c=>{const x=RK_XCVR_SEED[c.id];if(x){c.speed=x.s;c.a.xcvr=x
 });
 const RK_SPEEDS=['1G','2.5G','10G','25G','40G','100G'];
 
+/* fiber panel ports are individual strands, numbered 1..N — a duplex switch link consumes TWO strands */
+[['c1','fpp1',[1,2]],['c20','fpp1',[13,14]],['c2','fpp2',[1,2]],['c21','fpp2',[13,14]]].forEach(([cid,dev,st])=>{
+  const c=RK_DB.cables.find(x=>x.id===cid);if(!c)return;
+  ['a','b'].forEach(s=>{if(c[s].dev===dev){c[s].port=st[0]+'–'+st[1];c[s].strands=st;}});
+});
+
 /* human-readable port labels — what each panel port serves (editable in the builder) */
 const RK_SEED_LABELS={
   ppa:{'1':'Front Desk','2':'Conf Rm A','3':'Conf Rm B','7':'AP-Lobby','8':'AP-Warehouse','12':'Printer Bay','15':'Door Access','18':'Cam-North','22':'Cam-South'},
   ppb:{'2':'Sales Row 1','5':'Sales Row 2','6':'Eng Row 1','9':'Eng Row 2','14':'Break Room','17':'AP-Mezzanine','21':'Shipping Desk'},
   ppc:{'1':'Exec Suite','4':'IT Bench','5':'Server Rm AP','10':'Lobby Kiosk','11':'Guard Shack','16':'Cam-East','20':'Cam-West'},
   ppd:{'3':'Warehouse 1','6':'Warehouse 2','8':'Dock Office','13':'AP-Yard','19':'Cam-Yard','23':'Intercom'},
-  fpp1:{'A1':'Spectrum 10G handoff','B1':'Campus link · Bldg B'},
-  fpp2:{'A1':'Segra 10G handoff','B1':'Campus link · Bldg C'}
+  fpp1:{'1–2':'Spectrum 10G handoff','13–14':'Campus link · Bldg B'},
+  fpp2:{'1–2':'Segra 10G handoff','13–14':'Campus link · Bldg C'}
 };
 RK_DB.racks.forEach(r=>r.devices.forEach(d=>{if(RK_SEED_LABELS[d.id])d.labels=RK_SEED_LABELS[d.id];}));
 
@@ -19309,6 +19354,7 @@ function rkScopedRacks(){
 }
 function rkVisibleCables(){return RK_DB.cables.filter(c=>RKS.show[c.type]);}
 function rkCablesOf(devId){return rkVisibleCables().filter(c=>c.a.dev===devId||c.b.dev===devId);}
+function rkAllCablesOf(devId){return RK_DB.cables.filter(c=>c.a.dev===devId||c.b.dev===devId);} /* inventory truth — ignores view filters */
 function rkPeer(c,devId){return c.a.dev===devId?c.b:c.a;}
 function rkHeat(w){ /* 0..500W → blue→teal→amber→orange→red */
   const stops=[[42,107,212],[43,208,198],[246,181,63],[255,122,24],[255,93,93]];
@@ -19336,13 +19382,19 @@ function rkSelDevId(){return RKS.sel&&RKS.sel.type==='dev'?RKS.sel.id:null;}
 function rkTraceSet(){ /* devIds + cableIds currently highlighted, or null when nothing selected */
   if(!RKS.sel)return null;
   const devs=new Set(),cbls=new Set();
+  if(RKS.sel.type==='rack')return null; /* rack selection inspects the cabinet — no tracing/dimming */
   if(RKS.sel.type==='dev'){devs.add(RKS.sel.id);rkCablesOf(RKS.sel.id).forEach(c=>{cbls.add(c.id);devs.add(c.a.dev);devs.add(c.b.dev);});}
   else if(RKS.sel.type==='port'){devs.add(RKS.sel.dev);}
   else{const c=RK_DB.cables.find(x=>x.id===RKS.sel.id);if(c){cbls.add(c.id);devs.add(c.a.dev);devs.add(c.b.dev);}}
   return{devs,cbls};
 }
-function rkPortCable(devId,port){
-  return RK_DB.cables.find(c=>(c.a.dev===devId&&c.a.port===port)||(c.b.dev===devId&&c.b.port===port))||null;
+function rkPortCable(devId,port){ /* matches direct port names AND individual fiber strand numbers */
+  const n=parseInt(port,10);
+  return RK_DB.cables.find(c=>['a','b'].some(s=>{
+    const e=c[s];if(e.dev!==devId)return false;
+    if(e.port===port)return true;
+    return Array.isArray(e.strands)&&!isNaN(n)&&String(n)===String(port).trim()&&e.strands.includes(n);
+  }))||null;
 }
 /* ---------------- rich hover tooltip engine ---------------- */
 let rkTipEl=null;
@@ -19356,16 +19408,25 @@ function rkTipMove(x,y){
   if(py+r.height>window.innerHeight-10)py=y-r.height-14;
   rkTipEl.style.left=Math.max(6,px)+'px';rkTipEl.style.top=Math.max(6,py)+'px';
 }
-function rkTipHide(){if(rkTipEl)rkTipEl.classList.remove('show');}
+let rkTipTimer=null;
+function rkTipLive(fn){ /* refresh an open tooltip every second (live fan RPM etc.) */
+  clearInterval(rkTipTimer);
+  rkTipTimer=setInterval(()=>{
+    if(!rkTipEl||!rkTipEl.classList.contains('show')){clearInterval(rkTipTimer);rkTipTimer=null;return;}
+    const h=fn();if(h)rkTipEl.innerHTML=h;
+  },1000);
+}
+function rkTipHide(){if(rkTipEl)rkTipEl.classList.remove('show');clearInterval(rkTipTimer);rkTipTimer=null;}
 function rkTipDevHTML(id){
   const d=rkDev(id);if(!d)return null;
   const rack=rkRackOf(id),role=RK_ROLES[d.role]||RK_ROLES.blank,af=RK_AF[d.af]||RK_AF.pass;
-  const core=!['blank','mgr'].includes(d.role),n=rkCablesOf(id).length;
+  const core=!['blank','mgr'].includes(d.role),n=rkAllCablesOf(id).length;
   return `<div class="tip-head"><i style="background:${role.c};color:${role.c}"></i><b>${rkEsc(d.name)}</b><span>${rkEsc(rkTX(role.t))}</span></div>
   ${d.model?`<div class="tip-sub">${rkEsc(d.model)}</div>`:''}
   <div class="tip-chips">
     ${rack?`<span class="tc">${rkEsc(rack.name)}</span><span class="tc">U${rkULabel(rack,d.pos,d.h)} · ${d.h}U</span>`:''}
     ${core?`<span class="tc hot">${d.w||0} W</span><span class="tc" style="color:${af.c}">${rkEsc(rkTX(af.t))}</span>`:''}
+    ${(()=>{const fi=rkFanInfo(d);return fi?`<span class="tc mono">${fi.n}× ${rkTX('fans')} · ${(fi.avg/1000).toFixed(1)}k RPM · ${fi.duty}%</span>`:'';})()}
   </div>
   ${core?`<div class="tip-foot"><span class="dot on"></span>${rkTX('Active')} · ${n} ${rkTX(n===1?'cable':'cables')}</div>`:''}`;
 }
@@ -19392,6 +19453,34 @@ function rkTipCableHTML(id){
   ${rkTipFlowHTML(c)}
   ${c.note?`<div class="tip-note">${rkEsc(c.note)}</div>`:''}`;
 }
+/* live fan telemetry (simulated UniFi Network API feed — values wobble in real time) */
+const RK_FANS={agg:3,core:3,poe:2,dmz:2,spine:4,leaf:4,fw:2,lb:2,srv:6,nvr:4,ups:1};
+function rkFanInfo(d){
+  const n=RK_FANS[d.role];if(!n)return null;
+  let h=0;for(const ch of d.id)h=(h*31+ch.charCodeAt(0))%997;
+  const duty=Math.min(94,Math.max(28,Math.round(30+((d.w||60)/500)*55+(h%9))));
+  const maxr={srv:16000,nvr:6500,ups:3400}[d.role]||13000;
+  const t=Date.now()/1000;
+  const rpm=Array.from({length:n},(_,i)=>Math.round((maxr*duty/100)+Math.sin(t/2.5+i*2.1+h)*(maxr*.02)));
+  return{n,duty,rpm,avg:Math.round(rpm.reduce((a,b)=>a+b,0)/n)};
+}
+/* power-supply inventory — derived from role + the power cords actually patched to the device */
+function rkPSUs(d){
+  if(['blank','mgr','patch','fiber'].includes(d.role))return[];
+  const cords=RK_DB.cables.filter(c=>c.type==='pwr'&&(c.a.dev===d.id||c.b.dev===d.id))
+    .map(c=>{const me=c.a.dev===d.id?c.a:c.b,peer=rkPeer(c,d.id),pd=rkDev(peer.dev);
+      return{port:me.port,fed:(pd?pd.name:'?')+' · '+peer.port,conn:c.pwr?(c.a.dev===d.id?c.pwr.a:c.pwr.b):'',cable:c.id};});
+  if(d.role==='ups')return[{name:rkTX('Inverter / charger'),rating:'3000VA / 2700W',fed:rkTX('Utility circuit'),conn:'NEMA L5-30P',ok:true}];
+  const dual={srv:2,nvr:2,core:2,spine:2,leaf:2}[d.role]||1;
+  const n=Math.max(cords.length,d.role==='pdu'?Math.min(cords.length||1,1):dual);
+  const sizes=[60,150,250,350,500,800,1100,1600];
+  const rating=sizes.find(s=>s>=(d.w||40)*1.5/(n||1))||1600;
+  return Array.from({length:n},(_,i)=>{
+    const cord=cords[i];
+    return{name:(d.role==='pdu'?rkTX('Input feed'):'PSU-'+(i+1)),rating:d.role==='pdu'?'30A bus':rating+' W',
+      fed:cord?cord.fed:rkTX('not patched'),conn:cord?cord.conn:'',ok:!!cord||d.role!=='pdu'};
+  });
+}
 const RK_AF_DESC={
   fr:'Cool air is drawn in at the front and exhausted out the rear — standard cold-aisle-facing flow.',
   rf:'Reversed flow: intake at the rear, exhaust at the front. Watch for hot-aisle recirculation.',
@@ -19402,24 +19491,39 @@ const RK_AF_DESC={
 function rkTipAirflowHTML(afKey,devId){
   const af=RK_AF[afKey]||RK_AF.pass;
   const d=devId?rkDev(devId):null;
-  return `<div class="tip-head"><i style="background:${af.c};color:${af.c}"></i><b>${rkTX('Airflow')}</b>
+  let html=`<div class="tip-head"><i style="background:${af.c};color:${af.c}"></i><b>${rkTX('Airflow')}</b>
     ${d?`<span>${rkEsc(d.name)}</span>`:''}</div>
   <div class="tip-chips"><span class="tc" style="color:${af.c};border-color:${af.c}55;font-size:11px">${rkEsc(rkTX(af.t))}</span></div>
   <div class="tip-sub" style="margin-top:8px;line-height:1.55">${rkEsc(rkTX(RK_AF_DESC[afKey]||RK_AF_DESC.pass))}</div>`;
+  const fi=d?rkFanInfo(d):null;
+  if(fi){
+    html+=`<div class="tip-chips" style="margin-top:9px">${fi.rpm.map((r,i)=>`<span class="tc mono">${rkTX('Fan')} ${i+1} · ${r.toLocaleString()} RPM</span>`).join('')}</div>
+    <div class="tip-fan"><div class="bar"><div style="width:${fi.duty}%;background:${af.c}"></div></div><span>${fi.duty}% ${rkTX('duty')}</span></div>
+    <div class="tip-foot"><span class="dot on"></span>${rkTX('Live fan telemetry · UniFi Network API')}</div>`;
+  }
+  return html;
 }
-function rkTipPortHTML(devId,port,strand){
+function rkTipPortHTML(devId,port){
   const p=rkDev(devId);if(!p)return null;
-  const role=RK_ROLES[p.role]||RK_ROLES.blank,c=rkPortCable(devId,port),lab=rkPortLabel(p,port);
-  const head=strand?rkTX('Port')+' '+port+' · '+strand.toUpperCase()+' '+rkTX('strand'):rkTX('Port')+' '+port;
+  const role=RK_ROLES[p.role]||RK_ROLES.blank,c=rkPortCable(devId,port);
+  const fib=p.role==='fiber';
+  const me=c?(c.a.dev===devId?c.a:c.b):null;
+  const lab=rkPortLabel(p,fib&&me?me.port:port);
+  const head=fib?rkTX('Strand')+' '+port:rkTX('Port')+' '+port;
   let html=`<div class="tip-head"><i style="background:${role.c};color:${role.c}"></i><b>${rkEsc(p.name)}</b><span>${rkEsc(head)}</span></div>`;
   if(lab)html+=`<div class="tip-sub lab">${rkEsc(lab)}</div>`;
-  if(p.role==='fiber')html+=`<div class="tip-chips"><span class="tc mono">${rkTX('Duplex LC · 2 strands (Tx / Rx)')}</span></div>`;
-  if(c&&strand){
+  if(fib&&c&&me&&Array.isArray(me.strands)){
+    const n=parseInt(port,10),idx=me.strands.indexOf(n);
     const peer=rkPeer(c,devId),pd=rkDev(peer.dev);
-    html+=`<div class="tip-chips"><span class="tc mono">${rkEsc(port)}·${strand.toUpperCase()}</span><span class="tc" style="border:none;background:none">→</span><span class="tc mono">${rkEsc(peer.port)}·${strand==='tx'?'RX':'TX'}</span><span class="tc">${rkEsc(pd?pd.name:'?')}</span></div>`;
+    html+=`<div class="tip-chips">
+      <span class="tc mono">${rkTX('Strand')} ${n} · ${idx===0?'TX':'RX'}</span>
+      <span class="tc mono">${rkTX('Pair')} ${rkEsc(me.port)}</span>
+      <span class="tc" style="border:none;background:none">→</span>
+      <span class="tc">${rkEsc(pd?pd.name:'?')} : ${rkEsc(peer.port)}</span></div>
+    <div class="tip-sub">${rkTX('One strand per port — this link uses 2 strands for Tx / Rx.')}</div>`;
   }
   if(c)html+=rkTipFlowHTML(c)+`<div class="tip-foot"><span class="dot on"></span>${rkEsc(RK_CTYPES[c.type].t)}${c.speed?' · '+rkEsc(c.speed):''} · ${rkTX('Connected')}</div>`;
-  else html+=`<div class="tip-foot"><span class="dot"></span>${rkTX('Unpatched — open in Edit Rack to patch or label it')}</div>`;
+  else html+=`<div class="tip-foot"><span class="dot"></span>${fib?rkTX('Dark strand — unpatched. Patching a link uses this strand plus the next free one.'):rkTX('Unpatched — open in Edit Rack to patch or label it')}</div>`;
   return html;
 }
 /* rich hover tooltips */
@@ -19428,7 +19532,7 @@ function rkDevTitle(d){
   const lines=[d.name+' — '+rkTX(role.t)];
   lines.push((d.model?d.model+' · ':'')+(rack?rack.name+' · U'+rkULabel(rack,d.pos,d.h)+' · '+d.h+'U':''));
   if(!['blank','mgr'].includes(d.role)){
-    const n=rkCablesOf(d.id).length;
+    const n=rkAllCablesOf(d.id).length;
     lines.push((d.w?d.w+' W':'—')+' · '+rkTX((RK_AF[d.af]||RK_AF.pass).t)+' · '+n+' '+rkTX(n===1?'cable':'cables')+' · '+rkTX('Active'));
   }
   return lines.join('\n');
@@ -19464,6 +19568,10 @@ function rkElevSVG(rack){
       <stop offset="0" stop-color="var(--raise)"/><stop offset=".5" stop-color="var(--panel-2)"/><stop offset="1" stop-color="var(--raise)"/>
     </linearGradient>
     <filter id="rkGlow-${rack.id}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="rkGlass-${rack.id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bfe9ff" stop-opacity=".09"/><stop offset=".45" stop-color="#bfe9ff" stop-opacity=".015"/>
+      <stop offset=".72" stop-color="#bfe9ff" stop-opacity=".07"/><stop offset="1" stop-color="#bfe9ff" stop-opacity=".02"/>
+    </linearGradient>
   </defs>`;
   /* frame */
   s+=`<rect x="${frameX}" y="4" width="${RACKW}" height="${frameH}" rx="9" fill="url(#rkFG-${rack.id})" stroke="var(--line)" stroke-width="1.2"/>`;
@@ -19474,6 +19582,30 @@ function rkElevSVG(rack){
     s+=`<rect class="rk-urow" x="${frameX+6}" y="${y}" width="${RACKW-12}" height="${UH}"/>`;
     nums+=`<text class="rk-unum" x="${frameX-8}" y="${y+UH/2+3}" text-anchor="end">${rack.numbering==='asc'?i+1:rack.u-i}</text>`;
     s+=`<circle cx="${frameX+3.2}" cy="${y+UH/2}" r="1.1" fill="var(--mute)" opacity=".5"/><circle cx="${frameX+RACKW-3.2}" cy="${y+UH/2}" r="1.1" fill="var(--mute)" opacity=".5"/>`;
+  }
+  /* cabinet hardware glyphs — casters / feet / wall brackets / swing hinges */
+  {
+    const mount=rack.mount||'floor',by=4+frameH;
+    if(mount==='floor'){
+      const wx=[frameX+20,frameX+RACKW-20];
+      if((rack.base||'casters')==='casters'){
+        wx.forEach(cx=>{s+=`<circle cx="${cx}" cy="${by+4.4}" r="3.4" fill="var(--raise)" stroke="var(--mute)" stroke-width="1"/><circle cx="${cx}" cy="${by+4.4}" r="1" fill="var(--mute)"/>`;});
+      }else{
+        wx.forEach(cx=>{s+=`<rect x="${cx-4.5}" y="${by+1}" width="9" height="4.5" rx="1.2" fill="var(--raise)" stroke="var(--mute)" stroke-width="1"/>`;});
+      }
+    }else{
+      [10,by-14].forEach(yb=>{
+        s+=`<rect x="${frameX-6.5}" y="${yb}" width="6.5" height="9" rx="1.5" fill="var(--raise)" stroke="var(--mute)" stroke-width="1"/>`;
+        s+=`<rect x="${frameX+RACKW}" y="${yb}" width="6.5" height="9" rx="1.5" fill="var(--raise)" stroke="var(--mute)" stroke-width="1"/>`;
+      });
+      if(rack.swing){ /* hinge knuckles down the left rail + swing arc top-right */
+        [0.2,0.5,0.8].forEach(f=>{s+=`<rect x="${frameX-3}" y="${4+frameH*f-7}" width="3" height="14" rx="1.5" fill="var(--mute)" opacity=".85"/>`;});
+        s+=`<path d="M ${frameX+RACKW+4} 16 a 14 14 0 0 1 8 12" fill="none" stroke="var(--tron)" stroke-width="1.4" stroke-dasharray="3 2.5" opacity=".8"/><path d="M ${frameX+RACKW+11} 25 l1.5 4 -4 -1" fill="none" stroke="var(--tron)" stroke-width="1.4" opacity=".8"/>`;
+      }
+    }
+    if((rack.door||'vented')==='vented'){ /* perforation hint across the top rail */
+      for(let i=0;i<14;i++)s+=`<circle cx="${frameX+18+i*((RACKW-36)/13)}" cy="${9.5}" r="1" fill="var(--mute)" opacity=".55"/>`;
+    }
   }
   /* drop highlight layer (builder) */
   s+=`<g class="rk-drophl" data-rack="${rack.id}"></g>`;
@@ -19551,9 +19683,10 @@ function rkElevSVG(rack){
       const af=RK_AF[d.af]||RK_AF.pass;
       const cx=frameX+RACKW+14,cy=y+h/2,dk='#06232a';
       s+=`<rect x="${x+w-3.4}" y="${y+1.2}" width="2.6" height="${h-2.4}" rx="1.3" fill="${af.c}" opacity=".85"/>`;
+      const fi=rkFanInfo(d);
       s+=`<g class="rk-afbadge" data-af="${d.af}" data-afdev="${d.id}" style="cursor:help">`;
       s+=`<circle cx="${cx}" cy="${cy}" r="8" fill="${af.c}" opacity=".14"/>`;
-      s+=`<circle cx="${cx}" cy="${cy}" r="7.6" fill="none" stroke="${af.c}" stroke-width="1" opacity=".5"/>`;
+      s+=`<circle cx="${cx}" cy="${cy}" r="7.6" fill="none" stroke="${af.c}" stroke-width="1" opacity=".5" ${fi?`class="fanpulse" style="--fp:${Math.max(.5,(1.7-fi.duty/70)).toFixed(2)}s"`:''}/>`;
       s+=`<circle cx="${cx}" cy="${cy}" r="5.6" fill="${af.c}" filter="url(#rkGlow-${rack.id})"/>`;
       const ch=(x1,dir)=>`M ${x1} ${cy-2.9} l${dir*2.9} 2.9 l${dir*-2.9} 2.9`;
       if(d.af==='fr')s+=`<path d="${ch(cx-3.8,1)} ${ch(cx-0.4,1)}" stroke="${dk}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
@@ -19566,6 +19699,7 @@ function rkElevSVG(rack){
     s+=`</g>`;
   });
   if(RKS.cables)s+=`<g>${ds}</g>`;
+  if((rack.door||'vented')==='glass')s+=`<rect x="${frameX+5}" y="${4+PADT-2}" width="${RACKW-10}" height="${rack.u*UH+4}" rx="5" fill="url(#rkGlass-${rack.id})" pointer-events="none"/>`;
   s+=`</svg>`;
   return s;
 }
@@ -19668,8 +19802,9 @@ function rkPanelHTML(){
   if(RKS.sel&&RKS.sel.type==='dev'){const d=rkDev(RKS.sel.id);inner=d?rkDevPanel(d):rkOverviewPanel();}
   else if(RKS.sel&&RKS.sel.type==='cable'){const c=RK_DB.cables.find(x=>x.id===RKS.sel.id);inner=c?rkCablePanel(c):rkOverviewPanel();}
   else if(RKS.sel&&RKS.sel.type==='port'){inner=rkPortDetailPanel();}
+  else if(RKS.sel&&RKS.sel.type==='rack'){const r=RK_DB.racks.find(x=>x.id===RKS.sel.id);inner=r?rkRackPanel(r):rkOverviewPanel();}
   else inner=rkOverviewPanel();
-  const title=!RKS.sel?rkTX('Rack Overview'):RKS.sel.type==='dev'?rkTX('Device Details'):RKS.sel.type==='port'?rkTX('Port Details'):rkTX('Cable Details');
+  const title=!RKS.sel?rkTX('Rack Overview'):RKS.sel.type==='dev'?rkTX('Device Details'):RKS.sel.type==='port'?rkTX('Port Details'):RKS.sel.type==='rack'?rkTX('Cabinet Details'):rkTX('Cable Details');
   if(!RKS.panelOpen){
     return `<button class="rk-panel-rail" data-rk="paneltgl" title="${rkTX('Expand panel')}">
       <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg>
@@ -19699,6 +19834,7 @@ function rkOverviewPanel(){
       <div class="row"><span>${rkTX('Devices')}</span><b>${real}</b></div>
       <div class="row"><span>${rkTX('Cables')}</span><b>${nc}</b></div>
       <div class="row"><span>${rkTX('Est. draw')}</span><b style="color:${watts>1500?'var(--amber)':'var(--green)'}">${watts.toLocaleString()} W</b></div>
+      <div class="row"><span>${rkTX('Cabinet')}</span><b>${rkEsc(rkTX(RK_DOORS[r.door||'vented']))} · ${rkEsc(rkRackMountLabel(r))}</b></div>
       <div style="padding:0 11px 11px"><div style="height:6px;border-radius:99px;background:var(--bg);overflow:hidden"><div style="height:100%;width:${pct}%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--tron))"></div></div></div>
     </div>`;
   });
@@ -19709,7 +19845,7 @@ function rkOverviewPanel(){
 }
 function rkDevPanel(d){
   const rack=rkRackOf(d.id),role=RK_ROLES[d.role];
-  const cbls=rkCablesOf(d.id);
+  const cbls=rkAllCablesOf(d.id);
   let html=`<div class="rk-dev-head"><span class="sw" style="background:${role.c};color:${role.c}"></span><b>${rkEsc(d.name)}</b><small>${rkTX('Device')}</small></div>
   <div class="rk-statgrid">
     <div class="rk-stat"><b>U${rkULabel(rack,d.pos,d.h)}</b><span>${rkTX('Position')}</span></div>
@@ -19723,7 +19859,30 @@ function rkDevPanel(d){
     <div class="row"><span>${rkTX('Face')}</span><b>${rkTX('Front')}</b></div>
     <div class="row"><span>${rkTX('Power draw')}</span><b>${d.w?d.w+' W':'—'}</b></div>
     <div class="row"><span>${rkTX('Airflow')}</span><b style="color:${(RK_AF[d.af]||RK_AF.pass).c}">${rkTX((RK_AF[d.af]||RK_AF.pass).t)}</b></div>
+    ${(()=>{const fi=rkFanInfo(d);return fi?`<div class="row"><span>${rkTX('Fans')}</span><b>${fi.n} × ${fi.avg.toLocaleString()} RPM · ${fi.duty}%</b></div>`:'';})()}
   </div>`;
+  /* hardware inventory — fans (live) + power supplies */
+  const fi=rkFanInfo(d),psus=rkPSUs(d);
+  if(fi||psus.length){
+    html+=`<div class="rk-sec-t">${rkTX('Inventory')}</div><div class="rk-inv">`;
+    if(fi){
+      html+=`<div class="rk-inv-h"><span>${rkTX('Fans')} (${fi.n})</span><small class="live">● ${rkTX('live · UniFi API')}</small></div>`;
+      fi.rpm.forEach((r,i)=>{
+        html+=`<div class="rk-inv-row"><i class="ok"></i><b>${rkTX('Fan')} ${i+1}</b>
+          <span class="fill"></span><b class="mono" data-fanrpm="${d.id}" data-fani="${i}">${r.toLocaleString()} RPM</b></div>`;
+      });
+      html+=`<div class="rk-inv-duty"><div class="bar"><div data-fanduty="${d.id}" style="width:${fi.duty}%"></div></div><span>${fi.duty}% ${rkTX('duty')}</span></div>`;
+    }
+    if(psus.length){
+      html+=`<div class="rk-inv-h" style="margin-top:${fi?'10px':'0'}"><span>${rkTX('Power Supplies')} (${psus.length})</span></div>`;
+      psus.forEach(p=>{
+        html+=`<div class="rk-inv-row"><i class="${p.ok?'ok':'warn'}"></i><b>${rkEsc(p.name)}</b>
+          <span class="fill"></span><small>${rkEsc(p.rating)}</small></div>
+        <div class="rk-inv-sub">${rkTX('Fed from')}: ${rkEsc(p.fed)}${p.conn?` <span class="conn">${rkEsc(p.conn)}</span>`:''}</div>`;
+      });
+    }
+    html+=`</div>`;
+  }
   if(RKS.view==='elev')html+=`<button class="rk-actbtn" data-rk="showmap">${rkTX('Show in Cable Map')}</button>`;
   else html+=`<button class="rk-actbtn" data-rk="showelev">${rkTX('Show in Elevations')}</button>`;
   if(RKS.edit){
@@ -19740,7 +19899,8 @@ function rkDevPanel(d){
     ${(d.role==='patch'||d.role==='fiber')?(()=>{
       const opts=d.role==='fiber'?['6x2','12x2','12x3','12x4','24x2']:['12','24','48'];
       const cur=String(d.dens||(d.role==='fiber'?'12x3':'24'));
-      return `<div class="rk-field"><label>${rkTX('Port density')}</label><select id="rkEdDens">${opts.map(o=>`<option value="${o}" ${o===cur?'selected':''}>${d.role==='fiber'?o.replace('x',' × ')+' '+rkTX('duplex positions'):o+' '+rkTX('ports')}</option>`).join('')}</select></div>`;})():''}
+      const flab=o=>{const m=o.match(/^(\d+)x(\d+)$/);return (+m[1]*+m[2])+' '+rkTX('strands')+' ('+m[1]+' × '+m[2]+')';};
+      return `<div class="rk-field"><label>${rkTX('Port density')}</label><select id="rkEdDens">${opts.map(o=>`<option value="${o}" ${o===cur?'selected':''}>${d.role==='fiber'?flab(o):o+' '+rkTX('ports')}</option>`).join('')}</select></div>`;})():''}
     <button class="rk-actbtn grn" data-rk="applydev">${rkTX('Apply Changes')}</button>
     <div class="rk-sec-t">${rkTX('Connect Cable')}</div>
     <div class="rk-chipset">${Object.keys(RK_CTYPES).map(k=>`<button class="rk-chip ${RKS.pendType===k?'on':''}" data-rk="ctype" data-arg="${k}"><i style="background:${RK_CTYPES[k].c}"></i>${rkEsc(RK_CTYPES[k].t)}</button>`).join('')}</div>
@@ -19804,9 +19964,10 @@ function rkPortDetailPanel(){
   const p=rkDev(RKS.sel.dev);if(!p)return rkOverviewPanel();
   const rack=rkRackOf(p.id),role=RK_ROLES[p.role],port=RKS.sel.port;
   const defType=p.role==='fiber'?'smf':'cat6a';
-  let html=`<div class="rk-dev-head"><span class="sw" style="background:${role.c};color:${role.c}"></span><b>${rkEsc(p.name)} : ${rkEsc(port)}</b><small>${rkTX('Port')}</small></div>
+  const fib=p.role==='fiber';
+  let html=`<div class="rk-dev-head"><span class="sw" style="background:${role.c};color:${role.c}"></span><b>${rkEsc(p.name)} : ${rkEsc(port)}</b><small>${rkTX(fib?'Strand':'Port')}</small></div>
   <div class="rk-statgrid">
-    <div class="rk-stat"><b>${rkEsc(port)}</b><span>${rkTX('Port')}</span></div>
+    <div class="rk-stat"><b>${rkEsc(port)}</b><span>${rkTX(fib?'Strand':'Port')}</span></div>
     <div class="rk-stat"><b>U${rkULabel(rack,p.pos,p.h)}</b><span>${rkTX('Position')}</span></div>
     <div class="rk-stat"><b style="color:var(--mute)">${rkTX('Open')}</b><span>${rkTX('Status')}</span></div>
   </div>
@@ -19824,7 +19985,8 @@ function rkPortDetailPanel(){
     <div class="rk-sec-t">${rkTX('Patch this port')}</div>
     <div class="rk-field"><label>${rkTX('To device')}</label><select id="rkPtDev">${targets.map(t=>`<option value="${t.id}">${rkEsc(t.name)}</option>`).join('')}</select></div>
     <div class="rk-2col">
-      <div class="rk-field"><label>${rkTX('To port')}</label><input id="rkPtPort" placeholder="e.g. 24"></div>
+      ${fib?`<p style="font:500 10.5px 'Open Sans';color:var(--mute);margin:0 0 2px">${rkTX('Fiber links use 2 strands — this strand plus the next free one will be paired automatically.')}</p>`:''}
+    <div class="rk-field"><label>${rkTX('To port')}</label><input id="rkPtPort" placeholder="e.g. 24"></div>
       <div class="rk-field"><label>${rkTX('Cable type')}</label><select id="rkPtType">${Object.keys(RK_CTYPES).map(k=>`<option value="${k}" ${k===defType?'selected':''}>${rkEsc(RK_CTYPES[k].t)}</option>`).join('')}</select></div>
     </div>
     <button class="rk-actbtn grn" data-rk="applypatch">${rkTX('Patch It')}</button>`;
@@ -19832,6 +19994,69 @@ function rkPortDetailPanel(){
     html+=`<div class="rk-empty" style="padding:14px 8px 4px"><p>${rkTX('This port is unpatched. Turn on Edit Rack to patch it to a device.')}</p></div>`;
   }
   return html;
+}
+function rkRackPanel(r){
+  const used=r.devices.filter(d=>d.role!=='blank').reduce((a,d)=>a+d.h,0);
+  const watts=r.devices.reduce((a,d)=>a+(d.w||0),0);
+  const real=r.devices.filter(d=>!['blank','mgr'].includes(d.role)).length;
+  const door=r.door||'vented',mount=r.mount||'floor';
+  let html=`<div class="rk-dev-head"><span class="sw" style="background:var(--tron);color:var(--tron)"></span><b>${rkEsc(r.name)}</b><small>${rkTX('Rack')}</small></div>
+  <div class="rk-statgrid">
+    <div class="rk-stat"><b>${r.u}U</b><span>${rkTX('Height')}</span></div>
+    <div class="rk-stat"><b>${Math.round(used/r.u*100)}%</b><span>${rkTX('Used')}</span></div>
+    <div class="rk-stat"><b>${real}</b><span>${rkTX('Devices')}</span></div>
+  </div>
+  <div class="rk-kv">
+    <div class="row"><span>${rkTX('Site')}</span><b>${rkEsc(r.site)}</b></div>
+    <div class="row"><span>${rkTX('Tenant')}</span><b>${rkEsc(rkTenantName(r.tenant))}</b></div>
+    ${r.cmodel?`<div class="row"><span>${rkTX('Cabinet model')}</span><b>${rkEsc(r.cmodel)}</b></div>`:''}
+    <div class="row"><span>${rkTX('Front door')}</span><b>${rkEsc(rkTX(RK_DOORS[door]))}</b></div>
+    <div class="row"><span>${rkTX('Mounting')}</span><b>${rkEsc(rkRackMountLabel(r))}</b></div>
+    ${r.depth?`<div class="row"><span>${rkTX('Depth')}</span><b>${r.depth}″</b></div>`:''}
+    ${r.load?`<div class="row"><span>${rkTX('Max load')}</span><b>${r.load.toLocaleString()} lbs</b></div>`:''}
+    ${r.lock?`<div class="row"><span>${rkTX('Security')}</span><b>${rkEsc(rkTX(RK_LOCKS[r.lock]||r.lock))}</b></div>`:''}
+    ${r.asset?`<div class="row"><span>${rkTX('Asset tag')}</span><b>${rkEsc(r.asset)}</b></div>`:''}
+    <div class="row"><span>${rkTX('Est. draw')}</span><b style="color:${watts>1500?'var(--amber)':'var(--green)'}">${watts.toLocaleString()} W</b></div>
+  </div>`;
+  if(door==='glass'&&watts>1200)html+=`<div class="rk-empty" style="padding:4px 6px"><p style="color:var(--amber)">⚠ ${rkTX('Glass fronts restrict airflow — this rack draws')} ${watts.toLocaleString()} W.</p></div>`;
+  if(RKS.edit){
+    html+=`<div class="rk-sec-t">${rkTX('Edit Cabinet')}</div>
+    <div class="rk-field"><label>${rkTX('Name')}</label><input id="rkRkName" value="${rkEsc(r.name)}"></div>
+    <div class="rk-field"><label>${rkTX('Cabinet model')}</label><input id="rkRkModel" value="${rkEsc(r.cmodel||'')}"></div>
+    <div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('Front door')}</label><select id="rkRkDoor">${Object.keys(RK_DOORS).map(k=>`<option value="${k}" ${k===door?'selected':''}>${rkEsc(rkTX(RK_DOORS[k]))}</option>`).join('')}</select></div>
+      <div class="rk-field"><label>${rkTX('Mounting')}</label><select id="rkRkMount"><option value="floor" ${mount==='floor'?'selected':''}>${rkTX('Floor-standing')}</option><option value="wall" ${mount==='wall'?'selected':''}>${rkTX('Wall-mounted')}</option></select></div>
+    </div>
+    <div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('Base')} (${rkTX('floor')})</label><select id="rkRkBase" ${mount!=='floor'?'disabled':''}><option value="casters" ${(r.base||'casters')==='casters'?'selected':''}>${rkTX('Casters')}</option><option value="feet" ${r.base==='feet'?'selected':''}>${rkTX('Leveling feet')}</option></select></div>
+      <div class="rk-field"><label>${rkTX('Door swing')} (${rkTX('wall')})</label><select id="rkRkSwing" ${mount!=='wall'?'disabled':''}><option value="1" ${r.swing?'selected':''}>${rkTX('Swing-open')}</option><option value="0" ${!r.swing?'selected':''}>${rkTX('Fixed')}</option></select></div>
+    </div>
+    <div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('Depth (in)')}</label><input id="rkRkDepth" type="number" min="10" max="60" value="${r.depth||30}"></div>
+      <div class="rk-field"><label>${rkTX('Max load (lbs)')}</label><input id="rkRkLoad" type="number" min="50" max="5000" value="${r.load||1000}"></div>
+    </div>
+    <div class="rk-2col">
+      <div class="rk-field"><label>${rkTX('Security')}</label><select id="rkRkLock">${Object.keys(RK_LOCKS).map(k=>`<option value="${k}" ${(r.lock||'none')===k?'selected':''}>${rkEsc(rkTX(RK_LOCKS[k]))}</option>`).join('')}</select></div>
+      <div class="rk-field"><label>${rkTX('Asset tag')}</label><input id="rkRkAsset" value="${rkEsc(r.asset||'')}"></div>
+    </div>
+    <button class="rk-actbtn grn" data-rk="applyrack">${rkTX('Apply Cabinet Details')}</button>`;
+  }else{
+    html+=`<div class="rk-empty" style="padding:12px 8px 4px"><p>${rkTX('Toggle Edit Rack to change cabinet details.')}</p></div>`;
+  }
+  html+=`<button class="rk-actbtn" data-rk="scope" data-arg="${r.id}">${rkTX('Scope views to this rack')}</button>`;
+  return html;
+}
+function rkApplyRack(){
+  if(!RKS.sel||RKS.sel.type!=='rack')return;
+  const r=RK_DB.racks.find(x=>x.id===RKS.sel.id);if(!r)return;
+  const v=id=>{const e=document.getElementById(id);return e?e.value:null;};
+  r.name=v('rkRkName')||r.name;r.cmodel=v('rkRkModel')??r.cmodel;
+  r.door=v('rkRkDoor')||r.door;r.mount=v('rkRkMount')||r.mount;
+  r.base=v('rkRkBase')||r.base;r.swing=v('rkRkSwing')==='1';
+  r.depth=parseInt(v('rkRkDepth'),10)||r.depth;r.load=parseInt(v('rkRkLoad'),10)||r.load;
+  r.lock=v('rkRkLock')||r.lock;r.asset=v('rkRkAsset')??r.asset;
+  if(typeof toast==='function')toast(rkTX('Cabinet updated'));
+  rkRerender();
 }
 /* ---------------- main render ---------------- */
 function rkRenderScreen(){
@@ -19921,8 +20146,12 @@ function rkStageElev(){
   return `${RKS.connect?`<div class="rk-connect-hint">⚡ ${rkTX('Connecting from')} <b>${rkEsc((rkDev(RKS.connect.from)||{}).name||'')}</b> — ${rkTX('click a target device')} <button data-rk="cancelconnect">${rkTX('Cancel')}</button></div>`:''}
   <div class="rk-elevs" style="zoom:${RKS.zoom}">${racks.map(r=>`
     <div class="rk-rackcol" data-rackcol="${r.id}">
-      <div class="rk-rackname">${rkEsc(r.name)} <small>${r.u}U</small>${tsc==='all'?`<span class="rk-tenant-chip">${rkEsc(rkTenantName(r.tenant))}</span>`:''}</div>
+      <div class="rk-rackname" data-rk="selrack" data-arg="${r.id}" style="cursor:pointer" title="${rkTX('Cabinet details')}">${rkEsc(r.name)} <small>${r.u}U</small>${tsc==='all'?`<span class="rk-tenant-chip">${rkEsc(rkTenantName(r.tenant))}</span>`:''}</div>
       <div class="rk-racksub">${rkEsc(r.site)}</div>
+      <div class="rk-rackchips" data-rk="selrack" data-arg="${r.id}">
+        <span class="rk-rc">${rkEsc(rkTX(RK_DOORS[r.door||'vented']))}</span>
+        <span class="rk-rc">${rkEsc(rkRackMountLabel(r))}</span>
+      </div>
       ${rkElevSVG(r)}
     </div>`).join('')}</div>
   ${rkLegendHTML()}`;
@@ -19960,35 +20189,15 @@ function rkPortBtn(p,port,extraCls){
   return `<button class="${cls.join(' ')}" data-pdev="${p.id}" data-pport="${rkEsc(port)}" style="--pc:${col}">${rkEsc(extraCls==='fib'?lab:port)}</button>`;
 }
 function rkPanelPorts(p){ /* rows of port names, driven by the panel's configurable density */
-  if(p.role==='fiber'){
+  if(p.role==='fiber'){ /* individual strands, numbered sequentially across rows */
     let cols=12,rows=3;
     const m=String(p.dens||'12x3').match(/^(\d+)x(\d+)$/);
     if(m){cols=Math.min(24,+m[1]);rows=Math.min(6,+m[2]);}
-    return Array.from({length:rows},(_,r)=>{
-      const L=String.fromCharCode(65+r);
-      return{label:L,cols,ports:Array.from({length:cols},(_,i)=>L+(i+1))};
-    });
+    return Array.from({length:rows},(_,r)=>({label:'',cols,ports:Array.from({length:cols},(_,i)=>String(r*cols+i+1))}));
   }
   const n=Math.min(96,parseInt(p.dens,10)||24),out=[];
   for(let s=1;s<=n;s+=12)out.push({label:'',cols:12,ports:Array.from({length:Math.min(12,n-s+1)},(_,i)=>String(s+i))});
   return out;
-}
-function rkStrandBtn(p,port,strand){ /* one physical fiber strand (Tx or Rx) of a duplex position */
-  const c=rkPortCable(p.id,port),trace=rkTraceSet();
-  const cls=['rk-strand',strand];
-  if(c)cls.push('on');
-  const selPort=RKS.sel&&RKS.sel.type==='port'&&RKS.sel.dev===p.id&&RKS.sel.port===port;
-  const selCable=RKS.sel&&RKS.sel.type==='cable'&&c&&RKS.sel.id===c.id;
-  if(selPort||selCable)cls.push('sel');
-  if(trace&&!selPort&&!selCable){
-    const lit=(c&&trace.cbls.has(c.id))||(RKS.sel&&RKS.sel.type==='port'&&RKS.sel.dev===p.id);
-    if(!lit)cls.push('dim');
-  }
-  const col=c?RK_CTYPES[c.type].c:'transparent';
-  return `<button class="${cls.join(' ')}" data-pdev="${p.id}" data-pport="${rkEsc(port)}" data-strand="${strand}" style="--pc:${col}">${strand==='tx'?'T':'R'}</button>`;
-}
-function rkDuplex(p,port){
-  return `<div class="rk-duplex">${rkStrandBtn(p,port,'tx')}${rkStrandBtn(p,port,'rx')}<span class="dl">${rkEsc(String(port).replace(/^[A-Z]/,''))}</span></div>`;
 }
 function rkPanelCard(rack,p){
   const role=RK_ROLES[p.role];
@@ -19998,21 +20207,21 @@ function rkPanelCard(rack,p){
   const pct=Math.round(used/flat.length*100);
   let grid='';
   if(p.role==='fiber'){
-    grid=rows.map(r=>`<div class="rk-pp-row fib" style="grid-template-columns:16px repeat(${r.cols},1fr)"><span class="rk-pp-rowlab">${r.label}</span>${r.ports.map(pt=>rkDuplex(p,pt)).join('')}</div>`).join('');
+    grid=rows.map(r=>`<div class="rk-pp-row fib" style="grid-template-columns:repeat(${r.cols},1fr)">${r.ports.map(pt=>rkPortBtn(p,pt,'fib')).join('')}</div>`).join('');
   }else{
-    grid=rows.map(r=>`<div class="rk-pp-row" style="grid-template-columns:16px repeat(${r.cols},1fr)"><span class="rk-pp-rowlab"></span>${r.ports.map(pt=>rkPortBtn(p,pt)).join('')}</div>`).join('');
+    grid=rows.map(r=>`<div class="rk-pp-row" style="grid-template-columns:repeat(${r.cols},1fr)">${r.ports.map(pt=>rkPortBtn(p,pt)).join('')}</div>`).join('');
   }
-  /* port map — the readable wiring list: "Port 1 · Front Desk → switch : port" */
-  const mapped=flat.filter(pt=>rkPortCable(p.id,pt));
+  /* port map — one row per link; fiber links list their strand pair */
+  const pcables=[...new Set(flat.map(pt=>rkPortCable(p.id,pt)).filter(Boolean))];
   let maplist='';
-  if(mapped.length){
-    maplist=`<div class="rk-pp-map">${mapped.map(pt=>{
-      const c=rkPortCable(p.id,pt),peer=rkPeer(c,p.id),pd=rkDev(peer.dev),lab=rkPortLabel(p,pt);
+  if(pcables.length){
+    maplist=`<div class="rk-pp-map">${pcables.map(c=>{
+      const me=c.a.dev===p.id?c.a:c.b,peer=rkPeer(c,p.id),pd=rkDev(peer.dev),lab=rkPortLabel(p,me.port);
       const sel=RKS.sel&&RKS.sel.type==='cable'&&RKS.sel.id===c.id;
       return `<button class="rk-ppm-row ${sel?'sel':''}" data-rk="selcable" data-arg="${c.id}" data-cable="${c.id}">
         <i style="background:${RK_CTYPES[c.type].c};color:${RK_CTYPES[c.type].c}"></i>
-        <b>${rkEsc(p.role==='fiber'?pt:rkTX('Port')+' '+pt)}</b>
-        ${p.role==='fiber'?`<span class="str">Tx⇄Rx</span>`:''}
+        <b>${rkEsc(p.role==='fiber'?rkTX('Strands')+' '+me.port:rkTX('Port')+' '+me.port)}</b>
+        ${p.role==='fiber'&&me.strands?`<span class="str">${me.strands.length} ${rkTX('strands')}</span>`:''}
         ${lab?`<span class="lab">${rkEsc(lab)}</span>`:''}
         <span class="arr">→</span><b>${rkEsc(pd?pd.name:'?')}</b><span class="pp">: ${rkEsc(peer.port)}</span>
         <small>${rkEsc(RK_CTYPES[c.type].t)}</small></button>`;
@@ -20024,7 +20233,7 @@ function rkPanelCard(rack,p){
         <span class="sw" style="background:${role.c};color:${role.c}"></span>
         <span><b>${rkEsc(p.name)}</b><small>${rkEsc(rack.name)} · U${rkULabel(rack,p.pos,p.h)} · ${rkEsc(rkTX(role.t))}</small></span>
       </button>
-      <div class="rk-pp-util"><b>${p.role==='fiber'?used*2:used}<i>/${p.role==='fiber'?flat.length*2+' '+rkTX('strands'):flat.length}</i></b>
+      <div class="rk-pp-util"><b>${used}<i>/${flat.length}${p.role==='fiber'?' '+rkTX('strands'):''}</i></b>
         <div class="bar"><div style="width:${pct}%"></div></div>
       </div>
     </div>
@@ -20086,6 +20295,8 @@ function rkBind(root){
       if(k==='zoom'){rkZoom(parseInt(arg,10));return;}
       if(k==='applypatch'){rkApplyPatch();return;}
       if(k==='seldev'){rkSelect({type:'dev',id:arg});return;}
+      if(k==='selrack'){rkSelect({type:'rack',id:arg});return;}
+      if(k==='applyrack'){rkApplyRack();return;}
       if(k==='saveportlabel'){rkSavePortLabel();return;}
       if(k==='showpanels'){RKS.view='panels';rkRerender();return;}
       if(k==='applydev'){rkApplyDev();return;}
@@ -20118,24 +20329,28 @@ function rkBind(root){
     if(t){RKS.scope=t.value;rkRerender();}
   });
   /* ----- rich tooltips (hover) ----- */
-  wrap.addEventListener('pointerover',ev=>{
+  const rkResolveTip=ev=>{
     if(RKS.drag||RKS._panActive||performance.now()<(RKS._tipMute||0)){rkTipHide();return;}
     const prt=ev.target.closest('[data-pport]');
     const afb=ev.target.closest('[data-af]');
     const cbl=ev.target.closest('[data-cable]');
     const dev=ev.target.closest('[data-dev]');
     let html=null;
-    if(prt)html=rkTipPortHTML(prt.dataset.pdev,prt.dataset.pport,prt.dataset.strand);
-    else if(afb)html=rkTipAirflowHTML(afb.dataset.af,afb.dataset.afdev);
+    let live=null;
+    if(prt)html=rkTipPortHTML(prt.dataset.pdev,prt.dataset.pport);
+    else if(afb){const a=afb.dataset.af,dv=afb.dataset.afdev;html=rkTipAirflowHTML(a,dv);live=()=>rkTipAirflowHTML(a,dv);}
     else if(cbl)html=rkTipCableHTML(cbl.dataset.cable);
-    else if(dev)html=rkTipDevHTML(dev.dataset.dev);
-    if(html)rkTipShow(html,ev.clientX,ev.clientY);else rkTipHide();
-  });
+    else if(dev){const id=dev.dataset.dev;html=rkTipDevHTML(id);live=()=>rkTipDevHTML(id);}
+    if(html){rkTipShow(html,ev.clientX,ev.clientY);if(live)rkTipLive(live);else{clearInterval(rkTipTimer);rkTipTimer=null;}}
+    else rkTipHide();
+  };
+  wrap.addEventListener('pointerover',rkResolveTip);
   wrap.addEventListener('pointermove',ev=>{
     if(rkTipEl&&rkTipEl.classList.contains('show'))rkTipMove(ev.clientX,ev.clientY);
+    else rkResolveTip(ev); /* re-resolve once the post-click mute expires */
   });
   wrap.addEventListener('pointerleave',rkTipHide);
-  wrap.addEventListener('pointerdown',()=>{RKS._tipMute=performance.now()+600;rkTipHide();});
+  wrap.addEventListener('pointerdown',()=>{RKS._tipMute=performance.now()+250;rkTipHide();});
   /* ----- builder: drag from palette / move devices ----- */
   wrap.querySelectorAll('.rk-pal-item').forEach(p=>{
     p.addEventListener('pointerdown',ev=>{
@@ -20268,7 +20483,7 @@ function rkFinishConnect(targetId){
   const from=RKS.connect.from;
   if(targetId===from){if(typeof toast==='function')toast(rkTX('Pick a different device'));return;}
   const t=RKS.connect.ctype||'cat6a';
-  const np=d=>{const n=rkCablesOf(d).length+1;return 'P'+n;};
+  const np=d=>{const n=rkAllCablesOf(d).length+1;return 'P'+n;};
   const id='c'+(++RKS.seq);
   const nc={id,type:t,a:{dev:from,port:np(from)},b:{dev:targetId,port:np(targetId)},len:'1 m',note:'Added in builder'};
   if(t==='pwr')nc.pwr=PW('IEC C13','NEMA 5-15P',15,120);else nc.speed=t==='cat6a'?'1G':'10G';
@@ -20281,10 +20496,21 @@ function rkApplyPatch(){
   if(!RKS.sel||RKS.sel.type!=='port')return;
   const v=id=>{const e=document.getElementById(id);return e?e.value:null;};
   const dev=v('rkPtDev');if(!dev)return;
-  const port=(v('rkPtPort')||'').trim()||('P'+(rkCablesOf(dev).length+1));
+  const port=(v('rkPtPort')||'').trim()||('P'+(rkAllCablesOf(dev).length+1));
   if(rkPortCable(dev,port)){if(typeof toast==='function')toast(rkTX('That target port is already in use'));return;}
+  const panel=rkDev(RKS.sel.dev);
+  let aEnd={dev:RKS.sel.dev,port:RKS.sel.port};
+  if(panel&&panel.role==='fiber'){ /* a link consumes 2 strands: the clicked one + the next free one */
+    const n=parseInt(RKS.sel.port,10);
+    const all=rkPanelPorts(panel).flatMap(r=>r.ports).map(x=>parseInt(x,10));
+    const free=all.filter(x=>x!==n&&!rkPortCable(panel.id,String(x)));
+    const m=free.find(x=>x>n)??free[0];
+    if(m==null){if(typeof toast==='function')toast(rkTX('No free strand left for the return path'));return;}
+    const pair=[Math.min(n,m),Math.max(n,m)];
+    aEnd={dev:panel.id,port:pair[0]+'–'+pair[1],strands:pair};
+  }
   const id='c'+(++RKS.seq);
-  const nc={id,type:v('rkPtType')||'cat6a',a:{dev:RKS.sel.dev,port:RKS.sel.port},b:{dev,port},len:'0.5 m',note:'Patched in builder'};
+  const nc={id,type:v('rkPtType')||'cat6a',a:aEnd,b:{dev,port},len:'0.5 m',note:'Patched in builder'};
   if(nc.type==='pwr')nc.pwr=PW('IEC C13','NEMA 5-15P',15,120);else nc.speed=nc.type==='cat6a'?'1G':'10G';
   RK_DB.cables.push(nc);
   RKS.sel={type:'cable',id};
@@ -20348,6 +20574,19 @@ function rkDeleteCable(){
   if(typeof toast==='function')toast(rkTX('Cable disconnected'));
   rkRerender();
 }
+/* live fan telemetry ticker — updates open inventory panels in place (no re-render) */
+setInterval(()=>{
+  document.querySelectorAll('[data-fanrpm]').forEach(el=>{
+    const d=rkDev(el.dataset.fanrpm);if(!d)return;
+    const fx=rkFanInfo(d);if(!fx)return;
+    el.textContent=(fx.rpm[+el.dataset.fani]||0).toLocaleString()+' RPM';
+  });
+  document.querySelectorAll('[data-fanduty]').forEach(el=>{
+    const d=rkDev(el.dataset.fanduty);if(!d)return;
+    const fx=rkFanInfo(d);if(fx)el.style.width=fx.duty+'%';
+  });
+},1000);
+
 /* Esc clears selection */
 window.addEventListener('keydown',ev=>{
   if(ev.key==='Escape'&&typeof estateSection!=='undefined'&&estateSection==='racks'&&document.getElementById('screen-estate')?.classList.contains('show')){
