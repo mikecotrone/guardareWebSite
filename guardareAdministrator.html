@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.529.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.531.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13706,7 +13706,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.529.alpha';
+const APP_VERSION='v2026.02.531.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -18852,7 +18852,7 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-connect-hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:20;background:rgba(65,217,138,.14);border:1px solid #1d6b45;color:var(--green);font:600 12px "Open Sans",sans-serif;padding:8px 16px;border-radius:99px;box-shadow:0 8px 24px -8px #000c;display:flex;gap:10px;align-items:center;white-space:nowrap}
   .rk-connect-hint button{border:none;background:rgba(255,93,93,.15);color:var(--red);border-radius:99px;font:700 11px "Open Sans",sans-serif;padding:3px 10px;cursor:pointer}
   /* legend */
-  .rk-legend{position:sticky;bottom:0;left:0;margin:0;width:max-content;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;padding:11px 15px;display:flex;gap:22px;align-items:center;z-index:15;box-shadow:var(--shadow);margin:0 0 14px 14px}
+  .rk-legend{position:sticky;bottom:0;left:0;margin:0;width:max-content;max-width:calc(100% - 28px);background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;padding:11px 15px;display:flex;gap:22px;align-items:center;z-index:15;box-shadow:var(--shadow);margin:0 0 14px 14px}
   .rk-leg-b{display:flex;flex-direction:column;gap:6px}
   .rk-leg-t{font:700 9.5px "Open Sans",sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
   .rk-leg-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
@@ -18916,7 +18916,7 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-chip:hover{color:var(--text);border-color:var(--tron-deep)}
   .rk-chip.on{color:var(--text);border-color:var(--tron);background:rgba(40,224,255,.1);box-shadow:0 0 8px rgba(40,224,255,.14)}
   /* ---- cable map ---- */
-  .rk-mapwrap{position:relative;flex:1;min-height:560px;overflow:hidden;border-radius:var(--r);cursor:grab}
+  .rk-mapwrap{position:relative;height:calc(100vh - 330px);min-height:560px;overflow:hidden;border-radius:var(--r);cursor:grab}
   .rk-mapwrap:active{cursor:grabbing}
   .rk-map-node rect.nbody{fill:url(#rkNodeGrad);stroke:var(--line);stroke-width:1.1;transition:.18s}
   .rk-map-node:hover rect.nbody{stroke:var(--tron-deep)}
@@ -18978,6 +18978,21 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-ppm-row .arr{color:var(--mute)}
   .rk-ppm-row .pp{color:var(--dim)}
   .rk-ppm-row small{margin-left:auto;font:600 9.5px "Open Sans",sans-serif;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;flex:0 0 auto}
+  /* ---- Port View overlay ---- */
+  .rk-pv-backdrop{position:fixed;inset:0;z-index:95;background:#020a0cd4;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:26px;animation:rkPvIn .18s ease}
+  @keyframes rkPvIn{from{opacity:0}to{opacity:1}}
+  .rk-pv{width:min(900px,95vw);max-height:93vh;overflow:auto;background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:16px;padding:16px 20px 14px;box-shadow:0 30px 80px -20px #000,0 0 40px -10px rgba(40,224,255,.12)}
+  .rk-pv-h{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .rk-pv-h b{font:700 15px "Open Sans",sans-serif;color:var(--text)}
+  .rk-pv-h span{font:600 12px "Open Sans",sans-serif;color:var(--dim)}
+  .rk-pv-h span i{font-style:normal;color:var(--tron);margin:0 3px}
+  .rk-pv-h .rk-panel-x{margin-left:auto;font-size:17px}
+  .rk-pv-peers{display:flex;gap:6px;flex-wrap:wrap;padding:11px 0 2px}
+  .rk-pv-stage{padding:12px 6px 4px}
+  .rk-pv-lab{font:700 11.5px "Open Sans",sans-serif;color:var(--text);display:flex;gap:8px;align-items:baseline;margin:6px 2px}
+  .rk-pv-lab small{font:600 9px "Open Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+  .rk-pv-foot{font:500 10.5px "Open Sans",sans-serif;color:var(--mute);text-align:center;padding-top:10px;border-top:1px dashed var(--line);margin-top:8px}
+  .rk-pv .rk-cable:hover{stroke-width:6!important}
   /* status strip */
   .rk-strip{display:flex;gap:20px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:9px 16px;font:600 11.5px "Open Sans",sans-serif;color:var(--mute);flex-wrap:wrap}
   .rk-strip b{color:var(--text);font-family:"Rajdhani","Open Sans",sans-serif;font-size:14px}
@@ -19930,6 +19945,134 @@ function rkPortPos(n,cable){
   return{side:'R',y:n.h/2};
 }
 
+/* ---------------- Port View — hyperrealistic pairwise patching ---------------- */
+function rkBigFace(d,W){
+  /* large faceplate with a port→coordinate map. Returns {svg,h,ports:{name:[x,y]}} */
+  const P={},role=RK_ROLES[d.role]||RK_ROLES.blank;
+  let s='',H=64;
+  const chassis=(hh,fill)=>`<rect x="0" y="0" width="${W}" height="${hh}" rx="8" fill="${fill||'#171d24'}" stroke="#000" stroke-width="1"/>
+    <rect x="0" y="0" width="${W}" height="${hh}" rx="8" fill="none" stroke="#ffffff14" stroke-width="1"/>
+    <circle cx="16" cy="${hh/2}" r="4" fill="#0b0f13"/><circle cx="${W-16}" cy="${hh/2}" r="4" fill="#0b0f13"/>`;
+  const rj=(px,py,pw,ph,lab,name)=>{
+    P[name]=[px+pw/2,py+ph/2];
+    return `<g data-pvport="${rkEsc(name)}"><rect x="${px}" y="${py}" width="${pw}" height="${ph}" rx="2" fill="#c6cbd1" stroke="#565d66" stroke-width=".8"/>
+      <rect x="${px+pw*.24}" y="${py+ph-4.5}" width="${pw*.52}" height="3.5" fill="#20262c"/>
+      ${lab?`<text x="${px+pw/2}" y="${py+ph+11}" font-size="7.5" fill="#9aa3ac" text-anchor="middle" font-family="Open Sans">${rkEsc(lab)}</text>`:''}</g>`;
+  };
+  const sfp=(px,py,pw,ph,lab,name)=>{
+    P[name]=[px+pw/2,py+ph/2];
+    return `<g><rect x="${px}" y="${py}" width="${pw}" height="${ph}" rx="2.5" fill="#0d1217" stroke="#ffffff2a" stroke-width="1"/>
+      <rect x="${px+4}" y="${py+ph/2-2.5}" width="${pw-8}" height="5" rx="2.5" fill="#20262c"/>
+      ${lab?`<text x="${px+pw/2}" y="${py+ph+11}" font-size="7.5" fill="#9aa3ac" text-anchor="middle" font-family="Open Sans">${rkEsc(lab)}</text>`:''}</g>`;
+  };
+  if(d.role==='patch'){
+    const n=Math.min(96,parseInt(d.dens,10)||24),rows=n>24?2:1,per=Math.ceil(n/rows);
+    H=rows>1?150:76;
+    s+=chassis(H,'#14181d');
+    const groups=Math.ceil(per/8),gGap=16,jGap=4;
+    const jw=Math.min(26,(W-56-(groups-1)*gGap-(per-1)*jGap)/per),jh=20;
+    for(let i=0;i<n;i++){
+      const r=Math.floor(i/per),c=i%per,g=Math.floor(c/8);
+      const x0=(W-(per*(jw+jGap)-jGap+(groups-1)*gGap))/2+c*(jw+jGap)+g*gGap;
+      s+=rj(x0,14+r*70,jw,jh,String(i+1),String(i+1));
+    }
+    s+=`<text x="${W-26}" y="${H/2+4}" font-size="12" fill="#aab3bb" font-family="Georgia,serif">5e</text>`;
+  }else if(['agg','core','poe'].includes(d.role)){
+    H=86;s+=chassis(H);
+    const cols=24,jw=17,jh=15,gap=3.4,g6=10;
+    const gridW=cols*(jw+gap)-gap+3*g6,x0=34;
+    for(let p=1;p<=48;p++){
+      const col=Math.ceil(p/2)-1,row=p%2===1?0:1;
+      const px=x0+col*(jw+gap)+Math.floor(col/6)*g6,py=14+row*(jh+14);
+      s+=rj(px,py,jw,jh,row===1?String(p):'',String(p));
+      if(row===0)s+=`<text x="${px+jw/2}" y="10" font-size="6.5" fill="#8a939c" text-anchor="middle" font-family="Open Sans">${p}</text>`;
+    }
+    const sx=x0+gridW+18;
+    if(d.role==='poe'){for(let i=0;i<4;i++)s+=sfp(sx+(i%2)*36,14+Math.floor(i/2)*30,32,22,'SFP '+(i+1),'SFP '+(i+1));}
+    else{for(let i=0;i<6;i++)s+=sfp(sx+(i%3)*36,14+Math.floor(i/3)*30,32,22,String(49+i),String(49+i));}
+  }else if(d.role==='dmz'){
+    H=76;s+=chassis(H);
+    const jw=34,jh=30;
+    for(let p=1;p<=10;p++)s+=rj(40+(p-1)*(jw+8),16,jw,jh,String(p),String(p));
+    s+=sfp(40+10*(jw+8)+14,20,44,26,'SFP+ 9','SFP+ 9');
+    s+=sfp(40+10*(jw+8)+64,20,44,26,'SFP+ 10','SFP+ 10');
+  }else if(d.role==='fiber'){
+    let cols=12,rows=3;const m=String(d.dens||'12x3').match(/^(\d+)x(\d+)$/);if(m){cols=+m[1];rows=+m[2];}
+    const n=cols*rows;H=Math.max(76,26+rows*34);
+    s+=chassis(H,'#14181d');
+    for(let i=0;i<n;i++){
+      const r=Math.floor(i/cols),c=i%cols,cx=(W-cols*52)/2+26+c*52,cy=24+r*34;
+      const cab=rkPortCable(d.id,String(i+1));
+      P[String(i+1)]=[cx,cy];
+      s+=`<circle cx="${cx}" cy="${cy}" r="9" fill="${cab?RK_CTYPES[cab.type].c:'#0d1217'}" stroke="#565d66" stroke-width="1"/>
+        <text x="${cx}" y="${cy+22}" font-size="7.5" fill="#9aa3ac" text-anchor="middle" font-family="Open Sans">${i+1}</text>`;
+    }
+  }else if(d.role==='fw'||d.role==='lb'){
+    H=76;s+=chassis(H,'#1a1f26');
+    s+=`<rect x="30" y="16" width="70" height="44" rx="4" fill="#0f3d3a"/><text x="65" y="42" font-size="9" fill="#2BD0C6" text-anchor="middle" font-family="ui-monospace">${rkEsc(d.name.slice(0,8))}</text>`;
+    const names=d.role==='fw'?['WAN1','WAN2','LAN1','LAN2','HA','Inside']:['Frontend','Backend1','Backend2','HA'];
+    names.forEach((nm,i)=>{s+=rj(130+i*66,20,34,30,nm,nm);});
+  }else{ /* generic: chips for whatever ports are cabled */
+    H=76;s+=chassis(H,'#1a1f26');
+    const names=[...new Set(rkAllCablesOf(d.id).map(c=>c.a.dev===d.id?c.a.port:c.b.port))];
+    names.forEach((nm,i)=>{s+=rj(40+i*84,20,40,30,nm,nm);});
+  }
+  return{svg:s,h:H,ports:P};
+}
+function rkPvAnchors(face,end){ /* anchor points for a cable endpoint (fiber pairs = 2 strands) */
+  if(Array.isArray(end.strands))return end.strands.map(n=>face.ports[String(n)]).filter(Boolean);
+  const p=face.ports[end.port];return p?[p]:[];
+}
+function rkPortViewHTML(){
+  const d=rkDev(RKS.pv.dev);if(!d)return'';
+  const peers=[];
+  rkCablesOf(d.id).forEach(c=>{const pid=rkPeer(c,d.id).dev;if(!peers.includes(pid))peers.push(pid);});
+  if(!peers.length)return'';
+  const peerId=peers.includes(RKS.pv.peer)?RKS.pv.peer:peers[0];
+  const pd=rkDev(peerId);
+  const cables=rkCablesOf(d.id).filter(c=>rkPeer(c,d.id).dev===peerId);
+  const W=780,GAP=170;
+  const fA=rkBigFace(d,W),fB=rkBigFace(pd,W);
+  const yA=16,yB=yA+fA.h+GAP,SH=yB+fB.h+16;
+  let cords='';
+  cables.forEach((c,i)=>{
+    const meEnd=c.a.dev===d.id?c.a:c.b,peEnd=c.a.dev===d.id?c.b:c.a;
+    const col=RK_CTYPES[c.type].c;
+    const aPts=rkPvAnchors(fA,meEnd),bPts=rkPvAnchors(fB,peEnd);
+    aPts.forEach((ap,k)=>{
+      const bp=bPts[Math.min(k,bPts.length-1)];if(!ap||!bp)return;
+      const off=(k?6:-6)*(bPts.length>1||aPts.length>1?1:0);
+      const x1=ap[0],y1=yA+ap[1],x2=bp[0]+off,y2=yB+bp[1];
+      const mid=(y1+y2)/2+((i%5)-2)*13;
+      cords+=`<g data-cable="${c.id}"><path class="rk-cable" data-cable="${c.id}" d="M ${x1} ${y1} C ${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}" stroke="${col}" stroke-width="4.5" fill="none" stroke-linecap="round" opacity=".93"/>
+      <path class="rk-cablehit" data-cable="${c.id}" d="M ${x1} ${y1} C ${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}"/>
+      <rect x="${x1-4.5}" y="${y1-2}" width="9" height="16" rx="3" fill="${col}" stroke="#0a2126" stroke-width="1"/>
+      <rect x="${x2-4.5}" y="${y2-14}" width="9" height="16" rx="3" fill="${col}" stroke="#0a2126" stroke-width="1"/></g>`;
+    });
+  });
+  return `<div class="rk-pv-backdrop" data-rk="pvclose-bg">
+    <div class="rk-pv">
+      <div class="rk-pv-h">
+        <b>${rkTX('Port View')}</b>
+        <span>${rkEsc(d.name)} <i>⇄</i> ${rkEsc(pd.name)} · ${cables.length} ${rkTX(cables.length===1?'cable':'cables')}</span>
+        <button class="rk-panel-x" data-rk="pvclose">✕</button>
+      </div>
+      ${peers.length>1?`<div class="rk-pv-peers">${peers.map(pid=>{const pp=rkDev(pid);const n=rkCablesOf(d.id).filter(c=>rkPeer(c,d.id).dev===pid).length;
+        return `<button class="rk-chip ${pid===peerId?'on':''}" data-rk="pvpeer" data-arg="${pid}"><i style="background:${(RK_ROLES[pp.role]||{}).c}"></i>${rkEsc(pp.name)} · ${n}</button>`;}).join('')}</div>`:''}
+      <div class="rk-pv-stage">
+        <div class="rk-pv-lab">${rkEsc(d.name)} <small>${rkEsc(rkTX((RK_ROLES[d.role]||{}).t||''))}</small></div>
+        <svg width="100%" viewBox="0 0 ${W} ${SH}" style="display:block">
+          <g transform="translate(0,${yA})">${fA.svg}</g>
+          ${cords}
+          <g transform="translate(0,${yB})">${fB.svg}</g>
+        </svg>
+        <div class="rk-pv-lab">${rkEsc(pd.name)} <small>${rkEsc(rkTX((RK_ROLES[pd.role]||{}).t||''))}</small></div>
+      </div>
+      <div class="rk-pv-foot">${rkTX('Hover a cord for details · click to inspect · colors match cable types')}</div>
+    </div>
+  </div>`;
+}
+
 /* ---------------- panel ---------------- */
 function rkPanelHTML(){
   let inner;
@@ -20017,6 +20160,7 @@ function rkDevPanel(d){
     }
     html+=`</div>`;
   }
+  if(cbls.length)html+=`<button class="rk-actbtn" data-rk="portview" style="border-color:#1d6b45;background:linear-gradient(180deg,rgba(65,217,138,.16),rgba(65,217,138,.06));color:var(--green)">⇄ ${rkTX('Port View — see the actual patching')}</button>`;
   if(RKS.view==='elev')html+=`<button class="rk-actbtn" data-rk="showmap">${rkTX('Show in Cable Map')}</button>`;
   else html+=`<button class="rk-actbtn" data-rk="showelev">${rkTX('Show in Elevations')}</button>`;
   if(RKS.edit){
@@ -20274,6 +20418,7 @@ function rkRenderScreen(){
       <span>${rkTX('Est. draw')} <b style="color:var(--tron-orange)">${(totW/1000).toFixed(2)} kW</b></span>
       <span class="hint">${rkTX('Click to trace a path')} · <kbd>Esc</kbd> ${rkTX('clears')}</span>
     </div>
+    ${RKS.pv?rkPortViewHTML():''}
   </div>`;
   document.querySelectorAll('#estateNav .nav-item').forEach(n=>n.classList.toggle('active',n.dataset.estate==='racks'));
   rkBind(el);
@@ -20436,7 +20581,7 @@ function rkBind(root){
       if(k==='zoomctl'){
         const d=parseInt(arg,10);
         if(RKS.view==='map'){rkZoom(d);return;}
-        if(d===0)RKS.zoom=1;else{const st=RKS.zoom>=1.5?.25:.15;RKS.zoom=Math.max(.55,Math.min(2.5,Math.round((RKS.zoom+(d>0?st:-st))*100)/100));}
+        if(d===0)RKS.zoom=1;else{const st=RKS.zoom>=2.5?.5:RKS.zoom>=1.5?.25:.15;RKS.zoom=Math.max(.55,Math.min(4,Math.round((RKS.zoom+(d>0?st:-st))*100)/100));}
         rkRerender();return;
       }
       if(k==='scope'){RKS.scope=arg;rkRerender();return;}
@@ -20454,6 +20599,15 @@ function rkBind(root){
       if(k==='seldev'){rkSelect({type:'dev',id:arg});return;}
       if(k==='selrack'){rkSelect({type:'rack',id:arg});return;}
       if(k==='applyrack'){rkApplyRack();return;}
+      if(k==='portview'){const id=rkSelDevId();if(id){RKS.pv={dev:id};rkRerender();}return;}
+      if(k==='pvpeer'){if(RKS.pv){RKS.pv.peer=arg;rkRerender();}return;}
+      if(k==='pvclose'){RKS.pv=null;rkRerender();return;}
+      if(k==='pvclose-bg'){
+        const cord=ev.target.closest('[data-cable]');
+        if(cord){rkSelect({type:'cable',id:cord.dataset.cable});return;}
+        if(ev.target===t){RKS.pv=null;rkRerender();}
+        return;
+      }
       if(k==='pickimg'){const fi=document.getElementById('rkEdImgFile');if(fi)fi.click();return;}
       if(k==='clearimg'){const d=rkDev(rkSelDevId());if(d){d.img=undefined;if(typeof toast==='function')toast(rkTX('Photo removed'));rkRerender();}return;}
       if(k==='saveportlabel'){rkSavePortLabel();return;}
@@ -20807,6 +20961,7 @@ setInterval(()=>{
 /* Esc clears selection */
 window.addEventListener('keydown',ev=>{
   if(ev.key==='Escape'&&typeof estateSection!=='undefined'&&estateSection==='racks'&&document.getElementById('screen-estate')?.classList.contains('show')){
+    if(RKS.pv){RKS.pv=null;rkRerender();return;}
     if(RKS.connect||RKS.sel){RKS.connect=null;RKS.sel=null;rkRerender();}
   }
 });
@@ -20826,7 +20981,7 @@ if(typeof renderEstate==='function'){
    estate views in place instead of yanking the user back to the Platform plane */
 function rkInEstate(){return typeof GUARDARE_PLANE!=='undefined'&&GUARDARE_PLANE==='estate';}
 function rkEstateTenantRefresh(){
-  RKS.scope='all';RKS.sel=null;RKS.connect=null;
+  RKS.scope='all';RKS.sel=null;RKS.connect=null;RKS.pv=null;RKS.zoom=1;
   if(typeof updateChrome==='function')updateChrome();
   if(typeof renderTenantMenu==='function')renderTenantMenu();
   if(typeof refreshDashboard==='function')refreshDashboard(); /* keep platform widgets in sync for when they return */
