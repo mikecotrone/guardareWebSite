@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.515.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.516.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13706,7 +13706,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.515.alpha';
+const APP_VERSION='v2026.02.516.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -19557,7 +19557,81 @@ function rkCableTitle(c){
 /* ---------------- geometry ---------------- */
 const UH=21,NUMW=30,RACKW=234,GUT=118,RAIL=26,PADT=12;
 
-/* ---------------- elevation SVG ---------------- */
+/* ---------------- realistic device faceplates ----------------
+   Procedurally drawn front panels per role. If a device has d.img
+   (URL or data-URL), the photo renders instead — NetBox-style. */
+function rkFaceplate(d,x,y,w,h,darkText){
+  const ink=darkText?'#0b2b33':'#041a20';
+  const ink2=darkText?'#123842':'#0b2f38';
+  const met='#ffffff26';
+  let s='';
+  const rj=(px,py,pw,ph,lit)=>`<rect x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="${pw.toFixed(1)}" height="${ph.toFixed(1)}" rx=".8" fill="${lit||ink}"/><rect x="${(px+pw*.3).toFixed(1)}" y="${py.toFixed(1)}" width="${(pw*.4).toFixed(1)}" height="${(ph*.3).toFixed(1)}" fill="${lit?ink:ink2}"/>`;
+  const sfp=(px,py,pw,ph)=>`<rect x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="${pw.toFixed(1)}" height="${ph.toFixed(1)}" rx="1" fill="${ink}" stroke="${met}" stroke-width=".5"/><rect x="${(px+1.4).toFixed(1)}" y="${(py+ph/2-.8).toFixed(1)}" width="${(pw-2.8).toFixed(1)}" height="1.6" rx=".8" fill="${ink2}"/>`;
+  const sled=(px,py,pw,ph)=>`<rect x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="${pw.toFixed(1)}" height="${ph.toFixed(1)}" rx="1.4" fill="${ink}" stroke="${met}" stroke-width=".6"/><rect x="${(px+2).toFixed(1)}" y="${(py+ph-3.6).toFixed(1)}" width="${(pw-4).toFixed(1)}" height="1.6" rx=".8" fill="${ink2}"/><circle cx="${(px+pw-3.4).toFixed(1)}" cy="${(py+2.8).toFixed(1)}" r=".9" fill="#41D98A"/>`;
+  const outlet=(px,py)=>`<rect x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="9" height="10.5" rx="2" fill="${ink}" stroke="${met}" stroke-width=".6"/><rect x="${(px+2.2).toFixed(1)}" y="${(py+2).toFixed(1)}" width="1.4" height="3.4" rx=".6" fill="${ink2}"/><rect x="${(px+5.4).toFixed(1)}" y="${(py+2).toFixed(1)}" width="1.4" height="3.4" rx=".6" fill="${ink2}"/><circle cx="${(px+4.5).toFixed(1)}" cy="${(py+8).toFixed(1)}" r="1" fill="${ink2}"/>`;
+  const inner=h-4;
+  if(h<=22){ /* ---- 1U gear: port strip on the right of the label ---- */
+    const zx=x+w*0.47,zw=w*0.53-16,cy=y+h/2;
+    if(['agg','core','poe'].includes(d.role)){ /* 48p in 2×24 blocks + 4 SFP+ */
+      const pw=Math.min(4.2,(zw-30)/26),ph=(inner-3)/2;
+      for(let i=0;i<24;i++){const gap=Math.floor(i/6)*2.2;
+        s+=rj(zx+i*pw+gap,y+2,pw-1,ph);s+=rj(zx+i*pw+gap,y+2+ph+1.4,pw-1,ph);}
+      for(let i=0;i<4;i++)s+=sfp(zx+zw-26+i*6.6,y+h/2-3.4,5.8,6.8);
+      if(d.role==='poe')for(let i=0;i<8;i++)s+=`<circle cx="${zx+4+i*5}" cy="${y+h-2.6}" r=".8" fill="#F6B53F" opacity=".9"/>`;
+    }else if(d.role==='dmz'){ /* 10 RJ45 + 2 SFP+ */
+      const ph=inner-4,pw=6.4;
+      for(let i=0;i<10;i++)s+=rj(zx+i*(pw+1.6),y+3,pw,ph);
+      s+=sfp(zx+zw-16,y+h/2-3.6,7,7.2);s+=sfp(zx+zw-8,y+h/2-3.6,7,7.2);
+    }else if(['spine','leaf'].includes(d.role)){ /* SFP rows + 2 QSFP */
+      const ph=(inner-3)/2;
+      for(let i=0;i<12;i++){s+=sfp(zx+i*((zw-24)/12),y+2,(zw-24)/12-1.4,ph);s+=sfp(zx+i*((zw-24)/12),y+2+ph+1.4,(zw-24)/12-1.4,ph);}
+      s+=sfp(zx+zw-22,y+h/2-3.8,9.5,7.6);s+=sfp(zx+zw-11,y+h/2-3.8,9.5,7.6);
+    }else if(['fw','lb'].includes(d.role)){ /* console LCD + WAN/LAN/HA */
+      s+=`<rect x="${zx}" y="${y+3}" width="16" height="${inner-4}" rx="1.4" fill="${ink}" stroke="${met}" stroke-width=".5"/><rect x="${zx+2}" y="${y+5}" width="12" height="${inner-9}" rx=".8" fill="#0f3d3a" opacity=".9"/>`;
+      const px0=zx+22,ph=inner-6;
+      for(let i=0;i<4;i++)s+=rj(px0+i*7.6,y+4,6,ph);
+      s+=sfp(px0+34,y+h/2-3.4,6.4,6.8);s+=sfp(px0+42,y+h/2-3.4,6.4,6.8);
+      s+=rj(zx+zw-9,y+4,6,ph);
+      s+=`<text x="${zx+zw-6}" y="${y+h-1.6}" font-size="3.6" fill="${darkText?'#0b2b33aa':'#ffffff66'}" text-anchor="middle" font-family="Open Sans">HA</text>`;
+    }else if(d.role==='srv'){ /* drive sleds */
+      const n=4,sw=(zw-10)/n;
+      for(let i=0;i<n;i++)s+=sled(zx+i*(sw+2),y+2.5,sw-1,inner-2);
+      s+=`<circle cx="${zx+zw-2}" cy="${cy}" r="1.6" fill="#41D98A" opacity=".9"/>`;
+    }else if(d.role==='patch'){ /* keystone jacks — lit when patched */
+      const n=Math.min(96,parseInt(d.dens,10)||24),cols=Math.min(n,12),rows=Math.ceil(n/12);
+      const jw=Math.min(5.2,(zw-4)/cols),jh=rows>1?(inner-3)/rows:inner-5;
+      for(let i=0;i<n;i++){
+        const r=Math.floor(i/cols),c=rkPortCable(d.id,String(i+1));
+        s+=rj(zx+(i%cols)*jw,y+2.5+r*(jh+1.2),jw-1.2,jh-.8,c?RK_CTYPES[c.type].c:null);
+      }
+    }else if(d.role==='fiber'){ /* LC strand couplers — lit strands glow */
+      let cols=12,rows=3;const m=String(d.dens||'12x3').match(/^(\d+)x(\d+)$/);if(m){cols=+m[1];rows=+m[2];}
+      const total=cols*rows,per=Math.min(total,36),step=(zw-6)/per;
+      for(let i=0;i<per;i++){
+        const c=rkPortCable(d.id,String(i+1));
+        s+=`<circle cx="${(zx+3+i*step).toFixed(1)}" cy="${cy}" r="1.7" fill="${c?RK_CTYPES[c.type].c:ink}" ${c?'opacity=".95"':''}/>`;
+      }
+      if(total>per)s+=`<text x="${zx+zw}" y="${cy+2}" font-size="4" fill="${darkText?'#0b2b33aa':'#ffffff55'}" text-anchor="end" font-family="Open Sans">+${total-per}</text>`;
+    }
+  }else{ /* ---- multi-U gear ---- */
+    if(d.role==='nvr'){ /* drive bay grid */
+      const bx=x+10,bw=w-20,rows=Math.min(4,Math.max(2,Math.floor((h-22)/13))),cols=4;
+      const bh=(h-24-(rows-1)*3)/rows;
+      for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
+        s+=sled(bx+c*(bw/cols),y+20+r*(bh+3),bw/cols-4,bh);
+    }else if(d.role==='pdu'){ /* outlet row + meter */
+      const n=8,ox=x+56,ostep=(w-120)/n;
+      for(let i=0;i<n;i++)s+=outlet(ox+i*ostep,y+h-15);
+      s+=`<rect x="${x+w-52}" y="${y+h-15}" width="24" height="10.5" rx="1.6" fill="#0f3d3a"/><text x="${x+w-40}" y="${y+h-7.6}" font-size="5" fill="#2BD0C6" text-anchor="middle" font-family="ui-monospace">${d.w||0}W</text>`;
+      s+=`<rect x="${x+w-24}" y="${y+h-14.4}" width="6" height="9.4" rx="1.4" fill="${ink}" stroke="${met}" stroke-width=".6"/><rect x="${x+w-22.6}" y="${y+h-13}" width="3.2" height="3.4" rx=".8" fill="#FF5D5D" opacity=".85"/>`;
+    }else if(d.role==='ups'){ /* LCD + battery + grille */
+      s+=`<rect x="${x+10}" y="${y+h-16}" width="34" height="11" rx="1.8" fill="#0f3d3a"/><text x="${x+27}" y="${y+h-8}" font-size="5.2" fill="#2BD0C6" text-anchor="middle" font-family="ui-monospace">100% ▮▮▮▮</text>`;
+      for(let i=0;i<16;i++)s+=`<rect x="${x+54+i*((w-120)/16)}" y="${y+h-15}" width="${(w-120)/16-2.5}" height="9.5" rx="1" fill="${ink}" opacity=".85"/>`;
+      s+=`<circle cx="${x+w-22}" cy="${y+h-10.4}" r="3.6" fill="${ink}" stroke="#41D98A" stroke-width="1"/><path d="M ${x+w-22} ${y+h-13.2} v3" stroke="#41D98A" stroke-width="1" stroke-linecap="round"/>`;
+    }
+  }
+  return `<g pointer-events="none">${s}</g>`;
+}
 function rkElevSVG(rack){
   const frameX=GUT+NUMW,frameH=rack.u*UH+2*PADT,W=frameX+RACKW+RAIL+8,H=frameH+8;
   const trace=rkTraceSet();
@@ -19669,14 +19743,18 @@ function rkElevSVG(rack){
     }else if(d.role==='mgr'){
       for(let i=0;i<9;i++)s+=`<rect x="${x+16+i*((w-32)/9)}" y="${y+h/2-3.5}" width="${(w-32)/9-4}" height="7" rx="2" fill="var(--bg)" opacity=".5"/>`;
       s+=`<text class="lbl" x="${x+w/2}" y="${y+h/2+3}" text-anchor="middle" fill="var(--dim)" opacity=".0"></text>`;
-    }else{
-      s+=`<text class="lbl" x="${x+9}" y="${y+(h>26?14:h/2+3.2)}" fill="${tcol}">${rkEsc(d.name.length>30?d.name.slice(0,29)+'…':d.name)}</text>`;
-      if(h>26)s+=`<text class="sub" x="${x+9}" y="${y+26}" fill="${subcol}">${rkEsc(d.model)}</text>`;
-      /* status LED + port ticks */
+    }else if(d.img){ /* real photo takes over the faceplate (NetBox-style) */
+      s+=`<clipPath id="rkclip-${d.id}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3"/></clipPath>`;
+      s+=`<image href="${rkEsc(d.img)}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid slice" clip-path="url(#rkclip-${d.id})"/>`;
+      s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="none" stroke="${edge}"/>`;
+      s+=`<text class="lbl" x="${x+9}" y="${y+(h>26?14:h/2+3.2)}" fill="#fff" style="paint-order:stroke;stroke:#000a;stroke-width:2.5px">${rkEsc(d.name.length>30?d.name.slice(0,29)+'…':d.name)}</text>`;
       s+=`<circle cx="${x+w-9}" cy="${y+(h>26?10:h/2)}" r="2.2" fill="${d.status==='active'?'#41D98A':'#F6B53F'}" filter="url(#rkGlow-${rack.id})"/>`;
-      if(['agg','poe','dmz','core','spine','leaf'].includes(d.role)&&h<=26){
-        for(let i=0;i<10;i++)s+=`<rect x="${x+w-78+i*6}" y="${y+h/2-2.5}" width="4" height="5" rx="1" fill="${txt?'#08262b55':'#ffffff2e'}"/>`;
-      }
+    }else{
+      const maxN=h<=22?17:29; /* short labels beside 1U faceplates — the tooltip carries the full name */
+      s+=`<text class="lbl" x="${x+9}" y="${y+(h>26?14:h/2+3.2)}" fill="${tcol}">${rkEsc(d.name.length>maxN+1?d.name.slice(0,maxN)+'…':d.name)}</text>`;
+      if(h>26)s+=`<text class="sub" x="${x+9}" y="${y+26}" fill="${subcol}">${rkEsc(d.model)}</text>`;
+      s+=`<circle cx="${x+w-9}" cy="${y+(h>26?10:h/2)}" r="2.2" fill="${d.status==='active'?'#41D98A':'#F6B53F'}" filter="url(#rkGlow-${rack.id})"/>`;
+      s+=rkFaceplate(d,x,y,w,h,!!txt);
     }
     /* airflow badge — pronounced: haloed disc + bold directional chevrons + edge strip on the device */
     if(RKS.airflow&&d.role!=='blank'&&d.role!=='mgr'){
@@ -19901,6 +19979,7 @@ function rkDevPanel(d){
       const cur=String(d.dens||(d.role==='fiber'?'12x3':'24'));
       const flab=o=>{const m=o.match(/^(\d+)x(\d+)$/);return (+m[1]*+m[2])+' '+rkTX('strands')+' ('+m[1]+' × '+m[2]+')';};
       return `<div class="rk-field"><label>${rkTX('Port density')}</label><select id="rkEdDens">${opts.map(o=>`<option value="${o}" ${o===cur?'selected':''}>${d.role==='fiber'?flab(o):o+' '+rkTX('ports')}</option>`).join('')}</select></div>`;})():''}
+    <div class="rk-field"><label>${rkTX('Photo URL')} <i style="font-style:normal;text-transform:none;letter-spacing:0">(${rkTX('optional — replaces the drawn faceplate')})</i></label><input id="rkEdImg" value="${rkEsc(d.img||'')}" placeholder="https://… ${rkTX('or')} data:image/png;base64,…"></div>
     <button class="rk-actbtn grn" data-rk="applydev">${rkTX('Apply Changes')}</button>
     <div class="rk-sec-t">${rkTX('Connect Cable')}</div>
     <div class="rk-chipset">${Object.keys(RK_CTYPES).map(k=>`<button class="rk-chip ${RKS.pendType===k?'on':''}" data-rk="ctype" data-arg="${k}"><i style="background:${RK_CTYPES[k].c}"></i>${rkEsc(RK_CTYPES[k].t)}</button>`).join('')}</div>
@@ -20523,6 +20602,7 @@ function rkApplyDev(){
   d.name=v('rkEdName')||d.name;d.model=v('rkEdModel')??d.model;
   d.w=parseInt(v('rkEdW'),10)||0;d.role=v('rkEdRole')||d.role;d.af=v('rkEdAf')||d.af;
   const dn=v('rkEdDens');if(dn!=null)d.dens=dn;
+  const im=v('rkEdImg');if(im!=null)d.img=im.trim()||undefined;
   if(typeof toast==='function')toast(rkTX('Device updated'));
   rkRerender();
 }
