@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.599.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.600.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13703,7 +13703,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.599.alpha';
+const APP_VERSION='v2026.02.600.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -19227,23 +19227,29 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-loc-h b{font:700 13.5px "Open Sans",sans-serif;color:var(--text);display:block}
   .rk-loc-h small{font:500 10.5px "Open Sans",sans-serif;color:var(--mute);display:block}
   .rk-loc-h .rk-tenant-chip{margin-left:auto}
-  .rk-room{background:var(--bg-2);border:1px solid var(--line);border-radius:11px;padding:9px 11px;display:flex;flex-direction:column;gap:6px}
-  .rk-room-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-  .rk-room-row .nm{font:700 12.5px "Open Sans",sans-serif;color:var(--text)}
-  .rk-room-row .fl{font:600 10px "Open Sans",sans-serif;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
-  .rk-room-row .cnt{font:500 10.5px "Open Sans",sans-serif;color:var(--dim);margin-left:auto}
-  .rk-room-row .acts{display:flex;gap:4px}
-  .rk-room-ren{display:flex;gap:5px;align-items:center;flex:1;min-width:180px}
-  .rk-room-ren input{flex:1;min-width:90px;background:var(--bg);border:1px solid var(--tron-deep);border-radius:7px;color:var(--text);font:600 12px "Open Sans",sans-serif;padding:5px 8px;outline:none}
+  .rk-room{background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--rc,var(--tron));border-radius:11px;overflow:hidden}
+  .rk-room-row{display:flex;align-items:center;gap:10px;padding:11px 14px;flex-wrap:wrap}
+  .rk-room-row .nm{font:700 13.5px "Open Sans",sans-serif;color:var(--text)}
+  .rk-room-row .lvl{font:600 9.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:2px 7px}
+  .rk-room-row .cnt{font:500 11px "Open Sans",sans-serif;color:var(--dim);margin-left:auto}
+  .rk-room-row .acts{display:flex;gap:5px}
+  .rk-area-edit{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:10px 13px}
+  .rk-area-edit input,.rk-area-edit select{background:var(--bg);border:1px solid var(--tron-deep);border-radius:7px;color:var(--text);font:600 12px "Open Sans",sans-serif;padding:6px 9px;outline:none}
+  .rk-area-edit input#rkRoomRen{flex:2;min-width:130px}
+  .rk-area-edit select{flex:1;min-width:130px;cursor:pointer}
+  .rk-area-edit input.lvl{flex:0 0 74px;width:74px}
+  .rk-area-edit input:focus,.rk-area-edit select:focus{box-shadow:0 0 0 3px rgba(40,224,255,.1)}
   .rk-loc-mini{border:1px solid var(--line);background:var(--bg);color:var(--dim);font:700 10.5px "Open Sans",sans-serif;padding:4px 9px;border-radius:7px;cursor:pointer;transition:.15s;white-space:nowrap}
   .rk-loc-mini:hover{color:var(--text);border-color:var(--tron-deep)}
   .rk-loc-mini.grn{color:var(--green);border-color:#1d6b45;background:rgba(65,217,138,.09)}
   .rk-loc-mini.warn{color:var(--red);border-color:#6b2a2a;background:rgba(255,93,93,.07)}
   .rk-loc-mini.go{color:var(--tron);border-color:var(--tron-deep);background:rgba(40,224,255,.07);margin-left:auto}
   .rk-loc-mini.dis,.rk-loc-mini:disabled{opacity:.35;cursor:not-allowed;filter:saturate(.4)}
-  .rk-cont-row{display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--line-soft);border-radius:9px;padding:7px 10px;flex-wrap:wrap}
+  .rk-cont-wrap{display:flex;flex-direction:column;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+  .rk-cont-row{display:flex;align-items:center;gap:10px;background:var(--panel);padding:9px 14px 9px 16px;flex-wrap:wrap}
   .rk-cont-row .nm{font:600 12px "Open Sans",sans-serif;color:var(--text)}
-  .rk-cont-row .sz,.rk-cont-row .us,.rk-cont-row .cb{font:600 10px "Open Sans",sans-serif;color:var(--mute);white-space:nowrap}
+  .rk-cont-meta{font:500 10.5px "Open Sans",sans-serif;color:var(--mute);white-space:nowrap}
+  .rk-cont-empty2{padding:10px 14px 11px 16px;border-top:1px dashed var(--line);color:var(--mute);font:400 11px "Open Sans",sans-serif;font-style:italic;background:color-mix(in srgb,var(--panel) 60%,transparent)}
   .rk-room-add{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
   .rk-room-add input,.rk-room-add select{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;color:var(--text);font:500 12px "Open Sans",sans-serif;padding:7px 9px;outline:none}
   .rk-room-add input:focus,.rk-room-add select:focus{border-color:var(--tron-deep)}
@@ -19282,13 +19288,15 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
     padding:6px 13px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
   .rk-loc-addbtn-sm:hover{background:rgba(40,224,255,.16);box-shadow:0 0 11px -3px rgba(40,224,255,.5)}
   .rk-locpanel-b{padding:14px 15px}
-  .rk-area-list{display:flex;flex-direction:column;gap:13px}
-  /* per-type area group — colour-accented card so MDF / IDF / DC / closet read as distinct sections */
-  .rk-areagrp{border:1px solid var(--line);border-left:3px solid var(--rc,var(--tron));border-radius:11px;background:var(--bg-2);overflow:hidden}
-  .rk-areagrp-h{display:flex;align-items:center;gap:10px;padding:9px 12px;background:color-mix(in srgb,var(--rc,var(--tron)) 7%,transparent);border-bottom:1px solid var(--line)}
-  .rk-areagrp-n{font:700 9.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);margin-left:auto}
-  .rk-areagrp-b{padding:10px 12px;display:flex;flex-direction:column;gap:9px}
-  .rk-areagrp-b .rk-room{background:var(--panel)}
+  .rk-area-list{display:flex;flex-direction:column;gap:22px}
+  /* per-type section — a light accent header groups its area cards (colour = type) */
+  .rk-areagrp{display:flex;flex-direction:column;gap:9px}
+  .rk-areagrp-h{display:flex;align-items:center;gap:9px;padding:0 2px 8px;border-bottom:1px solid var(--line)}
+  .rk-areadot{width:8px;height:8px;border-radius:99px;background:var(--rc,var(--tron));box-shadow:0 0 8px color-mix(in srgb,var(--rc,var(--tron)) 70%,transparent);flex:0 0 8px}
+  .rk-areagrp-t{font:800 11.5px "Open Sans",sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--rc,var(--tron))}
+  .rk-areagrp-full{font:500 11px "Open Sans",sans-serif;color:var(--mute)}
+  .rk-areagrp-n{font:600 10px "Open Sans",sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin-left:auto}
+  .rk-areagrp-b{display:flex;flex-direction:column;gap:9px}
   .rk-loc-detail .rk-room-add{padding:12px 13px;background:var(--bg-2);border:1px solid var(--line);border-radius:11px;margin-bottom:13px}
   /* weather section */
   .rk-wx-row{display:flex;align-items:center;gap:13px}
@@ -22913,41 +22921,54 @@ start(ev,info){
 class LocationSection{
 constructor(app){this.app=app;this.adding=null;this.renaming=null;this.open=null;}
 static AREA_ORDER=['mdf','idf','dc','closet'];
+static AREA_FULL={mdf:'Main distribution frame',idf:'Intermediate distribution frame',closet:'Wiring closet',dc:'Data-center row'};
 roomRow(site,room){
   const rt=RackCatalog.ROOM_TYPES[room.type]||{t:room.type,c:'var(--tron)'};
   const conts=this.app.store.containersInRoom(room.id);
   const nd=conts.reduce((a,r)=>a+r.devices.filter(d=>!['blank','mgr'].includes(d.role)).length,0);
   const empty=!conts.length;
-  const ren=this.renaming===room.id;
-  let html=`<div class="rk-room">
-    <div class="rk-room-row">
-      <span class="rk-roomchip" style="--rc:${rt.c}">${rkEsc(rkTX(rt.t))}</span>
-      ${ren?`<span class="rk-room-ren"><input id="rkRoomRen" value="${rkEsc(room.name)}">
-        <button class="rk-loc-mini grn" data-rkloc="rensave" data-arg="${room.id}">${rkTX('Save')}</button>
-        <button class="rk-loc-mini" data-rkloc="rencancel">${rkTX('Cancel')}</button></span>`
-      :`<b class="nm">${rkEsc(room.name)}</b>`}
-      <span class="fl">${rkTX('Level')} ${rkEsc(room.floor||'—')}</span>
+  const ed=this.renaming===room.id;
+  /* header: view mode (name · level · counts · edit/delete) or inline editor (name · TYPE · level) */
+  let head;
+  if(ed){
+    head=`<div class="rk-area-edit">
+      <input id="rkRoomRen" value="${rkEsc(room.name)}" placeholder="${rkTX('Area name')}">
+      <select id="rkRoomType" title="${rkTX('Area type')}">${Object.keys(RackCatalog.ROOM_TYPES).map(k=>`<option value="${k}" ${k===room.type?'selected':''}>${rkEsc(rkTX(RackCatalog.ROOM_TYPES[k].t))}</option>`).join('')}</select>
+      <input id="rkRoomFloor" class="lvl" value="${rkEsc(room.floor&&room.floor!=='—'?room.floor:'')}" placeholder="${rkTX('Level')}">
+      <button class="rk-loc-mini grn" data-rkloc="editsave" data-arg="${room.id}">${rkTX('Save')}</button>
+      <button class="rk-loc-mini" data-rkloc="editcancel">${rkTX('Cancel')}</button>
+    </div>`;
+  }else{
+    head=`<div class="rk-room-row">
+      <b class="nm">${rkEsc(room.name)}</b>
+      <span class="lvl">${rkTX('Level')} ${rkEsc(room.floor||'—')}</span>
       <span class="cnt">${conts.length} ${rkTX(conts.length===1?'container':'containers')} · ${nd} ${rkTX('devices')}</span>
       <span class="acts">
-        <button class="rk-loc-mini" data-rkloc="rename" data-arg="${room.id}" title="${rkTX('Rename')}">✎</button>
-        <button class="rk-loc-mini warn${empty?'':' dis'}" ${empty?'':'disabled'} data-rkloc="delroom" data-arg="${room.id}" title="${rkTX(empty?'Delete':'Only empty areas can be deleted')}">🗑</button>
+        <button class="rk-loc-mini" data-rkloc="editarea" data-arg="${room.id}" title="${rkTX('Edit area')}">✎</button>
+        <button class="rk-loc-mini warn${empty?'':' dis'}" ${empty?'':'disabled'} data-rkloc="delroom" data-arg="${room.id}" title="${rkTX(empty?'Delete area':'Only empty areas can be deleted')}">🗑</button>
       </span>
     </div>`;
-  conts.forEach(r=>{
-    const used=r.devices.filter(d=>d.role!=='blank').reduce((a,d)=>a+d.h,0);
-    const inRack=id=>r.devices.some(d=>d.id===id);
-    const nc=this.app.store.db.cables.filter(c=>inRack(c.a.dev)||inRack(c.b.dev)).length;
-    const board=r.kind==='board';
-    html+=`<div class="rk-cont-row">
-      <span class="rk-kindchip">${rkEsc(rkTX(RackCatalog.CONTAINER_KINDS[r.kind||'rack']))}</span>
-      <b class="nm">${rkEsc(r.name)}</b>
-      <span class="sz">${board?rkTX('Backboard'):r.u+'U'}</span>
-      <span class="us">${board?Math.min(100,Math.round(r.devices.reduce((a,d)=>a+(d.bwid??0.92)*d.h,0)/r.u*100)):Math.round(used/r.u*100)}% ${rkTX('used')}</span>
-      <span class="cb">${nc} ${rkTX('cables')}</span>
-      <button class="rk-loc-mini go" data-rkloc="open" data-arg="${r.id}">${rkTX('Open in Rack Management')} →</button>
-    </div>`;
-  });
-  if(empty)html+=`<div class="rk-cont-row rk-cont-empty">${rkTX('No containers here yet — open Rack Management to add a rack, cabinet or backboard to this area.')}</div>`;
+  }
+  let html=`<div class="rk-room" style="--rc:${rt.c}">${head}`;
+  if(conts.length){
+    html+=`<div class="rk-cont-wrap">`;
+    conts.forEach(r=>{
+      const used=r.devices.filter(d=>d.role!=='blank').reduce((a,d)=>a+d.h,0);
+      const inRack=id=>r.devices.some(d=>d.id===id);
+      const nc=this.app.store.db.cables.filter(c=>inRack(c.a.dev)||inRack(c.b.dev)).length;
+      const board=r.kind==='board';
+      const pct=board?Math.min(100,Math.round(r.devices.reduce((a,d)=>a+(d.bwid??0.92)*d.h,0)/r.u*100)):Math.round(used/r.u*100);
+      html+=`<div class="rk-cont-row">
+        <span class="rk-kindchip">${rkEsc(rkTX(RackCatalog.CONTAINER_KINDS[r.kind||'rack']))}</span>
+        <b class="nm">${rkEsc(r.name)}</b>
+        <span class="rk-cont-meta">${board?rkTX('Backboard'):r.u+'U'} · ${pct}% ${rkTX('used')} · ${nc} ${rkTX('cables')}</span>
+        <button class="rk-loc-mini go" data-rkloc="open" data-arg="${r.id}">${rkTX('Open in Rack Management')} →</button>
+      </div>`;
+    });
+    html+=`</div>`;
+  }else if(!ed){
+    html+=`<div class="rk-cont-empty2">${rkTX('No containers yet — open Rack Management to add a rack, cabinet or backboard here.')}</div>`;
+  }
   return html+`</div>`;
 }
 detailHTML(key){
@@ -22967,7 +22988,10 @@ detailHTML(key){
       if(!byType[ty])return;
       const rt=RackCatalog.ROOM_TYPES[ty],list=byType[ty];
       groups+=`<div class="rk-areagrp" style="--rc:${rt.c}">
-        <div class="rk-areagrp-h"><span class="rk-roomchip" style="--rc:${rt.c}">${rkEsc(rkTX(rt.t))}</span>
+        <div class="rk-areagrp-h">
+          <span class="rk-areadot"></span>
+          <b class="rk-areagrp-t">${rkEsc(rkTX(rt.t))}</b>
+          <span class="rk-areagrp-full">${rkEsc(rkTX(LocationSection.AREA_FULL[ty]||''))}</span>
           <span class="rk-areagrp-n">${list.length} ${rkTX(list.length===1?'area':'areas')}</span></div>
         <div class="rk-areagrp-b">${list.map(rm=>this.roomRow(site,rm)).join('')}</div>
       </div>`;
@@ -23058,11 +23082,19 @@ bindDetail(sec){
       if(typeof toast==='function')toast(rkTX('Area added'));
       redraw();return;
     }
-    if(k==='rename'){this.renaming=arg;this.adding=null;redraw();return;}
-    if(k==='rencancel'){this.renaming=null;redraw();return;}
-    if(k==='rensave'){
-      const nm=(document.getElementById('rkRoomRen')||{}).value||'';
-      if(nm.trim()){this.app.store.renameRoom(arg,nm.trim());if(typeof toast==='function')toast(rkTX('Area renamed'));}
+    if(k==='editarea'){this.renaming=arg;this.adding=null;redraw();return;}
+    if(k==='editcancel'){this.renaming=null;redraw();return;}
+    if(k==='editsave'){ /* name + type + level are all editable once an area exists */
+      const rm=this.app.store.room(arg);
+      if(rm){
+        const nm=(document.getElementById('rkRoomRen')||{}).value||'';
+        const ty=(document.getElementById('rkRoomType')||{}).value||'';
+        const fl=(document.getElementById('rkRoomFloor')||{}).value||'';
+        if(nm.trim())rm.name=nm.trim();
+        if(ty&&RackCatalog.ROOM_TYPES[ty])rm.type=ty;
+        rm.floor=fl.trim()||'—';
+        if(typeof toast==='function')toast(rkTX('Area updated'));
+      }
       this.renaming=null;redraw();return;
     }
     if(k==='delroom'){
