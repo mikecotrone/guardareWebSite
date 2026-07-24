@@ -2930,7 +2930,7 @@ var Xr=function(e){if(!(this instanceof Xr))return new Xr(e);this.id="Thenable/1
       <div class="health-pill"><span class="dot"></span> Centrifugo · <b>1 node</b> · <b>4ms</b></div>
       <div class="health-pill" style="margin-top:9px"><span class="dot"></span> Cloud DB · <b>healthy</b></div>
       <div class="wx-credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
-      <div class="app-ver"><b>v2026.02.601.alpha</b></div>
+      <div class="app-ver"><b>v2026.02.602.alpha</b></div>
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
@@ -13703,7 +13703,7 @@ function addrClose(id){ const menu=document.getElementById(id+'Menu'); if(menu){
 
 /* ======================= TENANT CONFIGURATION ======================= */
 let MSP_DEPLOYMENT='msp';                 /* 'msp' = multiple customers · 'single' = one customer */
-const APP_VERSION='v2026.02.601.alpha';
+const APP_VERSION='v2026.02.602.alpha';
 let ORG_ACCOUNT={name:'VistaTech MSP',legal:'VistaTech Solutions, LLC',domain:'vistatech.example',email:'noc@vistatech.example',region:'us-east-1',phone:'+1 (336) 555-0117',license:'AGPL-3.0',support_tier:'Enterprise Plus Support',support_contract:'GRD-2026-0142',support_renewal:'Mar 2027'};
 try{ const _on=localStorage.getItem('guardare_org_name'); if(_on) ORG_ACCOUNT.name=_on; }catch(e){}
 const TCFG={};
@@ -19227,7 +19227,7 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-loc-h b{font:700 13.5px "Open Sans",sans-serif;color:var(--text);display:block}
   .rk-loc-h small{font:500 10.5px "Open Sans",sans-serif;color:var(--mute);display:block}
   .rk-loc-h .rk-tenant-chip{margin-left:auto}
-  .rk-room{background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--rc,var(--tron));border-radius:11px;overflow:hidden}
+  .rk-room{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--rc,var(--tron));border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
   .rk-room-row{display:flex;align-items:center;gap:10px;padding:11px 14px;flex-wrap:wrap}
   .rk-room-row .nm{font:700 13.5px "Open Sans",sans-serif;color:var(--text)}
   .rk-room-row .lvl{font:600 9.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:2px 7px}
@@ -19246,7 +19246,7 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
   .rk-loc-mini.go{color:var(--tron);border-color:var(--tron-deep);background:rgba(40,224,255,.07);margin-left:auto}
   .rk-loc-mini.dis,.rk-loc-mini:disabled{opacity:.35;cursor:not-allowed;filter:saturate(.4)}
   .rk-cont-wrap{display:flex;flex-direction:column;gap:1px;background:var(--line);border-top:1px solid var(--line)}
-  .rk-cont-row{display:flex;align-items:center;gap:10px;background:var(--panel);padding:9px 14px 9px 16px;flex-wrap:wrap}
+  .rk-cont-row{display:flex;align-items:center;gap:10px;background:var(--bg-2);padding:9px 14px 9px 16px;flex-wrap:wrap}
   .rk-cont-row .nm{font:600 12px "Open Sans",sans-serif;color:var(--text)}
   .rk-cont-meta{font:500 10.5px "Open Sans",sans-serif;color:var(--mute);white-space:nowrap}
   .rk-cont-empty2{padding:10px 14px 11px 16px;border-top:1px dashed var(--line);color:var(--mute);font:400 11px "Open Sans",sans-serif;font-style:italic;background:color-mix(in srgb,var(--panel) 60%,transparent)}
@@ -19263,44 +19263,43 @@ if(typeof applyDeploymentMode==='function') applyDeploymentMode();
     font:700 11.5px "Open Sans",sans-serif;padding:6px 12px 6px 8px;border-radius:8px;cursor:pointer;transition:.15s;margin-bottom:15px}
   .rk-loc-back:hover{color:var(--tron);border-color:var(--tron-deep);background:rgba(40,224,255,.06)}
   .rk-loc-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-  .rk-loc-dh{display:flex;align-items:flex-start;gap:14px;padding:0 2px 16px;border-bottom:1px solid var(--line);margin-bottom:18px}
-  .rk-loc-dh-i{flex:0 0 46px;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(180deg,rgba(40,224,255,.14),rgba(40,224,255,.04));border:1px solid var(--tron-deep)}
-  .rk-loc-dh-i svg{width:24px;height:24px;stroke:var(--tron);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .rk-loc-dh-t{flex:1;min-width:0}
-  .rk-loc-dh-eye{font:700 10.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
-  .rk-loc-dh-t h1{font:800 22px "Open Sans",sans-serif;color:var(--text);margin:2px 0 7px;line-height:1.1}
-  .rk-loc-dh-meta{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
-  .rk-loc-dh-c{font:500 11.5px "Open Sans",sans-serif;color:var(--dim)}
-  .rk-loc-wx{display:inline-flex}
+  /* obvious page header — same pattern as the Configuration page (big .page-title + sub) */
+  .rk-loc-phead{align-items:flex-start;margin-bottom:20px}
+  .rk-loc-eyebrow{display:block;font:600 11px "Open Sans",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+  .rk-loc-phead .page-title{font-family:"Open Sans";font-size:27px;font-weight:600;letter-spacing:-.01em;color:var(--text);margin:0}
+  .rk-loc-phead .page-sub{color:var(--dim);font-size:13px;margin-top:5px}
+  .rk-loc-metarow{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:11px}
+  .rk-loc-metacount{font:500 11.5px "Open Sans",sans-serif;color:var(--dim)}
+  .rk-loc-phead-acts{flex:0 0 auto;display:flex;gap:7px;align-items:center}
   .rk-typebadge{font:800 9px "Open Sans",sans-serif;letter-spacing:.09em;text-transform:uppercase;border-radius:6px;padding:3px 9px;
     color:var(--tron);background:rgba(40,224,255,.1);border:1px solid var(--tron-deep)}
   .rk-typebadge.dc{color:#D96BD0;background:rgba(217,107,208,.1);border-color:rgba(217,107,208,.5)}
   .rk-typebadge.un{color:var(--mute);background:var(--bg-2);border-color:var(--line)}
-  .rk-loc-dh-acts{flex:0 0 auto;display:flex;gap:7px;align-items:center}
-  /* sections — each concern in its own clearly-bounded panel */
-  .rk-locpanel{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
-  .rk-locpanel-h{display:flex;align-items:center;gap:11px;padding:12px 15px;background:linear-gradient(180deg,var(--bg-2),transparent);border-bottom:1px solid var(--line)}
-  .rk-locpanel-h h3{font:800 12.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--text);margin:0}
-  .rk-locpanel-sub{font:500 11px "Open Sans",sans-serif;color:var(--mute);letter-spacing:.02em}
-  .rk-locpanel-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+  /* Weather = its own separate card */
+  .rk-loc-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
+  .rk-card-h{display:flex;align-items:center;gap:11px;padding:12px 16px;background:linear-gradient(180deg,var(--bg-2),transparent);border-bottom:1px solid var(--line)}
+  .rk-card-h h3{font:800 12.5px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--text);margin:0}
+  .rk-card-b{padding:14px 16px}
+  /* Areas toolbar (a bar, not a card) + free-standing area cards below */
+  .rk-areas-bar{display:flex;align-items:center;gap:11px;margin:22px 2px 14px}
+  .rk-areas-bar h3{font:800 13px "Open Sans",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--text);margin:0}
+  .rk-areas-sub{font:500 11px "Open Sans",sans-serif;color:var(--mute)}
+  .rk-areas-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
   .rk-loc-addbtn-sm{border:1px solid var(--tron-deep);background:rgba(40,224,255,.08);color:var(--tron);font:700 11px "Open Sans",sans-serif;
     padding:6px 13px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
   .rk-loc-addbtn-sm:hover{background:rgba(40,224,255,.16);box-shadow:0 0 11px -3px rgba(40,224,255,.5)}
   .rk-loc-linkbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:transparent;color:var(--dim);font:700 11px "Open Sans",sans-serif;padding:6px 11px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
   .rk-loc-linkbtn:hover{color:var(--tron);border-color:var(--tron-deep);background:rgba(40,224,255,.05)}
   .rk-loc-linkbtn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 13px}
-  .rk-locpanel-b{padding:14px 15px}
-  .rk-area-list{display:flex;flex-direction:column;gap:22px}
-  /* per-type section — a light accent header groups its area cards (colour = type) */
-  .rk-areagrp{display:flex;flex-direction:column;gap:9px}
-  .rk-areagrp-h{display:flex;align-items:center;gap:9px;padding:0 2px 8px;border-bottom:1px solid var(--line)}
+  .rk-area-list{display:flex;flex-direction:column;gap:11px}
+  /* per-type divider — a light accent label above each type's area cards */
+  .rk-type-div{display:flex;align-items:center;gap:9px;padding:0 2px 4px;margin-top:11px}
+  .rk-type-div:first-child{margin-top:0}
   .rk-areadot{width:8px;height:8px;border-radius:99px;background:var(--rc,var(--tron));box-shadow:0 0 8px color-mix(in srgb,var(--rc,var(--tron)) 70%,transparent);flex:0 0 8px}
   .rk-areagrp-t{font:800 11.5px "Open Sans",sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--rc,var(--tron))}
   .rk-areagrp-full{font:500 11px "Open Sans",sans-serif;color:var(--mute)}
   .rk-areagrp-n{font:600 10px "Open Sans",sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin-left:auto}
-  .rk-areagrp-b{display:flex;flex-direction:column;gap:9px}
-  .rk-loc-detail .rk-room-add{padding:12px 13px;background:var(--bg-2);border:1px solid var(--line);border-radius:11px;margin-bottom:13px}
+  .rk-loc-detail .rk-room-add{padding:12px 13px;background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:11px;box-shadow:var(--shadow)}
   /* weather section */
   .rk-wx-row{display:flex;align-items:center;gap:13px}
   .rk-wx-txt{display:flex;flex-direction:column;gap:1px;min-width:0}
@@ -23028,21 +23027,20 @@ detailHTML(key){
   const nCont=rooms.reduce((a,rm)=>a+S.containersInRoom(rm.id).length,0);
   const nDev=rooms.reduce((a,rm)=>a+S.containersInRoom(rm.id).reduce((s,r)=>s+r.devices.filter(d=>!['blank','mgr'].includes(d.role)).length,0),0);
   const adding=this.adding===key;
-  /* ---- areas: one clearly separated section per type, colour-accented ---- */
+  /* ---- areas: a light type divider, then each area as its own free-standing card
+     (no common panel backing) ---- */
   let groups='';
   if(rooms.length){
     const byType={};rooms.forEach(rm=>{(byType[rm.type]=byType[rm.type]||[]).push(rm);});
     ord.forEach(ty=>{
       if(!byType[ty])return;
       const rt=S.areaType(ty),list=byType[ty];
-      groups+=`<div class="rk-areagrp" style="--rc:${rt.c}">
-        <div class="rk-areagrp-h">
-          <span class="rk-areadot"></span>
-          <b class="rk-areagrp-t">${rkEsc(rkTX(rt.t))}</b>
-          <span class="rk-areagrp-full">${rkEsc(rkTX(LocationSection.AREA_FULL[ty]||''))}</span>
-          <span class="rk-areagrp-n">${list.length} ${rkTX(list.length===1?'area':'areas')}</span></div>
-        <div class="rk-areagrp-b">${list.map(rm=>this.roomRow(site,rm)).join('')}</div>
-      </div>`;
+      groups+=`<div class="rk-type-div" style="--rc:${rt.c}">
+        <span class="rk-areadot"></span>
+        <b class="rk-areagrp-t">${rkEsc(rkTX(rt.t))}</b>
+        <span class="rk-areagrp-full">${rkEsc(rkTX(LocationSection.AREA_FULL[ty]||''))}</span>
+        <span class="rk-areagrp-n">${list.length} ${rkTX(list.length===1?'area':'areas')}</span></div>`;
+      groups+=list.map(rm=>this.roomRow(site,rm)).join('');
     });
   }else{
     groups=`<div class="rk-loc-empty" style="padding:28px">${rkTX('No areas configured for this location yet. Add an MDF, IDF, wiring closet or data-center row to start placing racks here.')}</div>`;
@@ -23072,34 +23070,31 @@ detailHTML(key){
       ${wxOn?`<span class="rk-wx-now">${chip}<span class="rk-wx-prov">Open-Meteo · ${units}</span></span>`:''}
     </div>`;
   }
+  const gear='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 2.6 7a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H7a1.7 1.7 0 0 0 1-1.5V1a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V7a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
   return `<div class="rk-loc-detail" id="rkLocDetail">
     <button class="rk-loc-back" data-rkloc="backloc"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>${rkTX('All locations')}</button>
-    <div class="rk-loc-dh">
-      <div class="rk-loc-dh-i"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/></svg></div>
-      <div class="rk-loc-dh-t">
-        <div class="rk-loc-dh-eye">${rkEsc(this.app.tenantName(site.tenant))}${site.city?' · '+rkEsc(site.city):''}</div>
-        <h1>${rkEsc(site.name)}</h1>
-        <div class="rk-loc-dh-meta"><span class="rk-typebadge ${isDC?'dc':(rooms.length?'off':'un')}">${rkEsc(typeBadge)}</span>
-          <span class="rk-loc-dh-c">${rooms.length} ${rkTX(rooms.length===1?'area':'areas')} · ${nCont} ${rkTX(nCont===1?'container':'containers')} · ${nDev} ${rkTX('devices')}</span></div>
+    <div class="page-head rk-loc-phead"><div>
+      <div class="rk-loc-eyebrow">${rkTX('Location Management')}</div>
+      <h1 class="page-title">${rkEsc(site.name)}</h1>
+      <p class="page-sub">${rkEsc(this.app.tenantName(site.tenant))}${site.city?' · '+rkEsc(site.city):''}</p>
+      <div class="rk-loc-metarow"><span class="rk-typebadge ${isDC?'dc':(rooms.length?'off':'un')}">${rkEsc(typeBadge)}</span>
+        <span class="rk-loc-metacount">${rooms.length} ${rkTX(rooms.length===1?'area':'areas')} · ${nCont} ${rkTX(nCont===1?'container':'containers')} · ${nDev} ${rkTX('devices')}</span></div>
       </div>
-      ${typeof openLocationCard==='function'?`<div class="rk-loc-dh-acts"><button class="rk-loc-mini" data-rkloc="details" data-arg="${rkEsc(key)}">${rkTX('Location details')}</button></div>`:''}
+      ${typeof openLocationCard==='function'?`<div class="rk-loc-phead-acts"><button class="rk-loc-mini" data-rkloc="details" data-arg="${rkEsc(key)}">${rkTX('Location details')}</button></div>`:''}
     </div>
-    <div class="rk-locpanel rk-wxpanel">
-      <div class="rk-locpanel-h"><h3>${rkTX('Weather')}</h3></div>
-      <div class="rk-locpanel-b">${wxBody}</div>
+    <div class="rk-loc-card rk-wxcard">
+      <div class="rk-card-h"><h3>${rkTX('Weather')}</h3></div>
+      <div class="rk-card-b">${wxBody}</div>
     </div>
-    <div class="rk-locpanel">
-      <div class="rk-locpanel-h"><h3>${rkTX('Areas')}</h3>
-        <span class="rk-locpanel-sub">${rkTX('grouped by type')}</span>
-        <span class="rk-locpanel-actions">
-          <button class="rk-loc-linkbtn" data-rkloc="managetypes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 2.6 7a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H7a1.7 1.7 0 0 0 1-1.5V1a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V7a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>${rkTX('Manage types')}</button>
-          ${adding?'':`<button class="rk-loc-addbtn-sm" data-rkloc="addform" data-arg="${rkEsc(key)}">+ ${rkTX('Add area')}</button>`}
-        </span></div>
-      <div class="rk-locpanel-b">
-        ${adding?addForm:''}
-        <div class="rk-area-list">${groups}</div>
-      </div>
+    <div class="rk-areas-bar">
+      <h3>${rkTX('Areas')}</h3><span class="rk-areas-sub">${rkTX('grouped by type')}</span>
+      <span class="rk-areas-actions">
+        <button class="rk-loc-linkbtn" data-rkloc="managetypes">${gear}${rkTX('Manage types')}</button>
+        ${adding?'':`<button class="rk-loc-addbtn-sm" data-rkloc="addform" data-arg="${rkEsc(key)}">+ ${rkTX('Add area')}</button>`}
+      </span>
     </div>
+    ${adding?addForm:''}
+    <div class="rk-area-list">${groups}</div>
     ${this.typesOpen?this.typesModalHTML():''}
   </div>`;
 }
