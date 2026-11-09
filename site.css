@@ -250,3 +250,4 @@
   .lang-menu a{display:block;padding:9px 12px;border-radius:8px;color:var(--ink);font-weight:600;font-size:.9rem;white-space:nowrap}
   .lang-menu a:hover{background:rgba(0,0,0,.04);color:var(--teal)}
   .lang-menu a[aria-current="true"]{color:var(--teal)}
+.hero h1{text-wrap:balance}
